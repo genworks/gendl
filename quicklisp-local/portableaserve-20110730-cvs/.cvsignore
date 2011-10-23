@@ -1,0 +1,17 @@
+*.wfasl
+*.ufsl
+*.fasl
+*.nfasl
+*.fas
+*.lib
+*.x86f
+*.sparcf
+*.err
+*.pfsl
+*.dfsl
+*.fasla16
+*.faslm16
+*.faslma
+*.faslm8
+{arch}
+.arch-ids

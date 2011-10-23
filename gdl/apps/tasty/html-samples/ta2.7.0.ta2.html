@@ -1,0 +1,871 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Ta2.7.0.ta2 - Layout [alpha-pre]</title>
+<link href="css/ta2.7.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="js/jquery.packed.js"></script>
+<script type="text/javascript" src="js/jquery.layout.min.js"></script>
+<script type="text/javascript" src="js/jquery.ui.packed.js"></script>
+<!-- accomodates the showoptions function -->
+<script type="text/javascript" src="js/jquery.layout.debugutils.js"></script>
+<!-- dropdown jquery meny plugin -->
+<script type="text/javascript" src="js/jquery.droppy.js"></script>
+
+<script type="text/javascript">
+
+var outerLayout, innerLayout, westbarLayout;
+
+$(document).ready(function () {
+
+  // Setting up the layouts
+  outerLayout = $('body').layout({
+      spacing_open: 4
+  ,   spacing_closed: 4
+  ,   north__minSize: 20
+  ,   north__size: 52
+  ,   north__spacing_open: 1
+  ,   north__togglerLength_open: 0
+  ,   north__togglerLength_close: -1
+  ,   north__resizable: false
+  ,   north__slidable: false
+  ,   north__fxName: "none"
+  ,   north__showOverflowOnHover: true
+  ,   center__paneSelector: ".outer-center"
+  ,   west__paneSelector:   ".outer-west"
+  ,   east__paneSelector:   ".outer-east"
+  ,   north__paneSelector:  ".outer-north"
+  ,   south__paneSelector:  ".outer-south"
+  ,   west__size: 420
+  ,   south__minSize: 5
+  ,   south_size: 5
+  ,   center__onresize: "innerLayout.resizeAll"
+  ,   west__onresize:   "westbarLayout.resizeAll"
+  });
+
+  innerLayout = $('div.outer-center').layout({
+      spacing_open: 4
+  ,   spacing_closed: 4
+  ,   center__paneSelector: ".inner-center"
+  ,   west__paneSelector:   ".inner-west"
+  ,   east__paneSelector:   ".inner-east"
+  ,   west__size: 250
+  ,   east__size: 150
+  ,   east__initClosed: true
+  ,   west__initHidden: true
+  ,   east__slideTrigger_open: "mouseover"
+  ,	  east__fxName:	"drop"
+  ,   east__fxSpeed: "normal"
+  });
+
+var containerHeight = $("div.outer-west").innerHeight();
+  
+  westbarLayout = $('div.outer-west').layout({
+      spacing_open: 4
+  ,   spacing_closed: 4
+  ,   south__size: Math.floor(containerHeight * 0.50)
+  ,   south_maxSize: containerHeight
+  ,   center__paneSelector: ".westbar-center"
+  ,   south__paneSelector:  ".westbar-south"
+  });
+ 
+ // Setting up the Menu's
+ 
+  $('div.outer-north > ul.navbar#menu').droppy();
+  $('div.outer-north > ul.navbar#tbar').droppy();
+ 
+});
+</script>
+</head>
+<body>
+
+<div class="outer-center">
+    <div class="inner-center">
+    	<div class="content">
+        	<img alt="viewport" src="img/imageg299.png">
+    	</div>
+    </div> <!-- inner-center -->
+	
+
+    <div class="inner-west">Inner-West</div>
+    <div class="inner-east">
+    	<p class="header">Debug Pane</p>
+    	<span onclick="innerLayout.toggle('west')" class="clickbutton">toggle inner-west</span>
+        <span onclick="innerLayout.hide('west')" class="clickbutton">hide inner-west</span>
+        <span onclick="innerLayout.show('west')" class="clickbutton">show inner-west</span>
+        <span onclick="innerLayout.hide('west');westbarLayout.show('south');" class="clickbutton">close west, open westbar-south</span>
+        <span onclick="innerLayout.show('west');westbarLayout.hide('south');" class="clickbutton">open west, close westbar-south</span>
+        <span onclick="outerLayout.hide('west');outerLayout.hide('south');innerLayout.hide('west');innerLayout.hide('east');" class="clickbutton">Full Viewport</span>
+        <span onclick="outerLayout.show('west');outerLayout.show('south');innerLayout.show('west');innerLayout.show('east', false);" class="clickbutton">Restore Viewport</span>
+        <span onclick="window.location.reload()" class="clickbutton">reload default</span>
+        <p class="header">Outeroptions</p>
+        <ul>
+    		<li><a href="#" onclick="showOptions(outerLayout,'defaults')">Defaults</a></li>
+			<li><a href="#" onclick="showOptions(outerLayout,'north')">   North</a></li>
+			<li><a href="#" onclick="showOptions(outerLayout,'south')">   South</a></li>
+			<li><a href="#" onclick="showOptions(outerLayout,'west')">    West</a></li>
+			<li><a href="#" onclick="showOptions(outerLayout,'east')">    East</a></li>
+			<li><a href="#" onclick="showOptions(outerLayout,'center')">  Center</a></li>
+        </ul>
+        <h5>Inneroptions</h5>
+        <ul>
+    		<li><a href="#" onclick="showOptions(innerLayout,'defaults')">Defaults</a></li>
+			<li><a href="#" onclick="showOptions(innerLayout,'north')">   North</a></li>
+			<li><a href="#" onclick="showOptions(innerLayout,'south')">   South</a></li>
+			<li><a href="#" onclick="showOptions(innerLayout,'west')">    West</a></li>
+			<li><a href="#" onclick="showOptions(innerLayout,'east')">    East</a></li>
+			<li><a href="#" onclick="showOptions(innerLayout,'center')">  Center</a></li>
+        </ul>
+        <h5>Westbar options</h5>
+        <ul>
+    		<li><a href="#" onclick="showOptions(westbarLayout,'defaults')">Defaults</a></li>
+			<li><a href="#" onclick="showOptions(westbarLayout,'north')">   North</a></li>
+			<li><a href="#" onclick="showOptions(westbarLayout,'south')">   South</a></li>
+			<li><a href="#" onclick="showOptions(westbarLayout,'west')">    West</a></li>
+			<li><a href="#" onclick="showOptions(westbarLayout,'east')">    East</a></li>
+			<li><a href="#" onclick="showOptions(westbarLayout,'center')">  Center</a></li>
+        </ul>
+        <p class="header">Validation</p>
+        <a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" border="0"/></a>
+        
+    </div>
+</div>
+
+<div class="outer-west">
+	<div class="westbar-center">
+    	<div id="ta2tree" class="content">
+					<form method="post" action="/answer" name="tree-form" onsubmit="return false;" id="tree-form">
+						<input name="requestor" value="tree" type="hidden" /><input name="iid" value="2bfcc8e0baf" type="hidden" />
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tbody>
+								<tr>
+									<td valign="top">
+										<table border="0" cellpadding="0" cellspacing="0">
+											<tbody>
+												<tr>
+													<td width="20" height="20">
+														<span class="node" onclick="return ta2treetoggle('2bfcc8e0baf', 'KDp0cmVlLXJvb3QgOnRyZWUp');"><img src="img/unpix/tree-plus.gif" border="0" /></span>
+													</td>
+													<td colspan="1" nowrap="nowrap">
+														<span class="node" onclick="return ta2operate('2bfcc8e0baf', 'KDpyb290LW9iamVjdC1vYmplY3Qp');">surf::test-b-spline-surface</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td valign="top">
+										<table>
+											<tbody>
+												<tr>
+													<td>
+														<span onclick="return ta2setexpandmode('2bfcc8e0baf', ':leaves');" title="Set Tree Expand Mode to &quot;leaves&quot;." class="clickbutton">L</span>
+													</td>
+													<td>
+														<span class="clickbutton strong oblique">C</span>
+													</td>
+													<td>
+														<span class="clickbutton" onclick="return ta2setexpandmode('2bfcc8e0baf', ':remember');" title="Set Tree Expand Mode to &quot;remember&quot;.">R</span>
+													</td>
+													<td>
+														<span class="clickbutton" onclick="return ta2setexpandmode('2bfcc8e0baf', ':auto-close');" title="Set Tree Expand Mode to &quot;auto-close&quot;.">A</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div><!-- end #ta2tree -->
+    
+    </div><!-- westbar-center -->
+    
+    <div class="westbar-south">
+    
+    <p class="header">surf::test-b-spline-surface</p>
+    <div id="ta2inspector" class="content">
+					<table width="400px">
+						<tbody>
+							<tr>
+								<td valign="top" align="left">
+									<span class="action" onclick="return gdlsetcontrol('2bfcc8e0baf', '(inspector)', 'show-settables?', 't')">Show Settables</span>
+       								<table class="properties" align="left">
+										<tbody valign="top">
+											<tr>
+												<td class="property">
+													basis-surface
+												</td>
+												<td class="value" >
+													<span id="inspector_basis-surface" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'YmFzaXMtc3VyZmFjZQ');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													bounding-box
+												</td>
+												<td class="value">
+													<span id="inspector_bounding-box" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'Ym91bmRpbmctYm94');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													brep
+												</td>
+												<td class="value">
+													<span id="inspector_brep" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'YnJlcA');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													brep-tolerance
+												</td>
+												<td class="value">
+													<span id="inspector_brep-tolerance" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'YnJlcC10b2xlcmFuY2U');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													built-from
+												</td>
+												<td class="value">
+													<span id="inspector_built-from" style="overflow: auto; width: 400px;"><span style="color: black;">nil</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													center
+												</td>
+												<td class="value">
+													<span id="inspector_center" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'Y2VudGVy');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													children
+												</td>
+												<td class="value">
+													<span id="inspector_children" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'Y2hpbGRyZW4');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													control-points
+												</td>
+												<td class="value" style="overflow: auto; width: 300px;">
+        <span id="inspector_control-points" class="pre" style="overflow: auto; width: 400px;">((#(0.0 0.0 0.0) #(4.0 1.0 0.0) #(8.0 1.0 0.0) #(10.0 0.0 0.0)
+        #(8.0 -1.0 0.0) #(4.0 -1.0 0.0) #(0.0 0.0 0.0))
+        (#(0.0 0.0 2.0) #(4.0 2.0 2.0) #(8.0 2.0 2.0) #(10.0 0.0 2.0)
+        #(8.0 -2.0 2.0) #(4.0 -2.0 2.0) #(0.0 0.0 2.0))
+        (#(0.0 0.0 4.0) #(4.0 2.0 4.0) #(8.0 2.0 4.0) #(10.0 0.0 4.0)
+        #(8.0 -2.0 4.0) #(4.0 -2.0 4.0) #(0.0 0.0 4.0))
+        (#(0.0 0.0 7.0) #(4.0 1.0 7.0) #(8.0 1.0 7.0) #(10.0 0.0 7.0)
+        #(8.0 -1.0 7.0) #(4.0 -1.0 7.0) #(0.0 0.0 7.0)))</span>
+
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													control-points-local
+												</td>
+												<td class="value">
+													<span id="inspector_control-points-local" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'Y29udHJvbC1wb2ludHMtbG9jYWw');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													direct-mixins
+												</td>
+												<td class="value">
+													<span id="inspector_direct-mixins" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'ZGlyZWN0LW1peGlucw');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													display-controls
+												</td>
+												<td class="value">
+													<span id="inspector_display-controls" style="overflow: auto; width: 400px;"></span>
+													
+        <span id="inspector_display-controls" style="overflow: auto; width: 400px;">(:color :periwinkle :line-thickness 2)</span>
+        
+
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													end-caps-on-brep?
+												</td>
+												<td class="value">
+													<span id="inspector_end-caps-on-brep?" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'ZW5kLWNhcHMtb24tYnJlcD8');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													first?
+												</td>
+												<td class="value">
+													<span id="inspector_first?" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'Zmlyc3Q/');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													from-iges?
+												</td>
+												<td class="value">
+													<span id="inspector_from-iges?" style="overflow: auto; width: 400px;"><span style="color: black;">nil</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													height
+												</td>
+												<td class="value">
+													<span id="inspector_height" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'aGVpZ2h0');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													hidden-children
+												</td>
+												<td class="value">
+													<span id="inspector_hidden-children" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'aGlkZGVuLWNoaWxkcmVu');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													hidden?
+												</td>
+												<td class="value">
+													<span id="inspector_hidden?" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'aGlkZGVuPw');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													iges-level
+												</td>
+												<td class="value">
+													<span id="inspector_iges-level" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'aWdlcy1sZXZlbA');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													index
+												</td>
+												<td class="value">
+													<span id="inspector_index" style="overflow: auto; width: 400px;"><span style="color: black;">nil</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													iso-curves
+												</td>
+												<td class="value">
+        <span id="inspector_iso-curves" class="pre" style="overflow: auto; width: 400px;">(:u
+        (#&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027030 @
+        #x2263d81a&gt;<br />
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027050 @
+        #x2263d91a&gt;<br />
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027070 @
+        #x2263da1a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027090 @
+        #x2263db1a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540270b0 @
+        #x2263dc1a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540270d0 @
+        #x2263dd1a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540270f0 @
+        #x2263de1a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027110 @
+        #x2263df1a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027130 @
+        #x2263e01a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027150 @
+        #x2263e11a&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027170 @
+        #x2263e1ea&gt;)
+        :v
+        (#&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027190 @
+        #x2263e4da&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540271b0 @
+        #x2263e5da&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540271d0 @
+        #x2263e6da&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540271f0 @
+        #x2263e7da&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027210 @
+        #x2263e8da&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027230 @
+        #x2263e9da&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027250 @
+        #x2263eada&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027270 @
+        #x2263ebda&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x54027290 @
+        #x2263ecda&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540272b0 @
+        #x2263edda&gt;
+        #&lt;foreign-functions:foreign-pointer smlib::nurbs-curve #x540272d0 @
+        #x2263eeaa&gt;))</span>
+        
+
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													isos
+												</td>
+												<td class="value">
+													<span id="inspector_isos" style="overflow: auto; width: 400px;"></span>
+													
+        <span id="inspector_isos" style="overflow: auto; width: 400px;">(:n-u 11 :n-v 11)</span>
+        
+
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													last?
+												</td>
+												<td class="value">
+													<span id="inspector_last?" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bGFzdD8');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													layer
+												</td>
+												<td class="value">
+													<span id="inspector_layer" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bGF5ZXI');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													leaf?
+												</td>
+												<td class="value">
+													<span id="inspector_leaf?" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bGVhZj8');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													leaves
+												</td>
+												<td class="value">
+													<span id="inspector_leaves" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bGVhdmVz');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													length
+												</td>
+												<td class="value">
+													<span id="inspector_length" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bGVuZ3Ro');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													levels
+												</td>
+												<td class="value">
+													<span id="inspector_levels" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bGV2ZWxz');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													line-thickness
+												</td>
+												<td class="value">
+													<span id="inspector_line-thickness" style="overflow: auto; width: 400px;"><span style="color: black;">2</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													name-for-display
+												</td>
+												<td class="value">
+													<span id="inspector_name-for-display" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bmFtZS1mb3ItZGlzcGxheQ');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													native-surface
+												</td>
+												<td class="value">
+													<span id="inspector_native-surface" style="overflow: auto; width: 400px;"><span style="color: black;">#&lt;foreign-functions:foreign-pointer smlib::nurbs-surface #x54027010 @ #x2263c7aa&gt;</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													native-surface-iw
+												</td>
+												<td class="value">
+													<span id="inspector_native-surface-iw" style="overflow: auto; width: 400px;"><span style="color: black;">#&lt;foreign-functions:foreign-pointer smlib::iw-bsplinesurface #x1ac2458 @ #x2263d4a2&gt;</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													next
+												</td>
+												<td class="value">
+													<span id="inspector_next" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bmV4dA');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													nonrational-degree
+												</td>
+												<td class="value">
+													<span id="inspector_nonrational-degree" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'bm9ucmF0aW9uYWwtZGVncmVl');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													orientation
+												</td>
+												<td class="value">
+													<span id="inspector_orientation" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'b3JpZW50YXRpb24');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													parameterization
+												</td>
+												<td class="value">
+													<span id="inspector_parameterization" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'cGFyYW1ldGVyaXphdGlvbg');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													parent
+												</td>
+												<td class="value">
+													<span id="inspector_parent" style="overflow: auto; width: 400px;"><span style="color: black;">#&lt;ta2:assembly @ #x22552532&gt;</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													points-data
+												</td>
+												<td class="value">
+													<span id="inspector_points-data" style="overflow: auto; width: 400px;"></span>
+													
+<span id="inspector_points-data" style="overflow: auto; width: 400px;">(((0 0 0) (4 1 0) (8 1 0) (10 0 0) (8 -1 0) (4 -1 0) (0 0 0))
+((0 0 2) (4 2 2) (8 2 2) (10 0 2) (8 -2 2) (4 -2 2) (0 0 2))
+((0 0 4) (4 2 4) (8 2 4) (10 0 4) (8 -2 4) (4 -2 4) (0 0 4))
+((0 0 7) (4 1 7) (8 1 7) (10 0 7) (8 -1 7) (4 -1 7) (0 0 7)))</span>
+
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													poly-brep-parameters
+												</td>
+												<td class="value">
+													<span id="inspector_poly-brep-parameters" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'cG9seS1icmVwLXBhcmFtZXRlcnM');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													previous
+												</td>
+												<td class="value">
+													<span id="inspector_previous" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'cHJldmlvdXM');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													root
+												</td>
+												<td class="value">
+													<span id="inspector_root" style="overflow: auto; width: 400px;"><span style="color: black;">#&lt;surf::test-b-spline-surface @ #x2255254a&gt;</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													root-path
+												</td>
+												<td class="value">
+													<span id="inspector_root-path" style="overflow: auto; width: 400px;"></span>
+													
+        <span id="inspector_root-path" style="overflow: auto; width: 400px;">(:root-object-object)</span>
+        
+
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													root?
+												</td>
+												<td class="value">
+													<span id="inspector_root?" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'cm9vdD8');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													safe-children
+												</td>
+												<td class="value">
+													<span id="inspector_safe-children" style="overflow: auto; width: 400px;"><span style="color: black;">nil</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													strings-for-display
+												</td>
+												<td class="value">
+													<span id="inspector_strings-for-display" style="overflow: auto; width: 400px;"><span style="color: black;">&quot;surf::test-b-spline-surface&quot;</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													tesselation-parameters
+												</td>
+												<td class="value">
+													<span id="inspector_tesselation-parameters" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'dGVzc2VsYXRpb24tcGFyYW1ldGVycw');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													test-copy
+												</td>
+												<td class="value">
+													<span id="inspector_test-copy" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'dGVzdC1jb3B5');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													tolerance
+												</td>
+												<td class="value">
+													<span id="inspector_tolerance" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'dG9sZXJhbmNl');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													type
+												</td>
+												<td class="value">
+													<span id="inspector_type" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'dHlwZQ');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													u-degree
+												</td>
+												<td class="value">
+													<span id="inspector_u-degree" style="overflow: auto; width: 400px;"><span style="color: black;">3</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													u-iso-curves
+												</td>
+												<td class="value">
+													<span id="inspector_u-iso-curves" style="overflow: auto; width: 400px;"><span style="color: black;">#&lt;gdl::standard-sequence @ #x226362ea&gt;</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													u-knot-vector
+												</td>
+												<td class="value">
+													<span id="inspector_u-knot-vector" style="overflow: auto; width: 400px;"></span>
+													<span id="inspector_u-knot-vector" style="overflow: auto; width: 400px;">(0.0 0.0 0.0 0.0 1/4 1/2 3/4 1.0 1.0 1.0 1.0)</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													ui-display-list-objects
+												</td>
+												<td class="value">
+													<span id="inspector_ui-display-list-objects" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'dWktZGlzcGxheS1saXN0LW9iamVjdHM');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													unique-id
+												</td>
+												<td class="value">
+													<span id="inspector_unique-id" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'dW5pcXVlLWlk');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													v-degree
+												</td>
+												<td class="value">
+													<span id="inspector_v-degree" style="overflow: auto; width: 400px;"><span style="color: black;">3</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													v-iso-curves
+												</td>
+												<td class="value">
+													<span id="inspector_v-iso-curves" style="overflow: auto; width: 400px;"><span style="color: black;">#&lt;gdl::standard-sequence @ #x22643e5a&gt;</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													v-knot-vector
+												</td>
+												<td class="value">
+													<span id="inspector_v-knot-vector" style="overflow: auto; width: 400px;"></span>
+													<span id="inspector_v-knot-vector" style="overflow: auto; width: 400px;">(0.0 0.0 0.0 0.0 1.0 1.0 1.0 1.0)</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													view
+												</td>
+												<td class="value">
+													<span id="inspector_view" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'dmlldw');">Unbound</span></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													weights
+												</td>
+												<td class="value">
+													<span id="inspector_weights" style="overflow: auto; width: 400px;"></span>
+													<span id="inspector_weights" style="overflow: auto; width: 400px;">((1.0 1.0 1.0 1.0 1.0 1.0 1.0) (1.0 1.0 1.0 1.0 1.0 1.0 1.0)
+(1.0 1.0 1.0 1.0 1.0 1.0 1.0) (1.0 1.0 1.0 1.0 1.0 1.0 1.0))</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="property">
+													width
+												</td>
+												<td class="value">
+													<span id="inspector_width" style="overflow: auto; width: 400px;"><span class="action" onclick="return ta2evaluate('2bfcc8e0baf', 'd2lkdGg');">Unbound</span></span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><!-- end #ta2inspector -->
+    
+    </div><!-- westbar-south -->
+</div> <!-- outer-west -->
+<!-- main toolbar -->
+<div class="outer-north" onmouseover="outerLayout.allowOverflow(this)" onmouseout="outerLayout.resetOverflow(this)">
+	<ul id="menu" class="navbar">
+		<li id="menuFile">File
+        	<ul>
+            	<li><a href="#">New</a></li>
+            	<li><a href="#">Open</a></li>
+            	<li><a href="#">Close</a></li>
+            	<li class="separator"><span /></li>
+            	<li><a href="#">Save</a></li>
+            	<li><a href="#">Save as</a></li>
+                <li class="separator"><span /></li>
+            	<li><a href="#">Export</a></li>
+            	<li class="separator"><span /></li>
+            	<li><a href="#">Exit</a></li>
+             </ul>
+        </li>
+		<li id="menuEdit">Edit
+        	<ul>
+            	<li><a href="#">Undo</a></li>
+            	<li><a href="#">Redo</a></li>
+            	<li class="separator"><span /></li>
+            	<li><a href="#">Color</a></li>
+                <li><a href="#">Stroke</a></li>
+             </ul>
+        </li>
+		<li id="menuTree">Tree
+        	<ul>
+            	<li class="heading">Inspect Modes</li>
+            	<li><a href="#">Expand All (L)</a></li>
+            	<li><a href="#">Expand Children (C)</a></li>
+            	<li><a href="#">Collapse Object (R)</a></li>
+            	<li><a href="#">Collapse All (A)</a></li>
+            	<li class="separator"><span /></li>
+            	<li class="heading">Root Modes</li>
+            	<li><a href="#">Set Root to Object (SR)</a></li>
+            	<li><a href="#">Set Root to Parent (UR!)</a></li>
+            	<li><a href="#">Reset Root (RR!)</a></li>
+            	<li class="separator"><span /></li>
+            	<li class="heading">Draw Modes</li>
+            	<li><a href="#">Draw Object (AN)</a></li>
+            	<li><a href="#">Draw All (AL/AL*)</a></li>
+            	<li><a href="#">Clear View and Draw Object (DN)</a></li>
+            	<li><a href="#">Clear View and Draw All (DL)</a></li>
+            	<li><a href="#">Clear Object (DL)</a></li>
+            	<li><a href="#">Clear View (CL!)</a></li>
+            	<li><a href="#">Update Object (U!)</a></li>
+             </ul>        
+        </li>
+		<li id="menuView">View
+			<ul>
+            	<li class="heading">modes</li>        
+            	<li><a href="#">PNG</a></li>        
+            	<li><a href="#">JPEG</a></li>        
+            	<li><a href="#">VRML</a></li>        
+            	<li><a href="#">Links</a></li>        
+            	<li class="separator"><span /></li>        
+            	<li><a href="#">Zoom in</a></li>        
+            	<li><a href="#">Zoom out</a></li>        
+            	<li><a href="#">Fit in Window</a></li>        
+            	<li class="separator"><span /></li>        
+            	<li class="heading">Views</li>        
+            	<li><a href="#">Perspective</a></li>        
+            	<li><a href="#">Front</a></li>        
+            	<li><a href="#">Back</a></li>        
+            	<li><a href="#">Left</a></li>        
+            	<li><a href="#">Right</a></li>        
+            	<li><a href="#">Top</a></li>        
+            	<li><a href="#">Bottom</a></li>        
+            	<li class="separator"><span /></li>        
+            	<li><a href="#">update</a></li>        
+            	<li><a href="#">auto update</a></li>        
+        	</ul>
+        </li>
+        <li id="menuWindow">Window
+        	<ul>
+            	<li><a href="#">Standard Mode</a></li>        
+            	<li><a href="#">Expert Mode</a></li>        
+            	<li class="separator"><span /></li>        
+            	<li><a href="#">User Mode (U!)</a></li>        
+            	<li class="separator"><span /></li>        
+            	<li><a href="#">Object Source</a></li>        
+        	</ul>
+        </li>
+		<li id="menuHelp">Help
+        	<ul>
+            	<li><a href="#">Documentation</a></li>        
+            	<li><a href="#">GDL User Wiki</a></li>        
+            	<li><a href="#">Check for Updates</a></li>        
+            	<li class="separator"><span /></li>        
+            	<li><a href="#">Contact Us</a></li>        
+            	<li><a href="#">Activate Product</a></li>        
+            	<li class="separator"><span /></li>        
+            	<li><a href="#">About</a></li>        
+            </ul>
+        </li>
+	</ul>
+    <ul id="tbar" class="navbar">
+    	<li id="tbarTreeView"><img src="img/unpix/tree-eye.gif" alt="TreeView"/><span class="tbartext">Tree View</span></li>
+        <li id="tbarTreeRoot"><img src="img/unpix/tree-decmp.gif" alt="TreeRoot"/><span class="tbartext">Tree Root</span></li>
+        <li id="tbarTreeDraw"><img src="img/unpix/tree-pen.gif" alt="TreeDraw"/><span class="tbartext">Tree Draw</span></li>
+        <li class="separator"><span /></li>
+        <li id="tbarFolder"><img src="img/unpix/folder.gif" alt="Folder" /><span class="tbartext">Folder</span></li>
+        <li id="tbarSave"><img src="img/unpix/save.gif" alt="Save" /><span class="tbartext">Save</span></li>
+        <li id="tbarLineWidth"><img src="img/unpix/line.gif" alt="Line Width" /><span class="tbartext">Line Width</span></li>
+        <li id="tbarColor"><img src="img/unpix/box.gif" alt="Color" /><span class="tbartext">Draw Color</span></li>
+        <li id="tbarRefresh"><img src="img/unpix/auto.gif" alt="Refresh" /><span class="tbartext">Refresh</span></li>
+        <li id="tbarZoom"><img src="img/unpix/lens.gif" alt="Zoom" /><span class="tbartext">Zoom</span></li>
+    </ul>
+</div><!-- outer-north -->
+<div class="outer-south">empowered by KE-works</div>
+</body>
+</html> 

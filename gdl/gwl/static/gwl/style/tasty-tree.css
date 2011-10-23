@@ -1,0 +1,151 @@
+/*
+*	GDL TATU BASIC STYLESHEET
+*	COPYRIGHT 2008 - 2009 GENWORKS - ALL RIGHTS RESERVED
+*   VERSION 090519
+*/ 
+
+ul.tasty-tree {
+	line-height: 1.5em;
+	padding: 0px;
+	margin: 0px;
+}
+
+ul.tasty-tree ul{
+	padding-left: 19px;
+	margin: 0px;
+}
+
+ul.tasty-tree li {
+	list-style: none; 
+	padding: 0px;
+	padding-left: 2px;
+	margin: 0px;
+	white-space: nowrap;
+}
+
+ul.tasty-tree a {
+	color: #333;
+	text-decoration: none;
+	display: block;
+	padding: 0px 2px;
+}
+
+ul.tasty-tree a:hover {
+	background: #BDF;
+}
+
+ul.tasty-tree span.directory,
+ul.tasty-tree span.expanded,
+ul.tasty-tree span.wait,
+ul.tasty-tree span.file ,
+ul.tasty-tree span.leaf
+{
+	display: -moz-inline-box; /* @ FF 1+2 */
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: top;
+	background-position: left;
+	background-repeat: no-repeat;
+	padding: 0px;
+	cursor: default;
+}
+
+ul.tasty-tree span.actions span
+{
+	display: -moz-inline-box; /* @ FF 1+2 */
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: top;
+	background-position: left;
+	background-repeat: no-repeat;
+	padding: 0px;
+	padding-left: 2px;
+	cursor: default;
+}
+/*
+.tasty-tree span {
+	padding: 0px 3px;
+	cursor: pointer;
+}
+*/
+
+.tasty-tree span.actions {
+	z-index: 400;
+}
+
+.tasty-tree span.tree-node {
+	padding: 0px 3px;
+	cursor: default;
+}
+
+/* Core Styles */
+.tasty-tree span.directory { background-image: url(images/directory.png); }
+.tasty-tree span.expanded { background-image: url(images/folder_open.png); }
+.tasty-tree span.wait { background-image: url(images/spinner.gif); }
+.tasty-tree span.file { background-image: url(images/file.png); }
+.tasty-tree span.leaf { background-image: url(images/leaf2.png); cursor:default;}
+/* Actions */
+.tasty-tree span.actions span.draw { background-image: url(../tasty-unpix/tree_pen.png); }
+.tasty-tree span.actions span.inspect { background-image: url(../tasty-unpix/tree_inspect.png); }
+.tasty-tree span.actions span.highlight { background-image: url(../tasty-unpix/tree_instantiate.png); }
+/* File Extensions*/
+.tasty-tree li.type_3gp { background-image: url(images/film.png); }
+.tasty-tree li.type_afp { background-image: url(images/code.png); }
+.tasty-tree li.type_afpa { background-image: url(images/code.png); }
+.tasty-tree li.type_asp { background-image: url(images/code.png); }
+.tasty-tree li.type_aspx { background-image: url(images/code.png); }
+.tasty-tree li.type_avi { background-image: url(images/film.png); }
+.tasty-tree li.type_bat { background-image: url(images/application.png); }
+.tasty-tree li.type_bmp { background-image: url(images/picture.png); }
+.tasty-tree li.type_c { background-image: url(images/code.png); }
+.tasty-tree li.type_cfm { background-image: url(images/code.png); }
+.tasty-tree li.type_cgi { background-image: url(images/code.png); }
+.tasty-tree li.type_com { background-image: url(images/application.png); }
+.tasty-tree li.type_cpp { background-image: url(images/code.png); }
+.tasty-tree li.type_css { background-image: url(images/css.png); }
+.tasty-tree li.type_doc { background-image: url(images/doc.png); }
+.tasty-tree li.type_exe { background-image: url(images/application.png); }
+.tasty-tree li.type_gif { background-image: url(images/picture.png); }
+.tasty-tree li.type_fla { background-image: url(images/flash.png); }
+.tasty-tree li.type_h { background-image: url(images/code.png); }
+.tasty-tree li.type_htm { background-image: url(images/html.png); }
+.tasty-tree li.type_html { background-image: url(images/html.png); }
+.tasty-tree li.type_jar { background-image: url(images/java.png); }
+.tasty-tree li.type_jpg { background-image: url(images/picture.png); }
+.tasty-tree li.type_jpeg { background-image: url(images/picture.png); }
+.tasty-tree li.type_js { background-image: url(images/script.png); }
+.tasty-tree li.type_lasso { background-image: url(images/code.png); }
+.tasty-tree li.type_log { background-image: url(images/txt.png); }
+.tasty-tree li.type_m4p { background-image: url(images/music.png); }
+.tasty-tree li.type_mov { background-image: url(images/film.png); }
+.tasty-tree li.type_mp3 { background-image: url(images/music.png); }
+.tasty-tree li.type_mp4 { background-image: url(images/film.png); }
+.tasty-tree li.type_mpg { background-image: url(images/film.png); }
+.tasty-tree li.type_mpeg { background-image: url(images/film.png); }
+.tasty-tree li.type_ogg { background-image: url(images/music.png); }
+.tasty-tree li.type_pcx { background-image: url(images/picture.png); }
+.tasty-tree li.type_pdf { background-image: url(images/pdf.png); }
+.tasty-tree li.type_php { background-image: url(images/php.png); }
+.tasty-tree li.type_png { background-image: url(images/picture.png); }
+.tasty-tree li.type_ppt { background-image: url(images/ppt.png); }
+.tasty-tree li.type_psd { background-image: url(images/psd.png); }
+.tasty-tree li.type_pl { background-image: url(images/script.png); }
+.tasty-tree li.type_py { background-image: url(images/script.png); }
+.tasty-tree li.type_rb { background-image: url(images/ruby.png); }
+.tasty-tree li.type_rbx { background-image: url(images/ruby.png); }
+.tasty-tree li.type_rhtml { background-image: url(images/ruby.png); }
+.tasty-tree li.type_rpm { background-image: url(images/linux.png); }
+.tasty-tree li.type_ruby { background-image: url(images/ruby.png); }
+.tasty-tree li.type_sql { background-image: url(images/db.png); }
+.tasty-tree li.type_swf { background-image: url(images/flash.png); }
+.tasty-tree li.type_tif { background-image: url(images/picture.png); }
+.tasty-tree li.type_tiff { background-image: url(images/picture.png); }
+.tasty-tree li.type_txt { background-image: url(images/txt.png); }
+.tasty-tree li.type_vb { background-image: url(images/code.png); }
+.tasty-tree li.type_wav { background-image: url(images/music.png); }
+.tasty-tree li.type_wmv { background-image: url(images/film.png); }
+.tasty-tree li.type_xls { background-image: url(images/xls.png); }
+.tasty-tree li.type_xml { background-image: url(images/code.png); }
+.tasty-tree li.type_zip { background-image: url(images/zip.png); }

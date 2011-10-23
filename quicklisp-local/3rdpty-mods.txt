@@ -1,0 +1,36 @@
+
+
+These are local modifications which I have made to third-party libraries from Quicklisp
+=======================================================================================
+
+
+portableaserve-20110730-cvs/
+============================
+
+in aserve/aserve.asd: 
+
+
+after:
+
+   #+allegro
+   (defclass original-aserve (asdf:component)
+      ((loaded :initform nil :accessor loaded)))
+
+
+added:
+
+   #+allegro
+   (defmethod asdf:source-file-type ((c original-aserve) (s module)) "dummy")
+
+
+This allows us to do 
+
+    (ql:quickload "aserve") 
+
+on Allegro CL just like on any other platform. 
+
+Request to add this change to paserve CVS on Sourceforge (which should
+get picked up by Quicklisp) has been sent to kevin@rosenberg.net.
+
+
+
