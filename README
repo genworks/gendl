@@ -1,0 +1,121 @@
+;;
+;; Copyright 2002-2011 Genworks International and Genworks BV 
+;;
+;; This software is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This software is free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
+Welcome to the General-purpose Declarative Language Open-Source Distribution.
+
+
+To load the entire system, you can do it from scratch with 
+
+  (load ".../load.lisp") 
+
+We are working on making GDL to bootstrap with pure Quicklisp/asdf.
+
+If you want to load individual modules, you can do so using quicklisp
+or asdf. 
+
+
+To help in understanding the role of each module, the overall GDL
+source architecture is described below.
+
+
+GDL source code Architecture:
+=============================
+
+GDL is separated into layered components, some of which depend on
+others. Some components also depend on third-party external libraries,
+which are currently handled with the Quicklisp system with some local
+modifications pending merging into the Quicklisp dists. 
+
+At the core "kernel" is the :gdl package, implemented with files in
+the folder gdl/base/. This includes the compiler/expanders for
+"define-object" and related macros as well as core primitives such as
+vanilla-mixin.
+
+
+Including gdl-base, there are approximately 12 modules supported with
+GDL. One is proprietary and closed-source, the others are open-source
+under AGPL.
+
+
+ :gdl-base - GDL language kernel.
+
+    depends-on:  :asdf (and normally we use Quicklisp to bootstrap asdf). 
+
+
+ :cl-lite - GDL system definitions and loading facility. Supplements our use of asdf. 
+
+    depends-on: :gdl-base, :glisp+
+
+
+ :translators - Partially translate other KBE syntax such as PCPACK,
+    ICAD to and/or from GDL.
+   
+    :depends-on: :gdl-base, :glisp+
+
+
+ :lift-utilities - regression test utilities. 
+
+    :depends-on: :gdl-base, :lift, :glisp+
+
+
+ :geom-base  - Built-in GDL wireframe primtives and basic geometry/vector manipulation functions.
+
+    depends-on: :gdl-base, :glisp+
+
+
+ :geom-base text-block and document primitives -- 
+
+    depends on: :geom-base, cl-typesetting, :glisp+. 
+
+
+ :gwl - Generative Web Language, represent web pages using GDL
+        objects, includes Ajax interaction with your model.
+
+     depends-on: Native or Portable AllegroServe (aserve or paserve),
+                 :cl-who, :glisp+. 
+
+
+ :gwl-graphics - include graphics rendered from geometry object in GWL web pages. 
+
+     depends-on: :gwl, :geom-base, :glisp+.
+
+
+ :surf - surface primitives without underlying geometry kernel middleware or implementation. 
+
+     depends-on: :geom-base, :glisp+. 
+
+
+ :smlib - (proprietary) add-on to implement :surf primitives with middleware and SMLib geometry kernel
+
+     depends-on: :surf, :uffi, :glisp+.      
+
+
+ :yadd - self auto-documentation.
+
+     depends-on: gdl-base, gwl (and others if you want their documentation).
+
+
+ :build - Utilities for building development and runtime images with various GDL modules built-in. 
+     depends-on: gdl-base. 
+
+
+
