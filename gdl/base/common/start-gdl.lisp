@@ -74,14 +74,6 @@
 
  http://www.gnu.org/licenses/
 
- NOTE that application code compiled with GDL also falls under the
-      terms of the AGPL license, because it contains significant
-      portions of GDL. See http://www.genworks.com/license-faq.html
-      for further details. For distribution of closed-source
-      applications, proprietary licenses are available from Genworks
-      (http://www.genworks.com). Additional modules (e.g. NURBS and
-      solid geometry) and support packages are also available.
-
 "
 "
 Copyright 2002-2011 Genworks International and Genworks BV 
@@ -95,8 +87,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public  License along with the source code for this program.  If not, see:
 
 http://www.gnu.org/licenses/
-
-NOTE that application code compiled with GDL also falls under the terms of the AGPL license, because it contains significant portions of GDL.  See http://www.genworks.com/license-faq.html for further details.  For distribution of closed-source applications, proprietary licenses are available from Genworks (http://www.genworks.com).  Additional modules (e.g. NURBS and solid geometry) and support packages are also available.
 
 "
 ))

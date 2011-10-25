@@ -1,10 +1,10 @@
 ;;
 ;; Copyright 2002-2011 Genworks International and Genworks BV 
 ;;
-;; This software is part of the General-purpose Declarative
+;; This file is part of the General-purpose Declarative
 ;; Language project (GDL).
 ;;
-;; This software is free software: you can redistribute it
+;; This file is free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
 ;; License as published by the Free Software Foundation, either
 ;; version 3 of the License, or (at your option) any later version.
@@ -23,7 +23,14 @@
 Welcome to the General-purpose Declarative Language Open-Source Distribution.
 
 
-To load the entire system, you can do it from scratch with 
+Current Requirements:
+
+ o Common Lisp: LispWorks or AllegroCL
+
+   Note: Allegro CL 8.2 comes with ASDF, but (sys:update-allegro) will
+   bring it to ASDF2.
+
+ To load the entire system, you can do it from scratch with 
 
   (load ".../load.lisp") 
 

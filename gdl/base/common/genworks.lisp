@@ -215,7 +215,7 @@
   #+allegro 
   (when (boundp 'comp::*deprecate-peephole-and-save-arglist-switches*)
     (setf (symbol-value 'comp::*deprecate-peephole-and-save-arglist-switches*) t))
-  #+allegro-cl-express (proclaim (optimize (speed 1) (safety 1) (space 3)))
+  #+allegro-cl-express (proclaim '(optimize (speed 1) (safety 1) (space 3)))
   #-allegro nil ;; No action needed for non-allegro platforms currently.
   )
 
