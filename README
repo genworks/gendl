@@ -28,13 +28,15 @@ Current Requirements:
  o Common Lisp: LispWorks or AllegroCL
 
    Note: Allegro CL 8.2 comes with ASDF, but (sys:update-allegro) will
-   bring it to ASDF2.
+   bring it to ASDF2 which is what you want.
 
  To load the entire system, you can do it from scratch with 
 
   (load ".../load.lisp") 
 
 We are working on making GDL to bootstrap with pure Quicklisp/asdf.
+
+We plan to target SBCL as next CL host. 
 
 If you want to load individual modules, you can do so using quicklisp
 or asdf. 
