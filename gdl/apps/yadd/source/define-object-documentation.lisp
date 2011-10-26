@@ -221,7 +221,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                           (princ (the example-code) out))
                         (let (*redefinition-warnings*) (load (compile-file (the lisp-file))))) :uncached)
    
-   (image-file (merge-pathnames (funcall gdl::*make-temp-file-name-func*) #p"*.png"))
+   (image-file (glisp:temporary-file :extension "png"))
    
    (image-url (format nil "/images/~a" (make-pathname :name (pathname-name (the image-file))
                                                       :type (pathname-type (the image-file)))))
@@ -478,14 +478,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                                                             pdf-file)))
                                        
                                        (let ((return-value
-                                              (#+allegro 
-                                               run-shell-command
-                                               #+lispworks system:call-system
-                                               #+cmu asdf:run-shell-command
-                                               command
-                                               #+allegro :show-window
-                                               #+allegro :hide)))
-                                     
+                                              (glisp:run-shell-command command :show-window? nil)))
                                          (with-http-response (req ent)
                                            (setf (reply-header-slot-value req :cache-control) "no-cache")
                                            (setf (reply-header-slot-value req :pragma) "no-cache")
@@ -832,11 +825,9 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
             (:body (the (write-back-link :display-string "&lt;-Back"))
                    (:h2 (:center "Example in VRML format"))
                    (:p (let ((vrml-url (string-append "/vrml/" 
-                                                      (file-namestring 
-                                                       (make-pathname 
-                                                        :name 
-                                                        (pathname-name 
-                                                         (funcall gdl::*make-temp-file-name-func*)) :type "wrl")))))
+                                                      (namestring
+                                                       (glisp:temporary-file :extension "wrl")))))
+
                          (publish :path vrml-url
                                   :content-type "x-world/x-vrml"
                                   :function #'(lambda(req ent)

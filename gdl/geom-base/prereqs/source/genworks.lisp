@@ -5,10 +5,11 @@
     (:use :common-lisp)
     (:export #:get-pid
              #:run-gs
+             #:run-shell-command
              #:set-gs-path
              
+             
              )))
-
 
 
 (defun featurep (x)
@@ -18,6 +19,38 @@
   #-(or allegro lispworks clozure)
   (error "Need implementation of featurep for currently running lisp.~%"))
 
+
+
+(defun get-pid ()
+  #+allegro (excl.osi:getpid) 
+  #+lispworks (multiple-value-bind (status pid) 
+                  (system:call-system-showing-output "echo $PPID" 
+                                                     :show-cmd nil :output-stream nil) 
+                (declare (ignore status))
+                (read-from-string pid))
+  #-(or allegro lispworks)
+  (error "Need implementation for get-pid for currently running lisp~%"))
+
+
+
+(defun run-gs (command)
+  "Shell out a ghostscript command and handle errors."
+  #-allegro (let ((result (asdf-utilities:run-shell-command command)))
+              (unless (zerop result) (error "Ghostscript threw error")))
+  #+allegro
+  (multiple-value-bind (output error return)
+      (excl.osi:command-output command)
+    (unless (zerop return) (error "Ghostscript command threw error. Result was:
+output: ~a
+ error: ~a
+return: ~a" 
+                                          output error return))))
+
+(defun run-shell-command (command &rest args)
+;;
+;; FLAG -- add specific keyword args e.g. for hide-window? 
+;;
+  (asdf-utilities:run-shell-command command))
 
 
 (defun set-gs-path (&optional gs-path)
@@ -52,28 +85,3 @@
 in either /usr/local/bin or /usr/bin -- we assume it is elsewhere in your execution path
 so we are setting it simply to \"gs\". If Gnu Ghostscript is not installed on your Unix/Linux 
 system, please contact Genworks for assistance in installing it.")))))
-
-
-(defun get-pid ()
-  #+allegro (excl.osi:getpid) 
-  #+lispworks (multiple-value-bind (status pid) 
-                  (system:call-system-showing-output "echo $PPID" 
-                                                     :show-cmd nil :output-stream nil) 
-                (declare (ignore status))
-                (read-from-string pid))
-  #-(or allegro lispworks)
-  (error "Need implementation for get-pid for currently running lisp~%"))
-
-
-(defun run-gs (command)
-  "Shell out a ghostscript command and handle errors."
-  #-allegro (let ((result (asdf-utilities:run-shell-command command)))
-              (unless (zerop result) (error "Ghostscript threw error")))
-  #+allegro
-  (multiple-value-bind (output error return)
-      (excl.osi:command-output command)
-    (unless (zerop return) (error "Ghostscript command threw error. Result was:
-output: ~a
- error: ~a
-return: ~a" 
-                                          output error return))))
