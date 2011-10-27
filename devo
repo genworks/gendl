@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd `dirname "$0"`
+
+/Applications/Aquamacs.app/Contents/MacOS/Aquamacs --no-splash --no-init-file -l devo.el -f slime $@
