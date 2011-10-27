@@ -8,6 +8,7 @@
              #:class-slots
              #:slot-definition-name
              #:gc-full
+	     #:initialize-multiprocessing
              #:load-html-parser
              #:match-regexp
              #:patches-dir
@@ -43,6 +44,12 @@
   #+allegro  (excl:gc t)
   #+lispworks  (hcl:gc-all))
 
+(defun initialize-multiprocessing ()
+  #+lispworks (mp:initialize-multiprocessing)
+  ;;
+  ;; Don't have to do it in Allegro - see about other CLs when we get here. 
+  ;;
+  )
 
 (defun load-html-parser ()
   #+allegro (require :phtml)
