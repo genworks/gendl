@@ -4,11 +4,12 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2011101700" :components
+                :version "2011102800" 
+                :components
                 ((:file "common/package")
-                 (:file "common/genworks")
-                 (:file "common/start-gdl")
-                 (:file "prereqs/source/parameters")
+		 (:file "common/genworks")
+		 (:file "common/start-gdl")
+		 (:file "prereqs/source/parameters")
                  (:file "prereqs/source/metaclasses")
                  (:file "prereqs/source/utilities")
                  (:file "expanders/source/inputs")
@@ -28,8 +29,12 @@
                  (:file "rest/source/base-rule-object")
                  (:file "rest/source/bodies")
                  (:file "rest/source/ignore-errors-with-backtrace")
+                 (:file "rest/source/init")
                  (:file "rest/source/make-part")
                  (:file "rest/source/null-part")
                  (:file "rest/source/quantification")
                  (:file "rest/source/sequence")
-                 (:file "rest/source/init")))
+                 (:file "tests/source/package")
+                 (:file "tests/source/andrew")
+                 (:file "tests/source/hello")
+                 (:file "tests/source/minimal")))

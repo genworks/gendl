@@ -121,15 +121,6 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 
   :computed-slots
   (
-   #+nil
-   (definition `(define-object ,(the part-full-symbol) (,@(the mixins-list))
-                  ,@(mapcan #'(lambda(section)
-                                (list (the-object section category)
-                                      (the-object section bindings)))
-                     (list-elements (the sections)))))
-   
-
-   
    
    (main-sheet-body
     (with-cl-who-string ()
@@ -303,23 +294,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
   
   :functions
   (   
-   #+nil
-   (write-html-sheet
-    nil
-    (html (:html
-           (:head
-            (the default-header-content)
-            (:title "Documentation for "
-                    (:princ (string (the :part-full-symbol)))
-                    " in Package "
-                    (:princ
-                     (string (package-name (the :part-package))))))
-           (:body (when *developing?* (html (:p (the (write-development-links)))))
-                  ;;(when *adsense?* (html (:p (:princ *adsense-code*))))
-                  (when (the :return-object) (html (:p (the (:write-back-link :display-string "&lt;-Back")))))
-                  (the (:write-documentation))
-                  (when (the :return-object) (html (:p (the (:write-back-link :display-string "&lt;-Back")))))
-                  (:p (the :write-footer))))))
+
 
    (write-documentation
     nil
@@ -454,11 +429,8 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                      (or (search "(generate-sample-drawing" (the example-code))
                          (search "(with-format (pdf" (the example-code))))
             (let ((image-file (the image-file)) (image-format :png)
-                  (pdf-file (merge-pathnames "example.pdf" 
-                                             #+allegro (sys:temporary-directory) 
-                                             #-allegro sys::*temp-directory*))
+                  (pdf-file (merge-pathnames "example.pdf"  (glisp:temporary-folder)))
                   (url (the image-url)) (lisp-file (the lisp-file)))
-              
               
               (publish :path url
                        :content-type "image/png"
@@ -497,7 +469,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                                            (delete-file image-file)
                                            (delete-file lisp-file)
                                            (delete-file (make-pathname :name (pathname-name lisp-file)
-                                                                       :type gdl::*fasl-default-type*
+                                                                       :type glisp:*fasl-extension*
                                                                        :directory (pathname-directory lisp-file)
                                                                        :device (pathname-device lisp-file))))))))
               
