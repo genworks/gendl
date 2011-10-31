@@ -21,6 +21,7 @@
 
 (in-package :gdl)
 
+
 (defmacro defaulting (form &optional default)
   "Lisp object. Returns a default value if the reference-chain is not handled.
 

@@ -54,9 +54,8 @@ The javascript loaded is jquery."
                            ((:script :type "text/javascript" 
                                      :src "/static/3rdpty/jquery/js/jquery.quicksearch.js"))))
    
-   (footer (let* ((updater (make-object 'gwl::gdl-updater))
-                  (version (the-object updater  gdl-version))
-                  (patch (the-object updater  gdl-patchlevel)))
+   (footer (let* ((version "1581")
+                  (patch 9))
              (with-cl-who-string ()
                ((:p :class "copyrightFooter")
                 "Copyright &copy; "
@@ -86,9 +85,8 @@ The javascript loaded is jquery."
    (write-footer
     ()
     (let ((*stream* (or *html-stream* *stream*)))
-      (let* ((updater (make-object 'gwl::gdl-updater))
-             (version (the-object updater  gdl-version))
-             (patch (the-object updater  gdl-patchlevel)))
+      (let* ((version "1581")
+             (patch 9))
         (with-cl-who()
           ((:p :class "copyrightFooter")
            "Copyright &copy; "

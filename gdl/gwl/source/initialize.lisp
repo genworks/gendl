@@ -76,6 +76,7 @@
 
 
 (defun initialize-gwl (&key edition) (declare (ignore edition)) 
+       ;;(glisp:initialize-multiprocessing)
        (publish-images) 
        (publish-statics) 
        (publish-style)

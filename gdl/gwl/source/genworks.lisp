@@ -8,12 +8,13 @@
              #:class-slots
              #:slot-definition-name
              #:gc-full
+	     #:initialize-multiprocessing
              #:load-html-parser
              #:match-regexp
              #:patches-dir
              #:process-run-function
-             #:replace-regexp
              #:remote-host
+             #:replace-regexp
              #:socket-bytes-written
              #:with-timeout-sym
 
@@ -43,6 +44,12 @@
   #+allegro  (excl:gc t)
   #+lispworks  (hcl:gc-all))
 
+(defun initialize-multiprocessing ()
+  #+lispworks (mp:initialize-multiprocessing)
+  ;;
+  ;; Don't have to do it in Allegro - see about other CLs when we get here. 
+  ;;
+  )
 
 (defun load-html-parser ()
   #+allegro (require :phtml)
@@ -69,12 +76,14 @@
          #-allegro #'acl-compat.mp:process-run-function 
          name-or-options preset-function args))
 
-(defun replace-regexp (string regexp to-string)
-  (cl-ppcre:regex-replace-all regexp string to-string))
+
 
 (defun remote-host (socket)
   #+allegro (socket:remote-host socket)
   #-allegro (acl-compat.socket:remote-host socket))
+
+(defun replace-regexp (string regexp to-string)
+  (cl-ppcre:regex-replace-all regexp string to-string))
 
 (defun socket-bytes-written (socket)
   #-allegro (declare (ignore socket))

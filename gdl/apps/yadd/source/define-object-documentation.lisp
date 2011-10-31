@@ -121,15 +121,6 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 
   :computed-slots
   (
-   #+nil
-   (definition `(define-object ,(the part-full-symbol) (,@(the mixins-list))
-                  ,@(mapcan #'(lambda(section)
-                                (list (the-object section category)
-                                      (the-object section bindings)))
-                     (list-elements (the sections)))))
-   
-
-   
    
    (main-sheet-body
     (with-cl-who-string ()
@@ -221,7 +212,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                           (princ (the example-code) out))
                         (let (*redefinition-warnings*) (load (compile-file (the lisp-file))))) :uncached)
    
-   (image-file (merge-pathnames (funcall gdl::*make-temp-file-name-func*) #p"*.png"))
+   (image-file (glisp:temporary-file :extension "png"))
    
    (image-url (format nil "/images/~a" (make-pathname :name (pathname-name (the image-file))
                                                       :type (pathname-type (the image-file)))))
@@ -303,23 +294,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
   
   :functions
   (   
-   #+nil
-   (write-html-sheet
-    nil
-    (html (:html
-           (:head
-            (the default-header-content)
-            (:title "Documentation for "
-                    (:princ (string (the :part-full-symbol)))
-                    " in Package "
-                    (:princ
-                     (string (package-name (the :part-package))))))
-           (:body (when *developing?* (html (:p (the (write-development-links)))))
-                  ;;(when *adsense?* (html (:p (:princ *adsense-code*))))
-                  (when (the :return-object) (html (:p (the (:write-back-link :display-string "&lt;-Back")))))
-                  (the (:write-documentation))
-                  (when (the :return-object) (html (:p (the (:write-back-link :display-string "&lt;-Back")))))
-                  (:p (the :write-footer))))))
+
 
    (write-documentation
     nil
@@ -454,11 +429,8 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                      (or (search "(generate-sample-drawing" (the example-code))
                          (search "(with-format (pdf" (the example-code))))
             (let ((image-file (the image-file)) (image-format :png)
-                  (pdf-file (merge-pathnames "example.pdf" 
-                                             #+allegro (sys:temporary-directory) 
-                                             #-allegro sys::*temp-directory*))
+                  (pdf-file (merge-pathnames "example.pdf"  (glisp:temporary-folder)))
                   (url (the image-url)) (lisp-file (the lisp-file)))
-              
               
               (publish :path url
                        :content-type "image/png"
@@ -478,14 +450,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                                                             pdf-file)))
                                        
                                        (let ((return-value
-                                              (#+allegro 
-                                               run-shell-command
-                                               #+lispworks system:call-system
-                                               #+cmu asdf:run-shell-command
-                                               command
-                                               #+allegro :show-window
-                                               #+allegro :hide)))
-                                     
+                                              (glisp:run-shell-command command :show-window? nil)))
                                          (with-http-response (req ent)
                                            (setf (reply-header-slot-value req :cache-control) "no-cache")
                                            (setf (reply-header-slot-value req :pragma) "no-cache")
@@ -504,7 +469,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                                            (delete-file image-file)
                                            (delete-file lisp-file)
                                            (delete-file (make-pathname :name (pathname-name lisp-file)
-                                                                       :type gdl::*fasl-default-type*
+                                                                       :type glisp:*fasl-extension*
                                                                        :directory (pathname-directory lisp-file)
                                                                        :device (pathname-device lisp-file))))))))
               
@@ -832,11 +797,9 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
             (:body (the (write-back-link :display-string "&lt;-Back"))
                    (:h2 (:center "Example in VRML format"))
                    (:p (let ((vrml-url (string-append "/vrml/" 
-                                                      (file-namestring 
-                                                       (make-pathname 
-                                                        :name 
-                                                        (pathname-name 
-                                                         (funcall gdl::*make-temp-file-name-func*)) :type "wrl")))))
+                                                      (namestring
+                                                       (glisp:temporary-file :extension "wrl")))))
+
                          (publish :path vrml-url
                                   :content-type "x-world/x-vrml"
                                   :function #'(lambda(req ent)

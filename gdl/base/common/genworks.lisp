@@ -288,8 +288,7 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
-(defun display-startup-banner (edition banner banner2)
+(defun display-startup-banner (edition banner)
   (ecase edition
-    (:open-source
-     #-lispworks (format t banner)
-     #+lispworks (capi:prompt-with-message banner2))))
+    (:open-source (format t banner))))
+     

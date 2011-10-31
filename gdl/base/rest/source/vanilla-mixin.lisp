@@ -30,7 +30,7 @@
   
   :documentation (:description "Vanilla-Mixin is automatically inherited by every object
 created in GDL. It provides basic messages which are common to all GDL objects defined
-with the define-object macro, unless <tt>:no-vanilla-mixin t</tt> is specified at the toplevel
+with the define-object macro, unless <tt>:no-vanilla-mixin t</tt> is specifqqied at the toplevel
 of the define-object form.")
   
   :input-slots
@@ -577,13 +577,16 @@ by the update."
           (methods (the (:message-list :category :functions)))
           (immune-messages (list :$$ta2 :$$ta2-object 
                                  :$$tatu :$$tatu-object))
+	  ;;
+	  ;; FLAG -- get rid of special-casing and ignore-errors for root-object-object.
+	  ;;
           (root-object-object-vt 
-           (when (defaulting (the root-object-object))
+           (when (ignore-errors (the root-object-object))
              (mapcar #'(lambda(path) 
                          (when (consp (rest path))
                            (cons (append (first path) (list :root-object-object))
                                  (rest path))))
-                     (gdl-acc::%version-tree% (defaulting (the root-object-object)))))))
+                     (gdl-acc::%version-tree% (ignore-errors (the root-object-object)))))))
       (let ((cached-messages 
              (set-difference all-messages (append methods immune-messages))))
         
