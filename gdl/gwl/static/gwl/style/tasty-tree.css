@@ -81,11 +81,12 @@ ul.tasty-tree span.actions span
 }
 
 /* Core Styles */
-.tasty-tree span.directory { background-image: url(images/directory.png); }
-.tasty-tree span.expanded { background-image: url(images/folder_open.png); }
+.tasty-tree span.directory { background-image: url(../../gwl/images/plus.gif); }
+.tasty-tree span.expanded { background-image: url(../../gwl/images/minus.gif); }
 .tasty-tree span.wait { background-image: url(images/spinner.gif); }
+
 .tasty-tree span.file { background-image: url(images/file.png); }
-.tasty-tree span.leaf { background-image: url(images/leaf2.png); cursor:default;}
+.tasty-tree span.leaf { background-image: url(../../gwl/images/leafbutn.gif); cursor:default;}
 /* Actions */
 .tasty-tree span.actions span.draw { background-image: url(../tasty-unpix/tree_pen.png); }
 .tasty-tree span.actions span.inspect { background-image: url(../tasty-unpix/tree_inspect.png); }

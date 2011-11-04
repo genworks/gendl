@@ -1,4 +1,4 @@
-;;(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
 
 ;;
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
