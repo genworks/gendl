@@ -16,6 +16,7 @@
              #:remote-host
              #:replace-regexp
              #:socket-bytes-written
+	     #:split-regexp
              #:with-timeout-sym
 
              )))
@@ -93,6 +94,9 @@
 please find implementation for the currently running lisp.~%")
                    0))
 
+
+(defun split-regexp (regexp string)
+  (cl-ppcre:split regexp string))
 
 (defun with-timeout-sym ()
   "Returns the appropriate symbol for with-timeout, for substitution within macros."

@@ -39,7 +39,8 @@
                                       glisp:*genworks-source-home*)
           
           :demo (getf args :demo-days)
-          ;;:init-file-names (getf args :init-file-names)
+          :init-file-names (getf args :init-file-names)
+          :pre-load-form (getf args :pre-load-form)
           :post-load-form (getf args :post-load-form)
           :restart-init-function (getf args :restart-init-function)
           :purify t

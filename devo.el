@@ -1,5 +1,4 @@
-
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;;(load (expand-file-name "~/quicklisp/slime-helper.el"))
 
 ;;
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
@@ -65,7 +64,16 @@
 ;; ignore errors when setting colors in case of running in console
 ;; terminal (there's probably a better way to test for this).
 
-(ignore-errors (gdl:set-colors))
+;;(ignore-errors (gdl:set-colors))
+(gdl:set-colors)
+
+(defun gdl:set-font ()
+  (interactive)
+  (ignore-errors (set-frame-font "-bitstream-Courier 10 Pitch-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")))
+
+(gdl:set-font)
+
+(show-paren-mode t)
 
 (require 'cl)
 

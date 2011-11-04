@@ -60,7 +60,7 @@
   (multiple-value-bind (result error)
       (ignore-errors 
        (net.aserve.client:do-http-request 
-           (format nil "http://localhost:~a" port)))
+           (format nil "http://localhost:~a" port) :timeout 2))
     (declare (ignore result))
     (when (typep error 'error)
       port)))

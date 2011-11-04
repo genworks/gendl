@@ -627,7 +627,6 @@ Common Lisp universal time integer, e.g. 2007-11-30 or
   (apply #'make-object (the-object object type) make-object-args))
   
 
-
 (defun read-snapshot (&key (filename "/tmp/snap.gdl") object keep-bashed-values? make-object-args keys-to-ignore)
   "GDL Instance. Reads the snapshot file indicated by filename. If no optional keyword <tt>object</tt>
 argument is given, a new GDL instance based on the data in the snapshot file is returned. If an
@@ -649,7 +648,6 @@ toplevel inputs as specified in the snapshot file.
                   )
           (error "Invalid object type specifier as first element of second form in ~a.~%"))
         
-        
         (let ((object (cond ((and object keep-bashed-values?) object)
                             (object (the-object object restore-tree!) object)
                             (t (progn
@@ -661,25 +659,35 @@ toplevel inputs as specified in the snapshot file.
                         (when self (the-object self (set-slot! key (eval expression))))))
                   (plist-keys value-plist) (plist-values value-plist)))
           
-          
-          (do ((form (read in nil nil) (read in nil nil))) ((null form))
+          (let ((forms-ht (make-hash-table)))
+            (do ((form (read in nil nil) (read in nil nil)))
+                ((null form))
+              (push form (gethash (length (first form)) forms-ht)))
+            (let* ((forms (list-hash forms-ht))
+                   (forms (mapcar #'list (plist-keys forms) (plist-values forms)))
+                   (forms (plist-values (alist2plist (sort forms #'< :key #'first))))
+                   (forms (mapcar #'(lambda(group)
+                                      (let ((primaries (remove-if-not #'(lambda(item) (or (getf (rest item) :%primary?%)
+                                                                                          (getf (rest item) :element-index-list))) group))
+                                            (non-primaries (remove-if #'(lambda(item) (or (getf (rest item) :%primary?%)
+                                                                                          (getf (rest item) :element-index-list))) group)))
+                                        (append primaries non-primaries))) forms))
+                   (forms (apply #'append forms)))
+              
+              (dolist (form forms)
             
-            (let ((root-path (first form)) (value-plist (rest form)))
-              (let ((self 
+                (let ((root-path (first form)) (value-plist (rest form)))
+                  (let ((self 
 
-                     (with-error-handling (:timeout nil)
-                       (the-object object (follow-root-path root-path)))
-                     ))
+                         (with-error-handling (:timeout nil)
+                           (the-object object (follow-root-path root-path)))))
                 
-                (when self
-                  (mapc #'(lambda(key expression) 
-                            (unless (member key keys-to-ignore)
-                              (when self 
-                                (the-object self (set-slot! key (eval expression))))))
-                        (plist-keys value-plist) (plist-values value-plist))))))
-          
-          ;; (restore-ui-object *ui-server* object)
-          
+                    (when self
+                      (mapc #'(lambda(key expression) 
+                                (unless (member key keys-to-ignore)
+                                  (when self 
+                                    (the-object self (set-slot! key (eval expression))))))
+                            (plist-keys value-plist) (plist-values value-plist))))))))
           object)))))
 
 
