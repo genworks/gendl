@@ -240,12 +240,12 @@ we will add more contour to this application using the complete @b{specification
 @i{(:input-slots :trickle-down-slots :computed-slots etc.)} in conjunction with the introduction 
 of a set of other GDL features. The intent is to present the necessary steps in modeling a simple 
 shock absorber, as the one presented in figure 5.
-@sp1
-@center @image{images/shock-absorber,,1.8in,}
+@sp 1
+@center @image{images/shock-absorber}
 @center Figure 5: Shock absorber
 
 The example code for this geometrical model is further presented:
-
+@sp 1
 @cartouche 
 @smallexample
 ;;-- assembly.lisp--

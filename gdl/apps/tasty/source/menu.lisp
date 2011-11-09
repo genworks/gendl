@@ -440,7 +440,11 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-click-mode!
                                        :arguments (list :add-leaves))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_pen.png") 
+     
+	 (:img :src (string-append (the uri-static-gwl-unpix) "draw.png") 
+	      
+	       :height "32px" 
+	       :width  "32px"
                :alt "Draw Object (AL)"
                :title "Draw Object (AL)"
                :border "0")
@@ -450,8 +454,10 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-click-mode!
                                        :arguments (list :inspect))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_inspect.png") 
-               :alt "InspectObject"
+         (:img :src (string-append (the uri-static-gwl-unpix) "inspect.png") 
+               :height "32px" 
+	       :width  "32px"
+	       :alt "InspectObject"
                :title "Inspect Object"
                :border "0")
          ((:span :class "tbartext")"Inspect Object (I)")))
@@ -460,8 +466,10 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-click-mode!
                                        :arguments (list :delete-leaves))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_clearobject.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "draw-erase.png") 
                :alt "ClearObject"
+	       :height "32px" 
+	       :width  "32px"
                :title "Clear Object (DL)"
                :border "0")
          ((:span :class "tbartext")"Clear Object (DL)")))
@@ -473,7 +481,9 @@
        ((:li :id "tbarClearView")
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :clear!)))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_clearview.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "cleare-view.png")
+	       :height "32px" 
+	       :width  "32px"
                :alt "ClearView"
                :title "Clear View (CL!)"
                :border "0")
@@ -483,8 +493,10 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-zoom!
                                        :arguments (list :in))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_zoomin.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "viewmag-.png") 
                :alt "ZoomIn"
+	       :height "32px" 
+	       :width  "32px"
                :title "Set click mode of the viewport to Zoom In"
                :border "0")
          ((:span :class "tbartext")"Zoom In (+)")))
@@ -493,8 +505,10 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-zoom!
                                        :arguments (list :out))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_zoomout.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "viewmag+.png") 
                :alt "ZoomOut"
+	       :height "32px" 
+	       :width  "32px"
                :title "Set click mode of the viewport to Zoom Out"
                :border "0")
          ((:span :class "tbartext")"Zoom Out (-)")))
@@ -509,7 +523,9 @@
            ((:span 
              ;; we need to do use javascript as an :a is not possible in the menu
              :onclick (format nil "window.location='~a'" (the tatu-root root-object url)))
-            (:img :src (string-append (the uri-static-gwl-unpix) "tbar_ui.png") 
+            (:img :src (string-append (the uri-static-gwl-unpix) "ui.png") 
+		  :height "32px" 
+		  :width  "32px"
                   :alt "UI"
                   :title "Change to application User Interface (UI)"
                   :border "0")
@@ -523,7 +539,9 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-click-mode!
                                        :arguments (list :break))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_break.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "break.png") 
+	       :height "32px" 
+	       :width  "32px"
                :alt "Break/Setself"
                :title "Set click mode of an object in the tree to Break and Setself!"
                :border "0")
@@ -533,7 +551,9 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :update-root!)))
          ;;:arguments (list :inspect))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "tbar_update.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "update.png")
+	       :height "32px" 
+	       :width  "32px"
                :alt "Update"
                :title "Perform Full Update of the object tree!"
                :border "0")

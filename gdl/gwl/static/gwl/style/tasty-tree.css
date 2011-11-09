@@ -27,7 +27,7 @@ ul.tasty-tree a {
 	color: #333;
 	text-decoration: none;
 	display: block;
-	padding: 0px 2px;
+	padding: 0px 12px;
 }
 
 ul.tasty-tree a:hover {
@@ -42,12 +42,12 @@ ul.tasty-tree span.leaf
 {
 	display: -moz-inline-box; /* @ FF 1+2 */
 	display: inline-block;
-	width: 16px;
-	height: 16px;
+       	width: 24px;
+        height: 24px;
 	vertical-align: top;
 	background-position: left;
 	background-repeat: no-repeat;
-	padding: 0px;
+	padding-top: 2px; 
 	cursor: default;
 }
 
@@ -55,12 +55,12 @@ ul.tasty-tree span.actions span
 {
 	display: -moz-inline-box; /* @ FF 1+2 */
 	display: inline-block;
-	width: 16px;
-	height: 16px;
+	width: 24px;
+	height: 24px;
 	vertical-align: top;
 	background-position: left;
 	background-repeat: no-repeat;
-	padding: 0px;
+	padding-top: 2px;
 	padding-left: 2px;
 	cursor: default;
 }
@@ -81,12 +81,12 @@ ul.tasty-tree span.actions span
 }
 
 /* Core Styles */
-.tasty-tree span.directory { background-image: url(../../gwl/images/plus.gif); }
-.tasty-tree span.expanded { background-image: url(../../gwl/images/minus.gif); }
+.tasty-tree span.directory { background-image: url(../../gwl/images/add-item.png); }
+.tasty-tree span.expanded { background-image: url(../../gwl/images/tree.png); }
 .tasty-tree span.wait { background-image: url(images/spinner.gif); }
 
 .tasty-tree span.file { background-image: url(images/file.png); }
-.tasty-tree span.leaf { background-image: url(../../gwl/images/leafbutn.gif); cursor:default;}
+.tasty-tree span.leaf { background-image: url(../../gwl/images/part.png); cursor:default;}
 /* Actions */
 .tasty-tree span.actions span.draw { background-image: url(../tasty-unpix/tree_pen.png); }
 .tasty-tree span.actions span.inspect { background-image: url(../tasty-unpix/tree_inspect.png); }
@@ -150,3 +150,4 @@ ul.tasty-tree span.actions span
 .tasty-tree li.type_xls { background-image: url(images/xls.png); }
 .tasty-tree li.type_xml { background-image: url(images/code.png); }
 .tasty-tree li.type_zip { background-image: url(images/zip.png); }
+
