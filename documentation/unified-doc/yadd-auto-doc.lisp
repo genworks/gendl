@@ -179,7 +179,7 @@
                       
                       ;;italic it has to be replaced too.
                       "!!! Not applicable for this object !!!"))
-       #+nil  
+        
             (mapcar #'(lambda (documentation) 
                         (if  (fourth documentation) 
                              (progn (format out "@noindent @b{~@(~a~)}~%~%" 
@@ -236,18 +236,18 @@
                                        "</dd>"  "
 @end itemize "))))))  
                           
-                  #+nil        
+                       
                   (format out "~%~%")))
                     (nth n  (the  doc-messages )))            
             
             (if (getf (nth n (the part-documentation-plist)) :examples)
-                 #+nil  
+  
                 (format out "@noindent @b{Examples}~%~%" )
               
-              #+nil      
+                
               (format out "~%~%"))
             
-            #+nil  
+           
             (format out "~a~%~%" 
                     (if (getf (nth n (the part-documentation-plist)) :examples)
                       (excl:replace-re 
@@ -262,11 +262,11 @@
                     ""))
           (if (the image?)
               (if (getf (nth n (the part-documentation-plist)) :examples)
-                     #+nil
+       
                   (format out "@center @image{~aimage/~a,,4.2in}~%~%" (the pdf-files directory)  
                           (getf (nth n (the part-documentation-plist)) :classr))
                 "" ) 
-              #+nil   
+             
             (format out "~%~% @b{Example image is not generated!}~%~%"))
 
           )))))))

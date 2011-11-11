@@ -1,0 +1,17 @@
+@subsubsection Null-object
+
+@b{Description}
+
+A part with no geometric representation and no children. Use this in a 
+conditional @i{:type} expression if you want to turn off a branch of the tree conditionally.
+
+
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+
