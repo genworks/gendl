@@ -1130,7 +1130,7 @@ TaSty.}
 
 @c         - surf 
 
-@c @include yadd/gdl.texi
+@include yadd/gdl.texi
 @c @include yadd/gwl.texi
 @c @include yadd/geom-base.texi
 @c @include yadd/surf.texi

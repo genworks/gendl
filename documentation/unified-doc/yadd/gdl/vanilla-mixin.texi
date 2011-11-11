@@ -1,0 +1,443 @@
+@subsubsection Vanilla-mixin*
+
+@b{Description}
+
+Vanilla-Mixin is automatically inherited by every object
+created in GDL. It provides basic messages which are common to all GDL objects defined
+with the define-object macro, unless @i{:no-vanilla-mixin t} is specifqqied at the toplevel
+of the define-object form.
+
+@noindent @b{Optional-input-slots}
+
+@b{:hidden?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the object should effectively be a hidden-object even if specified in :objects. Default is nil.
+
+@end itemize
+
+@b{:root}
+
+@itemize {}
+
+ @item GDL Instance. The root-level node in this object's ``tree'' (instance hierarchy).
+
+@end itemize
+
+@b{:strings-for-display}
+
+@itemize {}
+
+ @item String or List of Strings. Determines how the name of objects of this type will be printed in most places. 
+This defaults to the name-for-display (generally the part's name as specified in its
+parent), followed by an index number if the part is an element of a sequence.
+
+@end itemize
+
+@b{:visible-children}
+
+@itemize {}
+
+ @item List of GDL Instances. Additional objects to display in Tatu tree. Typically this would be a subset of hidden-children. Defaults to NIL.
+
+@end itemize
+
+
+
+@noindent @b{Computed-slots}
+
+@b{:aggregate}
+
+@itemize {}
+
+ @item GDL Instance. In an element of a sequence, this is the container object which holds all elements.
+
+@end itemize
+
+@b{:all-mixins}
+
+@itemize {}
+
+ @item List of Symbols. Lists all the superclasses of the type of this object.
+
+@end itemize
+
+@b{:children}
+
+@itemize {}
+
+ @item List of GDL Instances. All objects from the :objects specification, including elements of sequences
+ as flat lists.
+
+@end itemize
+
+@b{:direct-mixins}
+
+@itemize {}
+
+ @item List of Symbols. Lists the direct superclasses of the type of this object.
+
+@end itemize
+
+@b{:first?}
+
+@itemize {}
+
+ @item Boolean. For elements of sequences, T iff there is no previous element.
+
+@end itemize
+
+@b{:hidden-children}
+
+@itemize {}
+
+ @item List of GDL Instances. All objects from the :hidden-objects specification, including elements of sequences
+ as flat lists.
+
+@end itemize
+
+@b{:index}
+
+@itemize {}
+
+ @item Integer. Sequential index number for elements of a sequence, NIL for singular objects.
+
+@end itemize
+
+@b{:last?}
+
+@itemize {}
+
+ @item Boolean. For elements of sequences, T iff there is no next element.
+
+@end itemize
+
+@b{:leaf?}
+
+@itemize {}
+
+ @item Boolean. T if this object has no children, NIL otherwise.
+
+@end itemize
+
+@b{:leaves}
+
+@itemize {}
+
+ @item List of GDL Objects. A Collection of the leaf nodes of the given object.
+
+@end itemize
+
+@b{:name-for-display}
+
+@itemize {}
+
+ @item Keyword symbol. The part's simple name, derived from its object specification in the parent or from
+  the type name if this is the root instance.
+
+@end itemize
+
+@b{:next}
+
+@itemize {}
+
+ @item GDL Instance. For elements of sequences, returns the next part in the sequence.
+
+@end itemize
+
+@b{:parent}
+
+@itemize {}
+
+ @item GDL Instance. The parent of this object, or NIL if this is the root object.
+
+@end itemize
+
+@b{:previous}
+
+@itemize {}
+
+ @item GDL Instance. For elements of sequences, returns the previous part in the sequence.
+
+@end itemize
+
+@b{:root-path}
+
+@itemize {}
+
+ @item List of Symbols or of Pairs of Symbol and Integer. Indicates the path through
+the instance hierarchy from the root to this object. Can be used in conjunction with
+the follow-root-path GDL function to return the actual instance.
+
+@end itemize
+
+@b{:root-path-local}
+
+@itemize {}
+
+ @item List of Symbols or of Pairs of Symbol and Integer. Indicates the path through
+the instance hierarchy from the local root to this object. Can be used in conjunction with
+the follow-root-path GDL function to return the actual instance.
+
+@end itemize
+
+@b{:root?}
+
+@itemize {}
+
+ @item Boolean. T iff this part has NIL as its parent and therefore is the root node.
+
+@end itemize
+
+@b{:safe-children}
+
+@itemize {}
+
+ @item List of GDL Instances. All objects from the :objects specification, including elements of sequences
+ as flat lists. Any children which throw errors come back as a plist with error information
+
+@end itemize
+
+@b{:safe-hidden-children}
+
+@itemize {}
+
+ @item List of GDL Instances. All objects from the :hidden-objects specification, including elements of sequences
+ as flat lists. Any children which throw errors come back as a plist with error information
+
+@end itemize
+
+@b{:type}
+
+@itemize {}
+
+ @item Symbol. The GDL Type of this object.
+
+@end itemize
+
+@noindent @b{Functions}
+
+@b{:documentation}
+
+@itemize {}
+
+ @item Plist. Returns the :documentation plist which has been specified the 
+specific part type of this instance.
+
+@end itemize
+
+@b{:follow-root-path}
+
+@itemize {}
+
+ @item GDL Instance. Using this instance as the root, follow the reference chain
+represented by the given path.
+:arguments (path "List of Symbols or Pairs of Symbol and Integer")
+
+@end itemize
+
+@b{:message-documentation}
+
+@itemize {}
+
+ @item String. This is synonymous with slot-documentation
+
+@end itemize
+
+@b{:message-list}
+
+@itemize {}
+
+ @item List of Keyword Symbols. Returns the messages (slots, objects, and functions) of this
+object, according to the filtering criteria as specified by the arguments.
+:&key ((category :all) "Keyword. Either :all or the individual category of 
+                         messages to be returned. This can be one of:
+                            @itemize 
+                            @item :computed-slots
+                            @item :settable-computed-slots
+                            @item :required-input-slots
+                            @item :optional-input-slots
+                            @item :defaulted-input-slots
+                            @item :query-slots
+                            @item :functions
+                            @item :objects
+                            @item :quantified-objects
+                            @item :hidden-objects
+                            @item :quantified-hidden-objects
+@end itemize "
+             (message-type :global) "Keyword Symbol, :local or :global. Indicates whether to return messages
+only from the local specific part type, or from all superclasses (mixins) as well."
+             (return-category? nil) "Boolean. Indicates whether or not the category of each message should be
+returned before each message in the returned list."
+             (base-part-type nil) "Symbol naming a GDL Part Type. Indicates a ``base'' part from which no messages
+should be returned, nor should messages be returned from superclasses (mixins) of this base part. If NIL (the default),
+messages are considered from all superclasses."
+             (sort-order :unsorted) "Keyword Symbol. One of: :unsorted, :by-category, or 
+:by-name."
+             (filter :normal) "Function Object of two arguments or :normal. If a function object,
+applies this function to each returned category and message keyword, and filters out all pairs for which
+the function returns NIL. If :normal (the default), then no filtering is done.")
+
+@end itemize
+
+@b{:mixins}
+
+@itemize {}
+
+ @item List of Symbols. Returns the names of the immediate superclasses of this object.
+
+:&key ((local? t) "Boolean. Indicates whether to give only direct mixins 
+or all mixins from the entire inheritance hierarchy.")
+
+@end itemize
+
+@b{:restore-all-defaults!}
+
+@itemize {}
+
+ @item Void. Restores all settable-slots in this instance to their default values.
+
+@end itemize
+
+@b{:restore-slot-default!}
+
+@itemize {}
+
+ @item NIL. Restores the value of the given slot to its default, thus ``undoing'' any forcibly set value
+ in the slot. Any dependent slots in the tree will respond accordingly when they are next demanded. 
+ Note that the slot must be specified as a keyword symbol (i.e. prepended with a colon (``:'')), 
+ otherwise it will be evaluated as a variable according to normal Lisp functional evaluation rules.
+ :arguments (slot "Keyword Symbol")
+
+@end itemize
+
+@b{:restore-slot-defaults!}
+
+@itemize {}
+
+ @item nil. Restores the value of the given slots to their defaults, thus ``undoing'' any forcibly set values
+ in the slots. Any dependent slots in the tree will respond accordingly when they are next demanded. 
+ Note that the slots must be specified as keyword symbols (i.e. prepended with colons (``:'')), 
+ otherwise they will be evaluated as variables according to normal Lisp functional evaluation rules.
+
+:arguments (slots "List of Keyword Symbols")
+ 
+:&key ((force? *force-restore-slot-default?*) "Boolean. Indicates whether the slot values should be unbound, regardless of whether it had actually been bashed previously.")
+
+
+
+@end itemize
+
+@b{:restore-tree!}
+
+@itemize {}
+
+ @item Void. Restores all settable-slots in this instance, and recursively in all descendant instances,
+to their default values.
+
+@end itemize
+
+@b{:set-slot!}
+
+@itemize {}
+
+ @item NIL. Forcibly sets the value of the given slot to the given value. The slot must be defined
+as :settable for this to work properly. Any dependent slots in the tree will 
+respond accordingly when they are next demanded. Note that the slot must be specified as a keyword 
+symbol (i.e. prepended with a colon (``:'')), otherwise it will be evaluated as a variable according 
+to normal Lisp functional evaluation rules.
+ :arguments (slot "Keyword Symbol"
+             value "Lisp Object. (e.g. Number, String, List, etc.)")
+
+ :&key ((remember? t) "Boolean. Determines whether to save in current version-tree.")
+
+@end itemize
+
+@b{:set-slots!}
+
+@itemize {}
+
+ @item NIL. Forcibly sets the value of the given slots to the given values. The slots must be defined
+as :settable for this to work properly. Any dependent slots in the tree will 
+respond accordingly when they are next demanded. Note that the slots must be specified as a keyword 
+symbols (i.e. prepended with a colon (``:'')), otherwise they will be evaluated as variables according 
+to normal Lisp functional evaluation rules.
+ :arguments (slots-and-values "Plist. Contains alternating slots and values to which they are to be set.")
+
+@end itemize
+
+@b{:slot-documentation}
+
+@itemize {}
+
+ @item Plist of Symbols and Strings. Returns the part types and slot documentation which has been
+  specified for the given slot, from most specific to least specific in the CLOS inheritance order.
+Note that the slot must be specified as a keyword symbol (i.e. prepended with a colon (``:'')), 
+otherwise it will be evaluated as a variable according to normal Lisp functional evaluation rules.
+:arguments (slot "Keyword Symbol. Names the slot for which documentation is being requested.")
+
+@end itemize
+
+@b{:slot-source}
+
+@itemize {}
+
+ @item Body of GDL code, in list form. 
+
+:arguments (slot "Keyword Symbol. Names the slot for which documentation is being requested.")
+
+@end itemize
+
+@b{:slot-status}
+
+@itemize {}
+
+ @item Keyword symbol. Describes the current status of the requested slot:
+<ol>
+ @item :unbound: it has not yet been demanded (this could mean either
+    it has never been demanded, or something it depends on has been
+    modified since the last time it was demanded and eager setting is not enabled).
+ @item :evaluated: it has been demanded and it is currently bound to the default
+value based on the code.
+ @item :set: (for :settable slots only, which includes all required
+:input-slots) it has been modified and is currently bound to
+the value to which it was explicitly set.
+ @item :toplevel: (for root-level object only) its value was passed 
+into the root-level object as a toplevel input at the time of object 
+instantiation.</ol>
+
+@end itemize
+
+@b{:update!}
+
+@itemize {}
+
+ @item Void. Uncaches all cached data in slots and objects througout the instance 
+tree from this node, forcing all code to run again the next time values are 
+demanded. This is useful for updating an existing model or part of an existing 
+model after making changes and recompiling/reloading the code of the underlying 
+definitions.  Any set (modified) slot values will, however, be preserved 
+by the update.
+
+@end itemize
+
+@b{:write-snapshot}
+
+@itemize {}
+
+ @item Void. Writes a file containing the toplevel inputs and modified settable-slots starting from the root of the 
+current instance. Typically this file can be read back into the system using the read-snapshot function.
+
+:&key ((filename "/tmp/snap.gdl") "String or pathname. The target file to be written.")
+
+@end itemize
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+
