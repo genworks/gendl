@@ -1,11 +1,11 @@
 (require 'cl)
 
-(load (expand-file-name "../quicklisp/slime-helper.el"))
+(load (expand-file-name "../../common/quicklisp/slime-helper.el"))
 
 
 (setq slime-lisp-implementations 
-      '((acl82m-win-x86 ("../acl82-win-x86/mlisp.exe"))
-        (acl82a-win-x86 ("../acl82-win-x86/alisp.exe"))))
+      '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
+        (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))
 
 ;;
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
