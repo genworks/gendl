@@ -1,10 +1,11 @@
 (require 'cl)
 
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(load (expand-file-name "../../common/quicklisp/slime-helper.el"))
 
 
 (setq slime-lisp-implementations 
-      '((allegro82-windows32 ("c:/program files (x86)/acl82/mlisp.exe"))))
+      '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
+        (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))
 
 ;;
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
@@ -15,14 +16,22 @@
 ;;  (if (string= (getenv "cl_platform") "Allegro")
 ;;      (setq inferior-lisp-program "/usr/local/acl/mlisp")
 ;;    (if (file-exists-p "c:/program files (x86)/acl82/mlisp.exe")
-;;	(setq inferior-lisp-program "c:/program files (x86)/acl82/mlisp.exe")
+;;      (setq inferior-lisp-program "c:/program files (x86)/acl82/mlisp.exe")
 ;;      (error "Don't know what CL executable to use"))))
 
 (defun gdl () (interactive) (slime ))
-
-
 (setq gdl:*gdl-toplevel* "*slime-repl allegro*")
 (setq gdl:*inferior-lisp* "*inferior-lisp*")
+
+(require 'slime-autoloads)
+
+(eval-after-load "slime"
+  '(progn
+    (add-to-list 'load-path "/usr/local/slime/contrib")
+    (slime-setup '(slime-fancy slime-banner))
+    (setq slime-complete-symbol*-fancy t)
+    (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
+
 
 (global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer gdl:*gdl-toplevel*)))
 (global-set-key "\C-x*" '(lambda()(interactive) (switch-to-buffer gdl:*inferior-lisp*)))
@@ -158,7 +167,7 @@
   (not-modified)
   (goto-char (point-min)))
 
-(defun replace-ctrlM (ch)		;2001-04-17T17:46:41+0200
+(defun replace-ctrlM (ch)               ;2001-04-17T17:46:41+0200
   (interactive)
   "Replace all visible ^M with argument (defaulting to the empty string.)"
   (goto-char (point-min))
@@ -170,7 +179,7 @@
 (defun remove-trailing-whitespace ()
   "Removes trailing blanks and tabs from the buffer."
   (interactive)
-  (save-excursion			;let deactivate-mark nil?
+  (save-excursion                       ;let deactivate-mark nil?
     (goto-char (point-min))
     (while (re-search-forward "[ \t]+$" nil t)
       (replace-match "" nil nil))))
