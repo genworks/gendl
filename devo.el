@@ -1,17 +1,24 @@
+(require 'cl)
+
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
+
+
+(setq slime-lisp-implementations 
+      '((allegro82-windows32 ("c:/program files (x86)/acl82/mlisp.exe"))))
 
 ;;
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
 ;; to load load.lisp for Genworks GDL automatically.
 ;;
-(if (string= (getenv "cl_platform") "LispWorks")
-    (setq inferior-lisp-program "~/bin/lw-console")
-  (if (string= (getenv "cl_platform") "Allegro")
-    (setq inferior-lisp-program "/usr/local/acl/mlisp")
-   (error "Don't know what CL executable to use")))
+;;(if (string= (getenv "cl_platform") "LispWorks")
+;;    (setq inferior-lisp-program "~/bin/lw-console")
+;;  (if (string= (getenv "cl_platform") "Allegro")
+;;      (setq inferior-lisp-program "/usr/local/acl/mlisp")
+;;    (if (file-exists-p "c:/program files (x86)/acl82/mlisp.exe")
+;;	(setq inferior-lisp-program "c:/program files (x86)/acl82/mlisp.exe")
+;;      (error "Don't know what CL executable to use"))))
 
-
-(defun gdl () (interactive) (slime))
+(defun gdl () (interactive) (slime ))
 
 
 (setq gdl:*gdl-toplevel* "*slime-repl allegro*")
@@ -63,9 +70,7 @@
 
 ;; ignore errors when setting colors in case of running in console
 ;; terminal (there's probably a better way to test for this).
-
-;;(ignore-errors (gdl:set-colors))
-(gdl:set-colors)
+(ignore-errors (gdl:set-colors))
 
 (defun gdl:set-font ()
   (interactive)
@@ -75,7 +80,7 @@
 
 (show-paren-mode t)
 
-(require 'cl)
+
 
 (defun add-gdl-font-lock-keywords ()
   (let ((definition-keywords 
@@ -109,6 +114,75 @@
   (defindent defwriter (like define-object))
   (defindent defcompanion (like define-object)))
 
+;;
+;; From EvW
+;;
+
+(setq next-line-add-newlines nil)
+
+(defun ISO-current-time-string ()
+  (format-time-string "%Y-%m-%dT%T%z"))
+
+(defun EvW-insert-date ()
+  "time and date function suggested by Tom Capey (2000-11-28T19:21:04+0100)"
+  (interactive)
+  (insert (ISO-current-time-string)))
+
+(defun EvW-save-and-kill-buffer (bufname)
+  "Saves current buffer, then kills it"
+  (interactive "b")
+  (let ((cb (current-buffer)))
+    (save-buffer cb)
+    (kill-buffer cb)))
 
 
+(global-set-key "\M-t" 'EvW-insert-date)
+(global-set-key "\C-x\C-k" 'EvW-save-and-kill-buffer)
 
+(defvar font-lock-maximum-decoration t)
+(global-font-lock-mode t)
+
+(add-hook 'write-file-hooks 'time-stamp)
+(defvar time-stamp-active t)
+(defvar time-stamp-format "%3a, %:y-%02m-%02dT%02H:%02M:%02S -- %f")
+
+
+;; if you encounter a file with ^M or ... at the end of every line,
+;; this means a worng copy by samba or floppy disk of the DOS file to UNIX.
+;; get rid of them by pressing [F5].
+(defun cut-ctrlM ()
+  (interactive)
+  (goto-char (point-min));(beginning-of-buffer)
+  (while (search-forward "\r" nil t)
+    (replace-match "" nil t))
+  (not-modified)
+  (goto-char (point-min)))
+
+(defun replace-ctrlM (ch)		;2001-04-17T17:46:41+0200
+  (interactive)
+  "Replace all visible ^M with argument (defaulting to the empty string.)"
+  (goto-char (point-min))
+  (while (search-forward "\r" nil t)
+    (replace-match ch nil t))
+  ;;(not-modified)
+  (goto-char (point-min)))
+
+(defun remove-trailing-whitespace ()
+  "Removes trailing blanks and tabs from the buffer."
+  (interactive)
+  (save-excursion			;let deactivate-mark nil?
+    (goto-char (point-min))
+    (while (re-search-forward "[ \t]+$" nil t)
+      (replace-match "" nil nil))))
+
+(defun tidy-up ()
+  "Removes trailing whitespace and ^M from the end of lines.
+Bug: does not leave point at the position it had when the function was called"
+  (interactive)
+  (save-excursion
+    (let ((curpos (point)))
+      (cut-ctrlM)
+      (remove-trailing-whitespace)
+      (goto-char curpos))))
+
+;;; EOF
