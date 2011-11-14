@@ -21,12 +21,12 @@
 
 (in-package :common-lisp-user)
 
-(let ((setup (merge-pathnames "quicklisp/setup.lisp" 
-                              (user-homedir-pathname))))
+(let ((setup (merge-pathnames "../quicklisp/setup.lisp" 
+                              *load-truename*)))
   (if (probe-file setup) (load setup)
     (progn 
       (load (merge-pathnames "quicklisp.lisp" *load-truename*))
-      (funcall (read-from-string "quicklisp-quickstart:install")))))
+      (funcall (read-from-string "quicklisp-quickstart:install") :path (merge-pathnames ".." *load-truename*)))))
 
 ;;
 ;; FLAG -- Temporary hacks around currently broken Quicklisp .asd files and sytems:
@@ -78,4 +78,4 @@
 ;;
 ;; Skeleton "vanilla" geometry kernel - nonfunctional without SMLib module. 
 ;;
-(load (merge-pathnames "gdl/geom-nurbs/surf/gdl-surf.asd" *load-truename*))
+(load (merge-pathnames "surf/gdl-surf.asd" *load-truename*))
