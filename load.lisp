@@ -81,4 +81,6 @@
 ;;
 ;; Skeleton "vanilla" geometry kernel - nonfunctional without SMLib module. 
 ;;
+
 (load (merge-pathnames "surf/gdl-surf.asd" *load-truename*))
+

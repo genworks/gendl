@@ -74,6 +74,10 @@
 
 
 
+;;
+;; FLAG -- add this back when we are sure to be flushing to log file. 
+;;
+#+nil
 (defmethod net.aserve::log-request :after ((req http-request))
   (let* ((ipaddr (socket:remote-host (request-socket req)))
          (end-time   (net.aserve::request-reply-date req))

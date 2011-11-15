@@ -1,8 +1,7 @@
 #!/bin/bash
-
 cd `dirname "$0"`
 
-os_platform=`uname`
+export os_platform=`uname`
 
 export cl_platform=''
 
@@ -11,8 +10,7 @@ if [ "$os_platform" == "Linux" ]; then
   emacs --no-splash --no-init-file -l devo.el $@
 elif [ "$os_platform" == "Darwin" ]; then
   cl_platform='LispWorks'
-  /Applications/Aquamacs.app/Contents/MacOS/Aquamacs --no-splash --no-init-file --load devo.el $@
-  #/Applications/Emacs.app/Contents/MacOS/Emacs --no-splash --no-init-file -l devo.el $@
+  /Applications/Emacs.app/Contents/MacOS/Emacs --no-splash --no-init-file -l devo.el $@
 fi
 
 

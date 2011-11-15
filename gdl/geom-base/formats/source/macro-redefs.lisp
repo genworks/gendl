@@ -37,7 +37,8 @@ supports a full range of output options such as page dimensions, view transforms
          (let ((*stream* (if (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))
                              (open ,stream-or-file :if-does-not-exist :create 
                                    :if-exists :supersede :direction :output
-                                   :external-format ,(or external-format :default))
+                                   ;;:external-format ,(or external-format :default)
+				   )
                            ,stream-or-file))
                (,flag t))
            (unwind-protect

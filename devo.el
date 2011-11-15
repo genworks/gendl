@@ -2,25 +2,24 @@
 
 (load (expand-file-name "../../common/quicklisp/slime-helper.el"))
 
-
-(setq slime-lisp-implementations 
-      '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
-        (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))
-
 ;;
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
 ;; to load load.lisp for Genworks GDL automatically.
 ;;
-;;(if (string= (getenv "cl_platform") "LispWorks")
-;;    (setq inferior-lisp-program "~/bin/lw-console")
-;;  (if (string= (getenv "cl_platform") "Allegro")
-;;      (setq inferior-lisp-program "/usr/local/acl/mlisp")
-;;    (if (file-exists-p "c:/program files (x86)/acl82/mlisp.exe")
-;;      (setq inferior-lisp-program "c:/program files (x86)/acl82/mlisp.exe")
-;;      (error "Don't know what CL executable to use"))))
+
+(setq slime-lisp-implementations 
+      (cond ((and (string= (getenv "cl_platform") "LispWorks")
+		  (string= (getenv "os_platform") "Darwin"))
+	     '((lw60-macosx-x86 ("../../common/lw60-macosx-x86/lw-console"))))
+	    ((and (string= (getenv "cl_platform") "Allegro")
+		  (string= (getenv "os_platform") "Linux"))
+	     '((acl82m-linux-x86 ("../../common/acl82-linux-x86/mlisp"))
+	       (acl82a-linux-x86 ("../../common/acl82-linux-x86/alisp"))))
+	    (t '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
+		 (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))))
 
 (defun gdl () (interactive) (slime ))
-(setq gdl:*gdl-toplevel* "*slime-repl allegro*")
+(setq gdl:*gdl-toplevel* (concat "*" "slime-repl " (symbol-name (first (first slime-lisp-implementations))) "*"))
 (setq gdl:*inferior-lisp* "*inferior-lisp*")
 
 (require 'slime-autoloads)

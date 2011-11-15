@@ -150,7 +150,7 @@ o filter inspector slots to local slots
    
    
    (viewport :type 'viewport
-             :pass-down (root-object color-selected)
+             :pass-down (root-object)
              :line-thickness-selected (the menu-section line-thickness-selected)
              :color (the menu-section color)
              :inspected-object (the inspector node)
@@ -166,14 +166,9 @@ o filter inspector slots to local slots
    (inspector :type 'inspector
               :pass-down (root-object)
               :click-mode (the click-mode value)
-              :length (getf (the inspector-dimensions) :length)
-              :width (getf (the inspector-dimensions) :width)
               :relative-font-size (the inspector-relative-font-size)
               :display-controls-hash (the viewport display-controls-hash)
-              :tatu-root self
-              ;;:respondent self
-              
-              )
+              :tatu-root self)
 
    (viewport-status-object :type 'status-object
                            :status-message (the viewport digitation-mode))
@@ -394,8 +389,8 @@ The error was: ~a
           )
          
          ((:div :class "outer-north ui-widget pane")
-            (str (the menu-section main-div))
-          )
+	  ((:div :onmouseover "InnerLayout.allowOverflow(this)")
+	   (str (the menu-section main-div))))
          
          ((:div :class "outer-south ui-widget pane")
           ((:div :class "footer ui-widget-header")
