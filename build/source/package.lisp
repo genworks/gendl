@@ -21,4 +21,4 @@
 
 (in-package :gdl-user)
 
-(gdl:define-package :gdl-build (:export #:app #:distro #:site))
+(gdl:define-package :gdl-build (:export #:app #:gdl #:distro #:site))

@@ -1,42 +1,39 @@
 (require 'cl)
 
-(load (expand-file-name "../../common/quicklisp/slime-helper.el"))
+(defvar gdl:*gdl-home* (concat default-directory "../"))
+(defvar gdl:*gdl-toplevel-base* "*gdl toplevel*")
+(defvar gdl:*mgdl-image-name* "gdl")
+
+(load-file (concat gdl:*gdl-home* "emacs/eli/fi-site-init.el"))
+
+(defun gdl () (interactive)
+  (gdl-devo gdl:*mgdl-image-name*))
+
+(defun gdl-devo (image-name) 
+  (interactive)
+  (let ((executable (or (fi::probe-file (concat default-directory image-name ".exe"))
+                        (fi::probe-file (concat default-directory image-name)))))
+    
+    (setq gdl:*gdl-toplevel* 
+          (concat gdl:*gdl-toplevel-base*
+                  (if (equalp (subseq (file-name-sans-extension executable)
+                                      0 1) "a")
+                      "(ANSI)" "(modern)")))
+    (fi:common-lisp gdl:*gdl-toplevel* gdl:*gdl-home* executable nil)))
+
 
 ;;
-;; FLAG -- learn how to add command line args to inferior-lisp-program
-;; to load load.lisp for Genworks GDL automatically.
+;; Some handy global keybindings
 ;;
+(defun gdl:global-keys ()
+  (global-set-key "\M-p" 'fi:pop-input)
+  (global-set-key "\M-n" 'fi:push-input)
+  (global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer gdl:*gdl-toplevel*)))
+  (global-set-key "\C-x*" 'fi:open-lisp-listener)
+  (global-set-key "\C-xy" '(lambda() (interactive) (other-window -1))))
 
-(setq slime-lisp-implementations 
-      (cond ((and (string= (getenv "cl_platform") "LispWorks")
-		  (string= (getenv "os_platform") "Darwin"))
-	     '((lw60-macosx-x86 ("../../common/lw60-macosx-x86/lw-console"))))
-	    ((and (string= (getenv "cl_platform") "Allegro")
-		  (string= (getenv "os_platform") "Linux"))
-	     '((acl82m-linux-x86 ("../../common/acl82-linux-x86/mlisp"))
-	       (acl82a-linux-x86 ("../../common/acl82-linux-x86/alisp"))))
-	    (t '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
-		 (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))))
+(gdl:global-keys)
 
-(slime-setup '(slime-fancy))
-
-(defun gdl () (interactive) (slime ))
-(setq gdl:*gdl-toplevel* (concat "*" "slime-repl " (symbol-name (first (first slime-lisp-implementations))) "*"))
-(setq gdl:*inferior-lisp* "*inferior-lisp*")
-
-(require 'slime-autoloads)
-
-(eval-after-load "slime"
-  '(progn
-    (add-to-list 'load-path "/usr/local/slime/contrib")
-    (slime-setup '(slime-fancy slime-banner))
-    (setq slime-complete-symbol*-fancy t)
-    (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
-
-
-(global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer gdl:*gdl-toplevel*)))
-(global-set-key "\C-x*" '(lambda()(interactive) (switch-to-buffer gdl:*inferior-lisp*)))
-(global-set-key "\C-xy" '(lambda() (interactive) (other-window -1)))
 
 
 ;;

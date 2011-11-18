@@ -42,7 +42,7 @@ Defaults to a directory called <tt>(the application-name)</tt> in the user
 temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
     destination-directory 
     (make-pathname :name nil :type nil 
-		   :directory (append (pathname-directory (glisp:temporary-folder) (the application-name)))
+		   :directory (append (pathname-directory (glisp:temporary-folder)) (the application-name))
 		   :defaults (glisp:temporary-folder)))
 
    (overwrite? t)
@@ -59,6 +59,8 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
    (post-load-form nil)
    
    (init-file-names (list "gdlinit.cl" ".gdlinit.cl"))
+   
+   (restart-init-function nil)
    
    (modules nil)
    
@@ -86,16 +88,16 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
                           ;;
                           :init-file-names (the init-file-names)
 			  ;;
-                          ;;:restart-init-function '(lambda() 
-			  ;;     (gdl:start-gdl :edition :open-source))
+                          :restart-init-function (the restart-init-function)
+			  ;;
 			  ;;
                           ))))
 
 (defun app (&rest args)
-  (let ((self (apply #'make-object 'make-gdl-app args)))
+  (let ((self (apply #'make-object 'app args)))
     (the make!)))
 
-(defun make-gdl-distro ()
+(defun gdl ()
   (let ((destination-directory 
 	 (let ((implementation-identifier (glisp:implementation-identifier))
 	       (prefix (merge-pathnames "../../staging/" glisp:*genworks-source-home*)))
@@ -106,7 +108,12 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 					 (glisp:next-datestamp prefix implementation-identifier)))) prefix))))
     (app :application-name "gdl"
 	 :application-class :development
-	 :destination-directory destination-directory)
+	 :destination-directory destination-directory
+	 :restart-init-function '(lambda()
+				  (setq glisp:*gdl-home* (glisp:current-directory))
+				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
+				  (gdl:start-gdl :edition :trial)))
+
     destination-directory))
 
 

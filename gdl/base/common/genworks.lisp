@@ -27,6 +27,7 @@
     (:shadow #:intern)
     (:nicknames :glisp) 
     (:export #:*external-text-format*
+	     #:*gdl-home*
              #:*genworks-source-home*
              #:basic-command-line-arguments
              #:begin-redefinitions-ok
@@ -69,6 +70,8 @@
                      :directory (butlast 
                                  (butlast (pathname-directory gdl-base-home)))
                      :defaults gdl-base-home)))
+
+(defparameter *gdl-home* (merge-pathnames "../../common/" *genworks-source-home*))
 
 
 (defun basic-command-line-arguments ()
@@ -290,5 +293,22 @@
 
 (defun display-startup-banner (edition banner)
   (ecase edition
-    (:open-source (format t banner))))
+    (:open-source (format t banner))
+    (:trial (format t "
+ 
+Welcome to GDL Trial Edition, 1581 Github Mix, Beta Release.
+
+This program is covered by the following license:
+
+   http://www.genworks.com/contracts/eval.txt
+
+If you are covered by a Genworks Proprietary License (Commercial or
+Academic), then that license takes precedence. 
+
+This program also contains materials as listed in the accompanying
+quicklisp/ directory, with respective copyrights and licenses.q
+
+"
+))))
+
      

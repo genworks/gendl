@@ -24,11 +24,26 @@
 (eval-when (compile load eval)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
-    (:export #:delete-directory-and-files
+    (:export #:copy-directory
+	     #:copy-file
+	     #:delete-directory-and-files
 	     #:implementation-identifier
 	     #:make-gdl-app
 	     #:next-datestamp
              )))
+
+
+(defun copy-file (from to &key overwrite?)
+  (fad:copy-file from to :overwrite overwrite?))
+
+;;
+;; FLAG -- replace with cl-fad version.
+;;
+(defun copy-directory (from-dir to-dir &rest args)
+  (declare (ignore args))
+  #+allegro (excl:copy-directory from-dir to-dir)
+  #+lispworks (cl-copy-directory to-dir from-dir)
+  #+clozure (ccl::recursive-copy-directory from-dir to-dir ))
 
 
 #-(or allegro (and unix lispworks)) 
