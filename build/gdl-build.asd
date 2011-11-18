@@ -7,4 +7,4 @@
                 :version "2011101800" :depends-on (:gdl-base)
                 :components
                 ((:file "source/package") (:file "source/genworks")
-                 (:file "source/make-gdl-app")))
+                 (:file "source/app") (:file "source/distro")))
