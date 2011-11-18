@@ -27,6 +27,7 @@
     (:export #:copy-directory
 	     #:copy-file
 	     #:delete-directory-and-files
+	     #:dump-memory
 	     #:implementation-identifier
 	     #:make-gdl-app
 	     #:next-datestamp
@@ -54,6 +55,22 @@
   #+allegro (excl.osi:delete-directory-and-files 
              target :force force :quiet quiet :if-does-not-exist if-does-not-exist))
 
+
+#+(and mswindows allegro)
+(ff:def-foreign-call (memory-status-dump "memory_status_dump") ())
+
+
+(defun dump-memory (&key (output-name "mem")
+		    (output-type "txt")
+		    (output-path (merge-pathnames (make-pathname :name output-name
+								 :type output-type)
+						  (glisp:temporary-folder))))
+  #+(and mswindows allegro)
+  (let ((status (memory-status-dump (namestring (translate-logical-pathname output-path)))))
+    (unless (zerop status) (error "~&memory-status-dump failed with non-zero return code: ~a~%~%" status))
+    output-path)
+  #-(and mswindows allegro)
+  (error "Need implementation of dump-memory for currently running lisp."))
 
 (defun implementation-identifier ()
   (asdf-utilities:implementation-identifier))

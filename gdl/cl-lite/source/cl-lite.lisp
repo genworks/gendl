@@ -243,11 +243,13 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                                                                                             :test #'string-equal)
                                                                          :defaults binary)))
                                               (list :file 
-                                                    (namestring 
-                                                     (make-pathname :name (pathname-name binary)
-                                                                    :type nil
-                                                                    :defaults
-                                                                    (enough-namestring binary (the ppathname)))))))
+						    (replace-substring 
+						     (namestring 
+						      (make-pathname :name (pathname-name binary)
+								     :type nil
+								     :defaults
+								     (enough-namestring binary (the ppathname)))) 
+						     "\\" "/"))))
                                         binaries))))
     :uncached))
    

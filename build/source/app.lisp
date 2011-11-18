@@ -93,9 +93,6 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 			  ;;
                           ))))
 
-(defun app (&rest args)
-  (let ((self (apply #'make-object 'app args)))
-    (the make!)))
 
 (defun gdl ()
   (let ((destination-directory 

@@ -146,9 +146,9 @@ a list, returns it unchanged.
 
 
 (defun find-messages-used-by (instance message-key)
-  "List of pairs of instance/keyword. This returns the list of direct dependants of a given message in a given instance.
-Note that this is not recursive; if you want to generate a tree, then you have to call this recursively yourself.
-
+  "List of pairs of instance/keyword. This returns the list of direct dependants of a given 
+message in a given instance. Note that this is not recursive; if you want to generate a tree, 
+then you have to call this recursively yourself.
 
 If you want an easy way to remember the meaning of dependant and dependency:
 
@@ -159,23 +159,12 @@ You have a dependency on caffeine. Your children are your dependants.
     (when message-hash (reverse (gethash message-key message-hash)))))
 
 (defun find-dependants (instance message-key)
-  "List of pairs of instance/keyword. This returns the list of direct dependants of a given message in a given instance.
-Note that this is not recursive; if you want to generate a tree, then you have to call this recursively yourself.
-
-
-If you want an easy way to remember the meaning of dependant and dependency:
-
-You have a dependency on caffeine. Your children are your dependants.
-
-"
   (find-messages-which-use instance message-key))
 
-
-
 (defun find-messages-which-use (instance message-key)
-  "List of pairs of instance/keyword. This returns the list of direct dependants of a given message in a given instance.
-Note that this is not recursive; if you want to generate a tree, then you have to call this recursively yourself.
-
+  "List of pairs of instance/keyword. This returns the list of direct dependants of a given 
+message in a given instance. Note that this is not recursive; if you want to generate a tree, 
+then you have to call this recursively yourself.
 
 If you want an easy way to remember the meaning of dependant and dependency:
 
@@ -194,18 +183,57 @@ You have a dependency on caffeine. Your children are your dependants.
             (push (list instance (make-keyword (string message))) result)))))))
 
 (defun find-dependencies (instance message-key)
-  "List of pairs of instance/keyword. This returns the list of direct dependants of a given message in a given instance.
-Note that this is not recursive; if you want to generate a tree, then you have to call this recursively yourself.
-
-If you want an easy way to remember the meaning of dependant and dependency:
-
-You have a dependency on caffeine. Your children are your dependants.
-
-"
   (find-messages-used-by instance message-key))
 
 
+(let ((value (gensym)) (need? (gensym)))
+  (defmacro with-dependency-tracking ((message-symbol &optional (self-sym 'self)) &rest body)
+    `(let ((,value (,message-symbol ,self-sym))
+	   (,need? (and *run-with-dependency-tracking?* *notify-cons* *root-checking-enabled?*
+			;;
+			;; FLAG -- check that remotes are effectively from same tree as well
+			;;
+			(or (typep (first *notify-cons*) 'gdl-remote)
+			    (same-tree? ,self-sym (first *notify-cons*))))))
+       
+       
+       ,(when *compile-circular-reference-detection?*
+	  `(when (and *run-with-circular-reference-detection?*
+		  (member (list ,self-sym ',message-symbol) *till-now* :test #'equalp))
+	     (error "Circular reference detected")))
+       
+       (if (eq (first (ensure-list ,value)) 'gdl-rule::%unbound%)
+	   (progn (setq ,value (list (let* ,(remove nil
+					     (list (when *compile-dependency-tracking?*
+						     `(*notify-cons* (when *run-with-dependency-tracking?* 
+								       (list ,self-sym ',message-symbol))))
+						   (when *compile-circular-reference-detection?*
+						     `(*till-now* (when *run-with-circular-reference-detection?*
+								    (cons (list ,self-sym ',message-symbol) 
+									  *till-now*))))))
+				       ,@body)
+				     (when ,need? (list (copy-list *notify-cons*)))))
+		  (if (not (eql (first ,value) 'gdl-rule:%not-handled%)) 
+		      (setf (,message-symbol ,self-sym) ,value)
+		      ;;(without-interrupts (setf (,message-symbol ,self-sym) ,value))
+		    
+		    (progn (setq ,need? nil)
+			   (not-handled ,self-sym ',message-symbol))))
+	 (when ,need? (add-notify-cons *notify-cons* ,value)))
+       
+       (first ,value))))
 
+
+(defun add-notify-cons (notify-cons value)
+  (let ((matching-sublist (assoc (first notify-cons) (second value))))
+    (if matching-sublist (pushnew (second notify-cons) (rest matching-sublist))
+      (push (copy-list notify-cons) (second value)))))
+
+
+;;
+;; FLAG -- merge the following two back in when we have adaptive Abstract Associative Map. 
+;;
+#+nil
 (let ((value (gensym)) (need? (gensym)))
   (defmacro with-dependency-tracking ((message-symbol &optional (self-sym 'self)) &rest body)
     `(let ((,value (,message-symbol ,self-sym))
@@ -224,7 +252,7 @@ You have a dependency on caffeine. Your children are your dependants.
                  (setf (gethash (first *notify-cons*) *dependency-hash*)
                    (make-hash-table)))
                (pushnew (list ,self-sym ,(make-keyword message-symbol))
-                        (gethash (make-keyword (second *notify-cons*)  )
+                        (gethash (make-keyword (second *notify-cons*))
                                  (gethash (first *notify-cons*) *dependency-hash*))
                         :test #'equalp))))
        
@@ -249,7 +277,7 @@ You have a dependency on caffeine. Your children are your dependants.
        
        (first ,value))))
 
-
+#+nil
 (defun add-notify-key (notify-cons value)
   (if (second value)
       (pushnew (second notify-cons) (gethash (first notify-cons) (second value)))
