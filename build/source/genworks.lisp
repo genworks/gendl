@@ -73,7 +73,7 @@
   (error "Need implementation of dump-memory for currently running lisp."))
 
 (defun implementation-identifier ()
-  (asdf-utilities:implementation-identifier))
+  (asdf::implementation-identifier))
 
 #-allegro(warn "~&Please implement generate-application for the currently running lisp.~%")
 (defun make-gdl-app (&rest args)

@@ -306,7 +306,7 @@ If you are covered by a Genworks Proprietary License (Commercial or
 Academic), then that license takes precedence. 
 
 This program also contains materials as listed in the accompanying
-quicklisp/ directory, with respective copyrights and licenses.q
+quicklisp/ directory, with respective copyrights and licenses.
 
 "
 ))))

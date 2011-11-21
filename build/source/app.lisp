@@ -94,6 +94,10 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
                           ))))
 
 
+(defun app (&rest args)
+  (let ((self (apply #'make-object 'app args)))
+    (the make!)))
+
 (defun gdl ()
   (let ((destination-directory 
 	 (let ((implementation-identifier (glisp:implementation-identifier))
@@ -109,7 +113,9 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 	 :restart-init-function '(lambda()
 				  (setq glisp:*gdl-home* (glisp:current-directory))
 				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
-				  (gdl:start-gdl :edition :trial)))
+				  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+				  (gdl:start-gdl :edition :trial)
+				  (glisp:set-gs-path (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))))
 
     destination-directory))
 

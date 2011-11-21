@@ -1,6 +1,7 @@
 (require 'cl)
 
 (defvar gdl:*gdl-home* (concat default-directory "../"))
+(defvar gdl:*gdl-program-home* default-directory)
 (defvar gdl:*gdl-toplevel-base* "*gdl toplevel*")
 (defvar gdl:*mgdl-image-name* "gdl")
 
@@ -11,8 +12,8 @@
 
 (defun gdl-devo (image-name) 
   (interactive)
-  (let ((executable (or (fi::probe-file (concat default-directory image-name ".exe"))
-                        (fi::probe-file (concat default-directory image-name)))))
+  (let ((executable (or (fi::probe-file (concat gdl:*gdl-program-home* image-name ".exe"))
+                        (fi::probe-file (concat gdl:*gdl-program-home* image-name)))))
     
     (setq gdl:*gdl-toplevel* 
           (concat gdl:*gdl-toplevel-base*
