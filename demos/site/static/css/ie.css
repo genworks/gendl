@@ -1,0 +1,20 @@
+/* CSS Document for IE */
+
+/* COLUMNS *************************************************************************/
+.column_right_bottom,
+.column_left_bottom {
+	width: 250px
+}
+
+.column_right ul li a {
+	white-space: normal;
+}
+
+.columns_two .row_top,
+.columns_two .row_bottom {
+	width: 430px;
+}
+
+
+
+

@@ -69,6 +69,7 @@
   (let ((status (memory-status-dump (namestring (translate-logical-pathname output-path)))))
     (unless (zerop status) (error "~&memory-status-dump failed with non-zero return code: ~a~%~%" status))
     output-path)
+  #-(and mswindows allegro) (declare (ignore output-path))
   #-(and mswindows allegro)
   (error "Need implementation of dump-memory for currently running lisp."))
 
@@ -108,6 +109,7 @@
           
           :demo (getf args :demo-days)
 	  :lisp-heap-size (getf args :lisp-heap-size)
+	  :close-oldspace t
           :init-file-names (getf args :init-file-names)
           :pre-load-form (getf args :pre-load-form)
           :post-load-form (getf args :post-load-form)

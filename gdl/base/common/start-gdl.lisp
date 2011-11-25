@@ -87,7 +87,6 @@
 
 (defun initialize-gdl (&key edition)
   (declare (ignore edition))
-  (glisp:set-local-compiler-tweaks)
   (glisp:set-defpackage-behavior)
   (glisp:set-default-float-format)
   (glisp:set-default-package)

@@ -123,9 +123,20 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 (defun site ()
   (app :post-load-form 
        '(progn 
-	 (load "~/genworks-1581-pre-git/gdl/dist/src/demos/site/gdl-site.asd")
-	 (asdf:load-system :gdl-site)  
-	 (load "~/genworks-1580/gdl/apps/downloads/gdl-downloads.asd")
+	 (require :smtp)
+	 (require :ftp)
+	 (load (merge-pathnames "demos/gdl-demos.asd" glisp:*genworks-source-home*))
+	 (asdf:load-system :gdl-demos)  
+	 (load (merge-pathnames "../downloads/gdl-downloads.asd"))
 	 (asdf:load-system :gdl-downloads))
-       :demo-days nil))
+       :destination-directory 
+       (merge-pathnames "../../staging/site/" glisp:*genworks-source-home*)
+       :overwrite? t
+       :application-name "genworks-site"
+       :application-class :development
+       :demo-days nil
+       :restart-init-function '(lambda()
+				(gdl:start-gdl :edition :trial)
+				(glisp:set-gs-path 
+				 #+mswindows (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*)))))
 

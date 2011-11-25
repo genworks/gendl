@@ -71,10 +71,12 @@
 (defpackage #:quicklisp-quickstart
   (:use #:cl #:qlqs-impl #:qlqs-impl-util #:qlqs-http #:qlqs-minitar)
   (:export #:install
+           #:help
            #:*proxy-url*
            #:*asdf-url*
            #:*quicklisp-tar-url*
            #:*setup-url*
+           #:*help-message*
            #:*after-load-message*
            #:*after-initial-setup-message*))
 
@@ -246,6 +248,16 @@
 (defvar qlqs-cmucl:*gc-verbose* nil)
 
 
+;;; Scieneer CL
+
+(define-implementation-package :scl #:qlqs-scl
+  (:documentation "Scieneer Common Lisp - http://www.scieneer.com/scl/")
+  (:class scl)
+  (:reexport-from #:system
+                  #:make-fd-stream)
+  (:reexport-from #:extensions
+                  #:connect-to-inet-socket))
+
 ;;; ECL
 
 (define-implementation-package :ecl #:qlqs-ecl
@@ -355,6 +367,12 @@
                                 :binary-stream-p t
                                 :input t
                                 :output t)))
+  (:implementation scl
+    (let ((fd (qlqs-scl:connect-to-inet-socket host port)))
+      (qlqs-scl:make-fd-stream fd
+			       :element-type '(unsigned-byte 8)
+			       :input t
+			       :output t)))
   (:implementation ecl
     (let* ((endpoint (qlqs-ecl:host-ent-address
                       (qlqs-ecl:get-host-by-name host)))
@@ -919,7 +937,7 @@
                                   (format nil ":~D" port)))
       (add-line "Connection: close")
       ;; FIXME: get this version string from somewhere else.
-      (add-line "User-Agent: quicklisp-bootstrap/2011040600")
+      (add-line "User-Agent: quicklisp-bootstrap/2011103100")
       (add-newline sink)
       (sink-buffer sink))))
 
@@ -1498,9 +1516,16 @@ the indexes in the header accordingly."
 (defvar *asdf-url* "http://beta.quicklisp.org/quickstart/asdf.lisp")
 (defvar *quicklisp-tar-url* "http://beta.quicklisp.org/quickstart/quicklisp.tar")
 (defvar *setup-url* "http://beta.quicklisp.org/quickstart/setup.lisp")
+(defvar *help-message*
+  (format nil "~&~%  ==== quicklisp quickstart install help ====~%~%    ~
+               quicklisp-quickstart:install can take the following ~
+               optional arguments:~%~%      ~
+                 :path \"/path/to/installation/\"~%~%      ~
+                 :proxy \"http://your.proxy:port/\"~%~%"))
 (defvar *after-load-message*
   (format nil "~&~%  ==== quicklisp quickstart loaded ====~%~%    ~
-               To continue, evaluate: (quicklisp-quickstart:install)~%~%"))
+               To continue with installation, evaluate: (quicklisp-quickstart:install)~%~%    ~
+               For installation options, evaluate: (quicklisp-quickstart:help)~%~%"))
 
 (defvar *after-initial-setup-message*
   (with-output-to-string (*standard-output*)
@@ -1521,6 +1546,10 @@ the indexes in the header accordingly."
   (load (qmerge "setup.lisp"))
   (write-string *after-initial-setup-message*)
   (finish-output))
+
+(defun help ()
+  (write-string *help-message*)
+  t)
 
 (defun install (&key ((:path *home*) *home*)
                 ((:proxy *proxy-url*) *proxy-url*))
