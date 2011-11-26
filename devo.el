@@ -1,7 +1,12 @@
 (require 'cl)
 
 
-(load (expand-file-name "../../common/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "c:/path/to/start-swank.bat ../../common/acl82-linux-x86/alisp")
+
+
+
+
+;;(load (expand-file-name "../../common/quicklisp/slime-helper.el"))
 
 ;;
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
@@ -10,14 +15,14 @@
 
 (setq slime-lisp-implementations 
       (cond ((and (string= (getenv "cl_platform") "LispWorks")
-		  (string= (getenv "os_platform") "Darwin"))
-	     '((lw60-macosx-x86 ("../../common/lw60-macosx-x86/lw-console"))))
-	    ((and (string= (getenv "cl_platform") "Allegro")
-		  (string= (getenv "os_platform") "Linux"))
-	     '((acl82m-linux-x86 ("../../common/acl82-linux-x86/mlisp"))
-	       (acl82a-linux-x86 ("../../common/acl82-linux-x86/alisp"))))
-	    (t '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
-		 (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))))
+                  (string= (getenv "os_platform") "Darwin"))
+             '((lw60-macosx-x86 ("../../common/lw60-macosx-x86/lw-console"))))
+            ((and (string= (getenv "cl_platform") "Allegro")
+                  (string= (getenv "os_platform") "Linux"))
+             '((acl82m-linux-x86 ("../../common/acl82-linux-x86/mlisp"))
+               (acl82a-linux-x86 ("../../common/acl82-linux-x86/alisp"))))
+            (t '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
+                 (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))))
 
 (defun gdl () (interactive) (slime ))
 (setq gdl:*gdl-toplevel* (concat "*" "slime-repl " (symbol-name (first (first slime-lisp-implementations))) "*"))
