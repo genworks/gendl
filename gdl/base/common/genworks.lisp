@@ -27,6 +27,7 @@
     (:shadow #:intern)
     (:nicknames :glisp) 
     (:export #:*external-text-format*
+	     #:*gdl-home*
              #:*genworks-source-home*
              #:basic-command-line-arguments
              #:begin-redefinitions-ok
@@ -70,20 +71,20 @@
                                  (butlast (pathname-directory gdl-base-home)))
                      :defaults gdl-base-home)))
 
+(defparameter *gdl-home* (merge-pathnames "../../common/" *genworks-source-home*))
 
+
+#-(or allegro lispworks) (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
-  #+lispworks system:*line-arguments-list*
-  #-(or allegro lispworks) 
-  (error "Need implementation for command-line-arguments in currently running lisp.~%"))
+  #+lispworks system:*line-arguments-list*)
 
 
-
+#-(or allegro lispworks) 
+(error "Need parameter for redefinition warnings for currently running lisp.~%")
 (let ((original-redefinition-warnings 
        #+allegro excl:*redefinition-warnings*
-       #+lispworks lw:*redefinition-action*
-       #-(or allegro lispworks) 
-       (error "Need parameter for redefinition warnings for currently running lisp.~%")))
+       #+lispworks lw:*redefinition-action*))
   (defun begin-redefinitions-ok () 
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* nil))
@@ -91,36 +92,37 @@
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* original-redefinition-warnings)))
 
-
+#-(or allegro lispworks cmu) 
+(error "Need implementation for current-directory for currently running lisp.~%")
 (defun current-directory ()
   #+allegro (excl:current-directory)
   #+lispworks (sys:current-directory)
-  #+cmu (second (multiple-value-list (unix:unix-current-directory)))
-  #-(or allegro lispworks cmu) (error "Need implementation for current-directory for currently running lisp.~%"))
+  #+cmu (second (multiple-value-list (unix:unix-current-directory))))
 
 
+#-(or allegro lispworks) 
+(error "Need implementation for class-direct-superclasses for currently running lisp.~%")
 (defun direct-superclasses (class)
   "Return a list of the direct superclasses."
   (#+allegro mop:class-direct-superclasses
-   #+lispworks hcl:class-direct-superclasses class)
-  #-(or allegro lispworks) (error "Need implementation for class-direct-superclasses for currently running lisp.~%"))
+   #+lispworks hcl:class-direct-superclasses class))
 
 
 (defun direct-superclass-names (class)
   "Return a list of names of the direct superclasses."
-  (mapcar #-cmu #'class-name 
-          #+cmu #'mop:class-name
+  (mapcar #'gl-class-name
           (direct-superclasses class)))
 
-
+#-(or allegro lispworks cmu) 
+(error "Need implementation for eql-specializer for currently running lisp.~%")
 (defun eql-specializer (attr-sym)
   #+allegro (mop:intern-eql-specializer attr-sym)
   #+(or lispworks cmu) (list 'eql attr-sym))
 
-
 ;;
 ;; I believe this is from Hunchentoot:
 ;;
+#-allegro (warn "Need full implementation for get-backtrace for currently running lisp. See Hunchentoot for a cross-platform implementation.~%")
 (defun get-backtrace (error)
   (with-output-to-string (s)
     (with-standard-io-syntax
@@ -144,15 +146,16 @@
 
 (defun gl-class-name (class)
   "Return the class name."
-  (#-cmu class-name #+cmu pcl:class-name class))
+  (#-cmu class-name #+cmu mop:class-name class))
 
+
+#-(or allegro lispworks cmu) 
+(error "Need implementation for class-direct-superclasses for currently running lisp.~%")
 (defun gl-method-specializers (method)
   "Return a list of method specializers for the given method."
   (#+allegro mop:method-specializers 
    #+lispworks hcl:method-specializers
-   #+cmu pcl:method-specializers method
-   )
-  #-(or allegro lispworks cmu) (error "Need implementation for class-direct-superclasses for currently running lisp.~%"))
+   #+cmu pcl:method-specializers method))
 
 
 (defun hex-string-to-integer (string)
@@ -168,12 +171,14 @@
 (defun intern (symbol &optional (package *package*))
   (common-lisp:intern (string symbol) package))
 
+#-allegro(warn "Find implementation for make-sans-value-equalp-hash-table for currently running lisp.~%")
 (defun make-sans-value-equalp-hash-table ()
   "Make an equalp hash-table that acts like a set - just keys, no values."
   #+allegro (make-hash-table :values nil :test #'equalp)
   #-allegro (make-hash-table :test #'equalp))
 
 
+#-allegro(warn "Find implementation for make-sans-value-hash-table for currently running lisp.~%")
 (defun make-sans-value-hash-table (&key (size nil))
   "Make a hash-table that acts like a set - just keys, no values."
   (if size
@@ -183,14 +188,12 @@
     #-allegro (make-hash-table)))
 
 
+#-(or allegro lispworks) (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 (defun make-weak-hash-table (&rest args)
-  #-(or allegro lispworks) 
-  (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
   (apply #'make-hash-table #+allegro :weak-keys #+allegro t
          #+allegro :values #+allegro :weak
          #+lispworks :weak-kind #+lispworks t
          args))
-
 
 (defun set-default-float-format ()
   #+allegro (tpl:setq-default *read-default-float-format* 'double-float)
@@ -211,20 +214,15 @@
   #-lispworks nil ;; No action needed for non-lispworks platform currently.
   )
 
-(defun set-local-compiler-tweaks ()
-  #+allegro 
-  (when (boundp 'comp::*deprecate-peephole-and-save-arglist-switches*)
-    (setf (symbol-value 'comp::*deprecate-peephole-and-save-arglist-switches*) t))
-  #+allegro-cl-express (proclaim '(optimize (speed 1) (safety 1) (space 3)))
-  #-allegro nil ;; No action needed for non-allegro platforms currently.
-  )
-
+#-allegro(warn "Find out how to retitle relevant windows in currently running lisp.~%")
 (defun set-window-titles ()
   #+(and allegro mswindows)
   (excl:console-control :title "Genworks GDL Console")
   (retitle-emacs))
 
 
+#-allegro
+(warn "Find out how to retitle Emacs window in currently running environment.")
 (defun retitle-emacs (&key (title "Genworks GDL Interactive Authoring Environment"))
   "Retitles the associated GDL emacs window with the specified title.
 
@@ -234,9 +232,7 @@
   (when (lep:lep-is-running)
     (lep::eval-in-emacs "(defun frame-retitle (title)
                          (modify-frame-parameters  nil (list (cons 'name title))))")
-    (lep::eval-in-emacs (concatenate 'string "(frame-retitle \"" title "\")")))
-  #-allegro
-  (warn "NOTE -- we need to detect Emacs and possibly retitle Emacs window in currently running environment."))
+    (lep::eval-in-emacs (concatenate 'string "(frame-retitle \"" title "\")"))))
 
 
 (defun upcase (string)
@@ -254,9 +250,9 @@
     #+cmu system:without-interrupts 
     ,@body))
 
-
+#-(or allegro lispworks) 
+(warn "Need implementation for xref-off for the currently running lisp.~%")
 (defun xref-off (&optional include-source-info?)
-  #-(or allegro lispworks) (error "Need implementation for xref-off for the currently running lisp.~%")
   (when include-source-info?
     (setq #+allegro excl:*load-source-file-info* 
           #+lispworks lw:*record-source-files*
@@ -271,9 +267,10 @@
         #+lispworks compiler:*produce-xref-info*
         nil))
 
-  
+#-(or allegro lispworks) 
+(warn "Need implementation for xref-off for the currently running lisp.~%")  
 (defun xref-on (&optional include-source-info?)
-  #-(or allegro lispworks) (error "Need implementation for xref-off for the currently running lisp.~%")
+
   (when include-source-info?
     (setq #+allegro excl:*load-source-file-info* 
           #+lispworks lw:*record-source-files*
@@ -288,7 +285,25 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
+
 (defun display-startup-banner (edition banner)
   (ecase edition
-    (:open-source (format t banner))))
+    (:open-source (format t banner))
+    (:trial (format t "
+ 
+Welcome to GDL Trial Edition, 1581 Github Mix, Beta Release.
+
+This program is covered by the following license:
+
+   http://www.genworks.com/contracts/eval.txt
+
+If you are covered by a Genworks Proprietary License (Commercial or
+Academic), then that license takes precedence. 
+
+This program also contains materials as listed in the accompanying
+quicklisp/ directory, with respective copyrights and licenses.
+
+"
+))))
+
      

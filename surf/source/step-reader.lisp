@@ -45,6 +45,7 @@ the natural outer boundary of the surface as the trimming loop.  If used, no sta
 will ever be returned by the reader.  Default is nil." 
                  make-all-surfaces-trimmed? nil)
                 
+		#+nil
                 ("Boolean. If true, treat all B-reps in the file as if they are collections of trimmed surfaces.  This loses
 all B-rep connectivity contained in the file.  Its use is not recommended. Default is nil." 
                  break-up-breps-into-trimmed-surfaces? nil)
@@ -66,7 +67,7 @@ If some trimmed surfaces or B-reps are blanked, they are grouped into a second, 
   ((data (read-step-file* *geometry-kernel* (format nil "~a" (the file-name)) 
                           :finalize-on self
                           :make-all-surfaces-trimmed? (the make-all-surfaces-trimmed?)
-                          :break-up-breps-into-trimmed-surfaces? (the break-up-breps-into-trimmed-surfaces?)
+                          ;;:break-up-breps-into-trimmed-surfaces? (the break-up-breps-into-trimmed-surfaces?)
                           :group-trimmed-surfaces-into-brep? (the group-trimmed-surfaces-into-brep?)
                           :make-single-brep? (the make-single-brep?))))
   

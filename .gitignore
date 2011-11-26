@@ -3,6 +3,8 @@
 *.fasl
 bin
 *~
+.DS_Store
+
 
 # Ignore (generated) html files,
 # *.html

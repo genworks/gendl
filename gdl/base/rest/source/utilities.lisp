@@ -82,6 +82,9 @@ the `#.' reader macro. Throws an error if evaluation would have occured.
   "String. Replaces all substring occurrences of <b>old</b> with <b>new</b>
 in <b>string</b>.
 
+Note: In a full GDL system, you will have glisp:replace-regexp, which
+      is more powerful and probably more efficient than this.
+
 :arguments (string \"String. The source string.\"
             old \"String. The substring to be replaced.\"
             new \"String. The substring to replace it with.\")

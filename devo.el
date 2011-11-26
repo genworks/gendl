@@ -24,6 +24,8 @@
             (t '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
                  (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))))
 
+(slime-setup '(slime-fancy))
+
 (defun gdl () (interactive) (slime ))
 (setq gdl:*gdl-toplevel* (concat "*" "slime-repl " (symbol-name (first (first slime-lisp-implementations))) "*"))
 (setq gdl:*inferior-lisp* "*inferior-lisp*")
