@@ -19,9 +19,19 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("package" "genworks" "defparameters" 
-	   "base-html-sheet" "base-html-utils" 
-	   "macros" "ignore-errors-with-backtrace"  "initialize" "utilities"  "answer" 
-            "accessories"  "layout-mixin" 
-           "application-mixin" "gdl-remote" "vanilla-remote")
-        
+(in-package :gdl)
+
+(defmacro ignore-errors-with-backtrace (&body body)
+  "Like IGNORE-ERRORS, but in case of failure, return backtrace string as third value."
+  `(block %debug-escape
+     (handler-bind
+         ((error (lambda (condition)
+                   (let ((backtrace (glisp:get-backtrace)))
+                     (return-from %debug-escape (values nil condition backtrace))))))
+       ,@body)))
+
+
+
+
+
+

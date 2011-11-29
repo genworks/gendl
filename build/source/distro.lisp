@@ -44,8 +44,9 @@
 			    (dolist (entry (glisp:directory-list (the staging-directory)) (nreverse result))
 			      (when (glisp:file-directory-p entry)
 				(let* ((full-name (lastcar (pathname-directory entry)))
-				       (base (subseq full-name 0 (- (length full-name)
-								    (length "-2011010100")))))
+				       (base (when (>= (length full-name)(length "-2011010100"))
+					       (subseq full-name 0 (- (length full-name)
+								      (length "-2011010100"))))))
 				  (when (member base (the known-releases) :test #'string-equal)
 				    (push (cons entry 
 						(merge-pathnames (format nil "~a/~a~a/program/"
@@ -127,10 +128,14 @@
       ;; smlib shared library
       ;;
       
-      (ensure-directories-exist (merge-pathnames "SMLib8.18/" (the target-parent)))
-      (glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.18/~a" (glisp:smlib-name))
+      (ensure-directories-exist (merge-pathnames "SMLib8.40/" (the target-parent)))
+      (glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.40/libs/~a/~a" 
+						#+linux "linux"
+						#+mswindows "windows"
+						#+macosx "macos"
+						(glisp:smlib-name))
 					glisp:*genworks-source-home*)
-		       (merge-pathnames (format nil "SMLib8.18/~a" (glisp:smlib-name))
+		       (merge-pathnames (format nil "SMLib8.40/~a" (glisp:smlib-name))
 					(the target-parent)))
 
       ;;

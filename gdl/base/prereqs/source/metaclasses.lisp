@@ -68,6 +68,6 @@
 
 (defclass gdl-skin-class (standard-class) ())
 
-(defmethod validate-superclass  ((class gdl-class) (superclass standard-class)) t)
-(defmethod validate-superclass  ((class gdl-format-class) (superclass standard-class)) t)
-(defmethod validate-superclass  ((class gdl-skin-class) (superclass standard-class)) t)
+(defmethod glisp:validate-superclass  ((class gdl-class) (superclass standard-class)) t)
+(defmethod glisp:validate-superclass  ((class gdl-format-class) (superclass standard-class)) t)
+(defmethod glisp:validate-superclass  ((class gdl-skin-class) (superclass standard-class)) t)

@@ -21,19 +21,19 @@
 
 (in-package :gdl)
 
-(defconstant 2pi (* 2 pi)
+(glisp:define-constant 2pi (* 2 pi)
   "Number (Constant). Twice the internal Lisp value for pi.")
 
-(defconstant pi/2 (/ pi 2)
+(glisp:define-constant pi/2 (/ pi 2)
   "Number (Constant). Half the internal Lisp value for pi.")
 
-(defconstant +phi+ 1.618
+(glisp:define-constant +phi+ 1.618
   "Number (Constant). The Golden Ratio.")
 
 (defparameter *zero-epsilon* 0.001
   "Number. The value used to test for closeness to zero in some functions. Defaults to 0.001")
 
-(defconstant +kappa+ 0.5522847498307936d0)
+(glisp:define-constant +kappa+ 0.5522847498307936d0)
 
 (defvar *current-version* nil)
 

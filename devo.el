@@ -10,7 +10,12 @@
 (setq slime-lisp-implementations 
       (cond ((and (string= (getenv "cl_platform") "LispWorks")
 		  (string= (getenv "os_platform") "Darwin"))
-	     '((lw60-macosx-x86 ("../../common/lw60-macosx-x86/lw-console"))))
+	     '((lw60-macosx-x86 ("../../common/lw60-macosx-x86/lw-console"))
+	       (sbcl-1.0.52-x86-64-darwin ("sbcl"))))
+	    ((and (string= (getenv "cl_platform") "SBCL")
+		  (string= (getenv "os_platform") "Darwin"))
+	     '((sbcl-1.0.52-x86-64-darwin ("sbcl"))
+	       (lw60-macosx-x86 ("../../common/lw60-macosx-x86/lw-console"))))
 	    ((and (string= (getenv "cl_platform") "Allegro")
 		  (string= (getenv "os_platform") "Linux"))
 	     '((acl82m-linux-x86 ("../../common/acl82-linux-x86/mlisp"))

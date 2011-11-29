@@ -6,13 +6,14 @@
                 :license "AGPL unless otherwise indicated" :serial t
                 :version "2011101700" :depends-on
                 (:gdl-base :gdl-cl-lite :aserve :cl-who :cl-ppcre
-                 :cl-base64)
+                 :cl-base64 :trivial-backtrace)
                 :components
                 ((:file "source/package") (:file "source/genworks")
                  (:file "source/defparameters")
                  (:file "source/base-html-sheet")
                  (:file "source/base-html-utils")
-                 (:file "source/macros") (:file "source/initialize")
+                 (:file "source/macros") (:file "source/ignore-errors-with-backtrace")
+		 (:file "source/initialize")
                  (:file "source/utilities") (:file "source/answer")
                  (:file "source/accessories")
                  (:file "source/gdl-remote")
