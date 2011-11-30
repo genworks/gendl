@@ -28,7 +28,7 @@
 (with-all-servers (server)
   (publish-file :path "/favicon.ico"
                 :server server
-                :file (translate-logical-pathname "sys:images;gwl;favicon.ico")))
+                :file (merge-pathnames "gdl/gwl/static/gwl/images/favicon.ico" glisp:*genworks-source-home*)))
 
 
 (publish :path "/fetch-remote-input"

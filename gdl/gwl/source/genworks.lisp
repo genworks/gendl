@@ -27,12 +27,10 @@
   #'cl-base64:base64-string-to-string)
 
 (defun class-slots (class)
-  #-(or allegro lispworks) (error "Need implementation for class-slots for currently running lisp.~%")
+  #-(or allegro lispworks sbcl) (error "Need implementation for class-slots for currently running lisp.~%")
   (#+allegro mop:class-slots
-   #+lispworks hcl:class-slots class))
-
-
-
+   #+lispworks hcl:class-slots 
+   #+sbcl sb-mop:class-slots class))
 
 ;;
 ;; from Hunchentoot:
@@ -51,7 +49,9 @@ the \"current\" error."
 (defun gc-full ()
   "Force a garbage collection."
   #+allegro  (excl:gc t)
-  #+lispworks  (hcl:gc-all))
+  #+lispworks  (hcl:gc-all)
+  #+sbcl (sb-ext:gc :full t))
+
 
 (defun initialize-multiprocessing ()
   #+lispworks (mp:initialize-multiprocessing)
@@ -85,8 +85,6 @@ the \"current\" error."
          #-allegro #'acl-compat.mp:process-run-function 
          name-or-options preset-function args))
 
-
-
 (defun remote-host (socket)
   #+allegro (socket:remote-host socket)
   #-allegro (acl-compat.socket:remote-host socket))
@@ -95,9 +93,10 @@ the \"current\" error."
   (cl-ppcre:regex-replace-all regexp string to-string))
 
 (defun slot-definition-name (slot-definition)
-  #-(or allegro lispworks) (error "Need implementation for slot-definition-name for currently running lisp.~%")
+  #-(or allegro lispworks sbcl) (error "Need implementation for slot-definition-name for currently running lisp.~%")
   (#+allegro mop:slot-definition-name
-   #+lispworks hcl:slot-definition-name slot-definition))
+   #+lispworks hcl:slot-definition-name 
+   #+sbcl sb-mop:slot-definition-name slot-definition))
 
 (defun socket-bytes-written (socket)
   #-allegro (declare (ignore socket))
