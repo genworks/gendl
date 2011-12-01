@@ -6,11 +6,12 @@
 ;;
 ;;
 
-(eval-when (compile load eval)
-  (defpackage :matrix (:export #:matrixp #:num-rows #:num-cols #:square-matrix? #:make-matrix
-                               #:make-identity-matrix #:copy-matrix #:print-matrix
-                               #:transpose-matrix #:multiply-matrix #:add-matrix #:subtract-matrix
-                               #:invert-matrix #:solve-matrix)))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defpackage :matrix (:use :common-lisp)
+	      (:export #:matrixp #:num-rows #:num-cols #:square-matrix? #:make-matrix
+		       #:make-identity-matrix #:copy-matrix #:print-matrix
+		       #:transpose-matrix #:multiply-matrix #:add-matrix #:subtract-matrix
+		       #:invert-matrix #:solve-matrix)))
 
 (in-package :matrix)
 

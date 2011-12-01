@@ -21,7 +21,7 @@
 
 (in-package :com.genworks.lisp)
 
-(eval-when (compile load eval)
+(eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:export #:*fasl-extension*

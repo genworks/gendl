@@ -25,8 +25,12 @@
 
 
 (define-object foo ()
+               
 
-  :computed-slots ((a "a")))
+  :computed-slots ((length 10 :settable)
+                   (width (* (the length) 2))
+                   (height (+ (the width) (the length)))
+                   (a "a")))
 
 (define-object bar ()
   

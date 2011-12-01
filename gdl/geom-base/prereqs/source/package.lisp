@@ -19,177 +19,178 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :user)
+(in-package :common-lisp-user)
 
-(gdl:define-package :geom-base
-    (:documentation "GDL Base Geometry Module")
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (gdl:define-package :geom-base
+      (:documentation "GDL Base Geometry Module")
   
-  (:export #:keyed-transform*vector
-           #:with-translated-state
-           #:raphael
-           #:*raphael-translation*
-           #:make-vector
-           #:make-point
-           #:apply-make-point
-           #:merge-display-controls
-           #:*nominal-x-vector*
-           #:*nominal-y-vector*
-           #:*nominal-z-vector*
-           #:*nominal-x-vector-r*
-           #:*nominal-y-vector-r*
-           #:*nominal-z-vector-r*
-           #:*trimetric-normal-vector*
-           #:*trimetric-normal-vector-left*
-           #:*trimetric-normal-vector-right-rear*
-           #:*trimetric-normal-vector-left-rear*
-           #:*left-handed-transform?*
-           #:+lh-identity-matrix+
-           #:+nominal-origin+
-           #:*standard-views*
-           #:point-expression   
-           #:+postnet-bits+   
-           #:*hash-transforms?*
-           #:get-x
-           #:get-y
-           #:get-z
-           #:get-w
-           #:get-u
-           #:get-v
-           #:determinant
-           #:subtract-vectors
-           #:add-vectors
-           #:3d-distance
-           #:scalar*vector
-           #:matrix*vector
-           #:transpose-matrix
-           #:multiply-matrices
-           #:dot-vectors
-           #:alignment
-           #:make-transform
-           #:angle-between-vectors-d
-           #:angle-between-vectors
-           #:unitize-vector
-           #:orthogonal-component
-           #:same-direction-vectors?
-           #:parallel-vectors?
-           #:reverse-vector
-           #:cross-vectors
-           #:length-vector
-           #:zero-vector?
-           #:degree
-           #:radians-to-degrees
-           #:radians-to-grads
-           #:translate-along-vector
-           #:array-to-list
-           #:coincident-point?
-           #:projected-vector
-           #:rotate-point-d
-           #:rotate-point
-           #:rotate-vector
-           #:rotate-vector-d
-           #:inter-circle-sphere
-           #:inter-line-sphere
-           #:inter-line-plane
-           #:translate
-           #:create-obliqueness
-           #:proj-point-on-line
-           #:pythagorize
-           #:roll
-           #:rotation
-           #:transform-and-translate-point
-           #:transform-numeric-point
-           #:quaternion-to-rotation
-           #:quaternion-to-matrix
-           #:matrix-to-quaternion
-           #:normalize-quaternion
-           #:degrees-to-radians
-           #:acosd
-           #:asind
-           #:atand
-           #:midpoint
-           #:between?
-           #:curve-parameter-<
-           #:roughly-aligned-vectors?
-           #:distance-to-line
-           #:equi-space-points
-           #:sort-points-along-vector
-           #:bounding-box-from-points
-           #:flatten-lines
-           #:flatten-curves
+    (:export #:keyed-transform*vector
+	     #:with-translated-state
+	     #:raphael
+	     #:*raphael-translation*
+	     #:make-vector
+	     #:make-point
+	     #:apply-make-point
+	     #:merge-display-controls
+	     #:*nominal-x-vector*
+	     #:*nominal-y-vector*
+	     #:*nominal-z-vector*
+	     #:*nominal-x-vector-r*
+	     #:*nominal-y-vector-r*
+	     #:*nominal-z-vector-r*
+	     #:*trimetric-normal-vector*
+	     #:*trimetric-normal-vector-left*
+	     #:*trimetric-normal-vector-right-rear*
+	     #:*trimetric-normal-vector-left-rear*
+	     #:*left-handed-transform?*
+	     #:+lh-identity-matrix+
+	     #:+nominal-origin+
+	     #:*standard-views*
+	     #:point-expression   
+	     #:+postnet-bits+   
+	     #:*hash-transforms?*
+	     #:get-x
+	     #:get-y
+	     #:get-z
+	     #:get-w
+	     #:get-u
+	     #:get-v
+	     #:determinant
+	     #:subtract-vectors
+	     #:add-vectors
+	     #:3d-distance
+	     #:scalar*vector
+	     #:matrix*vector
+	     #:transpose-matrix
+	     #:multiply-matrices
+	     #:dot-vectors
+	     #:alignment
+	     #:make-transform
+	     #:angle-between-vectors-d
+	     #:angle-between-vectors
+	     #:unitize-vector
+	     #:orthogonal-component
+	     #:same-direction-vectors?
+	     #:parallel-vectors?
+	     #:reverse-vector
+	     #:cross-vectors
+	     #:length-vector
+	     #:zero-vector?
+	     #:degree
+	     #:radians-to-degrees
+	     #:radians-to-grads
+	     #:translate-along-vector
+	     #:array-to-list
+	     #:coincident-point?
+	     #:projected-vector
+	     #:rotate-point-d
+	     #:rotate-point
+	     #:rotate-vector
+	     #:rotate-vector-d
+	     #:inter-circle-sphere
+	     #:inter-line-sphere
+	     #:inter-line-plane
+	     #:translate
+	     #:create-obliqueness
+	     #:proj-point-on-line
+	     #:pythagorize
+	     #:roll
+	     #:rotation
+	     #:transform-and-translate-point
+	     #:transform-numeric-point
+	     #:quaternion-to-rotation
+	     #:quaternion-to-matrix
+	     #:matrix-to-quaternion
+	     #:normalize-quaternion
+	     #:degrees-to-radians
+	     #:acosd
+	     #:asind
+	     #:atand
+	     #:midpoint
+	     #:between?
+	     #:curve-parameter-<
+	     #:roughly-aligned-vectors?
+	     #:distance-to-line
+	     #:equi-space-points
+	     #:sort-points-along-vector
+	     #:bounding-box-from-points
+	     #:flatten-lines
+	     #:flatten-curves
 
-           #:arc
-           #:base-object
-           #:base-geometry-object
-           #:bezier-curve
-           #:box
-           #:bbox
-           #:c-cylinder
-           #:circle
-           #:cone
-           #:cylinder
-           #:ellipse
-           #:global-filleted-polygon-projection
-           #:global-filleted-polyline
-           #:global-polygon-projection
-           #:global-polyline
-           #:graph
-           #:l-line
-           #:null-geometric-object
-           #:outline-specialization-mixin
-           #:point
-           #:route-pipe
-           #:sphere
-           #:spherical-cap
-           #:torus
-           #:cut-cylinder ;;do later
-           #:filleted-polyline ;; do later
-           #:line ;;do later
-           #:point 
-           #:polyline ;; do later
-           #:polygon-projection ;;do later
+	     #:arc
+	     #:base-object
+	     #:base-geometry-object
+	     #:bezier-curve
+	     #:box
+	     #:bbox
+	     #:c-cylinder
+	     #:circle
+	     #:cone
+	     #:cylinder
+	     #:ellipse
+	     #:global-filleted-polygon-projection
+	     #:global-filleted-polyline
+	     #:global-polygon-projection
+	     #:global-polyline
+	     #:graph
+	     #:l-line
+	     #:null-geometric-object
+	     #:outline-specialization-mixin
+	     #:point
+	     #:route-pipe
+	     #:sphere
+	     #:spherical-cap
+	     #:torus
+	     #:cut-cylinder    ;;do later
+	     #:filleted-polyline ;; do later
+	     #:line		 ;;do later
+	     #:point 
+	     #:polyline		;; do later
+	     #:polygon-projection ;;do later
            
-           #:points-display
+	     #:points-display
            
-           #:note
-           #:text-block
-           #:text-lines
-           #:typeset-block
-           #:typeset-blocks
-           #:base-drawing
-           #:base-view
-           #:document
-           #:horizontal-dimension
-           #:parallel-dimension
-           #:vertical-dimension
-           #:label
-           #:linear-dimension
-           #:leader-line
+	     #:note
+	     #:text-block
+	     #:text-lines
+	     #:typeset-block
+	     #:typeset-blocks
+	     #:base-drawing
+	     #:base-view
+	     #:document
+	     #:horizontal-dimension
+	     #:parallel-dimension
+	     #:vertical-dimension
+	     #:label
+	     #:linear-dimension
+	     #:leader-line
            
-           #:dxf
-           #:obj
-           #:pdf-multipage
-           #:pdf
-           #:pdf-raw
-           #:png
-           #:jpeg
-           #:vrml
-           #:x3d
-           #:vector-graphics
+	     #:dxf
+	     #:obj
+	     #:pdf-multipage
+	     #:pdf
+	     #:pdf-raw
+	     #:png
+	     #:jpeg
+	     #:vrml
+	     #:x3d
+	     #:vector-graphics
              
            
-           #:pie-chart
+	     #:pie-chart
            
-           #:*gs-text-alpha-bits*
-           #:*gs-graphics-alpha-bits*
+	     #:*gs-text-alpha-bits*
+	     #:*gs-graphics-alpha-bits*
 
-           ;;
-           ;;
-           ;; FLAG -- consider exporting these if requested. 
-           ;;
-           ;;#:3d-vector-to-array
-           ;;#:array-to-3d-vector
+	     ;;
+	     ;;
+	     ;; FLAG -- consider exporting these if requested. 
+	     ;;
+	     ;;#:3d-vector-to-array
+	     ;;#:array-to-3d-vector
            
-           ))
+	     )))
 
 
 (pushnew (find-package :geom-base) gdl:*reserved-word-protected-packages*)
