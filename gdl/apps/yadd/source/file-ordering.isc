@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;;
 
-("package" "mixins" "defpart-documentation" "assembly")
+("package" "genworks" "mixins" "define-object-documentation" "assembly")

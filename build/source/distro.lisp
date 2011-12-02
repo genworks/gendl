@@ -129,15 +129,15 @@
       ;;
       
       (ensure-directories-exist (merge-pathnames "SMLib8.40/" (the target-parent)))
-      (glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.40/libs/~a/~a" 
-						#+linux "linux"
-						#+mswindows "windows"
-						#+macosx "macos"
-						(glisp:smlib-name))
-					glisp:*genworks-source-home*)
-		       (merge-pathnames (format nil "SMLib8.40/~a" (glisp:smlib-name))
-					(the target-parent)))
-
+      (let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
+			    (error "smlib-name not known (smlib module probably not loaded)."))))
+	(glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.40/libs/~a/~a" 
+						  #+linux "linux"
+						  #+mswindows "windows"
+						  #+macosx "macos" smlib-name)
+					  glisp:*genworks-source-home*)
+			 (merge-pathnames (format nil "SMLib8.40/~a" smlib-name)
+					  (the target-parent))))
       ;;
       ;; gpl on windows
       ;;

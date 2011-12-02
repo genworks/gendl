@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :user)
+(in-package :gdl-user)
 
 (gwl:define-package :genworks.demos.bus
     (:nicknames :bus) (:export #:assembly #:fleet))

@@ -36,9 +36,7 @@
                (do-symbols (symbol (the :package)
                              (sort (nreverse result) #'string< :key #'symbol-name))
                  (when (and (eql (symbol-package symbol) package-object)
-                            #+allegro (get symbol 'excl::%fun-documentation)
-                            #+cmu (documentation symbol 'function)
-                            #+lispworks (get symbol 'system::%fun-documentation))
+			    (glisp:function-documentation symbol))
                    (push symbol result))))))
    (symbols-external (remove-duplicates
                       (let (result (package-object (the :package-object)))
@@ -52,9 +50,7 @@
                                                 :key
                                                 #'symbol-name))
                           (when (and (eql (symbol-package symbol) package-object)
-                                     #+allegro (get symbol 'excl::%fun-documentation)
-                                     #+cmu (documentation symbol 'function)
-                                     #+lispworks (get symbol 'system::%fun-documentation))
+				     (glisp:function-documentation symbol))
                             (push symbol result))))))))
 
 
@@ -69,14 +65,8 @@
 
   :computed-slots
   ((strings-for-display (format nil "~a" (the symbol)))
-   
-   
-   (doc-string #+allegro (get (the symbol) 'excl::%fun-documentation)
-               #+cmu (documentation (the symbol) 'function)
-               #+lispworks (get symbol 'system::%fun-documentation))
-   (macro? #+allegro (null (typep (symbol-function (the :symbol)) 'function))
-           #+cmu (macro-function (the symbol))
-           #+lispworks (macro-function (the symbol))))
+   (doc-string (glisp:function-documentation symbol))
+   (macro? (macro-function (the symbol))))
 
   :functions
   ((write-html-sheet

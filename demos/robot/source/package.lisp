@@ -18,5 +18,6 @@
 ;; License along with this source file.  If not, see
 ;; <http://www.gnu.org/licenses/>.
 ;; 
+(in-package :gdl-user)
 
 (gwl:define-package :robot (:export #:assembly))

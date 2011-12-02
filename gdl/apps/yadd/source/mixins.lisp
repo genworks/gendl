@@ -35,15 +35,8 @@ link to the favicon.ico and a link to a default CSS sheet. All these elements ca
 found in the *gdl-install-dir*/static/gwl/ directories."
     default-header-content (html 
                             ((:link :href "/static/gwl/images/favicon.ico"
-                                    :type "image/x-icon" :rel "icon"))
-                            
-                            ;;
-                            ;; FLAG -- nil'ed out for now, this was causing tiny fonts. 
-                            ;;
-                            #+nil
-                            ((:link :href "/static/gwl/style/tasty-layout.css" 
-                                    :type "text/css" :rel "stylesheet"))
-                            ))
+                                    :type "image/x-icon" :rel "icon"))))
+
    ("Contains standard jQuery files to include in the header for additional search funcionality.
 This computed-slot contains javascript files, found in the *gdl-install-dir* 
 and used throughout the yadd pages for the generation of automatic search forms (like the master-index).
