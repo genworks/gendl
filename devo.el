@@ -6,7 +6,6 @@
 ;; FLAG -- learn how to add command line args to inferior-lisp-program
 ;; to load load.lisp for Genworks GDL automatically.
 ;;
-
 (setq slime-lisp-implementations 
       (cond ((and (string= (getenv "cl_platform") "LispWorks")
 		  (string= (getenv "os_platform") "Darwin"))
@@ -19,9 +18,17 @@
 	    ((and (string= (getenv "cl_platform") "Allegro")
 		  (string= (getenv "os_platform") "Linux"))
 	     '((acl82m-linux-x86 ("../../common/acl82-linux-x86/mlisp"))
+	       (acl82a-linux-x86 ("../../common/acl82-linux-x86/alisp"))
+	       (sbcl-1.0.50.0.debian ("sbcl"))))
+	    ((and (string= (getenv "cl_platform") "SBCL")
+		  (string= (getenv "os_platform") "Linux"))
+	     '((sbcl-1.0.50.0.debian ("sbcl"))
+	       (acl82m-linux-x86 ("../../common/acl82-linux-x86/mlisp"))
 	       (acl82a-linux-x86 ("../../common/acl82-linux-x86/alisp"))))
-	    (t '((acl82m-win-x86 ("../../common/acl82-win-x86/mlisp.exe"))
-		 (acl82a-win-x86 ("../../common/acl82-win-x86/alisp.exe"))))))
+	    
+	    (t (error (concat "Unknown OS/Lisp combination: " 
+			      (getenv "os_platform")
+			      (getenv "cl_platform"))))))
 
 (slime-setup '(slime-fancy))
 
