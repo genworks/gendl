@@ -1,11 +1,10 @@
-
 (asdf:defsystem #:gdl-geom-base :description
                 "Auto-generated asdf defsys from Genworks GDL cl-lite."
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
                 :version "2011101700" :depends-on
-                (:gdl-base :cl-typesetting) :components
+                (:gdl-cl-lite :cl-typesetting) :components
                 ((:file "prereqs/source/cl-pdf-patches")
                  (:file "prereqs/source/matrix")
                  (:file "prereqs/source/genworks")

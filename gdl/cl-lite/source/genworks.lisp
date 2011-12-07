@@ -21,7 +21,7 @@
 
 (in-package :com.genworks.lisp)
 
-(eval-when (compile load eval)
+(eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:export #:*fasl-extension*
@@ -34,13 +34,14 @@
 (defparameter *fasl-extension*
     #+allegro excl:*fasl-default-type*
     #+lispworks compiler:*fasl-extension-string*
-    #-(or allegro lispworks) (error "Need fasl extension string for the currently running lisp.~%"))
+    #+sbcl sb-fasl:*fasl-file-type*
+    #-(or allegro lispworks sbcl) (error "Need fasl extension string for the currently running lisp.~%"))
 
 
 (defun concatenate-fasls (files dest)
-  #-(or allegro lispworks) (error "~&Please implement concatenate-fasls for the currently running lisp.~%")
+  #-(or allegro lispworks sbcl) (error "~&Please implement concatenate-fasls for the currently running lisp.~%")
 
-  #+allegro
+  #+(or allegro sbcl)
   ;;
   ;; Provided by Franz:
   ;;
@@ -101,6 +102,6 @@
 
 (defun file-directory-p (file)
   "Returns non-nil if the path is a directory."
-  #-(or allegro lispworks) (error "Need implementation for file-directory-p for currently running Lisp.")
-  (#+allegro excl:file-directory-p #+lispworks lw:file-directory-p file))
+  (#-(or allegro lispworks) asdf:directory-pathname-p 
+     #+allegro excl:file-directory-p #+lispworks lw:file-directory-p file))
 

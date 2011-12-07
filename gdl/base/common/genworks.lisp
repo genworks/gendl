@@ -21,22 +21,26 @@
 
 (in-package :gdl)
 
+#-(or allegro lispworks sbcl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
 (eval-when (compile load eval)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:shadow #:intern)
     (:nicknames :glisp) 
+    (:import-from #+allegro :mop #+lispworks :hcl #+sbcl :sb-mop 
+		  #:validate-superclass)
     (:export #:*external-text-format*
 	     #:*gdl-home*
              #:*genworks-source-home*
              #:basic-command-line-arguments
              #:begin-redefinitions-ok
              #:current-directory
+	     #:define-constant
              #:direct-superclasses
              #:direct-superclass-names
+             #:display-startup-banner
              #:end-redefinitions-ok
              #:eql-specializer
-             #:get-backtrace
              #:gl-class-name
              #:gl-method-specializers
              #:hex-string-to-integer
@@ -53,8 +57,7 @@
              #:w-o-interrupts
              #:xref-off
              #:xref-on
-             #:display-startup-banner
-             )))
+	     #:validate-superclass)))
 
 
 (in-package :com.genworks.lisp)
@@ -74,38 +77,52 @@
 (defparameter *gdl-home* (merge-pathnames "../../common/" *genworks-source-home*))
 
 
-#-(or allegro lispworks) (error "Need implementation for command-line-arguments in currently running lisp.~%")
+#-(or allegro lispworks sbcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
-  #+lispworks system:*line-arguments-list*)
+  #+lispworks system:*line-arguments-list*
+  #+sbcl sb-ext:*posix-argv*)
 
 
-#-(or allegro lispworks) 
+#-(or allegro lispworks sbcl) 
 (error "Need parameter for redefinition warnings for currently running lisp.~%")
 (let ((original-redefinition-warnings 
        #+allegro excl:*redefinition-warnings*
        #+lispworks lw:*redefinition-action*))
   (defun begin-redefinitions-ok () 
+    #+sbcl (declaim (sb-ext:muffle-conditions sb-ext:compiler-note))
+    #+(or allegro lispworks)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* nil))
   (defun end-redefinitions-ok () 
+    #+sbcl (declaim (sb-ext:unmuffle-conditions sb-ext:compiler-note))
+    #+(or allegro lispworks)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* original-redefinition-warnings)))
 
-#-(or allegro lispworks cmu) 
+#-(or allegro lispworks cmu sbcl) 
 (error "Need implementation for current-directory for currently running lisp.~%")
 (defun current-directory ()
   #+allegro (excl:current-directory)
   #+lispworks (sys:current-directory)
+  #+sbcl *default-pathname-defaults*
   #+cmu (second (multiple-value-list (unix:unix-current-directory))))
 
+;;
+;; From SBCL manual (to avoid redef errors when compiling/loading defconstants in SBCL):
+;;
+(defmacro define-constant (name value &optional doc)
+  `(defconstant ,name (if (boundp ',name) (symbol-value ',name) ,value)
+     ,@(when doc (list doc))))
 
-#-(or allegro lispworks) 
+
+#-(or allegro lispworks sbcl) 
 (error "Need implementation for class-direct-superclasses for currently running lisp.~%")
 (defun direct-superclasses (class)
   "Return a list of the direct superclasses."
   (#+allegro mop:class-direct-superclasses
-   #+lispworks hcl:class-direct-superclasses class))
+   #+lispworks hcl:class-direct-superclasses 
+   #+sbcl sb-mop:class-direct-superclasses class))
 
 
 (defun direct-superclass-names (class)
@@ -113,49 +130,27 @@
   (mapcar #'gl-class-name
           (direct-superclasses class)))
 
-#-(or allegro lispworks cmu) 
+#-(or allegro lispworks cmu sbcl) 
 (error "Need implementation for eql-specializer for currently running lisp.~%")
 (defun eql-specializer (attr-sym)
   #+allegro (mop:intern-eql-specializer attr-sym)
-  #+(or lispworks cmu) (list 'eql attr-sym))
+  #+(or lispworks cmu) (list 'eql attr-sym)
+  #+sbcl (sb-mop:intern-eql-specializer attr-sym))
 
-;;
-;; I believe this is from Hunchentoot:
-;;
-#-allegro (warn "Need full implementation for get-backtrace for currently running lisp. See Hunchentoot for a cross-platform implementation.~%")
-(defun get-backtrace (error)
-  (with-output-to-string (s)
-    (with-standard-io-syntax
-      (let ((*print-readably* nil)
-            (*print-miser-width* 40)
-            (*print-pretty* t)
-            #+allegro(tpl:*zoom-print-circle* t)
-            #+allegro(tpl:*zoom-print-level* nil)
-            #+allegro(tpl:*zoom-print-length* nil))
-        (ignore-errors
-          (format *terminal-io* "~
-~@<An unhandled error condition has been signalled:~3I ~a~I~:@>~%~%"
-                  error))
-        (ignore-errors
-          (let ((*terminal-io* s)
-                (*standard-output* s))
-            #+allegro(tpl:do-command "zoom"
-                            :from-read-eval-print-loop nil
-                            :count t
-                            :all t)))))))
 
 (defun gl-class-name (class)
   "Return the class name."
   (#-cmu class-name #+cmu mop:class-name class))
 
 
-#-(or allegro lispworks cmu) 
-(error "Need implementation for class-direct-superclasses for currently running lisp.~%")
+#-(or allegro lispworks cmu sbcl) 
+(error "Need implementation for method-specializers for currently running lisp.~%")
 (defun gl-method-specializers (method)
   "Return a list of method specializers for the given method."
-  (#+allegro mop:method-specializers 
+  (#+allegro mop:method-specializers  
    #+lispworks hcl:method-specializers
-   #+cmu pcl:method-specializers method))
+   #+cmu pcl:method-specializers 
+   #+sbcl sb-mop:method-specializers method))
 
 
 (defun hex-string-to-integer (string)
@@ -188,11 +183,13 @@
     #-allegro (make-hash-table)))
 
 
-#-(or allegro lispworks) (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
+#-(or allegro lispworks sbcl) (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 (defun make-weak-hash-table (&rest args)
-  (apply #'make-hash-table #+allegro :weak-keys #+allegro t
+  (apply #'make-hash-table 
+	 #+allegro :weak-keys #+allegro t
          #+allegro :values #+allegro :weak
          #+lispworks :weak-kind #+lispworks t
+	 #+sbcl :weakness #+sbcl :key-or-value
          args))
 
 (defun set-default-float-format ()
@@ -220,9 +217,6 @@
   (excl:console-control :title "Genworks GDL Console")
   (retitle-emacs))
 
-
-#-allegro
-(warn "Find out how to retitle Emacs window in currently running environment.")
 (defun retitle-emacs (&key (title "Genworks GDL Interactive Authoring Environment"))
   "Retitles the associated GDL emacs window with the specified title.
 
@@ -244,14 +238,20 @@
 
 (defmacro w-o-interrupts (&body body)
   (warn "Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else.")
-  #-(or allegro lispworks cmu) (error "Need implementation for without-interrupts for currently running lisp.~%")
+  #-(or allegro lispworks cmu sbcl) (error "Need implementation for without-interrupts for currently running lisp.~%")
   `(#+allegro  excl:without-interrupts
     #+lispworks progn
     #+cmu system:without-interrupts 
+    #+sbcl sb-sys:without-interrupts
     ,@body))
 
-#-(or allegro lispworks) 
+#-(or allegro lispworks)  
 (warn "Need implementation for xref-off for the currently running lisp.~%")
+#-(or allegro lispworks)
+(defun xref-off (&optional include-source-info?)
+  (declare (ignore include-source-info?))
+  (warn "Need implementation for xref-off for the currently running lisp.~%"))
+#+(or allegro lispworks)
 (defun xref-off (&optional include-source-info?)
   (when include-source-info?
     (setq #+allegro excl:*load-source-file-info* 
@@ -269,6 +269,11 @@
 
 #-(or allegro lispworks) 
 (warn "Need implementation for xref-off for the currently running lisp.~%")  
+#-(or allegro lispworks)
+(defun xref-on (&optional include-source-info?)
+  (declare (ignore include-source-info?))
+  (warn "Need implementation for xref-off for the currently running lisp.~%"))
+#+(or allegro lispworks)
 (defun xref-on (&optional include-source-info?)
 
   (when include-source-info?

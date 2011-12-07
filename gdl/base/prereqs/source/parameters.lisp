@@ -126,7 +126,7 @@ values are a color indicator for the default foreground and background of graphi
 
 (defparameter *error-on-not-handled?* t)
 
-(defconstant +reserved-words+
+(glisp:define-constant +reserved-words+
     (mapcar #'(lambda(symbol)
                 (glisp:intern symbol :gdl-acc))
             '(aggregate 

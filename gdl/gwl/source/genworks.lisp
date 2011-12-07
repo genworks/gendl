@@ -6,8 +6,8 @@
     (:export #:*base64-encode-func*
              #:*base64-decode-func*
              #:class-slots
-             #:slot-definition-name
              #:gc-full
+	     #:get-backtrace
 	     #:initialize-multiprocessing
              #:load-html-parser
              #:match-regexp
@@ -15,12 +15,10 @@
              #:process-run-function
              #:remote-host
              #:replace-regexp
+	     #:slot-definition-name
              #:socket-bytes-written
 	     #:split-regexp
-             #:with-timeout-sym
-
-             )))
-
+             #:with-timeout-sym)))
 
 (defparameter *base64-encode-func* 
   #'cl-base64:string-to-base64-string)
@@ -28,22 +26,32 @@
 (defparameter *base64-decode-func* 
   #'cl-base64:base64-string-to-string)
 
-
 (defun class-slots (class)
-  #-(or allegro lispworks) (error "Need implementation for class-slots for currently running lisp.~%")
+  #-(or allegro lispworks sbcl) (error "Need implementation for class-slots for currently running lisp.~%")
   (#+allegro mop:class-slots
-   #+lispworks hcl:class-slots class))
+   #+lispworks hcl:class-slots 
+   #+sbcl sb-mop:class-slots class))
 
-(defun slot-definition-name (slot-definition)
-  #-(or allegro lispworks) (error "Need implementation for slot-definition-name for currently running lisp.~%")
-  (#+allegro mop:slot-definition-name
-   #+lispworks hcl:slot-definition-name slot-definition))
+;;
+;; from Hunchentoot:
+;;
+
+(defun get-backtrace ()
+  "Returns a string with a backtrace of what the Lisp system thinks is
+the \"current\" error."
+  (handler-case
+      (with-output-to-string (s)
+        (trivial-backtrace:print-backtrace-to-stream s))
+    (error (condition)
+      (format nil "Could not generate backtrace: ~A." condition))))
 
 
 (defun gc-full ()
   "Force a garbage collection."
   #+allegro  (excl:gc t)
-  #+lispworks  (hcl:gc-all))
+  #+lispworks  (hcl:gc-all)
+  #+sbcl (sb-ext:gc :full t))
+
 
 (defun initialize-multiprocessing ()
   #+lispworks (mp:initialize-multiprocessing)
@@ -77,14 +85,18 @@
          #-allegro #'acl-compat.mp:process-run-function 
          name-or-options preset-function args))
 
-
-
 (defun remote-host (socket)
   #+allegro (socket:remote-host socket)
   #-allegro (acl-compat.socket:remote-host socket))
 
 (defun replace-regexp (string regexp to-string)
   (cl-ppcre:regex-replace-all regexp string to-string))
+
+(defun slot-definition-name (slot-definition)
+  #-(or allegro lispworks sbcl) (error "Need implementation for slot-definition-name for currently running lisp.~%")
+  (#+allegro mop:slot-definition-name
+   #+lispworks hcl:slot-definition-name 
+   #+sbcl sb-mop:slot-definition-name slot-definition))
 
 (defun socket-bytes-written (socket)
   #-allegro (declare (ignore socket))
@@ -93,7 +105,6 @@
 
 please find implementation for the currently running lisp.~%")
                    0))
-
 
 (defun split-regexp (regexp string)
   (cl-ppcre:split regexp string))

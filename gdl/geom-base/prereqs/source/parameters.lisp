@@ -50,37 +50,37 @@
 
 (defvar *debug?* nil)
 
-(defconstant *nominal-x-vector* (make-vector 1 0 0))
-(defconstant *nominal-y-vector* (make-vector 0 1 0))
-(defconstant *nominal-z-vector* (make-vector 0 0 1))
+(glisp:define-constant *nominal-x-vector* (make-vector 1 0 0))
+(glisp:define-constant *nominal-y-vector* (make-vector 0 1 0))
+(glisp:define-constant *nominal-z-vector* (make-vector 0 0 1))
 
-(defconstant *nominal-x-vector-r* (make-vector -1 0 0))
-(defconstant *nominal-y-vector-r* (make-vector 0 -1 0))
-(defconstant *nominal-z-vector-r* (make-vector 0 0 -1))
-
-
-(defconstant *nominal-x-array* #2a((1.0d0 0.0d0 0.0d0)))
-(defconstant *nominal-y-array* #2a((0.0d0 1.0d0 0.0d0)))
-(defconstant *nominal-z-array* #2a((0.0d0 0.0d0 1.0d0)))
+(glisp:define-constant *nominal-x-vector-r* (make-vector -1 0 0))
+(glisp:define-constant *nominal-y-vector-r* (make-vector 0 -1 0))
+(glisp:define-constant *nominal-z-vector-r* (make-vector 0 0 -1))
 
 
-(defconstant *nominal-x-array-r* #2a((-1.0d0 0.0d0 0.0d0)))
-(defconstant *nominal-y-array-r* #2a((0.0d0 -1.0d0 0.0d0)))
-(defconstant *nominal-z-array-r* #2a((0.0d0 0.0d0 -1.0d0)))
+(glisp:define-constant *nominal-x-array* #2a((1.0d0 0.0d0 0.0d0)))
+(glisp:define-constant *nominal-y-array* #2a((0.0d0 1.0d0 0.0d0)))
+(glisp:define-constant *nominal-z-array* #2a((0.0d0 0.0d0 1.0d0)))
 
-(defconstant *trimetric-normal-vector* (make-vector 0.8342367128320977 -0.4377640254359154 0.3352786378480434))
+
+(glisp:define-constant *nominal-x-array-r* #2a((-1.0d0 0.0d0 0.0d0)))
+(glisp:define-constant *nominal-y-array-r* #2a((0.0d0 -1.0d0 0.0d0)))
+(glisp:define-constant *nominal-z-array-r* #2a((0.0d0 0.0d0 -1.0d0)))
+
+(glisp:define-constant *trimetric-normal-vector* (make-vector 0.8342367128320977 -0.4377640254359154 0.3352786378480434))
     ;;(make-vector 0.83425635 -0.43777433 0.33528653)
 
-(defconstant *trimetric-normal-vector-left* (make-vector -0.8342367128320977 -0.4377640254359154 0.3352786378480434))
+(glisp:define-constant *trimetric-normal-vector-left* (make-vector -0.8342367128320977 -0.4377640254359154 0.3352786378480434))
    ;;(make-vector -0.83425635 -0.43777433 0.33528653)
 
-(defconstant *trimetric-normal-vector-right-rear* (make-vector 0.8342367128320977 0.4377640254359154 0.3352786378480434))
+(glisp:define-constant *trimetric-normal-vector-right-rear* (make-vector 0.8342367128320977 0.4377640254359154 0.3352786378480434))
   ;;(make-vector 0.83425635 0.43777433 0.33528653)
 
-(defconstant *trimetric-normal-vector-left-rear* (make-vector -0.8342367128320977 0.4377640254359154 0.3352786378480434))
+(glisp:define-constant *trimetric-normal-vector-left-rear* (make-vector -0.8342367128320977 0.4377640254359154 0.3352786378480434))
  ;;(make-vector -0.83425635 0.43777433 0.33528653)
 
-(defconstant +nominal-origin+ (make-point 0 0 0))
+(glisp:define-constant +nominal-origin+ (make-point 0 0 0))
 
 
 (defparameter *standard-face-hts* (make-hash-table :test #'equalp))
@@ -110,7 +110,7 @@ to graphics when making PNG or JPEG images. Defaults to 4. Set to 0 for no antia
 (defun point-expression (point)
   `(make-point ,(get-x point) ,(get-y point) ,(get-z point)))
 
-(defconstant +postnet-bits+
+(glisp:define-constant +postnet-bits+
     (make-array 10 :initial-contents '((t t nil nil nil) ;;0
                                        (nil nil nil t t) ;;1 
                                        (nil nil t nil t) ;;2 
@@ -146,7 +146,7 @@ disabled, so this parameter will have no effect.</i> Defaults to T.")
 
 
 
-(defconstant +identity-3x3+ 
+(glisp:define-constant +identity-3x3+ 
     (make-array (list 3 3)
                 :initial-contents '((1d0 0d0 0d0)
                                     (0d0 1d0 0d0)
@@ -164,8 +164,8 @@ the value of this parameter at your own risk.")
 
 (defparameter *dxf-translation* (make-vector 0 0))
 (defparameter *raphael-translation* (make-vector 0 0))
-(defconstant +rear-vector+ (make-vector 0 1 0))
-(defconstant +top-vector+ (make-vector 0 0 1))
+(glisp:define-constant +rear-vector+ (make-vector 0 1 0))
+(glisp:define-constant +top-vector+ (make-vector 0 0 1))
 
 
 (defparameter +lh-identity-matrix+ #2A((-1.0 0.0 0.0)(0.0 1.0 0.0)(0.0 0.0 1.0)))

@@ -35,20 +35,14 @@ standard :write-html-sheet method which can also be crawled with a call to
 
 </pre>
 
-The packages to be documented, and whether the green/red supported messages flags show up,
-can be controlled with optional-inputs.
-
-The format used to document user-defined objects is not yet fully stabilized, and will 
-be documented in a future GDL release.  Currently, YADD has been used to document the internal
-GDL and GWL objects, functions, macros, parameters, and constants.
-
-Please contact Genworks if you wish to start using YADD now as a beta-tester, before it is 
-fully documented.")
+The packages to be documented, and whether the green/red supported 
+messages flags show up, can be controlled with optional-inputs.")
 
   :input-slots
-  (("List of keyword symbols. These packages will be ignored. This list defaults to
-            standard internal and test packages"
-    packages-to-ignore (list :gwl-user :yadd-test :genworks :yadd-sample :gdl :gwl :yadd :gwl-tree :surf :geom-base))
+  (("List of keyword symbols. These packages will be ignored. 
+This list defaults to standard internal and test packages"
+    packages-to-ignore (list :gwl-user :yadd-test :genworks :yadd-sample 
+			     :gdl :gwl :yadd :gwl-tree :surf :geom-base))
    
    ("Boolean. This defaults to nil, if it is set to t, only exported symbols will be
             considered for documentation."
@@ -56,21 +50,10 @@ fully documented.")
 
   :computed-slots
   ((packages-to-document 
-    
-    ;;
-    ;; FLAG -- look up interesting symbols in a portable way
-    ;;
-    ;;#-allegro nil
-
-    ;;#+allegro
     (sort
      (remove-duplicates
       (set-difference
-       (let (list (autoloads (append (list :win :windows :regexp) 
-                                     (remove-duplicates 
-                                      #-allegro nil
-                                      #+allegro (mapcar #'rest excl::*autoload-package-name-alist*)
-                                      ))))
+       (let (list (autoloads (glisp:autoloaded-packages)))
          (do-symbols (sym :keyword list)
            (when (and (not (member sym autoloads)) 
                       (find-package sym)
@@ -80,9 +63,10 @@ fully documented.")
                                    (find-package sym)))))
              (push sym list))))
        (the :packages-to-ignore))
-
       :key #'find-package)
      #'string-lessp))
+
+
    (relevant-doks (remove-if-not
                    #'(lambda (dok)
                        (or (the-object dok :object-docs :doks)
@@ -182,60 +166,7 @@ fully documented.")
        (:h3
         (the :master-index
           (:write-self-link :display-string "Master Index"))))
-      (:p (str (the :footer)))))
-   
-   #+nil
-   ("Void. Prints toplevel sheet to *html-stream* with listing of packages and link to Master Index."
-    write-html-sheet
-    ()
-    (let ((query (request-query *req*)))
-      
-      (if query
-          (multiple-value-bind (symbol error)
-              (ignore-errors (read-safe-string (rest (assoc "object" query :test #'string-equal))))
-          (let* ((package (when symbol (make-keyword (package-name (symbol-package symbol)))))
-                 (package-doc (when package (gethash package (the package-ht))))
-                 (dok (when package-doc (gethash symbol (the-object package-doc object-docs symbol-ht)))))
-            (html (:html (:head
-                          (the default-header-content)
-                          (:title "Definition for " (:princ symbol)))
-                         (:body 
-                          (if dok
-                              (with-format (html-format *html-stream*) 
-                                (let ((*package* (find-package package)))
-                                  (write-the-object dok pretty-definition)))
-                            (html (:h2 "Error: No Definition Found for " 
-                                       (:princ symbol)
-                                       (when error (html :br (:princ error)))))))))))
-        (html (:html
-               (:head
-                (the default-header-content)
-                (:title
-                 "Reference Documentation for General-purpose Declarative Language and Related Packages"))
-               (:body (when *developing?* (html (:p (the (write-development-links)))))
-                      (:p
-                       (:center (:h2 "Reference Documentation")
-                                (:i "for Genworks" (:sup (:small "&reg;"))
-                                    " General-purpose Declarative Language and Related Packages")))
-                      (:p
-                       
-                       (:h3 "Documented Packages:")
-                       
-                       (:ul
-                        (dolist (package (the :relevant-doks))
-                          (html (:li (the-object package 
-                                                 (:write-self-link 
-                                                  :display-string 
-                                                  (the-object package
-                                                              strings-for-display-verbose))))))))
-                      (:p
-                       (:h3
-                        (the :master-index
-                          (:write-self-link :display-string "Master Index"))))
-                      (:p (the :write-footer))
-                      
-                      ))))))))
-
+      (:p (str (the :footer)))))))
 
 
 (define-object master-index (base-yadd-sheet)
@@ -313,60 +244,44 @@ loaderImg: '/static/gwl/tasty-unpix/loader.gif',loaderText: 'Narrowing Down...'}
    
    (strings-for-display (package-name (find-package (the package-key))))
    
-   (strings-for-display-verbose (let ((nicknames
-                                       (package-nicknames (find-package
-                                                           (the :package-key))))
-                                      (documentation
-                                       (#+(or allegro lispworks) documentation 
-                                          #+cmu cl::package-doc-string (find-package (the :package-key)) nil)))
-                          
-                                  (format nil "~a ~a~a~{~:(~a~)~^, ~}"
-                                          (package-name (find-package (the package-key)))
-                                          (if documentation (format nil "(~a)" documentation) "")
-                                          (if nicknames " Nicknames: " "")
-                                          nicknames)))
+   (strings-for-display-verbose 
+    (let ((nicknames (package-nicknames (find-package
+					 (the :package-key))))
+	  (documentation (glisp:package-documentation 
+			  (find-package (the package-key)))))
+      (format nil "~a ~a~a~{~:(~a~)~^, ~}"
+	      (package-name (find-package (the package-key)))
+	      (if documentation (format nil "(~a)" documentation) "")
+	      (if nicknames " Nicknames: " "")
+	      nicknames)))
 
-   (symbols-for-index (append 
+   (symbols-for-index 
+    (append 
+     (apply #'append
+	    (mapcar #'(lambda(doc) 
+			(the-object doc symbols-for-index))
+		    (the object-docs doks)))
                        
-                       
-                       (apply #'append
-                              (mapcar #'(lambda(doc) (the-object doc symbols-for-index))
-                                      (the object-docs doks)))
-                       
-                       #+nil
-                       (mapcar #'(lambda (part)
-                                   (let
-                                       ((name
-                                         (string-downcase
+     (mapcar #'(lambda (function)
+		 (list
+		  function
+		  (string-downcase
 
-                                          (format
-                                           nil
-                                           "~a"
-                                           (the-object part :symbol)))))
-                                     (list part name)))
-                               (the :object-docs :doks))
-                       
-                       
-                       (mapcar #'(lambda (function)
-                                   (list
-                                    function
-                                    (string-downcase
+		   (format
+		    nil
+		    "~a"
+		    (the-object function :symbol)))))
+	     (the :function-docs :doks))
+     (mapcar #'(lambda (variable)
+		 (list
+		  variable
+		  (string-downcase
 
-                                     (format
-                                      nil
-                                      "~a"
-                                      (the-object function :symbol)))))
-                               (the :function-docs :doks))
-                       (mapcar #'(lambda (variable)
-                                   (list
-                                    variable
-                                    (string-downcase
-
-                                     (format
-                                      nil
-                                      "~a"
-                                      (the-object variable :symbol)))))
-                               (the :variable-docs :doks)))))
+		   (format
+		    nil
+		    "~a"
+		    (the-object variable :symbol)))))
+	     (the :variable-docs :doks)))))
 
   :objects
   (("object-doc. Container for set of all Object documentation sheets."
@@ -476,7 +391,8 @@ supported-flag, and external flag.")
       (:p
        (dolist (item (the items))
          (htm (:li
-               (the-object item (:write-self-link :display-string (the  key)))
+               (the-object item (:write-self-link :display-string 
+ 						  (the  key)))
                 " ("
                 (:i (str (the-object item :dok-type)) ", "
                     (str

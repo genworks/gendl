@@ -17,6 +17,21 @@
 ;; You should have received a copy of the GNU Affero General Public
 ;; License along with this source file.  If not, see
 ;; <http://www.gnu.org/licenses/>.
-;;
+;; 
 
-("package" "genworks" "mixins" "define-object-documentation" "assembly")
+(in-package :gdl)
+
+(defmacro ignore-errors-with-backtrace (&body body)
+  "Like IGNORE-ERRORS, but in case of failure, return backtrace string as third value."
+  `(block %debug-escape
+     (handler-bind
+         ((error (lambda (condition)
+                   (let ((backtrace (glisp:get-backtrace)))
+                     (return-from %debug-escape (values nil condition backtrace))))))
+       ,@body)))
+
+
+
+
+
+

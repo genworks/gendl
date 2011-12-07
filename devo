@@ -3,14 +3,25 @@ cd `dirname "$0"`
 
 export os_platform=`uname`
 
-export cl_platform=''
+export cl_platform=""
+
+if [ "$1" == "sbcl" ]; then
+   cl_platform='SBCL'
+fi
+
 
 if [ "$os_platform" == "Linux" ]; then
-  cl_platform='Allegro'
-  emacs --no-splash --no-init-file -l devo.el $@
+  if [ "$cl_platform" == "" ]; then
+    cl_platform='Allegro'
+  fi
+  emacs --no-splash --no-init-file -l devo.el
 elif [ "$os_platform" == "Darwin" ]; then
-  cl_platform='LispWorks'
-  /Applications/Emacs.app/Contents/MacOS/Emacs --no-splash --no-init-file -l devo.el $@
+  if [ "$cl_platform" == "" ]; then
+    cl_platform='LispWorks'
+  fi
+  /Applications/Emacs.app/Contents/MacOS/Emacs --no-splash --no-init-file -l devo.el
 fi
+
+
 
 

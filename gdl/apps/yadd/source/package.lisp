@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;;
 
-(in-package :user)
+(in-package :common-lisp-user)
 
 
 (gwl:define-package :yadd

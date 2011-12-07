@@ -32,9 +32,7 @@
                (do-symbols (symbol (the :package)
                              (sort (nreverse result) #'string< :key #'symbol-name))
                  (when (and (eql (symbol-package symbol) package-object)
-                            #+allegro (get symbol 'excl::%var-documentation)
-                            #+cmu (documentation symbol 'variable)
-                            #+lispworks (get symbol 'system::%fun-documentation))
+			    (glisp:variable-documentation symbol))
                    (push symbol result))))))
    (symbols-external (remove-duplicates
                       (let (result (package-object (the :package-object)))
@@ -48,11 +46,8 @@
                                                 :key
                                                 #'symbol-name))
                           (when (and (eql (symbol-package symbol) package-object)
-                                     #+allegro (get symbol 'excl::%var-documentation)
-                                     #+cmu (documentation symbol 'variable)
-                                     #+lispworks (get symbol 'system::%fun-documentation))
+				     (glisp:variable-documentation symbol))
                             (push symbol result))))))))
-
 
 
 (define-object variable-dokumentation (doc-string-parser-mixin
@@ -65,9 +60,7 @@
    (show-package? nil))
 
   :computed-slots
-  ((remark-string #+allegro (get (the symbol) 'excl::%var-documentation)
-                  #+cmu (documentation (the symbol) 'variable)
-                  #+lispworks (get symbol 'system::%fun-documentation)))
+  ((remark-string (glisp:variable-documentation (the symbol))))
 
   :functions
   ((write-html-sheet

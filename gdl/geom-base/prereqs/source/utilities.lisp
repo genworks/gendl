@@ -137,7 +137,7 @@ point-1 to point-2.
 :arguments (point-1 \"3D point\"
             point-1 \"3D point\")"
   
-  (declare (type (array double-float) point-1 point-2)
+  (declare ;;(type (array double-float) point-1 point-2)
            (optimize (speed 3) (compilation-speed 0) 
                      (safety 0) (debug 0)))
   
