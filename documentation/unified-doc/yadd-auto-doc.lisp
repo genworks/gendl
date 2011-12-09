@@ -222,19 +222,22 @@
                                                    "" "")
                                                   "<ul>" " @itemize ")
                                                  "</ul>" "
-@end itemize ")
+@end itemize 
+")
                                                 "<li>" " @item " )
                                                "</li>" "" )
                                               "<dl>" " @itemize {} " ) 
                                              "</dl>" "
-@end itemize ")
+@end itemize 
+")
                                             "<dt>" " @item " )
                                            "</dt>" "" )
                                           "<strong>" " @b{")
                                          "</strong>" "} ")
                                         "<dd>" " @itemize @minus ")
                                        "</dd>"  "
-@end itemize "))))))  
+@end itemize 
+"))))))  
                           
                        
                   (format out "~%~%")))
