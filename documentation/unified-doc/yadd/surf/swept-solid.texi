@@ -36,8 +36,7 @@ to produce another brep.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object swept-solid-example (swept-solid)
@@ -69,7 +68,6 @@ to produce another brep.
  (generate-sample-drawing :objects (make-object 'swept-solid-example)
                           :projection-direction (getf *standard-views* :trimetric))
 
-@end cartouche 
 @end smallexample
 
 

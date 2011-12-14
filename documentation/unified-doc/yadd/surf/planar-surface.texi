@@ -42,8 +42,7 @@ Creates a flat quadrilateral surface specified by its four corner points.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -59,7 +58,6 @@ Creates a flat quadrilateral surface specified by its four corner points.
                            :projection-direction :trimetric)
 
 
-@end cartouche 
 @end smallexample
 
 

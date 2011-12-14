@@ -106,8 +106,7 @@ the SMLib make-skinned-surface routine. Default is nil
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
                   
  (in-package :surf)
 
@@ -151,8 +150,7 @@ the SMLib make-skinned-surface routine. Default is nil
  (generate-sample-drawing :object-roots (make-object 'test-lofted-surface)
                           :projection-direction :trimetric)
 
- @end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

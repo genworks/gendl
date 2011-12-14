@@ -36,8 +36,7 @@ into a single curve.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -66,7 +65,6 @@ into a single curve.
     (let ((obj (make-object 'test-global-filleted-polyline-curves)))
       (write-the-object obj view cad-output)))
 
-@end cartouche 
 @end smallexample
 
 

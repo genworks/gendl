@@ -76,11 +76,12 @@ Default for the image-format-selector. Defaults to :png.
 
  @item Plist of keys and strings. The default formats for graphics display. Defaults to:
 
- <pre>
+ @smallexample 
  (list :png "PNG image"
        :jpeg "jpeg image"
        :raphael "SVG/VML")
-</pre>
+@end smallexample 
+
 
 @end itemize
 

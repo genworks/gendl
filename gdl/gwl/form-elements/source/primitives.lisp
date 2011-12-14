@@ -123,7 +123,6 @@ Note that checkbox-form-control and menu-form-control currently get automaticall
 
  (in-package :gwl-user)
 
-
  (define-object test-form (base-html-sheet)
   
    :objects
@@ -138,20 +137,20 @@ Note that checkbox-form-control and menu-form-control currently get automaticall
          :validation-function #'(lambda(input) (or (null input) (> 80 input 70)))
          :domain :number
          ;;:default 72
-         :default nil
-         )
+         :default nil )
    
     (bio :type 'text-form-control
          :rows 8
          :size 120
          :default \"
 Congressman Ron Paul is the leading advocate for freedom in our nation's capital. 
-As a member of the U.S. House of Representatives, Dr. Paul tirelessly works for limited 
-constitutional government, low taxes, free markets, and a return to sound monetary policies. 
-He is known among his congressional colleagues and his constituents for his consistent 
-voting record. Dr. Paul never votes for legislation unless the proposed measure is expressly 
-authorized by the Constitution. In the words of former Treasury Secretary William Simon, 
-Dr. Paul is the one exception to the Gang of 535 on Capitol Hill.\")
+As a member of the U.S. House of Representatives, Dr. Paul tirelessly works for 
+limited constitutional government, low taxes, free markets, and a return to sound 
+monetary policies. He is known among his congressional colleagues and his constituents 
+for his consistent voting record. Dr. Paul never votes for legislation unless the 
+proposed measure is expressly authorized by the Constitution. In the words of former 
+Treasury Secretary William Simon, Dr. Paul is the one exception to the Gang of 535 on 
+Capitol Hill.\")
    
     (issues :type 'menu-form-control
             :choice-list (list \"Taxes\" \"Health Care\" \"Foreign Policy\")
@@ -160,27 +159,31 @@ Dr. Paul is the one exception to the Gang of 535 on Capitol Hill.\")
    
     (color :type 'menu-form-control
            :size 7
-           :choice-plist (list :red \"red\" :green \"green\" :blue \"blue\" :magenta \"magenta\" :cyan \"cyan\" :yellow \"yellow\" :orange \"orange\")
+           :choice-plist (list :red \"red\" 
+                               :green \"green\" 
+                               :blue \"blue\" 
+                               :magenta \"magenta\" 
+                               :cyan \"cyan\" 
+                               :yellow \"yellow\" 
+                               :orange \"orange\")
            :validation-function #'(lambda(color)
-                                    (if (intersection (ensure-list color) (list :yellow :magenta))
+                                    (if (intersection (ensure-list color) 
+                                                      (list :yellow :magenta))
                                         (list :error :disallowed-color-choice)
                                       t))
            ;;:append-error-string? nil
            :multiple? t
            :default :red
-           ;;:onchange \"alert('hey now');\"
+           ;;:onchange \"alert('hey now');\" 
            )
    
     (early-riser? :type 'checkbox-form-control
                   :default nil)
    
-   
-   
     (favorite-links :type 'text-form-control
                     :sequence (:size 3)
                     :size 70
                     :default \"http://\")))
-
 
  (define-lens (html-format test-form)()
    :output-functions
@@ -205,12 +208,10 @@ Dr. Paul is the one exception to the Gang of 535 on Capitol Hill.\")
                          (htm (str (the-object link html-string))))
                       
                        (:p ((:input :type :submit :value \" OK \"))))))))))
-                      
-  
+ 
  (publish :path \"/fe\"
           :function #'(lambda(req ent)
                         (gwl-make-object req ent \"gwl-user::test-form\")))
-
 </pre>
 "
                   )

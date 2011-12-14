@@ -80,8 +80,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object center-line-test (base-object)
@@ -105,8 +104,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
                         center-line-sample))
   :projection-direction (getf *standard-views* :top))
  
- @end cartouche 
-@end smallexample
+ @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/center-line,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/center-line,,4.2in}
 

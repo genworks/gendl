@@ -73,8 +73,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
   
   (in-package :gdl-user)
 
@@ -87,8 +86,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
   (generate-sample-drawing :objects (make-object 'ellipse-sample))
   
-  @end cartouche 
-@end smallexample
+  @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/ellipse,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/ellipse,,4.2in}
 

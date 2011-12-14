@@ -2,9 +2,17 @@
 
 @b{Description}
 
-!!! Not applicable for this object !!!
+This routine makes compatible a list of GDL surface, minimum 2 surfaces is required.
 
+@noindent @b{Required-input-slots}
 
+@b{:surface-list}
+
+@itemize {}
+
+ @item List. A list of Gdl surface objects.
+
+@end itemize
 
 
 
@@ -12,8 +20,7 @@
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :gdl-user)
 
@@ -37,12 +44,12 @@
             :length 10
             :width 10 )))
 
- (generate-sample-drawing :object-roots (list (the-object (make-object 'join-surfaces-test) 
-                                                         join-A-and-B )))
+ (generate-sample-drawing :object-roots 
+                          (list (the-object (make-object 'join-surfaces-test) 
+                                            join-A-and-B )))
  
-@end cartouche 
-@end smallexample
-
+ @end smallexample
+ 
 
 
 

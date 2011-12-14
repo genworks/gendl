@@ -183,7 +183,6 @@ Defaults to "Courier".
 @noindent @b{Examples}
 
 @smallexample 
-@cartouche 
  (define-object general-note-test (base-object)
   
   :computed-slots
@@ -221,8 +220,7 @@ Defaults to "Courier".
   :objects (list-elements (make-object 'general-note-test)) 
   :projection-direction (getf *standard-views* :top))
 
-@end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/general-note,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/general-note,,4.2in}
 

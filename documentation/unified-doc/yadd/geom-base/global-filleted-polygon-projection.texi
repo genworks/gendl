@@ -29,8 +29,7 @@ as with global-filleted-polygon.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object global-filleted-polygon-projection-sample 
@@ -58,8 +57,7 @@ as with global-filleted-polygon.
 
 
 
-@end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-filleted-polygon-projection,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-filleted-polygon-projection,,4.2in}
 

@@ -71,8 +71,7 @@ eql for keywords, string-equal for strings, and equalp otherwise.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  ...
  
@@ -82,7 +81,6 @@ eql for keywords, string-equal for strings, and equalp otherwise.
 
  ...
 
-@end cartouche 
 @end smallexample
 
 

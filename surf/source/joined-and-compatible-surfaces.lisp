@@ -51,12 +51,13 @@
                   :other-surface (the surf-B))))
 
 
- (generate-sample-drawing :object-roots (list (the-object (make-object 'join-surfaces-test) 
-                                               join-A-and-B)))
+ (generate-sample-drawing :object-roots 
+			  (list (the-object (make-object 'join-surfaces-test) 
+					    join-A-and-B)))
  
 
-</pre>
-")
+ </pre>
+ ")
   
   :input-slots ("Gdl surface object. The first surface to be joined. Its u-max or v-max lays at the common boundary." surface 
                 "Gdl surface object. The second surface to be joined . Its u-min or v-min lays at the common boundary." other-surface 
@@ -69,7 +70,9 @@
 
 
 (define-object compatible-surfaces (base-object)
-  :documentation (:examples "<pre>
+  :documentation (:description "This routine makes compatible a list of GDL surface, minimum 2 surfaces is required." 
+
+			       :examples "<pre>
 
  (in-package :gdl-user)
 
@@ -93,12 +96,13 @@
             :length 10
             :width 10 )))
 
- (generate-sample-drawing :object-roots (list (the-object (make-object 'join-surfaces-test) 
-                                                         join-A-and-B )))
+ (generate-sample-drawing :object-roots 
+                          (list (the-object (make-object 'join-surfaces-test) 
+                                            join-A-and-B )))
  
-</pre>
-")
-  :input-slots (surface-list)
+ </pre>
+ ")
+  :input-slots ("List. A list of Gdl surface objects." surface-list)
   
   :computed-slots ((native-surfaces-list (return-compatible-surfaces *geometry-kernel* (the surface-list))))
   

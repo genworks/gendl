@@ -70,8 +70,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
   (in-package :gdl-user)
 
@@ -90,8 +89,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
   (generate-sample-drawing :objects (make-object 'global-polygon-projection-sample)
                            :projection-direction (getf *standard-views* :trimetric))  
 
-  @end cartouche 
-@end smallexample
+  @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-polygon-projection,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-polygon-projection,,4.2in}
 

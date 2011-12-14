@@ -37,8 +37,7 @@ means that all edges should be filleted.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object blend-sample (base-object)
@@ -55,7 +54,6 @@ means that all edges should be filleted.
  (generate-sample-drawing :objects (the-object (make-object 'blend-sample) blend)
                           :projection-direction (getf *standard-views* :trimetric))
 
-@end cartouche 
 @end smallexample
 
 

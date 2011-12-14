@@ -164,8 +164,7 @@ parameter. Defaults to (getf *standard-views* :top), which is the vector [0, 0, 
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
                  
  (in-package :gdl-user)
 
@@ -205,8 +204,7 @@ parameter. Defaults to (getf *standard-views* :top), which is the vector [0, 0, 
    (generate-sample-drawing :objects 
     (the-object (make-object 'box-with-two-viewed-drawing) drawing top-view))
  
- @end cartouche 
-@end smallexample
+ @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-view,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-view,,4.2in}
 

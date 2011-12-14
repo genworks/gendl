@@ -49,8 +49,7 @@ horizontal-dimension.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche        
+@smallexample        
 
  (in-package :gdl-user)
                    
@@ -69,8 +68,7 @@ horizontal-dimension.
 
   (generate-sample-drawing :object-roots (make-object 'parallel-dimension-sample))
 
-@end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/parallel-dimension,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/parallel-dimension,,4.2in}
 

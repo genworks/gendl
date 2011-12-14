@@ -13,13 +13,11 @@ are the child of a base-ajax-sheet.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  FLAG -- fill in!!!
 
 
-@end cartouche 
 @end smallexample
 
 

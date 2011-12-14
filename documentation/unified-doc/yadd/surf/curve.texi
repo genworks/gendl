@@ -520,8 +520,7 @@ are equal.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  
  (in-package :surf)
 
@@ -541,14 +540,11 @@ are equal.
    
    :hidden-objects
     ((curv-in  :type 'b-spline-curve
-              :control-points (the control-pts))
-             
-    ))
+              :control-points (the control-pts))))
 
   (generate-sample-drawing :object-roots (make-object 'test-curve)
                          :projection-direction :top)
-  @end cartouche 
-@end smallexample
+  @end smallexample
 
 
 

@@ -31,8 +31,7 @@ knots with degree-fold mutiplicity, i.e. each piece is at least C^ continuous.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
   
   (in-package :surf)  
 
@@ -44,8 +43,7 @@ knots with degree-fold mutiplicity, i.e. each piece is at least C^ continuous.
 
  (generate-sample-drawing :object-roots (make-object 'test-decomposed-curves))
 
- @end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

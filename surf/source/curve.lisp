@@ -96,9 +96,7 @@
    
    :hidden-objects
     ((curv-in  :type 'b-spline-curve
-              :control-points (the control-pts))
-             
-    ))
+              :control-points (the control-pts))))
 
   (generate-sample-drawing :object-roots (make-object 'test-curve)
                          :projection-direction :top)

@@ -62,8 +62,7 @@ The local start and end directions of this surface at any point along curve-1 an
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -121,8 +120,7 @@ The local start and end directions of this surface at any point along curve-1 an
  (generate-sample-drawing :object-roots (list (make-object 'test-e-b-s))
                            :projection-direction (getf *standard-views* :top))
 
- @end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

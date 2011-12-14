@@ -33,8 +33,7 @@ for l-line, namely @i{start} and @i{end} (3d points).
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -43,7 +42,6 @@ for l-line, namely @i{start} and @i{end} (3d points).
   
  (generate-sample-drawing :objects (make-object 'test-linear-curve))
 
-@end cartouche 
 @end smallexample
 
 

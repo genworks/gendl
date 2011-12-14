@@ -217,11 +217,10 @@ unless you explicitly pass in a different center. Default is nil.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (define-object boxed-surfaces-test (base-object)
-  
+
    ;;bounding-box-from-points gives errors  
   
    :objects
@@ -234,119 +233,101 @@ unless you explicitly pass in a different center. Default is nil.
                 :surface-in (the b-spline)
                 :center (translate (the center) :left 15))
    
-
-   
-   
     (twisted :type 'boxed-surface
              :surface-in (the boxed)
-             :orientation (alignment :left (the (face-normal-vector :top))
-                                     :rear (rotate-vector-d (the (face-normal-vector :rear))
-                                                            30
-                                                            (the (face-normal-vector :top)))))
-   
-   
+             :orientation 
+             (alignment :left (the (face-normal-vector :top))
+                        :rear (rotate-vector-d (the (face-normal-vector :rear))
+                                               30
+                                               (the (face-normal-vector :top)))))
     (rotated :type 'boxed-surface
              :surface-in (the b-spline)
              :display-controls (list :color :purple)
-             :orientation (alignment :left 
-                                     (rotate-vector-d (the (face-normal-vector :left))
-                                                      50
-                                                      (the (face-normal-vector :rear)))))
-   
-   
+             :orientation 
+             (alignment :left 
+                        (rotate-vector-d (the (face-normal-vector :left))
+                                         50
+                                         (the (face-normal-vector :rear)))))
+    
     (rotated-about :type 'boxed-surface
                    :surface-in (the b-spline)
                    :display-controls (list :color :purple)
                    :orientation-center (translate (the center) :right 2.5)
                    ;;:center (translate (the center) :up 5)
-                   :orientation (alignment :left 
-                                           (rotate-vector-d (the (face-normal-vector :left))
-                                                            45
-                                                            (the (face-normal-vector :rear)))))
-   
-   
+                   :orientation 
+                   (alignment :left 
+                              (rotate-vector-d (the (face-normal-vector :left))
+                                               45
+                                               (the (face-normal-vector :rear)))))
+    
     (moved-up :type 'boxed-surface
               :surface-in (the rotated-about)
               :center (translate (the rotated-about center) 
                                  :up 7
                                  :left 5))
-
    
     (straightened :type 'boxed-surface
                   :surface-in (the moved-up)
                   :orientation 
                   (alignment :left 
-                             (rotate-vector-d (the-child surface-in (face-normal-vector :left))
-                                              45
-                                              (the-child surface-in (face-normal-vector :rear)))
-                             :rear (the-child surface-in (face-normal-vector :rear))))
-                                         
-   
+                             (rotate-vector-d 
+                              (the-child surface-in (face-normal-vector :left))
+                              45
+                              (the-child surface-in (face-normal-vector :rear)))
+                             :rear (the-child surface-in (face-normal-vector 
+                                                          :rear))))
+
     (rotated-straightened :type 'boxed-surface
                           :surface-in (the straightened)
                           :orientation (the moved-up orientation)
-                          :orientation-center (translate (the-child surface-in center) :up 2.5)
-                          )
-   
-   
-   
+                          :orientation-center 
+                          (translate (the-child surface-in center)  :up 2.5))
+  
     (rotated-straightened-moved :type 'boxed-surface
                                 :surface-in (the rotated-straightened)
-                                :center (translate (the-child surface-in center) :right 5))
-                               
-   
-    (center-sphere :type 'sphere :radius 0.3 :center (the moved-up-and-straightened orientation-center))
-   
-   
-    (moved-up-and-straightened :type 'boxed-surface
-                               :surface-in (the straightened)
-                              
-                               :center (translate (the-child orientation-center) :right 7)
-                              
-                               :orientation (alignment :left (the-child surface-in (face-normal-vector :rear))
-                                                      
-                                                       :front
-                                                       (rotate-vector-d (the-child surface-in (face-normal-vector :left))
-                                                                        45
-                                                                        (the-child surface-in (face-normal-vector :rear))))
-                              
-                              
-                               :orientation-center (translate (the straightened center) :up 2.5)
-                               )
-   
-   
-   
-   
-    (moved-up-and-straightened-1 :type 'boxed-surface
-                                 :surface-in (the straightened)
-                              
-                                 :center (translate (the-child surface-in center) :right 14)
-                              
-                                 :orientation (the rotated-straightened orientation)
-                              
-                                 :orientation-center (translate (the straightened center) :up 2.5)
-                                 )
-   
-    (moved-up-and-straightened-2 :type 'boxed-surface
-                                 :surface-in (the straightened)
-                              
-                                 :center (translate (the-child surface-in center) :right 21)
-                              
-                                 :orientation (the rotated-straightened orientation)
-                              
-                                 :orientation-center (translate (the straightened center) :up 2.5)
-                                 )
-   
-   
+                                :center (translate (the-child surface-in center)
+                                                   :right 5))
+
+    (center-sphere :type 'sphere 
+                   :radius 0.3 
+                   :center (the moved-up-and-straightened orientation-center))
+      
+    (moved-up-and-straightened 
+     :type 'boxed-surface
+     :surface-in (the straightened)
+     :center (translate (the-child orientation-center) :right 7)
+     :orientation 
+     (alignment :left (the-child surface-in (face-normal-vector :rear))
+                :front
+                (rotate-vector-d 
+                 (the-child surface-in (face-normal-vector :left))
+                 45
+                 (the-child surface-in (face-normal-vector :rear))))
+     :orientation-center (translate (the straightened center) :up 2.5))
+ 
+    (moved-up-and-straightened-1
+     :type 'boxed-surface
+     :surface-in (the straightened)
+     :center (translate (the-child surface-in center) :right 14)
+     :orientation (the rotated-straightened orientation)
+     :orientation-center (translate (the straightened center) :up 2.5))
+    
+    (moved-up-and-straightened-2 
+     :type 'boxed-surface
+     :surface-in (the straightened)
+     :center (translate (the-child surface-in center) :right 21)
+     :orientation (the rotated-straightened orientation)
+     :orientation-center (translate (the straightened center) :up 2.5))
+    
     (transformed :type 'boxed-surface
                  :surface-in (the b-spline)
                  :center (translate (the center) :left 50)
-                 :orientation (alignment :rear 
-                                         (rotate-vector-d (the (face-normal-vector :rear))
-                                                          30
-                                                          (the (face-normal-vector :right)))))))
-@end cartouche 
-@end smallexample
+                 :orientation 
+                 (alignment :rear 
+                            (rotate-vector-d (the (face-normal-vector :rear))
+                                             30
+                                             (the (face-normal-vector :right)))))))
+ @end smallexample
 
 
 

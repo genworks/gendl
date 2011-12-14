@@ -83,8 +83,7 @@ curve object, it does not make a copy)
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -133,13 +132,14 @@ curve object, it does not make a copy)
          :projection-vector (make-vector 0 0 -1))))
 
 
- (generate-sample-drawing :objects (let ((self (make-object 'test-trimmed-from-projected-2)))
-                                     (list (the basis-surface) self (the raised-island) (the raised-hole)))
-                          :projection-direction :trimetric)
+ (generate-sample-drawing 
+  :objects (let ((self (make-object 'test-trimmed-from-projected-2)))
+             (list (the basis-surface) self (the raised-island) 
+                   (the raised-hole)))
+  :projection-direction :trimetric)
+ 
 
-
-@end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

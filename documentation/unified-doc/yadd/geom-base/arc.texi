@@ -108,8 +108,7 @@ the start and end point of the arc.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :gdl-user)
 
@@ -118,8 +117,7 @@ the start and end point of the arc.
 
  (generate-sample-drawing :objects (make-object 'arc-sample))
 
-@end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/arc,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/arc,,4.2in}
 

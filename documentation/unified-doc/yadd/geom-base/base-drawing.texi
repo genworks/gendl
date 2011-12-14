@@ -62,8 +62,7 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object base-drawing-sample (base-drawing)
@@ -78,8 +77,7 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
 
  (generate-sample-drawing :objects (make-object 'base-drawing-sample))                
 
- @end cartouche 
-@end smallexample
+ @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-drawing,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-drawing,,4.2in}
 

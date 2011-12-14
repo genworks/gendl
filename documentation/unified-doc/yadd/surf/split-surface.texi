@@ -107,8 +107,7 @@ the given vector intersected with the surface.
 @noindent @b{Examples}
 
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :gdl-user)
 
@@ -134,7 +133,6 @@ the given vector intersected with the surface.
                           :projection-direction (getf *standard-views* :trimetric))
 
 
-@end cartouche 
 @end smallexample
 
 

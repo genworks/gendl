@@ -37,8 +37,7 @@ without doing anything to the endpoints. Default is 0.01. Note: This input-slot 
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :surf)
 
  (define-object test-composed-curve (composed-curve)
@@ -51,7 +50,6 @@ without doing anything to the endpoints. Default is 0.01. Note: This input-slot 
  (generate-sample-drawing :objects (the-object (make-object 'test-composed-curve))
                           :projection-direction (getf *standard-views* :trimetric))
 
-@end cartouche 
 @end smallexample
 
 

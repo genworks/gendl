@@ -11,8 +11,7 @@ from brep and cylinder
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :surf)
 
  (define-object test-cone-solid (cone-solid)
@@ -23,7 +22,6 @@ from brep and cylinder
  (generate-sample-drawing :objects (the-object (make-object 'test-cone-solid))
                           :projection-direction (getf *standard-views* :trimetric))
 
-@end cartouche 
 @end smallexample
 
 

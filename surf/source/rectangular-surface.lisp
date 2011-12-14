@@ -25,19 +25,20 @@
 
   :documentation (:description "Creates a flat rectangular surface specified by the same inputs as box or base-object."
                   
-                  :examples "<pre>
+                  :examples 
+ "<pre>
 
  (in-package :surf)
 
  (define-object test-rectangular-surface (rectangular-surface)
-   :computed-slots ((display-controls (list :color :green-spring-medium)) (length 20) (width 30) (height 0)))
-
-
+   :computed-slots ((display-controls (list :color :green-spring-medium)) 
+                    (length 20) (width 30) (height 0)))
+ 
  (generate-sample-drawing :objects (make-object 'test-rectangular-surface)
                           :projection-direction :trimetric)
 
 
-</pre>")
+ </pre>")
   
   :input-slots
   ((center (make-point 0 0 0) :defaulting) length width height)

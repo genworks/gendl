@@ -75,8 +75,7 @@ and a V parameter if this input is :v. Default is :u.
 @noindent @b{Examples}
 
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :gdl-user)
                    
@@ -174,7 +173,6 @@ and a V parameter if this input is :v. Default is :u.
                                                display-list-objects)
                           :projection-direction (getf *standard-views* :trimetric))
 
-@end cartouche 
 @end smallexample
 
 

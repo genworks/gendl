@@ -46,8 +46,7 @@ Defaults to *3d-approximation-tolerance-default*.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  
  (in-package :surf)
 
@@ -75,8 +74,7 @@ Defaults to *3d-approximation-tolerance-default*.
  (generate-sample-drawing :object-roots (list (make-object 'test-planar-offset-curve))
                           :projection-direction (getf *standard-views* :top))
 
- @end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

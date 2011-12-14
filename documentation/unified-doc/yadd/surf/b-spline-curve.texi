@@ -50,8 +50,7 @@ If any of the weights are different from 1.0, it is Rational.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -73,7 +72,8 @@ If any of the weights are different from 1.0, it is Rational.
            :degree (1+ (the-child :index))
            :display-controls (list :line-thickness (* 0.3 (the-child index))
                                    :color (ecase (the-child index)
-                                            (0 :red) (1 :orange) (2 :yellow) (3 :green)
+                                            (0 :red) (1 :orange) 
+                                            (2 :yellow) (3 :green)
                                             (4 :blue) (5 :red-violet))))
 
    (points :type 'point 
@@ -100,11 +100,13 @@ If any of the weights are different from 1.0, it is Rational.
                       :points (the control-points))
             
             
-              (bezier :type 'bezier-curve  ;; This will be a geom-base:bezier-curve
+              (bezier :type 'bezier-curve  
+                      ;; This will be a geom-base:bezier-curve
                       :display-controls (list :color :green)
                       :control-points (the control-points))
             
-              (b-spline :type 'b-spline-curve ;; This will be an equivalent surf:b-spline-curve.
+              (b-spline :type 'b-spline-curve 
+                        ;; This will be an equivalent surf:b-spline-curve.
                         :display-controls (list :color :red :bezier-points t)
                         :control-points (the bezier control-points))
 
@@ -123,8 +125,7 @@ If any of the weights are different from 1.0, it is Rational.
                                  :control-points (the bezier control-points)
                                  :degree 2)))
 
-@end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

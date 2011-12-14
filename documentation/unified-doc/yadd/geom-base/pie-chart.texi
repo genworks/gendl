@@ -4,8 +4,8 @@
 
 Generates a standard Pie Chart with colored filled pie sections.
 
-This object was inspired by the pie-chart in Marc Battyani's (marc.battyani(at)fractalconcept.com) cl-pdf,
-with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch).
+This object was inspired by the pie-chart in Marc Battyani's (marc.battyani(at)fractalconcept.com)
+cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch).
 
 @noindent @b{Optional-input-slots}
 
@@ -96,8 +96,7 @@ Color of title text. Defaults to :black.
 
 
 
-@smallexample 
-@cartouche
+ @smallexample
 
  (in-package :gdl-user)
  
@@ -113,8 +112,7 @@ Color of title text. Defaults to :black.
 
  (generate-sample-drawing :objects (make-object 'pie-sample))
 
-@end cartouche 
-@end smallexample
+ @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/pie-chart,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/pie-chart,,4.2in}
 

@@ -85,8 +85,7 @@ Default is *angle-tolerance-radians-default*.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -104,8 +103,7 @@ Default is *angle-tolerance-radians-default*.
  (generate-sample-drawing :object-roots (list (make-object 'test-planar-section-curve))
                            :projection-direction (getf *standard-views* :trimetric))
 
- @end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

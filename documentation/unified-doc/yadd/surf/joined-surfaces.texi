@@ -44,8 +44,7 @@ This  routine joins two surfaces at a common boundary. The surfaces must already
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :gdl-user)
 
@@ -71,13 +70,13 @@ This  routine joins two surfaces at a common boundary. The surfaces must already
                   :other-surface (the surf-B))))
 
 
- (generate-sample-drawing :object-roots (list (the-object (make-object 'join-surfaces-test) 
-                                               join-A-and-B)))
+ (generate-sample-drawing :object-roots 
+			  (list (the-object (make-object 'join-surfaces-test) 
+					    join-A-and-B)))
  
 
-@end cartouche 
-@end smallexample
-
+ @end smallexample
+ 
 
 
 

@@ -9,8 +9,7 @@ Messages are the union of those for arc and those for curve.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
   (in-package :surf)
 
@@ -27,7 +26,6 @@ Messages are the union of those for arc and those for curve.
   
   (generate-sample-drawing :objects (make-object 'test-arc-curve))
 
-@end cartouche 
 @end smallexample
 
 

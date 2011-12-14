@@ -31,22 +31,19 @@ application-mixin, you can include one object of this type in the ui-display-lis
                   
                   :examples "<pre>
 
-
  (in-package :gwl-user)
 
-
  (define-object test-html-graphics-sheet (base-html-graphics-sheet)
-  
-     
+    
    :objects 
+
    ((b-splines :type 'test-b-spline-curves)
    
     (boxed-spline :type 'surf:boxed-curve
                   :curve-in (the b-splines (curves 0))
                   :orientation (alignment :top (the (face-normal-vector :rear)))
                   :show-box? t)
-                 
-   
+
     (view-object :type 'web-drawing
                  :page-length (the graphics-height value)
                  :page-width (the graphics-width value)
@@ -63,23 +60,21 @@ application-mixin, you can include one object of this type in the ui-display-lis
               :default :black)
    
     (fg-color :type 'text-form-control
-              :default :white)
-   
-    )
+              :default :white))
      
    :computed-slots
    ((background-color (lookup-color (the :bg-color value) :format :decimal))
     (foreground-color (lookup-color (the :fg-color value) :format :decimal))
-   
-   
+     
     (view :trimetric :settable)
    
     (\"list of gdl objects. Objects to be displayed in the graphics window.\"
      ui-display-roots (list (the b-splines) (the boxed-spline)))))
 
-
  (define-lens (html-format test-html-graphics-sheet)()
+   
    :output-functions
+
    ((main-sheet
      ()
      (with-html-output (*html-stream* nil :indent t)
@@ -87,8 +82,9 @@ application-mixin, you can include one object of this type in the ui-display-lis
               (:body (when gwl:*developing?* (the write-development-links))
                      (:h2 (:center \"Test HTML Graphics Sheet\"))
                      (with-html-form (:cl-who? t)
-                       (:table (:tr (:td (:ul (:li (str (the graphics-height html-string)))
-                                              (:li (str (the graphics-width html-string)))
+                       (:table (:tr (:td (:ul 
+                                         (:li (str (the graphics-height html-string)))
+                                         (:li (str (the graphics-width html-string)))
                                               (:li (str (the bg-color html-string)))
                                               (:li (str (the fg-color html-string))))
                                          (:p (:input :type :submit :value \" OK \")))
@@ -98,11 +94,10 @@ application-mixin, you can include one object of this type in the ui-display-lis
           :function #'(lambda(req ent)
                         (gwl-make-object req ent \"gwl-user::test-html-graphics-sheet\")))
 
-
-
  (define-object test-b-spline-curves (base-object)
 
    :input-slots
+
    ((control-points (list (make-point 0 0 0)
                           (make-point 2 3.0 0.0) 
                           (make-point 4 2.0 0.0) 
@@ -112,6 +107,7 @@ application-mixin, you can include one object of this type in the ui-display-lis
                           (make-point 0 0 0))))
   
    :objects
+
    ((curves :type 'surf:b-spline-curve
             :sequence (:size 6)
             :control-points (the control-points)
@@ -125,8 +121,6 @@ application-mixin, you can include one object of this type in the ui-display-lis
             :sequence (:size (length (rest (the control-points))))
             :center (nth (the-child index) (rest (the control-points)))
             :display-controls (list :color :green))))
-
-
 </pre>
 "
                   )

@@ -7,8 +7,7 @@ from brep and cone.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
                   
  (in-package :surf)
 
@@ -26,8 +25,7 @@ from brep and cone.
  (generate-sample-drawing :object-roots (make-object 'test-cone-solid-hollow)
                           :projection-direction (getf *standard-views* :trimetric))
  
- @end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

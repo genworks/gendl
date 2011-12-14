@@ -9,8 +9,7 @@ from brep and box.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :surf)
 
  (define-object test-box-solid (box-solid)
@@ -19,7 +18,6 @@ from brep and box.
  (generate-sample-drawing :objects (the-object (make-object 'test-box-solid) )
                           :projection-direction (getf *standard-views* :trimetric))
 
-@end cartouche 
 @end smallexample
 
 

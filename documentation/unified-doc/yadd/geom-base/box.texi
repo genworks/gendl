@@ -19,8 +19,7 @@ messages as base-object, which knows how to output itself in various formats.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object box-sample (box)
@@ -32,8 +31,7 @@ messages as base-object, which knows how to output itself in various formats.
  (generate-sample-drawing :objects (make-object 'box-sample)
                           :projection-direction (getf *standard-views* :trimetric))
 
-@end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/box,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/box,,4.2in}
 

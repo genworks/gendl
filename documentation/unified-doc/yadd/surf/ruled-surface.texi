@@ -36,8 +36,7 @@ Creates a surface between two NURBS curves.:
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
                   
  (in-package :surf)
 
@@ -58,7 +57,6 @@ Creates a surface between two NURBS curves.:
  (generate-sample-drawing :objects (make-object 'test-ruled-surface)
                           :projection-direction :trimetric)
 
-@end cartouche 
 @end smallexample
 
 

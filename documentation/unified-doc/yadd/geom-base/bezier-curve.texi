@@ -82,8 +82,7 @@ segment.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object bezier-sample (bezier-curve)
@@ -98,8 +97,7 @@ segment.
 
  (generate-sample-drawing :objects (let ((self (make-object 'bezier-sample)))
                                      (list self (the points-display))))
-@end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/bezier-curve,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/bezier-curve,,4.2in}
 

@@ -1,0 +1,320 @@
+@subsubsection Make-gdl-app
+
+@b{Description}
+
+This object serves as the driver for the build process for GDL runtime applications. 
+There is a function of the same name 
+which can be called with keyword arguments of the same names as the input-slots for this object. This function will create an instance with the 
+given keyword symbols, then invoke @i{(the make)} on it.
+
+
+Note that for very large applications, including all the application fasls in @i{(the application-fasls)} list can cause the Lisp 
+heap to blow up fatally during the build. This is because Allegro CL turns off global garbage collecting during the load of the standard
+list of application fasls. For these cases, the suggested workaround is to include explicit "load" statements for your 
+application fasls in the @i{:post-load-form} argument in the @i{generate-application-args} list, as in the second example below. 
+ 
+
+
+@noindent @b{Optional-input-slots}
+
+@b{:application-class}
+
+@itemize {}
+
+ @item Keyword symbol. Should be one of :runtime, :development, or :enterprise. 
+Indicates which level of application should be made.  for :development, you must
+be licensed with Partners level of GDL Enterprise Edition. With :enterprise, you can use 
+this function to create custom development images of your own Enterprise seat of GDL, with built-in 
+fasls of your choice. Defaults to :runtime.
+
+@end itemize
+
+@b{:application-fasls}
+
+@itemize {}
+
+ @item List of pathnames. This list should contain the pre-compiled fasls for your GDL application, 
+in correct load order. These can be produced, for example, by calling genworks:cl-lite 
+with the  :create-fasl? keyword argument set to t.
+
+@end itemize
+
+@b{:application-name}
+
+@itemize {}
+
+ @item String. The name which will be used for your application's executable and dxl file. Defaults to nil, must be specified.
+
+@end itemize
+
+@b{:built-in-fasls}
+
+@itemize {}
+
+ @item List of pathnames. This should generally not be overridden by user code. This is the list of core 
+GDL runtime components which should go into the build. Defaults to the list of patches from the latest patchlevel, 
+as seen by (update-gdl).
+
+@end itemize
+
+@b{:case-modes}
+
+@itemize {}
+
+ @item List of list, each with keyword symbol and string. Indicates case modes for generated images along with a string
+to be prefixed to the executable produced for that case mode. Case modes keywords can be one of :case-sensitive-lower (the default), 
+or :case-insensitive-upper. Defaults to (list (list :case-sensitive-lower ""))
+
+@end itemize
+
+@b{:character-widths}
+
+@itemize {}
+
+ @item List of numbers, 8 or 16. Indicates whether generated image(s) should have single-byte or double-bite 
+characters.
+
+@end itemize
+
+@b{:compile-training-file?}
+
+@itemize {}
+
+ @item Boolean. Determines whether to compile the CLOS training file. 
+Defaults to t iff (the application-class) is :runtime.
+
+@end itemize
+
+@b{:demo-periods}
+
+@itemize {}
+
+ @item List of numbers. Time-limited licenses will be generated for the number of days indicated 
+by each number. You must be licensed to generate demo applications in order to use this feature.
+
+@end itemize
+
+@b{:destination-directory}
+
+@itemize {}
+
+ @item Pathname. Indicates the directory to be created or overwritten for producing the runtime distribution. 
+Defaults to a directory called (the application-name) in the system temporary directory, 
+returned on Allegro CL by (sys:temporary-directory).
+
+@end itemize
+
+@b{:extra-modules}
+
+@itemize {}
+
+ @item List of keywords. Extra modules to be built in. Defaults to
+:geom-base, :surf, :smlib, :ta2, :yadd
+
+@end itemize
+
+@b{:gdlinit-content}
+
+@itemize {}
+
+ @item String. Content for the standard gdlinit.cl startup script in the generated application. 
+Defaults to a standard set of behavior: start GWL webserver, load smlib geometry kernel, and finally load the 
+application-specific startup script comprised from (the skeleton-start-content).
+
+@end itemize
+
+@b{:generate-application-args}
+
+@itemize {}
+
+ @item Plist of arguments suitable for Allegro CL's generate-application function. 
+These args will be passed to the internal call to generate-application.
+
+@end itemize
+
+@b{:hidden?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the object should effectively be a hidden-object even if specified in :objects. Default is nil.
+
+@end itemize
+
+@b{:licenses-directory}
+
+@itemize {}
+
+ @item Pathname. Indicates the directory where the license key file for the generated application will end up. 
+Defaults to (the destination-directory).
+
+@end itemize
+
+@b{:lisp-heap-size}
+
+@itemize {}
+
+ @item Number. The size of the reserved space which will be requested from the OS when the produced application starts up.
+Defaults to 800000000 (eight hundred million) bytes.
+
+@end itemize
+
+@b{:make-pll?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the build should create a PLL, so-called Purified Lisp Library file. 
+This separates string constants into a separate file and can save space in the Lisp heap. Defaults to t.
+
+@end itemize
+
+@b{:newspace}
+
+@itemize {}
+
+ @item Number. The amount of default initial newspace in the generated image.
+
+@end itemize
+
+@b{:oldspace}
+
+@itemize {}
+
+ @item Number. The amount of default initial oldspace in the generated image.
+
+@end itemize
+
+@b{:overwrite?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether a build will overwrite a previously existing destination directory. 
+Defaults to nil.
+
+@end itemize
+
+@b{:patch-level}
+
+@itemize {}
+
+ @item Number or keyword symbol :latest. This indicates which patchlevel from the current GDL version will be used 
+to make up the generated image. The patch level given must exist in the local patches directory, which defaults to
+*patches-root-dir-default*. Defaults to :loaded.
+
+@end itemize
+
+@b{:patches-root-dir}
+
+@itemize {}
+
+ @item Pathname. Points to the effective location for local GDL patches. Defaults to *patches-root-dir-default*.
+
+@end itemize
+
+@b{:post-make-function}
+
+@itemize {}
+
+ @item Lisp Function of zero arguments. This function will be run after the build is finished.
+
+@end itemize
+
+@b{:pre-make-function}
+
+@itemize {}
+
+ @item Lisp Function of zero arguments. This function will be run before the build is begun.
+
+@end itemize
+
+@b{:root}
+
+@itemize {}
+
+ @item GDL Instance. The root-level node in this object's ``tree'' (instance hierarchy).
+
+@end itemize
+
+@b{:skeleton-start-content}
+
+@itemize {}
+
+ @item String. Content for the application-specific startup script for the generated application. 
+Defaults to *skeleton-start-app*.
+
+@end itemize
+
+@b{:strings-for-display}
+
+@itemize {}
+
+ @item String or List of Strings. Determines how the name of objects of this type will be printed in most places. 
+This defaults to the name-for-display (generally the part's name as specified in its
+parent), followed by an index number if the part is an element of a sequence.
+
+@end itemize
+
+@b{:visible-children}
+
+@itemize {}
+
+ @item List of GDL Instances. Additional objects to display in Tatu tree. Typically this would be a subset of hidden-children. Defaults to NIL.
+
+@end itemize
+
+@b{:zip-exe}
+
+@itemize {}
+
+ @item Pathname. Must point to 7z compatible zip executable program if (the zip-it?) is non-nil.
+
+@end itemize
+
+@b{:zip-it?}
+
+@itemize {}
+
+ @item Boolean. Determines whether the resulting build directory will be zipped into a 
+zip archive using (the zip-exe). Defaults to nil.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+@noindent @b{Functions}
+
+@b{:make}
+
+@itemize {}
+
+ @item Void. Does the build and creates or replices (the destination-directory) 
+with the resulting runtime build.
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample
+
+ (in-package :gdl-user)
+
+ (make-gdl-app :application-name "moon-shot" :destination-directory  "/tmp/moon-shot/" 
+               :overwrite? t :application-fasls (list "/fasl-home/booster-rocket.fasl" "/fasl-home/lunar-module.fasl"))
+
+ (make-gdl-app :application-name "moon-shot" :destination-directory  "/tmp/moon-shot/" 
+               :overwrite? t :generate-application-args (list :post-load-form '(progn (load "/fasl-home/booster-rocket.fasl")
+                                                                                      (load "/fasl-home/lunar-module.fasl"))))
+
+
+@end smallexample
+
+
+
+
+ @b{Example image is not generated!}
+

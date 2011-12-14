@@ -122,13 +122,12 @@
             :curve-left (the arc-3 reverse )
             :curve-right (the arc-4))))
 
+ (generate-sample-drawing 
+	     :objects (the-object (make-object 'test-basic-surface) surface)
+	     :projection-direction (getf *standard-views* :tri-r-r))
 
 
- (generate-sample-drawing :objects (the-object (make-object 'test-basic-surface) surface)
-                          :projection-direction (getf *standard-views* :tri-r-r))
-
-
-</pre>")
+ </pre>")
 
   :input-slots 
   

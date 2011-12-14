@@ -129,7 +129,7 @@ is demanded.
 
 [Note -- this slot is not really necessary for protecting out-of-bounds sequence references 
 anymore, the form-control processor protects against this by itself now].
-</p>
+
 
 These objects are validated and bashed first, in the order given. If the cardinality 
 of one form-control depends on another as in the example below, then you should list 
@@ -137,14 +137,14 @@ those dependent objects first. Default is nil.
 
 
  :examples
-<pre>
+@smallexample 
  
 ...
   
   :computed-slots ((number-of-nozzles (the number-of-nozzles-form value))
-                   (ordered-form-controls (append (list-elements (the inner-flange-form))
-                                                  (list (the number-of-nozzles-form)))))
-
+	    (ordered-form-controls 
+	     (append (list-elements (the inner-flange-form))
+		     (list (the number-of-nozzles-form)))))
   
   :objects
   ((inner-flange-form
@@ -160,7 +160,8 @@ those dependent objects first. Default is nil.
     :default 0)
 
 
-</pre>
+@end smallexample 
+
 
 
 
@@ -203,11 +204,12 @@ such as :onclick, :onchange, etc, which will invoke an Ajax request to the
 server, which will respond by replacing the innerHTML of affected :div's, and 
 running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
-:examples "<pre>
+:examples "@smallexample 
 
  FLAG -- Fill in!!!
 
-</pre>"
+@end smallexample 
+"
  
 :&key ((bashee (the bashee)) "GDL Object. This object will have the function-key 
                                called on it, if any."
@@ -229,12 +231,10 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  FLAG -- Fill in!!!
 
-@end cartouche 
 @end smallexample
 
 

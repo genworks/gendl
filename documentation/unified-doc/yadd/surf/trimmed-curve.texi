@@ -44,8 +44,7 @@ Creates a curve based on an existing curve but possibly with new start and end p
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
   
  (in-package :surf)
 
@@ -69,8 +68,7 @@ Creates a curve based on an existing curve but possibly with new start and end p
 
  (generate-sample-drawing :object-roots (make-object 'test-trimmed-curve))
 
-   @end cartouche 
-@end smallexample
+   @end smallexample
 
 
 

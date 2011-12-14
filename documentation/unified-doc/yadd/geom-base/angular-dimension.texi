@@ -97,8 +97,7 @@ Defaults to nil.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :gdl-user)
 
  (define-object angular-dimension-test (base-object) 
@@ -126,8 +125,7 @@ Defaults to nil.
             (the-object (make-object 'angular-dimension-test) explicit-dimension))
   :projection-direction (getf *standard-views* :top))
  
-  @end cartouche 
-@end smallexample
+  @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/angular-dimension,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/angular-dimension,,4.2in}
 

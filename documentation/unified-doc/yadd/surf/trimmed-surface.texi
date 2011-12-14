@@ -105,8 +105,7 @@ the result-island should return a non-NIL value while the island will return NIL
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
                   
@@ -149,7 +148,6 @@ the result-island should return a non-NIL value while the island will return NIL
                           :projection-direction :trimetric)
 
 
-@end cartouche 
 @end smallexample
 
 

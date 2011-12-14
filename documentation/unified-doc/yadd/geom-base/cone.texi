@@ -59,8 +59,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
   (in-package :gdl-user)
 
    (define-object cone-sample (cone)
@@ -75,8 +74,7 @@ the center of its base. Partial cones and hollow cones are supported.
   
  (generate-sample-drawing :objects (make-object 'cone-sample) 
                           :projection-direction :trimetric) 
-  @end cartouche 
-@end smallexample
+  @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone,,4.2in}
 

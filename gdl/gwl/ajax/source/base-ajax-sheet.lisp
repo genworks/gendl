@@ -43,12 +43,10 @@ main-sheet-body, which produces a \"No Body has been defined\" message by defaul
 but which you can fill in your own specific lens to do something useful for the body."
 
                   
-                  :examples "<pre>
-
+                               :examples "<pre>
  (in-package :gdl-user)
 
  (gwl:define-package :ajax-test (:export #:assembly))
-
 
  (in-package :ajax-test)
 
@@ -64,7 +62,6 @@ but which you can fill in your own specific lens to do something useful for the 
     (viewport :type 'viewport
               :box-color (the inputs-section color))))
 
-
  (define-lens (html-format assembly)()
    :output-functions
    ((main-sheet-body
@@ -75,8 +72,6 @@ but which you can fill in your own specific lens to do something useful for the 
          (:td (str (the inputs-section main-div)))
          (:td (str (the outputs-section main-div)))
          (:td (str (the viewport main-div)))))))))
-        
-
 
  (define-object inputs-section (sheet-section)
 
@@ -88,27 +83,26 @@ but which you can fill in your own specific lens to do something useful for the 
                   :default :red
                   :onchange (the (gdl-ajax-call 
                                   :form-controls (list (the-child)))))
-    
-    
-    
+   
     (little-grid :type 'grid-form-control
-                 :form-control-types '(text-form-control text-form-control button-form-control)
-                 :form-control-attributes `((:ajax-submit-on-change? t)
+                 :form-control-types '(text-form-control 
+                                       text-form-control 
+                                       button-form-control)
+                 :form-control-attributes '((:ajax-submit-on-change? t)
                                             (:ajax-submit-on-change? t))
-                 
-                 :form-control-inputs (mapcar #'(lambda(row)
-                                                  (list nil nil 
-                                                        (list :onclick 
-                                                              (the (gdl-ajax-call 
-                                                                    :function-key :do-something!
-                                                                    :arguments (list (the-object row index)))))))
-                                              (list-elements (the-child rows)))
-                 
+                 :form-control-inputs 
+                 (mapcar #'(lambda(row)
+                             (list nil nil 
+                                   (list :onclick 
+                                         (the (gdl-ajax-call 
+                                               :function-key :do-something!
+                                               :arguments 
+                                               (list (the-object row index)))))))
+                         (list-elements (the-child rows)))
                  :default '((:color :number :press-me)
                             (:red 42 \"OK\")
                             (:blue 50 \"OK\"))))
-
-  
+   
    :computed-slots 
    ((main-view (with-cl-who-string ()
                  (str (the little-grid form-control-string))
@@ -122,12 +116,15 @@ but which you can fill in your own specific lens to do something useful for the 
 
 
  (define-object outputs-section (sheet-section)
+   
    :input-slots (color box)
   
-   :computed-slots ((main-view (with-cl-who-string ()
-                                 (:p \"The box volume is: \" (fmt \"~a\" (the box volume)))
-                                 (:p \"The box color is: \" ((:span :style (format nil \"color: ~a\" (the color)))
-                                                           (str (the color))))))))
+   :computed-slots 
+   ((main-view (with-cl-who-string ()
+                 (:p \"The box volume is: \" (fmt \"~a\" (the box volume)))
+                 (:p \"The box color is: \" 
+                     ((:span :style (format nil \"color: ~a\" (the color)))
+                      (str (the color))))))))
 
 
 
@@ -135,12 +132,11 @@ but which you can fill in your own specific lens to do something useful for the 
   
    :input-slots (box-color)
 
-   
    :computed-slots ((length 300)
                     (width 300)
                     (display-list-objects (list (the box)))
-                    (projection-vector (getf *standard-views* (the view-selector value)))
-                    
+                    (projection-vector (getf *standard-views* 
+                                             (the view-selector value)))
                     (main-view
                      (with-cl-who-string ()
                        (str (the view-selector html-string))
@@ -150,12 +146,8 @@ but which you can fill in your own specific lens to do something useful for the 
    :objects ((box :type 'box 
                   :length 20 :width 25 :height 30
                   :display-controls (list :color (the box-color)))))
-            
-
-
+   
  (publish-gwl-app \"/ajax-test\" \"ajax-test:assembly\")
-
-
 
 </pre>")
 
@@ -230,8 +222,7 @@ just before the body.
                 ;; a define-lens of an assembly (user interface)
                 ("Absolute URI in the browser to application User Interface (UI) Specific jQuery Layout JavaScript. 
 This is additional JavaScript that needs to be loaded in order to initiate the layout of a user 
-interface. GDL uses the jQuery Layout plugin (<a href=\'http://layout.jquery-dev.net/documentation.html\' target=\'new\'>
-http://layout.jquery-dev.net/documentation.html</a>) to construct a layout. The HTML part of the user interface 
+interface. GDL uses the jQuery Layout plugin (<a href=’http://layout.jquery-dev.net/documentation.html’ target=’new’> http://layout.jquery-dev.net/documentation.html</a>) to construct a layout. The HTML part of the user interface 
 is normally defined in a the main-sheet-body, a lens of the main assembly. This input slot defaults to 
 /static/gwl/js/tasty-initlayout-3.js. You can check this file as a reference for your own application 
 UI specific jQuery Layout JavaScript."

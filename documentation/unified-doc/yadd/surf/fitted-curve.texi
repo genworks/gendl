@@ -81,8 +81,7 @@ tangent (in this case there should be two vectors in the :vectors list. Default 
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
  (in-package :surf)
 
  (define-object test-fitted-curve (fitted-curve) 
@@ -102,8 +101,7 @@ tangent (in this case there should be two vectors in the :vectors list. Default 
                                      (cons self (list-elements (the spheres)))))
 
 
- @end cartouche 
-@end smallexample
+ @end smallexample
 
 
 

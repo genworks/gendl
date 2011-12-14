@@ -8,8 +8,7 @@ for documentation on the messages.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
   (in-package :gdl-user)
 
@@ -26,8 +25,7 @@ for documentation on the messages.
 
   (generate-sample-drawing :objects (make-object 'global-filleted-polyline-sample))
 
-  @end cartouche 
-@end smallexample
+  @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-filleted-polyline,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-filleted-polyline,,4.2in}
 

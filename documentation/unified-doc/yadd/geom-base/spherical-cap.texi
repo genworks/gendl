@@ -126,8 +126,7 @@ construction and positioning since the actual center of the spherical cap is the
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
   
  (in-package :gdl-user)
 
@@ -146,8 +145,7 @@ construction and positioning since the actual center of the spherical cap is the
  (generate-sample-drawing :objects (make-object 'spherical-cap-sample) 
                           :projection-direction :trimetric)
                   
-@end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/spherical-cap,,4.2in}
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/spherical-cap,,4.2in}
 

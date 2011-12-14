@@ -231,14 +231,15 @@ object's type. This write-html-sheet function, if defined,  will override any ma
 function defined in the lens. Typically a write-html-sheet function would look as follows:
 
 :example
-<pre>
+@smallexample 
  (write-html-sheet
   ()
   (html (:html (:head (:title (:princ (the :page-title))))
                (:body ;;; fill in your body here
 
                ))))
-</pre>
+@end smallexample 
+
 
 @end itemize
 

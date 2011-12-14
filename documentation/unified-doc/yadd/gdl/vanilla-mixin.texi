@@ -396,7 +396,7 @@ otherwise it will be evaluated as a variable according to normal Lisp functional
 @itemize {}
 
  @item Keyword symbol. Describes the current status of the requested slot:
-<ol>
+ @enumerate 
  @item :unbound: it has not yet been demanded (this could mean either
     it has never been demanded, or something it depends on has been
     modified since the last time it was demanded and eager setting is not enabled).
@@ -407,7 +407,10 @@ value based on the code.
 the value to which it was explicitly set.
  @item :toplevel: (for root-level object only) its value was passed 
 into the root-level object as a toplevel input at the time of object 
-instantiation.</ol>
+instantiation.
+@end enumerate
+
+
 
 @end itemize
 

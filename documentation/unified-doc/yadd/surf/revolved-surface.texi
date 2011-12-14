@@ -60,8 +60,7 @@ box of this object should be located.
 
 @noindent @b{Examples}
 
-@smallexample 
-@cartouche
+@smallexample
 
  (in-package :surf)
 
@@ -69,18 +68,18 @@ box of this object should be located.
 
    :computed-slots ((display-controls (list :color :green-yellow2)))
 
-   :hidden-objects ((curve :type 'arc-curve
-                           :center (translate (the center) :right 50)
-                           :orientation (alignment :top (the (face-normal-vector :rear)))
-                           :start-angle (half pi)
-                           :end-angle (* 3/2 pi)
-                           :radius 10)))
-
+   :hidden-objects 
+   ((curve :type 'arc-curve
+           :center (translate (the center) :right 50)
+           :orientation (alignment :top (the (face-normal-vector :rear)))
+           :start-angle (half pi)
+           :end-angle (* 3/2 pi)
+           :radius 10)))
+ 
  (generate-sample-drawing :objects (make-object 'test-revolved-surface)
                           :projection-direction :trimetric)
-
- @end cartouche 
-@end smallexample
+ 
+ @end smallexample
 
 
 
