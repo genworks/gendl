@@ -1,9 +1,8 @@
 (in-package :yadd)
 
-(defparameter *data-pathname* 
-    (make-pathname :directory (pathname-directory excl:*source-pathname*)
-                                      
-                   :device (pathname-device  excl:*source-pathname*)))
+(defparameter *data-pathname*
+  (make-pathname :directory (pathname-directory excl:*source-pathname*)
+		 :device (pathname-device  excl:*source-pathname*)))
 
 
 (define-object document-yadd (base-object)
@@ -167,24 +166,44 @@
                               :description) 
                         (excl:replace-re 
                          (excl:replace-re 
-                          (excl:replace-re 
-                           (excl:replace-re 
-                            (excl:replace-re 
-                             (getf (nth n (the part-documentation-plist)) 
-                                   :description)  
-                             "@" "(at)" ) 
-                            "<tt>" "@i{" ) 
-                           "</tt>" "}")  
-                          "<i>" "@i{" ) 
-                         "</i>" "} ")
-                      
-                      ;;italic it has to be replaced too.
-                      "!!! Not applicable for this object !!!"))
-        
-            (mapcar #'(lambda (documentation) 
-                        (if  (fourth documentation) 
-                             (progn (format out "@noindent @b{~@(~a~)}~%~%" 
-                                (first documentation))
+			  (excl:replace-re 
+			   (excl:replace-re 
+			    (excl:replace-re 
+			     (excl:replace-re 
+			      (excl:replace-re
+			       (excl:replace-re
+				(excl:replace-re 
+				 (excl:replace-re
+				  (excl:replace-re 
+				   (excl:replace-re 
+				    (getf (nth n (the part-documentation-plist)) 
+					  :description)  
+				    "@" "(at)")
+				   "" "")
+				  "<ol>" " @enumerate ")
+				 "</ol>" "
+@end enumerate
+
+")
+				"<li>" " @item " )
+			       "</li>" "" )
+			      "<ul>" " @itemize ")
+			     "</ul>" "
+@end itemize 
+
+")
+			    "<tt>" "@i{" )
+			   "</tt>" "}") 
+			  "<i>" "@i{" ) 
+			 "</i>" "} ")
+			
+			;;italic it has to be replaced too.
+			"!!! Not applicable for this object !!!"))
+	    
+	    (mapcar #'(lambda (documentation) 
+		    (if  (fourth documentation) 
+			 (progn (format out "@noindent @b{~@(~a~)}~%~%" 
+					(first documentation))
                         (let ((index (length (second documentation)))) 
                           (dotimes (n index)
                             
@@ -212,8 +231,22 @@
                                                        (excl:replace-re 
                                                         (excl:replace-re
                                                          (excl:replace-re
-                                                          (nth n (third documentation))
-                                                          "<p>" "" ) 
+							  (excl:replace-re
+							   (excl:replace-re
+							    (excl:replace-re
+							     (excl:replace-re
+							      (excl:replace-re
+							       (nth n (third documentation))
+							       "<p>" "" ) 
+							      "</p>" "" ) 
+							     "<ol>" " @enumerate ")
+							    "</ol>" "
+@end enumerate
+
+")
+							   "<pre>" "@smallexample ")
+							  "</pre>" "@end smallexample 
+")
                                                          "<i>" "@i{" ) 
                                                         "</i>" "} ")
                                                        "<b>" "@b{" ) 
@@ -242,7 +275,7 @@
 @end itemize 
 
 "))))))  
-                          
+			 
                        
                   (format out "~%~%")))
                     (nth n  (the  doc-messages )))            
@@ -262,10 +295,14 @@
                         (excl:replace-re 
                          (getf (nth n  (the part-documentation-plist)) :examples)  
                          "@" "(at)" ) 
-                        "<pre>" "@smallexample 
-@cartouche" ) 
-                       "</pre>" "@end cartouche 
-@end smallexample")
+                        "<pre>" "@smallexample")
+     
+
+
+;; @cartouche" ) 
+                       "</pre>" "@end smallexample")
+;;"@end cartouche 
+;;@end smallexample")
                     ""))
           (if (the image?)
               (if (getf (nth n (the part-documentation-plist)) :examples)
