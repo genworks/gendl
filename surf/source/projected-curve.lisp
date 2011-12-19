@@ -125,13 +125,12 @@ Defaults to nil, which uses the default of the geometry kernel."
                                        (get-b-spline-curve*-data *geometry-kernel* curve)
                                      (make-b-spline-curve *geometry-kernel* control-points weights degree knots)))
                                projected-curves)))
-                               
+   
    (native-curve-uv  (if (= (length (the native-curves-uv)) 1) 
                          (first (the native-curves-uv))
                        (the composed native-curve)))
      
    (built-from (the 3d-curve)))
-
 
     
   :hidden-objects

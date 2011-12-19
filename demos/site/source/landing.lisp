@@ -18,11 +18,12 @@
        ((:div :class "about_top")
 	((:div :class "about_bottom")
 
-	 ((:a :href "http://planet.lisp.org") ((:img :src "http://xach.com/img/jmc.jpg" :alt "John C McCarthy")))))
+	 ;;((:a :href "http://planet.lisp.org") ((:img :src "http://xach.com/img/jmc.jpg" :alt "John C McCarthy")))
 
-
-       ;;((:a :href (the home url)) ((:img :src "/site-static/images/icons/robot.gif" :alt "")))
-
+	 
+	 ((:a :href (the home url)) ((:img :src "/site-static/images/icons/robot.gif" :alt "")))
+	 
+	 ))
 
        ((:div :class "about_top_left")
 	((:div :class "about_bottom_left")

@@ -8,10 +8,6 @@
              #:run-shell-command
              #:set-gs-path)))
 
-#-(or allegro lispworks sbcl) (error "Need implementation of featurep for currently running lisp.~%")
-(defun featurep (x)
-  (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep x))
-
 
 #-(or allegro lispworks sbcl) (error "Need implementation for get-pid for currently running lisp~%")
 (defun get-pid ()

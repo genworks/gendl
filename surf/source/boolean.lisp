@@ -283,22 +283,28 @@ repeated in order. Defaults to a list with keys:
                    
                    (number-of-colors (length (the section-colors)))
                    
-                   (native-array-and-breps (closed-boolean-separate-operation *geometry-kernel*
-                                                                    :first-brep (the first-brep)
-                                                                    :other-brep (the other-brep%)
-                                                                    :approximation-tolerance 
-                                                                    (the approximation-tolerance)
-                                                                    :angle-tolerance
-                                                                    (the angle-tolerance)
-                                                                    :manifold? 
-                                                                    (the manifold?)))
+
+
+                   (
+		    ;;native-array-and-breps 
+		    native-breps
+		    (closed-boolean-separate-operation *geometry-kernel*
+						       :first-brep (the first-brep)
+						       :other-brep (the other-brep%)
+						       :approximation-tolerance 
+						       (the approximation-tolerance)
+						       :angle-tolerance
+						       (the angle-tolerance)
+						       :manifold? 
+						       (the manifold?)))
                    
+		   #+nil
                    (native-breps (second (the native-array-and-breps)))
                    
                    ;;
                    ;; FLAG -- following kept just for garbage finalization - not really needed as separate slot:
                    ;;
-                   (native-array (first (the native-array-and-breps)))
+                   ;;(native-array (first (the native-array-and-breps)))
                    
                    (other-brep% (cond ((= (length (the rest-breps)) 1)
                                        (first (the rest-breps)))

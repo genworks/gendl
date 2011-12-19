@@ -41,6 +41,7 @@
              #:display-startup-banner
              #:end-redefinitions-ok
              #:eql-specializer
+	     #:featurep
              #:gl-class-name
              #:gl-method-specializers
              #:hex-string-to-integer
@@ -136,6 +137,12 @@
   #+allegro (mop:intern-eql-specializer attr-sym)
   #+(or lispworks cmu) (list 'eql attr-sym)
   #+sbcl (sb-mop:intern-eql-specializer attr-sym))
+
+
+#-(or allegro lispworks sbcl) (error "Need implementation of featurep for currently running lisp.~%")
+(defun featurep (x)
+  (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep x))
+
 
 
 (defun gl-class-name (class)

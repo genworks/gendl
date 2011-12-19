@@ -62,11 +62,11 @@
 
                             (let ((*error-on-not-handled?* t)) ,expr))
 
-                         `(eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+                         `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
                          
                          ;;`(defgeneric ,(glisp:intern (symbol-name input-sym) :gdl-slots) (self &rest ,args-arg))
 
-                         `(eval-when (compile load eval) (glisp:end-redefinitions-ok))
+                         `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
                          
                          
                          `(when (or (not (fboundp ',(glisp:intern (symbol-name input-sym) :gdl-slots)))
@@ -107,7 +107,7 @@
                 (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg))))
            
            
-           `(eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
                                                                      ,part-arg 
@@ -119,7 +119,7 @@
                     (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg)))
            
            
-           `(eval-when (compile load eval) (glisp:end-redefinitions-ok))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
 
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
               (declare (ignore ,args-arg))
@@ -170,7 +170,7 @@
            ;; New stuff
            ;;
            
-           `(eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            
            (when (and *compile-for-dgdl?* (not (string-equal (symbol-name name) "remote-object") ))
              `(when (or (not (fboundp ',(glisp:intern attr-sym :gdl-slots)))
@@ -196,12 +196,15 @@
            
            `(when (and ,defaulted?
                        (or (not (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)))
-                           (not (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs))
+                           (not (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) 
+									      :gdl-trickle-downs))
                                              nil (list (find-class 'gdl-basis)) nil))))
-              (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs) ((,self-arg gdl-basis) &rest ,args-arg)
+              (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)
+		  ((,self-arg gdl-basis) &rest ,args-arg)
+		(declare (ignore ,args-arg))
                 (not-handled ,self-arg ,(make-keyword attr-sym))))
            
-           `(eval-when (compile load eval) (glisp:end-redefinitions-ok))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
            
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
               (declare (ignore ,args-arg))

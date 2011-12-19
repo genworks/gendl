@@ -97,7 +97,7 @@
                     (,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
                      ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))
            
-           `(eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
                                                                      ,part-arg 
                                                                      (,self-arg gdl-basis))
@@ -105,7 +105,7 @@
               (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
                                     ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
                 (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword attr-sym)) ,val-arg)))
-           `(eval-when (compile load eval) (glisp:end-redefinitions-ok)))))))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok)))))))
 
 
 

@@ -78,7 +78,9 @@
 
 
 (defun directory-list (pathspec)
-  (directory pathspec #+allegro :directories-are-files #+allegro nil))
+  (ql-impl-util:directory-entries pathspec)
+  ;;(directory pathspec #+allegro :directories-are-files #+allegro nil)
+  )
 
 ;;
 ;; temporary-folder is potentially platform-specific so it is defined here. 

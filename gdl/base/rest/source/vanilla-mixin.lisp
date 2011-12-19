@@ -799,7 +799,7 @@ a separate object hierarchy." object self)))
                   (if (or updating? (not *remember-previous-slot-values?*))
                       'gdl-rule::%unbound%
                     (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
-        (when (typep object 'gdl-remote)
+        (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
           (the-object object (unbind-remote-slot slot)))))))
 
 ;;

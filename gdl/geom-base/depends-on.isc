@@ -1,1 +1,1 @@
-(:gdl-cl-lite :cl-typesetting)
+(:gdl-cl-lite :cl-typesetting :gdl-cl-typesetting-ql-patch)
