@@ -1,0 +1,36 @@
+
+Clean startup on Ubuntu Linux (replace apt-get with the package manager
+on your local Linux):
+======================
+
+$ == Linux shell prompt
+* == Common Lisp shell prompt
+M- or C- == Meta or Control command inside emacs
+# == comment or manual action
+
+$ cd
+$ sudo apt-get install git
+$ git clone git://gitub.com/genworks/Genworks-GDL.git
+$ sudo apt-get install emacs
+$ sudo apt-get install sbcl
+$ sudo apt-get install curl
+$ mkdir ~/cl
+$ cd ~/cl
+$ curl -O http://beta.quicklisp.org/quicklisp.lisp
+$ cd ..
+$ sbcl --load cl/quicklisp.lisp
+* (quicklisp-quickstart:install)
+* (ql:quickload :quicklisp-slime-helper)
+# [Edit your .emacs or other emacs startup file as indicated]
+* (quit)
+$ emacs
+M-x slime
+* (load "~/quicklisp/setup")
+* (load "~/Genworks-GDL/ql-register-local-project")
+* (ql:quickload :gdl-all)
+# [In web browser: visit:  http://localhost:9000/tasty]
+# [In field for package::class, enter robot:assembly]
+# [click pencil icon next to Robot (shows up on mouseover]
+
+
+
