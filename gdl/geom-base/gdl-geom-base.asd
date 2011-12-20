@@ -11,7 +11,7 @@
   :version
   "2011121800"
   :depends-on
-  (:gdl-cl-lite :cl-typesetting :gdl-cl-typesetting-ql-patch)
+  (:gdl-cl-lite :cl-typesetting)
   :components
   ((:file "prereqs/source/cl-pdf-patches")
    (:file "prereqs/source/matrix")

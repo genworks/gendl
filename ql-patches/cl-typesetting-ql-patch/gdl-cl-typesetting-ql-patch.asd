@@ -10,7 +10,5 @@
   t
   :version
   "2011121800"
-  :depends-on
-  (:gdl-base)
   :components
   ((:file "source/load")))

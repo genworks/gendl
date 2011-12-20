@@ -13,7 +13,6 @@
   :depends-on
   (:gdl-base
    :gdl-cl-lite
-   :gdl-aserve-ql-patch
    :aserve
    :cl-pdf
    :cl-who
