@@ -1,0 +1,182 @@
+@subsubsection Base-html-graphics-sheet
+
+@b{Description}
+
+This mixin allows a part to be displayed as a web page in GWL, and
+to contain one graphics area. It requires the geom-base module to be loaded. This will 
+probably be extended to allow more than one graphics area. This mixin inherits from 
+base-html-sheet, so just like with @i{base-html-sheet} you can prepare the output 
+with the @i{write-html-sheet} function  in a the object which mixes  this in, or 
+in a @i{main-sheet} output-function in an html-format view of the object.
+
+
+
+
+@noindent @b{Optional-input-slots}
+
+@b{:standard-views}
+
+@itemize {}
+
+ @item Plist of keywords and 3D vectors. 
+Indicates the views to show in the graphics controls.
+
+@end itemize
+
+@b{:use-bsplines?}
+
+@itemize {}
+
+ @item Boolean. Determines whether to use native bspline data in the vrml
+
+@end itemize
+
+@noindent @b{Settable-optional-input-slots}
+
+@b{:digitation-mode}
+
+@itemize {}
+
+ @item Keyword symbol, one of :zoom-and-center, :report-point, or :measure-distance.
+ @itemize 
+ @item If :zoom-and-center, sets the user-center and user-scale accordingly when graphics
+    area is clicked.
+
+ @item If :report-point, the slot digitized-point is set with the x y value. 
+
+ @item If measure-distance, the slot :digitized-distance is set with the resultant distance.
+
+
+@end itemize 
+
+
+Default is :zoom-and-center
+
+@end itemize
+
+@b{:image-format}
+
+@itemize {}
+
+ @item Keyword symbol. Determines the default image format. Defaults to :png
+
+@end itemize
+
+@b{:view}
+
+@itemize {}
+
+ @item Keyword symbol. Determines the default view from the standard-views. Defaults to :trimetric.
+
+@end itemize
+
+@b{:zoom-factor}
+
+@itemize {}
+
+ @item Number. The factor used for zooming in or out.
+
+@end itemize
+
+@b{:zoom-mode}
+
+@itemize {}
+
+ @item Keyword symbol, one of :in, :out, or :none, or nil. If :in, then clicks
+in the graphics area will increase the zoom factor by (the zoom-factor). If :out,
+then clicks will decrease the factor by that amount. If :none or nil, then clicks
+will have no effect.
+
+@end itemize
+
+
+
+
+
+
+
+@noindent @b{Functions}
+
+@b{:background-color}
+
+@itemize {}
+
+ @item Keyword symbol, string, list, or vector. Default background for the graphics viewport. Can be specified 
+as a name (keyword or string) in *color-table*, an html-style hex string (starting with #), or a decimal RGB
+triplet in a list or vector. The default comes from the :background entry in *colors-default*.
+
+@end itemize
+
+@b{:foreground-color}
+
+@itemize {}
+
+ @item Keyword symbol, string, list, or vector. Default foreground for the graphics viewport. Can be specified 
+as a name (keyword or string) in *color-table*, an html-style hex string (starting with #), or a decimal RGB
+triplet in a list or vector. The default comes from the :foreground entry in *colors-default*.
+
+@end itemize
+
+@b{:report-point}
+
+@itemize {}
+
+ @item Void. Process the points selected by digitizing in the graphics. You can override this 
+function to do your own processing. By default, it prints the information to the console.
+
+:arguments (x "Number. The X Coordinate of the digitized point."
+            y "Number. The Y Coordinate of the digitized point.")
+
+@end itemize
+
+@b{:write-embedded-vrml-world}
+
+@itemize {}
+
+ @item Void. Writes an EMBED tag and publishes a VRML world for the view-object child of this object. 
+The view-object child should exist and be of type web-drawing.
+
+@end itemize
+
+@b{:write-embedded-x3d-world}
+
+@itemize {}
+
+ @item Void. Writes an OBJECT tag and publishes an X3D world for the view-object child of this object. 
+The view-object child should exist and be of type web-drawing.
+
+@end itemize
+
+@b{:write-embedded-x3dom-world}
+
+@itemize {}
+
+ @item Void. Writes an embedded X3D tag with content for the view-object child of this object. 
+The view-object child should exist and be of type web-drawing.
+
+@end itemize
+
+@b{:write-geometry}
+
+@itemize {}
+
+ @item Void. Writes an image tag and publishes an image for the view-object child of this object. 
+The view-object child should exist and be of type web-drawing.
+
+For objects of type gwl:application-mixin or gwl:node-mixin, this is done automatically.
+
+For the time being, we recommend that you use gwl:application-mixin or gwl:node-mixin if you want to
+display geometric parts in a GWL application.
+
+:&key ((include-view-controls? t) "Boolean. Determines whether the standard view controls are displayed below the image.")
+
+@end itemize
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

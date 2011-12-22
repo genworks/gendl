@@ -1,0 +1,85 @@
+@subsubsection Joined-surfaces
+
+@b{Description}
+
+This  routine joins two surfaces at a common boundary. The surfaces must already be compatible in the direction of the common boundary (same knots). If the surfaces are not compatible you can use first compatible-surfaces if applicable
+
+@noindent @b{Required-input-slots}
+
+@b{:other-surface}
+
+@itemize {}
+
+ @item Gdl surface object. The second surface to be joined . Its u-min or v-min lays at the common boundary.
+
+@end itemize
+
+@b{:surface}
+
+@itemize {}
+
+ @item Gdl surface object. The first surface to be joined. Its u-max or v-max lays at the common boundary.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:direction}
+
+@itemize {}
+
+ @item Keyword symbol, one of :u or :v. If :u the common boundary is for first surface u-max and for the second surface u-min. Surfaces must already be compatible in the u-direction. If :v the common boundary is for first surface v-max and for the second surface v-min. Surfaces must already be compatible in the v-direction. Default is :u. 
+
+@end itemize
+
+@b{:tolerance}
+
+@itemize {}
+
+ @item Number. This is a tolerance used for Knot removal.  The knot corresponding to the merged boundary has multiplicity equal to the degree. Knot removal will be attempted using this tolerance. Default is *3d-tolerance-default*
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ (in-package :gdl-surf-user)
+
+ (define-object join-surfaces-test (base-object) 
+
+   :computed-slots ((surface-list (list (the surf-A) (the surf-B))))
+  
+   :objects
+   ((surf-A :type 'rectangular-surface
+            :display-controls (list :color :green-spring-medium)
+            :length 10
+            :width 10 )
+                                        
+    (surf-B :type 'rectangular-surface
+            :display-controls (list :color :red)
+            :center (make-point 10 0 0 )
+            :length 10
+            :width 10 )
+   
+    (join-A-and-B :type 'joined-surfaces
+                  :display-controls (list :line-thickness 2)
+                  :surface (the surf-A)
+                  :other-surface (the surf-B))))
+
+
+ (generate-sample-drawing :object-roots (list (the-object (make-object 'join-surfaces-test) 
+                                               join-A-and-B)))
+ 
+
+@end cartouche 
+@end smallexample
+
+
+
+
+ @b{Example image is not generated!}
+

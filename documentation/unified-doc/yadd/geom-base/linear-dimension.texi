@@ -1,0 +1,382 @@
+@subsubsection Linear-dimension
+
+@b{Description}
+
+Creates a dimension along either the horizontal, vertical, or an arbitray axis. Use
+@i{horizontal-dimension}, @i{vertical-dimension}, or @i{parallel-dimension}, respectively, to achieve these.
+
+@noindent @b{Required-input-slots}
+
+@b{:base-plane-normal}
+
+@itemize {}
+
+ @item Must be specified in the subclass except for angular
+
+@end itemize
+
+@b{:end-point}
+
+@itemize {}
+
+ @item 3D Point. Actual point where the dimension will stop measuring
+
+@end itemize
+
+@b{:leader-direction-1-vector}
+
+@itemize {}
+
+ @item Must be specified in the subclass except for angular
+
+@end itemize
+
+@b{:leader-direction-2-vector}
+
+@itemize {}
+
+ @item Must be specified in the subclass except for angular
+
+@end itemize
+
+@b{:start-point}
+
+@itemize {}
+
+ @item 3D Point. Actual point where the dimension will start measuring
+
+@end itemize
+
+@b{:witness-direction-vector}
+
+@itemize {}
+
+ @item Must be specified in the subclass except for angular
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:arrowhead-length}
+
+@itemize {}
+
+ @item Length (from tip to tail) of arrowhead glyph. Defaults to twice the arrowhead-width
+
+@end itemize
+
+@b{:arrowhead-style}
+
+@itemize {}
+
+ @item Keyword Symbol. Style for arrowhead on end of leader-line. Currently supported values
+are :none, :wedge  (the Default), and :double-wedge.
+
+@end itemize
+
+@b{:arrowhead-style-2}
+
+@itemize {}
+
+ @item Keyword Symbol. Style for arrowhead on end of leader-line. Currently supported values
+are :none (the Default), :wedge, and :double-wedge.
+
+@end itemize
+
+@b{:arrowhead-width}
+
+@itemize {}
+
+ @item Width of arrowhead glyph. Defaults to half the character-size.
+
+@end itemize
+
+@b{:character-size}
+
+@itemize {}
+
+ @item Number. Size (glyph height) of the label text, in model units. Defaults to 1.
+
+@end itemize
+
+@b{:dim-text}
+
+@itemize {}
+
+ @item String. Determines the text which shows up as the dimension label. Defaults to the dim-value, 
+which is computed specially in each specific dimension type.
+
+@end itemize
+
+@b{:dim-text-bias}
+
+@itemize {}
+
+ @item Keyword symbol, :start, :end, or :center. Indicates where to position the text in the case when
+     @b{outside-leaders?}  is non-nil. Defaults to :center
+
+@end itemize
+
+@b{:dim-text-start}
+
+@itemize {}
+
+ @item 3D Point. Determines where the text will start. Defaults to halfway between start-point 
+and end-point.
+
+@end itemize
+
+@b{:dim-text-start-offset}
+
+@itemize {}
+
+ @item 3D Vector (normally only 2D are used). 
+The dim-text-start is offset by this vector, in model space. Defaults to #(0.0 0.0 0.0)
+
+@end itemize
+
+@b{:dim-value}
+
+@itemize {}
+
+ @item Number. 2D distance relative to the base-plane-normal. Can be over-ridden in the subclass
+
+@end itemize
+
+@b{:dxf-font}
+
+@itemize {}
+
+ @item String. This names the DXF font for this general-note. Defaults to (the font).
+
+@end itemize
+
+@b{:dxf-offset}
+
+@itemize {}
+
+ @item Number. The start of text will be offset by this amount for DXF output. Default is 2.
+
+@end itemize
+
+@b{:dxf-size-ratio}
+
+@itemize {}
+
+ @item Number. The scale factor for DXF character size vs PDF character size. Default is 0.8
+
+@end itemize
+
+@b{:dxf-text-x-scale}
+
+@itemize {}
+
+ @item Number in Percentage. Adjusts the character width for DXF output. Defaults to the text-x-scale.
+
+@end itemize
+
+@b{:flip-leaders?}
+
+@itemize {}
+
+ @item Boolean. Indicates which direction the witness lines should take from the start and end points. The Default is NIL,
+  which indicates :rear (i.e. ``up'') for horizontal-dimensions and :right for vertical-dimensions
+
+@end itemize
+
+@b{:font}
+
+@itemize {}
+
+ @item String naming a standard PDF font. Font for the label text. Defaults to "Helvetica"
+
+@end itemize
+
+@b{:full-leader-line-length}
+
+@itemize {}
+
+ @item Number. Indicates the length of the full leader when outside-leaders? is nil. This defaults to nil,
+ which indicates that the full-leader's length should be auto-computed based on the given start-point and end-point.
+
+@end itemize
+
+@b{:justification}
+
+@itemize {}
+
+ @item Keyword symbol, :left, :right, or :center. 
+     For multi-line dim-text, this justification is applied.
+
+@end itemize
+
+@b{:leader-1?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the first (or only) leader line should be displayed. The Default is T
+
+@end itemize
+
+@b{:leader-2?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the second leader line should be displayed. The Default is T
+
+@end itemize
+
+@b{:leader-line-length}
+
+@itemize {}
+
+ @item Number. Indicates the length of the first leader for the case when outside-leaders? is non-NIL
+
+@end itemize
+
+@b{:leader-line-length-2}
+
+@itemize {}
+
+ @item Number. Indicates the length of the second leader for the case when outside-leaders? is non-NIL
+
+@end itemize
+
+@b{:leader-text-gap}
+
+@itemize {}
+
+ @item Number. Amount of gap between leader lines and dimension text, when the dimension text is within the leader.
+Defaults to half the character-size.
+
+@end itemize
+
+@b{:orientation}
+
+@itemize {}
+
+ @item 3x3 Matrix of Double-Float Numbers. Indicates the absolute Rotation Matrix used to create 
+the coordinate system of this object. This matrix is given in absolute terms (i.e. with 
+respect to the root's orientation), and is generally created with the alignment function. 
+It should be an @i{orthonormal}  matrix, meaning each row is a vector with a magnitude 
+of one (1.0).
+
+
+@end itemize
+
+@b{:outline-shape-type}
+
+@itemize {}
+
+ @item Keyword symbol. Currently can be :bubble, :rectangle, or :none. Default is :none.
+
+@end itemize
+
+@b{:outside-leaders-length-factor}
+
+@itemize {}
+
+ @item Number. Indicates the default length of the outside-leaders as a multiple of arrowhead-length.
+     Defaults to 3.
+
+@end itemize
+
+@b{:outside-leaders?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the leader line(s) should be inside or outside the interval between the start and 
+end points. The default is NIL, which indicates that the leader line(s) should be inside the interval
+
+@end itemize
+
+@b{:text-above-leader?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the text is to the right or above the leader line, rather than in-line with it. Default is T.
+
+@end itemize
+
+@b{:text-along-axis?}
+
+@itemize {}
+
+ @item Boolean. Where applicable, determines whether text direction follows leader-line direction
+
+@end itemize
+
+@b{:text-x-scale}
+
+@itemize {}
+
+ @item Number in Percentage. Adjusts the character width for the dimension-text and currently only applies only to PDF output
+
+@end itemize
+
+@b{:underline?}
+
+@itemize {}
+
+ @item GDL
+
+@end itemize
+
+@b{:witness-line-2?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether to display a witness line coming off the end-point. Default is T
+
+@end itemize
+
+@b{:witness-line-ext}
+
+@itemize {}
+
+ @item Number. Distance the witness line(s) extend beyond the leader line. Default is 0.3
+
+@end itemize
+
+@b{:witness-line-gap}
+
+@itemize {}
+
+ @item Number. Distance from the start-point and end-point to the start of each witness-line. Default is 0.1
+
+@end itemize
+
+@b{:witness-line-length}
+
+@itemize {}
+
+ @item Number. Length of the witness lines (or of the shorter witness line in case they are different lengths)
+
+@end itemize
+
+@b{:witness-line?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether to display a witness line coming off the start-point. Default is T
+
+@end itemize
+
+@noindent @b{Defaulted-input-slots}
+
+@b{:view-reference-object}
+
+@itemize {}
+
+ @item GDL object or NIL. View object which will use this dimension. Defaults to NIL.
+
+@end itemize
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,111 @@
+@subsubsection Fitted-curve
+
+@b{Description}
+
+Fits a curve through a set of points with given degree 
+and parameterization.
+
+@noindent @b{Required-input-slots}
+
+@b{:points}
+
+@itemize {}
+
+ @item List of 3D Points. The points for fitting.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:degree}
+
+@itemize {}
+
+ @item Integer. The desired degree of the resultant curve. Default is 3, unless there are fewer than four control point given,
+in which case it one less than the number of control points.
+
+@end itemize
+
+@b{:interpolant?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the curve will interpolate the points. Defaults to T .
+
+@end itemize
+
+@b{:parameterization}
+
+@itemize {}
+
+ @item Keyword symbol, one of :uniform, :chord-length, :centripetal. The parameterization to use in the resultant curve. 
+Default is :centripetal. Note that the NLib documentation states that when specifying vectors and a vector-type of :tangents
+or :first-last, :chord-length is a recommended value for parameterization. If vectors are used and the vector-type 
+is :normals, this input has no effect. The default is :chord-length
+
+@end itemize
+
+@b{:tolerance}
+
+@itemize {}
+
+ @item Number or nil. The allowed tolerance for doing data reduction after the initial fitting. 
+A nil value indicates that no data reduction is to be attempted. Defaults to nil.
+
+@end itemize
+
+@b{:vector-type}
+
+@itemize {}
+
+ @item Keyword symbol, one of :tangents, :normals, or :first-last. :Tangents indicates that the :vectors specify
+a tangent vector at each point (there should be one vector for each point), 
+:normals indicates that the :vectors specify a normal vector at each 
+point (there should be one vector for each point), and 
+:first-last indicates that the :vectors specify the starting and ending 
+tangent (in this case there should be two vectors in the :vectors list. Default is :tangents.)
+
+@end itemize
+
+@b{:vectors}
+
+@itemize {}
+
+ @item List of 3D Vectors. Optional list of vectors used to influence the fitting. Default is NIL.
+
+@end itemize
+
+
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+ (in-package :surf)
+
+ (define-object test-fitted-curve (fitted-curve) 
+  
+   :computed-slots
+   ((points (the circle (equi-spaced-points 20))))
+
+   :hidden-objects ((circle :type 'circle :radius 10)
+                    (spheres  :type 'sphere
+                              :sequence (:size (length (the points)))
+                              :radius 0.2
+                              :center (nth (the-child :index) (the points))
+                              :display-controls (list :color :blue-neon))))
+
+
+ (generate-sample-drawing :objects (let ((self (make-object 'test-fitted-curve)))
+                                     (cons self (list-elements (the spheres)))))
+
+
+ @end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

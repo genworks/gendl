@@ -1,0 +1,16 @@
+@subsubsection Intersected-solid
+
+@b{Description}
+
+Given two brep solids, performs the intersect Boolean between the brep and the other-brep
+
+
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

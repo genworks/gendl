@@ -1,0 +1,203 @@
+@subsubsection Label
+
+@b{Description}
+
+!!! Not applicable for this object !!!
+
+@noindent @b{Required-input-slots}
+
+@b{:leader-path}
+
+@itemize {}
+
+ @item List of 3D Points. List making up leader line, starting from where the arrowhead normally is.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:arrowhead-length}
+
+@itemize {}
+
+ @item Length (from tip to tail) of arrowhead glyph. Defaults to twice the arrowhead-width
+
+@end itemize
+
+@b{:arrowhead-style}
+
+@itemize {}
+
+ @item Keyword Symbol. Style for arrowhead at start of leader-path. Currently supported values
+are :none, :wedge  (the Default), and :double-wedge.
+
+@end itemize
+
+@b{:arrowhead-style-2}
+
+@itemize {}
+
+ @item Keyword Symbol. Style for arrowhead on end of leader-path. Currently supported values
+are :none (the Default), :wedge, and :double-wedge.
+
+@end itemize
+
+@b{:arrowhead-width}
+
+@itemize {}
+
+ @item Width of arrowhead glyph. Defaults to five times the line thickness (2.5)
+
+@end itemize
+
+@b{:character-size}
+
+@itemize {}
+
+ @item Number. Size (glyph height) of the label text, in model units. Defaults to 10.
+
+@end itemize
+
+@b{:dxf-font}
+
+@itemize {}
+
+ @item String. This names the DXF font for this general-note. Defaults to (the font).
+
+@end itemize
+
+@b{:dxf-offset}
+
+@itemize {}
+
+ @item Number. The start of text will be offset by this amount for DXF output. Default is 2.
+
+@end itemize
+
+@b{:dxf-size-ratio}
+
+@itemize {}
+
+ @item Number. The scale factor for DXF character size vs PDF character size. Default is 0.8
+
+@end itemize
+
+@b{:dxf-text-x-scale}
+
+@itemize {}
+
+ @item Number in Percentage. Adjusts the character width for DXF output. Defaults to the text-x-scale.
+
+@end itemize
+
+@b{:font}
+
+@itemize {}
+
+ @item String naming a standard PDF font. Font for the label text. Defaults to "Helvetica"
+
+@end itemize
+
+@b{:outline-shape-type}
+
+@itemize {}
+
+ @item Keyword Symbol. Indicates shape of outline enclosing the text. Currently :none, :bubble, :rectangle, 
+and nil are supported. The default is nil
+
+@end itemize
+
+@b{:strings}
+
+@itemize {}
+
+ @item List of strings. Text lines to be displayed as the label. Specify this or text, not both.
+
+@end itemize
+
+@b{:text}
+
+@itemize {}
+
+ @item String. Text to be displayed as the label
+
+@end itemize
+
+@b{:text-gap}
+
+@itemize {}
+
+ @item Number. Amount of space between last point in leader-path and beginning of the label text. Defaults to the 
+width of the letter "A" in the specified font and character-size.
+
+@end itemize
+
+@b{:text-side}
+
+@itemize {}
+
+ @item Keyword Symbol, either :left or :right. Determines whether the label text sits to
+the right or the left of the last point in the leader-path. The default is computed based on
+the direction of the last segment of the leader-path.
+
+@end itemize
+
+@noindent @b{Defaulted-input-slots}
+
+@b{:view-reference-object}
+
+@itemize {}
+
+ @item GDL object or NIL. View object which will use this dimension. Defaults to NIL.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:orientation}
+
+@itemize {}
+
+ @item 3x3 Matrix of Double-Float Numbers. Indicates the absolute Rotation Matrix used to create 
+the coordinate system of this object. This matrix is given in absolute terms (i.e. with 
+respect to the root's orientation), and is generally created with the alignment function. 
+It should be an @i{orthonormal}  matrix, meaning each row is a vector with a magnitude 
+of one (1.0).
+
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche        
+
+ (in-package :gdl-user)
+                   
+ (define-object  label-sample (base-object)
+  
+   :objects
+   ((box :type 'box
+         :length 10 :width (* (the-child length) +phi+)
+         :height (* (the-child :width) +phi+))
+   
+    (corner-label :type 'label
+                  :leader-path (let ((start (the box (vertex :top :right :rear))))
+                                (list start
+                                      (translate start :right (/ (the box width) 10)
+                                                       :rear (/ (the box width) 10))
+                                      (translate start :right (/ (the box width) 7)
+                                                       :rear (/ (the box width) 10))))
+                  :text "The Corner"
+                  :character-size (/ (the box width) 15))))
+
+
+ (generate-sample-drawing :object-roots (make-object 'label-sample))
+
+@end cartouche 
+@end smallexample
+
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/label,,4.2in}
+

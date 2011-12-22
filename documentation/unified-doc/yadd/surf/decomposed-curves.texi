@@ -1,0 +1,53 @@
+@subsubsection Decomposed-curves
+
+@b{Description}
+
+Given an input curve, creates a sequence of curve segments that do not contain 
+knots with degree-fold mutiplicity, i.e. each piece is at least C^ continuous.
+
+@noindent @b{Required-input-slots}
+
+@b{:curve-in}
+
+@itemize {}
+
+ @item GDL Curve. Curve (presumably multi-segment) to be decomposed.
+
+@end itemize
+
+
+
+
+
+@noindent @b{Quantified-objects}
+
+@b{:curves}
+
+@itemize {}
+
+ @item Sequence of GDL curve objects. The resulting segment curves after decomposition.
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+  
+  (in-package :surf)  
+
+  (define-object test-decomposed-curves (decomposed-curves)
+  :computed-slots
+  ((curve-in (the composed-curve)))
+  
+  :objects ((composed-curve :type 'test-composed-curve)))
+
+ (generate-sample-drawing :object-roots (make-object 'test-decomposed-curves))
+
+ @end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

@@ -1,0 +1,212 @@
+@subsubsection Base-view
+
+@b{Description}
+
+Generic container object for displaying a scaled transformed view of geometric or 
+text-based objects. @i{Base-view} can be used by itself or as a child of a @i{base-drawing}
+
+In a GWL application-mixin, you can include an object of this type in the ui-display-list-leaves.
+
+For the PDF output-format, you can also use the cad-output output-function to write the 
+view as a PDF document. 
+
+Since base-view is inherently a 2D object, only the top view (getf *standard-views* :top) 
+makes sense for viewing it.
+
+@noindent @b{Optional-input-slots}
+
+@b{:center}
+
+@itemize {}
+
+ @item 3D-point. Center of the view box. Specify this or corner, not both. 
+NOTE that the center is no longer defaulting (so that it can self-compute properly when corner 
+is specified), so it is necessary to explicitly give either start or center for base-view.
+
+@end itemize
+
+@b{:corner}
+
+@itemize {}
+
+ @item 3D-point. Top left (i.e. rear left from top view) of the view box. Specify this or center, not both.
+
+@end itemize
+
+@b{:immune-objects}
+
+@itemize {}
+
+ @item List of GDL objects. These objects are immune from view scaling and transform computations and so can freely refer 
+to the view-scale, view-center, and other view information for self-scaling views. Defaults to NIL.
+
+@end itemize
+
+@b{:snap-to}
+
+@itemize {}
+
+ @item 3D Vector. For a top view, this vector specifies the direction that the rear of
+the box should be facing. Defaults to *nominal-y-vector*.
+
+@end itemize
+
+@noindent @b{Defaulted-input-slots}
+
+@b{:annotation-objects}
+
+@itemize {}
+
+ @item List of GDL objects. These objects will be displayed in each view by default, with no scaling or transform (i.e. they are in Drawing space.
+
+@end itemize
+
+@b{:border-box?}
+
+@itemize {}
+
+ @item Boolean. Determines whether a rectangular border box is drawn around the view, 
+with the view's length and width. Defaults to nil.
+
+@end itemize
+
+@b{:front-margin}
+
+@itemize {}
+
+ @item Number in Drawing scale (e.g. points). Amount of margin on front and rear 
+of page when view-scale is to be computed automatically. Defaults to 25.
+
+@end itemize
+
+@b{:left-margin}
+
+@itemize {}
+
+ @item Number in Drawing scale (e.g. points). Amount of margin on left and right 
+of page when view-scale is to be computed automatically. Defaults to 25.
+
+@end itemize
+
+@b{:object-roots}
+
+@itemize {}
+
+ @item List of GDL objects. The leaves from each of these objects will be displayed in each view by default.
+
+@end itemize
+
+@b{:objects}
+
+@itemize {}
+
+ @item List of GDL objects. These objects will be displayed in each view by default.
+
+@end itemize
+
+@b{:projection-vector}
+
+@itemize {}
+
+ @item 3D Unitized Vector. Direction of camera pointing to model (the object-roots and/or the objects) to create 
+this view. The view is automatically ``twisted''about this vector to result in ``up'' being as close as 
+possible to the Z vector, unless this vector is parallel to the Z vector in which case ``up'' is taken 
+to be the Y (rear) vector. This vector is normally taken from the *standard-views* built-in GDL 
+parameter. Defaults to (getf *standard-views* :top), which is the vector [0, 0, 1].
+
+@end itemize
+
+@b{:view-center}
+
+@itemize {}
+
+ @item 3D Point in Model space. Point relative to each object's center to use as center of the view.
+
+@end itemize
+
+@b{:view-scale}
+
+@itemize {}
+
+ @item Number. Ratio of drawing scale (in points) to model scale for this view. Defaults to being auto-computed.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+@noindent @b{Functions}
+
+@b{:model-point}
+
+@itemize {}
+
+ @item 3D Point. Takes point in view coordinates and returns corresponding point in model coordinates.
+
+:arguments (view-point "3D Point. Point in view coordinates.")
+
+@end itemize
+
+@b{:view-point}
+
+@itemize {}
+
+ @item 3D Point. Takes point in model coordinates and returns corresponding point in view coordinates.
+
+:arguments (model-point "3D Point. Point in model coordinates.")
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+                 
+ (in-package :gdl-user)
+
+ (define-object box-with-two-viewed-drawing (base-object)
+  
+   :objects
+   ((drawing :type 'two-viewed-drawing
+             :objects (list (the box) (the length-dim)))
+    
+    (length-dim :type 'horizontal-dimension
+                :hidden? t
+                :start-point (the box (vertex :rear :top :left))
+                :end-point (the box (vertex :rear :top :right)))
+   
+    (box :type 'box
+         :hidden? t
+         :length 5 :width 10 :height 15)))
+
+ (define-object two-viewed-drawing (base-drawing)
+   
+   :input-slots (objects)
+   
+   :objects
+  
+   ((main-view :type 'base-view
+               :projection-vector (getf *standard-views* :trimetric)
+               :length (half (the length))
+               :center (translate (the center)
+                                  :rear (half (the-child length)))
+               :objects (the objects))
+   
+    (top-view :type 'base-view
+              :projection-vector (getf *standard-views* :top)
+              :length (* 0.30 (the length))
+              :objects (the objects))))
+
+   (generate-sample-drawing :objects 
+    (the-object (make-object 'box-with-two-viewed-drawing) drawing top-view))
+ 
+ @end cartouche 
+@end smallexample
+
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-view,,4.2in}
+

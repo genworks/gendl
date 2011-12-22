@@ -1,0 +1,36 @@
+@subsubsection Arc-curve
+
+@b{Description}
+
+An arc represented exactly as a quadratic NURBS curve. Inputs are the same as for arc. 
+Messages are the union of those for arc and those for curve.
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+  (in-package :surf)
+
+  (define-object test-arc-curve (arc-curve)
+    :computed-slots
+    ((center (make-point 0 0 0)) (radius 10) (start-angle 0) (end-angle 2pi)))
+
+  (generate-sample-drawing :objects (make-object 'test-arc-curve))
+
+
+ (define-object test-arc-curve2 (arc-curve)
+    :computed-slots
+    ((center (make-point 0 0 0)) (radius 5) (start-angle (* 0.25 pi)) (end-angle pi)))
+  
+  (generate-sample-drawing :objects (make-object 'test-arc-curve))
+
+@end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

@@ -1,0 +1,153 @@
+@subsubsection Spherical-cap
+
+@b{Description}
+
+The region of a sphere which lies above (or below) a given plane. Although this
+could be created with a partial sphere using the sphere primitive, the spherical cap allows for more convenient
+construction and positioning since the actual center of the spherical cap is the center of its reference box.
+
+@noindent @b{Required-input-slots}
+
+@b{:axis-length}
+
+@itemize {}
+
+ @item Number. The distance from the center of the base to the center of the dome.
+
+@end itemize
+
+@b{:base-radius}
+
+@itemize {}
+
+ @item Number. Radius of the base.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:number-of-horizontal-sections}
+
+@itemize {}
+
+ @item Integer. How many lines of latitude to show on the spherical-cap in some renderings. Default value is 2.
+
+@end itemize
+
+@b{:number-of-vertical-sections}
+
+@itemize {}
+
+ @item Integer. How many lines of longitude to show on the spherical-cap in some renderings. Default value is 2.
+
+@end itemize
+
+@noindent @b{Defaulted-input-slots}
+
+@b{:cap-thickness}
+
+@itemize {}
+
+ @item Number. Thickness of the shell for a hollow spherical-cap. Specify this 
+                  or inner-base-radius, not both.
+
+@end itemize
+
+@b{:inner-base-radius}
+
+@itemize {}
+
+ @item Number. Radius of base of inner for a hollow spherical-cap. Specify this 
+                  or cap-thickness, not both.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:end-angle}
+
+@itemize {}
+
+ @item Angle in radians. End angle of the arc. Defaults to twice pi.
+
+@end itemize
+
+@b{:height}
+
+@itemize {}
+
+ @item Number. Z-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Y-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:sphere-center}
+
+@itemize {}
+
+ @item 3D Point. Center of the sphere containing the spherical-cap.
+
+@end itemize
+
+@b{:sphere-radius}
+
+@itemize {}
+
+ @item Number. Radius of the sphere containing the spherical-cap.
+
+@end itemize
+
+@b{:start-angle}
+
+@itemize {}
+
+ @item Angle in radians. Start angle of the arc. Defaults to zero.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+  
+ (in-package :gdl-user)
+
+ (define-object spherical-cap-sample (spherical-cap)
+   
+  :computed-slots
+
+   ((base-radius 150)
+    (cap-thickness 7)
+    (axis-length (* (the base-radius) +phi+))
+    (number-of-vertical-sections 10)
+    (number-of-horizontal-sections 10)
+    (display-controls (list :color :orchid-medium :transparency 0.5))))
+  
+
+ (generate-sample-drawing :objects (make-object 'spherical-cap-sample) 
+                          :projection-direction :trimetric)
+                  
+@end cartouche 
+@end smallexample
+
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/spherical-cap,,4.2in}
+

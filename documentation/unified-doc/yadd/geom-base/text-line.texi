@@ -1,0 +1,50 @@
+@subsubsection Text-line
+
+@b{Description}
+
+!!! Not applicable for this object !!!
+
+
+
+@noindent @b{Optional-input-slots}
+
+@b{:center}
+
+@itemize {}
+
+ @item 3D-point. Center of the text. Specify this or start, not both.
+
+@end itemize
+
+@b{:start}
+
+@itemize {}
+
+ @item 3D-point. Start of the text. Specify this or center, not both.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Y-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+
+
+
+
+
+

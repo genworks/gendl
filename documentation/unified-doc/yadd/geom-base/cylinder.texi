@@ -1,0 +1,138 @@
+@subsubsection Cylinder
+
+@b{Description}
+
+An extrusion of circular cross section in which the 
+centers of the circles all lie on a single line (i.e., a right circular cylinder).
+Partial cylinders and hollow cylinders are supported.
+
+@noindent @b{Required-input-slots}
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Distance from center of start cap to center of end cap.
+
+@end itemize
+
+@b{:radius}
+
+@itemize {}
+
+ @item Number. Radius of the circular cross section of the cylinder.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:bottom-cap?}
+
+@itemize {}
+
+ @item Boolean. Determines whether to include bottom cap in shaded renderings. Defaults to T.
+
+@end itemize
+
+@b{:height}
+
+@itemize {}
+
+ @item Number. Z-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:inner-radius}
+
+@itemize {}
+
+ @item Number. Radius of the hollow inner portion for a hollow cylinder.
+
+@end itemize
+
+@b{:number-of-sections}
+
+@itemize {}
+
+ @item Integer. Number of vertical sections to be drawn in wireframe rendering mode.
+
+@end itemize
+
+@b{:top-cap?}
+
+@itemize {}
+
+ @item Boolean. Determines whether to include bottom cap in shaded renderings. Defaults to T.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:direction-vector}
+
+@itemize {}
+
+ @item 3D Vector. Points from the start to the end.
+
+@end itemize
+
+@b{:end}
+
+@itemize {}
+
+ @item 3D Point. The center of the end cap.
+
+@end itemize
+
+@b{:hollow?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether there is an inner-radius and thus the cylinder is hollow.
+
+@end itemize
+
+@b{:start}
+
+@itemize {}
+
+ @item 3D Point. The center of the start cap.
+
+@end itemize
+
+
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ (in-package :gdl-user)
+
+ (define-object cylinder-sample (cylinder)
+   :computed-slots
+   ((display-controls (list :color :pink-spicy))
+    (length 10)
+    (radius 3)
+    (number-of-sections 25)))
+
+
+ (generate-sample-drawing :objects (make-object 'cylinder-sample)
+                          :projection-direction (getf *standard-views* :trimetric))
+   
+
+@end cartouche 
+@end smallexample
+
+@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cylinder,,4.2in}
+

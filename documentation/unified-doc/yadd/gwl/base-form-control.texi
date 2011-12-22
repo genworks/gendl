@@ -1,0 +1,546 @@
+@subsubsection Base-form-control
+
+@b{Description}
+
+This object can be used to represent a single HTML form control. It captures the 
+initial default value, some display information such as the label, and all the standard HTML tag attributes
+for the tag e.g. INPUT, SELECT, TEXTAREA. GWL will process the data types according to specific rules,
+and validate the typed value according to other default rules. A custom validation-function can also 
+be provided by user code. 
+
+Sequences of these objects (with :size, :indices, :matrix, and :radial) are supported.
+
+This facility and its documentation is expected to undergo significant and frequent upgrades in the remainder of GDL 1573 and upcoming 1575.
+
+Current to-do list:
+
+<ol>
+
+<li>
+Currently this works with normal HTTP form submission and full page reloading. 
+We intend to make it work with AJAX and surgical page update as well.
+
+<li>
+We intend to provide inputs for all the standard tag attributes for the accompanying LABEL tag for the form control.
+
+<li>
+Additional form control elements to be included, to cover all types of form elements specified in current HTML standard from
+
+    http://www.w3.org/TR/html401/interact/forms.html#h-17.2.1
+
+    <ul>
+      <li>button-form-control: submit buttons, reset buttons, push buttons.
+      <li>checkbox-form-control: checkboxes, radio buttons (multiple of these must be able to have same name)
+      <li>menu-form-control: select, along with optgroup and option.
+      <li>text-form-control: single-line text input (including masked passwords) and multi-line (TEXTAREA) text input.
+      <li>file-form-control: file select for submittal with a form.
+      <li>hidden-form-control: input of type hidden.
+      <li>object-form-control: (not sure how this is supposed to work yet).
+    </ul>
+</ol>
+
+
+Also, we have to study and clarify the issue of under what conditions values can possibly take on nil values, 
+and what constitutes a required field as opposed to a non-validated field, and whether a blank string on a text
+input should be represented as a nil value or as an empty string.
+
+Note that checkbox-form-control and menu-form-control currently get automatically included in the possible-nils.
+
+
+
+
+@noindent @b{Optional-input-slots}
+
+@b{:accept}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:accesskey}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:align}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:allow-invalid-type?}
+
+@itemize {}
+
+ @item Boolean. If non-nil, then values which fail the type test will still be allowed to be the value. Default is nil.
+
+@end itemize
+
+@b{:allow-invalid?}
+
+@itemize {}
+
+ @item Boolean. If non-nil, then values which fail the type or validation test will still be allowed to be the value. Default is t.
+
+@end itemize
+
+@b{:allow-nil?}
+
+@itemize {}
+
+ @item Boolean. Regardless of :domain, if this is non-nil, nil values will be accepted. Defaults to t if (the default) is nil, 
+otherwise defaults to nil.
+
+@end itemize
+
+@b{:alt}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:append-error-string?}
+
+@itemize {}
+
+ @item Boolean. Determines whether a default error string is appended to string ouput-function for 
+html-format (and therefore html-string computed-slot as well). Defaults to t.
+
+@end itemize
+
+@b{:default}
+
+@itemize {}
+
+ @item Lisp value of a type compatible with (the domain). This is the initial default value for the control. 
+This must be specified by user code, or an error will result.
+
+@end itemize
+
+@b{:disabled?}
+
+@itemize {}
+
+ @item Boolean. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:domain}
+
+@itemize {}
+
+ @item Keyword symbol, one of :number, :keyword, :list-of-strings, :list-of-anything, or :string. 
+This specifies the expected and acceptable type for the submitted form value. If possible, the 
+submitted value will be coerced into the specified type. The default is based upon
+ the Lisp type of (the default) provided as input to this object. If the default is nil,
+the domain will default to :string
+
+@end itemize
+
+@b{:ismap?}
+
+@itemize {}
+
+ @item Boolean. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:label-position}
+
+@itemize {}
+
+ @item Keyword symbol or nil. Specifies where the label tag goes, if any. 
+Can be :table-td (label goes in a td before the form control), :table-td-append (label goes in a td after the form control), 
+:prepend (label tag wraps around form control and label text comes before form control),  
+:append (label tag wraps around form control and label text comes after form control), 
+:table-with-class (like :table-td, but adds a class "form-control" to the table), or
+:as-div (puts label and control inside a div of class "form-control").
+
+Default is :table-td
+
+@end itemize
+
+@b{:lang}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:maxlength}
+
+@itemize {}
+
+ @item Number or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:nullify-empty-string?}
+
+@itemize {}
+
+ @item Boolean. Regardless of :domain, if this is non-nil, empty strings will convert to nil. Defaults to (the allow-nil?)
+
+@end itemize
+
+@b{:onblur}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onchange}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onclick}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:ondblclick}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onfocus}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onkeydown}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onkeypress}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onkeyup}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onmousedown}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onmousemove}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onmouseout}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onmouseover}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onmouseup}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:onselect}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:preset?}
+
+@itemize {}
+
+ @item Boolean. This switch determines whether this form-control should be preset before the final setting, 
+in order to allow any interdependencies to be detected for validation or detecting changed values. Default is nil.
+
+@end itemize
+
+@b{:prompt}
+
+@itemize {}
+
+ @item String. The prompt used in the label. 
+
+@end itemize
+
+@b{:readonly?}
+
+@itemize {}
+
+ @item Boolean. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:size}
+
+@itemize {}
+
+ @item Number or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:src}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:style}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:tabindex}
+
+@itemize {}
+
+ @item Integer or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:title}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:usemap}
+
+@itemize {}
+
+ @item String or nil. Maps to HTML form control attribute of the same name. Default is nil.
+
+@end itemize
+
+@b{:validation-function}
+
+@itemize {}
+
+ @item Function of one argument. The argument will be the submitted form value converted to the proper type. 
+The return value from this function can be nil, any non-nil value, or a plist with keys :validated-value 
+and :error. The following behavior applies:
+  @itemize 
+  @item  If the function returns nil, error is set to  :unspecified-validation-fail.
+  @item  If the function returns a plist with keys :validated-value and :error, and if :error is non-nil, 
+it means the value is not acceptable, the form-controls error message is set to this error (usually a keyword symbol),
+and the error string will be appended to the html-string by default. 
+  @item  If the function returns any other value, then the properly typed submitted form value is considered valid and is used. 
+ 
+@end itemize 
+
+
+ In the case of an error, the form-control's failed-value message is set to the properly typed submitted form value. If
+ allow-invalid? is non-nil, then the form-control's value message is also set to this value (i.e. the invalid value is
+ still accepted, even though a non-nil error is present).
+
+ Default is (list :validated-value value :error nil).
+
+@end itemize
+
+@noindent @b{Settable-computed-slots}
+
+@b{:error}
+
+@itemize {}
+
+ @item String or error object. This will be set to a validation error if any, 
+and cleared when the error is gone.
+
+@end itemize
+
+@b{:failed-value}
+
+@itemize {}
+
+ @item Lisp value. The value which was attempted to be set but failed validation.
+
+@end itemize
+
+@b{:value}
+
+@itemize {}
+
+ @item Lisp value. The current value of this form control.
+
+@end itemize
+
+@noindent @b{Functions}
+
+@b{:restore-defaults!}
+
+@itemize {}
+
+ @item Void. Restores the default for the value, the failed-value, and the error.
+
+@end itemize
+
+@noindent @b{Examples}
+
+
+@smallexample 
+@cartouche
+
+ (in-package :gwl-user)
+
+
+ (define-object test-form (base-html-sheet)
+  
+   :objects
+   ((username :type 'text-form-control
+              :size 35
+              :maxlength 30
+              :allow-nil? t
+              :default "Ron Paul")
+   
+    (age :type 'text-form-control
+         :size 5
+         :validation-function #'(lambda(input) (or (null input) (> 80 input 70)))
+         :domain :number
+         ;;:default 72
+         :default nil
+         )
+   
+    (bio :type 'text-form-control
+         :rows 8
+         :size 120
+         :default "
+Congressman Ron Paul is the leading advocate for freedom in our nation's capital. 
+As a member of the U.S. House of Representatives, Dr. Paul tirelessly works for limited 
+constitutional government, low taxes, free markets, and a return to sound monetary policies. 
+He is known among his congressional colleagues and his constituents for his consistent 
+voting record. Dr. Paul never votes for legislation unless the proposed measure is expressly 
+authorized by the Constitution. In the words of former Treasury Secretary William Simon, 
+Dr. Paul is the one exception to the Gang of 535 on Capitol Hill.")
+   
+    (issues :type 'menu-form-control
+            :choice-list (list "Taxes" "Health Care" "Foreign Policy")
+            :default "Taxes"
+            :multiple? t)
+   
+    (color :type 'menu-form-control
+           :size 7
+           :choice-plist (list :red "red" :green "green" :blue "blue" :magenta "magenta" :cyan "cyan" :yellow "yellow" :orange "orange")
+           :validation-function #'(lambda(color)
+                                    (if (intersection (ensure-list color) (list :yellow :magenta))
+                                        (list :error :disallowed-color-choice)
+                                      t))
+           ;;:append-error-string? nil
+           :multiple? t
+           :default :red
+           ;;:onchange "alert('hey now');"
+           )
+   
+    (early-riser? :type 'checkbox-form-control
+                  :default nil)
+   
+   
+   
+    (favorite-links :type 'text-form-control
+                    :sequence (:size 3)
+                    :size 70
+                    :default "http://")))
+
+
+ (define-lens (html-format test-form)()
+   :output-functions
+   ((main-sheet
+     ()
+     (with-html-output (*html-stream* nil :indent t)
+       (:html (:head (:title "Test Form"))
+              (:body (:h2 (:center "Test Form"))
+                     (the write-development-links)
+                     (with-html-form (:cl-who? t)
+                       (:p (str (the username html-string)))
+                       (:p "(internal value is: " (fmt "~s" (the username value)) ")")
+                       (:p (str (the age html-string)))
+                       (:p "(internal value is: " (fmt "~s" (the age value)) ")")
+                       (:p (str (the bio html-string)))
+                       (:p (:table 
+                            (:tr (:td (str (the issues html-string))))
+                            (:tr (:td (str (the color html-string))))))
+                       (:p (str (the early-riser? html-string)))
+                      
+                       (dolist (link (list-elements (the favorite-links)))
+                         (htm (str (the-object link html-string))))
+                      
+                       (:p ((:input :type :submit :value " OK "))))))))))
+                      
+  
+ (publish :path "/fe"
+          :function #'(lambda(req ent)
+                        (gwl-make-object req ent "gwl-user::test-form")))
+
+@end cartouche 
+@end smallexample
+
+
+
+
+ @b{Example image is not generated!}
+

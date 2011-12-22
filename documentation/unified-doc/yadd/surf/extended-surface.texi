@@ -1,0 +1,183 @@
+@subsubsection Extended-surface
+
+@b{Description}
+
+Extends a surface to a curve, so that curve will 
+become one of the new boundaries for the surface. Continuity is controlled via
+options. Note that in the example, extended and extended-2 do not give a smooth
+transition to the extended part of the surface because the original surface
+is only degree 1 in the direction of extension.
+
+@noindent @b{Required-input-slots}
+
+@b{:curve}
+
+@itemize {}
+
+ @item GDL curve object. The curve to which the surface should be extended.
+
+@end itemize
+
+@b{:surface}
+
+@itemize {}
+
+ @item GDL surface object. The surface to be extended.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:continuity}
+
+@itemize {}
+
+ @item Keyword symbol, if deformation-param is given this can 
+be one of :c1, :c2, or :cmax, and if deformation-param is not
+given this can be one of :g1 or :cmax. Default is :c1 if
+deformation-param is given and  :g1 if deformation-param is 
+not given.
+
+@end itemize
+
+@b{:deformation-param}
+
+@itemize {}
+
+ @item Number, either a U or a V surface parameter. This value, if given, controls how 
+far inward from the affected boundary the surface is modified. If (the direction) 
+is :u, then this will be a U parameter, and likewise if (the direction) is :v, 
+then this will be a V parameter. Default is nil which indicates no specific 
+control over any deformation.
+
+@end itemize
+
+@b{:direction}
+
+@itemize {}
+
+ @item Keyword symbol, one of :u or :v. The direction of extension. Note that if 
+deformation-param is given, it will be a U parameter if this input :u, 
+and a V parameter if this input is :v. Default is :u.
+
+@end itemize
+
+@b{:which-end}
+
+@itemize {}
+
+ @item Keyword symbol, one of :start or :end. Default is :start.
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+
+@smallexample 
+@cartouche
+
+ (in-package :gdl-user)
+                   
+ (define-object extended-surface-test (base-object)
+  
+   :computed-slots
+   ((regression-test-data (list (multiple-value-list (the extended b-spline-data))
+                                (multiple-value-list (the extended-2 b-spline-data))
+                                (multiple-value-list (the extended-3 b-spline-data))
+                                (multiple-value-list (the extended-4 b-spline-data))))
+   
+    (display-list-objects (list (the loft)
+                                (the extended)
+                                (the extended-2))))
+  
+   :objects
+   ((test3 :type 'linear-curve 
+           :start (make-point 0 0 0) 
+           :end (make-point 10 0 0))
+   
+    (test4 :type 'linear-curve
+           :start (make-point 0 10 0) 
+           :end (make-point 10 10 0))
+   
+   
+    (mid-1 :type 'linear-curve
+           :start (make-point 0 5.0 1)
+           :end (make-point 10 5.0 1))
+   
+    (mid-2 :type 'linear-curve
+           :start (make-point 0 8.0 1)
+           :end (make-point 10 8.0 1))
+   
+    (bridge-1 :type 'b-spline-curve
+              :control-points (list (make-point 0 0 0)
+                                    (make-point -2 5.0 3) 
+                                    (make-point -2 8.0 3) 
+                                    (make-point 0 10 0)))       
+    (bridge-2 :type 'b-spline-curve
+              :control-points (list (make-point 10 0 0)
+                                    (make-point 12 5.0 5) 
+                                    (make-point 12 8.0 5) 
+                                    (make-point 10 10 0)))      
+
+    (bridge-3 :type 'b-spline-curve
+              :control-points (list (make-point 0 -1 0)
+                                    (make-point 3 -1 5)
+                                    (make-point 7 -1 5)
+                                    (make-point 10 -1 0)))
+
+   
+    (loft :type 'lofted-surface
+          :curves (list (the test3) (the mid-1) 
+                        (the mid-2) (the test4)))
+   
+    (extended :type 'extended-surface
+              :display-controls (list :color :red :line-thickness 2)
+              :surface (the loft)
+              :curve (the bridge-1)
+              :direction :v
+              :which-end :start)
+
+    (extended-2 :type 'extended-surface
+                :display-controls (list :color :green :line-thickness 2)
+                :surface (the loft)
+                :curve (the bridge-1)
+                :direction :v
+                :which-end :start
+                :deformation-param (+ (* 0.25 (- (the-child surface v-max)
+                                                 (the-child surface v-min)))
+                                      (the-child surface u-min)))
+   
+    (extended-3 :type 'extended-surface
+                :display-controls (list :color :orange
+                                        :isos (list :n-u 25 :n-v 25))
+                :surface (the loft)
+                :curve (the bridge-3)
+                :direction :u
+                :continuity :cmax
+                :which-end :start)
+   
+    (extended-4 :type 'extended-surface
+                :display-controls (list :color :blue 
+                                        :isos (list :n-u 25 :n-v 25))
+                :surface (the loft)
+                :curve (the bridge-3)
+                :direction :u
+                :deformation-param (+ (* 0.25 (- (the-child surface u-max)
+                                                 (the-child surface u-min)))
+                                      (the-child surface u-min))
+                :continuity :cmax
+                :which-end :start)))              
+                  
+ (generate-sample-drawing :objects (the-object (make-object 'extended-surface-test)
+                                               display-list-objects)
+                          :projection-direction (getf *standard-views* :trimetric))
+
+@end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+
