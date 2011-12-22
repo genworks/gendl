@@ -75,7 +75,7 @@
                                        ,parent-arg (the-object ,self-arg :%name%) ,self-arg))))
                       (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg))))))
            
-           `(eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
 
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
                                                                      ,part-arg 
@@ -84,7 +84,7 @@
               (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
                                     ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
                 (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg)))
-           `(eval-when (compile load eval) (glisp:end-redefinitions-ok)))))) computed-slots))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok)))))) computed-slots))
 
 
 (defun trickle-down-slots-section (slots &key from-objects?)
@@ -96,7 +96,7 @@
          (remove 
           nil
           (list
-           `(eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            (unless from-objects? ;; DJC trim effort
              `(defmethod ,(glisp:intern (symbol-name slot) :gdl-inputs) ((,parent-arg gdl-basis)
                                                                    ,part-arg
@@ -115,5 +115,5 @@
               (chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg))
 
            
-           `(eval-when (compile load eval) (glisp:end-redefinitions-ok))))))
+           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))))))
    slots))

@@ -191,7 +191,7 @@ item in the list following the :sequence keyword")))))
                       (the-object ,self-arg (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) 
                                                                 ,args-arg)))))))
                
-               `(eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+               `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
                
                `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
                                                                          ,part-arg 
@@ -202,7 +202,7 @@ item in the list following the :sequence keyword")))))
                     (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword attr-sym)) 
                       ,val-arg)))
                
-               `(eval-when (compile load eval) (glisp:end-redefinitions-ok))
+               `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
 
                (when (member (first part-quantify-expr) '(:size :radial))
                  `(defmethod gdl-inputs::number-of-elements ((self ,name) (,part-arg (eql ',attr-sym)) (child t))

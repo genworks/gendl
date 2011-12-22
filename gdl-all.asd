@@ -1,13 +1,14 @@
 (in-package :common-lisp-user)
 
+
+
 (asdf:defsystem #:gdl-all
   :description "The Genworks GDL full system."
   :author "Dave Cooper <david.cooper@genworks.com>"
   :license "AGPL"
   :serial t
   :version "2011100200"
-  :depends-on (
-               :gdl-gwl-graphics
+  :depends-on (:gdl-gwl-graphics
                :gdl-ta2
                :gdl-tasty
                :gdl-demos

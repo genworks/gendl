@@ -88,7 +88,7 @@ given as keyword args to this function)."
                                                         :type glisp:*fasl-extension*)))))
 
 
-(eval-when (compile load eval)
+(eval-when (:compile-toplevel :load-toplevel :execute)
   (define-object directory-node nil
 
     :input-slots
@@ -99,11 +99,11 @@ given as keyword args to this function)."
 
     :computed-slots
     ((device (pathname-device (the ppathname)))
-     (ppathname (translate-logical-pathname (the pathname)))
+     (ppathname (probe-file (translate-logical-pathname (the pathname))))
      (contents (sort (glisp:directory-list (the ppathname))
                      #'(lambda (x y)
                          (string< (file-namestring x) (file-namestring y)))))
-     (local-name (lastcar (pathname-directory (the ppathname))))
+     (local-name (lastcar (pathname-directory (or (the ppathname) (the pathname)))))
      (subdir-pathnames (mapcar #'pathname-directory
                                (remove-if-not #'glisp:file-directory-p (the contents)))))
 
@@ -215,9 +215,13 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                    #'string<
                    :key #'pathname-name))
    
-   (asd-file (merge-pathnames (make-pathname :name (string-append "gdl-" (the fasl-output-name))
-                                             :type "asd")
-                              (the ppathname)))
+   (asd-file (let ((asd-file-name 
+		    (make-pathname :name (string-append "gdl-" (the fasl-output-name))
+				   :type "asd")))
+	       (or (and (the ppathname)
+			(merge-pathnames asd-file-name (the ppathname)))
+		   (error "Could not create ~a in ~a.~%Directory does not exist.~%"
+			  asd-file-name (the pathname)))))
    
    (asdf-depends-on (let ((depends-on-file 
                            (merge-pathnames (make-pathname :name "depends-on"
@@ -227,6 +231,18 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                         (with-open-file (in depends-on-file)
                           (read in)))))
    
+   (additional-asd-code (let ((asd-code-file 
+			       (merge-pathnames (make-pathname :name "additional-asd-code"
+							       :type "isc")
+						(the ppathname))))
+			  (when (probe-file asd-code-file)
+			    (with-open-file (in asd-code-file)
+			      (let (result)
+				(let (*read-eval*)
+				  (do ((form (read in nil nil) (read in nil nil)))
+				      ((null form) (nreverse result))
+				    (push form result))))))))
+
    (asdf-system-list 
     (let ((binaries (the compile-and-load)))
       (append `(asdf:defsystem ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
@@ -252,7 +268,6 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 						     "\\" "/"))))
                                         binaries))))
     :uncached))
-   
 
   :hidden-objects
   ((subdir-computation :type 'subdir-computation
@@ -280,8 +295,12 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
     (with-open-file (out (the asd-file) :direction :output 
                      :if-exists :supersede
                      :if-does-not-exist :create)
-      (let ((*print-right-margin* 70))
-        (pprint (the asdf-system-list) out)))
+      (let ((*print-right-margin* 70)
+	    (*print-case* :downcase))
+        (pprint (the asdf-system-list) out)
+	(when (the additional-asd-code)
+	  (format out "~%~%")
+	  (pprint (the additional-asd-code) out))))
     (the asd-file))
    
    
@@ -318,7 +337,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                   :device (the :device)
                   :name (pathname-name file)
                   :type (the :fasl-type))))
-            (let ((output-date (file-write-date output-file))
+            (let ((output-date (when (probe-file output-file) (file-write-date output-file)))
                   (file-date (file-write-date file)))
               (when (and (not dry-run?)
                          (or (null output-date) (<= output-date file-date)))

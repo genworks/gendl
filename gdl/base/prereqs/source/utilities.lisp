@@ -193,7 +193,7 @@ You have a dependency on caffeine. Your children are your dependants.
 			;;
 			;; FLAG -- check that remotes are effectively from same tree as well
 			;;
-			(or (typep (first *notify-cons*) 'gdl-remote)
+			(or (and (find-class 'gdl-remote nil) (typep (first *notify-cons*) 'gdl-remote))
 			    (same-tree? ,self-sym (first *notify-cons*))))))
        
        
