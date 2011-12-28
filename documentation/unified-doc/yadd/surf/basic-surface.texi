@@ -1,0 +1,158 @@
+@subsubsection Basic-surface
+
+@b{Description}
+
+This routine constructs a 3D surface by interpolating
+   a set of four boundary 3D curves.
+
+@noindent @b{Required-input-slots}
+
+@b{:curve-bottom}
+
+@itemize {}
+
+ @item GDL curve object. The curve corresponding to the surface bottom boundary .
+
+@end itemize
+
+@b{:curve-left}
+
+@itemize {}
+
+ @item GDL curve object. The curve corresponding to the surface left boundary.
+
+@end itemize
+
+@b{:curve-right}
+
+@itemize {}
+
+ @item GDL curve object. The curve corresponding to the surface right boundary.
+
+@end itemize
+
+@b{:curve-top}
+
+@itemize {}
+
+ @item GDL curve object. The curve corresponding to the surface top boundary.
+
+@end itemize
+
+
+
+
+
+
+
+@noindent @b{Examples}
+
+
+    @smallexample 
+@cartouche
+ 
+ (in-package :gdl-user)   
+
+ (define-object test-basic-surface (base-object)
+  
+  :computed-slots
+  ((control-points-u-min (list (make-point 0 0 0 )
+                               (make-point 1 0 0 )
+                               (make-point 2 0 1 )
+                               (make-point 3 0 0 )
+                               (make-point 4 0 0 )))
+   
+   (control-points-u-max (list (make-point 0 4 0 )
+                               (make-point 1 4 0 )
+                               (make-point 2 4 1 )
+                               (make-point 3 4 0 )
+                               (make-point 4 4 0 )))
+   
+   (control-points-v-min (list (make-point 0 0 0 )
+                               (make-point 0 1 0 )
+                               (make-point 0 2 1 )
+                               (make-point 0 3 0 )
+                               (make-point 0 4 0 )))
+                              
+   (control-points-v-max (list (make-point 4 0 0 )
+                               (make-point 4 1 0 )
+                               (make-point 4 2 1 )
+                               (make-point 4 3 0 )
+                               (make-point 4 4 0 ))))
+  
+  :objects
+  ((surf-curve-u-min :type 'fitted-curve
+                     :display-controls (list :color :green :line-thickness 2)
+                     :points (the control-points-u-min))
+   
+   (surf-curve-u-max :type 'fitted-curve
+                     :display-controls (list :color :green :line-thickness 2)
+                     :points (the control-points-u-max))
+     
+   (surf-curve-v-min :type 'fitted-curve
+                     :display-controls (list :color :blue :line-thickness 2)
+                     :points (the control-points-v-min))
+   
+   (surf-curve-v-max :type 'fitted-curve
+                     :display-controls (list :color :blue :line-thickness 2)
+                     :points (the control-points-v-max))
+      
+   (surface :type 'basic-surface
+            :display-controls (list :color :red :line-thickness 0.5)
+            :curve-bottom (the surf-curve-u-min)
+            :curve-top (the surf-curve-u-max)
+            :curve-left (the surf-curve-v-min)
+            :curve-right (the surf-curve-v-max))
+
+   (arc-1 :type 'arc-curve
+          :display-controls (list :color :green :line-thickness 2)
+          :orientation (alignment :top (the (face-normal-vector :rear)))
+          :center (make-point 1 0 0)
+          :radius 1
+          :start-angle 0
+          :end-angle pi)
+ 
+   (arc-2 :type 'arc-curve
+          :display-controls (list :color :green :line-thickness 2)
+          :orientation (alignment :top (the (face-normal-vector :rear)))
+          :center (make-point 1 -2 0)
+          :radius 1
+          :start-angle 0
+          :end-angle pi)
+   
+   (arc-3 :type 'arc-curve
+          :orientation (alignment :rear (the (face-normal-vector :right)))
+          :display-controls (list :color :blue :line-thickness 2)
+          :center (make-point 0 -1 0)
+          :radius 1
+          :start-angle 0
+          :end-angle pi)
+   
+   (arc-4 :type 'arc-curve
+          :orientation (alignment :rear (the (face-normal-vector :left)))
+          :display-controls (list :color :blue :line-thickness 2)
+          :center (make-point 2 -1 0)
+          :radius 1
+          :start-angle 0
+          :end-angle pi)
+   
+  (surf-arc :type 'basic-surface
+            :display-controls (list :color :red :line-thickness 0.5) 
+            :curve-bottom (the arc-1 )
+            :curve-top (the arc-2 )
+            :curve-left (the arc-3 reverse )
+            :curve-right (the arc-4))))
+
+
+
+ (generate-sample-drawing :objects (the-object (make-object 'test-basic-surface) surface)
+                          :projection-direction (getf *standard-views* :tri-r-r))
+
+
+@end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

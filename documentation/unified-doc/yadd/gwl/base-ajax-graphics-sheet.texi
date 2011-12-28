@@ -1,0 +1,242 @@
+@subsubsection Base-ajax-graphics-sheet
+
+@b{Description}
+
+This mixes together base-ajax-sheet 
+with base-html-graphics-sheet, and adds html-format output-functions 
+for several of the new formats such as ajax-enabled png/jpeg and 
+Raphael vector graphics.
+
+@noindent @b{Optional-input-slots}
+
+@b{:background-color}
+
+@itemize {}
+
+ @item Array of three numbers between 0 and 1. RGB Color in decimal 
+format. Color to be used for the background of the viewport. 
+Defaults to the 
+ :background from the global *colors-default* parameter.
+
+@end itemize
+
+@b{:display-list-object-roots}
+
+@itemize {}
+
+ @item List of GDL objects. The leaves of each of these objects will 
+be included in the geometry display. Defaults to nil.
+
+@end itemize
+
+@b{:display-list-objects}
+
+@itemize {}
+
+ @item List of GDL objects containing geometry. These are the 
+actual objects themselves, not nodes which have children or 
+other descendants that you want to display. If you want to 
+display the leaves of certain nodes, include the objects for 
+those nodes in the display-list-object-roots, not here. 
+Defaults to nil.
+
+@end itemize
+
+@b{:field-of-view-default}
+
+@itemize {}
+
+ @item Number in angular degrees. The maximum angle of the view frustrum 
+for perspective views. Defaults to 0.1 (which results in a near parallel 
+projection with virtually no perspective effect).
+
+@end itemize
+
+@b{:image-format}
+
+@itemize {}
+
+ @item Keyword symbol. Determines the default image format. Defaults to the currently selected
+value of the image-format-selector, which itself defaults to :raphael.
+
+@end itemize
+
+@b{:image-format-default}
+
+@itemize {}
+
+ @item Keyword symbol, one of the keys from (the image-format-plist). 
+Default for the image-format-selector. Defaults to :png.
+
+@end itemize
+
+@b{:image-format-plist}
+
+@itemize {}
+
+ @item Plist of keys and strings. The default formats for graphics display. Defaults to:
+
+ <pre>
+ (list :png "PNG image"
+       :jpeg "jpeg image"
+       :raphael "SVG/VML")
+</pre>
+
+@end itemize
+
+@b{:immune-objects}
+
+@itemize {}
+
+ @item List of GDL objects. These objects are not used in 
+computing the scale or centering for the display list. 
+Defaults to nil.
+
+@end itemize
+
+@b{:include-view-controls?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether standard view-controls panel should be included with the graphics.
+
+@end itemize
+
+@b{:projection-vector}
+
+@itemize {}
+
+ @item 3D vector. This is the normal vector of the view plane onto 
+which to project the 3D objects. Defaults to 
+  (getf *standard-views* (the view-selector value)),
+and (the view-selector value) defaults to :top.
+
+@end itemize
+
+@b{:use-raphael-graf?}
+
+@itemize {}
+
+ @item Boolean. Include raphael graphing library in the page header? 
+Default nil. 
+
+@end itemize
+
+@b{:use-raphael?}
+
+@itemize {}
+
+ @item Boolean. Include raphael javascript library in the page header? 
+Default nil. 
+
+@end itemize
+
+@b{:view-direction-default}
+
+@itemize {}
+
+ @item Default view initially in the view-selector which is 
+automatically included in the view-controls.
+
+@end itemize
+
+@b{:viewport-border-default}
+
+@itemize {}
+
+ @item Number. Thickness of default border around graphics viewport. 
+Default is 1.
+
+@end itemize
+
+@noindent @b{Settable-computed-slots}
+
+@b{:js-to-eval}
+
+@itemize {}
+
+ @item String of valid Javascript. This Javascript will be send with the Ajax response,
+and evaluated after the innerHTML for this section has been replaced.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:graphics}
+
+@itemize {}
+
+ @item String of valid HTML. This can be used to 
+include the geometry, in the format currently selected by the image-format-selector.
+If the include-view-controls? is non-nil, the view-controls will be appended at the 
+bottom of the graphics inside a table.
+
+@end itemize
+
+@b{:main-view}
+
+@itemize {}
+
+ @item String. This can be used with (str ...) [in cl-who] or (:princ ...) [in htmlGen] 
+to output this section of the page, without the wrapping :div tag [so if you use this, 
+your code would be responsible for wrapping the :div tag with :id (the dom-id).]
+
+@end itemize
+
+@b{:raster-graphics}
+
+@itemize {}
+
+ @item String of valid HTML. This can be used to 
+include the PNG or JPG raster-graphics of the geometry.
+
+@end itemize
+
+@b{:vector-graphics}
+
+@itemize {}
+
+ @item String of valid HTML. This can be used to 
+include the SVG or VML vector-graphics of the geometry.
+
+@end itemize
+
+@b{:view-controls}
+
+@itemize {}
+
+ @item String of valid HTML. This includes the image-format-selector, the reset-zoom-button, 
+and the view-selector, in a simple table layout. You can override this to make the view-controls
+appear any way you want and include different and/or additional form-controls.
+
+@end itemize
+
+@b{:web3d-graphics}
+
+@itemize {}
+
+ @item String of valid HTML. This can be used to 
+include the VRML or X3D graphics of the geometry.
+
+@end itemize
+
+@noindent @b{Hidden-objects}
+
+@b{:image-format-selector}
+
+@itemize {}
+
+ @item Object of type menu-form-control. Its value slot can be used to determine the format of image displayed.
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+FLAG -- Fill in!!!
+
+
+
+ @b{Example image is not generated!}
+

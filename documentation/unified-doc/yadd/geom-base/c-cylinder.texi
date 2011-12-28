@@ -1,0 +1,82 @@
+@subsubsection C-cylinder
+
+@b{Description}
+
+Provides a simple way to create a cylinder, by specifying a start point and an end point.
+
+@noindent @b{Required-input-slots}
+
+@b{:end}
+
+@itemize {}
+
+ @item 3D Point. Center of the end cap.
+
+@end itemize
+
+@b{:start}
+
+@itemize {}
+
+ @item 3D Point. Center of the start cap.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:center}
+
+@itemize {}
+
+ @item 3D Point. Center point of the center-line.
+
+@end itemize
+
+@b{:center-line}
+
+@itemize {}
+
+ @item List of two 3D Points. Represents line segment connecting center of end cap to center of start cap.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Distance between cap centers.
+
+@end itemize
+
+@b{:orientation}
+
+@itemize {}
+
+ @item 3x3 Orthonormal Rotation Matrix. Resultant orientation given the specified start and end points.
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ (in-package :gdl-user)
+
+ (define-object c-cylinder-sample (c-cylinder)
+   :computed-slots
+   ((display-controls (list :color :plum :transparency 0.2))
+    (start (make-point 0 0 0))
+    (end (make-point 0 0 10))
+    (number-of-sections 7)
+    (radius 3)))
+
+   (generate-sample-drawing :objects (make-object 'c-cylinder-sample)
+                            :projection-direction (getf *standard-views* :trimetric))
+   
+
+@end cartouche 
+@end smallexample
+
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/c-cylinder,,4.2in}
+

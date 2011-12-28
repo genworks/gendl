@@ -1,0 +1,62 @@
+@subsubsection Circle
+
+@b{Description}
+
+The set of points equidistant from a given point. 
+The distance from the center is called the radius, and the point is called 
+the center. The start point of the circle is at the 3 o'clock position, and positive
+angles are measured anti-clockwise.
+
+@noindent @b{Computed-slots}
+
+@b{:area}
+
+@itemize {}
+
+ @item Number. The area enclosed by the circle.
+
+@end itemize
+
+@b{:circumference}
+
+@itemize {}
+
+ @item Number. The perimeter of the circle.
+
+@end itemize
+
+@b{:end-angle}
+
+@itemize {}
+
+ @item Angle in radians. End angle of the arc. Defaults to twice pi.
+
+@end itemize
+
+@b{:start-angle}
+
+@itemize {}
+
+ @item Angle in radians. Start angle of the arc. Defaults to zero.
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+  (in-package :gdl-user)
+                  
+  (define-object circle-sample (circle)
+    :computed-slots
+    ((radius 10)))
+
+  (generate-sample-drawing :objects (make-object 'circle-sample))
+
+                  
+@end cartouche 
+@end smallexample
+
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/circle,,4.2in}
+

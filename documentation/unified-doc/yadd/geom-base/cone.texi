@@ -1,0 +1,82 @@
+@subsubsection Cone
+
+@b{Description}
+
+A pyramid with a circular cross section, with its vertex above 
+the center of its base. Partial cones and hollow cones are supported.
+
+@noindent @b{Optional-input-slots}
+
+@b{:inner-radius-1}
+
+@itemize {}
+
+ @item Number. The radius of the inner hollow part at the top end for a hollow cone.
+
+@end itemize
+
+@b{:inner-radius-2}
+
+@itemize {}
+
+ @item Number. The radius of the inner hollow part at the bottom end for a hollow cone.
+
+@end itemize
+
+@b{:radius-1}
+
+@itemize {}
+
+ @item Number. The radius of the top end of the cone.
+
+@end itemize
+
+@b{:radius-2}
+
+@itemize {}
+
+ @item Number. The radius of the bottom end of the cone.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:height}
+
+@itemize {}
+
+ @item Number. Z-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+  (in-package :gdl-user)
+
+   (define-object cone-sample (cone)
+     :computed-slots
+     ((display-controls (list :color :blue-neon 
+                              :transparency 0.5 
+                              :shininess 0.8 
+                              :specular-color :white))
+      (length 10) (radius-1 2)(inner-radius-1 1)
+      (radius-2 5) (number-of-sections 5)
+      (inner-radius-2 3)))
+  
+ (generate-sample-drawing :objects (make-object 'cone-sample) 
+                          :projection-direction :trimetric) 
+  @end cartouche 
+@end smallexample
+
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone,,4.2in}
+

@@ -1,0 +1,133 @@
+@subsubsection Sphere
+
+@b{Description}
+
+The set of points equidistant from a given center point.
+
+@noindent @b{Required-input-slots}
+
+@b{:radius}
+
+@itemize {}
+
+ @item Number. Distance from center to any point on the sphere.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:number-of-horizontal-sections}
+
+@itemize {}
+
+ @item Number. How many lines of latitude to show on the sphere in some renderings. Default value is 4.
+
+@end itemize
+
+@b{:number-of-vertical-sections}
+
+@itemize {}
+
+ @item Number. How many lines of longitude to show on the sphere in some renderings. Default value is 4.
+
+@end itemize
+
+@noindent @b{Defaulted-input-slots}
+
+@b{:end-horizontal-arc}
+
+@itemize {}
+
+ @item Angle in radians. Ending horizontal angle for a partial sphere. Default is twice pi.
+
+@end itemize
+
+@b{:end-vertical-arc}
+
+@itemize {}
+
+ @item Angle in radians. Ending vertical angle for a partial sphere. Default is pi/2.
+
+@end itemize
+
+@b{:inner-radius}
+
+@itemize {}
+
+ @item Number. Radius of inner hollow for a hollow sphere. Default is NIL, for a non-hollow sphere.
+
+@end itemize
+
+@b{:start-horizontal-arc}
+
+@itemize {}
+
+ @item Angle in radians. Starting horizontal angle for a partial sphere. Default is 0.
+
+@end itemize
+
+@b{:start-vertical-arc}
+
+@itemize {}
+
+ @item Angle in radians. Starting vertical angle for a partial sphere. Default is -pi/2.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:height}
+
+@itemize {}
+
+ @item Number. Z-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Y-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+  
+  (in-package :gdl-user)
+  
+  (define-object sphere-sample (sphere)
+    
+   :computed-slots
+
+    ((radius 150)
+     (number-of-vertical-sections 10)
+     (number-of-horizontal-sections 10)
+     (display-controls (list :color :green-forest-medium))))
+
+  (generate-sample-drawing :objects (make-object 'sphere-sample) 
+                           :projection-direction :trimetric)
+
+
+
+
+
+                  
+@end cartouche 
+@end smallexample
+
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/sphere,,4.2in}
+

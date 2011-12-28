@@ -1,0 +1,99 @@
+@subsubsection Rectangular-surface
+
+@b{Description}
+
+Creates a flat rectangular surface specified by the same inputs as box or base-object.
+
+@noindent @b{Required-input-slots}
+
+@b{:height}
+
+@itemize {}
+
+ @item Number. Z-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Y-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@noindent @b{Defaulted-input-slots}
+
+@b{:center}
+
+@itemize {}
+
+ @item 3D Point. Indicates in global coordinates where the center of the reference 
+box of this object should be located.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:p00}
+
+@itemize {}
+
+ @item 3D point. Front-left  corner of the planar surface.
+
+@end itemize
+
+@b{:p01}
+
+@itemize {}
+
+ @item 3D point. Front-right corner of the planar surface.
+
+@end itemize
+
+@b{:p10}
+
+@itemize {}
+
+ @item 3D point. Rear-left  corner of the planar surface.
+
+@end itemize
+
+@b{:p11}
+
+@itemize {}
+
+ @item 3D point. Rear-right corner of the planar surface.
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ (in-package :surf)
+
+ (define-object test-rectangular-surface (rectangular-surface)
+   :computed-slots ((display-controls (list :color :green-spring-medium)) (length 20) (width 30) (height 0)))
+
+
+ (generate-sample-drawing :objects (make-object 'test-rectangular-surface)
+                          :projection-direction :trimetric)
+
+
+@end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

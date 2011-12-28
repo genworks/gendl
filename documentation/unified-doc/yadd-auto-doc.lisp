@@ -12,27 +12,28 @@
                       (the gdl write-package-index)
                       (the gdl write-class)
                  
-                     #+nil(  
-                      (the gwl write-package-index)
-                      (the gwl write-class)
+		      ;;#+nil
+		      (the gwl write-package-index)
+		      (the gwl write-class)
                   
-                      (the geom-base write-package-index)
-                      (the geom-base write-class)
-                                            
-                      (the surf write-package-index)
-                      (the surf write-class)
-                       );;-!!!!!!!!
+		      (the geom-base write-package-index)
+		      (the geom-base write-class)
+		      
+		      (the surf write-package-index)
+		      (the surf write-class)
+		      ;;-!!!!!!!!
+
                       (pprint 'Generate-Documentation---OK)) :uncached))
   :objects
   ((gdl :type 'yadd2pdf
         :package :gdl)
-   #+nil
+   ;;#+nil
    (gwl :type 'yadd2pdf
         :package :gwl)
-   #+nil
+   ;;#+nil
    (surf :type 'yadd2pdf
          :package :surf )
-   #+nil
+   ;;#+nil
    (geom-base :type 'yadd2pdf
               :image? t
               :package :geom-base)))
@@ -222,19 +223,25 @@
                                                    "" "")
                                                   "<ul>" " @itemize ")
                                                  "</ul>" "
-@end itemize ")
+@end itemize 
+
+")
                                                 "<li>" " @item " )
                                                "</li>" "" )
                                               "<dl>" " @itemize {} " ) 
                                              "</dl>" "
-@end itemize ")
+@end itemize 
+
+")
                                             "<dt>" " @item " )
                                            "</dt>" "" )
                                           "<strong>" " @b{")
                                          "</strong>" "} ")
                                         "<dd>" " @itemize @minus ")
                                        "</dd>"  "
-@end itemize "))))))  
+@end itemize 
+
+"))))))  
                           
                        
                   (format out "~%~%")))

@@ -1,0 +1,50 @@
+@subsubsection Compatible-surfaces
+
+@b{Description}
+
+!!! Not applicable for this object !!!
+
+
+
+
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ (in-package :gdl-user)
+
+ (define-object compatible-surfaces-test (surface) 
+
+   :computed-slots ((surface-list (list (the surf-A) (the surf-B))))
+  
+   :objects
+   ((make-compatible-A-and-B :type 'compatible-surfaces
+                             :display-controls (list :line-thickness 2)
+                             :surface-list (the surface-list))
+
+    (surf-A :type 'rectangular-surface
+            :display-controls (list :color :green-spring-medium)
+            :length 10
+            :width 10 )
+                                        
+    (surf-B :type 'rectangular-surface
+            :display-controls (list :color :red)
+            :center (make-point 10 0 0 )
+            :length 10
+            :width 10 )))
+
+ (generate-sample-drawing :object-roots (list (the-object (make-object 'join-surfaces-test) 
+                                                         join-A-and-B )))
+ 
+@end cartouche 
+@end smallexample
+
+
+
+
+ @b{Example image is not generated!}
+

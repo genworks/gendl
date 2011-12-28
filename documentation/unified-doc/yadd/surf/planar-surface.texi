@@ -1,0 +1,68 @@
+@subsubsection Planar-surface
+
+@b{Description}
+
+Creates a flat quadrilateral surface specified by its four corner points.
+
+@noindent @b{Required-input-slots}
+
+@b{:p00}
+
+@itemize {}
+
+ @item 3D point. Front-left  corner of the planar surface.
+
+@end itemize
+
+@b{:p01}
+
+@itemize {}
+
+ @item 3D point. Front-right corner of the planar surface.
+
+@end itemize
+
+@b{:p10}
+
+@itemize {}
+
+ @item 3D point. Rear-left  corner of the planar surface.
+
+@end itemize
+
+@b{:p11}
+
+@itemize {}
+
+ @item 3D point. Rear-right corner of the planar surface.
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ (in-package :surf)
+
+ (define-object test-planar-surface (planar-surface)
+   :computed-slots
+   ((display-controls (list :color :fuchsia :transparency 0.5))
+    (p00 (make-point 0 0 0))
+    (p01 (make-point 0 1 0))
+    (p10 (make-point 1 0 0))
+    (p11 (make-point 1.5 1.5 0))))
+
+  (generate-sample-drawing :objects (make-object 'test-planar-surface)
+                           :projection-direction :trimetric)
+
+
+@end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

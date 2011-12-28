@@ -1,0 +1,526 @@
+@subsubsection Brep
+
+@b{Description}
+
+A general superclass for all boundary representation geometric entities. 
+This currently follows the smlib topology model, with breps containing regions, regions containing shells, 
+and shells containing faces and edges. Shells which completely enclose a volume are considered 
+to make up a solid brep.
+
+@noindent @b{Optional-input-slots}
+
+@b{:brep-tolerance}
+
+@itemize {}
+
+ @item Number. Overall tolerance for the created brep solid. Defaults to nil.
+Note that a value of nil indicates for SMLib to use value of 1.0e-05 of the
+longest diagonal length of the brep.
+
+@end itemize
+
+@b{:built-from}
+
+@itemize {}
+
+ @item GDL Brep object. Defaults to nil.
+Specify this if you want this brep to be a clone of an existing brep. (note -
+this uses a shared underlying brep object, it does not make a copy)
+
+@end itemize
+
+@b{:face-brep-colors}
+
+@itemize {}
+
+ @item List of Color Keywords. These indicate the colors 
+for the breps produced by (the face-breps). If the 
+number of face-breps exceeds the length of this list, 
+the colors will be repeated in order. 
+Defaults to a list with keys: 
+ @itemize 
+  @item  :green 
+  @item  :red 
+  @item  :blue 
+  @item  :purple-dark 
+  @item  :violet 
+  @item  :cyan. 
+
+@end itemize 
+
+
+
+@end itemize
+
+@b{:tessellation-parameters}
+
+@itemize {}
+
+ @item Plist of keyword symbols and numbers. This controls tessellation for this brep.
+The keys are as follows:
+ @itemize 
+           @item :min-number-of-segments
+           @item :max-3d-edge-factor
+           @item :min-parametric-ratio
+           @item :max-chord-height
+           @item :max-angle-degrees
+           @item :min-3d-edge
+           @item :min-edge-ratio-uv
+           @item :max-aspect-ratio
+
+@end itemize 
+
+
+
+and the defaults come from the following parameters:
+
+ 
+
+ (list :min-number-of-segments *tess-min-number-of-segments*
+       :max-3d-edge-factor *tess-max-3d-edge-factor*
+       :min-parametric-ratio *tess-min-parametric-ratio*
+       :max-chord-height *tess-max-chord-height*
+       :max-angle-degrees *tess-max-angle-degrees*
+       :min-3d-edge *tess-min-3d-edge*
+       :min-edge-ratio-uv *tess-min-edge-ratio-uv*
+       :max-aspect-ratio *tess-max-aspect-ratio*)
+
+ 
+
+
+
+@end itemize
+
+@noindent @b{Settable-optional-input-slots}
+
+@b{:density}
+
+@itemize {}
+
+ @item Number. The density per unit volume of the brep. Defaults to 1
+
+@end itemize
+
+@b{:display-iso-curves-wireframe?}
+
+@itemize {}
+
+ @item Boolean. Determines whether the isoparametric curves of each face of the brep are used for wireframe display.
+The default is T.
+
+@end itemize
+
+@b{:display-tessellation-lines-wireframe?}
+
+@itemize {}
+
+ @item Boolean. Determines whether the tessellation grid-lines of the brep are used for wireframe display.
+The default is NIL.
+
+@end itemize
+
+@b{:max-3d-edge}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Computed from (the max-extent) and (the max-3d-edge-factor).
+
+WARNING: Modify this value at your peril. Small values can cause intractable tessellations. 
+         It is better to tweak max-3d-edge-factor to a small value like 0.1, as this will
+         be taken relative to the max-extent of the brep.
+
+@end itemize
+
+@b{:max-3d-edge-factor}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:max-angle-degrees}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:max-aspect-ratio}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:max-chord-height}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:min-3d-edge}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:min-edge-ratio-uv}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:min-number-of-segments}
+
+@itemize {}
+
+ @item Integer. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:min-parametric-ratio}
+
+@itemize {}
+
+ @item Number. Used for tessellations. Default comes from (the tessellation-parameters).
+
+@end itemize
+
+@b{:poly-brep-smooth-results?}
+
+@itemize {}
+
+ @item Boolean. Smooth results for poly-brep? Defaults to t.
+
+@end itemize
+
+@noindent @b{Settable-defaulted-input-slots}
+
+@b{:isos}
+
+@itemize {}
+
+ @item Plist with keys :n-u and :n-v. The number of isoparametric curves to be displayed in each direction. 
+This value comes from the value of :isos on the display-controls if that exists, and defaults 
+to *isos-default* otherwise.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:adaptive-tolerance}
+
+@itemize {}
+
+ @item Number. This is the actual tolerance stored in the SMLib object.
+
+@end itemize
+
+@b{:bounding-box}
+
+@itemize {}
+
+ @item List of two 3D points. The left front bottom and right rear top corners, in global coordinates,
+of the rectangular volume bounding the tree of geometric objects rooted at this object.
+
+@end itemize
+
+@b{:local-box}
+
+@itemize {}
+
+ @item List of two 3D points. The left front bottom and right rear top corners, in global coordinates,
+of the rectangular volume bounding this geometric object.
+
+@end itemize
+
+@b{:min-max-x-y-z}
+
+@itemize {}
+
+ @item Plist with :min-x :max-x :min-y :max-y :min-z :max-z. Returns the extreme points of the 
+brep in each direction (on the brep itself, not necessarily on the bounding box).
+
+@end itemize
+
+@b{:triangle-data}
+
+@itemize {}
+
+ @item List of Plists, one for each face, format still being determined. 
+Contains triangle and connectivity data for the tessellation
+of this brep. Exact supported format will be documented here when ready.
+
+@end itemize
+
+@noindent @b{Hidden-objects}
+
+@b{:composed-edges}
+
+@itemize {}
+
+ @item The composed edges contained within this brep, this is valid just if the brep does not contain holes
+
+@end itemize
+
+@b{:edges-sequence}
+
+@itemize {}
+
+ @item Sequence of GDL Edge Objects. The Edges contained within this brep aranged clockwise or anticlockwise, 
+this is valid just if the brep does not contain holes
+
+@end itemize
+
+@b{:poly-brep}
+
+@itemize {}
+
+ @item Polygonal Brep Object. This brep represented as a Polygonal Brep
+
+@end itemize
+
+@noindent @b{Quantified-hidden-objects}
+
+@b{:edges}
+
+@itemize {}
+
+ @item Sequence of GDL Edge Objects. The Edges contained within this brep.
+
+@end itemize
+
+@b{:face-breps}
+
+@itemize {}
+
+ @item Sequence of GDL Brep objects. One brep for each face in the parent brep, containing only that face.
+
+@end itemize
+
+@b{:faces}
+
+@itemize {}
+
+ @item Sequence of GDL Face Objects. The Faces contained within this brep.
+
+@end itemize
+
+@b{:regions}
+
+@itemize {}
+
+ @item Sequence of GDL Region Objects. The Regions contained within this brep.
+
+@end itemize
+
+@b{:shells}
+
+@itemize {}
+
+ @item Sequence of GDL Shell Objects. The Shells contained within this brep.
+
+@end itemize
+
+@b{:vertices}
+
+@itemize {}
+
+ @item Sequence of GDL Vertex Objects. The Vertices contained within this brep.
+
+@end itemize
+
+@noindent @b{Functions}
+
+@b{:area}
+
+@itemize {}
+
+ @item Number. Area covered by the faces of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:area-moments-of-inertia}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Area Moments of Inertia of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:area-products-of-inertia}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Area Products of Inertia of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:area-second-moment-about-coordinate-axii}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Area Second Moment About Coordinate Axii of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:area-static-moments}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Area Static Moments of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:brep-intersect?}
+
+@itemize {}
+
+ @item Value nil or t. This function performs an intersection between this brep and another brep.
+The function returns a NIL value if no intersection is found and T if a intersection is found.
+:arguments (other-brep "GDL Brep. The brep with which to intersect.")
+:&key ((tolerance (the adaptive-tolerance)) "Number, Controls how precisely the intersection is computed."
+       (angle-tolerance (radians-to-degrees *angle-tolerance-radians-default*))  "Number, in radians. The angle tolerance for intersection.")
+
+@end itemize
+
+@b{:center-of-gravity}
+
+@itemize {}
+
+ @item 3D Point. Center of gravity of the mass of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:in?}
+
+@itemize {}
+
+ @item Boolean. Returns t or nil depending on whether the point given is within the boundary of the brep (including faces).
+
+:arguments (point "Point to check for")
+
+@end itemize
+
+@b{:mass}
+
+@itemize {}
+
+ @item Number. Mass represented by the brep, according to the density.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:moments}
+
+@itemize {}
+
+ @item Plist. Returns the moments of the brep. The plist contains keys: :area-static-moments, :area-moments-of-inertia, 
+:area-products-of-inertia, :area-second-moment-about-coordinate-axii, :volume-static-moments, 
+:volume-moments-of-inertia, :volume-products-of-inertia, and  :volume-second-moment-about-coordinate-axii.
+
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:precise-properties}
+
+@itemize {}
+
+ @item Multiple values: Number, Number, Number, and Plist. Returns the area, volume, mass, 
+and moments for the brep. The moments are labeled as: :area-static-moments, :area-moments-of-inertia, 
+:area-products-of-inertia, :area-second-moment-about-coordinate-axii, :volume-static-moments, 
+:volume-moments-of-inertia, :volume-products-of-inertia, and  :volume-second-moment-about-coordinate-axii.
+
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:tessellation}
+
+@itemize {}
+
+ @item Plist or list. Contains tessellation data for the brep
+based on the values of the keyword args. This is used to produce
+the value of (the triangle-data).
+
+:&key ((min-number-of-segments (the min-number-of-segments)) ""
+       (max-3d-edge (the max-3d-edge)) ""
+       (min-parametric-ratio (the min-parametric-ratio)) ""
+       (max-chord-height (the max-chord-height)) ""
+       (max-angle-degrees (the max-angle-degrees)) ""
+       (min-3d-edge (the min-3d-edge)) ""
+       (min-edge-ratio-uv (the min-edge-ratio-uv)) ""
+       (max-aspect-ratio (the max-aspect-ratio)) ""
+       (in-memory? t) "")
+
+@end itemize
+
+@b{:volume}
+
+@itemize {}
+
+ @item Number. Volume enclosed by the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:volume-moments-of-inertia}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Volume Moments of Inertia of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:volume-products-of-inertia}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Volume Products of Inertia of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:volume-second-moment-about-coordinate-axii}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Volume Second Moment about Coordinate Axii of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+@b{:volume-static-moments}
+
+@itemize {}
+
+ @item 3D Vector (i.e. 3D Point). Returns the Volume Static Moments of the brep.
+:&key ((tolerance (the adaptive-tolerance)) "Controls how precisely the properties are computed")
+
+@end itemize
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

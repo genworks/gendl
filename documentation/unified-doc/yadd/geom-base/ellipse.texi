@@ -1,0 +1,94 @@
+@subsubsection Ellipse
+
+@b{Description}
+
+A curve which is the locus of all points in the plane 
+the sum of whose distances from two fixed points (the foci) is a given positive constant.
+This is a simplified 3D ellipse which will snap to the nearest quarter if you make it a 
+partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
+
+@noindent @b{Required-input-slots}
+
+@b{:major-axis-length}
+
+@itemize {}
+
+ @item Number. Length of (generally) the longer ellipse axis
+
+@end itemize
+
+@b{:minor-axis-length}
+
+@itemize {}
+
+ @item Number. Length of (generally) the shorter ellipse axis
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:end-angle}
+
+@itemize {}
+
+ @item Angle in Radians. End angle of the ellipse. Defaults to 2pi for full ellipse.
+
+@end itemize
+
+@b{:start-angle}
+
+@itemize {}
+
+ @item Angle in Radians. Start angle of the ellipse. Defaults to 0 for full ellipse.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:height}
+
+@itemize {}
+
+ @item Number. Z-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Y-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+  
+  (in-package :gdl-user)
+
+  (define-object ellipse-sample (ellipse)
+    :computed-slots
+    ((minor-axis-length 10)
+     (major-axis-length (* (the minor-axis-length) +phi+))
+     (start-angle 0)
+     (end-angle pi)))
+
+  (generate-sample-drawing :objects (make-object 'ellipse-sample))
+  
+  @end cartouche 
+@end smallexample
+
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/ellipse,,4.2in}
+
