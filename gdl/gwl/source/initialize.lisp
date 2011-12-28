@@ -86,12 +86,3 @@
 
 (push #'initialize-gwl *gdl-init-functions*)
 
-(format t "
-
-Initializing GWL static directories -- 
-
-NOTE this should be done as part of an official startup function...
-
-")
-
-(initialize-gwl)

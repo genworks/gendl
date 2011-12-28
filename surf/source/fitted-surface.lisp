@@ -30,7 +30,7 @@ interpolating (going through) each of the points."
                   
                   :examples "<pre>
 
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
 
  (define-object c11-test (surface) 

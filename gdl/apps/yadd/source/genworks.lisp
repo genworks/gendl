@@ -42,7 +42,8 @@
 (defun package-documentation (package)
   (#+(or allegro lispworks) documentation
      #+sbcl sb-kernel:package-doc-string 
-     (find-package package)))
+     (find-package package)
+     #+allegro 'package))
 
 #-(or allegro lispworks sbcl cmu) (error "Need implementation for function-documentation for the currently running Lisp.~%")
 (defun function-documentation (function-symbol)

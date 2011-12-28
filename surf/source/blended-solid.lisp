@@ -27,7 +27,7 @@
   :documentation (:description "This primitive attempts to fillet one or more edges of a brep solid."
                   
                   :examples "<pre>
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object blend-sample (base-object)
    

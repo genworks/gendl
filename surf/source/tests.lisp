@@ -20,7 +20,7 @@
 ;;
 
 #|
-(in-package :gdl-surf-user)
+(in-package :gdl-user)
 
 
 (define-object test-planar-section-curve (planar-section-curve)

@@ -101,7 +101,7 @@ a central axis and axis point."
                   
                   :examples  "<pre>
 
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object test-revolved-surfaces (revolved-surfaces)
 

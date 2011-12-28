@@ -27,7 +27,7 @@
   :documentation (:description "This  routine joins two surfaces at a common boundary. The surfaces must already be compatible in the direction of the common boundary (same knots). If the surfaces are not compatible you can use first compatible-surfaces if applicable" 
                   :examples "<pre>
 
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object join-surfaces-test (base-object) 
 
@@ -71,7 +71,7 @@
 (define-object compatible-surfaces (base-object)
   :documentation (:examples "<pre>
 
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object compatible-surfaces-test (surface) 
 

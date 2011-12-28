@@ -26,7 +26,7 @@
   :documentation (:description "Represents an exact iso curve on the given surface in given direction at given parameter value."
                   
                   :examples "<pre>
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object iso-curve-example (base-object)
    :computed-slots
