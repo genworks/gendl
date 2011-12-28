@@ -483,7 +483,7 @@ please find implementation for the currently running lisp.~%")
           (handler-bind ((error 
                           #'(lambda (cond)
                               (logmess
-                               (format nil "error during proxy: ~a ~% with ~
+                               (format nil "error during proxy: ~a ~% with ~%
 cached connection = ~s~%" cond cached-connection))
                               (if* cached-connection
                                  then ; retry
