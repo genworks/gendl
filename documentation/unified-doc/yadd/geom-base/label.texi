@@ -199,5 +199,5 @@ of one (1.0).
 @end cartouche 
 @end smallexample
 
-@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/label,,4.2in}
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/label,,4.2in}
 

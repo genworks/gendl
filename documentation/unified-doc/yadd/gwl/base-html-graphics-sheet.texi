@@ -50,6 +50,7 @@ Indicates the views to show in the graphics controls.
 @end itemize 
 
 
+
 Default is :zoom-and-center
 
 @end itemize

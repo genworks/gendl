@@ -56,7 +56,7 @@ a central axis and axis point.
 @smallexample 
 @cartouche
 
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object test-revolved-surfaces (revolved-surfaces)
 

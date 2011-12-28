@@ -18,24 +18,30 @@ Can be:
  @itemize @minus Description goes in a paragraph tag before the input tag.
 @end itemize 
 
+
  @item  @b{:paragraph-append (or :p-append)} 
  @itemize @minus Description goes in a paragraph tag after the input tag
 @end itemize 
+
 
  @item  @b{:table-row-prepend (or :table-tr or :table-tr-prepend)} 
  @itemize @minus Description goes in a table cell wrapped in a table row before the input tag table cell
 @end itemize 
 
+
  @item  @b{:table-row-append (or :table-tr-append)} 
  @itemize @minus Description goes in a table cell wrapped in a table row after the input tag table cell
 @end itemize 
+
 
  @item  @b{nil (or any other value)} 
  @itemize @minus No description, only the bare input tag for the radio
 @end itemize 
 
 
+
 @end itemize 
+
 
 
 Default is :paragraph-append.

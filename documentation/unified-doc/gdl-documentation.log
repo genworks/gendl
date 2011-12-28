@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdfetex 2011.12.9)  12 DEC 2011 18:08
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdfetex 2011.11.28)  28 DEC 2011 14:00
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -541,7 +541,7 @@ Underfull \hbox (badness 5431) in paragraph at lines 31--41
 .etc.
 
 [84] [85] [86] [87]
-Overfull \hbox (29.9825pt too wide) in paragraph at lines 475--475
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 476--476
 []@smalltt constitutional gov-ern-ment, low taxes, free mar-kets, and a re-turn
  to sound mon-e-tary policies.[] |
 
@@ -554,7 +554,7 @@ Overfull \hbox (29.9825pt too wide) in paragraph at lines 475--475
 .etc.
 
 
-Overfull \hbox (29.9825pt too wide) in paragraph at lines 477--477
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 478--478
 []@smalltt voting record. Dr. Paul never votes for leg-is-la-tion un-less the p
 ro-posed mea-sure is expressly[] |
 
@@ -567,7 +567,7 @@ ro-posed mea-sure is expressly[] |
 .etc.
 
 
-Overfull \hbox (100.85667pt too wide) in paragraph at lines 488--488
+Overfull \hbox (100.85667pt too wide) in paragraph at lines 489--489
 []           @smalltt :choice-plist (list :red "red" :green "green" :blue "blue
 " :ma-genta "ma-genta" :cyan "cyan" :yel-|
 
@@ -580,7 +580,7 @@ Overfull \hbox (100.85667pt too wide) in paragraph at lines 488--488
 .etc.
 
 
-Overfull \hbox (58.33217pt too wide) in paragraph at lines 490--490
+Overfull \hbox (58.33217pt too wide) in paragraph at lines 491--491
 []                                    @smalltt (if (in-ter-sec-tion (ensure-lis
 t color) (list :yel-low :magenta))[] |
 
@@ -725,21 +725,18 @@ Overfull \vbox (390.79997pt too high) has occurred while \output is active
 ...etc.
 
 
-[104])) (./yadd/geom-base.texi (./yadd/geom-base/angular-dimension.texi </media
-/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl
-/documentation/unified-doc/yadd/geom-base/image/angular-dimension.png (PNG copy
-)> [105]) (./yadd/geom-base/arc.texi [106] </media/sf_C_DRIVE/Users/teodor/Drop
-box/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/ya
-dd/geom-base/image/arc.png (PNG copy)> [107])
-(./yadd/geom-base/base-drawing.texi [108] </media/sf_C_DRIVE/Users/teodor/Dropb
-ox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yad
-d/geom-base/image/base-drawing.png (PNG copy)>)
-(./yadd/geom-base/base-object.texi [109] [110] [111] [112] </media/sf_C_DRIVE/U
-sers/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentatio
-n/unified-doc/yadd/geom-base/image/base-object.png> [113])
-(./yadd/geom-base/base-view.texi [114] [115] [116] </media/sf_C_DRIVE/Users/teo
-dor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unifie
-d-doc/yadd/geom-base/image/base-view.png (PNG copy)>)
+[104])) (./yadd/geom-base.texi (./yadd/geom-base/angular-dimension.texi </home/
+dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom
+-base/image/angular-dimension.png (PNG copy)> [105]) (./yadd/geom-base/arc.texi
+[106] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
+doc/yadd/geom-base/image/arc.png (PNG copy)> [107])
+(./yadd/geom-base/base-drawing.texi [108] </home/dcooper8/gdl-build/teodor-gelu
+/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-drawing.png (
+PNG copy)>) (./yadd/geom-base/base-object.texi [109] [110] [111] [112] </home/d
+cooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-
+base/image/base-object.png> [113]) (./yadd/geom-base/base-view.texi [114]
+[115] [116] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/un
+ified-doc/yadd/geom-base/image/base-view.png (PNG copy)>)
 (./yadd/geom-base/bezier-curve.texi [117]
 Underfull \hbox (badness 2495) in paragraph at lines 50--52
  []@textrm :&key ((ac-cu-racy (* 10.0 double-float-epsilon)) @texttt "@textrm N
@@ -766,55 +763,48 @@ um-ber. Tar-get ac-cu-racy.@texttt "
 .@textrm k
 .etc.
 
- </media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genw
-orks-gdl/documentation/unified-doc/yadd/geom-base/image/bezier-curve.png (PNG c
-opy)>) (./yadd/geom-base/box.texi [119] </media/sf_C_DRIVE/Users/teodor/Dropbox
-/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/
-geom-base/image/box.png (PNG copy)>) (./yadd/geom-base/c-cylinder.texi [120] </
-media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genwork
-s-gdl/documentation/unified-doc/yadd/geom-base/image/c-cylinder.png (PNG copy)>
-[121]) (./yadd/geom-base/center-line.texi [122] </media/sf_C_DRIVE/Users/teodor
-/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-d
-oc/yadd/geom-base/image/center-line.png (PNG copy)>)
-(./yadd/geom-base/circle.texi [123] </media/sf_C_DRIVE/Users/teodor/Dropbox/teo
-dor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom
--base/image/circle.png (PNG copy)> [124]) (./yadd/geom-base/cone.texi [125] </m
-edia/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks
--gdl/documentation/unified-doc/yadd/geom-base/image/cone.png (PNG copy)>)
-(./yadd/geom-base/cylinder.texi [126] </media/sf_C_DRIVE/Users/teodor/Dropbox/t
-eodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/ge
-om-base/image/cylinder.png (PNG copy)> [127]) (./yadd/geom-base/ellipse.texi
-[128] </media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu
-/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/ellipse.png (PNG c
-opy)>) (./yadd/geom-base/general-note.texi [129] [130] [131] </media/sf_C_DRIVE
-/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentat
-ion/unified-doc/yadd/geom-base/image/general-note.png (PNG copy)>)
-(./yadd/geom-base/global-filleted-polygon-projection.texi [132] </media/sf_C_DR
-IVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documen
-tation/unified-doc/yadd/geom-base/image/global-filleted-polygon-projection.png 
-(PNG copy)> [133]) (./yadd/geom-base/global-filleted-polyline.texi [134] </medi
-a/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gd
-l/documentation/unified-doc/yadd/geom-base/image/global-filleted-polyline.png (
-PNG copy)>) (./yadd/geom-base/global-polygon-projection.texi [135] </media/sf_C
-_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/docu
-mentation/unified-doc/yadd/geom-base/image/global-polygon-projection.png (PNG c
-opy)> [136]) (./yadd/geom-base/global-polyline.texi </media/sf_C_DRIVE/Users/te
-odor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unifi
-ed-doc/yadd/geom-base/image/global-polyline.png (PNG copy)> [137])
-(./yadd/geom-base/horizontal-dimension.texi [138] </media/sf_C_DRIVE/Users/teod
-or/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified
--doc/yadd/geom-base/image/horizontal-dimension.png (PNG copy)>)
-(./yadd/geom-base/label.texi [139] [140] </media/sf_C_DRIVE/Users/teodor/Dropbo
-x/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd
-/geom-base/image/label.png (PNG copy)> [141])
-(./yadd/geom-base/leader-line.texi [142]) (./yadd/geom-base/line.texi </media/s
-f_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/d
-ocumentation/unified-doc/yadd/geom-base/image/line.png (PNG copy)> [143])
-(./yadd/geom-base/linear-dimension.texi [144] [145] [146])
-(./yadd/geom-base/parallel-dimension.texi [147] </media/sf_C_DRIVE/Users/teodor
-/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-d
-oc/yadd/geom-base/image/parallel-dimension.png (PNG copy)>)
-(./yadd/geom-base/pie-chart.texi [148]
+ </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/y
+add/geom-base/image/bezier-curve.png (PNG copy)>) (./yadd/geom-base/box.texi
+[119] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
+doc/yadd/geom-base/image/box.png (PNG copy)>) (./yadd/geom-base/c-cylinder.texi
+[120] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
+doc/yadd/geom-base/image/c-cylinder.png (PNG copy)> [121])
+(./yadd/geom-base/center-line.texi [122] </home/dcooper8/gdl-build/teodor-gelu/
+genworks-gdl/documentation/unified-doc/yadd/geom-base/image/center-line.png (PN
+G copy)>) (./yadd/geom-base/circle.texi [123] </home/dcooper8/gdl-build/teodor-
+gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/circle.png (PN
+G copy)> [124]) (./yadd/geom-base/cone.texi [125] </home/dcooper8/gdl-build/teo
+dor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone.png (
+PNG copy)>) (./yadd/geom-base/cylinder.texi [126] </home/dcooper8/gdl-build/teo
+dor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cylinder.p
+ng (PNG copy)> [127]) (./yadd/geom-base/ellipse.texi [128] </home/dcooper8/gdl-
+build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/e
+llipse.png (PNG copy)>) (./yadd/geom-base/general-note.texi [129] [130]
+[131] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
+doc/yadd/geom-base/image/general-note.png (PNG copy)>)
+(./yadd/geom-base/global-filleted-polygon-projection.texi [132] </home/dcooper8
+/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/im
+age/global-filleted-polygon-projection.png (PNG copy)> [133])
+(./yadd/geom-base/global-filleted-polyline.texi [134] </home/dcooper8/gdl-build
+/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global
+-filleted-polyline.png (PNG copy)>)
+(./yadd/geom-base/global-polygon-projection.texi [135] </home/dcooper8/gdl-buil
+d/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/globa
+l-polygon-projection.png (PNG copy)> [136])
+(./yadd/geom-base/global-polyline.texi </home/dcooper8/gdl-build/teodor-gelu/ge
+nworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-polyline.png (
+PNG copy)> [137]) (./yadd/geom-base/horizontal-dimension.texi [138] </home/dcoo
+per8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-bas
+e/image/horizontal-dimension.png (PNG copy)>) (./yadd/geom-base/label.texi
+[139] [140] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/un
+ified-doc/yadd/geom-base/image/label.png (PNG copy)> [141])
+(./yadd/geom-base/leader-line.texi [142]) (./yadd/geom-base/line.texi </home/dc
+ooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-b
+ase/image/line.png (PNG copy)> [143]) (./yadd/geom-base/linear-dimension.texi
+[144] [145] [146]) (./yadd/geom-base/parallel-dimension.texi [147] </home/dcoop
+er8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base
+/image/parallel-dimension.png (PNG copy)>) (./yadd/geom-base/pie-chart.texi
+[148]
 Overfull \hbox (46.69476pt too wide) in paragraph at lines 7--9
 []@textrm This ob-ject was in-spired by the pie-chart in Marc Battyani's (marc.
 battyani(at)fractalconcept.com)|
@@ -827,28 +817,25 @@ battyani(at)fractalconcept.com)|
 .@textrm s
 .etc.
 
-[149] </media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu
-/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/pie-chart.png (PNG
- copy)>) (./yadd/geom-base/point.texi [150] [151] </media/sf_C_DRIVE/Users/teod
-or/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified
--doc/yadd/geom-base/image/point.png (PNG copy)>)
-(./yadd/geom-base/route-pipe.texi [152] </media/sf_C_DRIVE/Users/teodor/Dropbox
-/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/
-geom-base/image/route-pipe.png (PNG copy)> [153])
-(./yadd/geom-base/sample-drawing.texi [154]) (./yadd/geom-base/sphere.texi
-[155] </media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu
-/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/sphere.png (PNG co
-py)>) (./yadd/geom-base/spherical-cap.texi [156] [157] </media/sf_C_DRIVE/Users
-/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/un
-ified-doc/yadd/geom-base/image/spherical-cap.png (PNG copy)>)
-(./yadd/geom-base/text-line.texi [158]) (./yadd/geom-base/torus.texi [159] </me
-dia/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-
-gdl/documentation/unified-doc/yadd/geom-base/image/torus.png (PNG copy)>
+[149] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
+doc/yadd/geom-base/image/pie-chart.png (PNG copy)>)
+(./yadd/geom-base/point.texi [150] [151] </home/dcooper8/gdl-build/teodor-gelu/
+genworks-gdl/documentation/unified-doc/yadd/geom-base/image/point.png (PNG copy
+)>) (./yadd/geom-base/route-pipe.texi [152] </home/dcooper8/gdl-build/teodor-ge
+lu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/route-pipe.png (
+PNG copy)> [153]) (./yadd/geom-base/sample-drawing.texi [154])
+(./yadd/geom-base/sphere.texi [155] </home/dcooper8/gdl-build/teodor-gelu/genwo
+rks-gdl/documentation/unified-doc/yadd/geom-base/image/sphere.png (PNG copy)>)
+(./yadd/geom-base/spherical-cap.texi [156] [157] </home/dcooper8/gdl-build/teod
+or-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/spherical-c
+ap.png (PNG copy)>) (./yadd/geom-base/text-line.texi [158])
+(./yadd/geom-base/torus.texi [159] </home/dcooper8/gdl-build/teodor-gelu/genwor
+ks-gdl/documentation/unified-doc/yadd/geom-base/image/torus.png (PNG copy)>
 [160]) (./yadd/geom-base/typeset-block.texi [161])
-(./yadd/geom-base/vertical-dimension.texi [162] </media/sf_C_DRIVE/Users/teodor
-/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-d
-oc/yadd/geom-base/image/vertical-dimension.png (PNG copy)>)) (./yadd/surf.texi
-(./yadd/surf/approximated-curve.texi [163]
+(./yadd/geom-base/vertical-dimension.texi [162] </home/dcooper8/gdl-build/teodo
+r-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/vertical-dim
+ension.png (PNG copy)>)) (./yadd/surf.texi (./yadd/surf/approximated-curve.texi
+[163]
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 81--81
 @smalltt 7.746775287947699 10.0 0.0067001904580447) #(-7.7253289934578415 10.0 
 0.0091817670732663)[] |
@@ -2803,7 +2790,7 @@ Overfull \vbox (760.29997pt too high) has occurred while \output is active
 
 
 [180]) (./yadd/surf/brep.texi
-Underfull \hbox (badness 3108) in paragraph at lines 77--85
+Underfull \hbox (badness 3108) in paragraph at lines 79--87
  []@textrm (list :min-number-of-segments *tess-min-number-of-segments* :max-3d-
 edge-factor
 
@@ -2816,7 +2803,7 @@ edge-factor
 .etc.
 
 
-Underfull \hbox (badness 2103) in paragraph at lines 77--85
+Underfull \hbox (badness 2103) in paragraph at lines 79--87
  @textrm chord-height *tess-max-chord-height* :max-angle-degrees *tess-max-angl
 e-degrees*
 
@@ -2829,7 +2816,7 @@ e-degrees*
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--85
+Underfull \hbox (badness 10000) in paragraph at lines 79--87
  @textrm :min-3d-edge *tess-min-3d-edge* :min-edge-ratio-uv *tess-min-edge-rati
 o-uv*
 
@@ -2842,7 +2829,7 @@ o-uv*
 .etc.
 
 [181] [182] [183] [184]
-Underfull \hbox (badness 10000) in paragraph at lines 431--434
+Underfull \hbox (badness 10000) in paragraph at lines 433--436
  @textrm about-coordinate-axii, :volume-static-moments, :volume-moments-of-iner
 tia,
 
@@ -3213,7 +3200,7 @@ Overfull \hbox (20.53261pt too wide) in paragraph at lines 84--84
 (./yadd/surf/split-surface.texi [235] [236]) (./yadd/surf/step-reader.texi
 [237]) (./yadd/surf/stitched-solid.texi) (./yadd/surf/subtracted-solid.texi)
 (./yadd/surf/surface.texi [238]
-Underfull \hbox (badness 3108) in paragraph at lines 81--89
+Underfull \hbox (badness 3108) in paragraph at lines 82--90
  []@textrm (list :min-number-of-segments *tess-min-number-of-segments* :max-3d-
 edge-factor
 
@@ -3226,7 +3213,7 @@ edge-factor
 .etc.
 
 
-Underfull \hbox (badness 2103) in paragraph at lines 81--89
+Underfull \hbox (badness 2103) in paragraph at lines 82--90
  @textrm chord-height *tess-max-chord-height* :max-angle-degrees *tess-max-angl
 e-degrees*
 
@@ -3239,7 +3226,7 @@ e-degrees*
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 81--89
+Underfull \hbox (badness 10000) in paragraph at lines 82--90
  @textrm :min-3d-edge *tess-min-3d-edge* :min-edge-ratio-uv *tess-min-edge-rati
 o-uv*
 
@@ -3269,12 +3256,12 @@ iolet :isos (list :n-|
 [247] [248]) (./yadd/surf/united-solid.texi)) Chapter 8 [249] [250] [251]
 [252] ) 
 Here is how much of TeX's memory you used:
- 2586 strings out of 497129
- 37328 string characters out of 1207599
- 93952 words of memory out of 3000000
- 2937 multiletter control sequences out of 15000+50000
+ 2586 strings out of 497000
+ 37292 string characters out of 1205242
+ 94150 words of memory out of 3000000
+ 2954 multiletter control sequences out of 15000+50000
  32127 words of font info for 112 fonts, out of 3000000 for 9000
- 51 hyphenation exceptions out of 8191
+ 137 hyphenation exceptions out of 8191
  17i,6n,18p,749b,408s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmb10.pfb></usr
 /share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texm
@@ -3292,7 +3279,7 @@ b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texmf-texlive/fonts/
 type1/public/amsfonts/latxfont/lcircle1.pfb>
-Output written on gdl-documentation.pdf (260 pages, 2917797 bytes).
+Output written on gdl-documentation.pdf (260 pages, 2917781 bytes).
 PDF statistics:
  2108 PDF objects out of 2487 (max. 8388607)
  291 named destinations out of 1000 (max. 500000)

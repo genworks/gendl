@@ -1131,9 +1131,9 @@ TaSty.}
 @c         - surf 
 
 @include yadd/gdl.texi
-@c @include yadd/gwl.texi
-@c @include yadd/geom-base.texi
-@c @include yadd/surf.texi
+@include yadd/gwl.texi
+@include yadd/geom-base.texi
+@include yadd/surf.texi
 
 @c @node Other Documentation and Reference
 @c @chapter Other Documentation and Reference

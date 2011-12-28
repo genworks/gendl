@@ -395,6 +395,7 @@ and the error string will be appended to the html-string by default.
 @end itemize 
 
 
+
  In the case of an error, the form-control's failed-value message is set to the properly typed submitted form value. If
  allow-invalid? is non-nil, then the form-control's value message is also set to this value (i.e. the invalid value is
  still accepted, even though a non-nil error is present).

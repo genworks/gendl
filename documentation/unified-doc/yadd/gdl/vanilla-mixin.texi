@@ -265,7 +265,9 @@ object, according to the filtering criteria as specified by the arguments.
                             @item :quantified-objects
                             @item :hidden-objects
                             @item :quantified-hidden-objects
-@end itemize "
+@end itemize 
+
+"
              (message-type :global) "Keyword Symbol, :local or :global. Indicates whether to return messages
 only from the local specific part type, or from all superclasses (mixins) as well."
              (return-category? nil) "Boolean. Indicates whether or not the category of each message should be

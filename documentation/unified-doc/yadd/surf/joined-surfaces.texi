@@ -47,7 +47,7 @@ This  routine joins two surfaces at a common boundary. The surfaces must already
 @smallexample 
 @cartouche
 
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object join-surfaces-test (base-object) 
 

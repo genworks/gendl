@@ -66,10 +66,12 @@ box of this object should be located.
 RGB string value, e.g. "#FFFFFF" for pure white. Defaults to :black.
 @end itemize 
 
+
  @item :line-thickness
   @itemize @minus  an integer, defaulting to 1, indicating relative line thickness for wireframe
 representations of this object.
 @end itemize 
+
 
  @item :dash-pattern
  @itemize @minus (currently PDF/PNG/JPEG only). This is a list of two or three numbers which indicate the length,
@@ -78,7 +80,9 @@ representations of this object.
 @end itemize 
 
 
+
 @end itemize 
+
 
 
 @end itemize
@@ -355,5 +359,5 @@ gdl-user(53):
 @end cartouche 
 @end smallexample
 
-@center @image{/media/sf_C_DRIVE/Users/teodor/Dropbox/teodor-gelu/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-object,,4.2in}
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-object,,4.2in}
 

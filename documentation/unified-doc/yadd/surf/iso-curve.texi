@@ -77,7 +77,7 @@ Default is (ecase (the fixed-parameter) (:u :v) (:v :u)).
 
 @smallexample 
 @cartouche
- (in-package :gdl-surf-user)
+ (in-package :gdl-user)
 
  (define-object iso-curve-example (base-object)
    :computed-slots
