@@ -1,0 +1,81 @@
+@subsubsection Typeset-block
+
+@b{Description}
+
+Block of text typeset using cl-typesetting. This object
+wraps the typeset block as a standard GDL object, so it can be placed in a view and 
+positioned according to normal GDL positioning.
+
+You can specify the width, and by default this object will compute its length automatically 
+from the typeset content, to fit all the lines of text into the box. Because of this 
+computed behavior of the length, the center of the box will not, in general, be in a 
+known location compared to the start of the text. Because of this it is recommended
+to use :corner, rather than :center, for positioning a base-view which contains
+a typeset block. 
+
+In the normal case, if you want a single block in a view on a drawing, you should
+make the base-view object have the same width and length as the typeset-block. The
+base-view should also probably have :left-margin 0 and :front-margin 0.
+
+@noindent @b{Optional-input-slots}
+
+@b{:center}
+
+@itemize {}
+
+ @item 3D-point. Center of the text. Specify this or start, not both. 
+NOTE that the center is no longer defaulting (so that it can self-compute properly when start 
+is specified), so it is necessary to explicitly give either start or center for general-note.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. The length of the box to contain the compiled content. Defaults is (the length-default),
+which will exactly fit the compiled content into the specified width. If you override it to be less 
+than this default, the content will be cropped.
+
+@end itemize
+
+@b{:start}
+
+@itemize {}
+
+ @item 3D-point. Start of the text. Specify this or center, not both.
+
+@end itemize
+
+@b{:start-line-index}
+
+@itemize {}
+
+ @item Number. The line number to start
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:length-default}
+
+@itemize {}
+
+ @item Number. The computed length which will exactly fit the content based on (the width).
+
+@end itemize
+
+@b{:lines}
+
+@itemize {}
+
+ @item List of typeset line objects. The list of lines in the nominal block.
+
+@end itemize
+
+
+
+
+
+
+

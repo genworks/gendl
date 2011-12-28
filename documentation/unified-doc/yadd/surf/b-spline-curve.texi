@@ -1,0 +1,132 @@
+@subsubsection B-spline-curve
+
+@b{Description}
+
+A general NURBS (potentially non-Uniform, potentially Rational, b-spline) 
+curve specified with control points, weights, knots, and degree.
+
+If the knot-vector is different from the default, it is non-Uniform.
+
+If any of the weights are different from 1.0, it is Rational.
+
+@noindent @b{Required-input-slots}
+
+@b{:control-points}
+
+@itemize {}
+
+ @item List of 3D Points. The control points.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:degree}
+
+@itemize {}
+
+ @item Integer. Degree of the curve. Defaults to 3 (cubic).
+
+@end itemize
+
+@b{:knot-vector}
+
+@itemize {}
+
+ @item List of Numbers. Knots of the curve. Default is NIL, which indicates a uniform knot vector.
+
+@end itemize
+
+@b{:weights}
+
+@itemize {}
+
+ @item List of numbers. A weight to match each control point. Should be same length as control-points.
+ Default is a value of 1.0 for each weight, resulting in a nonrational curve.
+
+@end itemize
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ (in-package :surf)
+
+ (define-object test-b-spline-curves (base-object)
+
+  :input-slots
+  ((control-points (list (make-point 0 0 0)
+                         (make-point 2 3.0 0.0) 
+                         (make-point 4 2.0 0.0) 
+                         (make-point 5 0.0 0.0) 
+                         (make-point 4 -2.0 0.0) 
+                         (make-point 2 -3.0 0.0) 
+                         (make-point 0 0 0))))
+  
+  :objects
+  ((curves :type 'b-spline-curve
+           :sequence (:size 6)
+           :control-points (the control-points)
+           :degree (1+ (the-child :index))
+           :display-controls (list :line-thickness (* 0.3 (the-child index))
+                                   :color (ecase (the-child index)
+                                            (0 :red) (1 :orange) (2 :yellow) (3 :green)
+                                            (4 :blue) (5 :red-violet))))
+
+   (points :type 'point 
+           :sequence (:size (length (rest (the control-points))))
+           :center (nth (the-child index) (rest (the control-points)))
+           :display-controls (list :color :green))))
+
+
+  (generate-sample-drawing :object-roots (make-object 'test-b-spline-curves))
+
+
+  ;; Here is another example which shows the difference between a
+  ;; simple bezier-curve from the :geom-base package, and a NURBS.
+  ;; 
+  (define-object bezier-and-nurbs (base-object)
+  
+    :input-slots ((control-points (list (make-point 0 0 0)
+                                        (make-point 1 1 0)
+                                        (make-point 2 1 0)
+                                        (make-point 3 0 0))))
+  
+  
+    :objects ((points :type 'points-display 
+                      :points (the control-points))
+            
+            
+              (bezier :type 'bezier-curve  ;; This will be a geom-base:bezier-curve
+                      :display-controls (list :color :green)
+                      :control-points (the control-points))
+            
+              (b-spline :type 'b-spline-curve ;; This will be an equivalent surf:b-spline-curve.
+                        :display-controls (list :color :red :bezier-points t)
+                        :control-points (the bezier control-points))
+
+              ;;
+              ;; The b-spline-curve is a full NURBS curve and so has
+              ;; more inputs than a simple bezier-curve: degree,
+              ;; weights, and knot-vector, so we can do things like:
+              ;;
+              (b-spline-weighted :type 'b-spline-curve
+                                 :display-controls (list :color :purple)
+                                 :control-points (the bezier control-points)
+                                 :weights (list 1.0 1.2 1.2 1.0))
+            
+              (b-spline-degree-2 :type 'b-spline-curve
+                                 :display-controls (list :color :orange)
+                                 :control-points (the bezier control-points)
+                                 :degree 2)))
+
+@end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

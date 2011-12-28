@@ -1,0 +1,97 @@
+@subsubsection Grid-form-control
+
+@b{Description}
+
+Beginnings of spread-sheet-like 
+grid control.
+
+To do: Add row button, sort by column values, 
+save & restore snapshot. Easy way for user to 
+customize layout and markup.
+
+Allow for all types of form-control for each column.
+
+
+
+@noindent @b{Optional-input-slots}
+
+@b{:default}
+
+@itemize {}
+
+ @item List of lists. These values become the default row and column
+values for the grid.
+
+@end itemize
+
+@b{:form-control-attributes}
+
+@itemize {}
+
+ @item List of plists. Each plist contains the desired form-control 
+inputs for the respective column in the table.
+
+@end itemize
+
+@b{:form-control-inputs}
+
+@itemize {}
+
+ @item List of lists plists. Each list corresponds to one row 
+and contains plists desired form-control inputs for the 
+respective column in the table.
+
+@end itemize
+
+@b{:form-control-types}
+
+@itemize {}
+
+ @item List of symbols naming GDL object types. This must be 
+the same length as a row of the table. The corresponding 
+form-element in the grid will be of the specified type. 
+Default is nil, which means all the form-controls will 
+be of type 'text-form-control.
+
+@end itemize
+
+@b{:include-delete-buttons?}
+
+@itemize {}
+
+ @item Boolean. Should each row have a delete button? 
+Default is nil.
+
+@end itemize
+
+@b{:row-labels}
+
+@itemize {}
+
+ @item List of strings. One for each row.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:form-controls}
+
+@itemize {}
+
+ @item List of GDL objects. All the children or hidden-children 
+of type base-form-control.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

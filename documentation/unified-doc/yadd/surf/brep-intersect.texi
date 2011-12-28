@@ -1,0 +1,75 @@
+@subsubsection Brep-intersect
+
+@b{Description}
+
+This primitive takes two brep objects and attempts
+to intersect the faces of the one with the faces of the other, yielding a 
+sequence of edges which also behave as curves.
+
+@noindent @b{Required-input-slots}
+
+@b{:brep}
+
+@itemize {}
+
+ @item Object of type brep. The first brep for intersecting its faces.
+
+@end itemize
+
+@b{:other-brep}
+
+@itemize {}
+
+ @item Object of type brep. The other brep for intersecting faces.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:angle-tolerance}
+
+@itemize {}
+
+ @item Number. Defaults to (radians-to-degrees *angle-tolerance-radians-default*).
+
+@end itemize
+
+@b{:approximation-tolerance}
+
+@itemize {}
+
+ @item Number. Defaults to the max of the adaptive-tolerance of any of 
+the input breps.
+
+@end itemize
+
+@b{:hide-edges?}
+
+@itemize {}
+
+ @item Boolean. Should edges be children or hidden-children? 
+Defaults to nil which makes them display as children.
+
+@end itemize
+
+@b{:hide-points?}
+
+@itemize {}
+
+ @item Boolean. Should points be children or hidden-children? 
+Defaults to nil which makes them display as children.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

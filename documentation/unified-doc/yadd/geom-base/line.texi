@@ -1,0 +1,79 @@
+@subsubsection Line
+
+@b{Description}
+
+Provides a simple way to create a line, 
+by specifying a start point and an end point.
+
+@noindent @b{Required-input-slots}
+
+@b{:end}
+
+@itemize {}
+
+ @item 3D Point. The end point of the line, in global coordinates.
+
+@end itemize
+
+@b{:start}
+
+@itemize {}
+
+ @item 3D Point. The start point of the line, in global coordinates.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:bounding-box}
+
+@itemize {}
+
+ @item List of two 3D points. The left front bottom and right rear top corners, in global coordinates,
+of the rectangular volume bounding the tree of geometric objects rooted at this object.
+
+@end itemize
+
+@b{:center}
+
+@itemize {}
+
+ @item 3D Point. The center of the line.
+
+@end itemize
+
+@b{:direction-vector}
+
+@itemize {}
+
+ @item 3D Vector. Points from start to end of the line.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. The distance from start to end of the line.
+
+@end itemize
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+  (in-package :gdl-user)  
+  
+  (define-object line-sample (line)
+    :computed-slots
+    ((start (make-point -10 -10 0))
+     (end (make-point 10 10 0))))
+
+  (generate-sample-drawing :objects (make-object 'line-sample))
+  
+@end cartouche 
+@end smallexample
+
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/line,,4.2in}
+

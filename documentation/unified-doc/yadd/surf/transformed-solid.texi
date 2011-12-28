@@ -1,0 +1,94 @@
+@subsubsection Transformed-solid
+
+@b{Description}
+
+This primitive Translates, Orients, and optionally Scales a brep solid into another brep solid.
+
+@noindent @b{Required-input-slots}
+
+@b{:brep}
+
+@itemize {}
+
+ @item GDL Brep Object. Source Brep to be copied and transformed.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:from-location}
+
+@itemize {}
+
+ @item 3D Point. Reference location from which to translate. Defaults to the from-object center.
+
+@end itemize
+
+@b{:from-object}
+
+@itemize {}
+
+ @item GDL Object. Reference Object for from-location and from-orientation. Defaults to the given brep.
+
+@end itemize
+
+@b{:from-orientation}
+
+@itemize {}
+
+ @item 3x3 Orientation Matrix or nil. Defaults to the from-object's orientation.
+
+@end itemize
+
+@b{:scale}
+
+@itemize {}
+
+ @item 3D Vector or nil. Scale to be applied before transform in each axis, or nil if no scale to be applied.
+
+@end itemize
+
+@b{:sew-and-orient?}
+
+@itemize {}
+
+ @item Boolean. Controls whether to do the shrink cleanup step after the tranform. Defaults to nil.
+
+@end itemize
+
+@b{:shrink?}
+
+@itemize {}
+
+ @item Boolean. Controls whether to do the shrink cleanup step after the tranform. Defaults to nil.
+
+@end itemize
+
+@b{:to-location}
+
+@itemize {}
+
+ @item 3D Point. Reference location to which to translate. Defaults to the from-object center.
+
+@end itemize
+
+@b{:to-orientation}
+
+@itemize {}
+
+ @item 3x3 Orientation Matrix or nil. Target orientation relative to the from-orientation. Defaults to nil.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

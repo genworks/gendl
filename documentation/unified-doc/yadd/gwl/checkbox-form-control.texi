@@ -1,0 +1,35 @@
+@subsubsection Checkbox-form-control
+
+@b{Description}
+
+This represents a INPUT of TYPE CHECKBOX
+
+@noindent @b{Optional-input-slots}
+
+@b{:domain}
+
+@itemize {}
+
+ @item Keyword symbol. The domain defaults to :boolean for the checkbox-form-control.
+However, this can be overridden in user code if the checkbox is supposed to return 
+a meaningful value other than nil or t (e.g. for a group of checkboxes with 
+the same name, where each can return a different value).
+
+@end itemize
+
+@b{:possible-nil?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether this should be included in possible-nils. Defaults to t.
+
+@end itemize
+
+@noindent @b{Examples}
+
+Please see base-form-control for all the examples.
+
+
+
+ @b{Example image is not generated!}
+

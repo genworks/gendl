@@ -1,0 +1,46 @@
+@subsubsection Text-form-control
+
+@b{Description}
+
+This represents a INPUT TYPE=TEXT or TEXTAREA form control tag.
+
+@noindent @b{Optional-input-slots}
+
+@b{:cols}
+
+@itemize {}
+
+ @item Integer. The number of columns for a TEXTAREA (if rows is > 1). Defaults to (the size).
+
+@end itemize
+
+@b{:password?}
+
+@itemize {}
+
+ @item Boolean. Specifies whether this should be a password form control with obscured screen text. 
+Note that this does not automatically give encrypted transmission to the server - you need SSL
+for that. Defaults to nil. Use password-form-control to get a default of t.
+
+@end itemize
+
+@b{:rows}
+
+@itemize {}
+
+ @item Integer. The number of rows. If more than 1, this will be a TEXTAREA. Defaults to 1.
+
+@end itemize
+
+
+
+
+
+@noindent @b{Examples}
+
+Please see base-form-control for all the examples.
+
+
+
+ @b{Example image is not generated!}
+

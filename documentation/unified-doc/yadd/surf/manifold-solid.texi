@@ -1,0 +1,37 @@
+@subsubsection Manifold-solid
+
+@b{Description}
+
+!!! Not applicable for this object !!!
+
+@noindent @b{Required-input-slots}
+
+@b{:brep}
+
+@itemize {}
+
+ @item GDL brep object. The brep to be represented as a manifold brep in this instance.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:keep-internal-faces?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether faces between two non-void regions should be kept.
+Defaults to nil.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

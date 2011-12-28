@@ -1,0 +1,37 @@
+@subsubsection Merged-solid
+
+@b{Description}
+
+Given two brep solids or a brep solid and an open face represented as a brep,
+performs a merge operation. Optionally (with make-manifold? t) makes the result manifold by trimming 
+and throwing away extra pieces of faces and edges.
+
+@noindent @b{Optional-input-slots}
+
+@b{:make-manifold?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether the resulting brep should be made into a manifold brep, with one or more regions.
+
+@end itemize
+
+@b{:sew-and-orient?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether we should try to sew and orient the resulting brep. Usually a good idea 
+and this is defaulted to t, except for merged-solid where we default this to nil.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

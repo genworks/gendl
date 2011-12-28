@@ -1,0 +1,28 @@
+@subsubsection Sheet-section
+
+@b{Description}
+
+Basic mixin to support an object 
+representing a section of an HTML sheet (i.e. web page). Currently 
+this simply mixes in skeleton-ui-element, and the functionality is not 
+extended. Sheet-section is also mixed into base-html-sheet, so it and 
+any of its subclasses will be considered as sheet-sections if they 
+are the child of a base-ajax-sheet.
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ FLAG -- fill in!!!
+
+
+@end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+

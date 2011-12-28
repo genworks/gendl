@@ -1,0 +1,105 @@
+@subsubsection Iges-reader
+
+@b{Description}
+
+This object will reflect the contents of an iges file containing
+points, curves, surfaces, and/or breps (including trimmed surfaces) as sequences of GDL objects. 
+
+The HarmonyWare reader creates a log file in a temporary directory. The location of this log
+file is printed on the console during the reading operation. Currently this log file is
+not automatically deleted, and its name is determined by the system.
+
+
+
+@noindent @b{Required-input-slots}
+
+@b{:file-name}
+
+@itemize {}
+
+ @item String or pathname. The location of the IGES file to be read.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:group-trimmed-surfaces-into-brep?}
+
+@itemize {}
+
+ @item Boolean. If true, group all trimmed surfaces in the file into one B-rep.  
+If some trimmed surfaces are blanked, they are grouped into a second, blanked B-rep. Default is nil.
+
+@end itemize
+
+@b{:make-all-surfaces-trimmed?}
+
+@itemize {}
+
+ @item Boolean. If true, treat all untrimmed surfaces in the file as if they are trimmed surfaces with 
+the natural outer boundary of the surface as the trimming loop.  If used, no standalone IwSurface surface objects 
+will ever be returned by the reader.  Default is nil.
+
+@end itemize
+
+@b{:make-single-brep?}
+
+@itemize {}
+
+ @item Boolean. If true, group all trimmed surfaces and B-reps in the file into one B-rep.  
+If some trimmed surfaces or B-reps are blanked, they are grouped into a second, blanked B-rep. Default is nil.
+
+@end itemize
+
+@b{:sew-brep-faces?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether each resulting brep should have its faces sewn together. Default is (the make-single-brep?).
+
+@end itemize
+
+
+
+@noindent @b{Quantified-objects}
+
+@b{:breps}
+
+@itemize {}
+
+ @item Sequence of GDL brep objects. The breps and trimmed surfaces (represented as breps) found in the IGES file.
+
+@end itemize
+
+@b{:curves}
+
+@itemize {}
+
+ @item Sequence of GDL curve objects. The curves found in the IGES file.
+
+@end itemize
+
+@b{:points}
+
+@itemize {}
+
+ @item Sequence of GDL point objects. The points found in the IGES file.
+
+@end itemize
+
+@b{:surfaces}
+
+@itemize {}
+
+ @item Sequence of GDL surface objects. The untrimmed ``standalone'' surfaces found in the IGES file.
+
+@end itemize
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

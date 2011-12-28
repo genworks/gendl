@@ -1,0 +1,96 @@
+@subsubsection Menu-form-control
+
+@b{Description}
+
+This represents a SELECT form control tag wrapping some OPTION tags.
+OPTIONGROUP is not yet implemented, but will be.
+
+@noindent @b{Optional-input-slots}
+
+@b{:choice-list}
+
+@itemize {}
+
+ @item List. Display values, also used as return values, for selection list. Specify this or choice-plist, not both.
+
+@end itemize
+
+@b{:choice-plist}
+
+@itemize {}
+
+ @item Plist. Keywords and display values for the selection list. Specify this or choice-list, not both.
+
+@end itemize
+
+@b{:choice-styles}
+
+@itemize {}
+
+ @item Plist. Keywords and CSS style for display of each choice. The keys should correspond to the 
+keys in choice-plist, or the items in choice-list if no choice-plist is given.
+
+@end itemize
+
+@b{:multiple?}
+
+@itemize {}
+
+ @item Boolean. Are multiple selections allowed? Default is nil.
+
+@end itemize
+
+@b{:possible-nil?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether this should be included in possible-nils. Defaults to (the multiple?)
+
+@end itemize
+
+@b{:size}
+
+@itemize {}
+
+ @item Number. How many choices to display
+
+@end itemize
+
+@b{:test}
+
+@itemize {}
+
+ @item Predicate function of two arguments. Defaults based on type of first in choice-plist: 
+eql for keywords, string-equal for strings, and equalp otherwise.
+
+@end itemize
+
+
+
+
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+ ...
+ 
+ :objects
+ ((menu-1 :type 'menu-form-control
+          :choice-plist (list 1 "one" 2 "two")))
+
+ ...
+
+@end cartouche 
+@end smallexample
+
+
+
+
+Please see base-form-control for a broader example which uses more form-control primitives together.
+
+
+
+ @b{Example image is not generated!}
+

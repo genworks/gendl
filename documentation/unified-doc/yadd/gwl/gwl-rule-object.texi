@@ -1,0 +1,15 @@
+@subsubsection Gwl-rule-object
+
+@b{Description}
+
+Used to display a rule as a GWL web page. 
+Mixes together @i{base-html-sheet} and @i{base-rule-object}.
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

@@ -1,0 +1,71 @@
+@subsubsection Leader-line
+
+@b{Description}
+
+Creates a leader line with arrows on zero, one, or both ends
+
+@noindent @b{Required-input-slots}
+
+@b{:path-points}
+
+@itemize {}
+
+ @item List of 3D Points. Leader-line is rendered as a polyline going through these points.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:arrowhead-length}
+
+@itemize {}
+
+ @item Number. The length of the arrows. Defaults to (* (the arrowhead-width) 2)
+
+@end itemize
+
+@b{:arrowhead-style}
+
+@itemize {}
+
+ @item Keyword. Controls the style of first arrowhead. Currently only :wedge is supported. Default is :wedge.
+
+@end itemize
+
+@b{:arrowhead-style-2}
+
+@itemize {}
+
+ @item Keyword. Controls the style and presence of second arrowhead. 
+Currently only :wedge is supported. Default is :none.
+
+@end itemize
+
+@b{:arrowhead-width}
+
+@itemize {}
+
+ @item Number. The width of the arrows. Defaults to (* (the line-thickness) 5).
+
+@end itemize
+
+@b{:break-points}
+
+@itemize {}
+
+ @item List of two points or nil. 
+The start and end of the break in the leader line to accomodate the dimension-text, 
+in cases where there is overlap.
+
+@end itemize
+
+
+
+
+
+
+
+
+
+
+

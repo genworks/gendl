@@ -1,0 +1,56 @@
+@subsubsection Composed-curves
+
+@b{Description}
+
+Creates multiple NURBS curves by composing a list (ordered or unordered) NURBS curves. 
+If the result is expected to be a single curve, you may wish to use @i{composed-curve} instead.
+
+@noindent @b{Required-input-slots}
+
+@b{:curves-in}
+
+@itemize {}
+
+ @item List of GDL curve objects. These are the curves to be composed into a single curve.
+
+@end itemize
+
+@noindent @b{Optional-input-slots}
+
+@b{:coincident-point-tolerance}
+
+@itemize {}
+
+ @item Number. Distance two curve endpoints can be apart and be considered coincident, the composite will be built
+without doing anything to the endpoints. Default is 0.01. Note: This input-slot must be non-zero.
+
+@end itemize
+
+@b{:distance-to-create-line}
+
+@itemize {}
+
+ @item Number. Distance two curve endpoints can be apart and have a linear curve segment automatically added between the points. Default is 0.1.
+
+@end itemize
+
+
+
+@noindent @b{Quantified-objects}
+
+@b{:curves}
+
+@itemize {}
+
+ @item Sequence of GDL Curve Objects. The curves resulting from composition.
+
+@end itemize
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

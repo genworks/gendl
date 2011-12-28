@@ -1,0 +1,33 @@
+@subsubsection Global-filleted-polyline
+
+@b{Description}
+
+A sequence of points connected by straight line segments, whose
+corners are filleted according to specified radii. Please see global-filleted-polyline-mixin
+for documentation on the messages.
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+
+  (in-package :gdl-user)
+
+  (define-object global-filleted-polyline-sample (global-filleted-polyline)
+    :computed-slots
+    ((default-radius 5)
+      (vertex-list (list (make-point 0 0 0)
+                        (make-point 10 10 0)
+                        (make-point 30 10 0)
+                        (make-point 40 0 0)
+                        (make-point 30 -10 0)
+                        (make-point 10 -10 0)
+                        (make-point 0 0 0)))))
+
+  (generate-sample-drawing :objects (make-object 'global-filleted-polyline-sample))
+
+  @end cartouche 
+@end smallexample
+
+@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-filleted-polyline,,4.2in}
+

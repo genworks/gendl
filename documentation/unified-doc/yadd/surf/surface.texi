@@ -1,0 +1,448 @@
+@subsubsection Surface
+
+@b{Description}
+
+A generalized NURBS surface. 
+Usually used as a mixin in more specific surfaces.
+
+@noindent @b{Optional-input-slots}
+
+@b{:brep-tolerance}
+
+@itemize {}
+
+ @item Number. Overall tolerance for the internal brep representation of this surface.
+Defaults to nil. Note that a value of nil indicates for SMLib a value of 1.0e-05 of
+the longest diagonal length of the brep.
+
+@end itemize
+
+@b{:built-from}
+
+@itemize {}
+
+ @item GDL Surface. Specify this if you want this surface to be a 
+clone of an existing surface (note - this uses a shared underlying 
+surface object, it does not make a copy)
+
+@end itemize
+
+@b{:end-caps-on-brep?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether to attempt automatic endcaps on conversion 
+of this surface to a brep. 
+Note that this might change in future to a keyword value 
+for :min, :max, or :both to provide more control.
+
+@end itemize
+
+@b{:rational?}
+
+@itemize {}
+
+ @item Boolean. Returns non-nil iff this surface is rational, i.e. all weights are not 1.
+
+@end itemize
+
+@b{:sew-and-orient-brep?}
+
+@itemize {}
+
+ @item Boolean. Indicates whether brep representation should undergo a 
+sew-and-orient operation. Defaults to nil.
+
+@end itemize
+
+@b{:tessellation-parameters}
+
+@itemize {}
+
+ @item Plist of keyword symbols and numbers. This controls tessellation for this brep.
+The keys are as follows:
+ @itemize 
+           @item :min-number-of-segments
+           @item :max-3d-edge-factor
+           @item :min-parametric-ratio
+           @item :max-chord-height
+           @item :max-angle-degrees
+           @item :min-3d-edge
+           @item :min-edge-ratio-uv
+           @item :max-aspect-ratio
+
+@end itemize 
+
+
+
+and the defaults come from the following parameters:
+
+ 
+
+ (list :min-number-of-segments *tess-min-number-of-segments*
+       :max-3d-edge-factor *tess-max-3d-edge-factor*
+       :min-parametric-ratio *tess-min-parametric-ratio*
+       :max-chord-height *tess-max-chord-height*
+       :max-angle-degrees *tess-max-angle-degrees*
+       :min-3d-edge *tess-min-3d-edge*
+       :min-edge-ratio-uv *tess-min-edge-ratio-uv*
+       :max-aspect-ratio *tess-max-aspect-ratio*)
+
+ 
+
+
+
+@end itemize
+
+@b{:tolerance}
+
+@itemize {}
+
+ @item Number. Approximation tolerance for display purposes.
+
+@end itemize
+
+@noindent @b{Defaulted-input-slots}
+
+@b{:isos}
+
+@itemize {}
+
+ @item Plist with keys :n-u and :n-v. The number of isoparametric 
+curves to be displayed in each direction. This value comes from the 
+value of :isos on the display-controls if that exists, and defaults 
+to *isos-default* otherwise.
+
+@end itemize
+
+@noindent @b{Computed-slots}
+
+@b{:bounding-box}
+
+@itemize {}
+
+ @item List of two 3D points. The left front bottom and right rear top corners, in global coordinates,
+of the rectangular volume bounding the tree of geometric objects rooted at this object.
+
+@end itemize
+
+@b{:height}
+
+@itemize {}
+
+ @item Number. Z-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:length}
+
+@itemize {}
+
+ @item Number. Y-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@b{:width}
+
+@itemize {}
+
+ @item Number. X-axis dimension of the reference box. Defaults to zero.
+
+@end itemize
+
+@noindent @b{Hidden-objects}
+
+@b{:brep}
+
+@itemize {}
+
+ @item GDL Brep object. This is the brep representation of this surface.
+
+@end itemize
+
+@b{:swapped-uv-surface}
+
+@itemize {}
+
+ @item GDL surface object. This surface object swaps the role of u and v- directional parameters, i.e. old-surface(u,v) = new-surface(v,u).
+
+@end itemize
+
+@noindent @b{Quantified-hidden-objects}
+
+@b{:u-iso-curves}
+
+@itemize {}
+
+ @item Sequence of curve objects. The isoparametric curves in the U direction.
+
+@end itemize
+
+@b{:v-iso-curves}
+
+@itemize {}
+
+ @item Sequence of curve objects. The isoparametric curves in the V direction.
+
+@end itemize
+
+@noindent @b{Functions}
+
+@b{:area}
+
+@itemize {}
+
+ @item Number. Returns the area of the surface.
+
+:&key ((desired-accuracy 0.000001) "Number. Desired accuracy of result. Should not be smaller than 0.00000001 (10e-08).")
+
+@end itemize
+
+@b{:b-spline-data}
+
+@itemize {}
+
+ @item List of lists 3D points, List of lists numbers, List of numbers, 
+List of numbers, Integer, and Integer. 
+Returns six values which are the control points, the weights, the u-knots, 
+the v-knots, the u-degree, and the v-degree of the surface.
+
+@end itemize
+
+@b{:curve-intersection-point}
+
+@itemize {}
+
+ @item Surface point. Returns the first point of intersection between 
+this surface and the curve given as an argument.
+
+:arguments (curve "GDL Curve object. The curve to intersect with this surface.")
+:&key ((3d-tolerance *3d-tolerance-default*) "Number. The tolerance to 
+use for intersecting.")
+
+@end itemize
+
+@b{:curve-intersection-points}
+
+@itemize {}
+
+ @item List of Surface points. Returns the point(s) of intersection between 
+this surface and the curve given as an argument.
+
+:arguments (curve "GDL Curve object. The curve to intersect with this surface.")
+:&key ((3d-tolerance *3d-tolerance-default*) "Number. The tolerance 
+to use for intersecting.")
+
+@end itemize
+
+@b{:domain}
+
+@itemize {}
+
+ @item Plist. Returns plist containing :min and :max indicating min and max UV points 
+for parameter space for this surface.
+
+@end itemize
+
+@b{:dropped-point}
+
+@itemize {}
+
+ @item Surface point. Returns the given 3D point dropped normally to this 
+surface, as close as possible to the given 3D point.
+
+:arguments (point "3D Point. The point to be dropped.")
+:&key  ((3d-tolerance *3d-tolerance-default*) "The tolerance used for dropping.")
+
+@end itemize
+
+@b{:dropped-points}
+
+@itemize {}
+
+ @item List of Surface points. Returns the given 3D point dropped normally to this surface.
+
+:arguments (point "3D Point. The point to be dropped.")
+:&key  ((3d-tolerance *3d-tolerance-default*) "The tolerance used for dropping.")
+
+@end itemize
+
+@b{:local-bounding-box}
+
+@itemize {}
+
+ @item Returns a bbox object, answering xmin, ymin, zmin, xmax, ymax, and zmax, 
+for a box containing the convex hull (i.e. the control points) of this 
+surface and oriented according to the given center and orientation.
+
+@end itemize
+
+@b{:maximum-distance-to-curve}
+
+@itemize {}
+
+ @item Plist. The returned plist contains information about the maximum 
+distance from this surface to the curve given as the argument.
+
+:arguments (curve "GDL Curve object")
+
+@end itemize
+
+@b{:maximum-distance-to-surface}
+
+@itemize {}
+
+ @item Plist. The returned plist contains information about the maximum 
+distance from this surface to the surface given as the argument.
+
+:arguments (surface "GDL Surface object")
+
+@end itemize
+
+@b{:minimum-distance-to-curve}
+
+@itemize {}
+
+ @item Plist. The returned plist contains information about the minimum 
+distance from this surface to the curve given as the argument.
+
+:arguments (curve "GDL Curve object")
+
+@end itemize
+
+@b{:minimum-distance-to-surface}
+
+@itemize {}
+
+ @item Plist. The returned plist contains information about the minimum 
+distance from this surface to the surface given as the argument.
+
+:arguments (surface "GDL Surface object")
+
+@end itemize
+
+@b{:normal}
+
+@itemize {}
+
+ @item 3D Vector. The surface normal vector at the given u and v values. 
+Three other values are also returned:
+The 3D point, the U tangent, and the V tangent at the given parameter value.
+
+@end itemize
+
+@b{:offset-point}
+
+@itemize {}
+
+ @item 3D Point. Returns the surface point at the given parameters offset 
+along the surface normal at that point by the given distance.
+:arguments (u "Number. The U parameter for the surface point."
+            v "Number. The V parameter for the surface point."
+            distance "Number. The distance for offsetting.")
+
+@end itemize
+
+@b{:on?}
+
+@itemize {}
+
+ @item Boolean. Returns non-nil if the given UV (2D) point lies within the 
+parameter space of this surface. Currently
+this function works only on the basis surface ; it does not observe 
+trimming island or holes.
+
+@end itemize
+
+@b{:point}
+
+@itemize {}
+
+ @item 3D Point. The point on the surface corresponding to the given u and v 
+parameter values.
+
+@end itemize
+
+@b{:projected-point}
+
+@itemize {}
+
+ @item Surface point. Returns the first result of the given point projected 
+along the given vector intersected with the surface.
+
+:arguments (point "3D Point. The point to be projected."
+            vector "3D Vector. The vector along which to project.")
+
+@end itemize
+
+@b{:projected-points}
+
+@itemize {}
+
+ @item List of Surface points. Returns the given point projected along 
+the given vector intersected with the surface.
+
+:arguments (point "3D Point. The point to be projected."
+            vector "3D Vector. The vector along which to project.")
+
+@end itemize
+
+@b{:radius-of-curvature}
+
+@itemize {}
+
+ @item Number. Returns the Gaussian curvature on the surface at the given 
+parameter values. Three additional values are returned, which are the Normal 
+Curvature at the point, the first Fundamental Principle Curvature, and the 
+second Fundamental Principle Curvature.
+
+:note This function might be updated to provide a clearer idea of 
+actual radius of curvature; at the time of this writing it is 
+      not clear what the relationship is between the four returned 
+values and actual radius of curvature.
+
+:arguments (u "Number. The U parameter for the surface point."
+            v "Number. The V parameter for the surface point.")
+
+@end itemize
+
+@b{:u-max}
+
+@itemize {}
+
+ @item Number. Returns maximum U component of the surface parameter space.
+
+@end itemize
+
+@b{:u-min}
+
+@itemize {}
+
+ @item Number. Returns minimum U component of the surface parameter space.
+
+@end itemize
+
+@b{:v-max}
+
+@itemize {}
+
+ @item Number. Returns maximum V component of the surface parameter space.
+
+@end itemize
+
+@b{:v-min}
+
+@itemize {}
+
+ @item Number. Returns minimum V component of the surface parameter space.
+
+@end itemize
+
+
+
+
+
+
+
+ @b{Example image is not generated!}
+

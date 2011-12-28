@@ -1,0 +1,35 @@
+@subsubsection Cone-solid
+
+@b{Description}
+
+A right cone represented as a brep solid. Contains the union of messages (e.g. input-slots, computed-slots, etc)
+from brep and cone.
+
+@noindent @b{Examples}
+
+@smallexample 
+@cartouche
+                  
+ (in-package :surf)
+
+ (define-object test-cone-solid-hollow ()
+  
+  :objects
+  ((cone-solid :type 'cone-solid
+               :display-controls (list :isos (list :n-u 8 :n-v 8) :color :green)
+               :length 100 
+               :radius-1 10 
+               :radius-2 20
+               :inner-radius-1 8 
+               :inner-radius-2 16)))
+ 
+ (generate-sample-drawing :object-roots (make-object 'test-cone-solid-hollow)
+                          :projection-direction (getf *standard-views* :trimetric))
+ 
+ @end cartouche 
+@end smallexample
+
+
+
+ @b{Example image is not generated!}
+
