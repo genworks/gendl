@@ -81,10 +81,10 @@ This list defaults to standard internal and test packages"
    
    (%index-ht (let ((ht (make-hash-table :size (length (the :symbols-for-index)))))
                (dolist (pair (the symbols-for-index) ht)
-                 (let ((symbol (intern  (second pair)
-                                        (if (typep (first pair) 'object-dokumentation-category-message)
-                                            :keyword
-                                            (the-object (first pair) package)))))
+                 (let ((symbol (glisp:intern  (second pair)
+					      (if (typep (first pair) 'object-dokumentation-category-message)
+						  :keyword
+						  (the-object (first pair) package)))))
                    (pushnew (first pair) (gethash symbol ht))))))
 
    (index-array (let ((array (make-array (list (hash-table-count (the %index-ht)))))

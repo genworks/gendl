@@ -19,12 +19,17 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
+;;
+;; FLAG -- put this back for SBCL and others when we switch to cl-html-parse from Quicklisp. 
+;;
+
+#+allegro
 (in-package :gwl)
 
-
+#+allegro
 (setf (net.html.parser::tag-no-end :button) nil)
 
-
+#+allegro
 (defun crawl (part 
               &key (host "localhost") 
                    (port 9000) 
@@ -63,7 +68,7 @@ the files are written into \"/tmp/sites/\".
 
 
 
-
+#+allegro
 (defun crawl-anchor (anchor host port output-root visited-urls)
   (let ((new-url (getf (rest (first anchor)) :href)))
     ;;
@@ -80,7 +85,7 @@ the files are written into \"/tmp/sites/\".
                    ))
       (crawl-url new-url host port output-root visited-urls))))
   
-
+#+allegro
 (defun crawl-url (url host port output-root visited-urls)
   (when (not (gethash url visited-urls))
     (setf (gethash url visited-urls) t)
@@ -114,6 +119,7 @@ the files are written into \"/tmp/sites/\".
           (with-open-file (out output-path :direction :output :if-exists :supersede :if-does-not-exist :create)
             (html-print lhtml out)))))))
 
+#+allegro
 (defun relativize-lhtml (lhtml url output-path host)
   (when lhtml
     (mapcar #'(lambda(element)
@@ -158,6 +164,8 @@ the files are written into \"/tmp/sites/\".
                              element))))
                       (t (relativize-lhtml element url output-path host)))) 
             lhtml)))
+
+#+allegro
 (defun relativize-image-source (url base)
   (let ((length (- (length (split base #\/)) 3)))
     (cond ((> length 0)
@@ -167,7 +175,8 @@ the files are written into \"/tmp/sites/\".
           ((and (zerop length) (eql (aref url 0) #\/))
            (subseq url 1))
           (t url))))
-                                    
+
+#+allegro                                    
 (defun relativize-url (url base)
   (if (or (not (eql (aref url 0) #\/))
           (< (length url) 8)
@@ -199,7 +208,7 @@ the files are written into \"/tmp/sites/\".
                   (make-list parent-levels :initial-element "../")
                   url-list))))))
     
-
+#+allegro
 (defun copy-url (url dest)
   (with-open-file (out dest :direction :output :if-exists :supersede :element-type '(unsigned-byte 8))
     (write-sequence (net.aserve.client:do-http-request url :format :binary) out)))

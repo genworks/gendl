@@ -90,7 +90,7 @@
     (when create? (ensure-directories-exist folder))))
 
 (defun temporary-file (&key (extension nil) create?)
-  (let ((file (merge-pathnames (make-pathname :name (gensym) 
+  (let ((file (merge-pathnames (make-pathname :name (string (gensym))
                                               :type extension)
                                (temporary-folder))))
     (when create? 
