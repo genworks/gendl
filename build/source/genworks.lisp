@@ -81,7 +81,7 @@
   #+allegro 
   (let ((app-name (getf args :application-name))
         (target (getf args :destination-directory))
-        (modules (append (list :asdf :compftype :aserve :phtml)
+        (modules (append (list :asdf :compftype :aserve :phtml #+mswindows :winapi)
                          (getf args :modules)))
         (args (normalize-generate-application-args args)))
     (apply #'excl:generate-application app-name target modules args))

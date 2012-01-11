@@ -47,12 +47,11 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 
    (overwrite? t)
 
-   (load-core-gdl-form `(progn (load ,(merge-pathnames "../../common/build"
+   (load-core-gdl-form `(progn (load ,(merge-pathnames "../build"
 						   glisp:*genworks-source-home*))
-			  (setf (symbol-value (read-from-string 
-					       "glisp:*genworks-source-home*")) nil)
-			  (setf (symbol-value (read-from-string 
-					       "asdf:*central-registry*")) nil)))
+			       
+			       (setf (symbol-value (read-from-string 
+						    "asdf:*central-registry*")) nil)))
 
    (pre-load-form (the load-core-gdl-form))
 
@@ -101,7 +100,8 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 (defun gdl ()
   (let ((destination-directory 
 	 (let ((implementation-identifier (glisp:implementation-identifier))
-	       (prefix (merge-pathnames "../../staging/" glisp:*genworks-source-home*)))
+	       ;;(prefix (merge-pathnames "../../staging/" glisp:*genworks-source-home*))
+	       (prefix (merge-pathnames #+mswindows "e:/staging/" #-mswindows "~/share/staging/")))
 	   (merge-pathnames 
 	    (make-pathname :directory 
 			   (list :relative 
@@ -110,6 +110,7 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
     (app :application-name "gdl"
 	 :application-class :development
 	 :destination-directory destination-directory
+	 :modules (list :agraph :ide)
 	 :restart-init-function '(lambda()
 				  (setq glisp:*gdl-home* (glisp:current-directory))
 				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
@@ -128,8 +129,10 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 	 (require :ftp)
 	 (load (merge-pathnames "demos/gdl-demos.asd" glisp:*genworks-source-home*))
 	 (asdf:load-system :gdl-demos)  
-	 (load (merge-pathnames "../downloads/gdl-downloads.asd"))
-	 (asdf:load-system :gdl-downloads))
+	 (load (merge-pathnames "../downloads/gdl-downloads.asd" glisp:*genworks-source-home*))
+	 (asdf:load-system :gdl-downloads)
+	 (setf (symbol-value (read-from-string 
+			      "glisp:*genworks-source-home*")) nil))
        :destination-directory 
        (merge-pathnames "../../staging/site/" glisp:*genworks-source-home*)
        :overwrite? t

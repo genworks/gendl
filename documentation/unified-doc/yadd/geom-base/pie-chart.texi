@@ -116,5 +116,5 @@ Color of title text. Defaults to :black.
 @end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/pie-chart,,4.2in}
+@center @image{/home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/pie-chart,,4.2in}
 

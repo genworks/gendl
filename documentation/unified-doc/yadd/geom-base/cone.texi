@@ -78,5 +78,5 @@ the center of its base. Partial cones and hollow cones are supported.
   @end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone,,4.2in}
+@center @image{/home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone,,4.2in}
 

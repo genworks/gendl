@@ -1,11 +1,10 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdfetex 2011.11.28)  28 DEC 2011 14:00
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2010.11.17)  9 JAN 2012 21:13
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**\catcode126=12 \def\normaltilde{~}\catcode126=13 \let~\normaltilde  \input ./
-gdl-documentation.texi
+**./gdl-documentation.texi
 (./gdl-documentation.texi (/usr/share/texmf/tex/texinfo/texinfo.tex
-Loading texinfo [version 2008-04-18.10]:
+Loading texinfo [version 2007-09-03.05]:
 \bindingoffset=\dimen16
 \normaloffset=\dimen17
 \pagewidth=\dimen18
@@ -232,23 +231,29 @@ Missing character: There is no ‚ in font cmtt9!
 Missing character: There is no Ä in font cmtt9!
 Missing character: There is no ô in font cmtt9!
  (./development-of-projects.texi [19] [20] <./images/define-object.png (PNG cop
-y)> [21] [22]
+y)>
+Underfull \hbox (badness 10000) detected at line 98
+[]
+
+@hbox(194.28584+0.0)x433.62
+.@pdfrefximage(194.28584+0.0)x138.5175
+
+[21] [22]
 Missing character: There is no ‚ in font cmsltt10!
 Missing character: There is no Ä in font cmsltt10!
 Missing character: There is no ú in font cmsltt10!
 Missing character: There is no ‚ in font cmsltt10!
 Missing character: There is no Ä in font cmsltt10!
 Missing character: There is no ù in font cmsltt10!
- [23] <./images/shock-absorber.png (PNG copy)> [24]) (./tasty-interface.texi [2
-5] <./images/tasty-start.png (PNG copy)> <./images/tasty-shock-absorber-pre.pdf
-, page is rotated 90 degrees>
-[26] [27] [28] <./images/tree-shock-absorber.png (PNG copy)> <./images/tbar_pen
-.png> [29] [30]
-Overfull \vbox (0.29996pt too high) has occurred while \output is active
+ [23] <./images/shock-absorber.png (PNG copy)> [24] [25])
+(./tasty-interface.texi [26] <./images/tasty-start.png (PNG copy)> <./images/ta
+sty-shock-absorber-pre.pdf, page is rotated 90 degrees> [27] [28] [29] <./image
+s/tree-shock-absorber.png (PNG copy)> <./images/tbar_pen.png> [30] [31]
+Overfull \vbox (0.29999pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(641.69997+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 428.02002fil
+.\vbox(641.74992+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
 ...\glue 0.0
 ...\circle 
 ...\glue -6.0
@@ -264,7 +269,7 @@ Overfull \vbox (0.29996pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 428.02002fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
 ...\glue 0.0
 ...\circle 
 
@@ -274,15 +279,15 @@ Overfull \vbox (0.29996pt too high) has occurred while \output is active
 ...etc.
 
 
-[31] <./images/tasty-inspector.png (PNG copy)> <./images/tasty-s-slots.png (PNG
- copy)> [32] [33] <./images/tbar_update.png> <./images/tbar_break.png> [34] <./
-images/volume-a-b.png (PNG copy)> [35] [36] <./images/piston-relative-m.png (PN
-G copy)> [37] [38] [39] [40]
-Overfull \vbox (16.54996pt too high) has occurred while \output is active
+[32] <./images/tasty-inspector.png (PNG copy)> <./images/tasty-s-slots.png (PNG
+ copy)> [33] [34] <./images/tbar_update.png> <./images/tbar_break.png> [35] <./
+images/volume-a-b.png (PNG copy)> [36] [37] <./images/piston-relative-m.png (PN
+G copy)> [38] [39] [40] [41]
+Overfull \vbox (16.54999pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(657.94997+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 428.02002fil
+.\vbox(657.99992+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
 ...\glue 0.0
 ...\circle 
 ...\glue -6.0
@@ -298,7 +303,7 @@ Overfull \vbox (16.54996pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 428.02002fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
 ...\glue 0.0
 ...\circle 
 
@@ -308,13 +313,13 @@ Overfull \vbox (16.54996pt too high) has occurred while \output is active
 ...etc.
 
 
-[41]) (./drawing.texi Chapter 5 [42] [43] [44] [45] [46]
-(./examples/drawing/robot-drawing.lisp) <./images/robot-drawing.pdf> [47]
-(./examples/drawing/box-with-drawing.lisp) [48] <./images/dimensioned-drawing.p
-df> [49] (./examples/drawing/box-with-two-viewed-drawing.lisp) <./images/two-vi
-ewed-drawing.pdf> [50] [51] [52] <./images/box-annotated-drawing.pdf> [53]
+[42]) (./drawing.texi Chapter 5 [43] [44] [45] [46] [47] [48]
+(./examples/drawing/robot-drawing.lisp) <./images/robot-drawing.pdf> [49]
+(./examples/drawing/box-with-drawing.lisp) [50] <./images/dimensioned-drawing.p
+df> [51] (./examples/drawing/box-with-two-viewed-drawing.lisp) <./images/two-vi
+ewed-drawing.pdf> [52] [53] [54] <./images/box-annotated-drawing.pdf> [55]
 (./examples/drawing/box-with-immune-dimension.lisp)
-(./examples/drawing/immune-dimension-drawing.lisp) [54] [55]
+(./examples/drawing/immune-dimension-drawing.lisp) [56] [57]
 (./examples/drawing/vrml-example.lisp) <./images/vrml.png (PNG copy)>
 Underfull \hbox (badness 10000) in paragraph at lines 672--674
 
@@ -322,7 +327,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 672--674
 @hbox(0.0+0.0)x433.62
 .@glue(@rightskip) 0.0
 
-[56]
+[58]
 Overfull \vbox (16.29665pt too high) has occurred while \output is active
 \vbox(643.2+0.0)x433.62
 .\glue(\topskip) 28.39584
@@ -345,18 +350,18 @@ Overfull \vbox (16.29665pt too high) has occurred while \output is active
 .etc.
 
 
-[57] (./examples/drawing/iges-example.lisp)) Chapter 6 [58]
-(./custom-user-interfaces.texi [59] (./examples/gwl-1.lisp)
-(./examples/gwl-1.html) <./images/gwl-1.png (PNG copy)> [60] [61]
-(./examples/gwl-2.lisp) [62] <./images/gwl-2.png (PNG copy)>
-(./examples/gwl-3.lisp) [63] (./examples/gwl-3a.lisp) [64] <./images/gwl-3.png 
-(PNG copy)> [65] <./images/gwl-3b.png (PNG copy)> (./examples/gwl-3b.lisp)
-[66] [67] (./examples/gwl-4.lisp) [68]
-Overfull \vbox (23.29997pt too high) has occurred while \output is active
+[59] (./examples/drawing/iges-example.lisp)) Chapter 6 [60]
+(./custom-user-interfaces.texi [61] (./examples/gwl-1.lisp)
+(./examples/gwl-1.html) <./images/gwl-1.png (PNG copy)> [62] [63]
+(./examples/gwl-2.lisp) [64] <./images/gwl-2.png (PNG copy)>
+(./examples/gwl-3.lisp) [65] (./examples/gwl-3a.lisp) [66] <./images/gwl-3.png 
+(PNG copy)> [67] <./images/gwl-3b.png (PNG copy)> (./examples/gwl-3b.lisp)
+[68] [69] (./examples/gwl-4.lisp) [70]
+Overfull \vbox (23.3pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(664.69998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(664.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -372,7 +377,7 @@ Overfull \vbox (23.29997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -381,13 +386,13 @@ Overfull \vbox (23.29997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[69] (./examples/gwl-5.lisp) [70]
-Overfull \vbox (44.29997pt too high) has occurred while \output is active
+ [71]
+(./examples/gwl-5.lisp) [72]
+Overfull \vbox (44.3pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(685.69998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(685.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -403,7 +408,7 @@ Overfull \vbox (44.29997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -412,11 +417,10 @@ Overfull \vbox (44.29997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[71] <./images/gwl-5.png (PNG copy)>) Chapter 7 [72] (./yadd/gdl.texi
+ [73] <./images/gwl-5.png (PNG copy)>) Chapter 7 [74] (./yadd/gdl.texi
 (./yadd/gdl/base-rule-object.texi) (./yadd/gdl/null-object.texi)
-(./yadd/gdl/quantification.texi [73]) (./yadd/gdl/vanilla-mixin.texi [74]
-[75] [76] [77])) (./yadd/gwl.texi (./yadd/gwl/application-mixin.texi [78])
+(./yadd/gdl/quantification.texi [75]) (./yadd/gdl/vanilla-mixin.texi [76]
+[77] [78] [79])) (./yadd/gwl.texi (./yadd/gwl/application-mixin.texi [80])
 (./yadd/gwl/base-ajax-graphics-sheet.texi
 Underfull \hbox (badness 5403) in paragraph at lines 5--9
 []@textrm This mixes to-gether base-ajax-sheet with base-html-graphics-sheet, a
@@ -430,7 +434,7 @@ nd adds
 .@textrm s
 .etc.
 
-[79] [80]) (./yadd/gwl/base-ajax-sheet.texi [81]
+[81] [82]) (./yadd/gwl/base-ajax-sheet.texi [83]
 Underfull \hbox (badness 3623) in paragraph at lines 79--102
  @textrm $(doc-u-ment).ready(function ()  $('ul#menu').superfish(delay:1,speed:
 'fast') ; );
@@ -496,12 +500,12 @@ iew-selector value)))[] |
 .@glue 4.72495
 .etc.
 
-[82]
-Overfull \vbox (590.29997pt too high) has occurred while \output is active
+[84]
+Overfull \vbox (590.3pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1231.69998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1231.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -517,7 +521,7 @@ Overfull \vbox (590.29997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -526,8 +530,8 @@ Overfull \vbox (590.29997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[83]) (./yadd/gwl/base-form-control.texi
+ [85])
+(./yadd/gwl/base-form-control.texi
 Underfull \hbox (badness 5431) in paragraph at lines 31--41
 []@texttt <@textrm ul@texttt > <@textrm li@texttt >@textrm button-form-control:
  sub-mit but-tons, re-set but-tons, push but-tons.
@@ -540,7 +544,7 @@ Underfull \hbox (badness 5431) in paragraph at lines 31--41
 .@texttt >
 .etc.
 
-[84] [85] [86] [87]
+[86] [87] [88] [89]
 Overfull \hbox (29.9825pt too wide) in paragraph at lines 476--476
 []@smalltt constitutional gov-ern-ment, low taxes, free mar-kets, and a re-turn
  to sound mon-e-tary policies.[] |
@@ -592,12 +596,12 @@ t color) (list :yel-low :magenta))[] |
 .@glue 4.72495
 .etc.
 
-[88]
-Overfull \vbox (338.29997pt too high) has occurred while \output is active
+[90]
+Overfull \vbox (338.3pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(979.69998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(979.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -613,7 +617,7 @@ Overfull \vbox (338.29997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -622,9 +626,9 @@ Overfull \vbox (338.29997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[89]) (./yadd/gwl/base-html-graphics-sheet.texi [90])
-(./yadd/gwl/base-html-sheet.texi [91] [92] [93]
+ [91])
+(./yadd/gwl/base-html-graphics-sheet.texi [92])
+(./yadd/gwl/base-html-sheet.texi [93] [94] [95]
 Underfull \hbox (badness 3826) in paragraph at lines 233--239
  []@textrm :example @texttt <@textrm pre@texttt > @textrm (write-html-sheet () 
 (html (:html (:head (:ti-tle (:princ (the
@@ -638,10 +642,10 @@ Underfull \hbox (badness 3826) in paragraph at lines 233--239
 .etc.
 
 ) (./yadd/gwl/checkbox-form-control.texi) (./yadd/gwl/grid-form-control.texi
-[94]) (./yadd/gwl/gwl-rule-object.texi) (./yadd/gwl/menu-form-control.texi
-[95]) (./yadd/gwl/node-mixin.texi [96]) (./yadd/gwl/radio-form-control.texi)
-(./yadd/gwl/session-control-mixin.texi [97]) (./yadd/gwl/sheet-section.texi
-[98]) (./yadd/gwl/skeleton-ui-element.texi [99]
+[96]) (./yadd/gwl/gwl-rule-object.texi) (./yadd/gwl/menu-form-control.texi
+[97]) (./yadd/gwl/node-mixin.texi [98]) (./yadd/gwl/radio-form-control.texi)
+(./yadd/gwl/session-control-mixin.texi [99]) (./yadd/gwl/sheet-section.texi
+[100]) (./yadd/gwl/skeleton-ui-element.texi [101]
 Underfull \hbox (badness 10000) in paragraph at lines 144--147
  []@textrm :computed-slots ((number-of-nozzles (the number-of-nozzles-form valu
 e))
@@ -667,8 +671,8 @@ Underfull \hbox (badness 2401) in paragraph at lines 144--147
 .@textrm d
 .etc.
 
-[100]) (./yadd/gwl/text-form-control.texi [101]) (./yadd/gwl/web-drawing.texi
-[102]
+[102]) (./yadd/gwl/text-form-control.texi [103]) (./yadd/gwl/web-drawing.texi
+[104]
 Overfull \hbox (25.25755pt too wide) in paragraph at lines 148--148
 []                       @smalltt (:ta-ble (:tr (:td (:ul (:li (str (the graphi
 cs-height html-string)))[] |
@@ -694,12 +698,12 @@ s-width html-string)))[] |
 .@glue 4.72495
 .etc.
 
-[103]
-Overfull \vbox (390.79997pt too high) has occurred while \output is active
+[105]
+Overfull \vbox (390.8pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1032.19998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1032.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -715,7 +719,7 @@ Overfull \vbox (390.79997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -724,20 +728,19 @@ Overfull \vbox (390.79997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[104])) (./yadd/geom-base.texi (./yadd/geom-base/angular-dimension.texi </home/
-dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom
--base/image/angular-dimension.png (PNG copy)> [105]) (./yadd/geom-base/arc.texi
-[106] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
-doc/yadd/geom-base/image/arc.png (PNG copy)> [107])
-(./yadd/geom-base/base-drawing.texi [108] </home/dcooper8/gdl-build/teodor-gelu
-/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-drawing.png (
-PNG copy)>) (./yadd/geom-base/base-object.texi [109] [110] [111] [112] </home/d
-cooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-
-base/image/base-object.png> [113]) (./yadd/geom-base/base-view.texi [114]
-[115] [116] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/un
-ified-doc/yadd/geom-base/image/base-view.png (PNG copy)>)
-(./yadd/geom-base/bezier-curve.texi [117]
+ [106]))
+(./yadd/geom-base.texi (./yadd/geom-base/angular-dimension.texi </home/dcooper8
+/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image
+/angular-dimension.png (PNG copy)> [107]) (./yadd/geom-base/arc.texi [108] </ho
+me/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom
+-base/image/arc.png (PNG copy)> [109]) (./yadd/geom-base/base-drawing.texi
+[110] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/base-drawing.png (PNG copy)>)
+(./yadd/geom-base/base-object.texi [111] [112] [113] [114] </home/dcooper8/gdl-
+build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base
+-object.png> [115]) (./yadd/geom-base/base-view.texi [116] [117] [118] </home/d
+cooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-bas
+e/image/base-view.png (PNG copy)>) (./yadd/geom-base/bezier-curve.texi [119]
 Underfull \hbox (badness 2495) in paragraph at lines 50--52
  []@textrm :&key ((ac-cu-racy (* 10.0 double-float-epsilon)) @texttt "@textrm N
 um-ber. Tar-get ac-cu-racy.@texttt "
@@ -750,7 +753,7 @@ um-ber. Tar-get ac-cu-racy.@texttt "
 .@textrm k
 .etc.
 
-[118]
+[120]
 Underfull \hbox (badness 2495) in paragraph at lines 67--69
  []@textrm :&key ((ac-cu-racy (* 10.0 double-float-epsilon)) @texttt "@textrm N
 um-ber. Tar-get ac-cu-racy.@texttt "
@@ -763,48 +766,47 @@ um-ber. Tar-get ac-cu-racy.@texttt "
 .@textrm k
 .etc.
 
- </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/y
-add/geom-base/image/bezier-curve.png (PNG copy)>) (./yadd/geom-base/box.texi
-[119] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
-doc/yadd/geom-base/image/box.png (PNG copy)>) (./yadd/geom-base/c-cylinder.texi
-[120] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
-doc/yadd/geom-base/image/c-cylinder.png (PNG copy)> [121])
-(./yadd/geom-base/center-line.texi [122] </home/dcooper8/gdl-build/teodor-gelu/
-genworks-gdl/documentation/unified-doc/yadd/geom-base/image/center-line.png (PN
-G copy)>) (./yadd/geom-base/circle.texi [123] </home/dcooper8/gdl-build/teodor-
-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/circle.png (PN
-G copy)> [124]) (./yadd/geom-base/cone.texi [125] </home/dcooper8/gdl-build/teo
-dor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone.png (
-PNG copy)>) (./yadd/geom-base/cylinder.texi [126] </home/dcooper8/gdl-build/teo
-dor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cylinder.p
-ng (PNG copy)> [127]) (./yadd/geom-base/ellipse.texi [128] </home/dcooper8/gdl-
-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/e
-llipse.png (PNG copy)>) (./yadd/geom-base/general-note.texi [129] [130]
-[131] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
-doc/yadd/geom-base/image/general-note.png (PNG copy)>)
-(./yadd/geom-base/global-filleted-polygon-projection.texi [132] </home/dcooper8
-/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/im
-age/global-filleted-polygon-projection.png (PNG copy)> [133])
-(./yadd/geom-base/global-filleted-polyline.texi [134] </home/dcooper8/gdl-build
-/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global
--filleted-polyline.png (PNG copy)>)
-(./yadd/geom-base/global-polygon-projection.texi [135] </home/dcooper8/gdl-buil
-d/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/globa
-l-polygon-projection.png (PNG copy)> [136])
-(./yadd/geom-base/global-polyline.texi </home/dcooper8/gdl-build/teodor-gelu/ge
-nworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-polyline.png (
-PNG copy)> [137]) (./yadd/geom-base/horizontal-dimension.texi [138] </home/dcoo
-per8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-bas
-e/image/horizontal-dimension.png (PNG copy)>) (./yadd/geom-base/label.texi
-[139] [140] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/un
-ified-doc/yadd/geom-base/image/label.png (PNG copy)> [141])
-(./yadd/geom-base/leader-line.texi [142]) (./yadd/geom-base/line.texi </home/dc
-ooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-b
-ase/image/line.png (PNG copy)> [143]) (./yadd/geom-base/linear-dimension.texi
-[144] [145] [146]) (./yadd/geom-base/parallel-dimension.texi [147] </home/dcoop
-er8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base
-/image/parallel-dimension.png (PNG copy)>) (./yadd/geom-base/pie-chart.texi
-[148]
+ </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd
+/geom-base/image/bezier-curve.png (PNG copy)>) (./yadd/geom-base/box.texi
+[121] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/box.png (PNG copy)>) (./yadd/geom-base/c-cylinder.texi
+[122] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/c-cylinder.png (PNG copy)> [123])
+(./yadd/geom-base/center-line.texi [124] </home/dcooper8/gdl-build/dcooper8/gen
+works-gdl/documentation/unified-doc/yadd/geom-base/image/center-line.png (PNG c
+opy)>) (./yadd/geom-base/circle.texi [125] </home/dcooper8/gdl-build/dcooper8/g
+enworks-gdl/documentation/unified-doc/yadd/geom-base/image/circle.png (PNG copy
+)> [126]) (./yadd/geom-base/cone.texi [127] </home/dcooper8/gdl-build/dcooper8/
+genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone.png (PNG copy)
+>) (./yadd/geom-base/cylinder.texi [128] </home/dcooper8/gdl-build/dcooper8/gen
+works-gdl/documentation/unified-doc/yadd/geom-base/image/cylinder.png (PNG copy
+)> [129]) (./yadd/geom-base/ellipse.texi [130] </home/dcooper8/gdl-build/dcoope
+r8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/ellipse.png (PNG
+ copy)>) (./yadd/geom-base/general-note.texi [131] [132] [133] </home/dcooper8/
+gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/
+general-note.png (PNG copy)>)
+(./yadd/geom-base/global-filleted-polygon-projection.texi [134] </home/dcooper8
+/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image
+/global-filleted-polygon-projection.png (PNG copy)> [135])
+(./yadd/geom-base/global-filleted-polyline.texi [136] </home/dcooper8/gdl-build
+/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-fi
+lleted-polyline.png (PNG copy)>)
+(./yadd/geom-base/global-polygon-projection.texi [137] </home/dcooper8/gdl-buil
+d/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-p
+olygon-projection.png (PNG copy)> [138]) (./yadd/geom-base/global-polyline.texi
+ </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd
+/geom-base/image/global-polyline.png (PNG copy)> [139])
+(./yadd/geom-base/horizontal-dimension.texi [140] </home/dcooper8/gdl-build/dco
+oper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/horizontal-di
+mension.png (PNG copy)>) (./yadd/geom-base/label.texi [141] [142] </home/dcoope
+r8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/ima
+ge/label.png (PNG copy)> [143]) (./yadd/geom-base/leader-line.texi [144])
+(./yadd/geom-base/line.texi </home/dcooper8/gdl-build/dcooper8/genworks-gdl/doc
+umentation/unified-doc/yadd/geom-base/image/line.png (PNG copy)> [145])
+(./yadd/geom-base/linear-dimension.texi [146] [147] [148])
+(./yadd/geom-base/parallel-dimension.texi [149] </home/dcooper8/gdl-build/dcoop
+er8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/parallel-dimens
+ion.png (PNG copy)>) (./yadd/geom-base/pie-chart.texi [150]
 Overfull \hbox (46.69476pt too wide) in paragraph at lines 7--9
 []@textrm This ob-ject was in-spired by the pie-chart in Marc Battyani's (marc.
 battyani(at)fractalconcept.com)|
@@ -817,25 +819,25 @@ battyani(at)fractalconcept.com)|
 .@textrm s
 .etc.
 
-[149] </home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-
-doc/yadd/geom-base/image/pie-chart.png (PNG copy)>)
-(./yadd/geom-base/point.texi [150] [151] </home/dcooper8/gdl-build/teodor-gelu/
-genworks-gdl/documentation/unified-doc/yadd/geom-base/image/point.png (PNG copy
-)>) (./yadd/geom-base/route-pipe.texi [152] </home/dcooper8/gdl-build/teodor-ge
-lu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/route-pipe.png (
-PNG copy)> [153]) (./yadd/geom-base/sample-drawing.texi [154])
-(./yadd/geom-base/sphere.texi [155] </home/dcooper8/gdl-build/teodor-gelu/genwo
-rks-gdl/documentation/unified-doc/yadd/geom-base/image/sphere.png (PNG copy)>)
-(./yadd/geom-base/spherical-cap.texi [156] [157] </home/dcooper8/gdl-build/teod
-or-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/spherical-c
-ap.png (PNG copy)>) (./yadd/geom-base/text-line.texi [158])
-(./yadd/geom-base/torus.texi [159] </home/dcooper8/gdl-build/teodor-gelu/genwor
-ks-gdl/documentation/unified-doc/yadd/geom-base/image/torus.png (PNG copy)>
-[160]) (./yadd/geom-base/typeset-block.texi [161])
-(./yadd/geom-base/vertical-dimension.texi [162] </home/dcooper8/gdl-build/teodo
-r-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/vertical-dim
-ension.png (PNG copy)>)) (./yadd/surf.texi (./yadd/surf/approximated-curve.texi
-[163]
+[151] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/pie-chart.png (PNG copy)>) (./yadd/geom-base/point.texi
+[152] [153] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unifi
+ed-doc/yadd/geom-base/image/point.png (PNG copy)>)
+(./yadd/geom-base/route-pipe.texi [154] </home/dcooper8/gdl-build/dcooper8/genw
+orks-gdl/documentation/unified-doc/yadd/geom-base/image/route-pipe.png (PNG cop
+y)> [155]) (./yadd/geom-base/sample-drawing.texi [156])
+(./yadd/geom-base/sphere.texi [157] </home/dcooper8/gdl-build/dcooper8/genworks
+-gdl/documentation/unified-doc/yadd/geom-base/image/sphere.png (PNG copy)>)
+(./yadd/geom-base/spherical-cap.texi [158] [159] </home/dcooper8/gdl-build/dcoo
+per8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/spherical-cap.
+png (PNG copy)>) (./yadd/geom-base/text-line.texi [160])
+(./yadd/geom-base/torus.texi [161] </home/dcooper8/gdl-build/dcooper8/genworks-
+gdl/documentation/unified-doc/yadd/geom-base/image/torus.png (PNG copy)>
+[162]) (./yadd/geom-base/typeset-block.texi [163])
+(./yadd/geom-base/vertical-dimension.texi [164] </home/dcooper8/gdl-build/dcoop
+er8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/vertical-dimens
+ion.png (PNG copy)>)) (./yadd/surf.texi (./yadd/surf/approximated-curve.texi
+[165]
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 81--81
 @smalltt 7.746775287947699 10.0 0.0067001904580447) #(-7.7253289934578415 10.0 
 0.0091817670732663)[] |
@@ -2100,12 +2102,12 @@ Overfull \hbox (152.83107pt too wide) in paragraph at lines 173--173
 .@glue 4.72495
 .etc.
 
-[164]
-Overfull \vbox (1251.79997pt too high) has occurred while \output is active
+[166]
+Overfull \vbox (1251.8pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1893.19998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1893.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -2121,7 +2123,7 @@ Overfull \vbox (1251.79997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -2131,7 +2133,7 @@ Overfull \vbox (1251.79997pt too high) has occurred while \output is active
 ...etc.
 
 
-[165]) (./yadd/surf/arc-curve.texi) (./yadd/surf/b-spline-curve.texi
+[167]) (./yadd/surf/arc-curve.texi) (./yadd/surf/b-spline-curve.texi
 Overfull \hbox (20.53261pt too wide) in paragraph at lines 107--107
 []              @smalltt (b-spline :type 'b-spline-curve ;; This will be an equ
 iv-a-lent surf:b-spline-|
@@ -2144,12 +2146,12 @@ iv-a-lent surf:b-spline-|
 .@glue 4.72495
 .etc.
 
-[166] [167]
-Overfull \vbox (128.29997pt too high) has occurred while \output is active
+[168] [169]
+Overfull \vbox (128.3pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(769.69998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(769.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -2165,7 +2167,7 @@ Overfull \vbox (128.29997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -2174,8 +2176,8 @@ Overfull \vbox (128.29997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[168]) (./yadd/surf/b-spline-surface.texi
+ [170])
+(./yadd/surf/b-spline-surface.texi
 Overfull \hbox (20.53261pt too wide) in paragraph at lines 76--76
 []    @smalltt (control-points (map-car #'(lambda(list) (map-car #'apply-make-p
 oint list)) (the points-|
@@ -2188,7 +2190,7 @@ oint list)) (the points-|
 .@glue 4.72495
 .etc.
 
-) (./yadd/surf/basic-surface.texi [169]
+) (./yadd/surf/basic-surface.texi [171]
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 148--148
 [] @smalltt (generate-sample-drawing :ob-jects (the-object (make-object 'test-b
 asic-surface) surface)[] |
@@ -2201,12 +2203,12 @@ asic-surface) surface)[] |
 .@smalltt g
 .etc.
 
-[170]
-Overfull \vbox (411.79997pt too high) has occurred while \output is active
+[172]
+Overfull \vbox (411.8pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1053.19998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1053.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -2222,7 +2224,7 @@ Overfull \vbox (411.79997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -2231,9 +2233,9 @@ Overfull \vbox (411.79997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[171]) (./yadd/surf/blended-solid.texi) (./yadd/surf/box-solid.texi [172])
-(./yadd/surf/boxed-curve.texi [173] [174]
+ [173])
+(./yadd/surf/blended-solid.texi) (./yadd/surf/box-solid.texi [174])
+(./yadd/surf/boxed-curve.texi [175] [176]
 Overfull \hbox (29.9825pt too wide) in paragraph at lines 235--235
 []                                     @smalltt :rear (rotate-vector-d (the (fa
 ce-normal-vector :rear))[] |
@@ -2480,12 +2482,12 @@ Overfull \hbox (48.88228pt too wide) in paragraph at lines 334--334
 .@glue 4.72495
 .etc.
 
-[175]
-Overfull \vbox (680.54997pt too high) has occurred while \output is active
+[177]
+Overfull \vbox (680.55pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1321.94998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1321.99994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -2501,7 +2503,7 @@ Overfull \vbox (680.54997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -2511,7 +2513,7 @@ Overfull \vbox (680.54997pt too high) has occurred while \output is active
 ...etc.
 
 
-[176]) (./yadd/surf/boxed-surface.texi [177] [178]
+[178]) (./yadd/surf/boxed-surface.texi [179] [180]
 Overfull \hbox (29.9825pt too wide) in paragraph at lines 243--243
 []                                     @smalltt :rear (rotate-vector-d (the (fa
 ce-normal-vector :rear))[] |
@@ -2758,12 +2760,12 @@ Overfull \hbox (48.88228pt too wide) in paragraph at lines 347--347
 .@glue 4.72495
 .etc.
 
-[179]
-Overfull \vbox (760.29997pt too high) has occurred while \output is active
+[181]
+Overfull \vbox (760.3pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1401.69998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1401.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -2779,7 +2781,7 @@ Overfull \vbox (760.29997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -2788,8 +2790,8 @@ Overfull \vbox (760.29997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[180]) (./yadd/surf/brep.texi
+ [182])
+(./yadd/surf/brep.texi
 Underfull \hbox (badness 3108) in paragraph at lines 79--87
  []@textrm (list :min-number-of-segments *tess-min-number-of-segments* :max-3d-
 edge-factor
@@ -2828,7 +2830,7 @@ o-uv*
 .@textrm n
 .etc.
 
-[181] [182] [183] [184]
+[183] [184] [185] [186]
 Underfull \hbox (badness 10000) in paragraph at lines 433--436
  @textrm about-coordinate-axii, :volume-static-moments, :volume-moments-of-iner
 tia,
@@ -2841,12 +2843,12 @@ tia,
 .@textrm o
 .etc.
 
-[185]) (./yadd/surf/brep-intersect.texi) (./yadd/surf/compatible-surfaces.texi
-[186]) (./yadd/surf/composed-curve.texi [187])
-(./yadd/surf/composed-curves.texi) (./yadd/surf/cone-solid.texi [188])
-(./yadd/surf/curve.texi [189] [190] [191] [192] [193] [194])
-(./yadd/surf/cylinder-solid.texi) (./yadd/surf/decomposed-curves.texi [195])
-(./yadd/surf/dropped-curve.texi [196]
+[187]) (./yadd/surf/brep-intersect.texi) (./yadd/surf/compatible-surfaces.texi
+[188]) (./yadd/surf/composed-curve.texi [189])
+(./yadd/surf/composed-curves.texi) (./yadd/surf/cone-solid.texi [190])
+(./yadd/surf/curve.texi [191] [192] [193] [194] [195] [196])
+(./yadd/surf/cylinder-solid.texi) (./yadd/surf/decomposed-curves.texi [197])
+(./yadd/surf/dropped-curve.texi [198]
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 87--87
 []                 @smalltt :control-points (list (make-point 3.5 4.5 7) (make-
 point 4.5 6 7) (make-|
@@ -2898,8 +2900,8 @@ f (the raised-hole) (the raised-|
 .@glue 4.72495
 .etc.
 
-) (./yadd/surf/edge.texi [197]) (./yadd/surf/edge-blend-surface.texi [198]
-[199]) (./yadd/surf/elliptical-curve.texi [200]
+) (./yadd/surf/edge.texi [199]) (./yadd/surf/edge-blend-surface.texi [200]
+[201]) (./yadd/surf/elliptical-curve.texi [202]
 Overfull \hbox (63.05711pt too wide) in paragraph at lines 19--19
 []    @smalltt ((cen-ter (make-point 0 0 0)) (major-axis-length 10) (minor-axis
 -length 5) (start-angle 0) (end-|
@@ -2912,13 +2914,13 @@ Overfull \hbox (63.05711pt too wide) in paragraph at lines 19--19
 .@glue 4.72495
 .etc.
 
-) (./yadd/surf/extended-curve.texi [201]) (./yadd/surf/extended-surface.texi
-[202] [203]
-Overfull \vbox (390.79997pt too high) has occurred while \output is active
+) (./yadd/surf/extended-curve.texi [203]) (./yadd/surf/extended-surface.texi
+[204] [205]
+Overfull \vbox (390.8pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1032.19998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1032.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -2934,7 +2936,7 @@ Overfull \vbox (390.79997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -2943,8 +2945,8 @@ Overfull \vbox (390.79997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[204]) (./yadd/surf/extruded-solid.texi) (./yadd/surf/face.texi [205]
+ [206])
+(./yadd/surf/extruded-solid.texi) (./yadd/surf/face.texi [207]
 Underfull \hbox (badness 10000) in paragraph at lines 133--134
  @textrm :area-moments-of-inertia, :area-products-of-inertia, :area-second-mome
 nt-
@@ -2970,8 +2972,8 @@ tia,
 .@textrm o
 .etc.
 
-[206]) (./yadd/surf/fitted-curve.texi [207] [208])
-(./yadd/surf/fitted-surface.texi [209]
+[208]) (./yadd/surf/fitted-curve.texi [209] [210])
+(./yadd/surf/fitted-surface.texi [211]
 Overfull \hbox (48.88228pt too wide) in paragraph at lines 173--173
 []                        @smalltt (make-point (/ (the grid-width) 4) (/ (the g
 rid-length) 4) (/ (the grid-|
@@ -3049,12 +3051,12 @@ Overfull \hbox (67.78206pt too wide) in paragraph at lines 191--191
 .@glue 4.72495
 .etc.
 
-[210]
-Overfull \vbox (369.79997pt too high) has occurred while \output is active
+[212]
+Overfull \vbox (369.8pt too high) has occurred while \output is active
 \vbox(643.2+4.0)x452.01999
 .\glue(\topskip) 0.0
-.\vbox(1011.19998+5.79999)x452.01999
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+.\vbox(1011.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 ...\glue -6.0
@@ -3070,7 +3072,7 @@ Overfull \vbox (369.79997pt too high) has occurred while \output is active
 ...\kern 3.0
 ...etc.
 ..\glue(\lineskip) 0.0
-..\hbox(6.2+5.79999)x452.01999, glue set 399.11247fil
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
 ...\glue 28.90755
 ...\circle 
 
@@ -3079,18 +3081,18 @@ Overfull \vbox (369.79997pt too high) has occurred while \output is active
 ...\glue 6.0
 ...etc.
 
-
-[211]) (./yadd/surf/global-filleted-polyline-curve.texi)
-(./yadd/surf/global-filleted-polyline-curves.texi [212])
-(./yadd/surf/iges-reader.texi [213]) (./yadd/surf/intersected-solid.texi)
-(./yadd/surf/iso-curve.texi [214]) (./yadd/surf/joined-surfaces.texi [215])
-(./yadd/surf/linear-curve.texi [216]) (./yadd/surf/lofted-surface.texi [217]
-[218]) (./yadd/surf/manifold-solid.texi [219]) (./yadd/surf/merged-solid.texi)
-(./yadd/surf/native-reader.texi) (./yadd/surf/normalized-curve.texi [220])
-(./yadd/surf/offset-solid.texi) (./yadd/surf/offset-surface.texi [221])
-(./yadd/surf/planar-offset-curve.texi [222])
-(./yadd/surf/planar-section-curve.texi [223])
-(./yadd/surf/planar-section-curves.texi [224]
+ [213])
+(./yadd/surf/global-filleted-polyline-curve.texi)
+(./yadd/surf/global-filleted-polyline-curves.texi [214])
+(./yadd/surf/iges-reader.texi [215]) (./yadd/surf/intersected-solid.texi)
+(./yadd/surf/iso-curve.texi [216]) (./yadd/surf/joined-surfaces.texi [217])
+(./yadd/surf/linear-curve.texi [218]) (./yadd/surf/lofted-surface.texi [219]
+[220]) (./yadd/surf/manifold-solid.texi [221]) (./yadd/surf/merged-solid.texi)
+(./yadd/surf/native-reader.texi) (./yadd/surf/normalized-curve.texi [222])
+(./yadd/surf/offset-solid.texi) (./yadd/surf/offset-surface.texi [223])
+(./yadd/surf/planar-offset-curve.texi [224])
+(./yadd/surf/planar-section-curve.texi [225])
+(./yadd/surf/planar-section-curves.texi [226]
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 112--112
 []   @smalltt (control-points (map-car #'(lambda(list) (map-car #'apply-make-po
 int list)) (the points-|
@@ -3103,8 +3105,8 @@ int list)) (the points-|
 .@glue 4.72495
 .etc.
 
-[225]) (./yadd/surf/planar-surface.texi [226])
-(./yadd/surf/projected-curve.texi [227]
+[227]) (./yadd/surf/planar-surface.texi [228])
+(./yadd/surf/projected-curve.texi [229]
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 136--136
 [] @smalltt (generate-sample-drawing :ob-jects (let ((self (make-object 'test-t
 rimmed-from-projected-|
@@ -3130,7 +3132,7 @@ Overfull \hbox (67.78206pt too wide) in paragraph at lines 137--137
 .@glue 4.72495
 .etc.
 
-[228]) (./yadd/surf/rectangular-surface.texi [229]
+[230]) (./yadd/surf/rectangular-surface.texi [231]
 Overfull \hbox (110.30656pt too wide) in paragraph at lines 86--86
 []   @smalltt :computed-slots ((display-controls (list :color :green-spring-med
 ium)) (length 20) (width 30) (height 0)))[] |
@@ -3143,7 +3145,7 @@ ium)) (length 20) (width 30) (height 0)))[] |
 .@glue 4.72495
 .etc.
 
-) (./yadd/surf/regioned-solid.texi [230]) (./yadd/surf/revolved-surface.texi
+) (./yadd/surf/regioned-solid.texi [232]) (./yadd/surf/revolved-surface.texi
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 74--74
 []                           @smalltt :ori-en-ta-tion (align-ment :top (the (fa
 ce-normal-vector :rear)))[] |
@@ -3156,7 +3158,7 @@ ce-normal-vector :rear)))[] |
 .@glue 4.72495
 .etc.
 
-[231]) (./yadd/surf/revolved-surfaces.texi
+[233]) (./yadd/surf/revolved-surfaces.texi
 Overfull \hbox (25.25755pt too wide) in paragraph at lines 67--67
 []                             @smalltt :ori-en-ta-tion (align-ment :top (the (
 face-normal-vector :rear)))[] |
@@ -3195,11 +3197,11 @@ Overfull \hbox (20.53261pt too wide) in paragraph at lines 84--84
 .@smalltt g
 .etc.
 
-[232]) (./yadd/surf/ruled-surface.texi [233]) (./yadd/surf/separated-solid.texi
-) (./yadd/surf/shelled-solid.texi [234]) (./yadd/surf/spherical-surface.texi)
-(./yadd/surf/split-surface.texi [235] [236]) (./yadd/surf/step-reader.texi
-[237]) (./yadd/surf/stitched-solid.texi) (./yadd/surf/subtracted-solid.texi)
-(./yadd/surf/surface.texi [238]
+[234]) (./yadd/surf/ruled-surface.texi [235]) (./yadd/surf/separated-solid.texi
+) (./yadd/surf/shelled-solid.texi [236]) (./yadd/surf/spherical-surface.texi)
+(./yadd/surf/split-surface.texi [237] [238]) (./yadd/surf/step-reader.texi
+[239]) (./yadd/surf/stitched-solid.texi) (./yadd/surf/subtracted-solid.texi)
+(./yadd/surf/surface.texi [240]
 Underfull \hbox (badness 3108) in paragraph at lines 82--90
  []@textrm (list :min-number-of-segments *tess-min-number-of-segments* :max-3d-
 edge-factor
@@ -3238,7 +3240,7 @@ o-uv*
 .@textrm n
 .etc.
 
-[239] [240] [241] [242]) (./yadd/surf/surface-knot-reduction.texi
+[241] [242] [243] [244]) (./yadd/surf/surface-knot-reduction.texi
 Overfull \hbox (15.80766pt too wide) in paragraph at lines 69--69
 []                               @smalltt :display-controls (list :color :red-v
 iolet :isos (list :n-|
@@ -3251,37 +3253,35 @@ iolet :isos (list :n-|
 .@glue 4.72495
 .etc.
 
-[243]) (./yadd/surf/swept-solid.texi [244]) (./yadd/surf/transformed-solid.texi
-[245]) (./yadd/surf/trimmed-curve.texi [246]) (./yadd/surf/trimmed-surface.texi
-[247] [248]) (./yadd/surf/united-solid.texi)) Chapter 8 [249] [250] [251]
-[252] ) 
+[245]) (./yadd/surf/swept-solid.texi [246]) (./yadd/surf/transformed-solid.texi
+[247]) (./yadd/surf/trimmed-curve.texi [248]) (./yadd/surf/trimmed-surface.texi
+[249] [250]) (./yadd/surf/united-solid.texi)) Chapter 8 [251] [252] [253]
+[254] ) 
 Here is how much of TeX's memory you used:
- 2586 strings out of 497000
- 37292 string characters out of 1205242
- 94150 words of memory out of 3000000
- 2954 multiletter control sequences out of 15000+50000
- 32127 words of font info for 112 fonts, out of 3000000 for 9000
- 137 hyphenation exceptions out of 8191
- 17i,6n,18p,749b,408s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmb10.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/
-public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
-onts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi
-7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
-share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/public/
-amsfonts/cm/cmsltt10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
-cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pf
-b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/latxfont/lcircle1.pfb>
-Output written on gdl-documentation.pdf (260 pages, 2917781 bytes).
+ 2582 strings out of 97159
+ 37250 string characters out of 1208395
+ 81812 words of memory out of 1500000
+ 2925 multiletter control sequences out of 10000+50000
+ 32127 words of font info for 112 fonts, out of 1200000 for 2000
+ 51 hyphenation exceptions out of 8191
+ 17i,6n,18p,674b,408s stack positions out of 5000i,500n,6000p,200000b,5000s
+</usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmb10.pfb></usr/share/t
+exmf-texlive/fonts/type1/bluesky/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/
+type1/bluesky/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cm
+mi10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmmi12.pfb></usr/shar
+e/texmf-texlive/fonts/type1/bluesky/cm/cmmi5.pfb></usr/share/texmf-texlive/font
+s/type1/bluesky/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/c
+mr10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmr5.pfb></usr/share/
+texmf-texlive/fonts/type1/bluesky/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/t
+ype1/bluesky/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmslt
+t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share
+/texmf-texlive/fonts/type1/bluesky/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts
+/type1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/c
+mtt10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb></usr/shar
+e/texmf-texlive/fonts/type1/bluesky/latex-fonts/lcircle1.pfb>
+Output written on gdl-documentation.pdf (262 pages, 2814087 bytes).
 PDF statistics:
- 2108 PDF objects out of 2487 (max. 8388607)
- 291 named destinations out of 1000 (max. 500000)
+ 2116 PDF objects out of 2487 (max. 8388607)
+ 293 named destinations out of 1000 (max. 131072)
  1780 words of extra memory for PDF output out of 10000 (max. 10000000)
 

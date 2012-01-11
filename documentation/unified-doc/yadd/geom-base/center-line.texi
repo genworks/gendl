@@ -108,5 +108,5 @@ Creates a dashed single centerline or crosshair centerline on a circle.
  @end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/center-line,,4.2in}
+@center @image{/home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/center-line,,4.2in}
 

@@ -26,9 +26,9 @@
   :input-slots
   ((overwrite? nil)
 
-   (staging-directory (merge-pathnames "../../staging/" glisp:*genworks-source-home*))
+   (staging-directory #+mswindows "e:/staging/" #-mswindows "~/share/staging/")
 
-   (release-directory (merge-pathnames "../../release/" glisp:*genworks-source-home*))
+   (release-directory #+mswindows "e:/release/" #-mswindows "~/share/staging/")
 
    (release-name-mapping '(("acl-8.2m-linux-x86" .  "gdl1581-linux")
 			   ("acl-8.2m-win-x86" .  "gdl1581-windows")))
@@ -129,12 +129,12 @@
       ;;
       
       
-      (ensure-directories-exist (merge-pathnames "SMLib8.18/" (the target-parent)))
+      (ensure-directories-exist (merge-pathnames "SMLib8.40/" (the target-parent)))
       (let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
 			    (error "smlib-name not known (smlib module probably not loaded)."))))
-	(glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.18/~a" smlib-name)
+	(glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.40/~a" smlib-name)
 					  glisp:*genworks-source-home*)
-			 (merge-pathnames (format nil "SMLib8.18/~a" smlib-name)
+			 (merge-pathnames (format nil "SMLib8.40/~a" smlib-name)
 					  (the target-parent))))
       ;;
       

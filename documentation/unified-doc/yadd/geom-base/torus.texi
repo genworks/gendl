@@ -132,5 +132,5 @@ Partial ``bent'' cylinders are not currently supported.
 @end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/torus,,4.2in}
+@center @image{/home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/torus,,4.2in}
 

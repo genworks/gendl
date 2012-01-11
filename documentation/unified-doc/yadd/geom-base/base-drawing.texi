@@ -81,5 +81,5 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
  @end cartouche 
 @end smallexample
 
-@center @image{/home/dcooper8/gdl-build/teodor-gelu/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-drawing,,4.2in}
+@center @image{/home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base-drawing,,4.2in}
 
