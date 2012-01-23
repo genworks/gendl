@@ -1,0 +1,5 @@
+﻿1. (load "~/yadd-auto-doc.lisp")
+2. (setq self (make-object 'yadd::document-yadd))
+3. (the generate-documentation)
+4. at shell level:
+		  texi2pdf gdl-documentation.texi

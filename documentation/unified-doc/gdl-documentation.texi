@@ -1172,6 +1172,5 @@ with our vendors for second-level support on Allegro CL, SMLib, etc.
 
 @b{@i{Genworks Technical Support can be reached at: @email{support@@genworks.com}.}}
 
-
 @bye
 

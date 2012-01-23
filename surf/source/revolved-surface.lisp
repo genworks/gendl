@@ -35,16 +35,17 @@ a central axis and axis point."
 
    :computed-slots ((display-controls (list :color :green-yellow2)))
 
-   :hidden-objects ((curve :type 'arc-curve
-                           :center (translate (the center) :right 50)
-                           :orientation (alignment :top (the (face-normal-vector :rear)))
-                           :start-angle (half pi)
-                           :end-angle (* 3/2 pi)
-                           :radius 10)))
-
+   :hidden-objects 
+   ((curve :type 'arc-curve
+           :center (translate (the center) :right 50)
+           :orientation (alignment :top (the (face-normal-vector :rear)))
+           :start-angle (half pi)
+           :end-angle (* 3/2 pi)
+           :radius 10)))
+ 
  (generate-sample-drawing :objects (make-object 'test-revolved-surface)
                           :projection-direction :trimetric)
-
+ 
  </pre>")
 
   
@@ -107,29 +108,31 @@ a central axis and axis point."
 
    :computed-slots ((curves (list (the curve-1) (the curve-2))))
    
-   :hidden-objects ((curve-1 :type 'arc-curve
-                             :center (translate (the center) :right 50)
-                             :orientation (alignment :top (the (face-normal-vector :rear)))
-                             :start-angle 0
-                             :end-angle (/ pi 4)
-                             :radius 10)
-                    
-                    (curve-2 :type 'arc-curve
-                             :center (translate (the center) :right 50)
-                             :orientation (alignment :top (the (face-normal-vector :rear)))
-                             :start-angle pi
-                             :end-angle (* 5/4 pi)
-                             :radius 10)
-                           
-                    (view :type 'base-view
-                          :projection-vector (getf *standard-views* :trimetric)
-                          :page-width (* 5 72) :page-length (* 5 72)
-                          :object-roots (list self))))
-
- (generate-sample-drawing :objects (list-elements (the-object (make-object 'test-revolved-surfaces)
-                                                              surfaces))
-                          :projection-direction :trimetric)
-                 
+   :hidden-objects 
+   ((curve-1 :type 'arc-curve
+             :center (translate (the center) :right 50)
+             :orientation (alignment :top (the (face-normal-vector :rear)))
+             :start-angle 0
+             :end-angle (/ pi 4)
+             :radius 10)
+    
+    (curve-2 :type 'arc-curve
+             :center (translate (the center) :right 50)
+             :orientation (alignment :top (the (face-normal-vector :rear)))
+             :start-angle pi
+             :end-angle (* 5/4 pi)
+             :radius 10)
+    
+    (view :type 'base-view
+          :projection-vector (getf *standard-views* :trimetric)
+          :page-width (* 5 72) :page-length (* 5 72)
+          :object-roots (list self))))
+ 
+ (generate-sample-drawing 
+  :objects (list-elements (the-object (make-object 'test-revolved-surfaces)
+                                      surfaces))
+  :projection-direction :trimetric)
+ 
   </pre>")
   
   :input-slots

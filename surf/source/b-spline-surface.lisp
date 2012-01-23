@@ -37,14 +37,16 @@
                    ((0 0 2) (4 2 2) (8 2 2) (10 0 2) (8 -2 2) (4 -2 2) (0 0 2))
                    ((0 0 4) (4 2 4) (8 2 4) (10 0 4) (8 -2 4) (4 -2 4) (0 0 4))
                    ((0 0 7) (4 1 7) (8 1 7) (10 0 7) (8 -1 7) (4 -1 7) (0 0 7))))
-    (control-points (mapcar #'(lambda(list) (mapcar #'apply-make-point list)) (the points-data)))
+    (control-points (mapcar #'(lambda(list) 
+                                      (mapcar #'apply-make-point list)) 
+                                  (the points-data)))
+
     (display-controls (list :color :periwinkle :line-thickness 2))))
   
-
  (generate-sample-drawing :object-roots (make-object 'test-b-spline-surface)
                           :projection-direction :trimetric)
 
-</pre>")
+ </pre>")
   
   :input-slots
   ("List of lists of 3D Points. The control net."

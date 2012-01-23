@@ -83,12 +83,14 @@ was the actual projected-curve.
          :projection-vector (make-vector 0 0 -1))))
 
 
- (generate-sample-drawing :objects (let ((self (make-object 'test-trimmed-from-projected-2)))
-                                     (list (the basis-surface) self (the raised-island) (the raised-hole)))
-                          :projection-direction :trimetric)
+ (generate-sample-drawing 
+  :objects (let ((self (make-object 'test-trimmed-from-projected-2)))
+             (list (the basis-surface) self (the raised-island) 
+                   (the raised-hole)))
+  :projection-direction :trimetric)
+ 
 
-
-</pre>")
+ </pre>")
   
   :input-slots
   ("GDL NURBS Curve. The curve to be projected to the surface."

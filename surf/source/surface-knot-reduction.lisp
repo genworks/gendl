@@ -22,7 +22,9 @@
 (in-package :surf)
 
 (define-object surface-knot-reduction (surface)
-  :documentation (:examples "<pre>
+  :documentation (:description "This routine  removes  all  removable  knots  from a GDL surface." 
+
+:examples "<pre>
 
  
  (in-package :gdl-user)
@@ -40,7 +42,8 @@
 
   :objects
   ((curve-1 :type 'b-spline-curve
-            :display-controls (list :line-thickness 2 :color :green-spring-medium)
+            :display-controls (list :line-thickness 2 
+                                    :color :green-spring-medium)
             :control-points (the control-points))
 
    (curve-2 :type 'boxed-curve 
@@ -69,20 +72,23 @@
                         :scale-y 2.2)
   
    (lofted-surface-test-simple :type 'lofted-surface
-                               :display-controls (list :color :red-violet :isos (list :n-v 19 :n-u 19))
+                               :display-controls (list :color :red-violet 
+                                                       :isos (list :n-v 19 
+                                                                   :n-u 19))
                                :tolerance 0.01
                                :curves (list (the curve-1) (the curve-3)
-                                             (the curve-4) (the curve-2)))                             
+                                             (the curve-4) (the curve-2)))  
 
   (S-knot-reduction :type 'surface-knot-reduction
                     :surface (the lofted-surface-test-simple))))
 
 
-</pre>
-")
+ </pre>
+ ")
   
-  :input-slots ((surface) (tolerance 0.025)
-                (direction :uv))
+  :input-slots (("Gdl surface object." surface) 
+		("Number." tolerance 0.025)
+                ("Keyword symbol, one of :u, :v or :uv. Default is :uv." direction :uv))
                 
   
   :computed-slots ((native-surface (reduce-surface-knot *geometry-kernel* (the surface) 

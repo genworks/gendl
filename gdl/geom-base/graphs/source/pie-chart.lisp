@@ -22,16 +22,15 @@
 
 (in-package :geom-base)
 
-
 (define-object pie-chart (base-object)
   :documentation (:description "Generates a standard Pie Chart with colored filled pie sections.
 
-This object was inspired by the pie-chart in Marc Battyani's (marc.battyani@fractalconcept.com) cl-pdf,
-with contributions from Carlos Ungil (Carlos.Ungil@cern.ch)."
+This object was inspired by the pie-chart in Marc Battyani's (marc.battyani@fractalconcept.com)
+cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil@cern.ch)."
                   
                   :examples "
 
-<pre>
+ <pre>
 
  (in-package :gdl-user)
  
@@ -47,7 +46,7 @@ with contributions from Carlos Ungil (Carlos.Ungil@cern.ch)."
 
  (generate-sample-drawing :objects (make-object 'pie-sample))
 
-</pre>")
+ </pre>")
 
   :input-slots 
   (("String. Currently this must be a PDF font name. Defaults to \"Helvetica.\""

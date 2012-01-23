@@ -1,6 +1,0 @@
-@subsection Gdl
-
-  @include yadd/gdl/base-rule-object.texi
-@include yadd/gdl/null-object.texi
-@include yadd/gdl/quantification.texi
-@include yadd/gdl/vanilla-mixin.texi

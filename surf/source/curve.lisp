@@ -96,9 +96,7 @@
    
    :hidden-objects
     ((curv-in  :type 'b-spline-curve
-              :control-points (the control-pts))
-             
-    ))
+              :control-points (the control-pts))))
 
   (generate-sample-drawing :object-roots (make-object 'test-curve)
                          :projection-direction :top)
@@ -403,9 +401,9 @@ pinning to the u-max value.~%" parameter (the u-max)) (setq parameter (the u-max
    
    
    ("3D Vector. The curve tangent at the given parameter value. Supplementary values returned
-are: the 3D point at the parameter value. If keyword argument <tt>:include-curvature?</tt?> is given as non-NIL, 
+are: the 3D point at the parameter value. If keyword argument <tt>:include-curvature?</tt> is given as non-NIL, 
 the radius of the osculating circle, the center for the osculating circle, the normal for the osculating circle, 
-and the curve normal are also returned. Note: If <tt>:include-curvature?</tt?> is given as non-NIL and the curve 
+and the curve normal are also returned. Note: If <tt>:include-curvature?</tt> is given as non-NIL and the curve 
 has no curvature at the specified parameter, NIL is returned for each of these four values.
 
 :arguments (parameter \"Number. The desired parameter to be evaluated on the curve.\")
