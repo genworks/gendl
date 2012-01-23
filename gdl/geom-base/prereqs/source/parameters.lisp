@@ -175,7 +175,7 @@ the value of this parameter at your own risk.")
   (declare (ignore edition))
   (glisp:set-gs-path))
 
-(glisp:set-gs-path)
+;;(glisp:set-gs-path)
 
 (push #'initialize-geom-base *gdl-init-functions*)
 

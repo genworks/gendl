@@ -29,7 +29,7 @@ curves, surfaces, breps, and brep trees as sequences of GDL objects.
   
   :input-slots (("String or pathname. The location of the IWP file to be read."
                  file-name (when (the smlib-string)
-                             (let ((temp-file (funcall gdl::*make-temp-file-name-func*)))
+                             (let ((temp-file (glisp:temporary-file)))
                                (with-open-file (out temp-file 
                                                 :direction :output
                                                 :if-exists :supersede 
@@ -42,7 +42,9 @@ file-name, the file-name will take precedence."
 
   
   :computed-slots
-  ((data (read-native-file *geometry-kernel* (format nil "~a" (translate-logical-pathname (the file-name)))))
+  ((data (read-native-file *geometry-kernel* 
+			   (format nil "~a" 
+				   (translate-logical-pathname (the file-name)))))
 
    
    (breps-list (list-elements (the breps)))

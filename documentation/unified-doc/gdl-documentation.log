@@ -1,0 +1,3287 @@
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdfetex 2010.11.17)  9 JAN 2012 21:13
+entering extended mode
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**./gdl-documentation.texi
+(./gdl-documentation.texi (/usr/share/texmf/tex/texinfo/texinfo.tex
+Loading texinfo [version 2007-09-03.05]:
+\bindingoffset=\dimen16
+\normaloffset=\dimen17
+\pagewidth=\dimen18
+\pageheight=\dimen19
+\outerhsize=\dimen20
+\outervsize=\dimen21
+\cornerlong=\dimen22
+\cornerthick=\dimen23
+\topandbottommargin=\dimen24
+\headlinebox=\box16
+\footlinebox=\box17
+\margin=\insert252
+\EMsimple=\toks13
+\groupbox=\box18
+\groupinvalidhelp=\toks14
+\mil=\dimen25
+\exdentamount=\skip18
+\inmarginspacing=\skip19
+ pdf,
+\tempnum=\count27
+\lnkcount=\count28
+\filename=\toks15
+\filenamelength=\count29
+\pgn=\count30
+\toksA=\toks16
+\toksB=\toks17
+\toksC=\toks18
+\toksD=\toks19
+\boxA=\box19
+\countA=\count31
+\nopdfimagehelp=\toks20
+ fonts,
+\sffam=\fam8
+\textleading=\dimen26
+\fontdepth=\count32
+ page headings,
+\titlepagetopglue=\skip20
+\titlepagebottomglue=\skip21
+\evenheadline=\toks21
+\oddheadline=\toks22
+\evenfootline=\toks23
+\oddfootline=\toks24
+ tables,
+\tableindent=\dimen27
+\itemindent=\dimen28
+\itemmargin=\dimen29
+\itemmax=\dimen30
+\itemno=\count33
+\multitableparskip=\skip22
+\multitableparindent=\skip23
+\multitablecolspace=\dimen31
+\multitablelinespace=\skip24
+\colcount=\count34
+\everytab=\toks25
+
+conditionals,
+\doignorecount=\count35
+ indexing,
+\whatsitskip=\skip25
+\whatsitpenalty=\count36
+\secondaryindent=\skip26
+\partialpage=\box20
+\doublecolumnhsize=\dimen32
+ sectioning,
+\unnumberedno=\count37
+\chapno=\count38
+\secno=\count39
+\subsecno=\count40
+\subsubsecno=\count41
+\appendixno=\count42
+\absseclevel=\count43
+\secbase=\count44
+\chapheadingskip=\skip27
+\secheadingskip=\skip28
+\subsecheadingskip=\skip29
+ toc,
+\tocfile=\write0
+\contentsrightmargin=\skip30
+\savepageno=\count45
+\lastnegativepageno=\count46
+\tocindent=\dimen33
+ environments,
+\errorbox=\box21
+\lispnarrowing=\skip31
+\envskipamount=\skip32
+\circthick=\dimen34
+\cartouter=\dimen35
+\cartinner=\dimen36
+\normbskip=\skip33
+\normpskip=\skip34
+\normlskip=\skip35
+\lskip=\skip36
+\rskip=\skip37
+\tabw=\dimen37
+ defuns,
+\defbodyindent=\skip38
+\defargsindent=\skip39
+\deflastargmargin=\skip40
+\defunpenalty=\count47
+\parencount=\count48
+\brackcount=\count49
+ macros,
+\paramno=\count50
+\macname=\toks26
+
+cross references,
+\auxfile=\write1
+\savesfregister=\count51
+ insertions,
+\footnoteno=\count52
+\SAVEfootins=\box22
+\SAVEmargin=\box23
+
+(/usr/share/texmf-texlive/tex/generic/epsf/epsf.tex
+This is `epsf.tex' v2.7.3 <23 July 2005>
+\epsffilein=\read1
+\epsfframemargin=\dimen38
+\epsfframethickness=\dimen39
+\epsfrsize=\dimen40
+\epsftmp=\dimen41
+\epsftsize=\dimen42
+\epsfxsize=\dimen43
+\epsfysize=\dimen44
+\pspoints=\dimen45
+)
+\noepsfhelp=\toks27
+ localization,
+\nolanghelp=\toks28
+\countUTFx=\count53
+\countUTFy=\count54
+\countUTFz=\count55
+ formatting,
+\defaultparindent=\dimen46
+ and turning on texinfo input format.)
+(./gdl-documentation.aux)
+\openout1 = `gdl-documentation.aux'.
+
+@cpindfile=@write2
+@fnindfile=@write3
+@vrindfile=@write4
+@tpindfile=@write5
+@kyindfile=@write6
+@pgindfile=@write7
+ [1
+\openout2 = `gdl-documentation.cp'.
+
+\openout3 = `gdl-documentation.fn'.
+
+\openout4 = `gdl-documentation.vr'.
+
+\openout5 = `gdl-documentation.tp'.
+
+\openout6 = `gdl-documentation.ky'.
+
+\openout7 = `gdl-documentation.pg'.
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./gdl-documentation.t
+oc [-1] [-2] [-3] [-4]) [-5] [-6]
+(./gdl-documentation.toc) (./gdl-documentation.toc) Chapter 1
+\openout0 = `gdl-documentation.toc'.
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+ [1] [2]
+Chapter 2 [3] [4] Chapter 3 [5] [6] [7] [8] Chapter 4 [9] [10] [11] [12]
+[13]
+Missing character: There is no ‚ in font cmb10!
+Missing character: There is no Ä in font cmb10!
+Missing character: There is no ô in font cmb10!
+Missing character: There is no ‚ in font cmb10!
+Missing character: There is no Ä in font cmb10!
+Missing character: There is no ô in font cmb10!
+ [14] [15]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [16]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+ [17]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [18]
+Missing character: There is no ‚ in font cmtt9!
+Missing character: There is no Ä in font cmtt9!
+Missing character: There is no ô in font cmtt9!
+ (./development-of-projects.texi [19] [20] <./images/define-object.png (PNG cop
+y)>
+Underfull \hbox (badness 10000) detected at line 98
+[]
+
+@hbox(194.28584+0.0)x433.62
+.@pdfrefximage(194.28584+0.0)x138.5175
+
+[21] [22]
+Missing character: There is no ‚ in font cmsltt10!
+Missing character: There is no Ä in font cmsltt10!
+Missing character: There is no ú in font cmsltt10!
+Missing character: There is no ‚ in font cmsltt10!
+Missing character: There is no Ä in font cmsltt10!
+Missing character: There is no ù in font cmsltt10!
+ [23] <./images/shock-absorber.png (PNG copy)> [24] [25])
+(./tasty-interface.texi [26] <./images/tasty-start.png (PNG copy)> <./images/ta
+sty-shock-absorber-pre.pdf, page is rotated 90 degrees> [27] [28] [29] <./image
+s/tree-shock-absorber.png (PNG copy)> <./images/tbar_pen.png> [30] [31]
+Overfull \vbox (0.29999pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(641.74992+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
+...\glue 0.0
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(623.49998+0.0)x440.41998
+...\glue 0.0
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(623.49998+0.0)x433.62 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
+...\glue 0.0
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+
+[32] <./images/tasty-inspector.png (PNG copy)> <./images/tasty-s-slots.png (PNG
+ copy)> [33] [34] <./images/tbar_update.png> <./images/tbar_break.png> [35] <./
+images/volume-a-b.png (PNG copy)> [36] [37] <./images/piston-relative-m.png (PN
+G copy)> [38] [39] [40] [41]
+Overfull \vbox (16.54999pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(657.99992+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
+...\glue 0.0
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(639.74998+0.0)x440.41998
+...\glue 0.0
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(639.74998+0.0)x433.62 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 428.02002fil
+...\glue 0.0
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+
+[42]) (./drawing.texi Chapter 5 [43] [44] [45] [46] [47] [48]
+(./examples/drawing/robot-drawing.lisp) <./images/robot-drawing.pdf> [49]
+(./examples/drawing/box-with-drawing.lisp) [50] <./images/dimensioned-drawing.p
+df> [51] (./examples/drawing/box-with-two-viewed-drawing.lisp) <./images/two-vi
+ewed-drawing.pdf> [52] [53] [54] <./images/box-annotated-drawing.pdf> [55]
+(./examples/drawing/box-with-immune-dimension.lisp)
+(./examples/drawing/immune-dimension-drawing.lisp) [56] [57]
+(./examples/drawing/vrml-example.lisp) <./images/vrml.png (PNG copy)>
+Underfull \hbox (badness 10000) in paragraph at lines 672--674
+
+
+@hbox(0.0+0.0)x433.62
+.@glue(@rightskip) 0.0
+
+[58]
+Overfull \vbox (16.29665pt too high) has occurred while \output is active
+\vbox(643.2+0.0)x433.62
+.\glue(\topskip) 28.39584
+.\hbox(7.60416+2.12917)x433.62, glue set 48.99632fil
+..\hbox(0.0+0.0)x15.0
+..\textrm B
+..\textrm e
+..\textrm l
+..\textrm l
+..etc.
+.\penalty 10000
+.\glue(\lineskip) 1.09993
+.\hbox(607.06755+0.0)x433.62
+..\hbox(607.06755+0.0)x433.62, glue set 14.88196fil
+...\glue 0.0 plus 1.0fil
+...\pdfrefximage(607.06755+0.0)x403.85608
+...\glue 0.0 plus 1.0fil
+..\penalty -10000
+..\glue(\rightskip) 0.0
+.etc.
+
+
+[59] (./examples/drawing/iges-example.lisp)) Chapter 6 [60]
+(./custom-user-interfaces.texi [61] (./examples/gwl-1.lisp)
+(./examples/gwl-1.html) <./images/gwl-1.png (PNG copy)> [62] [63]
+(./examples/gwl-2.lisp) [64] <./images/gwl-2.png (PNG copy)>
+(./examples/gwl-3.lisp) [65] (./examples/gwl-3a.lisp) [66] <./images/gwl-3.png 
+(PNG copy)> [67] <./images/gwl-3b.png (PNG copy)> (./examples/gwl-3b.lisp)
+[68] [69] (./examples/gwl-4.lisp) [70]
+Overfull \vbox (23.3pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(664.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(646.5+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(646.5+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [71]
+(./examples/gwl-5.lisp) [72]
+Overfull \vbox (44.3pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(685.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(667.5+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(667.5+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [73] <./images/gwl-5.png (PNG copy)>) Chapter 7 [74] (./yadd/gdl.texi
+(./yadd/gdl/base-rule-object.texi) (./yadd/gdl/null-object.texi)
+(./yadd/gdl/quantification.texi [75]) (./yadd/gdl/vanilla-mixin.texi [76]
+[77] [78] [79])) (./yadd/gwl.texi (./yadd/gwl/application-mixin.texi [80])
+(./yadd/gwl/base-ajax-graphics-sheet.texi
+Underfull \hbox (badness 5403) in paragraph at lines 5--9
+[]@textrm This mixes to-gether base-ajax-sheet with base-html-graphics-sheet, a
+nd adds
+
+@hbox(7.60416+2.12917)x433.62, glue set 3.78125
+.@hbox(0.0+0.0)x15.0
+.@textrm T
+.@textrm h
+.@textrm i
+.@textrm s
+.etc.
+
+[81] [82]) (./yadd/gwl/base-ajax-sheet.texi [83]
+Underfull \hbox (badness 3623) in paragraph at lines 79--102
+ @textrm $(doc-u-ment).ready(function ()  $('ul#menu').superfish(delay:1,speed:
+'fast') ; );
+
+@hbox(8.2125+2.73749)x433.62, glue set 3.31267
+.@glue(@leftskip) 21.68121
+.@textrm $
+.@textrm (
+.@textrm d
+.@textrm o
+.etc.
+
+
+Underfull \hbox (badness 3039) in paragraph at lines 110--117
+ @textrm plu-gin (@texttt <@textrm a href='http://layout.jquery-dev.net/documen
+tation.html' tar-get='new'@texttt >
+
+@hbox(8.2125+2.73749)x433.62, glue set 3.12323
+.@glue(@leftskip) 21.68121
+.@textrm p
+.@textrm l
+.@textrm u
+.@discretionary
+..@textrm -
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 194--194
+[]                                                                    @smalltt 
+:ar-gu-ments (list (the-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (115.03151pt too wide) in paragraph at lines 219--219
+[]                                 @smalltt (:p "The box color is: " ((:span :s
+tyle (for-mat nil "color: ~a" (the color)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 232--232
+[]                    @smalltt (projection-vector (getf *standard-views* (the v
+iew-selector value)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[84]
+Overfull \vbox (590.3pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1231.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(1213.5+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(1213.5+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [85])
+(./yadd/gwl/base-form-control.texi
+Underfull \hbox (badness 5431) in paragraph at lines 31--41
+[]@texttt <@textrm ul@texttt > <@textrm li@texttt >@textrm button-form-control:
+ sub-mit but-tons, re-set but-tons, push but-tons.
+
+@hbox(7.60416+2.12917)x433.62, glue set 3.78793
+.@hbox(0.0+0.0)x15.0
+.@texttt <
+.@textrm u
+.@textrm l
+.@texttt >
+.etc.
+
+[86] [87] [88] [89]
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 476--476
+[]@smalltt constitutional gov-ern-ment, low taxes, free mar-kets, and a re-turn
+ to sound mon-e-tary policies.[] |
+
+@hbox(5.49998+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@smalltt c
+.@smalltt o
+.@smalltt n
+.@smalltt s
+.etc.
+
+
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 478--478
+[]@smalltt voting record. Dr. Paul never votes for leg-is-la-tion un-less the p
+ro-posed mea-sure is expressly[] |
+
+@hbox(5.49998+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@smalltt v
+.@smalltt o
+.@smalltt t
+.@smalltt i
+.etc.
+
+
+Overfull \hbox (100.85667pt too wide) in paragraph at lines 489--489
+[]           @smalltt :choice-plist (list :red "red" :green "green" :blue "blue
+" :ma-genta "ma-genta" :cyan "cyan" :yel-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (58.33217pt too wide) in paragraph at lines 491--491
+[]                                    @smalltt (if (in-ter-sec-tion (ensure-lis
+t color) (list :yel-low :magenta))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[90]
+Overfull \vbox (338.3pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(979.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(961.5+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(961.5+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [91])
+(./yadd/gwl/base-html-graphics-sheet.texi [92])
+(./yadd/gwl/base-html-sheet.texi [93] [94] [95]
+Underfull \hbox (badness 3826) in paragraph at lines 233--239
+ []@textrm :example @texttt <@textrm pre@texttt > @textrm (write-html-sheet () 
+(html (:html (:head (:ti-tle (:princ (the
+
+@hbox(8.2125+2.73749)x433.62, glue set 3.37071
+.@glue(@leftskip) 21.68121
+.@hbox(0.0+0.0)x0.0
+.@textrm :
+.@textrm e
+.@textrm x
+.etc.
+
+) (./yadd/gwl/checkbox-form-control.texi) (./yadd/gwl/grid-form-control.texi
+[96]) (./yadd/gwl/gwl-rule-object.texi) (./yadd/gwl/menu-form-control.texi
+[97]) (./yadd/gwl/node-mixin.texi [98]) (./yadd/gwl/radio-form-control.texi)
+(./yadd/gwl/session-control-mixin.texi [99]) (./yadd/gwl/sheet-section.texi
+[100]) (./yadd/gwl/skeleton-ui-element.texi [101]
+Underfull \hbox (badness 10000) in paragraph at lines 144--147
+ []@textrm :computed-slots ((number-of-nozzles (the number-of-nozzles-form valu
+e))
+
+@hbox(8.2125+2.73749)x433.62, glue set 8.71744
+.@glue(@leftskip) 21.68121
+.@hbox(0.0+0.0)x0.0
+.@textrm :
+.@textrm c
+.@textrm o
+.etc.
+
+
+Underfull \hbox (badness 2401) in paragraph at lines 144--147
+ @textrm (ordered-form-controls (ap-pend (list-elements (the inner-flange-form)
+) (list (the
+
+@hbox(8.2125+2.73749)x433.62, glue set 2.88661
+.@glue(@leftskip) 21.68121
+.@textrm (
+.@textrm o
+.@textrm r
+.@textrm d
+.etc.
+
+[102]) (./yadd/gwl/text-form-control.texi [103]) (./yadd/gwl/web-drawing.texi
+[104]
+Overfull \hbox (25.25755pt too wide) in paragraph at lines 148--148
+[]                       @smalltt (:ta-ble (:tr (:td (:ul (:li (str (the graphi
+cs-height html-string)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 149--149
+[]                                              @smalltt (:li (str (the graphic
+s-width html-string)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[105]
+Overfull \vbox (390.8pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1032.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(1014.0+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(1014.0+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [106]))
+(./yadd/geom-base.texi (./yadd/geom-base/angular-dimension.texi </home/dcooper8
+/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image
+/angular-dimension.png (PNG copy)> [107]) (./yadd/geom-base/arc.texi [108] </ho
+me/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom
+-base/image/arc.png (PNG copy)> [109]) (./yadd/geom-base/base-drawing.texi
+[110] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/base-drawing.png (PNG copy)>)
+(./yadd/geom-base/base-object.texi [111] [112] [113] [114] </home/dcooper8/gdl-
+build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/base
+-object.png> [115]) (./yadd/geom-base/base-view.texi [116] [117] [118] </home/d
+cooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-bas
+e/image/base-view.png (PNG copy)>) (./yadd/geom-base/bezier-curve.texi [119]
+Underfull \hbox (badness 2495) in paragraph at lines 50--52
+ []@textrm :&key ((ac-cu-racy (* 10.0 double-float-epsilon)) @texttt "@textrm N
+um-ber. Tar-get ac-cu-racy.@texttt "
+
+@hbox(8.2125+2.73749)x433.62, glue set 2.92442
+.@glue(@leftskip) 21.68121
+.@hbox(0.0+0.0)x0.0
+.@textrm :
+.@textrm &
+.@textrm k
+.etc.
+
+[120]
+Underfull \hbox (badness 2495) in paragraph at lines 67--69
+ []@textrm :&key ((ac-cu-racy (* 10.0 double-float-epsilon)) @texttt "@textrm N
+um-ber. Tar-get ac-cu-racy.@texttt "
+
+@hbox(8.2125+2.73749)x433.62, glue set 2.92442
+.@glue(@leftskip) 21.68121
+.@hbox(0.0+0.0)x0.0
+.@textrm :
+.@textrm &
+.@textrm k
+.etc.
+
+ </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd
+/geom-base/image/bezier-curve.png (PNG copy)>) (./yadd/geom-base/box.texi
+[121] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/box.png (PNG copy)>) (./yadd/geom-base/c-cylinder.texi
+[122] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/c-cylinder.png (PNG copy)> [123])
+(./yadd/geom-base/center-line.texi [124] </home/dcooper8/gdl-build/dcooper8/gen
+works-gdl/documentation/unified-doc/yadd/geom-base/image/center-line.png (PNG c
+opy)>) (./yadd/geom-base/circle.texi [125] </home/dcooper8/gdl-build/dcooper8/g
+enworks-gdl/documentation/unified-doc/yadd/geom-base/image/circle.png (PNG copy
+)> [126]) (./yadd/geom-base/cone.texi [127] </home/dcooper8/gdl-build/dcooper8/
+genworks-gdl/documentation/unified-doc/yadd/geom-base/image/cone.png (PNG copy)
+>) (./yadd/geom-base/cylinder.texi [128] </home/dcooper8/gdl-build/dcooper8/gen
+works-gdl/documentation/unified-doc/yadd/geom-base/image/cylinder.png (PNG copy
+)> [129]) (./yadd/geom-base/ellipse.texi [130] </home/dcooper8/gdl-build/dcoope
+r8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/ellipse.png (PNG
+ copy)>) (./yadd/geom-base/general-note.texi [131] [132] [133] </home/dcooper8/
+gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/
+general-note.png (PNG copy)>)
+(./yadd/geom-base/global-filleted-polygon-projection.texi [134] </home/dcooper8
+/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image
+/global-filleted-polygon-projection.png (PNG copy)> [135])
+(./yadd/geom-base/global-filleted-polyline.texi [136] </home/dcooper8/gdl-build
+/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-fi
+lleted-polyline.png (PNG copy)>)
+(./yadd/geom-base/global-polygon-projection.texi [137] </home/dcooper8/gdl-buil
+d/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/global-p
+olygon-projection.png (PNG copy)> [138]) (./yadd/geom-base/global-polyline.texi
+ </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd
+/geom-base/image/global-polyline.png (PNG copy)> [139])
+(./yadd/geom-base/horizontal-dimension.texi [140] </home/dcooper8/gdl-build/dco
+oper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/horizontal-di
+mension.png (PNG copy)>) (./yadd/geom-base/label.texi [141] [142] </home/dcoope
+r8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc/yadd/geom-base/ima
+ge/label.png (PNG copy)> [143]) (./yadd/geom-base/leader-line.texi [144])
+(./yadd/geom-base/line.texi </home/dcooper8/gdl-build/dcooper8/genworks-gdl/doc
+umentation/unified-doc/yadd/geom-base/image/line.png (PNG copy)> [145])
+(./yadd/geom-base/linear-dimension.texi [146] [147] [148])
+(./yadd/geom-base/parallel-dimension.texi [149] </home/dcooper8/gdl-build/dcoop
+er8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/parallel-dimens
+ion.png (PNG copy)>) (./yadd/geom-base/pie-chart.texi [150]
+Overfull \hbox (46.69476pt too wide) in paragraph at lines 7--9
+[]@textrm This ob-ject was in-spired by the pie-chart in Marc Battyani's (marc.
+battyani(at)fractalconcept.com)|
+
+@hbox(8.2125+2.73749)x433.62, glue set - 1.0
+.@hbox(0.0+0.0)x15.0
+.@textrm T
+.@textrm h
+.@textrm i
+.@textrm s
+.etc.
+
+[151] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unified-doc
+/yadd/geom-base/image/pie-chart.png (PNG copy)>) (./yadd/geom-base/point.texi
+[152] [153] </home/dcooper8/gdl-build/dcooper8/genworks-gdl/documentation/unifi
+ed-doc/yadd/geom-base/image/point.png (PNG copy)>)
+(./yadd/geom-base/route-pipe.texi [154] </home/dcooper8/gdl-build/dcooper8/genw
+orks-gdl/documentation/unified-doc/yadd/geom-base/image/route-pipe.png (PNG cop
+y)> [155]) (./yadd/geom-base/sample-drawing.texi [156])
+(./yadd/geom-base/sphere.texi [157] </home/dcooper8/gdl-build/dcooper8/genworks
+-gdl/documentation/unified-doc/yadd/geom-base/image/sphere.png (PNG copy)>)
+(./yadd/geom-base/spherical-cap.texi [158] [159] </home/dcooper8/gdl-build/dcoo
+per8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/spherical-cap.
+png (PNG copy)>) (./yadd/geom-base/text-line.texi [160])
+(./yadd/geom-base/torus.texi [161] </home/dcooper8/gdl-build/dcooper8/genworks-
+gdl/documentation/unified-doc/yadd/geom-base/image/torus.png (PNG copy)>
+[162]) (./yadd/geom-base/typeset-block.texi [163])
+(./yadd/geom-base/vertical-dimension.texi [164] </home/dcooper8/gdl-build/dcoop
+er8/genworks-gdl/documentation/unified-doc/yadd/geom-base/image/vertical-dimens
+ion.png (PNG copy)>)) (./yadd/surf.texi (./yadd/surf/approximated-curve.texi
+[165]
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 81--81
+@smalltt 7.746775287947699 10.0 0.0067001904580447) #(-7.7253289934578415 10.0 
+0.0091817670732663)[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@smalltt 7
+.@smalltt .
+.@smalltt 7
+.@smalltt 4
+.@smalltt 6
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 82--82
+[]        @smalltt #(-7.709372706886673 10.0 0.0109178383762297) #(-7.693497618
+275636 10.0 0.0129741578942581) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 83--83
+[]        @smalltt #(-7.644400043044812 10.0 0.0198301741704749) #(-7.628572854
+579257 10.0 0.0218811393098875) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 84--84
+[]        @smalltt #(-7.5797886014351645 10.0 0.0278392394943197) #(-7.56359824
+7718005 10.0 0.0297977372116626) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 85--85
+[]        @smalltt #(-7.514499984995836 10.0 0.0358111584598995) #(-7.498530032
+892328 10.0 0.037762615650263) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (67.78206pt too wide) in paragraph at lines 86--86
+[]        @smalltt #(-7.45613073401155 10.0 0.0428492028474684) #(-7.4457020165
+61547 10.0 0.04407409984323) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 87--87
+[]        @smalltt #(-7.423946015929491 10.0 0.0465975377728551) #(-7.413554192
+167366 10.0 0.0477892161812883) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 88--88
+[]        @smalltt #(-7.391025013196135 10.0 0.0503446277462212) #(-7.380668397
+266659 10.0 0.0515077909624895) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 89--89
+[]        @smalltt #(-7.3587350147730115 10.0 0.0539501551169936) #(-7.34848996
+5069932 10.0 0.0550810605426388) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 90--90
+[]        @smalltt #(-7.3264770440672065 10.0 0.0574891649794912) #(-7.31621929
+3859572 10.0 0.0586004349229853) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 91--91
+[]        @smalltt #(-7.294748391590457 10.0 0.0609037603868834) #(-7.284555892
+216601 10.0 0.061985955452512) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 92--92
+[]        @smalltt #(-7.261986919319522 10.0 0.0643552477004073) #(-7.251454797
+0306005 10.0 0.0654480650996109) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 93--93
+[]        @smalltt #(-7.2293285386923625 10.0 0.0677172614089348) #(-7.21945679
+7793601 10.0 0.0687181850892115) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (72.507pt too wide) in paragraph at lines 94--94
+[]        @smalltt #(-7.197774951476638 10.0 0.0708918760373581) #(-7.187533669
+22008 10.0 0.071906820780931) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 95--95
+[]        @smalltt #(-7.164741045570452 10.0 0.0741384240225961) #(-7.154470299
+979475 10.0 0.0751317627718068) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 95--95
+@smalltt 7.1483716586933825 10.0 0.0757179834474372) #(-7.138406833936611 10.0 
+0.0766699111117332)[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@smalltt 7
+.@smalltt .
+.@smalltt 1
+.@smalltt 4
+.@smalltt 8
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 96--96
+[]        @smalltt #(-7.132501722803377 10.0 0.0772306457809111) #(-7.122448157
+94467 10.0 0.0781794021319588) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 97--97
+[]        @smalltt #(-7.099656569353997 10.0 0.0803020171513102) #(-7.089330480
+447966 10.0 0.0812507479304588) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 97--97
+@smalltt 7.083006810743995 10.0 0.0818277014224611) #(-7.0730076945596645 10.0 
+0.0827335903150743)[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@smalltt 7
+.@smalltt .
+.@smalltt 0
+.@smalltt 8
+.@smalltt 3
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 98--98
+[]        @smalltt #(-7.067069212658176 10.0 0.0832680013237252) #(-7.057382524
+393892 10.0 0.0841338221164179) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 98--98
+@smalltt 7.0513228782074515 10.0 0.0846717275930971) #(-7.041364101581027 10.0 
+0.0855495109968372)[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@smalltt 7
+.@smalltt .
+.@smalltt 0
+.@smalltt 5
+.@smalltt 1
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 99--99
+[]        @smalltt #(-7.035106540724323 10.0 0.0860970019877134) #(-7.024857742
+651612 10.0 0.0869868797241497) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 100--100
+[]        @smalltt #(-7.00184087536049 10.0 0.0889544270356334) #(-6.9919619641
+004545 10.0 0.0897854973995385) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 101--101
+[]        @smalltt #(-6.970184675056803 10.0 0.091589260852436) #(-6.9603207059
+68006 10.0 0.0923932980242485) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 102--102
+[]        @smalltt #(-6.937303992646001 10.0 0.0942367919470313) #(-6.927152079
+0382235 10.0 0.0950351703452132) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 103--103
+[]        @smalltt #(-6.904716963255798 10.0 0.096766697374172) #(-6.8952002959
+78004 10.0 0.0974873900684733) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 103--103
+@smalltt 6.889018398304428 10.0 0.0979511004533426) #(-6.8792396786986085 10.0 
+0.0986773910779738)[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@smalltt 6
+.@smalltt .
+.@smalltt 8
+.@smalltt 8
+.@smalltt 9
+.etc.
+
+
+Overfull \hbox (53.60722pt too wide) in paragraph at lines 104--104
+[]        @smalltt #(-6.8727507213 10.0 0.0991543261574633) #(-6.86267690754424
+ 10.0 0.0998867125969024) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 105--105
+[]        @smalltt #(-6.839489198598122 10.0 0.1015350665777411) #(-6.829441747
+557248 10.0 0.1022327061061873) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 106--106
+[]        @smalltt #(-6.806847948189532 10.0 0.103763701703458) #(-6.7971454958
+195565 10.0 0.1044050485135838) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 107--107
+[]        @smalltt #(-6.77458575320461 10.0 0.1058569326392236) #(-6.7649029807
+976975 10.0 0.1064632879605449) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 108--108
+[]        @smalltt #(-6.741671570163981 10.0 0.1078750063466806) #(-6.731717886
+166939 10.0 0.1084609002957398) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 109--109
+[]        @smalltt #(-6.708479289674014 10.0 0.1097833660497434) #(-6.698863733
+855831 10.0 0.1103113585573882) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 110--110
+[]        @smalltt #(-6.67673768062156 10.0 0.1114832653763077) #(-6.6672404027
+71452 10.0 0.1119675047371582) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 111--111
+[]        @smalltt #(-6.643918945899163 10.0 0.1131064056804846) #(-6.634052728
+44892 10.0 0.1135663439198465) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 112--112
+[]        @smalltt #(-6.611225484562257 10.0 0.1145786891314138) #(-6.602048055
+94244 10.0 0.1149649311892426) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 113--113
+[]        @smalltt #(-6.579359503332465 10.0 0.1158674765410608) #(-6.569607126
+249581 10.0 0.1162316741844863) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 114--114
+[]        @smalltt #(-6.546090216293524 10.0 0.1170494074887217) #(-6.536674084
+104508 10.0 0.117351835565929) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 115--115
+[]        @smalltt #(-6.514431925615438 10.0 0.1180084927017307) #(-6.505237782
+335364 10.0 0.1182554027074824) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (72.507pt too wide) in paragraph at lines 116--116
+[]        @smalltt #(-6.48200268637703 10.0 0.1188128917257091) #(-6.4723261496
+81036 10.0 0.119016053562057) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 117--117
+[]        @smalltt #(-6.448443729690395 10.0 0.1194424780868816) #(-6.438958198
+675441 10.0 0.1195804860871952) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (91.40678pt too wide) in paragraph at lines 118--118
+[]        @smalltt #(-6.4159621089377605 10.0 0.1198409999468651) #(-6.40670021
+69151355 10.0 0.1199142428159179) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 119--119
+[]        @smalltt #(-6.383766014520722 10.0 0.1200169608096984) #(-6.374398451
+275458 10.0 0.1200248790095977) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 120--120
+[]        @smalltt #(-6.351212499117087 10.0 0.1199579262946732) #(-6.341798116
+53411 10.0 0.1198940830107079) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (91.40678pt too wide) in paragraph at lines 121--121
+[]        @smalltt #(-6.3181038668924225 10.0 0.1196359024164523) #(-6.30862336
+44061815 10.0 0.1194922029896446) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 122--122
+[]        @smalltt #(-6.2919924776063425 10.0 0.1191825584163038) #(-6.28479304
+4978927 10.0 0.1190252258627906) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 123--123
+[]        @smalltt #(-6.259162952769228 10.0 0.1183465300397597) #(-6.252357920
+075809 10.0 0.1181346604145395) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 124--124
+[]        @smalltt #(-6.22847504378218 10.0 0.1172819358381489) #(-6.2216617387
+22191 10.0 0.1170066698163893) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 125--125
+[]        @smalltt #(-6.196251975857688 10.0 0.1158468244886666) #(-6.188964185
+271005 10.0 0.1154735323164374) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 126--126
+[]        @smalltt #(-6.162856146944508 10.0 0.113980051461802) #(-6.1555655153
+53094 10.0 0.1135177665315744) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 127--127
+[]        @smalltt #(-6.129655628386858 10.0 0.1117056172410459) #(-6.122486612
+998066 10.0 0.111156182233171) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 128--128
+[]        @smalltt #(-6.097764739903218 10.0 0.1090932742430056) #(-6.090613667
+9603495 10.0 0.1084460244904774) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 129--129
+[]        @smalltt #(-6.065558573551578 10.0 0.1059791445416934) #(-6.058094902
+257685 10.0 0.105180297224725) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 130--130
+[]        @smalltt #(-6.032806538284214 10.0 0.102232676388748) #(-6.0253269437
+18607 10.0 0.1012858590168515) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 131--131
+[]        @smalltt #(-6.000144802087108 10.0 0.0978213410260762) #(-5.992672802
+847265 10.0 0.0967077356358815) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (72.507pt too wide) in paragraph at lines 132--132
+[]        @smalltt #(-5.967597701948485 10.0 0.092651171023629) #(-5.9603006253
+93035 10.0 0.091369004729541) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 133--133
+[]        @smalltt #(-5.9364937900430546 10.0 0.086815333082949) #(-5.929316123
+058646 10.0 0.0853215712223041) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (77.23195pt too wide) in paragraph at lines 134--134
+[]        @smalltt #(-5.905045875020715 10.0 0.0797946852900259) #(-5.897633195
+865675 10.0 0.077937627548088) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 135--135
+[]        @smalltt #(-5.8730488606276685 10.0 0.071078664456186) #(-5.865886603
+820401 10.0 0.0688505661471062) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 135--135
+@smalltt 5.857659076163453 10.0 0.0661282191187038) #(-5.8506956581380045 10.0 
+0.0636758008622684)[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@smalltt 5
+.@smalltt .
+.@smalltt 8
+.@smalltt 5
+.@smalltt 7
+.etc.
+
+
+Overfull \hbox (86.68184pt too wide) in paragraph at lines 136--136
+[]        @smalltt #(-5.8427993520796395 10.0 0.0607060179365281) #(-5.83600684
+1543422 10.0 0.0579805075953104) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 137--137
+[]        @smalltt #(-5.813396489418997 10.0 0.0472425696093425) #(-5.806736741
+014998 10.0 0.0434068855227238) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (72.507pt too wide) in paragraph at lines 138--138
+[]        @smalltt #(-5.786639267262249 10.0 0.02799360148602) #(-5.78155595213
+3565 10.0 0.0222871988704581) #(-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 139--139
+[]        @smalltt #(-5.773504871989952 10.0 0.0021812762824132) #(-5.773503724
+89622 10.0 -5.432357e-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (497.75206pt too wide) in paragraph at lines 141--141
+[]       @smalltt (1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+ 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (497.75206pt too wide) in paragraph at lines 142--142
+[]        @smalltt 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+ 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (497.75206pt too wide) in paragraph at lines 143--143
+[]        @smalltt 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+ 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (497.75206pt too wide) in paragraph at lines 144--144
+[]        @smalltt 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+ 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (497.75206pt too wide) in paragraph at lines 145--145
+[]        @smalltt 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+ 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (422.15294pt too wide) in paragraph at lines 148--148
+[]       @smalltt (0.0 0.0 0.0 0.0 0.0160453781542143 0.0241470160269717 0.0317
+935799490915 0.0398053040025856 0.0478086834801164 0.0560582201696031 0.0639202
+701209087 0.0718503545073776[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (422.15294pt too wide) in paragraph at lines 149--149
+[]        @smalltt 0.0797433850046513 0.087981750276748 0.0960087041824917 0.10
+39831218391125 0.112029495827222 0.1201752268087684 0.1282605498138822 0.136005
+192477863 0.1438242190390603[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (426.87788pt too wide) in paragraph at lines 150--150
+[]        @smalltt 0.1519870644337011 0.1593306835295498 0.1598487740853562 0.1
+674658650196929 0.1680104087509454 0.175157710986505 0.1757272662987668 0.18337
+05173786548 0.183966778279312[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 151--151
+[]        @smalltt 0.1915177150798282 0.1921404682290536 0.1993060375256694 0.1
+999541159685396 0.2074081735084615 0.2080825976726782 0.2151502427534925 0.2158
+498418097879 0.2234099696672682[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 152--152
+[]        @smalltt 0.2241364268834526 0.2312069092585329 0.2319587197887401 0.2
+390267110021689 0.239803949187276 0.2470314540979864 0.2478347213119199 0.25516
+68057971311 0.2559965267399797[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (426.87788pt too wide) in paragraph at lines 153--153
+[]        @smalltt 0.2633214412146924 0.2641776785913368 0.2711080693997827 0.2
+71989626560843 0.2788004837617649 0.2797070543520855 0.2865857660092436 0.28751
+76520073938 0.294691617040477[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 154--154
+[]        @smalltt 0.2956498608401993 0.3028107414290341 0.303795386191314 0.31
+08677223812281 0.3118785660342093 0.3186289517157898 0.3196650325637266 0.32678
+75123448071 0.3278501223901527[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (426.87788pt too wide) in paragraph at lines 155--155
+[]        @smalltt 0.3348376542335923 0.3359264409310518 0.343017473844114 0.34
+41328588668275 0.3507020846059745 0.3518424576829762 0.3585158400916831 0.35968
+16211629636 0.366600003006972[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 156--156
+[]        @smalltt 0.3677920713565625 0.3748151183901361 0.3760338998362696 0.3
+829150808161275 0.3841602009158513 0.3906373023990221 0.3919075328521676 0.3983
+652317385465 0.3996605911050301[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 157--157
+[]        @smalltt 0.406480133489536 0.4078018800878236 0.4145992363495962 0.41
+59473838404371 0.4227235238201337 0.4240980890623294 0.4304686564547328 0.43186
+84065502333 0.4382164439562757[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 158--158
+[]        @smalltt 0.4396413875379139 0.4463489290384909 0.4478003170276637 0.4
+544823491094193 0.4559601845464303 0.4626166004905004 0.4641208860785213 0.4707
+51784887656 0.4722825236605759[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (426.87788pt too wide) in paragraph at lines 159--159
+[]        @smalltt 0.4785036764886068 0.4800596220929673 0.486633503837215 0.48
+82158852069559 0.4943709597308301 0.4959785009914117 0.502479159396033 0.504113
+0660952415 0.5105726294674962[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 160--160
+[]        @smalltt 0.512232853709101 0.5186483892971976 0.5203348734927932 0.52
+67087790327916 0.5284214732034318 0.5344904142923997 0.5362284120119565 0.54213
+42182310729 0.5438970713133418[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 161--161
+[]        @smalltt 0.5502033260482438 0.5519924174541494 0.5583120642198542 0.5
+601275228154484 0.5665206241752909 0.5683627745511391 0.5742736086012711 0.5761
+409693620999 0.5819524448520371[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 162--162
+[]        @smalltt 0.5838447748901722 0.5899961210140513 0.591914606679692 0.59
+81367389758905 0.6000816954947563 0.6062612328823314 0.6082326078238199 0.61398
+91743550618 0.6159856782493418[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 163--163
+[]        @smalltt 0.6217020223331746 0.623723606100719 0.6295913193586837 0.63
+16385567589856 0.6377653030384736 0.6398391197873293 0.6458190701143912 0.64791
+90753033844 0.6541566170946882[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 164--164
+[]        @smalltt 0.6562837334911363 0.6618008400206912 0.6639528131422728 0.6
+699223065860094 0.6721006882862063 0.6775449581602477 0.6797481264419983 0.6856
+437214610128 0.6878732244971574[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (426.87788pt too wide) in paragraph at lines 165--165
+[]        @smalltt 0.6935814940177247 0.695836808314546 0.7016366241440788 0.70
+39181313132697 0.709705856689687 0.7120136025880942 0.7177645246694223 0.720098
+4749442396 0.7258142875643973[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 166--166
+[]        @smalltt 0.7281744132589539 0.7339554983783031 0.7363420968538624 0.7
+420859180388898 0.7444989542058508 0.7497996761741695 0.7522377951739535 0.7574
+084721926538 0.7598713327198711[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 167--167
+[]        @smalltt 0.7650117024519579 0.7674992864084252 0.7730174533892418 0.7
+755310696517345 0.7811075108508807 0.7836474335589837 0.7892724115280283 0.7918
+388840494792 0.7974138106069117[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (426.87788pt too wide) in paragraph at lines 168--168
+[]        @smalltt 0.8000067565215466 0.8056169748708625 0.8082365950205777 0.8
+135658669535445 0.816211334521307 0.8213255105466555 0.8239962101530169 0.82924
+2574214828 0.8319390177427586[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (431.60283pt too wide) in paragraph at lines 169--169
+[]        @smalltt 0.8370829503324179 0.8398048884169548 0.8454152884202761 0.8
+481643207745085 0.8532523057058028 0.856026821694725 0.8614897782714848 0.86429
+10800558162 0.8693003110837616[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 170--170
+[]        @smalltt 0.8721270103832023 0.8774885682570619 0.8803418933181856 0.8
+854532218703798 0.8883324456013311 0.8934528695387036 0.8963581057296763 0.9010
+534532900417 0.9039834043046125[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 171--171
+[]        @smalltt 0.9089319065807004 0.9118874759674483 0.9167609857678787 0.9
+197420129769963 0.9249624084248843 0.9279701042058975 0.9330316439657489 0.9360
+655784857183 0.9410404196288085[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (436.32777pt too wide) in paragraph at lines 172--172
+[]        @smalltt 0.9441003962903061 0.9488799412961575 0.9519654097358451 0.9
+565785237508843 0.9596890256766235 0.9645868244983244 0.9677233670213087 0.9726
+644785371455 0.9758272871735215[] |
+
+@hbox(5.49998+0.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (152.83107pt too wide) in paragraph at lines 173--173
+[]        @smalltt 0.9807483303509975 0.9839374252540747 0.9887471809818733 0.9
+919622857532446 0.996778435740851 1.0 1.0 1.0 1.0)[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[166]
+Overfull \vbox (1251.8pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1893.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(1875.0+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(1875.0+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+
+[167]) (./yadd/surf/arc-curve.texi) (./yadd/surf/b-spline-curve.texi
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 107--107
+[]              @smalltt (b-spline :type 'b-spline-curve ;; This will be an equ
+iv-a-lent surf:b-spline-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[168] [169]
+Overfull \vbox (128.3pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(769.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(751.5+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(751.5+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [170])
+(./yadd/surf/b-spline-surface.texi
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 76--76
+[]    @smalltt (control-points (map-car #'(lambda(list) (map-car #'apply-make-p
+oint list)) (the points-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+) (./yadd/surf/basic-surface.texi [171]
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 148--148
+[] @smalltt (generate-sample-drawing :ob-jects (the-object (make-object 'test-b
+asic-surface) surface)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@smalltt (
+.@smalltt g
+.etc.
+
+[172]
+Overfull \vbox (411.8pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1053.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(1035.0+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(1035.0+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [173])
+(./yadd/surf/blended-solid.texi) (./yadd/surf/box-solid.texi [174])
+(./yadd/surf/boxed-curve.texi [175] [176]
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 235--235
+[]                                     @smalltt :rear (rotate-vector-d (the (fa
+ce-normal-vector :rear))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (39.43239pt too wide) in paragraph at lines 237--237
+[]                                                            @smalltt (the (fa
+ce-normal-vector :top)))))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 244--244
+[]                                                      @smalltt (the (face-nor
+mal-vector :rear)))))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 252--252
+[]                                           @smalltt (rotate-vector-d (the (fa
+ce-normal-vector :left))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (44.15733pt too wide) in paragraph at lines 254--254
+[]                                                            @smalltt (the (fa
+ce-normal-vector :rear)))))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (34.70744pt too wide) in paragraph at lines 268--268
+[]                             @smalltt (rotate-vector-d (the-child curve-in (f
+ace-normal-vector :left))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (39.43239pt too wide) in paragraph at lines 270--270
+[]                                              @smalltt (the-child curve-in (f
+ace-normal-vector :rear)))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (34.70744pt too wide) in paragraph at lines 277--277
+[]                          @smalltt :orientation-center (trans-late (the-child
+ curve-in cen-ter) :up 2.5)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 284--284
+[]                                @smalltt :cen-ter (trans-late (the-child curv
+e-in cen-ter) :right 5))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (48.88228pt too wide) in paragraph at lines 287--287
+[]    @smalltt (center-sphere :type 'sphere :ra-dius 0.3 :cen-ter (the moved-up
+-and-straightened orientation-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 293--293
+[]                               @smalltt :cen-ter (trans-late (the-child orien
+tation-center) :right 7)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (44.15733pt too wide) in paragraph at lines 296--296
+[]                               @smalltt (align-ment :left (the-child curve-in
+ (face-normal-vector :rear))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 299--299
+[]                                          @smalltt (rotate-vector-d (the-chil
+d curve-in (face-normal-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 301--301
+[]                                                           @smalltt (the-chil
+d curve-in (face-normal-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (53.60722pt too wide) in paragraph at lines 304--304
+[]                               @smalltt :orientation-center (trans-late (the 
+straight-ened cen-ter) :up 2.5))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 310--310
+[]                                 @smalltt :cen-ter (trans-late (the-child cur
+ve-in cen-ter) :right 14)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 320--320
+[]                                 @smalltt :cen-ter (trans-late (the-child cur
+ve-in cen-ter) :right 21)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 332--332
+[]                                         @smalltt (rotate-vector-d (the (face
+-normal-vector :rear))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (48.88228pt too wide) in paragraph at lines 334--334
+[]                                                          @smalltt (the (face
+-normal-vector :right)))))))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[177]
+Overfull \vbox (680.55pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1321.99994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(1303.75+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(1303.75+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+
+[178]) (./yadd/surf/boxed-surface.texi [179] [180]
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 243--243
+[]                                     @smalltt :rear (rotate-vector-d (the (fa
+ce-normal-vector :rear))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (39.43239pt too wide) in paragraph at lines 245--245
+[]                                                            @smalltt (the (fa
+ce-normal-vector :top)))))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 254--254
+[]                                                      @smalltt (the (face-nor
+mal-vector :rear)))))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 263--263
+[]                                           @smalltt (rotate-vector-d (the (fa
+ce-normal-vector :left))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (44.15733pt too wide) in paragraph at lines 265--265
+[]                                                            @smalltt (the (fa
+ce-normal-vector :rear)))))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (44.15733pt too wide) in paragraph at lines 279--279
+[]                             @smalltt (rotate-vector-d (the-child surface-in 
+(face-normal-vector :left))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (48.88228pt too wide) in paragraph at lines 281--281
+[]                                              @smalltt (the-child surface-in 
+(face-normal-vector :rear)))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (44.15733pt too wide) in paragraph at lines 288--288
+[]                          @smalltt :orientation-center (trans-late (the-child
+ surface-in cen-ter) :up 2.5)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (25.25755pt too wide) in paragraph at lines 295--295
+[]                                @smalltt :cen-ter (trans-late (the-child surf
+ace-in cen-ter) :right 5))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (48.88228pt too wide) in paragraph at lines 298--298
+[]    @smalltt (center-sphere :type 'sphere :ra-dius 0.3 :cen-ter (the moved-up
+-and-straightened orientation-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 304--304
+[]                               @smalltt :cen-ter (trans-late (the-child orien
+tation-center) :right 7)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 306--306
+[]                               @smalltt :ori-en-ta-tion (align-ment :left (th
+e-child surface-in (face-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (25.25755pt too wide) in paragraph at lines 309--309
+[]                                                       @smalltt (rotate-vecto
+r-d (the-child surface-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (25.25755pt too wide) in paragraph at lines 311--311
+[]                                                                        @smal
+ltt (the-child surface-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (48.88228pt too wide) in paragraph at lines 314--314
+[]                               @smalltt :orientation-center (trans-late (the 
+straight-ened cen-ter) :up 2.5)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 323--323
+[]                                 @smalltt :cen-ter (trans-late (the-child sur
+face-in cen-ter) :right 14)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (29.9825pt too wide) in paragraph at lines 333--333
+[]                                 @smalltt :cen-ter (trans-late (the-child sur
+face-in cen-ter) :right 21)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 345--345
+[]                                         @smalltt (rotate-vector-d (the (face
+-normal-vector :rear))[] |
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (48.88228pt too wide) in paragraph at lines 347--347
+[]                                                          @smalltt (the (face
+-normal-vector :right)))))))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[181]
+Overfull \vbox (760.3pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1401.74994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(1383.5+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(1383.5+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [182])
+(./yadd/surf/brep.texi
+Underfull \hbox (badness 3108) in paragraph at lines 79--87
+ []@textrm (list :min-number-of-segments *tess-min-number-of-segments* :max-3d-
+edge-factor
+
+@hbox(8.2125+2.73749)x433.62, glue set 3.14546
+.@glue(@leftskip) 21.68121
+.@hbox(0.0+0.0)x0.0
+.@textrm (
+.@textrm l
+.@textrm i
+.etc.
+
+
+Underfull \hbox (badness 2103) in paragraph at lines 79--87
+ @textrm chord-height *tess-max-chord-height* :max-angle-degrees *tess-max-angl
+e-degrees*
+
+@hbox(8.2125+2.12917)x433.62, glue set 2.76213
+.@glue(@leftskip) 21.68121
+.@textrm c
+.@kern-0.30418
+.@textrm h
+.@textrm o
+.etc.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--87
+ @textrm :min-3d-edge *tess-min-3d-edge* :min-edge-ratio-uv *tess-min-edge-rati
+o-uv*
+
+@hbox(8.2125+2.12917)x433.62, glue set 7.96213
+.@glue(@leftskip) 21.68121
+.@textrm :
+.@textrm m
+.@textrm i
+.@textrm n
+.etc.
+
+[183] [184] [185] [186]
+Underfull \hbox (badness 10000) in paragraph at lines 433--436
+ @textrm about-coordinate-axii, :volume-static-moments, :volume-moments-of-iner
+tia,
+
+@hbox(7.60416+2.12917)x433.62, glue set 10.6346
+.@glue(@leftskip) 21.68121
+.@textrm a
+.@textrm b
+.@kern0.30417
+.@textrm o
+.etc.
+
+[187]) (./yadd/surf/brep-intersect.texi) (./yadd/surf/compatible-surfaces.texi
+[188]) (./yadd/surf/composed-curve.texi [189])
+(./yadd/surf/composed-curves.texi) (./yadd/surf/cone-solid.texi [190])
+(./yadd/surf/curve.texi [191] [192] [193] [194] [195] [196])
+(./yadd/surf/cylinder-solid.texi) (./yadd/surf/decomposed-curves.texi [197])
+(./yadd/surf/dropped-curve.texi [198]
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 87--87
+[]                 @smalltt :control-points (list (make-point 3.5 4.5 7) (make-
+point 4.5 6 7) (make-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (58.33217pt too wide) in paragraph at lines 93--93
+[]                   @smalltt :control-points (list (make-point 3 5 7) (make-po
+int 5 8 7) (make-point 7 10 7)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (53.60722pt too wide) in paragraph at lines 94--94
+[]                                         @smalltt (make-point 8 5 7) (make-po
+int 7 0 7) (make-point 5 0 7)[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (67.78206pt too wide) in paragraph at lines 100--100
+[]                                       @smalltt (list (the basis-surface) sel
+f (the raised-hole) (the raised-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+) (./yadd/surf/edge.texi [199]) (./yadd/surf/edge-blend-surface.texi [200]
+[201]) (./yadd/surf/elliptical-curve.texi [202]
+Overfull \hbox (63.05711pt too wide) in paragraph at lines 19--19
+[]    @smalltt ((cen-ter (make-point 0 0 0)) (major-axis-length 10) (minor-axis
+-length 5) (start-angle 0) (end-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+) (./yadd/surf/extended-curve.texi [203]) (./yadd/surf/extended-surface.texi
+[204] [205]
+Overfull \vbox (390.8pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1032.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(1014.0+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(1014.0+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [206])
+(./yadd/surf/extruded-solid.texi) (./yadd/surf/face.texi [207]
+Underfull \hbox (badness 10000) in paragraph at lines 133--134
+ @textrm :area-moments-of-inertia, :area-products-of-inertia, :area-second-mome
+nt-
+
+@hbox(7.60416+2.12917)x433.62, glue set 13.47464
+.@glue(@leftskip) 21.68121
+.@textrm :
+.@textrm a
+.@textrm r
+.@textrm e
+.etc.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 133--134
+ @textrm about-coordinate-axii, :volume-static-moments, :volume-moments-of-iner
+tia,
+
+@hbox(7.60416+2.12917)x433.62, glue set 10.6346
+.@glue(@leftskip) 21.68121
+.@textrm a
+.@textrm b
+.@kern0.30417
+.@textrm o
+.etc.
+
+[208]) (./yadd/surf/fitted-curve.texi [209] [210])
+(./yadd/surf/fitted-surface.texi [211]
+Overfull \hbox (48.88228pt too wide) in paragraph at lines 173--173
+[]                        @smalltt (make-point (/ (the grid-width) 4) (/ (the g
+rid-length) 4) (/ (the grid-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (58.33217pt too wide) in paragraph at lines 176--176
+[]                        @smalltt (make-point (* 3/4 (the grid-width)) (/ (the
+ grid-length) 4) (/ (the grid-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (44.15733pt too wide) in paragraph at lines 182--182
+[]                        @smalltt (make-point (half (the grid-width)) (half (t
+he grid-length)) (the grid-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (81.9569pt too wide) in paragraph at lines 183--183
+[]                        @smalltt (make-point (* 3/4 (the grid-width)) (half (
+the grid-length)) (* 3/4 (the grid-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (67.78206pt too wide) in paragraph at lines 188--188
+[]                                    @smalltt (min (* (/ (the grid-height) 4) 
+(* (/ (the grid-height) 4) 1.4))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (67.78206pt too wide) in paragraph at lines 191--191
+[]                                    @smalltt (min (* (/ (the grid-height) 4) 
+(* (/ (the grid-height) 4) 1.8))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[212]
+Overfull \vbox (369.8pt too high) has occurred while \output is active
+\vbox(643.2+4.0)x452.01999
+.\glue(\topskip) 0.0
+.\vbox(1011.24994+5.75006)x452.01999
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(993.0+0.0)x440.41998
+...\glue 28.90755
+...\rule(*+*)x0.4
+...\kern 3.0
+...\vbox(993.0+0.0)x404.71245 []
+...\kern 3.0
+...etc.
+..\glue(\lineskip) 0.0
+..\hbox(6.24994+5.75006)x452.01999, glue set 399.11247fil
+...\glue 28.90755
+...\circle 
+
+...\glue -6.0
+...\leaders 0.0 plus 1.0fil []
+...\glue 6.0
+...etc.
+
+ [213])
+(./yadd/surf/global-filleted-polyline-curve.texi)
+(./yadd/surf/global-filleted-polyline-curves.texi [214])
+(./yadd/surf/iges-reader.texi [215]) (./yadd/surf/intersected-solid.texi)
+(./yadd/surf/iso-curve.texi [216]) (./yadd/surf/joined-surfaces.texi [217])
+(./yadd/surf/linear-curve.texi [218]) (./yadd/surf/lofted-surface.texi [219]
+[220]) (./yadd/surf/manifold-solid.texi [221]) (./yadd/surf/merged-solid.texi)
+(./yadd/surf/native-reader.texi) (./yadd/surf/normalized-curve.texi [222])
+(./yadd/surf/offset-solid.texi) (./yadd/surf/offset-surface.texi [223])
+(./yadd/surf/planar-offset-curve.texi [224])
+(./yadd/surf/planar-section-curve.texi [225])
+(./yadd/surf/planar-section-curves.texi [226]
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 112--112
+[]   @smalltt (control-points (map-car #'(lambda(list) (map-car #'apply-make-po
+int list)) (the points-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[227]) (./yadd/surf/planar-surface.texi [228])
+(./yadd/surf/projected-curve.texi [229]
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 136--136
+[] @smalltt (generate-sample-drawing :ob-jects (let ((self (make-object 'test-t
+rimmed-from-projected-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@smalltt (
+.@smalltt g
+.etc.
+
+
+Overfull \hbox (67.78206pt too wide) in paragraph at lines 137--137
+[]                                     @smalltt (list (the basis-surface) self 
+(the raised-island) (the raised-|
+
+@hbox(6.25+0.74998)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[230]) (./yadd/surf/rectangular-surface.texi [231]
+Overfull \hbox (110.30656pt too wide) in paragraph at lines 86--86
+[]   @smalltt :computed-slots ((display-controls (list :color :green-spring-med
+ium)) (length 20) (width 30) (height 0)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+) (./yadd/surf/regioned-solid.texi [232]) (./yadd/surf/revolved-surface.texi
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 74--74
+[]                           @smalltt :ori-en-ta-tion (align-ment :top (the (fa
+ce-normal-vector :rear)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[233]) (./yadd/surf/revolved-surfaces.texi
+Overfull \hbox (25.25755pt too wide) in paragraph at lines 67--67
+[]                             @smalltt :ori-en-ta-tion (align-ment :top (the (
+face-normal-vector :rear)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (25.25755pt too wide) in paragraph at lines 74--74
+[]                             @smalltt :ori-en-ta-tion (align-ment :top (the (
+face-normal-vector :rear)))[] |
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+
+Overfull \hbox (20.53261pt too wide) in paragraph at lines 84--84
+[] @smalltt (generate-sample-drawing :ob-jects (list-elements (the-object (make
+-object 'test-revolved-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@smalltt (
+.@smalltt g
+.etc.
+
+[234]) (./yadd/surf/ruled-surface.texi [235]) (./yadd/surf/separated-solid.texi
+) (./yadd/surf/shelled-solid.texi [236]) (./yadd/surf/spherical-surface.texi)
+(./yadd/surf/split-surface.texi [237] [238]) (./yadd/surf/step-reader.texi
+[239]) (./yadd/surf/stitched-solid.texi) (./yadd/surf/subtracted-solid.texi)
+(./yadd/surf/surface.texi [240]
+Underfull \hbox (badness 3108) in paragraph at lines 82--90
+ []@textrm (list :min-number-of-segments *tess-min-number-of-segments* :max-3d-
+edge-factor
+
+@hbox(8.2125+2.73749)x433.62, glue set 3.14546
+.@glue(@leftskip) 21.68121
+.@hbox(0.0+0.0)x0.0
+.@textrm (
+.@textrm l
+.@textrm i
+.etc.
+
+
+Underfull \hbox (badness 2103) in paragraph at lines 82--90
+ @textrm chord-height *tess-max-chord-height* :max-angle-degrees *tess-max-angl
+e-degrees*
+
+@hbox(8.2125+2.12917)x433.62, glue set 2.76213
+.@glue(@leftskip) 21.68121
+.@textrm c
+.@kern-0.30418
+.@textrm h
+.@textrm o
+.etc.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--90
+ @textrm :min-3d-edge *tess-min-3d-edge* :min-edge-ratio-uv *tess-min-edge-rati
+o-uv*
+
+@hbox(8.2125+2.12917)x433.62, glue set 7.96213
+.@glue(@leftskip) 21.68121
+.@textrm :
+.@textrm m
+.@textrm i
+.@textrm n
+.etc.
+
+[241] [242] [243] [244]) (./yadd/surf/surface-knot-reduction.texi
+Overfull \hbox (15.80766pt too wide) in paragraph at lines 69--69
+[]                               @smalltt :display-controls (list :color :red-v
+iolet :isos (list :n-|
+
+@hbox(6.25+2.0)x404.71245
+.@hbox(0.0+0.0)x0.0
+.@penalty 10000
+.@glue 4.72495
+.@penalty 10000
+.@glue 4.72495
+.etc.
+
+[245]) (./yadd/surf/swept-solid.texi [246]) (./yadd/surf/transformed-solid.texi
+[247]) (./yadd/surf/trimmed-curve.texi [248]) (./yadd/surf/trimmed-surface.texi
+[249] [250]) (./yadd/surf/united-solid.texi)) Chapter 8 [251] [252] [253]
+[254] ) 
+Here is how much of TeX's memory you used:
+ 2582 strings out of 97159
+ 37250 string characters out of 1208395
+ 81812 words of memory out of 1500000
+ 2925 multiletter control sequences out of 10000+50000
+ 32127 words of font info for 112 fonts, out of 1200000 for 2000
+ 51 hyphenation exceptions out of 8191
+ 17i,6n,18p,674b,408s stack positions out of 5000i,500n,6000p,200000b,5000s
+</usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmb10.pfb></usr/share/t
+exmf-texlive/fonts/type1/bluesky/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/
+type1/bluesky/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cm
+mi10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmmi12.pfb></usr/shar
+e/texmf-texlive/fonts/type1/bluesky/cm/cmmi5.pfb></usr/share/texmf-texlive/font
+s/type1/bluesky/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/c
+mr10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmr5.pfb></usr/share/
+texmf-texlive/fonts/type1/bluesky/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/t
+ype1/bluesky/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmslt
+t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share
+/texmf-texlive/fonts/type1/bluesky/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts
+/type1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/c
+mtt10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb></usr/shar
+e/texmf-texlive/fonts/type1/bluesky/latex-fonts/lcircle1.pfb>
+Output written on gdl-documentation.pdf (262 pages, 2814087 bytes).
+PDF statistics:
+ 2116 PDF objects out of 2487 (max. 8388607)
+ 293 named destinations out of 1000 (max. 131072)
+ 1780 words of extra memory for PDF output out of 10000 (max. 10000000)
+

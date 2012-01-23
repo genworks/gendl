@@ -1,4 +1,5 @@
-bug
-1. base-ajax-sheet
-(<a href=’http://layout.jquery-dev.net/documentation.html’ target=’new’>
-http://layout.jquery-dev.net/documentation.html</a>)
+﻿1. (load "~/yadd-auto-doc.lisp")
+2. (setq self (make-object 'yadd::document-yadd))
+3. (the generate-documentation)
+4. at shell level:
+		  texi2pdf gdl-documentation.texi
