@@ -119,7 +119,7 @@ Default is *angle-tolerance-radians-default*."
   
   :documentation (:description "Produces multiple curves by sectioning a surface or a brep with a plane.
 If a single result is expected, use planar-section-curve instead."
-                  :examples "<pre>
+                  :examples  "<pre>
 
  (in-package :surf)
  
@@ -131,7 +131,8 @@ If a single result is expected, use planar-section-curve instead."
                   ((0 0 2) (0 1 2) (1 1 2) (1 0 2) )
                   ((0 0 3) (0 1 3) (1 1 3) (1 0 3) )))
    
-   (control-points (mapcar #'(lambda(list) (mapcar #'apply-make-point list)) (the points-data))))
+   (control-points (mapcar #'(lambda(list) (mapcar #'apply-make-point list)) 
+                           (the points-data))))
    
   :objects
   ((planar-section-curve :type 'planar-section-curves
@@ -143,8 +144,10 @@ If a single result is expected, use planar-section-curve instead."
    (test-surf :type 'b-spline-surface 
                :control-points (the control-points)) ))
 
- (generate-sample-drawing :object-roots (list (make-object 'test-planar-section-curves))
-                           :projection-direction (getf *standard-views* :trimetric))
+ (generate-sample-drawing :object-roots 
+                          (list (make-object 'test-planar-section-curves))
+                           :projection-direction 
+                           (getf *standard-views* :trimetric))
 
  </pre>" )
   

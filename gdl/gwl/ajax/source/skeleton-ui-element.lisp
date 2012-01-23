@@ -201,9 +201,9 @@ those dependent objects first. Default is nil.
 ...
   
   :computed-slots ((number-of-nozzles (the number-of-nozzles-form value))
-                   (ordered-form-controls (append (list-elements (the inner-flange-form))
-                                                  (list (the number-of-nozzles-form)))))
-
+	    (ordered-form-controls 
+	     (append (list-elements (the inner-flange-form))
+		     (list (the number-of-nozzles-form)))))
   
   :objects
   ((inner-flange-form
