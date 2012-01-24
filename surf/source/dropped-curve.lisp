@@ -62,22 +62,29 @@ was the actual dropped-curve.
    
     (raised-hole :type 'b-spline-curve
                  :display-controls (list :color :grey-light-very)
-                 :control-points (list (make-point 3.5 4.5 7) (make-point 4.5 6 7) (make-point 5.5 7 7) 
-                                       (make-point 6 4.5 7) (make-point 5.5 2 7) (make-point 4.5 2 7) 
+                 :control-points (list (make-point 3.5 4.5 7) 
+                                       (make-point 4.5 6 7) 
+                                       (make-point 5.5 7 7) 
+                                       (make-point 6 4.5 7) 
+                                       (make-point 5.5 2 7) 
+                                       (make-point 4.5 2 7) 
                                        (make-point 3.5 4.5 7)))
-   
+    
     (raised-island :type 'b-spline-curve
                    :display-controls (list :color :grey-light-very)
-                   :control-points (list (make-point 3 5 7) (make-point 5 8 7) (make-point 7 10 7) 
-                                         (make-point 8 5 7) (make-point 7 0 7) (make-point 5 0 7) 
+                   :control-points (list (make-point 3 5 7) 
+                                         (make-point 5 8 7) 
+                                         (make-point 7 10 7) 
+                                         (make-point 8 5 7) 
+                                         (make-point 7 0 7) 
+                                         (make-point 5 0 7) 
                                          (make-point 3 5 7)))))
 
-
-
-  (generate-sample-drawing :objects (let ((self (make-object 'test-trimmed-from-dropped-2)))
-                                       (list (the basis-surface) self (the raised-hole) (the raised-island)))
-
-                           :projection-direction :trimetric)
+  (generate-sample-drawing 
+   :objects (let ((self (make-object 'test-trimmed-from-dropped-2)))
+              (list (the basis-surface) self (the raised-hole) 
+                    (the raised-island)))
+   :projection-direction :trimetric)
 
  
 </pre>")

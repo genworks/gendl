@@ -32,7 +32,11 @@ Messages are the union of those for ellipse and those for curve."
 
   (define-object test-elliptical-curve (elliptical-curve)
     :computed-slots
-    ((center (make-point 0 0 0)) (major-axis-length 10) (minor-axis-length 5) (start-angle 0) (end-angle 2pi)))
+    ((center (make-point 0 0 0)) 
+     (major-axis-length 10) 
+     (minor-axis-length 5) 
+     (start-angle 0) 
+     (end-angle 2pi)))
   
   (generate-sample-drawing :objects (make-object 'test-elliptical-curve))
 
