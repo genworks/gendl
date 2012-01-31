@@ -51,7 +51,7 @@ makes sense for viewing it."
                :projection-vector (getf *standard-views* :trimetric)
                :object-roots (list (the surf)))
  
-    (surf :type 'surf::test-b-spline-surface
+    (surf :type 'cylinder-sample
           :hidden? t))) 
 
  (generate-sample-drawing :objects (make-object 'base-drawing-sample))                
