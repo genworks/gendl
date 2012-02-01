@@ -30,8 +30,11 @@ supports a full range of output options such as page dimensions, view transforms
  (gdl::with-format (pdf \"/tmp/box.pdf\" :view-transform (getf *standard-views* :trimetric)) 
     (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output))
 </pre>"
+  
+
+
   (let ((flag (gensym)))
-    (let ((external-format (getf args :external-format))
+    (let (;;(external-format (getf args :external-format))
           (args (remove-plist-keys args (list :external-format))))
       `(let ((*%format%* (make-instance ',format ,@args)))
          (let ((*stream* (if (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))
@@ -41,6 +44,7 @@ supports a full range of output options such as page dimensions, view transforms
 				   )
                            ,stream-or-file))
                (,flag t))
+	   
            (unwind-protect
                (progn (multiple-value-prog1
                           ,(case format 
@@ -62,7 +66,24 @@ supports a full range of output options such as page dimensions, view transforms
                                          (pdf:translate (half page-width) (half page-length)))
                                        ,@body)
                                      (when *stream* (pdf:write-document *stream*))))
-                             (pdf-multipage `(pdf:with-document() ,@body (when *stream* (pdf:write-document *stream*))))
+
+			     (pdf-multipage `(let ((path (glisp:temporary-file)))
+					       (with-open-file (out path :direction :output
+								    :if-exists :supersede
+								    :if-does-not-exist :create)
+						 (pdf:with-document() ,@body 
+								   (pdf:write-document out)))
+					       (when *stream*
+						 (with-open-file (in path :element-type '(unsigned-byte 8))
+						   (do ((val (read-byte in nil nil) (read-byte in nil nil)))
+						       ((null val))
+						     (write-byte val *stream*))))
+					       (delete-file path)))
+
+			     
+			     #+nil
+                             (pdf-multipage `(pdf:with-document() ,@body 
+							       (when *stream* (pdf:write-document *stream*))))
                              ;;
                              ;; FLAG -- consider having default
                              ;; initialize-output and finalize-output

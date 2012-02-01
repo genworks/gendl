@@ -45,7 +45,8 @@
    (sub-dir (concatenate 'string "yadd/" 
                          (getf 
                           (first (the part-documentation-plist)) :packager) "/"))
-   (directory-name (merge-pathnames (the sub-dir) (the data-directory)))
+
+   (directory-name (ensure-directories-exist (merge-pathnames (the sub-dir) (the data-directory))))
 
    (doc (make-object 'yadd::assy)) 
    
