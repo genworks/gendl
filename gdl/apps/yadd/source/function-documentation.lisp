@@ -65,7 +65,7 @@
 
   :computed-slots
   ((strings-for-display (format nil "~a" (the symbol)))
-   (doc-string (glisp:function-documentation symbol))
+   (doc-string (glisp:function-documentation (the symbol)))
    (macro? (macro-function (the symbol))))
 
   :functions
@@ -79,7 +79,7 @@
               (format nil "~a: ~s" (if (the macro?) "Macro" "Function")
                       (the :symbol)))))
            (:body (when *developing?* (html (:p (the (write-development-links)))))
-                  (when *adsense?* (html (:p (:princ *adsense-code*))))
+                  ;;(when *adsense?* (html (:p (:princ *adsense-code*))))
                   (:p (when (the :return-object) (the (:write-back-link :display-string "&lt;-Back"))))
                   (:h2
                    (:princ

@@ -742,3 +742,5 @@
 (define-smlib-wrapper reduce-surface-knot (surface &key tolerance direction))
 
 (define-smlib-wrapper make-extend-curve (curve &key distance distance-type extending-from continuity)) 
+
+(define-smlib-wrapper approximated-compatible-curves (curve-list &key length tolerance))

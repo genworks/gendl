@@ -5,14 +5,19 @@
 (in-package :pdf)
 
 (defmethod write-object ((obj indirect-object) &optional root-level)
+  
+  (gdl:print-variables *pdf-stream*)
+
   (if root-level
     (progn
       (vector-push-extend (format nil "~10,'0d ~5,'0d n "
                                   ;;FLAG -- DJC added conditional for allegro to handle aserve streams
-                                  #+allegro (if (typep *pdf-stream* 'excl::hiper-socket-stream)
-                                                (progn (force-output *pdf-stream*) 
-                                                       (excl::socket-bytes-written *pdf-stream*))
-                                              (file-position *pdf-stream*))
+                                  #+allegro (typecase *pdf-stream* 
+					      ((excl::hiper-socket-stream
+						net.aserve::chunking-stream)
+					       (force-output *pdf-stream*) 
+					       (excl::socket-bytes-written *pdf-stream*))
+                                              (otherwise (file-position *pdf-stream*)))
                                   #+lispworks (if (typep *pdf-stream* 'acl-compat.socket::bidirectional-binary-socket-stream)
                                                   (progn (force-output *pdf-stream*)
                                                          (acl-compat.socket::stream-file-position *pdf-stream*))                                                  
@@ -28,41 +33,58 @@
 
 
 (defmethod write-document ((s stream) &optional (document *document*))
-   (let ((*xrefs* (make-array 10 :adjustable t :fill-pointer 0))
-         startxref
-         (*pdf-stream* s))
-     ;;(with-standard-io-syntax
-     #+lispworks (if (typep s 'acl-compat.socket::bidirectional-binary-socket-stream)
-                     (setf acl-compat.socket::*socket-bytes-written* 0))
+  
+  (gdl:print-variables s)
 
-     (let ((*read-default-float-format* 'double-float))
-       (process-outlines document)
-       (vector-push-extend "0000000000 65535 f " *xrefs*)
-       (write-line +pdf-header+ *pdf-stream*)
-       (loop for obj across (objects document)
-             for first = t then nil
-             if obj do (write-object obj t)
-           else do (unless first (vector-push-extend "0000000000 00001 f " *xrefs*)))
+  (let ((*xrefs* (make-array 10 :adjustable t :fill-pointer 0))
+	startxref
+	(*pdf-stream* s))
+    ;;(with-standard-io-syntax
+    #+lispworks (if (typep s 'acl-compat.socket::bidirectional-binary-socket-stream)
+		    (setf acl-compat.socket::*socket-bytes-written* 0))
+
+    (let ((*read-default-float-format* 'double-float))
+      (process-outlines document)
+      (vector-push-extend "0000000000 65535 f " *xrefs*)
+      (write-line +pdf-header+ *pdf-stream*)
+      (loop for obj across (objects document)
+	 for first = t then nil
+	 if obj do (write-object obj t)
+	 else do (unless first (vector-push-extend "0000000000 00001 f " *xrefs*)))
        
-       ;;(setf startxref (file-position s))
+      ;;(setf startxref (file-position s))
        
-       (setf startxref #+allegro (if (typep s 'excl::hiper-socket-stream)
-                                     (progn (force-output s)
-                                            (excl::socket-bytes-written s))
-                                   (file-position s))
-             #+lispworks (if (typep s 'acl-compat.socket::bidirectional-binary-socket-stream)
-                             (progn (force-output s)
-                                    (acl-compat.socket::stream-file-position s))
-                           (file-position s))
-             #-(or allegro lispworks) (file-position s))
        
-       (format *pdf-stream* "xref~%0 ~d~%" (length *xrefs*))
-       (loop for xref across *xrefs*
-             do (write-line xref s))
-       (format s "trailer~%<< /Size ~d~%/Root " (length *xrefs*));(1- (length (objects document))))
-       (write-object (catalog document))
-       (when (docinfo document)
-         (format s " /Info ")
-         (write-object (docinfo document)))
-       (format s "~%>>~%startxref~%~d~%%%EOF~%" startxref))))
+      (gdl:print-variables (excl:device-file-position *pdf-stream*))
+
+      (setf startxref #+allegro (typecase *pdf-stream* 
+				  ((excl::hiper-socket-stream net.aserve::chunking-stream)
+				   (force-output *pdf-stream*)
+				   (excl::socket-bytes-written *pdf-stream*))
+				  (otherwise (file-position *pdf-stream*)))
+	     
+	    #+nil
+	    (if (typep s 'excl::hiper-socket-stream)
+		(progn (force-output s)
+		       (excl::socket-bytes-written s))
+		(file-position s))
+	    #+lispworks (if (typep s 'acl-compat.socket::bidirectional-binary-socket-stream)
+			    (progn (force-output s)
+				   (acl-compat.socket::stream-file-position s))
+			    (file-position s))
+	    #-(or allegro lispworks) (file-position s))
+       
+      (unless startxref (setf startxref (file-position s)))
+       
+
+       
+      (format *pdf-stream* "xref~%0 ~d~%" (length *xrefs*))
+      (loop for xref across *xrefs*
+	 do (write-line xref s))
+      (format s "trailer~%<< /Size ~d~%/Root " (length *xrefs*)) ;(1- (length (objects document))))
+      (write-object (catalog document))
+      (when (docinfo document)
+	(format s " /Info ")
+	(write-object (docinfo document)))
+      (format s "~%>>~%startxref~%~d~%%%EOF~%" startxref))))
 

@@ -25,7 +25,6 @@
 ;;
 ;; FLAG -- have to get rid of raw smlib call in here. 
 ;;
-#+nil
 (define-object compatible-curves (base-object)
 
   :documentation (:description "Experimental. This primitive takes in a list of GDL 
@@ -66,11 +65,10 @@ to be compatible in terms of number of control points, knot vectors, and degree.
   
   :computed-slots ((%native-curves-list% 
                     (if (the tolerance)
-                        (smlib::approximated-compatible-curves  *geometry-kernel* 
-                                                 (the curve-list) :tolerance (the tolerance)) 
-                                                                  
-                                           (return-compatible-curves *geometry-kernel* 
-                                                                       (mapsend (the curve-list) :copy-new)))))
+                        (approximated-compatible-curves  *geometry-kernel* 
+							 (the curve-list) :tolerance (the tolerance)) 
+			(return-compatible-curves *geometry-kernel* 
+						  (mapsend (the curve-list) :copy-new)))))
   
   :objects (("Sequence of GDL Curve objects. These are the resultant curves which 
  are supposed to be compatible."
