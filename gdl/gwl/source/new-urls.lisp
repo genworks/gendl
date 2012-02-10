@@ -45,11 +45,12 @@
             (t (push (make-keyword component) result-list))))))
 
 
+
 (defun present-part (req ent url &key instance-id header-plist fixed-prefix)
   (declare (ignore header-plist))
   (when fixed-prefix (setq url (subseq url (1+ (length fixed-prefix)))))
   
-  (let ((cookies (get-cookie-values req))
+  (let ((cookies (when *process-cookies?* (get-cookie-values req)))
         (components (split url #\/)))
     (let* ((hash-entry (gethash (make-keyword (or instance-id (second components))) *instance-hash-table*))
            (root-object (first hash-entry)) (skin (third hash-entry))
@@ -71,9 +72,9 @@
       (when (and respondent (the-object respondent root) 
                  (the-object respondent root (set-remote-host! req))))
       
-      (when respondent (the-object respondent (set-slot! :cookies-received cookies)))
+      (when (and *process-cookies?* respondent) (the-object respondent (set-slot! :cookies-received cookies)))
       
-      (the-object respondent process-cookies!)
+      (when *process-cookies?* (the-object respondent process-cookies!))
       
       (let ((header-plist (the-object respondent header-plist))
             (security-ok? (the-object respondent root do-security-check)))
@@ -88,10 +89,11 @@
                  (mapc #'(lambda(key val)
                            (setf (reply-header-slot-value req key) val)) 
                        (plist-keys header-plist) (plist-values header-plist))
-            
-                 (mapc #'(lambda(plist)
-                           (apply #'set-cookie-header req plist))
-                       (the-object respondent cookies-to-send))
+
+                 (when *process-cookies?*
+                   (mapc #'(lambda(plist)
+                             (apply #'set-cookie-header req plist))
+                         (the-object respondent cookies-to-send)))
             
                  (with-http-body (req ent)
                    (when (null (getf header-plist :location))
@@ -108,6 +110,3 @@
                  (with-http-body (req ent)
                    (the-object respondent root security-check-failed write-html-sheet))))
               (t (net.aserve::failed-request req)))))))
-
-
-

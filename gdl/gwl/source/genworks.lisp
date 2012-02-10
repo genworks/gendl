@@ -3,6 +3,7 @@
 (eval-when (compile load eval)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
+    (:nicknames :glisp)
     (:export #:*base64-encode-func*
              #:*base64-decode-func*
              #:class-slots

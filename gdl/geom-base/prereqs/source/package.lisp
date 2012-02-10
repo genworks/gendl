@@ -102,6 +102,7 @@
 	     #:quaternion-to-rotation
 	     #:quaternion-to-matrix
 	     #:matrix-to-quaternion
+	     #:matrix-to-rotation
 	     #:normalize-quaternion
 	     #:degrees-to-radians
 	     #:acosd
@@ -132,6 +133,7 @@
 	     #:global-filleted-polygon-projection
 	     #:global-filleted-polyline
 	     #:global-polygon-projection
+	     #:ifs-output-mixin
 	     #:global-polyline
 	     #:graph
 	     #:l-line

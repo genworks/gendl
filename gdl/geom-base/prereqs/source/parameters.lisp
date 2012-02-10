@@ -82,6 +82,8 @@
 
 (glisp:define-constant +nominal-origin+ (make-point 0 0 0))
 
+(glisp:define-constant +half-sqrt-2+ (half (sqrt 2.0)))
+
 
 (defparameter *standard-face-hts* (make-hash-table :test #'equalp))
 
@@ -168,7 +170,7 @@ the value of this parameter at your own risk.")
 (glisp:define-constant +top-vector+ (make-vector 0 0 1))
 
 
-(defparameter +lh-identity-matrix+ #2A((-1.0 0.0 0.0)(0.0 1.0 0.0)(0.0 0.0 1.0)))
+(defparameter +lh-identity-matrix+ #2A((1.0 0.0 0.0)(0.0 -1.0 0.0)(0.0 0.0 1.0)))
 
 
 (defun initialize-geom-base (&key edition) 

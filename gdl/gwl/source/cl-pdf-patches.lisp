@@ -55,19 +55,12 @@
       ;;(setf startxref (file-position s))
        
        
-      (gdl:print-variables (excl:device-file-position *pdf-stream*))
-
       (setf startxref #+allegro (typecase *pdf-stream* 
 				  ((excl::hiper-socket-stream net.aserve::chunking-stream)
 				   (force-output *pdf-stream*)
 				   (excl::socket-bytes-written *pdf-stream*))
 				  (otherwise (file-position *pdf-stream*)))
 	     
-	    #+nil
-	    (if (typep s 'excl::hiper-socket-stream)
-		(progn (force-output s)
-		       (excl::socket-bytes-written s))
-		(file-position s))
 	    #+lispworks (if (typep s 'acl-compat.socket::bidirectional-binary-socket-stream)
 			    (progn (force-output s)
 				   (acl-compat.socket::stream-file-position s))

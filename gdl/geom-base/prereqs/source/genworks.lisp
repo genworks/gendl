@@ -3,6 +3,7 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
+    (:nicknames :glisp)
     (:export #:get-pid
              #:run-gs
              #:run-shell-command
