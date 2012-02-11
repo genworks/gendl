@@ -4,6 +4,7 @@
 
 (in-package :pdf)
 
+#+nil
 (defmethod write-object ((obj indirect-object) &optional root-level)
   
   (gdl:print-variables *pdf-stream*)
@@ -32,6 +33,7 @@
     (format *pdf-stream* "~d ~d R" (obj-number obj)(gen-number obj))))
 
 
+#+nil
 (defmethod write-document ((s stream) &optional (document *document*))
   
   (gdl:print-variables s)

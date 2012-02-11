@@ -102,8 +102,9 @@ supports a full range of output options such as page dimensions, view transforms
   (let ((flag (gensym)))
     (let (;;(external-format (getf args :external-format))
           (args (remove-plist-keys args (list :external-format))))
-      `(let ((*%format%* (make-instance ',format ,@args)))
-         (let ((*stream* (if (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))
+      `(let ((*%format%* (make-instance ',format ,@args))
+	     (file? (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))))
+         (let ((*stream* (if file?
                              (open ,stream-or-file :if-does-not-exist :create 
                                    :if-exists :supersede :direction :output
 				   :element-type '(unsigned-byte 8)
@@ -133,27 +134,31 @@ supports a full range of output options such as page dimensions, view transforms
 					 (with-format-slots (page-width page-length)
 					   (pdf:translate (half page-width) (half page-length)))
 					 ,@body)
-				       (pdf:write-document path))
-				     (when *stream*
-				       (with-open-file (in path :element-type '(unsigned-byte 8))
+
+
+				       (pdf:write-document (if file? ,stream-or-file path)))
+
+				     (when (and *stream* (not file?))
+				       (with-open-file (in path
+							   :element-type '(unsigned-byte 8))
 					 (do ((val (read-byte in nil nil) (read-byte in nil nil)))
 					     ((null val))
 					   (write-byte val *stream*))))
-				     (delete-file path)))
+				     
+				     (when (probe-file path) (delete-file path))))
                                      
-
+			     ;;
+			     ;; FLAG -- update multipage to match pdf case behavior
+			     ;;
 			     (pdf-multipage `(let ((path (glisp:temporary-file)))
-					       (with-open-file (out path :direction :output
-								    :if-exists :supersede
-								    :if-does-not-exist :create)
-						 (pdf:with-document() ,@body 
-								   (pdf:write-document out)))
-					       (when *stream*
+					       (pdf:with-document() ,@body 
+								 (pdf:write-document (if file? ,stream-or-file path)))
+					       (when (and *stream* (not file?))
 						 (with-open-file (in path :element-type '(unsigned-byte 8))
 						   (do ((val (read-byte in nil nil) (read-byte in nil nil)))
 						       ((null val))
 						     (write-byte val *stream*))))
-					       (delete-file path)))
+					       (when (probe-file path) (delete-file path))))
 
 			     
 			     #+nil
