@@ -371,10 +371,11 @@
       (:Shape
        (:Appearance (write-the material-properties))
        (:Cone :bottomRadius (the radius-1)
-              :height (the height)
-              :bottom (the closed?)))))
-   )
-  )
+	      :topRadius (the radius-2)
+              :height (the length)
+              :bottom (when (the bottom-cap?) "TRUE")
+	      ))))))
+
 
 (define-lens (x3d sphere)()
   :output-functions

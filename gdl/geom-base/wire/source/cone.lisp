@@ -21,7 +21,7 @@
 
 (in-package :geom-base)
 
-(define-object cone (cylinder)
+(define-object cone (cylinder ifs-output-mixin)
   :documentation (:description "A pyramid with a circular cross section, with its vertex above 
 the center of its base. Partial cones and hollow cones are supported."
                   
@@ -56,7 +56,12 @@ the center of its base. Partial cones and hollow cones are supported."
   
   :computed-slots
   ((width (twice (max (the radius-1) (the radius-2))))
-   (height (the width))))
+   (height (the width))
 
+
+   (polygons-for-ifs (when (or (the inner-radius)
+			       (not (zerop (the radius-2)))
+			       (not (near-to? (the arc) 2pi)))
+		       (the %polygons-for-ifs%)))))
 
 

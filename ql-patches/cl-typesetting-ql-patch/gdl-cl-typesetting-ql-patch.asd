@@ -9,6 +9,8 @@
   :serial
   t
   :version
-  "2011121800"
+  "2012021300"
+  :depends-on
+  (:gdl-base)
   :components
   ((:file "source/load")))

@@ -23,7 +23,7 @@
 
 (define-object part-type-form (base-html-sheet)
   :input-slots
-  ((object-type "gwl-user::tasty-test-part" :settable)
+  ((object-type "robot:assembly" :settable)
    make-instance-function set-root-function tatu-root package-default)
   
   :computed-slots

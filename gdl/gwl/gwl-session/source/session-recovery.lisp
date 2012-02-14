@@ -29,7 +29,6 @@
 ;;-------------------------------------------------
 
 
-(define-object session-recovery (session-control-mixin)
-  
-  :input-slots
-  (instance-id ))
+;;
+;; definition moved to answer.lisp
+;;

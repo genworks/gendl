@@ -750,7 +750,8 @@ to call the :write-embedded-x3d-world function."))
                   (with-format (x3d *stream*) (write-the view-object cad-output))
                   
                   ))
-                ((:script :type "text/javascript" :src "http://www.x3dom.org/x3dom/release/x3dom.js" :id "xdom_script"))
+                ((:script :type "text/javascript" 
+			  :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))
                 
                 
                 

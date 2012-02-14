@@ -9,41 +9,24 @@
   :serial
   t
   :version
-  "2011121800"
+  "2012021100"
   :depends-on
-  (:gdl-base
-   :gdl-cl-lite
-   :aserve
-   :cl-pdf
-   :cl-who
-   :cl-ppcre
-   :cl-base64
-   :trivial-backtrace)
+  (:gdl-base :gdl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre
+   :cl-base64 :trivial-backtrace)
   :components
-  ((:file "source/package")
-   (:file "source/genworks")
-   (:file "source/defparameters")
-   (:file "source/base-html-sheet")
-   (:file "source/base-html-utils")
-   (:file "source/macros")
+  ((:file "source/package") (:file "source/genworks")
+   (:file "source/defparameters") (:file "source/base-html-sheet")
+   (:file "source/base-html-utils") (:file "source/macros")
    (:file "source/ignore-errors-with-backtrace")
-   (:file "source/initialize")
-   (:file "source/utilities")
-   (:file "source/answer")
-   (:file "source/accessories")
-   (:file "source/gdl-remote")
-   (:file "source/vanilla-remote")
-   (:file "source/base64-utils")
-   (:file "source/cl-pdf-patches")
-   (:file "source/color-palette")
-   (:file "source/crawler")
-   (:file "source/log-utils")
-   (:file "source/new-urls")
-   (:file "source/publish")
-   (:file "source/remote-object")
+   (:file "source/initialize") (:file "source/utilities")
+   (:file "source/answer") (:file "source/accessories")
+   (:file "source/gdl-remote") (:file "source/vanilla-remote")
+   (:file "source/base64-utils") (:file "source/cl-pdf-patches")
+   (:file "source/color-palette") (:file "source/crawler")
+   (:file "source/log-utils") (:file "source/new-urls")
+   (:file "source/publish") (:file "source/remote-object")
    (:file "source/security-check-failed")
-   (:file "ajax/source/parameters")
-   (:file "ajax/source/ajax")
+   (:file "ajax/source/parameters") (:file "ajax/source/ajax")
    (:file "ajax/source/base-ajax-sheet")
    (:file "ajax/source/skeleton-ui-element")
    (:file "form-elements/source/grid-form-element")
