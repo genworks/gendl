@@ -39,7 +39,7 @@
                                (write-the material-properties))
                              (when (getf (the display-controls) :linetype)
                                (write-the line-properties))))
-         (:IndexedFaceSet :creaseAngle "1.0"
+         (:IndexedFaceSet :creaseAngle "1.571"
                           :solid "false"
                           :coordIndex formatted-vertices
                           (:Coordinate :point (format nil "~{~a~^, ~}" 
@@ -367,14 +367,16 @@
   (
    (shape
     ()
-    (cl-who:with-html-output (*stream* nil :indent nil)
-      (:Shape
-       (:Appearance (write-the material-properties))
-       (:Cone :bottomRadius (the radius-1)
-	      :topRadius (the radius-2)
-              :height (the length)
-              :bottom (when (the bottom-cap?) "TRUE")
-	      ))))))
+    (if (the simple?)
+	(cl-who:with-html-output (*stream* nil :indent nil)
+	  (:Shape
+	   (:Appearance (write-the material-properties))
+	   (:Cone :bottomRadius (the radius-1)
+		  :topRadius (the radius-2)
+		  :height (the length)
+		  :bottom (when (the bottom-cap?) "TRUE"))))
+	(call-next-method)))))
+	
 
 
 (define-lens (x3d sphere)()
@@ -396,13 +398,15 @@
   (
    (shape
     ()
-    (cl-who:with-html-output (*stream* nil :indent nil)
-      (:Shape
-       (:Appearance (write-the material-properties))
-       (:Cylinder :radius (the radius) 
-                  :height (the length)))))
-   )
-  )
+    (if (the simple?)
+	(cl-who:with-html-output (*stream* nil :indent nil)
+	  (:Shape
+	   (:Appearance (write-the material-properties))
+	   (:Cylinder :radius (the radius) 
+		      :height (the length))))
+	(call-next-method)))))
+
+
 
 (define-lens (x3d box)()
   :output-functions
@@ -451,6 +455,7 @@
       (:Shape
        (:Appearance (write-the material-properties))
        ((:IndexedFaceSet :solid "false"
+			 :creaseAngle "1.571"
                          :coordIndex (format nil "~{~{~a~^ ~}~^ -1 ~}" (the ifs-indices)))
         ((:Coordinate :point (format nil "~{~{~a~^ ~}~^ ~}"
                                      (map 'list #'(lambda(point) 

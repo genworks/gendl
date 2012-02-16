@@ -1,6 +1,7 @@
 # Lines starting with '#' are considered comments.
 # Ignore any file named foo.txt.
 *.fasl
+*.xfasl
 bin
 *~
 .DS_Store

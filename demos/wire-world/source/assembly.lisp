@@ -28,19 +28,46 @@
 	   :radius-1 2 :radius-2 0.5)
 
 
+   (traffic-cone :type 'traffic-cone
+		 :center (translate (the center) :left 5 :up (half (the-child length)))
+		 :orientation (alignment :rear (the (face-normal-vector :top)))
+		 :length 1
+		 :radius 0.5
+		 :radius-1 0.5
+		 ;;:arc pi
+		 )
+
+
    (silo :type 'silo
 	 :radius 1
-	 :arc (* 3/2 pi)
+	 ;;:arc (* 3/2 pi)
 	 :length 5
 	 :orientation (alignment :rear (the (face-normal-vector :top)))
 	 :center (translate (the center) :right 4 :rear 12 :top (half (the-child length))))))
 
 
-(define-object silo (cylinder)
-  :computed-slots ((display-controls (list :color :blue))))
+(define-object traffic-cone (cone)
+  :computed-slots ((display-controls (list :color :yellow))))
+
+(define-object silo (base-object)
+  :input-slots (radius)
+  :computed-slots ((display-controls (list :color :blue)))
+
+  :objects
+  ((roof :type 'sphere
+	 :display-controls (list :color :yellow)
+	 :center (translate (the center) :rear (half (the length)))
+	 :pass-down (radius))
+
+   (tower :type 'cylinder
+	  :pass-down (radius length))))
+
+
 
 (define-object teepee (cone)
-   :computed-slots ((display-controls (list :color :brown))))
+   :computed-slots ((display-controls (list :color :brown))
+		    (bottom-cap? nil)
+		    (closed? t)))
 
 
 (define-object tree (cone)
