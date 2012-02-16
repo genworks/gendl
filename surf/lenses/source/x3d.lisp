@@ -384,14 +384,16 @@
   (
    (shape
     ()
-    (cl-who:with-html-output (*stream* nil :indent nil)
-      (:Shape
-       (:Appearance (if (getf (the display-controls) :pixel-texture)
-                        (write-the pixel-texture)
-                      (write-the material-properties)))
-       (:Sphere :radius (the radius)))))
-   )
-  )
+    (if (the simple?)
+	(cl-who:with-html-output (*stream* nil :indent nil)
+	  (:Shape
+	   (:Appearance (if (getf (the display-controls) :pixel-texture)
+			    (write-the pixel-texture)
+			    (write-the material-properties)))
+	   (:Sphere :radius (the radius))))
+	(call-next-method)))))
+
+
 
 (define-lens (x3d cylinder)()
   :output-functions

@@ -9,7 +9,16 @@
 			      :right (half (the-child width))
 			      :front (half (the-child height))))
 
+   
 
+   (mudball :type 'sphere
+	    :display-controls (list :color :brown)
+	    :radius 3
+	    :inner-radius 2.5
+	    :end-horizontal-arc pi
+	    :start-vertical-arc 0
+	    :end-vertical-arc (/ pi 4)
+	    :center (translate (the center) :left 10 :rear 10 :up (the-child radius)))
 
    (ground :type 'ground
 	   :height 0 :length 50 :width (* +phi+ 50))
@@ -25,14 +34,14 @@
 	   :orientation (alignment :rear (the (face-normal-vector :top)))
 	   :length 3
 	   :arc (* 3/2 pi)
-	   :radius-1 2 :radius-2 0.5)
+	   :radius-1 2 :radius-2 0.5
+	   :inner-radius-1 1.8 :inner-radius-2 0.3)
 
 
    (traffic-cone :type 'traffic-cone
 		 :center (translate (the center) :left 5 :up (half (the-child length)))
 		 :orientation (alignment :rear (the (face-normal-vector :top)))
 		 :length 1
-		 :radius 0.5
 		 :radius-1 0.5
 		 ;;:arc pi
 		 )
@@ -55,11 +64,13 @@
 
   :objects
   ((roof :type 'sphere
-	 :display-controls (list :color :yellow)
+	 :display-controls (list :color :orange)
 	 :center (translate (the center) :rear (half (the length)))
-	 :pass-down (radius))
+	 :pass-down (radius)
+	 )
 
    (tower :type 'cylinder
+	  :display-controls (append (the display-controls) (list :transparency 0.9))
 	  :pass-down (radius length))))
 
 

@@ -181,20 +181,51 @@ Partial cylinders and hollow cylinders are supported."
    
    (center-line (list (the (:end-arcs 0) :center) (the (:end-arcs 1) :center)))
 
+   (top-points (the (end-arcs 1) (equi-spaced-points (the number-of-sections))))
+   (bottom-points (the (end-arcs 0) (equi-spaced-points (the number-of-sections))))
+
    (polygons-for-ifs (unless (the simple?)
 		       ;;
 		       ;; FLAG -- For cones at least: fill in with more intermediate arcs, to get better aspect triangles. 
 		       ;;
-		       (let ((top-points (the (end-arcs 1) (equi-spaced-points (the number-of-sections))))
-			     (bottom-points (the (end-arcs 0) (equi-spaced-points (the number-of-sections)))))
+		       (let ((top-points (the top-points))
+			     (bottom-points (the bottom-points)))
 			 (append (mapcar #'(lambda(p1 p2 p3 p4) (list p1 p2 p4 p3))
 					 top-points bottom-points (rest top-points) (rest bottom-points))
-				 (when (the top-cap?) (list top-points))
-				 (when (the bottom-cap?) (list bottom-points))
-				 (when (the closed?) (list (list (first top-points)
-								 (first bottom-points)
-								 (lastcar bottom-points)
-								 (lastcar top-points))))))))
+				 (when (and (the top-cap?) (not (or (the hollow?) (the inner?)))) (list top-points))
+				 (when (and (the bottom-cap?) (not (or (the hollow?) (the inner?)))) (list bottom-points))
+				 (when (and (the closed?) (not (or (the hollow?) (the inner?))))
+				   (list (list (first top-points)
+					       (first bottom-points)
+					       (lastcar bottom-points)
+					       (lastcar top-points))))
+				 
+				 (when (and (the hollow?) (not (the inner?)))
+				   (mapcar #'list
+					   top-points
+					   (rest top-points)
+					   (rest (the inner-cylinder top-points))
+					   (the inner-cylinder top-points)))
+
+				 (when (and (the hollow?) (not (the inner?)))
+				   (mapcar #'list
+					   bottom-points
+					   (rest bottom-points)
+					   (rest (the inner-cylinder bottom-points))
+					   (the inner-cylinder bottom-points)))
+
+				 (when (and (the hollow?) (not (the inner?)))
+				   (list (list (first top-points)
+					       (first (the inner-cylinder top-points))
+					       (first (the inner-cylinder bottom-points))
+					       (first bottom-points))
+					 (list (lastcar top-points)
+					       (lastcar (the inner-cylinder top-points))
+					       (lastcar (the inner-cylinder bottom-points))
+					       (lastcar bottom-points))))
+
+				 (when (the hollow?) (the inner-cylinder polygons-for-ifs))))))
+
 
    (simple? (and (not (the inner-radius))
 		 (near-to? (the arc) 2pi)))
