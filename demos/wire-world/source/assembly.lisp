@@ -54,7 +54,20 @@
 	    :center (translate (the center) 
 			       :up (half (the-child height))
 			       :left 17 :front 5))
-	    
+   
+
+   (waterslide :type 'route-pipe
+	       :vertex-list (list (make-point 20 20 20)
+				  (make-point 20 19 15)
+				  (make-point 18 19 10)
+				  (make-point 18 16 5))
+	       :default-radius 5
+	       :outer-pipe-radius 1
+	       :inner-pipe-radius 0.8
+	       :display-controls (list :color :blue-steel
+				       :transparency 0.3
+				       :shininess 0.7
+				       :spectral-color :white))
 
    (silo :type 'silo
 	 :radius 1

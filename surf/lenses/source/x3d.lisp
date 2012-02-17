@@ -409,6 +409,27 @@
 	(call-next-method)))))
 
 
+(define-lens (x3d torus)()
+  :output-functions
+  ((shape
+    ()
+    (let ((cross-section (mapcar #'(lambda(point) 
+				     (the (global-to-local point))) (the start-circle interpolated-points)))
+          (spine (mapcar #'(lambda(point) 
+                             (the (global-to-local point))) (the centerline-arc interpolated-points))))
+           
+      (cl-who:with-html-output (*stream* nil :indent nil)
+	(:Shape
+	 (:Extrusion 
+	  :beginCap (if (the end-caps?) "TRUE" "FALSE")
+	  :endCap   (if (the end-caps?) "TRUE" "FALSE")
+	  :solid "FALSE"
+	  :creaseAngle "1.571"
+	  :crossSection (format nil "~{~3,7f ~3,7f~^, ~}" (mapcan #'(lambda(point) (list (get-x point) (get-y point))) cross-section))
+	  :spine (format nil "~{~3,7f ~3,7f ~3,7f~^, ~}" (mapcan #'(lambda(point) (list (get-x point) (get-y point) (get-z point))) spine)))
+	 (:Appearance (write-the material-properties))))))))
+
+
 
 (define-lens (x3d box)()
   :output-functions
@@ -421,9 +442,26 @@
        (:Box :size (format nil "~a ~a ~a" 
                            (to-double-float (the width)) 
                            (to-double-float (the length))
-                           (to-double-float (the height)))))))
-   )
-  )
+                           (to-double-float (the height)))))))))
+
+
+
+(define-lens (x3d global-filleted-polyline)()
+  :output-functions
+  ((shape
+    ()
+    (let ((points (the interpolated-points)))
+      (cl-who:with-html-output (*stream* nil :indent nil)
+	(:Shape
+	 (:Appearance (write-the material-properties))
+	 (:IndexedLineSet 
+	  :coordIndex (format nil "~{~a~^ ~}" (list-of-numbers 0 (1- (length points))))
+	  (:Coordinate 
+	   :point (format nil "~{~a~^ ~}" 
+			  (mapcar #'(lambda(point) 
+				      (let ((point (the (global-to-local point))))
+					(format nil "~a ~a ~a" (get-x point) (get-y point) (get-z point)))) points))))))))))
+
 
 (define-lens (x3d global-polyline)()
   :output-functions
@@ -443,10 +481,7 @@
                                                                                        (coerce (get-y point) 'single-float) 
                                                                                        (coerce (get-z point) 'single-float)
                                                                                        ))
-                                                              (the vertex-list)))))))))
-   )
-  )
-
+                                                              (the vertex-list)))))))))))
 
 
 (define-lens (x3d ifs-output-mixin)()

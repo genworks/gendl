@@ -69,9 +69,7 @@ Shape
 
             (the width) (the length) (the height)
               
-              (write-the material-properties-string)))
-   
-))
+              (write-the material-properties-string)))))
         
         
 (define-lens (vrml global-filleted-polyline)()

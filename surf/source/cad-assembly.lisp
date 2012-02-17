@@ -95,3 +95,5 @@ Defaults to the assembly-import produced from the file-name. " imported-assembly
   :computed-slots ((file-name #+mswindows (or (probe-file "e:/tmp/CURSUS0104.stp")
 					      (probe-file "z:/tmp/CURSUS0104.stp"))
 			      #-mswindows (probe-file "~/share/tmp/CURSUS0104.stp"))))
+
+
