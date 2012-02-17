@@ -456,7 +456,7 @@
     (cl-who:with-html-output (*stream* nil :indent t)
       (:Shape
        (:Appearance (write-the material-properties))
-       ((:IndexedFaceSet :solid "false"
+       ((:IndexedFaceSet :solid "FALSE"
 			 :creaseAngle "1.571"
                          :coordIndex (format nil "~{~{~a~^ ~}~^ -1 ~}" (the ifs-indices)))
         ((:Coordinate :point (format nil "~{~{~a~^ ~}~^ ~}"

@@ -135,7 +135,9 @@ the start and end point of the arc.
 :arguments (angle \"Number in Radians\")"
     point-on-arc
     (angle)
-    (rotate-point (the start) (the center) (the (face-normal-vector :top)) :angle angle))))
+    (if (the start)
+	(rotate-point (the start) (the center) (the (face-normal-vector :top)) :angle angle)
+	(the center)))))
 
 
 

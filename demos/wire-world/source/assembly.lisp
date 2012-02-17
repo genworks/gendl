@@ -15,7 +15,7 @@
 	    :display-controls (list :color :brown)
 	    :radius 3
 	    :inner-radius 2.5
-	    :end-horizontal-arc pi
+	    ;;:end-horizontal-arc pi
 	    :start-vertical-arc 0
 	    :end-vertical-arc (/ pi 4)
 	    :center (translate (the center) :left 10 :rear 10 :up (the-child radius)))
@@ -46,6 +46,15 @@
 		 ;;:arc pi
 		 )
 
+   
+   (reactor :type 'spherical-cap
+	    :display-controls (list :color :purple )
+	    :base-radius 3
+	    :axis-length 2
+	    :center (translate (the center) 
+			       :up (half (the-child height))
+			       :left 17 :front 5))
+	    
 
    (silo :type 'silo
 	 :radius 1
@@ -66,6 +75,7 @@
   ((roof :type 'sphere
 	 :display-controls (list :color :orange)
 	 :center (translate (the center) :rear (half (the length)))
+	 :end-horizontal-arc pi
 	 :pass-down (radius)
 	 )
 
