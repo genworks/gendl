@@ -149,24 +149,27 @@ each direction.</li>
   (polygons-for-ifs)
   
   :computed-slots
-  ((ifs-vertex-ht (let ((ht (make-hash-table :test #'equalp))
-                        (count -1))
-                    (dolist (polygon (the polygons-for-ifs) ht)
-                      (dolist (vertex polygon)
-                        (let ((current (gethash vertex ht)))
-                          (unless current 
-                            (setf (gethash vertex ht) (incf count))))))))
+  ((ifs-vertex-ht (when (the polygons-for-ifs)
+		    (let ((ht (make-hash-table :test #'equalp))
+			  (count -1))
+		      (dolist (polygon (the polygons-for-ifs) ht)
+			(dolist (vertex polygon)
+			  (let ((current (gethash vertex ht)))
+		    (unless current 
+			      (setf (gethash vertex ht) (incf count)))))))))
    
-   (ifs-array (let ((array (make-array (list (hash-table-count (the ifs-vertex-ht))))))
-                (maphash #'(lambda(vertex index)
-                             (setf (aref array index) vertex))
-                         (the ifs-vertex-ht)) array))
+   (ifs-array (when (the polygons-for-ifs)
+		(let ((array (make-array (list (hash-table-count (the ifs-vertex-ht))))))
+		  (maphash #'(lambda(vertex index)
+			       (setf (aref array index) vertex))
+			   (the ifs-vertex-ht)) array)))
    
-   (ifs-indices (mapcar #'(lambda(polygon)
-                            (mapcar #'(lambda(vertex)
-                                        (gethash vertex (the ifs-vertex-ht)))
-                                    polygon))
-                        (the polygons-for-ifs)))))
+   (ifs-indices (when (the polygons-for-ifs)
+		  (mapcar #'(lambda(polygon)
+			      (mapcar #'(lambda(vertex)
+					  (gethash vertex (the ifs-vertex-ht)))
+				      polygon))
+			  (the polygons-for-ifs))))))
   
 
 

@@ -47,6 +47,7 @@
    #:*adsense-code*
    #:*break-on-set-self?*
    #:*jump-to-toplevel-on-set-self?*
+   #:*process-cookies?*
    #:encode-root-path
    #:base-html-sheet
    #:skeleton-ui-element

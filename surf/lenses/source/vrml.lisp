@@ -69,9 +69,7 @@ Shape
 
             (the width) (the length) (the height)
               
-              (write-the material-properties-string)))
-   
-))
+              (write-the material-properties-string)))))
         
         
 (define-lens (vrml global-filleted-polyline)()
@@ -724,7 +722,7 @@ Default is t (one IndexedFaceSet for each brep).")
                (vertex-indices (coerce (getf data :vertex-indices) 'list))
                (normals (coerce (getf data :surface-normals) 'list))
                (3d-points (coerce (getf data :3d-points) 'list)))
-           (let ((3d-points  
+           (let ((3d-points 
                   (mapcar 
                    #'(lambda(point) 
                        (the (global-to-local 
@@ -733,7 +731,8 @@ Default is t (one IndexedFaceSet for each brep).")
                                          (get-y point) (get-z point)))))
                    3d-points))
                 
-                
+		 ;;(normals normals)
+		 
                  (normals
                   (when *include-vrml-normals?*
                     (mapcar 

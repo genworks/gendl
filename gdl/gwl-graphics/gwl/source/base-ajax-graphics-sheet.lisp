@@ -127,14 +127,19 @@ value of the image-format-selector, which itself defaults to :raphael."
                  (cond ((eql (the image-format) :raphael)
                         (the raphael-string))
                        ((eql (the image-format) :x3dom)
-                        "console.log(\"loading x3dom js\"); xdom_script.src=\"http://www.x3dom.org/x3dom/release/x3dom.js\"")))
+			nil
+                        ;;"console.log(\"loading x3dom js\"); xdom_script.src=\"http://www.x3dom.org/x3dom/release/x3dom.js\""
+			)))
                :settable)
    
    
-   (js-always-to-eval (cond ((eql (the image-format) :x3dom)
+   
+   (js-always-to-eval nil #+nil
+		      (cond ((eql (the image-format) :x3dom)
                              "console.log(\"loading x3dom script\"); 
 loadScript(xdom_script.src);
-location.reload(true);
+//location.reload(true);
+
 ")))
                      
    

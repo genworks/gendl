@@ -24,6 +24,7 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
+    (:nicknames :glisp)
     (:export #:*fasl-extension*
              #:concatenate-fasls
              #:directory-list

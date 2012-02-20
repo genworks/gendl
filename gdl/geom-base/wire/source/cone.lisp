@@ -21,7 +21,7 @@
 
 (in-package :geom-base)
 
-(define-object cone (cylinder)
+(define-object cone ( cylinder)
   :documentation (:description "A pyramid with a circular cross section, with its vertex above 
 the center of its base. Partial cones and hollow cones are supported."
                   
@@ -46,8 +46,10 @@ the center of its base. Partial cones and hollow cones are supported."
   (
    ("Number. The radius of the top end of the cone."
     radius-1 (the :radius)) 
+
    ("Number. The radius of the bottom end of the cone."
-    radius-2 (the :radius))
+    radius-2 0)
+
    ("Number. The radius of the inner hollow part at the top end for a hollow cone."
     inner-radius-1 (the :inner-radius))
    ("Number. The radius of the inner hollow part at the bottom end for a hollow cone."
@@ -56,7 +58,13 @@ the center of its base. Partial cones and hollow cones are supported."
   
   :computed-slots
   ((width (twice (max (the radius-1) (the radius-2))))
-   (height (the width))))
+   (height (the width))
 
+   (simple? (and (not (the inner-radius))
+		 (zerop (the radius-2))
+		 (near-to? (the arc) 2pi)))
+   
+   
+   ))
 
 

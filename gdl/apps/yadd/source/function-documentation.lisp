@@ -33,14 +33,14 @@
    (part-type 'function-dokumentation)
    (symbols (remove-duplicates
              (let (result (package-object (the :package-object)))
-               (do-symbols (symbol (the :package)
+               (do-symbols (sym (the :package)
                              (sort (nreverse result) #'string< :key #'symbol-name))
-                 (when (and (eql (symbol-package symbol) package-object)
-			    (glisp:function-documentation symbol))
-                   (push symbol result))))))
+                 (when (and (eql (symbol-package sym) package-object)
+			    (glisp:function-documentation sym))
+                   (push sym result))))))
    (symbols-external (remove-duplicates
                       (let (result (package-object (the :package-object)))
-                        (do-external-symbols (symbol
+                        (do-external-symbols (sym
                                                  (the :package)
                                                (sort
 
@@ -49,9 +49,9 @@
 
                                                 :key
                                                 #'symbol-name))
-                          (when (and (eql (symbol-package symbol) package-object)
-				     (glisp:function-documentation symbol))
-                            (push symbol result))))))))
+                          (when (and (eql (symbol-package sym) package-object)
+				     (glisp:function-documentation sym))
+                            (push sym result))))))))
 
 
 (define-object function-dokumentation (doc-string-parser-mixin
@@ -77,14 +77,14 @@
             (:title
              (:princ
               (format nil "~a: ~s" (if (the macro?) "Macro" "Function")
-                      (the :symbol)))))
+                      (the symbol)))))
            (:body (when *developing?* (html (:p (the (write-development-links)))))
                   ;;(when *adsense?* (html (:p (:princ *adsense-code*))))
                   (:p (when (the :return-object) (the (:write-back-link :display-string "&lt;-Back"))))
                   (:h2
                    (:princ
                     (format nil "~a: ~:(~s~)" (if (the macro?) "Macro" "Function")
-                            (the :symbol))))
+                            (the symbol))))
                   (:p
                    ((:table :width "100%" :border 0 :cellpadding 1 :cellspacing 0)
                     (the (:write-row :show-package? (the :show-package?)))))
@@ -95,7 +95,7 @@
     (&key show-package?)
     (html (:tr
            ((:td :align :left)
-            (:b (:princ (format nil "~a" (the :symbol))))
+            (:b (:princ (format nil "~a" (the symbol))))
             (when (getf (the :section-plist) :type)
               (html " "
                     (:i
@@ -105,7 +105,7 @@
           (:tr
            ((:td :colspan 2)
             (the (:write-remark-body (the :section-plist) :show-package
-                                     (when show-package? (symbol-package (the :symbol)))))))
+                                     (when show-package? (symbol-package (the symbol)))))))
           (:tr ((:td :colspan 2) :br))))
 
    (remark-string

@@ -21,7 +21,7 @@
 
 (in-package :geom-base)
 
-(define-object spherical-cap (arcoid-mixin base-object)
+(define-object spherical-cap (ifs-output-mixin arcoid-mixin base-object)
   
   :documentation (:description "The region of a sphere which lies above (or below) a given plane. Although this
 could be created with a partial sphere using the sphere primitive, the spherical cap allows for more convenient
@@ -67,7 +67,10 @@ construction and positioning since the actual center of the spherical cap is the
                  number-of-horizontal-sections 4)
                 
                 ("Integer. How many lines of longitude to show on the spherical-cap in some renderings. Default value is 2."
-                 number-of-vertical-sections 4))
+                 number-of-vertical-sections 4)
+
+		(inner? nil)
+		(closed? t))
 
   
   :computed-slots
@@ -125,12 +128,41 @@ construction and positioning since the actual center of the spherical cap is the
                 (push (list (if (typep (the :inner-cap) 'spherical-cap)
                                 (the :inner-cap (:meridians count) :start)
                               (the :base-center))
-                            (the (:meridians count) :start)) result)))))
+                            (the (:meridians count) :start)) result))))
+
+   
+   (polygon-points (mapcar #'(lambda(parallel)
+			       (the-object parallel (equi-spaced-points (max (the number-of-vertical-sections) 12))))
+			   (list-elements (the parallels))))
+
+   (polygons-for-ifs (let ((thickness? (and (not (the inner?)) (typep (the inner-cap) 'spherical-cap))))
+		       (append (apply #'append
+				      (mapcar #'(lambda(list1 list2)
+						  (mapcar #'(lambda(p1 p2 p3 p4)
+							      (list p1 p2 p4 p3))
+							  list1 (rest list1) list2 (rest list2)))
+					      (the polygon-points) (rest (the polygon-points))))
+			       
+			       (when (and (not thickness?) (the closed?))
+				 (list (first (the polygon-points))))
+			       
+			       (when thickness? (the inner-cap polygons-for-ifs))
+			       
+			       (when thickness? 
+				 (mapcar #'(lambda(p1 p2 p3 p4)
+					     (list p1 p2 p4 p3))
+					 (first (the polygon-points))
+					 (rest (first (the polygon-points)))
+					 (first (the inner-cap polygon-points))
+					 (rest (first (the inner-cap polygon-points)))))))))
+  
+
   
   :hidden-objects
   ((inner-cap :type (if (and (the :inner-base-radius-c)
                              (the :cap-thickness-c)) 'spherical-cap 'null-part)
               :base-radius (the :inner-base-radius-c)
+	      :inner? t
               :center (translate (the center) :down (half (the cap-thickness-c)))
               :pass-down (:number-of-horizontal-sections :number-of-vertical-sections)
               :axis-length (- (the :axis-length) (the :cap-thickness-c)))

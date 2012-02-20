@@ -164,7 +164,7 @@ Removing output function: ~a for view of format: ~a on object definition: ~s wit
                                           ,(if has-declare? (first body) `(declare))
                                           (block ,(make-keyword attr-sym) ,@(if has-declare? (rest body) body))) ,args-arg))))
                  (declare (ignorable ,method))
-                 (eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+                 (eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
                  ,(when (and *compile-for-dgdl?* (not remote?))
                     `(defmethod ,attr-sym ((format ,format) (self gdl-remote) (skin ,skin) &rest ,args-arg)
                        ,(when (and *compile-documentation-database?* attr-remarks) attr-remarks)
@@ -173,7 +173,7 @@ Removing output function: ~a for view of format: ~a on object definition: ~s wit
                                     (block ,(make-keyword attr-sym) 
                                       (the (send-output (:apply (cons ,(make-keyword attr-sym)
                                                                       (cons *%format%* ,args-arg))))))))))
-                 (eval-when (compile load eval) (glisp:end-redefinitions-ok))
+                 (eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
                  ,(when (and *compile-documentation-database?* attr-remarks)
                     `(when *load-documentation-database?* (setf (documentation ,method nil) ,attr-remarks))))))))
 

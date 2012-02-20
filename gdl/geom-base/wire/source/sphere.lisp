@@ -21,7 +21,7 @@
 
 (in-package :geom-base)
 
-(define-object sphere (arcoid-mixin base-object)
+(define-object sphere (ifs-output-mixin arcoid-mixin base-object)
   :documentation (:description "The set of points equidistant from a given center point."
                   
                   :examples "<pre>
@@ -54,15 +54,15 @@
                 ("Angle in radians. Starting vertical angle for a partial sphere. Default is -pi/2."
                  start-vertical-arc (- pi/2) :defaulting)
                 ("Angle in radians. Ending horizontal angle for a partial sphere. Default is twice pi."
-                 end-horizontal-arc (twice pi) :defaulting)
+                 end-horizontal-arc 2pi :defaulting)
                 ("Angle in radians. Ending vertical angle for a partial sphere. Default is pi/2."
                  end-vertical-arc pi/2 :defaulting)
                 ("Number. Radius of inner hollow for a hollow sphere. Default is NIL, for a non-hollow sphere."
                  inner-radius nil :defaulting)
                 ("Number. How many lines of latitude to show on the sphere in some renderings. Default value is 4."
-                 number-of-horizontal-sections 4)
+                 number-of-horizontal-sections 8)
                 ("Number. How many lines of longitude to show on the sphere in some renderings. Default value is 4."
-                 number-of-vertical-sections 4)
+                 number-of-vertical-sections 8)
                 (inner? nil))
   
   :computed-slots
@@ -73,7 +73,7 @@
    
    (%renderer-info% (list :vrml? t :view-default :trimetric))
    
-   (%curves-to-draw% 
+   (parallel-and-meridian-curves 
     (let* ((center (the :center))
            (radius (the :radius))
            (face-ht (the :%face-ht%))
@@ -129,44 +129,93 @@
                                   (let ((new-curves (arc-curves face-ht radius center start-vertical-arc
                                                                 end-vertical-arc)))
                                     (if result (nconc result new-curves) (setq result new-curves))))))))
-      (append 
-       (when (the :inner-radius) (the :inner-sphere :%curves-to-draw%))
-       meridian-curves
-       parallel-curves)))
+      (list :parallels parallel-curves :meridian-curves meridian-curves)))
+
+
+   (%curves-to-draw%
+    (append 
+     (when (the :inner-radius) (the :inner-sphere :%curves-to-draw%))
+     (getf (the parallel-and-meridian-curves) :meridian-curves)
+     (getf (the parallel-and-meridian-curves) :parallels)))
+
                
    (horizontal-start-to-end-angle (- (the :end-horizontal-arc)(the :start-horizontal-arc)))
                
    (vertical-start-to-end-angle (- (the :end-vertical-arc) (the :start-vertical-arc)))
                
-   (parallel-angle (/ (the :vertical-start-to-end-angle) (the :number-of-vertical-sections)))
-               
-   (radials-parallels-start (let (result)
-                              (dolist (count (the :parallels :number-of-elements) (nreverse result))
-                                (push (list (if (the :inner-radius)
-                                                (the :inner-sphere (:parallels count) :start)
-                                              (the :center))
-                                            (the (:parallels count) :start)) result))))
-               
-   (radials-parallels-end (let (result)
-                            (dolist (count (the :parallels :number-of-elements) (nreverse result))
-                              (push (list (if (the :inner-radius)
-                                              (the :inner-sphere (:parallels count) :end)
-                                            (the :center))
-                                          (the (:parallels count) :end)) result))))
-               
-   (radials-meridians-start (let (result)
-                              (dolist (count (the :meridians :number-of-elements) (nreverse result))
-                                (push (list (if (the :inner-radius)
-                                                (the :inner-sphere (:meridians count) :start)
-                                              (the :center))
-                                            (the (:meridians count) :start)) result))))
-               
-   (radials-meridians-end (let (result)
-                            (dolist (count (the :meridians :number-of-elements) (nreverse result))
-                              (push (list (if (the :inner-radius)
-                                              (the :inner-sphere (:meridians count) :end)
-                                            (the :center))
-                                          (the (:meridians count) :end)) result)))))
+   (parallel-angle (/ (the vertical-start-to-end-angle) (the number-of-vertical-sections)))
+
+   (horizontal-increment-angle (/ (the horizontal-start-to-end-angle) (the number-of-horizontal-sections)))
+
+   (simple? (and (not (the inner-radius))
+		 (near-to? (the start-horizontal-arc) 0)
+		 (near-to? (the end-horizontal-arc) 2pi)
+		 (near-to? (the start-vertical-arc) (- pi/2))
+		 (near-to? (the end-vertical-arc) pi/2)))
+
+   
+   (polygon-points (let ((right-vector (the (face-normal-vector :right)))
+			 result)
+		     (dotimes (m (1+ (the number-of-horizontal-sections)) result)
+		       (let* ((tangent-vector (rotate-vector right-vector
+							     (+ (the start-horizontal-arc)
+								(* m (the horizontal-increment-angle)))
+							     (the (face-normal-vector :top))))
+			      (normal-vector (cross-vectors  tangent-vector (the (face-normal-vector :top))))
+			      inner-result)
+			 (dotimes (n (1+ (the number-of-vertical-sections)))
+			   (let ((ray (rotate-vector tangent-vector
+						     (+ (the start-vertical-arc)
+							(* n (the parallel-angle)))
+						     normal-vector)))
+			     (push (inter-line-sphere (the center) ray
+						      (the center) (the radius) ray) inner-result)))
+			 (push inner-result result)))))
+								 
+
+   (polygons-for-ifs (unless (the simple?)
+		       (append
+			(apply #'append
+			       (mapcar #'(lambda(list1 list2)
+					   (mapcar #'(lambda(p1 p2 p3 p4)
+						       (list p1 p2 p4 p3))
+						   list1 (rest list1) list2 (rest list2)))
+				       (the polygon-points) (rest (the polygon-points))))
+			
+			(when (and (the inner-radius) (not (the inner?)))
+			  (mapcar #'(lambda (p1 p2 p3 p4)
+				      (list p1 p2 p4 p3))
+				  (first (the polygon-points))
+				  (first (the inner-sphere polygon-points))
+				  (rest (first (the polygon-points)))
+				  (rest (first (the inner-sphere polygon-points)))))
+
+
+			(when (and (the inner-radius) (not (the inner?)))
+			  (mapcar #'(lambda (p1 p2 p3 p4)
+				      (list p1 p2 p4 p3))
+				  (lastcar (the polygon-points))
+				  (lastcar (the inner-sphere polygon-points))
+				  (rest (lastcar (the polygon-points)))
+				  (rest (lastcar (the inner-sphere polygon-points)))))
+
+			(when (and (the inner-radius) (not (the inner?)))
+			  (mapcar #'(lambda (p1 p2 p3 p4)
+				      (list p1 p2 p4 p3))
+				  (mapcar #'first (the polygon-points))
+				  (mapcar #'first (the inner-sphere polygon-points))
+				  (rest (mapcar #'first (the polygon-points)))
+				  (rest (mapcar #'first (the inner-sphere polygon-points)))))
+
+			(when (and (the inner-radius) (not (the inner?)))
+			  (mapcar #'(lambda (p1 p2 p3 p4)
+				      (list p1 p2 p4 p3))
+				  (mapcar #'lastcar (the polygon-points))
+				  (mapcar #'lastcar (the inner-sphere polygon-points))
+				  (rest (mapcar #'lastcar (the polygon-points)))
+				  (rest (mapcar #'lastcar (the inner-sphere polygon-points)))))
+
+			(when (the inner-radius) (the inner-sphere polygons-for-ifs))))))
 
   
   :hidden-objects

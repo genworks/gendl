@@ -97,4 +97,4 @@
 (pushnew #'initialize-gdl *gdl-init-functions*)
 
 (glisp:set-default-float-format)
-
+(glisp:set-defpackage-behavior)

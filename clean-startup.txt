@@ -1,7 +1,7 @@
 
 Clean startup on Ubuntu Linux (replace apt-get with the package manager
-on your local Linux):
-======================
+on your local Linux or MacOS):
+==============================
 
 $ == Linux shell prompt
 * == Common Lisp shell prompt
@@ -26,11 +26,12 @@ $ sbcl --load cl/quicklisp.lisp
 $ emacs
 M-x slime
 * (load "~/quicklisp/setup")
-* (load "~/Genworks-GDL/ql-register-local-project")
+* (pushnew (make-pathname :name nil :type nil 
+			:defaults "~/Genworks-GDL/")
+	 ql:*local-project-directories*)
+* (ql:register-local-projects)
 * (ql:quickload :gdl-all)
+* (ql:quickload :gdl-surf) ;; optional -- provides VRML and X3DOM output - under development!
 # [In web browser: visit:  http://localhost:9000/tasty]
 # [In field for package::class, enter robot:assembly]
 # [click pencil icon next to Robot (shows up on mouseover]
-
-
-

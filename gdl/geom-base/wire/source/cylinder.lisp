@@ -22,7 +22,7 @@
 (in-package :geom-base)
 
 
-(define-object cylinder (arcoid-mixin base-object)
+(define-object cylinder (ifs-output-mixin arcoid-mixin base-object)
   
   :documentation (:description "An extrusion of circular cross section in which the 
 centers of the circles all lie on a single line (i.e., a right circular cylinder).
@@ -68,6 +68,10 @@ Partial cylinders and hollow cylinders are supported."
                 
                 (radius-1 (the :radius)) 
                 (radius-2 (the :radius))
+		
+		("Boolean. Indicates that a partial cylinder (or cone) should have a closed gap."
+		 closed? nil)
+
                 (inner-radius-1 (the :inner-radius))
                 (inner-radius-2 (the :inner-radius))
                 (inner? nil)
@@ -175,7 +179,59 @@ Partial cylinders and hollow cylinders are supported."
                     (list (if hollow? (the :inner-cylinder (:end-arcs 1) :end)
                             (the :end)) (the (:end-arcs 1) :end)))))
    
-   (center-line (list (the (:end-arcs 0) :center) (the (:end-arcs 1) :center))))
+   (center-line (list (the (:end-arcs 0) :center) (the (:end-arcs 1) :center)))
+
+   (top-points (the (end-arcs 1) (equi-spaced-points (the number-of-sections))))
+   (bottom-points (the (end-arcs 0) (equi-spaced-points (the number-of-sections))))
+
+   (polygons-for-ifs (unless (the simple?)
+		       ;;
+		       ;; FLAG -- For cones at least: fill in with more intermediate arcs, to get better aspect triangles. 
+		       ;;
+		       (let ((top-points (the top-points))
+			     (bottom-points (the bottom-points)))
+			 (append (mapcar #'(lambda(p1 p2 p3 p4) (list p1 p2 p4 p3))
+					 top-points bottom-points (rest top-points) (rest bottom-points))
+				 (when (and (the top-cap?) (not (or (the hollow?) (the inner?)))) (list top-points))
+				 (when (and (the bottom-cap?) (not (or (the hollow?) (the inner?)))) (list bottom-points))
+				 (when (and (the closed?) (not (or (the hollow?) (the inner?))))
+				   (list (list (first top-points)
+					       (first bottom-points)
+					       (lastcar bottom-points)
+					       (lastcar top-points))))
+				 
+				 (when (and (the hollow?) (not (the inner?)))
+				   (mapcar #'list
+					   top-points
+					   (rest top-points)
+					   (rest (the inner-cylinder top-points))
+					   (the inner-cylinder top-points)))
+
+				 (when (and (the hollow?) (not (the inner?)))
+				   (mapcar #'list
+					   bottom-points
+					   (rest bottom-points)
+					   (rest (the inner-cylinder bottom-points))
+					   (the inner-cylinder bottom-points)))
+
+				 (when (and (the hollow?) (not (the inner?)))
+				   (list (list (first top-points)
+					       (first (the inner-cylinder top-points))
+					       (first (the inner-cylinder bottom-points))
+					       (first bottom-points))
+					 (list (lastcar top-points)
+					       (lastcar (the inner-cylinder top-points))
+					       (lastcar (the inner-cylinder bottom-points))
+					       (lastcar bottom-points))))
+
+				 (when (the hollow?) (the inner-cylinder polygons-for-ifs))))))
+
+
+   (simple? (and (not (the inner-radius))
+		 (near-to? (the arc) 2pi)))
+
+
+   )
 
    
   :hidden-objects

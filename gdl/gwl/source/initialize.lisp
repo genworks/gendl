@@ -58,9 +58,9 @@
 
 (defun client-test (port)
   (multiple-value-bind (result error)
-      (ignore-errors 
-       (net.aserve.client:do-http-request 
-           (format nil "http://localhost:~a" port) :timeout 2))
+      (ignore-errors  
+	(net.aserve.client:do-http-request   
+           (format nil "http://localhost:~a" port)))
     (declare (ignore result))
     (when (typep error 'error)
       port)))

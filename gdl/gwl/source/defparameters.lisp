@@ -127,3 +127,5 @@ Defaults to t.")
 (defparameter *descriptive-url-hash* (make-hash-table :test #'equalp))
 
 (defparameter *failed-request-url* "/" "The redirection url that will be returned for a failed-request")
+
+(defparameter *process-cookies?* nil)

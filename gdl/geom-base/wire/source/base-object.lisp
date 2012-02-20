@@ -118,6 +118,7 @@ of one (1.0).
     orientation nil :defaulting)
    
    (left-handed? (and (the orientation) (minusp (determinant (the orientation)))))
+
    (local-left-handed? (and (the local-orientation) (minusp (determinant (the local-orientation)))))
    
    (%orientation% nil)
@@ -190,7 +191,9 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 from the parent's center and using the parent's orientation, this is the relative center
 of this object.
 "
-    local-center (the (convert-point-to-local (the center))))
+    local-center (the (convert-point-to-local (the center)))
+
+    )
 
 
    
@@ -206,10 +209,7 @@ of this object.
    (%local-height% (the (evaluate (the %true-height%))) :uncached)    
 
 
-   
-   (vrml-center (if (the local-left-handed?)
-                    (matrix*vector +lh-identity-matrix+ (the local-center))
-                  (the local-center)))
+   (vrml-center (the local-center))
     
    
    ("3x3 Matrix of Double-Float Numbers. Indicates the local Rotation Matrix used 
@@ -227,8 +227,7 @@ with this matrix will always result in the absolute orientation for this part.
                         (if parent-inverse
                             (matrix:multiply-matrix (the orientation) parent-inverse)
                           (the orientation))))
-   
-   
+
    ;;
    ;; FLAG -- replace face hash tables with struct since it's always
    ;; the same 6 fields.
