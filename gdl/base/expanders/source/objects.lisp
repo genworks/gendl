@@ -53,7 +53,9 @@
                           (second (second part-type-expr)))
                          (t nil))))
               
-              (when (and part-type-symbol (not (eql part-type-symbol 'remote-object)))
+              (when (and part-type-symbol 
+			 (atom part-type-symbol)
+			 (not (eql part-type-symbol 'remote-object)))
                 (let* ((all-inputs (all-inputs part-type-symbol))
                        (accepted-inputs (if (listp all-inputs)
                                             (append all-inputs pseudo-inputs)
@@ -193,14 +195,20 @@ item in the list following the :sequence keyword")))))
                
                `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
                
-               `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
-                                                                         ,part-arg 
-                                                                         (,self-arg gdl-basis))
-                  (declare (ignore ,part-arg))
-                  (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
-                                        ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
-                    (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword attr-sym)) 
-                      ,val-arg)))
+	       ;;
+	       ;; FLAG -- duplicated from inputs.lisp
+	       ;;
+               `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+				       (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+						    nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
+		  (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
+										 ,part-arg 
+										 (,self-arg gdl-basis))
+		    (declare (ignore ,part-arg))
+		    (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
+					  ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
+		      (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword attr-sym)) 
+			  ,val-arg))))
                
                `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
 

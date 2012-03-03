@@ -32,6 +32,9 @@
   #+clisp :unix)
 
 
+(unless (boundp '*compile-file-truename*)
+  (setq *compile-file-truename* nil))
+
 (defvar *cl-typesetting-base-directory*
    (make-pathname :name nil :type nil :version nil
      :defaults #.(or #-gcl *compile-file-truename* *load-truename*))

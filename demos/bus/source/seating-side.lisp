@@ -47,6 +47,7 @@
   ((seats :type 'seat
 	  :sequence (:size (the number-of-rows))
 	  :pass-down (:reclined-angle :max-reclined-angle :x-vector)
+	  :pseudo-inputs (transformation-matrix)
 	  :transformation-matrix 
 	  (alignment :rear (the-child y-vector) :right
 		     (the-child x-vector) :top

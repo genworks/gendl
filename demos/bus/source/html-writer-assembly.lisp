@@ -21,7 +21,7 @@
 
 (in-package :genworks.demos.bus)
 
-(define-view (html-format assembly) ()
+(define-lens (html-format assembly) ()
   
   :output-functions
   ((model-inputs

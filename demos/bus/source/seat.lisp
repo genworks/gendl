@@ -80,6 +80,7 @@
 			(translate (the :center) :up (half (the-child :width)))))
 		   (rotate-point-d nominal-center (the :center) (the :y-vector)
 				   :angle (the :reclined-angle)))
+	 :pseudo-inputs (transformation-matrix)
 	 :transformation-matrix (alignment :right
 					   (rotate-vector-d (the :z-vector)
 							    (the :reclined-angle)

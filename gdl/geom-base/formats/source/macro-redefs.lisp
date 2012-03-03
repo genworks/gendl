@@ -107,7 +107,7 @@ supports a full range of output options such as page dimensions, view transforms
          (let ((*stream* (if file?
                              (open ,stream-or-file :if-does-not-exist :create 
                                    :if-exists :supersede :direction :output
-				   :element-type '(unsigned-byte 8)
+				   ;;:element-type '(unsigned-byte 8)
                                    ;;:external-format ,(or external-format :default)
 				   )
                            ,stream-or-file))

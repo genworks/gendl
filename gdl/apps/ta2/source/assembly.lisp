@@ -52,6 +52,7 @@
 		   :make-instance-function #'(lambda(type) (the (make-root-instance type))))
    
    (tree :type 'object-tree
+	 :pseudo-inputs (length width)
 	 :tatu-root self
 	 :length (getf (the tree-dimensions) :length)
 	 :width (getf (the tree-dimensions) :width)
@@ -81,6 +82,7 @@
 	     :tatu-root self)
    
    (inspector :type 'inspector
+	      :pseudo-inputs (length width)
 	      :pass-down (root-object colors-default)
 	      :length (getf (the inspector-dimensions) :length)
 	      :width (getf (the inspector-dimensions) :width)
@@ -161,7 +163,8 @@ The error was: ~a~%~%" kids-error) "")
 		       object)))
       
       
-      (:uh (the viewport (set-sheet-object! object)))))))
+      ;;(:uh (the viewport (set-sheet-object! object)))
+      ))))
 
 
 (define-lens (html-format assembly)()

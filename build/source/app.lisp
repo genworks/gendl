@@ -32,7 +32,7 @@ or <tt>:enterprise</tt>.
 Indicates which level of application should be made. Defaults to :development."
     application-class :runtime)
    
-   (lisp-heap-size 500000000)
+   (lisp-heap-size 900000000)
 
    (implementation-identifier (glisp:implementation-identifier))
 
@@ -97,11 +97,37 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
   (let ((self (apply #'make-object 'app args)))
     (the make!)))
 
-(defun gdl ()
+
+(defun gdl-runtime ()
   (let ((destination-directory 
 	 (let ((implementation-identifier (glisp:implementation-identifier))
 	       ;;(prefix (merge-pathnames "../../staging/" glisp:*genworks-source-home*))
 	       (prefix (merge-pathnames #+mswindows "e:/staging/" #-mswindows "~/share/staging/")))
+	   (merge-pathnames 
+	    (make-pathname :directory 
+			   (list :relative 
+				 (format nil "~a-~a" implementation-identifier
+					 (glisp:next-datestamp prefix implementation-identifier)))) prefix))))
+    (app :application-name "gdl-runtime"
+	 :application-class :runtime
+	 :destination-directory destination-directory
+	 :modules (list :agraph)
+	 :restart-init-function '(lambda()
+				  (setq glisp:*gdl-home* (glisp:current-directory))
+				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
+				  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+				  (asdf:initialize-output-translations)
+				  (gdl:start-gdl :edition :trial)
+				  (glisp:set-gs-path (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))))
+
+    destination-directory))
+
+
+(defun gdl ()
+  (let ((destination-directory 
+	 (let ((implementation-identifier (glisp:implementation-identifier))
+	       ;;(prefix (merge-pathnames "../../staging/" glisp:*genworks-source-home*))
+	       (prefix (merge-pathnames #+mswindows "c:/staging/" #-mswindows "~/share/staging/")))
 	   (merge-pathnames 
 	    (make-pathname :directory 
 			   (list :relative 

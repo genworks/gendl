@@ -181,8 +181,8 @@ Partial cylinders and hollow cylinders are supported."
    
    (center-line (list (the (:end-arcs 0) :center) (the (:end-arcs 1) :center)))
 
-   (top-points (the (end-arcs 1) (equi-spaced-points (the number-of-sections))))
-   (bottom-points (the (end-arcs 0) (equi-spaced-points (the number-of-sections))))
+   (top-points (the (end-arcs 1) (equi-spaced-points (max (the number-of-sections) 12))))
+   (bottom-points (the (end-arcs 0) (equi-spaced-points (max (the number-of-sections) 12))))
 
    (polygons-for-ifs (unless (the simple?)
 		       ;;

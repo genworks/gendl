@@ -22,7 +22,7 @@
 (in-package :genworks.demos.bus)
 
 
-(define-view (html-format rule-ackermann) nil
+(define-lens (html-format rule-ackermann) nil
 
   :output-functions
   ((bottom-user-area

@@ -21,7 +21,7 @@
 
 (in-package :com.genworks.lisp)
 
-(eval-when (compile load eval)
+(glisp:without-package-variance-warnings
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:export #:copy-directory
@@ -94,7 +94,7 @@
   (let ((class (getf args :application-class)))  
     (list :runtime (case class 
                      (:development :partners)
-                     (otherwise nil))
+                     (otherwise :standard))
         
           :include-compiler (case class 
                               (:development t)

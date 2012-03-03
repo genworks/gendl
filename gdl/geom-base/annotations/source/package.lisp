@@ -21,6 +21,7 @@
 
 (in-package :gdl-user)
 
-(gdl:define-package :geom-base
-    (:export #:angular-dimension #:sample-drawing #:generate-sample-drawing #:center-line #:*break-leaders?*
-             #:print-document))
+(glisp:without-package-variance-warnings 
+  (gdl:define-package :geom-base
+      (:export #:angular-dimension #:sample-drawing #:generate-sample-drawing #:center-line #:*break-leaders?*
+	       #:print-document)))

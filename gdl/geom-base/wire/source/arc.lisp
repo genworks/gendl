@@ -42,10 +42,6 @@ angles are measured anti-clockwise."
   ("Number. Distance from center to any point on the arc."
    radius
    
-   ("3D Point. Indicates in global coordinates where the center of the arc should be located. 
-Defaults to #(0.0 0.0 0.0)." 
-    center (make-point 0.0 0.0 0.0))
-
    (arc 2pi)
    
    ("Angle in radians. Start angle of the arc. Defaults to zero."
@@ -119,6 +115,14 @@ Defaults to #(0.0 0.0 0.0)."
                            (the-object (lastcar beziers) (equi-spaced-points curve-chords)))))))
        
    
+
+   ("3D Vector. Returns the tangent to the arc at the given point (which should be on the arc).
+:arguments (point \"3D point. The point at which you want the tangent.\""
+    tangent 
+    (point)
+    (let ((top (the (face-normal-vector :top)))
+	  (radial (subtract-vectors point (the center))))
+      (cross-vectors top radial)))
    
    ("List of points. Returns a list of points equally spaced around the arc, including
 the start and end point of the arc. 

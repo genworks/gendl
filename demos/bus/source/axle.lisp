@@ -37,6 +37,7 @@
 	     :radius 1.5
 	     :length (the :height)
 	     :center (the (:face-center (ecase (the-child :index) (0 :front) (1 :rear))))
+	     :pseudo-inputs (transformation-matrix)
 	     :transformation-matrix 
 	     (alignment :front
 			(rotate-vector-d (the

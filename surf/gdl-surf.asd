@@ -87,6 +87,7 @@
                  (:file "source/trimmed-surface")
                  (:file "source/utilities")
                  (:file "source/validated-solid")
+		 (:file "source/cad-assembly")
                  (:file "source/vertex") (:file "source/views")
                  (:file "lenses/source/vrml")
                  (:file "lenses/source/x3d")))

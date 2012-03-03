@@ -33,7 +33,7 @@
                              (let ((all (all-inputs-single sym)))
                                (when (consp all) all)))
                          symbol))))
-        (t (error "symbol is ~s which doesn't compute.~%"))))
+        (t (error "symbol is ~s which doesn't compute.~%" symbol))))
 
 
 (defun all-inputs-single (symbol)
