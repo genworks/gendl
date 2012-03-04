@@ -101,7 +101,8 @@
 	   ;;
 	   ;; FLAG -- duplicated from inputs.lisp, objects.lisp, and computed-slots.lisp
 	   ;; 
-           `(unless (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+           `(unless nil
+	      #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
 			 (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
 				      nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
 	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 

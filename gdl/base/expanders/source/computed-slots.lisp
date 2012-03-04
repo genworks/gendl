@@ -109,9 +109,9 @@
 	     ;;
  	     ;; FLAG -- duplicated from objects.lisp, inputs.lisp, functions.lisp, and above in this file. 
 	     ;;
-             `(unless (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-inputs))
-			   (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-inputs))
-					nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
+             `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-inputs))
+				     (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-inputs))
+						  nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
 		(defmethod ,(glisp:intern (symbol-name slot) :gdl-inputs) ((,parent-arg gdl-basis)
 									   ,part-arg
 									   (,self-arg gdl-basis))
@@ -127,9 +127,9 @@
 		
 		(trickle-down-basis ,self-arg ',slot ,args-arg)))
            
-           `(unless nil #+nil(and (fboundp ',(glisp:intern (symbol-name slot) :gdl-slots))
-				  (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-slots))
-					       nil (list (find-class 'gdl-basis)) nil))
+           `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-slots))
+				   (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-slots))
+						nil (list (find-class 'gdl-basis)) nil))
 	      (defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 		(chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg)))
 
