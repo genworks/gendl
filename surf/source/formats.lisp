@@ -200,10 +200,7 @@
     (write-env (newline-out)))))
 
 
-;;
-;; FLAG -- have to get rid of conditionalized code. 
-;;
-#+nil
+
 (define-format native (nurbs)
 
   :slots ((file-type :ascii) (objects nil))
@@ -236,7 +233,7 @@
                      (let ((buffer-file (namestring (glisp:temporary-file))))
                        (apply #'write-native-file *geometry-kernel* buffer-file :quiet? t :file-type file-type entity-plist)
                        (if (and (glisp:featurep :excl)
-                                (typep *stream* 'string-output-simple-stream))
+                                (typep *stream* (read-from-string "excl:string-output-simple-stream")))
                            (with-open-file (in buffer-file)
                              (do ((line (read-line in nil nil) (read-line in nil nil)))
                                  ((null line))

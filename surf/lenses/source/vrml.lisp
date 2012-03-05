@@ -714,7 +714,8 @@ Default is t (one IndexedFaceSet for each brep).")
    :output-functions
    ((shape
      ()
-     (with-error-handling (:timeout *brep-vrml-timeout*)
+     (with-error-handling (;;:timeout *brep-vrml-timeout*
+				    )
        (dolist (data  (if *separate-brep-faces-for-vrml?*
                           (the triangle-data) 
                         (list (the one-face-data))))

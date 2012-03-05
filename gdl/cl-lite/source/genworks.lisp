@@ -21,7 +21,7 @@
 
 (in-package :com.genworks.lisp)
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
+(glisp:without-package-variance-warnings
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:nicknames :glisp)

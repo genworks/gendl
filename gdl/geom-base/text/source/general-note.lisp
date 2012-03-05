@@ -21,7 +21,8 @@
 
 (in-package :geom-base)
 
-(gdl:define-package :geom-base (:export #:general-note #:text-line))
+(glisp:without-package-variance-warnings
+  (gdl:define-package :geom-base (:export #:general-note #:text-line)))
 
 
 (defparameter *general-note-center-circ* nil)

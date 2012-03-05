@@ -109,14 +109,23 @@
            
            `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            
-           `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
-                                                                     ,part-arg 
-                                                                     (,self-arg gdl-basis))
-              (declare (ignore ,part-arg))
-              (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
-                                    ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
-                (if (eql ,val-arg 'gdl-rule:%not-handled%) 
-                    (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg)))
+	   ;;
+	   ;; FLAG -- duplicated from objects.lisp
+	   ;;
+	   ;; FLAG -- avoid duplicate invocation of (glisp:intern (symbol-name ...))
+	   ;;
+	   ;;
+           `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+				   (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+						nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
+	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
+									     ,part-arg 
+									     (,self-arg gdl-basis))
+		(declare (ignore ,part-arg))
+		(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
+				      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
+		  (if (eql ,val-arg 'gdl-rule:%not-handled%) 
+		      (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg))))
            
            
            `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))

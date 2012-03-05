@@ -267,9 +267,8 @@ children as returned by (the-object node children).\")"
                          ((functionp get-children)
                           (funcall get-children node))
                          (t (error
-                             (format nil 
-                                     "
-Get-Children arg of ~s Not Handled by traverse-tree"))))))))
+			     "
+Get-Children arg of ~s Not Handled by traverse-tree" node)))))))
 
 
 (defun hash-table-copy (ht)
@@ -649,7 +648,7 @@ toplevel inputs as specified in the snapshot file.
                   (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class)))
                   ;;(not (find :%gdl-messages% (symbol-plist (first root-form))))
                   )
-          (error "Invalid object type specifier as first element of second form in ~a.~%"))
+          (error "Invalid object type specifier as first element of second form in ~a.~%" root-form))
         
         (let ((object (cond ((and object keep-bashed-values?) object)
                             (object (the-object object restore-tree!) object)

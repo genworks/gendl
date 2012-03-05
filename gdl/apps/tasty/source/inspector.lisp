@@ -427,6 +427,7 @@
                                                         :form-controls (list-elements (the form-fields)))))
                    
                    (form-fields :type 'text-form-control
+				:pseudo-inputs (keyword)
                                 :sequence (:size (length (the settables)))
                                 ;;
                                 ;; FLAG -- precompute this in a slot, and allow for unbound until clicked. 

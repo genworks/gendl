@@ -56,6 +56,7 @@
    (color-chooser :type 'color-chooser)
    
    (line-thickness-selectors :type 'vanilla-mixin
+			     :pseudo-inputs (line-thickness)
 			     :sequence (:size 5)
 			     :line-thickness (nth (the-child index) (list 0.5 1.0 2.0 3.0 4.0))
 			     )

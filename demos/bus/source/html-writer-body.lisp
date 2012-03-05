@@ -21,7 +21,7 @@
 
 (in-package :genworks.demos.bus)
 
-(define-view (html-format body) nil
+(define-lens (html-format body) nil
 
   :output-functions
   ((model-inputs

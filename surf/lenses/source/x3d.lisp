@@ -345,7 +345,7 @@
 
 
 
-(define-lens (vrml line)()
+(define-lens (x3d line)()
   :output-functions
   ((shape
     ()
@@ -361,6 +361,46 @@
                                                                         (get-x point) 
                                                                         (get-y point) 
                                                                         (get-z point))) points)))))))))))
+
+
+(define-lens (x3d arc)()
+  :output-functions
+  ((shape
+    ()
+    (dolist (bezier (list-elements (the beziers)))
+      (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (the-object bezier (equi-spaced-points *curve-chords*))))
+             (indices (list-of-numbers 0 (1- (length points)))))
+	(cl-who:with-html-output (*stream* nil :indent nil)
+	  ((:Shape 
+	    (:Appearance (write-the material-properties)))
+	   ((:IndexedLineSet :coordIndex (format nil "~{~a ~}-1" indices))
+	    ((:Coordinate :point (format nil "~{~a~^ ~}" 
+					 (mapcar #'(lambda(point) (format nil "~a ~a ~a" 
+									  (get-x point) 
+									  (get-y point) 
+									  (get-z point))) points))))))))))))
+
+;;
+;; FLAG -- identical to curve
+;;
+(define-lens (x3d ellipse)()
+  :output-functions
+  ((shape
+    ()
+    (dolist (bezier (list-elements (the beziers)))
+      (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (the-object bezier (equi-spaced-points *curve-chords*))))
+             (indices (list-of-numbers 0 (1- (length points)))))
+	(cl-who:with-html-output (*stream* nil :indent nil)
+	  ((:Shape 
+	    (:Appearance (write-the material-properties)))
+	   ((:IndexedLineSet :coordIndex (format nil "~{~a ~}-1" indices))
+	    ((:Coordinate :point (format nil "~{~a~^ ~}" 
+					 (mapcar #'(lambda(point) (format nil "~a ~a ~a" 
+									  (get-x point) 
+									  (get-y point) 
+									  (get-z point))) points))))))))))))
+
+
 
 (define-lens (x3d cone)()
   :output-functions
@@ -411,7 +451,9 @@
 
 (define-lens (x3d torus)()
   :output-functions
-  ((shape
+  (
+   #+nil
+   (shape
     ()
     (let ((cross-section (mapcar #'(lambda(point) 
 				     (the (global-to-local point))) (the start-circle interpolated-points)))

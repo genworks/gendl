@@ -54,7 +54,7 @@
 		   
 		   
    (dependency-pairs 
-    (let ((*pairs-hash* (make-hash-table :test #'equalp :values nil)))
+    (let ((*pairs-hash* (glisp:make-sans-value-hash-table :test #'equalp)))
       (the %dependency-pairs%)))
       
    (%dependency-pairs%

@@ -21,7 +21,7 @@
 
 (in-package :geom-base)
 
-(define-object torus (arcoid-mixin base-object)
+(define-object torus (ifs-output-mixin arcoid-mixin base-object)
   
   :documentation (:description "A single-holed ``ring'' torus, also known as an ``anchor ring.''
 This is basically a circular cylinder ``bent'' into a donut shape. Partial donuts (``elbows'') are supported.
@@ -96,11 +96,12 @@ Partial ``bent'' cylinders are not currently supported."
                             (torus-arc-curves (let (result)
                                                 (dotimes (index (the :number-of-longitudinal-sections) result)
                                                   (let* ((reference-point (translate center :right major-radius))
-                                                         (sample-point (translate-along-vector reference-point
-                                                                                               (rotate-vector right-vector 
-                                                                                                              (* index torus-arc-angle)
-                                                                                                              front-vector)
-                                                                                               minor-radius))
+                                                         (sample-point (translate-along-vector 
+									reference-point
+									(rotate-vector right-vector 
+										       (* index torus-arc-angle)
+										       front-vector)
+									minor-radius))
                                                         
                                                          (center (inter-line-plane sample-point right-vector
                                                                                    center right-vector))
@@ -136,8 +137,21 @@ Partial ``bent'' cylinders are not currently supported."
    
    (width (twice (+ (the major-radius) (the minor-radius))))
    (length (the width)) (height (twice (the minor-radius)))
+   (equi-points (the centerline-arc (equi-spaced-points (1+ (the number-of-transverse-sections)))))
    
-   )
+   (polygon-points (mapcar #'(lambda(circle)
+			       (the-object circle (equi-spaced-points (max 12 (the number-of-longitudinal-sections)))))
+			   (list-elements (the transverse-circles))))
+
+   (polygons-for-ifs (apply #'append
+			    (mapcar #'(lambda(circle-points-1 circle-points-2)
+					(mapcar #'(lambda (p1 p2 p3 p4)
+						    (list p1 p2 p4 p3))
+						circle-points-1
+						(rest circle-points-1)
+						circle-points-2
+						(rest circle-points-2)))
+				    (the polygon-points) (rest (the polygon-points))))))
   
   :hidden-objects
   ((inner-torus :type (if (the :inner-minor-radius) 'torus 'null-part)
@@ -148,6 +162,14 @@ Partial ``bent'' cylinders are not currently supported."
                 :major-radius (- (the :major-radius)
                                  (- (the :inner-minor-radius)
                                     (the :minor-radius))))
+
+   (transverse-circles :type 'circle
+		       :radius (the minor-radius)
+		       :sequence (:size (length (the equi-points)))
+		       :center (nth (the-child index) (the equi-points))
+		       :orientation (alignment :top (the centerline-arc (tangent (the-child center)))))
+		       
+
    (start-circle :type 'circle
                  :radius (the minor-radius))
    

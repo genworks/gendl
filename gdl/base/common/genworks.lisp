@@ -22,7 +22,7 @@
 (in-package :gdl)
 
 #-(or allegro lispworks sbcl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
-(eval-when (compile load eval)
+(eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:shadow #:intern)
@@ -58,7 +58,8 @@
              #:w-o-interrupts
              #:xref-off
              #:xref-on
-	     #:validate-superclass)))
+	     #:validate-superclass
+	     #:without-package-variance-warnings)))
 
 
 (in-package :com.genworks.lisp)
@@ -87,16 +88,17 @@
 
 #-(or allegro lispworks sbcl) 
 (error "Need parameter for redefinition warnings for currently running lisp.~%")
-(let ((original-redefinition-warnings 
-       #+allegro excl:*redefinition-warnings*
-       #+lispworks lw:*redefinition-action*))
+(let (#+(or allegro lispworks)
+	(original-redefinition-warnings 
+	 #+allegro excl:*redefinition-warnings*
+	 #+lispworks lw:*redefinition-action*))
   (defun begin-redefinitions-ok () 
-    #+sbcl (declaim (sb-ext:muffle-conditions sb-ext:compiler-note))
+    #+sbcl (declare (sb-ext:muffle-conditions sb-ext:compiler-note))
     #+(or allegro lispworks)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* nil))
   (defun end-redefinitions-ok () 
-    #+sbcl (declaim (sb-ext:unmuffle-conditions sb-ext:compiler-note))
+    #+sbcl (declare (sb-ext:unmuffle-conditions sb-ext:compiler-note))
     #+(or allegro lispworks)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* original-redefinition-warnings)))
@@ -244,7 +246,7 @@
               (:case-sensitive-lower string)))
 
 (defmacro w-o-interrupts (&body body)
-  (warn "Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else.")
+  (format t  "NOTE: Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else in glisp:w-o-interrupts.")
   #-(or allegro lispworks cmu sbcl) (error "Need implementation for without-interrupts for currently running lisp.~%")
   `(#+allegro  excl:without-interrupts
     #+lispworks progn
@@ -319,3 +321,7 @@ quicklisp/ directory, with respective copyrights and licenses.
 ))))
 
      
+(defmacro without-package-variance-warnings (&body body)
+  `(eval-when (:compile-toplevel :load-toplevel :execute)
+     (handler-bind (#+sbcl(sb-int:package-at-variance #'muffle-warning))
+       ,@body)))
