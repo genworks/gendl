@@ -12,7 +12,9 @@
   "2012021100"
   :depends-on
   (:gdl-base :gdl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre
-   :cl-base64 :trivial-backtrace)
+   :cl-base64 :trivial-backtrace
+   #+allegro :phtml
+   #-allegro :cl-html-parse)
   :components
   ((:file "source/package") (:file "source/genworks")
    (:file "source/defparameters") (:file "source/base-html-sheet")

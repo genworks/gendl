@@ -10,7 +10,6 @@
              #:gc-full
 	     #:get-backtrace
 	     #:initialize-multiprocessing
-             #:load-html-parser
              #:match-regexp
              #:patches-dir
              #:process-run-function
@@ -60,10 +59,6 @@ the \"current\" error."
   ;; Don't have to do it in Allegro - see about other CLs when we get here. 
   ;;
   )
-
-(defun load-html-parser ()
-  #+allegro (require :phtml)
-  #-allegro (quicklisp:quickload :cl-html-parse))
 
 
 (defun match-regexp (string-or-regexp string-to-match
