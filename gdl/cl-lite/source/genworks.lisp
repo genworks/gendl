@@ -79,8 +79,20 @@
 
 
 (defun directory-list (pathspec)
-  #-allegro (ql-impl-util:directory-entries pathspec)
-  #+allegro (directory pathspec :directories-are-files nil))
+  "(derived from quicklisp ql-impl-util:directory-entries): 
+Return all directory entries of DIRECTORY as a
+list, or NIL if there are no directory entries. Excludes the \".\"
+and \"..\" entries."
+
+  #+allegro
+  (directory directory :directories-are-files nil)
+  #+lispworks
+  (directory (merge-pathnames *wild-entry* directory)
+	      :directories t
+	      :link-transparency nil)
+  #+sbcl
+  (directory (merge-pathnames *wild-entry* directory)
+	     :resolve-symlinks nil))
 
 
 ;;

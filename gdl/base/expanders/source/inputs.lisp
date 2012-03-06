@@ -118,9 +118,8 @@
            `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
 				   (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
 						nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
-	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
-									     ,part-arg 
-									     (,self-arg gdl-basis))
+	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
+		  ((,parent-arg gdl-basis) ,part-arg (,self-arg gdl-basis))
 		(declare (ignore ,part-arg))
 		(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
 				      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
