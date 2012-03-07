@@ -4,7 +4,7 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012011800" :depends-on ("lift")
+                :version "2012011800" :depends-on (:lift :gdl-surf :gdl-tasty)
                 :components
                 ((:file "utils/source/package")
                  (:file "utils/source/genworks")

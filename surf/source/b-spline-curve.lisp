@@ -156,6 +156,7 @@ If any of the weights are different from 1.0, it is Rational."
   :hidden-objects
   ((view :type 'base-view
          :page-length (* 5 72) :page-width (* 5 72)
+	 :pseudo-inputs (page-length page-width)
          :objects (the children)))
 
   :objects

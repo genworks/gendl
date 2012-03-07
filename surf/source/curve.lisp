@@ -25,8 +25,8 @@
 (defstruct surface-point 
   (parameter nil :type double-float)
   (other-parameter nil :type double-float)
-  (uv-point nil :type (vector double-float))
-  (3d-point nil :type (vector double-float)))
+  (uv-point nil #+allegro :type #+allegro (vector double-float))
+  (3d-point nil #+allegro :type #+allegro (vector double-float)))
 
 (defmethod get-parameter-of ((surface-point surface-point))
   "Number. Returns the parameter component of a surface point."
@@ -604,6 +604,7 @@ components of a surface point."
                                                            :3d-point (the (point (first parameter))))))) pairs)))))
    
    
+   #+allegro
    ("Surface point. Returns the first point of intersection between this curve and the surface given as an argument.
 
 :arguments (surface \"GDL Surface object. The surface to intersect with this curve.\")
@@ -616,6 +617,7 @@ components of a surface point."
                                         :3d-point (the (point (first triplet)))))))
    
    
+   #+allegro
    ("List of Surface points. Returns the point(s) of intersection between this curve and the surface given as an argument.
 
 :arguments (surface \"GDL Surface object. The surface to intersect with this curve.\")

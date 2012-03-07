@@ -1,1 +1,1 @@
-(:gdl-base :gdl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre :cl-base64 :trivial-backtrace #+allegro :phtml #-allegro :cl-html-parse)
+(:gdl-base :gdl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre :cl-base64 :trivial-backtrace :cl-html-parse)

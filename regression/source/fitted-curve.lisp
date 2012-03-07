@@ -209,8 +209,8 @@
     (circle :type 'circle :radius 10)
     
     (view :type 'base-view
-                          :page-width (* 5 72) :page-height (* 5 72)
-                          :objects (cons self (list-elements (the spheres))))))
+	  :width (* 5 72) :height (* 5 72)
+	  :objects (cons self (list-elements (the spheres))))))
 
 
 (define-object fitted-curve-test-4 (fitted-curve) 

@@ -790,7 +790,7 @@ Shape
 (defun make-grouped-strings (counts indices)
   (let ((index-array (make-array (list (length indices)) :initial-contents indices))
         result (total 0))
-    (declare (type (simple-array fixnum) index-array))
+    (declare (type simple-array index-array))
     (dolist (count counts result)
       (let ((indices (subseq index-array total (+ total count))))
         (let ((new-ones (append (coerce indices 'list) (list -1))))

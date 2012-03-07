@@ -96,13 +96,4 @@
     (the volume)))
 
 
-(defun gc-tries (&key (times 1000) (outer-times 1000))
-  (dotimes (m outer-times)
-    (print-variables  m)
-    (gc-try :times times)
-    (dolist (brep smlib::*breps-to-delete*) (smlib::delete-iwbrep brep))
-    (setq smlib::*breps-to-delete* nil)
-    (dolist (brep smlib::*booleans-to-delete*) (smlib::delete-iwbrep brep))
-    (setq smlib::*booleans-to-delete* nil)
-    (dolist (point smlib::*points3d-to-delete*) (smlib::delete-iwpoint3d point))
-    (setq smlib::*points3d-to-delete* nil)))
+

@@ -23,7 +23,7 @@
 
 (defmacro define-smlib-wrapper (name (&rest args))
   `(defmethod ,name ((geometry-kernel vanilla-geometry-kernel) ,@args)
-     (declare (ignore ,@args))
+     (declare (ignore ,@(remove '&key args)))
      (error "Don't know how to do ~a using ~s.~%" ',name geometry-kernel)))
 
 (defun make-uniform-knot-vector (cpoint-length degree)
@@ -50,7 +50,7 @@
 (unless *geometry-kernel* (make-geometry-kernel :vanilla))
 
 (defmethod decomposed-curves ((geometry-kernel vanilla-geometry-kernel) native-curve)
-  (declare (ignore native-curve container))
+  (declare (ignore native-curve))
   (error "Don't know how to decompose nurbs using ~s.~%" geometry-kernel))
 
 (defmethod nurbs-to-beziers ((geometry-kernel vanilla-geometry-kernel)
@@ -197,7 +197,7 @@
   (error "Don't know how to make b-spline-surface using ~s.~%" geometry-kernel))
 
 (defmethod get-iso-curves ((geometry-kernel vanilla-geometry-kernel) surface direction number)
-  (declare (ignore surface iw-surface direction number))
+  (declare (ignore surface direction number))
   (error "Don't know how to get iso curves using ~s.~%" geometry-kernel))
 
 (defmethod %get-point-on-surface ((geometry-kernel vanilla-geometry-kernel) surface u v)
@@ -486,7 +486,7 @@
   (error "Don't know how to get bounding box for surface using ~s~%." geometry-kernel))
 
 (defmethod surface-drop-point ((geometry-kernel vanilla-geometry-kernel) surface poing &key 3d-tolerance)
-  (declare (ignore surface poing &key 3d-tolerance))
+  (declare (ignore surface poing 3d-tolerance))
   (error "Don't know how to drop point on surface using ~s.~%" geometry-kernel))
 
 
@@ -539,7 +539,7 @@
 
 (defmethod make-edge-from-curve ((geometry-kernel vanilla-geometry-kernel) brep curve)
   (declare (ignore brep curve))
-  (error "Don't know how to make edge from curve  with ~s.~%"))
+  (error "Don't know how to make edge from curve  with ~s.~%" geometry-kernel))
 
 
 (defmethod brep-get-wires ((geometry-kernel vanilla-geometry-kernel) brep)

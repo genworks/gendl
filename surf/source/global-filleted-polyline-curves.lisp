@@ -75,6 +75,7 @@ into a single curve."
   (("GDL Sequence of GDL NURBS curve objects. The arc-curves representing the fillets."
     fillet-curves :type 'arc-curve
     :sequence (:size (the fillets number-of-elements))
+    :pseudo-inputs (fillet)
     :fillet (the (fillets (the-child :index)))
     :radius (the-child fillet radius)
     :start-angle (the-child fillet  start-angle-normalized)

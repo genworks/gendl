@@ -2,6 +2,6 @@
 
 
 (defparameter *data-pathname* 
-    (make-pathname :directory (append (butlast (pathname-directory excl:*source-pathname*))
+    (make-pathname :directory (append (pathname-directory (asdf:system-source-directory :gdl-aero-demo-1))
 				      (list "data"))
-		   :device (pathname-device excl:*source-pathname*)))
+		   :device (pathname-device (asdf:system-source-directory :gdl-aero-demo-1))))
