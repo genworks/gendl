@@ -493,7 +493,7 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-zoom!
                                        :arguments (list :in))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "viewmag-.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "viewmag+.png") 
                :alt "ZoomIn"
 	       :height "32px" 
 	       :width  "32px"
@@ -505,7 +505,7 @@
         ((:span 
           :onclick (the (gdl-ajax-call :function-key :set-zoom!
                                        :arguments (list :out))))
-         (:img :src (string-append (the uri-static-gwl-unpix) "viewmag+.png") 
+         (:img :src (string-append (the uri-static-gwl-unpix) "viewmag-.png") 
                :alt "ZoomOut"
 	       :height "32px" 
 	       :width  "32px"
@@ -559,8 +559,7 @@
                :border "0")
          ((:span :class "tbartext")"Update")))
        
-       
-       (unless (the show-line-thicknesses?)
+               (unless (the show-line-thicknesses?)
          (htm ((:li :id "lineThicknesses")
                ((:span :style "cursor: pointer;"
                        :onclick (the (gdl-ajax-call :function-key :set-slot!
@@ -569,31 +568,30 @@
        
        (when (the show-line-thicknesses?)
          (htm ((:li :id "lineThickness")
-               ((:span :style "cursor: pointer;"
+               ((:span :style " height: 32pt; cursor: pointer; "
                        :onclick (the (gdl-ajax-call :function-key :set-slot!
                                                     :arguments (list :show-line-thicknesses? nil))))
-                "X")
-               (dolist (thickness '((.5  "line-1.gif" )
+                (:sup "X "))
+               (dolist (thickness '((0.5 "line-d.gif" )
                                     (1.0 "line-1.gif" )
                                     (2.0 "line-2.gif" )
                                     (3.0 "line-3.gif" )
-                                    (4.0   "line-4.gif" )))
+                                    (4.0 "line-4.gif" )))
                  (htm
                   ((:span :style "cursor: pointer;" 
                           :title (format nil "Set Line Thickness to ~a" (first thickness))
                           :onclick (the (gdl-ajax-call :function-key :set-slot!
                                                        :arguments (list :line-thickness-selected 
                                                                         (first thickness)))))
-                   ((:img :border 0 :src (format nil "/images/gwl/~a" (second thickness)))))
+                    (:img :border 0  :src (format nil "/images/gwl/~a" (second thickness)))))
                   (if (and (the line-thickness-selected)
                            (= (the line-thickness-selected) (first thickness)))
-                      (htm ((:span :style "cursor: pointer;"
+                      (htm ((:span :style " height: 32pt; cursor: pointer; color:green "
                                    :title "Restore Default Line Thickness"
                                    :onclick (the (gdl-ajax-call :function-key :restore-slot-default!
                                                                 :arguments (list :line-thickness-selected))))
-                            "x" "")))
-                   :br)))))
-
+                             "&lArr; " "")))
+              ))))
 
        (htm ((:li :id "colors")
              (:table (:tr ((:td :style (format nil "width: 25pt; height: 25pt; cursor: pointer; ~a "
