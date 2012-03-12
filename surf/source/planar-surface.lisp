@@ -63,6 +63,6 @@
   :hidden-objects
   ((view :type 'base-view
          :projection-vector (getf *standard-views* :trimetric)
-         :page-width (* 5 72) :page-length (* 5 72)
+         :width (* 5 72) :length (* 5 72)
          :objects (list self))))
 

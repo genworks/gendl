@@ -128,30 +128,14 @@
       ;; smlib shared library
       ;;
       
-      
-      (ensure-directories-exist (merge-pathnames "SMLib8.40/" (the target-parent)))
-      (let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
-			    (error "smlib-name not known (smlib module probably not loaded)."))))
-	(glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.40/~a" smlib-name)
-					  glisp:*genworks-source-home*)
-			 (merge-pathnames (format nil "SMLib8.40/~a" smlib-name)
-					  (the target-parent))))
-      ;;
-      
-
-
-      #+nil
-      (ensure-directories-exist (merge-pathnames "SMLib8.40/" (the target-parent)))
-      #+nil
-      (let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
-			    (error "smlib-name not known (smlib module probably not loaded)."))))
-	(glisp:copy-file (merge-pathnames (format nil "../../common/SMLib8.40/libs/~a/~a" 
-						  #+linux "linux"
-						  #+mswindows "windows"
-						  #+macosx "macos" smlib-name)
-					  glisp:*genworks-source-home*)
-			 (merge-pathnames (format nil "SMLib8.40/~a" smlib-name)
-					  (the target-parent))))
+      (let ((smlib-version "8.45"))
+	(ensure-directories-exist (merge-pathnames (format nil "SMLib~a/" smlib-version) (the target-parent)))
+	(let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
+			      (error "smlib-name not known (smlib module probably not loaded)."))))
+	  (glisp:copy-file (merge-pathnames (format nil "../../common/SMLib~a/~a" smlib-version smlib-name)
+					    glisp:*genworks-source-home*)
+			   (merge-pathnames (format nil "SMLib~a/~a" smlib-version smlib-name)
+					    (the target-parent)))))
       ;;
       ;; gpl on windows
       ;;

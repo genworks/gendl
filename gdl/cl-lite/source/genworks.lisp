@@ -77,10 +77,25 @@
     (lispworks:concatenate-system dest 'my-system)))
 
 
+(defvar *wild-entry*
+  (make-pathname :name :wild :type :wild :version :wild))
 
 (defun directory-list (pathspec)
-  #-allegro (ql-impl-util:directory-entries pathspec)
-  #+allegro (directory pathspec :directories-are-files nil))
+  "(derived from quicklisp ql-impl-util:directory-entries): 
+Return all directory entries of DIRECTORY as a
+list, or NIL if there are no directory entries. Excludes the \".\"
+and \"..\" entries."
+
+  #+allegro
+  (directory pathspec :directories-are-files nil)
+
+  #+lispworks
+  (directory (merge-pathnames *wild-entry* pathspec)
+	      :directories t
+	      :link-transparency nil)
+  #+sbcl
+  (directory (merge-pathnames *wild-entry* pathspec)
+	     :resolve-symlinks nil))
 
 
 ;;

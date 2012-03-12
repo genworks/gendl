@@ -161,6 +161,8 @@ in the applicable lens for  html-format."
                 
                 ("String or nil. Names the value of class attribute for the body tag. Default is nil."
                  body-class nil)
+
+		(body-onload nil)
                 
                 ("String or nil. Contains the string for the doctype at the top of the document. Default is:
  
@@ -326,7 +328,8 @@ UI specific jQuery Layout JavaScript."
               (when (the additional-header-js-content)
                 (str (the additional-header-js-content))))
        
-       ((:body :class (the body-class))
+       ((:body :class (the body-class)
+	       :onload (the body-onload))
         (the reset-html-sections!)
         ((:div :id (the dom-id))
          (str (the main-sheet-body)))))))

@@ -45,7 +45,6 @@
 
   :objects
   ((test-part :type 'native-reader
-              :make-single-brep? t
               :file-name (merge-pathnames "iraro.iwp" gdl-lift-utils::*lift-data-directory*))
 
    (input :type 'iges-reader

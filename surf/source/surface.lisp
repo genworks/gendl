@@ -343,7 +343,7 @@ and the defaults come from the following parameters:
     (&key (desired-accuracy 0.000001))
     (surface-area *geometry-kernel* (the native-surface-iw) desired-accuracy))
    
-   
+   #+allegro
    ("List of Surface points. Returns the given 3D point dropped normally to this surface.
 
 :arguments (point \"3D Point. The point to be dropped.\")
@@ -377,7 +377,7 @@ surface and oriented according to the given <tt>center</tt> and <tt>orientation<
         (make-object 'bbox :xmax xmax :ymax ymax :zmax zmax 
                      :xmin xmin :ymin ymin :zmin zmin))))
    
-   
+   #+allegro
    ("Surface point. Returns the given 3D point dropped normally to this 
 surface, as close as possible to the given 3D point.
 
@@ -398,6 +398,7 @@ surface, as close as possible to the given 3D point.
                      (3d-distance (get-3d-point-of p2) point)))))))
    
    
+
    ("Plist. The returned plist contains information about the minimum 
 distance from this surface to the curve given as the argument.
 
@@ -405,7 +406,9 @@ distance from this surface to the curve given as the argument.
     minimum-distance-to-curve
     (curve)
     (the (curve-solve curve :minimize)))
-   
+
+
+   #+allegro   
    ("Plist. The returned plist contains information about the maximum 
 distance from this surface to the curve given as the argument.
 
@@ -446,6 +449,8 @@ distance from this surface to the surface given as the argument.
     (surface)
     (the (surface-solve surface :minimize)))
    
+
+   #+allegro
    ("Plist. The returned plist contains information about the maximum 
 distance from this surface to the surface given as the argument.
 
@@ -598,7 +603,7 @@ The 3D point, the U tangent, and the V tangent at the given parameter value."
                          (v (the v-min) (the v-max)))
       (get-surface-normal *geometry-kernel* (the native-surface) u v)))
    
-   
+   #+allegro
    ("Surface point. Returns the first point of intersection between 
 this surface and the curve given as an argument.
 
@@ -613,8 +618,9 @@ use for intersecting.\")"
                      :parameter (first triplet)
                      :uv-point (make-point (second triplet) (third triplet))
                      :3d-point (the (point (second triplet) (third triplet)))))))
+
    
-   
+   #+allegro
    ("List of Surface points. Returns the point(s) of intersection between 
 this surface and the curve given as an argument.
 

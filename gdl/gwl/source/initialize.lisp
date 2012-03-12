@@ -80,7 +80,6 @@
        (publish-images) 
        (publish-statics) 
        (publish-style)
-       (glisp:load-html-parser)
        (start-gwl))
 
 

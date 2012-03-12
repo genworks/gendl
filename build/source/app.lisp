@@ -127,7 +127,9 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
   (let ((destination-directory 
 	 (let ((implementation-identifier (glisp:implementation-identifier))
 	       ;;(prefix (merge-pathnames "../../staging/" glisp:*genworks-source-home*))
-	       (prefix (merge-pathnames #+mswindows "c:/staging/" #-mswindows "~/share/staging/")))
+	       (prefix (merge-pathnames #+mswindows (or (probe-file "e:/staging/")
+							(probe-file "z:/staging/"))
+					#-mswindows "~/share/staging/")))
 	   (merge-pathnames 
 	    (make-pathname :directory 
 			   (list :relative 

@@ -1,1 +1,1 @@
-(:gdl-base)
+(:cl-fad :gdl-base :gdl-cl-lite :gdl-geom-base)

@@ -314,6 +314,7 @@ repeated in order. Defaults to a list with keys:
   (("Sequence of GDL brep objects. The resulting breps yielded from the separate operation. These are colored using section-colors."
     breps :type 'brep
     :sequence (:size (the open-breps number-of-elements))
+    :pseudo-inputs (%native-brep% display-controls)
     :display-controls (append (the display-controls)
                               (list :color (nth (mod (the-child index)
                                                      (the number-of-colors))
@@ -329,7 +330,7 @@ repeated in order. Defaults to a list with keys:
    
    
    (open-breps :type 'brep
-               
+               :pseudo-inputs (display-controls %native-brep%)
                :display-controls (list :color (nth (mod (the-child index)
                                                            (the number-of-colors))
                                                    (the section-colors)))
@@ -409,6 +410,7 @@ multiple solids. Defaults to a repeating (circular) list with keys:
   ((breps :type 'brep
           :pass-down (hide-faces?)
           :sequence (:size (length (the filled-regions)))
+	  :pseudo-inputs (hide-faces? display-controls %native-brep%)
           :display-controls (append (the display-controls)
                                     (list :color (nth (mod (the-child index)
                                                            (the number-of-colors))

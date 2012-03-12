@@ -142,6 +142,7 @@
              :curves (list (the segment-1-trimmed) (the fillet) (the segment-2-trimmed)))
    
    (fillet :type 'arc-curve
+	   :pseudo-inputs (angle-1 angle-2 swap?)
            :pass-down (radius)
            :angle-1 (angle-between-vectors (the (face-normal-vector :right)) (subtract-vectors (the fillet-p1) (the center))
                                            (the (face-normal-vector :top)) :-ve t)

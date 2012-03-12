@@ -179,7 +179,7 @@
            #:read-safe-string
            #:read-snapshot
            #:readable-expression
-           #:record-source-file
+           ;;#:record-source-file
            #:register-asdf-systems
            #:remote-object
            #:remove-plist-key

@@ -119,6 +119,7 @@ for l-line, namely <tt>start</tt> and <tt>end</tt> (3d points)."
   
   :hidden-objects
   ((view :type 'base-view
+	 :pseudo-inputs (page-length page-width)
          :projection-vector (getf *standard-views* :trimetric)
          :page-width (* 5 72) :page-length (* 5 72)
          :objects (list self))))

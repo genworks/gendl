@@ -43,6 +43,4 @@
 (register-test-definition 'box-solid-test)
 
 
-(define-object brep-try ()
-  :computed-slots
-  ((regression-test-data (smlib::make-brep *geometry-kernel*))))
+

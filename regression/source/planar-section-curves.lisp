@@ -108,7 +108,7 @@
 				   -.001 
 				   (the (face-normal-vector :top)) ) 
 				   
-		 
+		    :pseudo-inputs (start end)
 		    :start (translate (the (point 0  0 ))
 				      :left (* (- 1 (nth (the-child index) 
 							 (the spar-positions)))
@@ -134,6 +134,7 @@
 							       (the-child start))
 					     (the (face-normal-vector :top)))
 		 
+		:pseudo-inputs (start end)
 		:start (translate (the (point 0  0 ))
 				  :left (* (- 1 (nth (the-child index) 
 						     (the spar-positions)))

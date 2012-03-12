@@ -4,7 +4,7 @@
                 :author
                 "Genworks and Ke-Works unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2011111800" :depends-on nil :components
+                :version "2011111800" :depends-on (:gdl-surf :gdl-gwl-graphics) :components
                 ((:file "source/package")
                  (:file "source/interior-ref-surf")
                  (:file "source/material")

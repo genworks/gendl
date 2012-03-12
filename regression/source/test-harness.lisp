@@ -276,12 +276,6 @@
    (wing-assembly-test :type 'gdl-lift-tests::wing-assembly-test :hidden? (the :hide-tests?))))
 
 
-(define-object code-samples (base-ajax-sheet)
-  
-  :objects 
-  ((test-harness :type 'tasty:assembly
-		 :root-object-type 'test-harness)))
-
 
 (define-object tasty-test-harness (tasty:assembly)  
   :computed-slots
