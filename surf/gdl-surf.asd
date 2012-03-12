@@ -11,7 +11,7 @@
   :version
   "2012030600"
   :depends-on
-  (:gdl-geom-base :gdl-gwl-graphics)
+  (:gdl-gwl-graphics)
   :components
   ((:file "source/package") (:file "source/parameters")
    (:file "source/classes") (:file "source/methods")
