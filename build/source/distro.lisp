@@ -28,7 +28,7 @@
 
    (staging-directory #+mswindows "e:/staging/" #-mswindows "~/share/staging/")
 
-   (release-directory #+mswindows "e:/release/" #-mswindows "~/share/staging/")
+   (release-directory #+mswindows "e:/release/" #-mswindows "~/share/release/")
 
    (release-name-mapping '(("acl-8.2m-linux-x86" .  "gdl1581-linux")
 			   ("acl-8.2m-win-x86" .  "gdl1581-windows")))
@@ -128,7 +128,7 @@
       ;; smlib shared library
       ;;
       
-      (let ((smlib-version "8.45"))
+      (let ((smlib-version "8.51"))
 	(ensure-directories-exist (merge-pathnames (format nil "SMLib~a/" smlib-version) (the target-parent)))
 	(let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
 			      (error "smlib-name not known (smlib module probably not loaded)."))))

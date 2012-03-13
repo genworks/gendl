@@ -519,6 +519,17 @@ and moments for the brep. The moments are labeled as: :area-static-moments, :are
     (&key (tolerance (the adaptive-tolerance)))
     (brep-compute-precise-properties *geometry-kernel* self tolerance))
 
+   ("Plist with keys: :area, :volume, :barycenter. Returns the approximate area, volume, 
+and barycenter (center of mass) for the brep. These are computed with tessellation techniques, 
+which may be less precise than the analytic techniques used in precise-properties, but should
+be faster to compute and exhibit more stability.
+    
+:&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"
+    properties 
+    (&key (edge-tess-tolerance (the adaptive-tolerance))
+          (face-tess-tolerance (the adaptive-tolerance)))
+    (brep-compute-properties *geometry-kernel* self edge-tess-tolerance face-tess-tolerance))
+   
    ("Number. Area covered by the faces of the brep.
 :&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"
     area
