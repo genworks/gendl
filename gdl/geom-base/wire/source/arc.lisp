@@ -117,7 +117,7 @@ angles are measured anti-clockwise."
    
 
    ("3D Vector. Returns the tangent to the arc at the given point (which should be on the arc).
-:arguments (point \"3D point. The point at which you want the tangent.\""
+:arguments (point \"3D point. The point at which you want the tangent.\")"
     tangent 
     (point)
     (let ((top (the (face-normal-vector :top)))
