@@ -566,6 +566,7 @@
   (declare (ignore brep tolerance))
   (error "Don't know how to compute precise properties from brep  with ~s.~%" geometry-kernel))
 
+(define-smlib-wrapper brep-compute-properties (brep &key edge-tess-tolerance face-tess-tolerance))
 
 (defmethod make-blended-brep ((geometry-kernel vanilla-geometry-kernel) brep &key default-radius specs)
   (declare (ignore  brep default-radius specs))

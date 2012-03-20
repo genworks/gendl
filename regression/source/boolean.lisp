@@ -23,6 +23,7 @@
 
 
 (define-object boolean-test (intersected-solid)
+
     :computed-slots
     ((brep (the cylinder))
      (other-brep (the box))

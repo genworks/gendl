@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<title>ECOTree Simple Tree 3</title>
+		<script type="text/javascript" src="ECOTree.js"></script>
+		<link type="text/css" rel="stylesheet" href="ECOTree.css" />
+		<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>
+		<style>v\:*{ behavior:url(#default#VML);}</style> 
+		<style>
+			.copy {
+				font-family : "Verdana";				
+				font-size : 10px;
+				color : #CCCCCC;
+			}	
+		</style>
+			
+		<script>
+			var myTree = null;
+			
+			function CreateTree() {
+				myTree = new ECOTree('myTree','myTreeContainer');	
+				myTree.config.colorStyle = ECOTree.CS_LEVEL;
+				myTree.config.nodeFill = ECOTree.NF_FLAT;
+				myTree.config.useTarget = false;
+				myTree.config.selectMode = ECOTree.SL_NONE;
+				myTree.config.defaultNodeWidth = 65;
+				myTree.config.defaultNodeHeight = 20;
+				myTree.config.iSubtreeSeparation = 20;
+				myTree.config.iSiblingSeparation = 15;
+				myTree.config.iLevelSeparation = 30;
+				myTree.add(1,-1,'Node O');
+				myTree.add(2,1,'Node E');
+				myTree.add(3,1,'Node F');
+				myTree.add(4,1,'Node N');
+				myTree.add(5,2,'Node A');
+				myTree.add(6,2,'Node D');
+				myTree.add(7,4,'Node G');
+				myTree.add(8,4,'Node M');
+				myTree.add(9,6,'Node B');
+				myTree.add(10,6,'Node C');
+				myTree.add(11,8,'Node H');
+				myTree.add(12,8,'Node I');
+				myTree.add(13,8,'Node J');
+				myTree.add(14,8,'Node K');
+				myTree.add(15,8,'Node L');	
+				myTree.UpdateTree();
+			}			
+		</script>			
+	</head>
+	<body onload="CreateTree();">
+		<h4>ECOTree Simple Tree 3. Walker's sample.&nbsp;<span class="copy">&copy;2006 Emilio Cortegoso Lobato</span></h4>
+		<div id="myTreeContainer">
+		</div>
+	</body>
+</html>

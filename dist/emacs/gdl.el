@@ -102,8 +102,9 @@
                            ":size" ":parameters" ":pass-down" ":inputs" ":optional-inputs"  
                            ":modifiable-optional-inputs" ":descendant-attributes" ":attributes" 
                            ":parts" ":pseudo-parts" ":methods") t)))
-    (pushnew (list definition-keywords 0 font-lock-keyword-face) lisp-font-lock-keywords)
-    (pushnew (list keyword-keywords 0 font-lock-type-face) lisp-font-lock-keywords)))
+    (pushnew (list definition-keywords 0 font-lock-keyword-face) fi:lisp-font-lock-keywords)
+    (pushnew (list keyword-keywords 0 font-lock-type-face) fi:lisp-font-lock-keywords)))
+
 
 
 (add-gdl-font-lock-keywords)
@@ -121,6 +122,17 @@
   (defindent defpart (like define-object))
   (defindent defwriter (like define-object))
   (defindent defcompanion (like define-object)))
+
+
+(setq fi:lisp-mode-hook
+	  (function
+	   (lambda ()
+	     (let ((map (current-local-map)))
+	       (define-key map "\C-c."	'find-tag)
+	       (define-key map "\C-c,"	'tags-loop-continue)
+	       (define-key map "\e."	'fi:lisp-find-definition)
+	       (define-key map "\e,"	'fi:lisp-find-next-definition)))))
+
 
 ;;
 ;; From EvW

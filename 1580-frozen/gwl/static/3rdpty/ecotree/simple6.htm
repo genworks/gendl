@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<title>ECOTree Simple Tree 6</title>
+		<script type="text/javascript" src="ECOTree.js"></script>
+		<link type="text/css" rel="stylesheet" href="ECOTree.css" />
+		<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>
+		<style>v\:*{ behavior:url(#default#VML);}</style> 
+		<style>
+			.copy {
+				font-family : "Verdana";				
+				font-size : 10px;
+				color : #CCCCCC;
+			}
+		</style>
+		<script>
+			var t = null;
+			
+			function CreateTree() {
+				t = new ECOTree('t','sample2');		
+				t.config.iRootOrientation = ECOTree.RO_BOTTOM;
+				t.config.topYAdjustment = -400;
+				t.config.defaultNodeWidth = 70;
+				t.config.defaultNodeHeight = 20;
+				t.config.iSubtreeSeparation = 20;
+				t.config.iSiblingSeparation = 5;
+				t.config.iLevelSeparation = 40;		
+				t.config.linkType = 'B';
+				t.config.useTarget = false;
+				t.config.nodeFill = ECOTree.NF_FLAT;
+				t.config.colorStyle = ECOTree.CS_LEVEL;
+				t.config.levelColors = ["#966E00","#BC9400","#D9B100","#FFD700"];
+				t.config.levelBorderColors = ["#FFD700","#D9B100","#BC9400","#966E00"];
+				t.config.nodeColor = "#FFD700";
+				t.config.nodeBorderColor = "#FFD700";
+				t.config.linkColor = "#FFD700";
+				t.add(1,-1,'species',140,90,"#F08080");
+				t.selectNode(1,false);
+				t.add(2,1,'plants',110,70);
+				t.collapseNode(2,false);
+				t.add(3,1,'fungi',110,70);
+				t.add(4,1,'lichens',110,70);
+				t.add(5,1,'animals',110,70);
+				t.add(6,2,'mosses',80,40);
+				t.add(7,2,'ferns',80,40);
+				t.add(8,2,'gymnosperms',80,40);
+				t.add(9,2,'dicotyledons',80,40);
+				t.add(10,2,'monocotyledons',80,40);
+				t.add(11,5,'invertebrates',80,40);
+				t.add(12,5,'vertebrates',80,40);
+				t.collapseNode(12,false);
+				t.add(13,11,'insects');
+				t.add(14,11,'molluscs');
+				t.add(15,11,'crustaceans');		
+				t.add(16,11,'others');								
+				t.add(17,12,'fish');
+				t.add(18,12,'amphibians');
+				t.add(19,12,'reptiles');		
+				t.add(20,12,'birds');								
+				t.add(21,12,'mammals');												
+				t.UpdateTree();
+			}									
+		</script>
+	</head>
+	<body onload="CreateTree();">
+		<h4>ECOTree Simple Tree 6&nbsp;<span class="copy">&copy;2006 Emilio Cortegoso Lobato</span></h4>
+		<div id="sample2">
+		</div>
+	</body>
+</html>
