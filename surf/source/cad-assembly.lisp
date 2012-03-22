@@ -45,8 +45,6 @@ Defaults to the assembly-import produced from the file-name. " imported-assembly
 
   
 
-				
-
   :objects
   ((sub-assemblies :type 'cad-assembly
 		   :sequence (:size (length (the sub-assemblies-pruned)))
@@ -58,7 +56,8 @@ Defaults to the assembly-import produced from the file-name. " imported-assembly
 
 
   :hidden-objects
-  ((assembly-import :type (if (the file-name) (read-from-string "smlib::assembly-import") 'null-object)
+  ((assembly-import :type (if (the file-name) (read-from-string "smlib::assembly-import") 
+			      'null-object)
 		    :pass-down (file-name))))
 
 
@@ -100,7 +99,7 @@ Defaults to the assembly-import produced from the file-name. " imported-assembly
 (define-object tobie-big-1 (cad-assembly)
   :computed-slots ((file-name #+mswindows (or (probe-file "e:/tmp/cadin/cpbbd.stp")
 					      (probe-file "z:/tmp/cadin/cpbbd.stp"))
-			      #-mswindows (probe-file "~/share/tmp/cpbbd.stp"))))
+			      #-mswindows (probe-file "~/share/tmp/cadin/cpbbd.stp"))))
 
 (defun tobie-big-1 ()
   (let ((self (make-object 'tobie-big-1)))

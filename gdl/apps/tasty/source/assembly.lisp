@@ -46,8 +46,10 @@ o filter inspector slots to local slots
    (viewport-dimensions (list :width 800 :length 550) :settable)
    
    (uri-static-gwl "/static/gwl/")
+
    
    (uri-static-gwl-styles (when (the use-jquery?) (string-append (the uri-static-gwl) "style/")))
+
    
    (uri-static-gwl-images (when (the use-jquery?) (string-append (the uri-static-gwl) "images/")))
    
@@ -72,21 +74,23 @@ o filter inspector slots to local slots
 
    (additional-header-content (when (the have-valid-instance?)
                                 (the ta2-style-view)))
-
+   
    (ta2-style-view (with-cl-who-string ()
                      ((:link :type "text/css" :rel "stylesheet" 
                              :href (the uri-style-sheet)))))
-
    
-   #+nil
-   (html-sections (list (the tree) 
-                        (the tree-status-object) 
-                        (the viewport) 
-                        (the inspector)
-                        (the viewport-status-object) 
-                        (the image-status-object)
-                        (the menu-section)
-                        ))
+   (html-sections (remove nil
+			  (list (the tree) 
+				(the tree-status-object) 
+				(the viewport) 
+				(when (and (eql (the viewport image-format) :x3dom)
+					   (not (the viewport no-graphics?)))
+				  (the viewport x3dom-div))
+				(the inspector)
+				(the viewport-status-object) 
+				(the image-status-object)
+				(the menu-section)
+				)))
    
    (root-object-type 'null-part :settable)
    

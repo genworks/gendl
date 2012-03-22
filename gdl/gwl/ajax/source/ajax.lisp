@@ -24,6 +24,8 @@
 
 (defun gdlAjax (req ent)
 
+  (format t "At 1~%")
+  
   (let* ((query-plist (gwl::assoc-list-to-plist (request-query req)))
          (plist (progn (when *debug?* (print-variables query-plist))
                        (read-safe-string 
@@ -57,7 +59,7 @@
     (when *debug?*
       (let ((bashee-root (the-object bashee root-path))
             (respondent-root (the-object respondent root-path)))
-        (print-variables raw-fields bashee-root respondent-root fields)))
+        (print-variables raw-fields bashee-root respondent-root fields function)))
 
     
     (let ((*clicked-x* (let ((string (getf query-plist :x)))

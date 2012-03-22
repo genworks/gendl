@@ -732,8 +732,9 @@ Default is t (one IndexedFaceSet for each brep).")
                                          (get-y point) (get-z point)))))
                    3d-points))
                 
-		 ;;(normals normals)
+		 (normals normals)
 		 
+		 #+nil
                  (normals
                   (when *include-vrml-normals?*
                     (mapcar 
@@ -868,7 +869,7 @@ Shape
                                 (format-slot foreground-color)
                                 (lookup-color (the color-decimal)))))
 
-        (if (/= thickness 1)
+        (if nil ;;(/= thickness 1)
             (mapc #'(lambda(p1 p2)
                       (unless (coincident-point? p1 p2)
                         (let ((center (midpoint p1 p2)))

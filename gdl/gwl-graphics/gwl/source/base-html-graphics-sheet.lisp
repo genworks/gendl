@@ -42,9 +42,7 @@
    )
   
   :computed-slots
-  (
-
-   (view-toggle nil :settable)
+  ((view-toggle nil :settable)
    
    (pdf-url (let ((url 
                    (format nil "~a~a"
@@ -227,7 +225,11 @@
 
   
   :hidden-objects
-  ((view-object :type 'web-drawing)))
+  ((view-object :type 'web-drawing)
+
+   
+
+   ))
 
 
 (define-object base-html-graphics-sheet (base-html-sheet geometry-view-mixin base-object)
@@ -449,12 +451,7 @@ display geometric parts in a GWL application.
    
 
    
-   ("Void. Writes an embedded X3D tag with content for the <tt>view-object</tt> child of this object. 
-The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
-
-    write-embedded-x3dom-world
-    (&key (include-view-controls? nil))
-    (write-the (embedded-x3dom-world :include-view-controls? include-view-controls?)))
+   
       
    ("Void. Writes an OBJECT tag and publishes an X3D world for the <tt>view-object</tt> child of this object. 
 The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
@@ -713,51 +710,7 @@ display geometric parts in a GWL application.
               (the write-image-format-selector))))))
    
    
-   ("Void. Writes an embedded X3D tag and included content for the <tt>view-object</tt> child of this object. 
-The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
-
-    embedded-x3dom-world
-    (&key (include-view-controls? nil))
-    
-    (declare (ignore include-view-controls?))
-    
-    ;; (the (restore-slot-default! :js-to-eval))
-    
-    (cl-who:with-html-output (*stream*)
       
-    (when (typep (the :view-object) 'null-part)
-      (error "A valid :view-object of type web-drawing is required in the sheet 
-to call the :write-embedded-x3d-world function."))
-    
-    (cond ((and (null (the :view-object :object-roots))
-                (null (the :view-object :objects)))
-           (html-stream *stream* 
-                        ((:table :cellspacing 0 :cellpadding 0 :bgcolor :white)
-                         (:tr
-                          ((:td :width (the :view-object :width) :height
-                                (the :view-object :height) :align :center :valign :center)
-                           (:big (:b "No Graphics Object Specified")))))))
-          (t
-           (with-cl-who ()
-             ((:table :cellspacing 0 :cellpadding 0)
-              (:tr
-               (:td
-                ((:x3d :id "the_element"
-                       :width (the view-object page-width)
-                       :height (the view-object page-length))
-		 (:scene 
-		  (with-format (x3d *stream*) (write-the view-object cad-output)))
-		 
-		 ((:script :type "text/javascript" 
-			   :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script")))))
-
-
-              (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-                                :onclick "document.getElementById('the_element').runtime.showAll();")
-                         "Show All")))))))))
-
-
-   
    ("Void. Writes an OBJECT tag and publishes an X3D world for the <tt>view-object</tt> child of this object. 
 The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
 
