@@ -76,16 +76,16 @@
    (rod-piston-assembly :type 'piston-assembly
                         :pass-down (piston-radius piston-y-position 
                                                   piston-length rot-length))
-   
-   (loaded-piston :type 'piston-assembly
-                  :piston-y-position (l_p_p (the piston-radius)
-                                            (the piston-y-position)
-                                            (the volume-a)
-                                            (the volume-a0))
-                  :pass-down (piston-radius 
-                              piston-length 
-                              rot-length)))
   
+   (loaded-piston :type 'piston-assembly
+                  :piston-y-position (the (l_p_p (the piston-radius)
+					    (the piston-y-position)
+					    (the volume-a)
+					    (the volume-a0)))
+		  :pass-down (piston-radius 
+			      piston-length 
+			      rot-length)))
+
   :functions ((l_p_p ;;;loaded_piston_position
              (R Y-star Va Va0)
              (- Y-star (* (/ 1 (* 2 pi R)) (- Va Va0))))))
