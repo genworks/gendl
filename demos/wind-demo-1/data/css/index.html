@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    
+    <title>WT Demo</title>
+    <link rel="stylesheet" href="style.css" type="text/css" charset="utf-8" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header"> 
+        <h1>Wind Turbine Geometry Demo</h1>
+      </div>
+      <div id="left">
+        <div id="logo">
+          <h1>KE-Works S.R.L. & Genworks International</h1>
+          <p>It's all possible</p>
+        </div>
+        <div id="news">
+          <h2>General inputs</h2>
+          <div id="end-input-head">
+          </div>
+          <table border="0" width="195" cellpadding="2" >
+            <tr>
+              <th><h2>Number of blades</h2></th>
+              <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+            </tr>
+            <tr>
+              <th><h2>Hub hight</h2></th>
+              <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+            </tr>
+            <tr>
+              <th><h2>Tilt angle</h2></th>
+              <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+            </tr>
+            <tr>
+              <th><h2>Precone angle</h2></th>
+              <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+            </tr>
+          </table>
+        </div>
+        <div id="end-input">
+        </div>
+        <div id="disp-comp">
+          <h2>Displayed-component</h2>
+          <div id="end-input-head">
+          </div>
+          <p></p>
+          <select>
+            <option><h3>WT-assembly</h3></option>
+            <option><h3>Rotor-assembly</h3></option>
+            <option><h3>Hub-assembly</h3></option>
+            <option><h3>Nacell-assembly</h3></option>
+            <option><h3>Blade</h3></option>
+            <option><h3>Tower</h3></option>
+          </select> 
+          <p>Input-data-1</p>
+          <p>Input-data-2</p>
+          <p>Input-data-3</p>
+          <p>Input-data-4</p>
+          <p>Input-data-5</p>
+        </div>
+      </div>
+      <div id="data-export">
+        <div id="left-export">
+          <div id="data-export-t">
+            <h2>Data Export</h2>
+            <div id="end-input-head">
+            </div>
+            <table border="0" width="215"  >
+              <tr>
+                <th><h2>IGES file</h2></th>
+                <th> <button onClick="history.go(-1)"><i>Download</i></button>
+                </tr>
+              <tr>
+                <th><h2>STL file</h2></th>
+                <th><button  onClick="history.go(-1)"><i>Download</i></button>
+                </tr>
+              <tr>
+                <th><h2>VRML file</h2></th>
+                <th><button  onClick="history.go(-1)">D<i>ownload</i></button>
+                </tr>
+              <tr>
+                <th><h2>PNG</h2></th>
+                <th><button  onClick="history.go(-1)"><i>Download</i></button>
+                </tr>
+              </table>
+              </div>
+              </div>
+              <div id="left-export">
+                <div id="data-export-t">
+                  <h2>Turbine characteristics</h2>
+                  <div id="end-input-head">
+                  </div>
+                  <table border="0" width="200" cellpadding="2" >
+                    <tr>
+                      <th><h2>Total mass</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                    </tr>
+                    <tr>
+                      <th><h2>Rotor mass</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                    </tr>
+                    <tr>
+                      <th><h2>Blade mass</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                    </tr>
+                    <tr>
+                      <th><h2>Nacelle mass</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div id="left-export">
+                <div id="data-export-t">
+                  <h2>Turbine characteristics</h2>
+                  <div id="end-input-head">
+                  </div>
+                  <table border="0" width="198" cellpadding="2" >
+                    <tr>
+                      <th><h2>Power output</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                      
+                    </tr>
+                    <tr>
+                      <th><h2>Price</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                    </tr>
+                    <tr>
+                      <th><h2>Data 1 ...etc</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                    </tr>
+                    <tr>
+                      <th><h2>Data 2 ...etc</h2></th>
+                      <th><input type="value" name="number-of-blades" size="3" value="45" onchange="Ajax-calll..."/></th>
+                    </tr>
+                  </table>
+                </div>
+                <div id="right">
+                  <h2> 
+                    <form> WT reference input data file
+                      <input  size="45" type="file" value="/" name="ref-input" accept="data/" />
+                    </form>
+                  </h2>
+                  <img src="images/wp.jpg" width="702" height="702" alt="teodor" />
+                  <h2>Description </h2>
+                  <div class="scroll">
+                    <p>This quantification was made based on the next assumption: price of the wind turbine €1 mill/MW and €451/t price of raw steel plates. In the case of transport and installation, an equal value was allocated arbitrary to serve as input for the model implementation. Even though the assumptions reflects the reality with a ± 10% error, the assumed cost structure serves as a reference to develop a parametric model in which the identified manufacturing transport and installation processes are deeply investigated. The presented cost structure is valid just for the existing tower concepts. To account for the new concept, the identified cost structure has to be breaked in its constituent sub-parts (human resources, machining time, machining energy consumption, etc.). The model should be able to substitute processes like longitudinal welding with drilling and bolt-assembly.</p >
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="clear"> </div>
+            
+              <div id="footer">
+                <div id="copyright">
+                  Copyright &copy; 2011 Copyright KE-Works S.R.L Romania and Genworks International All right reserved.
+                </div>
+                <div id="footerline"></div>
+              </div>
+            </div>
+          </body>
+        </html>
+        
+        

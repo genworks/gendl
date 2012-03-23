@@ -403,11 +403,12 @@
           (if (the image?)
               (if (getf (nth n (the part-documentation-plist)) :examples)
        
-                  (format out "@center @image{~aimage/~a,,4.2in}~%~%" (the pdf-files directory)  
+                  (format out "@center @image{~aimage/~a,,2.8in}~%~%" (the pdf-files directory)  
                           (getf (nth n (the part-documentation-plist)) :classr))
                 "" ) 
              
-            (format out "~%~% @b{Example image is not generated!}~%~%"))
+            ;;(format out "~%~% @b{Example image is not generated!}~%~%")
+	     (format out "~%~%~%~%"))
 
           )))))))
 
