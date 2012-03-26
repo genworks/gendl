@@ -118,6 +118,9 @@ function initApplicationLayout () {
         // Initiated the Application, which is located within the application Tab
         ApplicationLayout = $('#ApplicationLayout').layout({
                 name:                                   "ApplicationLayout"
+	    ,   resizable:              true
+	    ,   slidable:               true
+	    ,   closable:               true
         ,       center__paneSelector:   ".outer-center"
         ,       west__paneSelector:             ".outer-west"
         ,       east__paneSelector:             ".outer-east"
@@ -147,7 +150,10 @@ function initApplicationLayout () {
         
         InnerLayout = $('#InnerLayout').layout({
                 name:                                   "InnerLayout"
-                ,       center__onresize: "gdlResize();"
+	    ,   resizable:              true
+	    ,   slidable:               true
+	    ,   closable:               true
+            ,       center__onresize: "gdlResize();"
                 ,       center__paneSelector:   ".inner-center"
                 ,       west__paneSelector:             ".inner-west"
                 ,       east__paneSelector:             ".inner-east"
@@ -181,18 +187,22 @@ $(document).ready(function () {
         // Initiate all the elements on the page
         initTabs();
         // Initiate Layouts
+
         initPageLayout();
         initApplicationLayout();
 
         // Initiate Functional elements
-        initMenus();
-        initAccordion();
+
+    initMenus();
+    //initAccordion();
+
         // FLAG JB 100204 no new inspector available in
         // production version, this part of the code is commented out until 
         // the new inspector package is released
         // initInspectorTable(); 
         
-        PageLayout.resizeAll();
+    PageLayout.resizeAll();
+
         // Hide the loader when the page is correctly initiated.
         $("#loader-message").hide();
 });

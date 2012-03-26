@@ -239,12 +239,25 @@ bottom of the graphics inside a table."
                   :choice-list (plist-keys (the standard-views))
                   ;;:default :top
                   :default (the view-direction-default)
-                  ))
+                  )
+
+   
+
+   )
   
   :functions
   ((reset-zoom!
     ()
-    (the view-object (restore-slot-defaults! (list :user-center :user-scale))))))
+    (the view-object (restore-slot-defaults! (list :user-center :user-scale))))
+
+   ("Void. Writes an embedded X3D tag with content for the <tt>view-object</tt> child of this object. 
+The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
+
+    write-embedded-x3dom-world
+    (&key (include-view-controls? nil))
+    (write-the (embedded-x3dom-world :include-view-controls? include-view-controls?)))))
+
+
 
 
 
@@ -297,6 +310,57 @@ position: relative;
                         (str raphael-string))))))))))
    
    
+   ("Void. Writes an embedded X3D tag and included content for the <tt>view-object</tt> child of this object. 
+The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
+
+    embedded-x3dom-world
+    (&key (include-view-controls? nil))
+    
+    (declare (ignore include-view-controls?))
+    
+    ;; (the (restore-slot-default! :js-to-eval))
+    
+    (cl-who:with-html-output (*stream*)
+      
+    (when (typep (the :view-object) 'null-part)
+      (error "A valid :view-object of type web-drawing is required in the sheet 
+to call the :write-embedded-x3d-world function."))
+    
+    (cond ((the no-graphics?)
+	   #+nil
+	   (and (null (the :view-object :object-roots))
+                (null (the :view-object :objects)))
+           (html-stream *stream* 
+                        ((:table :cellspacing 0 :cellpadding 0 :bgcolor :white)
+                         (:tr
+                          ((:td :width (the :view-object :width) :height
+                                (the :view-object :height) :align :center :valign :center)
+                           (:big (:b "No Graphics Object Specified")))))))
+          (t
+           (with-cl-who ()
+             ((:table :cellspacing 0 :cellpadding 0)
+	      (:tr ((:span :onclick (the (gdl-ajax-call :function-key :toggle-shape!))) "Toggle"))
+              (:tr
+               (:td
+                ((:x3d :id "the_element"
+                       :width (the view-object page-width)
+                       :height (the view-object page-length))
+
+		 (:scene
+		  (with-format (x3d *stream*) (write-the view-object cad-output)))
+		 
+		 ((:script :type "text/javascript" 
+			   :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script")))))
+
+
+              (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
+                                :onclick "document.getElementById('the_element').runtime.showAll();")
+                         "Show All")))))))))
+
+
+   (toggle-shape!
+    ()
+    (the x3dom-div (set-slot! :box? (not (the x3dom-div box?)))))
    
    (web3d-graphics
     ()

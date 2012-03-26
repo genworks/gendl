@@ -42,8 +42,14 @@ This computed-slot contains javascript files, found in the *gdl-install-dir*
 and used throughout the yadd pages for the generation of automatic search forms (like the master-index).
 The javascript loaded is jquery."
     additional-header-js (with-cl-who-string ()
+			   ;;
+			   ;; FLAG -- base jquery should come with base-ajax-sheet. 
+			   ;;
+			   #+nil
                            ((:script :type "text/javascript" 
                                      :src "/static/3rdpty/jquery/js/jquery-1.3.2.min.js"))
+
+			   
                            ((:script :type "text/javascript" 
                                      :src "/static/3rdpty/jquery/js/jquery.quicksearch.js"))))
    

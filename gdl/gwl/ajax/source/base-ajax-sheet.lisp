@@ -263,6 +263,7 @@ UI specific jQuery Layout JavaScript."
                 ((:a :href (the return-object url)) (str display-string))))
               
               (update-root! () 
+			    (format t "Updateing root...~%~%")
                             (unpublish-instance-urls (the instance-id) (the url))
                             (the root update!)
                             (the url)
@@ -307,6 +308,33 @@ UI specific jQuery Layout JavaScript."
   
   :output-functions
   ((main-sheet
+    ()
+    (with-cl-who ()
+      "<!DOCTYPE HTML>"
+      ((:html :lang "en")
+       (:head (:title (str (the title)))
+	      (:meta :charset "UTF-8")
+              (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")
+              (when (the additional-header-content) (str (the additional-header-content)))
+              (write-the standard-javascript)
+              (when (the additional-header-js-content)
+                (str (the additional-header-js-content))))
+       
+       ((:body :class (the body-class)
+	       :onload (the body-onload))
+        (the reset-html-sections!)
+
+	(str (the main-sheet-body))
+	
+	#+nil
+        ((:div :id (the dom-id))
+         (str (the main-sheet-body))
+	 )
+	))))
+
+
+   #+nil
+   (main-sheet
     ()
     ;; FLAG JB-090820 ticket #69, removed the :ident t part from with-cl-who as it inserts and
     ;; extra newline and that causes a bug in IE(7).
@@ -378,8 +406,9 @@ UI specific jQuery Layout JavaScript."
     ()
     (with-cl-who ()
       ((:span :style "color: blue; cursor: pointer;"
-              :onclick (string-append (the (gdl-ajax-call :function-key :update-root!))
-                                      "; location.reload(true);"))
+              :onclick (string-append (the (gdl-sjax-call :function-key :update-root!))
+                                      " location.reload(true);"
+				      ))
        "Update!")))
 
 
@@ -395,19 +424,28 @@ UI specific jQuery Layout JavaScript."
     (with-cl-who (:indent t)
       (when (the use-jquery?)
         (htm 
+
          ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery-1.3.2.min.js"))
+                   :src "/static/3rdpty/jquery/js/jquery-current.min.js"))
          ;; JB-090813 using the patched rc2 of layout 1.3 for ta2.0 alpha
          ;; updating to 1.3 when it becomes available.
-         ((:script :type "text/javascript"
-                   :src "/static/3rdpty/jquery/js/jquery.layout-latest.js"))
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery-ui-all-1.7.2.min.js"))
+	 
+	 ((:script :type "text/javascript" 
+                   :src "/static/3rdpty/jquery/js/jquery-ui-current.min.js"))
+
+	 ((:script :type "text/javascript"
+                   :src "/static/3rdpty/jquery/js/jquery.layout-current.min.js"))
+
+
          ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery-superfish.js"))
          ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery.bgiframe.min.js"))
+	 
+
          ;; FLAG 090909-JB: added the dataTables plugin for the inspector
+	 ;; FLAG -- is this still needed? 
+	 #+nil
          ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery.dataTables.min.js"))
          ))
@@ -421,8 +459,8 @@ UI specific jQuery Layout JavaScript."
       ((:script :type "text/javascript"
                 :src "/static/gwl/js/gdlajax.js"))
       
-      ((:script :language "JavaScript" :type "text/javascript")
-       (fmt "~%var gdliid = '~a';~%~%" (the instance-id)))
+      ((:script :type "text/javascript")
+       (fmt "~%var gdliid = '~a';" (the instance-id)))
       
       (when (the ui-specific-layout-js)
         (htm

@@ -103,9 +103,9 @@ function gdlAjax (evt, params, asynch)
 
   request.open('POST', url, asynch);
   request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-  request.setRequestHeader('content-length', params.length);
-  request.setRequestHeader('user-agent', 'Firefox3-ajax');
-  request.setRequestHeader('connection', 'close');
+    //request.setRequestHeader('content-length', params.length);
+    //request.setRequestHeader('user-agent', 'Firefox3-ajax');
+    //request.setRequestHeader('connection', 'close');
 
   request.onreadystatechange = function () {gdlUpdate(request)};
 
