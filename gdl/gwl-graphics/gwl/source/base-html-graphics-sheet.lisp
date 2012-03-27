@@ -82,26 +82,29 @@
                ;;
                ;; Pre-demand the output in order to set up dependency tracking.
                ;;
-               #-lispworks5.1(with-format (x3d nil) (write-the view-object cad-output))
+	      #-lispworks5.1(with-format (x3d nil) (write-the view-object cad-output))
                
-               (print-variables (the image-format))
-               
-               (publish :path url :content-type "model/x3d-xml"
-                        :function 
-                        (lambda (req ent)
-                          (let ((*display-controls* (the display-controls-hash)))
-                            (with-http-response (req ent)
-                              (setf (reply-header-slot-value req :cache-control) "max-age=1")
-                              (with-http-body (req ent)
-                                (let ((reply-stream (request-reply-stream req))
-                                      (*req* req) (*ent* ent))
-                                  (when *debug?* 
-                                    (let ((*onclick-function* (the onclick-function)))
-                                      (with-format (x3d "/tmp/try.x3d") 
-                                        (write-the view-object cad-output))))
-                                  (let ((*onclick-function* (the onclick-function)))
-                                    (with-format (x3d reply-stream :use-bsplines? (the use-bsplines?))
-                                      (write-the view-object cad-output)))))))))
+	      (publish :path url :content-type "model/x3d+xml"
+		       :function 
+		       (lambda (req ent)
+			 (let ((*display-controls* (the display-controls-hash)))
+			   (with-http-response (req ent)
+			     (setf (reply-header-slot-value req :cache-control) "max-age=1")
+			     (with-http-body (req ent)
+			       (let ((reply-stream (request-reply-stream req))
+				     (*req* req) (*ent* ent))
+				 (when *debug?* 
+				   (let ((*onclick-function* nil ;;(the onclick-function)
+					   ))
+				     (with-format (x3d "/tmp/try.x3d") 
+				       (write-the view-object cad-output))))
+				 (let ((*onclick-function* nil ;;(the onclick-function)
+					 ))
+				   (let ((*stream* reply-stream))
+				     (with-cl-who ()
+				       (:|scene|
+					(with-format (x3d reply-stream :use-bsplines? (the use-bsplines?))
+					  (write-the view-object cad-output))))))))))))
 
                (push url (gethash (make-keyword (the instance-id)) *url-hash-table*)) url) :uncached)
    
@@ -734,10 +737,9 @@ to call the :write-embedded-x3d-world function."))
                           ((:table :cellspacing 0 :cellpadding 0)
                            (:tr
                             (:td
-                      
-                      
                              ((:object :id "x3d" :type "model/x3d+xml"
-                                       :src x3d-url
+                                       ;;:src x3d-url
+				       :data x3d-url
                                        :width (the view-object page-width)
                                        :height (the view-object page-length)))))
                            

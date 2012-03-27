@@ -79,13 +79,11 @@ o filter inspector slots to local slots
                      ((:link :type "text/css" :rel "stylesheet" 
                              :href (the uri-style-sheet)))))
    
+   #+nil
    (html-sections (remove nil
 			  (list (the tree) 
 				(the tree-status-object) 
 				(the viewport) 
-				(when (and (eql (the viewport image-format) :x3dom)
-					   (not (the viewport no-graphics?)))
-				  (the viewport x3dom-div))
 				(the inspector)
 				(the viewport-status-object) 
 				(the image-status-object)

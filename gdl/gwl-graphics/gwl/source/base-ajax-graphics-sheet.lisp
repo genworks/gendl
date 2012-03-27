@@ -346,7 +346,7 @@ to call the :write-embedded-x3d-world function."))
                        :width (the view-object page-width)
                        :height (the view-object page-length))
 
-		 (:scene
+		 (:scene 
 		  (with-format (x3d *stream*) (write-the view-object cad-output)))
 		 
 		 ((:script :type "text/javascript" 
@@ -358,10 +358,6 @@ to call the :write-embedded-x3d-world function."))
                          "Show All")))))))))
 
 
-   (toggle-shape!
-    ()
-    (the x3dom-div (set-slot! :box? (not (the x3dom-div box?)))))
-   
    (web3d-graphics
     ()
     
