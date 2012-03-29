@@ -188,7 +188,7 @@ o filter inspector slots to local slots
    
    
    (footer-ui-widget-header :type 'sheet-section
-                            :main-view (with-cl-who-string ()
+                            :inner-html (with-cl-who-string ()
                                          (:span "Click-mode: " (str (the viewport-status-object main-div))
                                                 " | Image format: [" 
                                                 

@@ -49,7 +49,7 @@
    
    
    (pricing-footer :type 'sheet-section
-		   :main-view
+		   :inner-html
 		   (with-cl-who-string ()
 		     (:h5 "Additional Genworks Product, Pricing and Support Information")
 		     (:ul (:li ((:a :href (the options url) :title "Options" :id "options") "Options"))

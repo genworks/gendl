@@ -49,7 +49,7 @@
 
 (define-lens (html-format short-main-section)()
   :output-functions
-  ((main-view 
+  ((inner-html
     ()
     (with-cl-who ()
       (with-html-form (:cl-who? t)

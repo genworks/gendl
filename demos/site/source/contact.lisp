@@ -6,7 +6,7 @@
   :computed-slots ((body-class "contact"))
   
   :objects ((column-center :type 'sheet-section
-			   :main-view 
+			   :inner-html 
 			   (with-cl-who-string ()
 			     (:h2 "Contact Us")
 			     (:dl (:dt "Telephone: ") (:dd "248-327-3253") 

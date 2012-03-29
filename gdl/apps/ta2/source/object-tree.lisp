@@ -28,7 +28,7 @@
 
 (define-lens (html-format object-tree)()
   :output-functions
-  ((main-view
+  ((inner-html
     ()
     (with-html-form (:name "tree-form" :on-submit "return false;")
       ((:table  
@@ -42,7 +42,7 @@
        (:tr ((:td :valign :top )
              
              (if (the root-object)
-                 (write-the tree-root main-view)
+                 (write-the tree-root inner-html)
                (html (:b (:big "No Current Instance"))))))
            
            
@@ -184,7 +184,7 @@
 
 (define-lens (html-format tree-node)()
   :output-functions
-  ((main-view 
+  ((inner-html
     ()
     (let ((*icon-hash* (make-hash-table)))
       (html ((:table :border "0" 

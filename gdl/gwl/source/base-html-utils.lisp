@@ -65,7 +65,7 @@ by user application code.")
 (defun assoc-list-to-plist (assoc-list &key case-sensitive?)
   (mapcan #'(lambda(cons)
               (list (if case-sensitive? (make-keyword-sensitive (first cons))
-                      (make-keyword (first cons)))
+                      (make-keyword-sensitive (first cons)))
                     (rest cons)))
           assoc-list))
 

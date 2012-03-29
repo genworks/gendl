@@ -12,7 +12,7 @@
   :objects
   ((column-left% 
     :type 'sheet-section
-    :main-view (with-cl-who-string (:indent t)
+    :inner-html (with-cl-who-string (:indent t)
 		 (:h3 "Glossary")
 		 (:ul (:li ((:a :href (the glossary-gdl url) :title "GDL") "GDL"))
 		      (:li ((:a :href (the glossary-declarative url) :title "Declarative") "Declarative"))
@@ -24,7 +24,7 @@
 		      (:li ((:a :href (the glossary-tracking url) :title "Dependency Tracking") "Dependency Tracking")))))
    
    (column-center :type 'sheet-section
-		  :main-view (with-cl-who-string (:indent t)
+		  :inner-html (with-cl-who-string (:indent t)
 			       ((:div :class "column_center") 
 				(:h2 "Technical Terms") 
 				(:h3 "(In Plain English)")

@@ -304,7 +304,7 @@
 (define-lens (html-format viewport)()
   :output-functions
   (
-   (main-view
+   (inner-html
     ()
 
     (with-cl-who ()

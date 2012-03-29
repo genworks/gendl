@@ -40,7 +40,7 @@
    
    (main-section 
     :type 'sheet-section
-    :main-view (with-cl-who-string ()
+    :inner-html (with-cl-who-string ()
                  (:p (str (the development-links)))
                  (:p (str (the table-border html-string)))
                  (:p (str (the cell-padding html-string)))

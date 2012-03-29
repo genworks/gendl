@@ -58,7 +58,7 @@
    
    (js-to-eval "initMenus();")
    
-   (main-view
+   (inner-html
     (with-cl-who-string ()
 
       (str (the menu-view))

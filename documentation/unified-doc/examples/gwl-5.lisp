@@ -36,7 +36,7 @@
 (define-object inputs-section (sheet-section)
   
   :computed-slots
-  ((main-view (with-cl-who-string ()
+  ((inner-html (with-cl-who-string ()
                 (:p (str (the box-length html-string)))
                 (:p (str (the box-width html-string)))
                 (:p (str (the box-height html-string))))))

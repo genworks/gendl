@@ -104,7 +104,7 @@ but which you can fill in your own specific lens to do something useful for the 
                             (:blue 50 \"OK\"))))
    
    :computed-slots 
-   ((main-view (with-cl-who-string ()
+   ((inner-html (with-cl-who-string ()
                  (str (the little-grid form-control-string))
                  (str (the menu-control html-string)))))
    
@@ -120,7 +120,7 @@ but which you can fill in your own specific lens to do something useful for the 
    :input-slots (color box)
   
    :computed-slots 
-   ((main-view (with-cl-who-string ()
+   ((inner-html (with-cl-who-string ()
                  (:p \"The box volume is: \" (fmt \"~a\" (the box volume)))
                  (:p \"The box color is: \" 
                      ((:span :style (format nil \"color: ~a\" (the color)))
@@ -137,7 +137,7 @@ but which you can fill in your own specific lens to do something useful for the 
                     (display-list-objects (list (the box)))
                     (projection-vector (getf *standard-views* 
                                              (the view-selector value)))
-                    (main-view
+                    (inner-html
                      (with-cl-who-string ()
                        (str (the view-selector html-string))
                        (str (the reset-zoom-button form-control-string))
@@ -231,19 +231,20 @@ UI specific jQuery Layout JavaScript."
                  ui-specific-layout-js nil :settable)
                 
                 
-      
+		(respondent (the bashee))
+		
                 )
 
   
-  :trickle-down-slots (respondent)
+  ;;:trickle-down-slots (respondent)
   
   
   :computed-slots ((use-raphael? nil)
                    ;; FLAG 090907-JB: indiscussion with Dave - removed
                    ;;(use-raphael-graf? nil)
 
-
-
+		   
+		   
                    (development-links
                     (with-cl-who-string () (write-the development-links)))
                    

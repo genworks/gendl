@@ -53,10 +53,6 @@
            :input-1 10)))
   
 
-(define-object morph ()
-  
-  :computed-slots ((child-type 'box :settable))
-  
-  :objects ((support :type (the child-type))))
+
 
 

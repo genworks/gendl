@@ -42,11 +42,11 @@
 (defun respond-with-new-html-sections (req ent self)
   (let (replace-list)
     (dolist (section (ensure-list (the html-sections)) (reverse replace-list))
-      (let ((status (the-object section (slot-status :main-view))))
+      (let ((status (the-object section (slot-status :inner-html))))
         (when (eql status :unbound)
           (when *debug?* (format t "pushing html for ~a...~%" (the-object section dom-id)))
           (push (list (the-object section dom-id)
-                      (the-object section main-view)) replace-list))))
+                      (the-object section inner-html)) replace-list))))
     
     (with-http-response (req ent :content-type "text/xml")
       (with-http-body (req ent)

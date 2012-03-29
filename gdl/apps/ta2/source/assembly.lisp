@@ -198,19 +198,19 @@ The error was: ~a~%~%" kids-error) "")
 	      ((:div :id (the tree dom-id) :style (format nil "overflow:auto; height: ~apx; width: ~apx" 
 							  (the tree length)
 							  (the tree width)))
-	       (:princ (the tree main-view)))))
+	       (:princ (the tree inner-html)))))
 	    (:tr
 	     (:td
 	      ((:div :style (format nil "overflow:auto; height: ~apx; width: ~apx;" 
 				    (the inspector length)
 				    (the tree width))
 		     :id (the inspector dom-id))
-	       (:princ (the inspector main-view))))))))
+	       (:princ (the inspector inner-html))))))))
 	 ((:td :valign :top) 
 	  ((:table :cellpadding 1 :cellspacing 0 :bgcolor (gethash :blue-neon *color-table*))
-	   (:tr (:td ((:div :id (the click-mode dom-id)) (:princ (the click-mode main-view)))))
+	   (:tr (:td ((:div :id (the click-mode dom-id)) (:princ (the click-mode inner-html)))))
 	   (:tr ((:td :bgcolor :white) ((:div :id (the viewport dom-id))
-					(:princ (the viewport main-view)))))))))))))))
+					(:princ (the viewport inner-html)))))))))))))))
 
 
 

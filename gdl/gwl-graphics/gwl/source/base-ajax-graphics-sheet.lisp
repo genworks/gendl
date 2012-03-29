@@ -156,8 +156,10 @@ loadScript(xdom_script.src);
    
 
    
-
-   (main-view (with-cl-who-string () (write-the main-view)))
+   ;;
+   ;; FLAG -- probably not needed, inherited from skeleton-ui-mixin via base-ajax-sheet, base-html-sheet, sheet-section. 
+   ;;
+   (inner-html (with-cl-who-string () (write-the inner-html)))
    
    ("String of valid HTML. This can be used to 
 include the PNG or JPG raster-graphics of the geometry."

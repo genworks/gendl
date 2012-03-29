@@ -18,7 +18,7 @@
                                         :cookies-to-send :dash-pattern :dom-id :fill-color-decimal
                                         :fixed-url-prefix :header-plist :home-page :instance-id 
                                         :last-visited-root-path :left-handed? :local-bbox :local-box
-                                        :local-center :local-left-handed? :local-orientation :main-view
+                                        :local-center :local-left-handed? :local-orientation :inner-html
                                         :obliqueness :parent-tree :plain-url? :possible-nils 
                                         :quantify-box :query-toplevel :refresh-toggle :remote-id :respondent 
                                         :return-object :root-path-string :target :time-instantiated 
@@ -106,9 +106,9 @@
   ((main-sheet
     ()
     (html (:html (:head (:title "TaTU Inspector") ((:base :target "_top")))
-                 (:body (write-the (main-view))))))
+                 (:body (write-the (inner-html))))))
    
-   (main-view
+   (inner-html
     ()
     (html-stream *stream* 
                  ((:table :width "100%" :height "100%" :bgcolor (gethash :grey *color-table*))
@@ -144,9 +144,9 @@
           (:h3 (:princ (the :node :strings-for-display)) :br
                ((:font :size (the relative-font-size))))))
                      
-     (:p (write-the settables-form main-view))
+     (:p (write-the settables-form inner-html))
 
-     (:p (write-the viewables-list main-view))
+     (:p (write-the viewables-list inner-html))
                      
      (let ((messages (the :messages)))
        (html ((:table :border 1)
@@ -212,7 +212,7 @@
 
 (define-lens (html-format settables-form)()
   :output-functions
-  ((main-view
+  ((inner-html
     ()
     (when (not (the show-settables?))
       (html
@@ -312,7 +312,7 @@
 (define-lens (html-format viewables-list)()
   
   :output-functions
-  ((main-view
+  ((inner-html
     ()
     (when (the viewables) (the switch-viewables (write-self-link )))
     (when (the switch-viewables show-viewables?)

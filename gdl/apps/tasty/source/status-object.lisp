@@ -27,7 +27,7 @@
   (status-message)
   
   :computed-slots
-  ((main-view 
+  ((inner-html
     (with-cl-who-string ()
       ((:span :class "statusmsg") (str (the status-message)))))))
 

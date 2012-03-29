@@ -258,7 +258,7 @@
                   (:li ((:input :type :submit :value "Debug" :name :undo
                                 :onclick (format nil "return ta2clickbutton('~a', '~a');" (the instance-id) :debug))))))))))))))
    
-   (main-view
+   (inner-html
     () 
     (with-html-form (:name "viewport-form" :on-submit "return false;")
       (let ((*display-controls* (the display-controls-hash)))     

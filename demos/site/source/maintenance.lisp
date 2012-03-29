@@ -13,15 +13,15 @@
 
    (column-left 
     :type 'sheet-section
-    :main-view nil)
+    :inner-html nil)
 
    (column-right 
     :type 'sheet-section
-    :main-view nil)
+    :inner-html nil)
 
    
    (column-center :type 'sheet-section
-		  :main-view 
+		  :inner-html
 		  (with-cl-who-string ()
 		    ((:div :class "content") 
 		     (:h2 "GDL Maintenance and Support")
