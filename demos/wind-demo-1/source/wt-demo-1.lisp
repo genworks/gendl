@@ -5,7 +5,7 @@
  
   :input-slots 
   
-  ((css-style  "/css/style.css"))
+  ((css-style  "/css-demo-1/style-wind-1.css"))
   
   :computed-slots 
   ((additional-header-content 
@@ -294,5 +294,5 @@
 (publish-gwl-app "/demo-1"
                  "wind::demo-1")
 
-(publish-directory :prefix "/css"
-                   :destination (format nil "~a" (merge-pathnames "css" *data-pathname*)))
+(publish-directory :prefix "/css-demo-1"
+                   :destination (format nil "~a" (merge-pathnames "css-demo-1" *data-pathname*)))
