@@ -67,104 +67,104 @@
           
         (write-the header)
         
-        
         ;;
         ;; FLAG -- each view should really be in a separate X3D area or scene, but using references if possible. 
         ;;
-        (cl-who:with-html-output (*stream* nil :indent t)
-          (mapc #'(lambda(key viewpoint)
-                    (let ((position (getf viewpoint :point))
+        (cl-who:with-html-output (*stream* nil)
+	   (mapc #'(lambda(key viewpoint)
+		     (let ((position (getf viewpoint :point))
                           
-                          #+nil
-                          (orientation (or (quaternion-to-rotation 
-                                            (matrix-to-quaternion (getf viewpoint :orientation)))
-                                           (make-vector 0 0 1 0)))
+			   #+nil
+			   (orientation (or (quaternion-to-rotation 
+					     (matrix-to-quaternion (getf viewpoint :orientation)))
+					    (make-vector 0 0 1 0)))
                           
-                          (orientation (matrix-to-rotation (getf viewpoint :orientation)))
+			   (orientation (matrix-to-rotation (getf viewpoint :orientation)))
                           
-                          (field-of-view (degree (getf viewpoint :field-of-view)))
+			   (field-of-view (degree (getf viewpoint :field-of-view)))
                           
-                          ;;(tri-view (getf *standard-views* :trimetric))
-                          ;;(tri-view (make-vector 0.8342367128320977 -0.4377640254359154 0.3352786378480434 ))
-                          (tri-view (getf *standard-views* :left))
+			   ;;(tri-view (getf *standard-views* :trimetric))
+			   ;;(tri-view (make-vector 0.8342367128320977 -0.4377640254359154 0.3352786378480434 ))
+			   (tri-view (getf *standard-views* :left))
                           
-                          (distance 100)
-                          )
+			   (distance 100)
+			   )
                       
-                      (declare (ignore orientation position field-of-view))
+		       (declare (ignore orientation position field-of-view))
                       
-                      (cl-who:htm 
-                       ((:viewpoint :position  
-                                    (let ((point (scalar*vector distance tri-view)))
-                                      (format nil "~a ~a ~a" 
-                                              (get-x point)
-                                              (get-y point) 
-                                              (get-z point)))
+		       (cl-who:htm 
+			((:|viewpoint| :|position|
+				     (let ((point (scalar*vector distance tri-view)))
+				       (format nil "~a ~a ~a" 
+					       (get-x point)
+					       (get-y point) 
+					       (get-z point)))
 
-                                    :orientation 
-                                    (let ((orientation 
-                                           (matrix-to-rotation
-                                            (let ((eye-vector (subtract-vectors (make-vector 0 0 0)
-                                                                                tri-view)))
-                                              (alignment :bottom eye-vector
-                                                         :left (let ((ortho 
-                                                                      (orthogonal-component 
-                                                                       eye-vector 
-                                                                       (if (coincident-point? eye-vector 
-                                                                                              (the (face-normal-vector 
-                                                                                                    :rear)))
-                                                                           (the (face-normal-vector :right))
-                                                                         (the (face-normal-vector :rear))))))
-                                                                 (if (coincident-point? eye-vector ortho)
-                                                                     (the (face-normal-vector :rear))))))))
+				     :orientation 
+				     (let ((orientation 
+					    (matrix-to-rotation
+					     (let ((eye-vector (subtract-vectors (make-vector 0 0 0)
+										 tri-view)))
+					       (alignment :bottom eye-vector
+							  :left (let ((ortho 
+								       (orthogonal-component 
+									eye-vector 
+									(if (coincident-point? eye-vector 
+											       (the (face-normal-vector 
+												     :rear)))
+									    (the (face-normal-vector :right))
+									    (the (face-normal-vector :rear))))))
+								  (if (coincident-point? eye-vector ortho)
+								      (the (face-normal-vector :rear))))))))
                                           
-                                          #+nil
-                                          (orientation 
-                                           (quaternion-to-rotation 
-                                            (matrix-to-quaternion 
-                                             (let ((eye-vector (subtract-vectors (make-vector 0 0 0)
-                                                                                 tri-view)))
-                                               (alignment :bottom eye-vector
-                                                          :left (let ((ortho 
-                                                                       (orthogonal-component 
-                                                                        eye-vector 
-                                                                        (if (coincident-point? eye-vector 
-                                                                                               (the (face-normal-vector 
-                                                                                                     :rear)))
-                                                                            (the (face-normal-vector :right))
-                                                                          (the (face-normal-vector :rear))))))
-                                                                  (if (coincident-point? eye-vector ortho)
-                                                                      (the (face-normal-vector :rear))))))))))
-                                      (format nil "~a ~a ~a ~a"
-                                              (get-x orientation)
-                                              (get-y orientation)
-                                              (get-z orientation)
-                                              (get-w orientation)))
-                                    :description (string-capitalize key)
-                                    ;;:fieldofview (format nil "~a" (/ pi 4))
-                                    ))
+					   #+nil
+					   (orientation 
+					    (quaternion-to-rotation 
+					     (matrix-to-quaternion 
+					      (let ((eye-vector (subtract-vectors (make-vector 0 0 0)
+										  tri-view)))
+						(alignment :bottom eye-vector
+							   :left (let ((ortho 
+									(orthogonal-component 
+									 eye-vector 
+									 (if (coincident-point? eye-vector 
+												(the (face-normal-vector 
+												      :rear)))
+									     (the (face-normal-vector :right))
+									     (the (face-normal-vector :rear))))))
+								   (if (coincident-point? eye-vector ortho)
+								       (the (face-normal-vector :rear))))))))))
+				       (format nil "~a ~a ~a ~a"
+					       (get-x orientation)
+					       (get-y orientation)
+					       (get-z orientation)
+					       (get-w orientation)))
+				     :description (string-capitalize key)
+				     ;;:fieldofview (format nil "~a" (/ pi 4))
+				     ))
 
-                       ((:navigationinfo :type "Examine"
-                                         :headlight "TRUE"
-                                         :speed (format nil "~a" (getf viewpoint :speed)))))))
-                ;;(plist-keys (the viewpoints))
-                ;;(plist-values  (the viewpoints))
-                (list (first (the viewpoints)))
-                (list (second  (the viewpoints)))))
+			((:|navigationinfo| :type "Examine"
+			   :headlight "TRUE"
+			   :speed (format nil "~a" (getf viewpoint :speed)))))))
+		 ;;(plist-keys (the viewpoints))
+		 ;;(plist-values  (the viewpoints))
+		 (list (first (the viewpoints)))
+		 (list (second  (the viewpoints))))
         
         
-        (mapc #'(lambda(view)
-                  (let ((object-roots (ensure-list (the-object view object-roots)))
-                        (objects (ensure-list (the-object view  objects))))
+	  (mapc #'(lambda(view)
+		    (let ((object-roots (ensure-list (the-object view object-roots)))
+			  (objects (ensure-list (the-object view  objects))))
                       
-                    (when *debug?* (print-variables object-roots objects))
+		      (when *debug?* (print-variables object-roots objects))
                     
-                    (mapc #'(lambda(root) (write-the-object root (cad-output-tree :header? nil))) object-roots)
+		      (mapc #'(lambda(root) (write-the-object root (cad-output-tree :header? nil))) object-roots)
                     
-                    (mapc #'(lambda(leaf) (write-the-object leaf (cad-output :header? nil))) objects)))
+		      (mapc #'(lambda(leaf) (write-the-object leaf (cad-output :header? nil))) objects)))
 
-              (the views))
-          
+		(the views))
+	  )
+
         )))))
 
 
@@ -188,24 +188,24 @@
    (pixel-texture
     ()
     (cl-who:with-html-output (*stream* nil :indent nil)
-      (:PixelTexture :image (getf (the display-controls) :pixel-texture))))
+      (:|PixelTexture| :image (getf (the display-controls) :pixel-texture))))
    
    (line-properties
     ()
     (cl-who:with-html-output (*stream* nil :indent nil)
-      (:LineProperties :linetype (getf (the display-controls) :linetype))))
+      (:|LineProperties| :linetype (getf (the display-controls) :linetype))))
    
    (material-properties
     ()
     (cl-who:with-html-output (*stream* nil :indent nil)
-      (:Material :diffuseColor (write-the (rgb-color (if (getf (the display-controls) :color)
+      (:|Material| :|diffuseColor| (write-the (rgb-color (if (getf (the display-controls) :color)
                                                          (getf (the display-controls) :color)
                                                        :black)))
-                 :ambientIntensity (getf (the display-controls) :ambient-intensity)
-                 :emissiveColor (write-the (rgb-color (getf (the display-controls) :emissive-color)))
-                 :shininess (getf (the display-controls) :shininess)
-                 :specularColor (write-the (rgb-color (getf (the display-controls) :specular-color)))
-                 :transparency (getf (the display-controls) :transparency)
+                 :|ambientIntensity| (getf (the display-controls) :ambient-intensity)
+                 :|emissiveColor| (write-the (rgb-color (getf (the display-controls) :emissive-color)))
+                 :|shininess| (getf (the display-controls) :shininess)
+                 :|specularColor| (write-the (rgb-color (getf (the display-controls) :specular-color)))
+                 :|transparency| (getf (the display-controls) :transparency)
                  )))
    
    (appearance
@@ -223,24 +223,24 @@
            (z (get-z (the center))))
       
       (cl-who:with-html-output (*stream* nil :indent nil)
-        (:Transform :translation (when (not (every #'zerop (list x y z)))
+        (:|Transform| :translation (when (not (every #'zerop (list x y z)))
                                    (format nil "~3,7f ~3,7f ~3,7f" x y z))
                     :rotation (when rotation
                                 (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
-                    (:Group (write-the shape))))))
+                    (:|Group| (write-the shape))))))
    
    (scene 
     ()
     (cl-who:with-html-output (*stream* nil :indent nil)
-      (:X3D :profile "Immersive"
+      (:|X3D| :profile "Immersive"
             :version "3.1" 
             :xmlns\:xsd "http://www.w3.org/2001/XMLSchema-instance"
             :xsd\:noNamespaceSchemaLocation "http://www.web3d.org/specifications/x3d-3.1.xsd"
-            (:Scene (:Transform (:MetadataString :name "fieldID" 
+            (:|Scene| (:|Transform| (:|MetadataString| :name "fieldID" 
                                                  ;;:value (the x3d-node-id)
                                                  :value (the root-path-string)
                                                  :containerField "metadata")
-                                (:Group (write-the cad-output-tree)))))))
+                                (:|Group| (write-the cad-output-tree)))))))
 
 
    (cad-output
@@ -258,14 +258,14 @@
             )
         
         (cl-who:with-html-output (*stream* nil :indent nil)
-	  ((:Transform :translation (unless (every #'zerop (list x y z))
+	  ((:|Transform| :|translation| (unless (every #'zerop (list x y z))
 				       (format nil "~3,7f ~3,7f ~3,7f" x y z)))
-	   ((:Transform :rotation (when rotation
+	   ((:|Transform| :|rotation| (when rotation
 				   (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
 					   (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation))))
 	    (if gwl::*onclick-function* 
 		(cl-who:htm 
-		 ((:Anchor :url (format nil "javascript:event=null;~a"
+		 ((:|Anchor| :url (format nil "javascript:event=null;~a"
 					(funcall gwl::*onclick-function* self)))
                    
                    
@@ -283,9 +283,9 @@
 			       (quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix 
 									      (the orientation)))))))
 	       (cl-who:htm
-		((:Transform :translation (when (not (every #'zerop (list x y z)))
+		((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
 					    (format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
-		 ((:Transform :rotation (when inverse
+		 ((:|Transform| :|rotation| (when inverse
 					  (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
 						  (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
 		  (mapc #'(lambda(outline-object)
@@ -306,16 +306,16 @@
         
          
         (cl-who:with-html-output (*stream* nil :indent nil)
-          ((:Transform :translation (unless (every #'zerop (list x y z))
+          ((:|Transform| :|translation| (unless (every #'zerop (list x y z))
 				      (format nil "~3,7f ~3,7f ~3,7f" x y z)))
-	   ((:Transform :rotation (when rotation
+	   ((:|Transform| :|rotation| (when rotation
 				    (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
 					    (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation))))
            
 	    (if (null (the children))
 		(if gwl::*onclick-function* 
 		    (cl-who:htm 
-		     ((:Anchor :url (format nil "javascript:event=null;~a"
+		     ((:|Anchor| :url (format nil "javascript:event=null;~a"
 					    (funcall gwl::*onclick-function* self)))
 		      (write-the shape)))
 		    (write-the shape))
@@ -333,9 +333,9 @@
 				(quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix (the orientation))))
 				(matrix-to-rotation (matrix:transpose-matrix (the orientation))))))
 		(cl-who:htm
-		 ((:Transform :translation (when (not (every #'zerop (list x y z)))
+		 ((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
 					     (format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
-		  ((:Transform :rotation (when inverse
+		  ((:|Transform| :|rotation| (when inverse
 					   (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
 						   (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
 		   (mapc #'(lambda(outline-object)
@@ -353,10 +353,10 @@
     (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (list (the start) (the end))))
            (indices (list-of-numbers 0 (1- (length points)))))
       (cl-who:with-html-output (*stream* nil :indent nil)
-        ((:Shape 
-          (:Appearance (write-the material-properties)))
-         ((:IndexedLineSet :coordIndex (format nil "~{~a ~}-1" indices))
-          ((:Coordinate :point (format nil "~{~a~^ ~}" 
+        ((:|Shape| 
+          (:|Appearance| (write-the material-properties)))
+         ((:|IndexedLineSet| :coordIndex (format nil "~{~a ~}-1" indices))
+          ((:|Coordinate| :point (format nil "~{~a~^ ~}" 
                                        (mapcar #'(lambda(point) (format nil "~a ~a ~a" 
                                                                         (get-x point) 
                                                                         (get-y point) 
@@ -371,10 +371,10 @@
       (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (the-object bezier (equi-spaced-points *curve-chords*))))
              (indices (list-of-numbers 0 (1- (length points)))))
 	(cl-who:with-html-output (*stream* nil :indent nil)
-	  ((:Shape 
-	    (:Appearance (write-the material-properties)))
-	   ((:IndexedLineSet :coordIndex (format nil "~{~a ~}-1" indices))
-	    ((:Coordinate :point (format nil "~{~a~^ ~}" 
+	  ((:|Shape| 
+	    (:|Appearance| (write-the material-properties)))
+	   ((:|IndexedLineSet| :coordIndex (format nil "~{~a ~}-1" indices))
+	    ((:|Coordinate| :point (format nil "~{~a~^ ~}" 
 					 (mapcar #'(lambda(point) (format nil "~a ~a ~a" 
 									  (get-x point) 
 									  (get-y point) 
@@ -391,10 +391,10 @@
       (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (the-object bezier (equi-spaced-points *curve-chords*))))
              (indices (list-of-numbers 0 (1- (length points)))))
 	(cl-who:with-html-output (*stream* nil :indent nil)
-	  ((:Shape 
-	    (:Appearance (write-the material-properties)))
-	   ((:IndexedLineSet :coordIndex (format nil "~{~a ~}-1" indices))
-	    ((:Coordinate :point (format nil "~{~a~^ ~}" 
+	  ((:|Shape| 
+	    (:|Appearance| (write-the material-properties)))
+	   ((:|IndexedLineSet| :coordIndex (format nil "~{~a ~}-1" indices))
+	    ((:|Coordinate| :point (format nil "~{~a~^ ~}" 
 					 (mapcar #'(lambda(point) (format nil "~a ~a ~a" 
 									  (get-x point) 
 									  (get-y point) 
@@ -409,9 +409,9 @@
     ()
     (if (the simple?)
 	(cl-who:with-html-output (*stream* nil :indent nil)
-	  (:Shape
-	   (:Appearance (write-the material-properties))
-	   (:Cone :bottomRadius (the radius-1)
+	  (:|Shape|
+	   (:|Appearance| (write-the material-properties))
+	   (:|Cone| :bottomRadius (the radius-1)
 		  :topRadius (the radius-2)
 		  :height (the length)
 		  :bottom (when (the bottom-cap?) "TRUE"))))
@@ -442,10 +442,10 @@
     ()
     (if (the simple?)
 	(cl-who:with-html-output (*stream* nil :indent nil)
-	  (:Shape
-	   (:Appearance (write-the material-properties))
-	   (:Cylinder :radius (the radius) 
-		      :height (the length))))
+	  (:|Shape|
+	   (:|Appearance| (write-the material-properties))
+	   (:|Cylinder| :|radius| (the radius) 
+		      :|height| (the length))))
 	(call-next-method)))))
 
 
@@ -479,9 +479,9 @@
    (shape
     ()
     (cl-who:with-html-output (*stream* nil :indent nil)
-      (:Shape
-       (:Appearance (write-the material-properties))
-       (:Box :size (format nil "~a ~a ~a" 
+      (:|Shape|
+       (:|Appearance| (write-the material-properties))
+       (:|Box| :|size| (format nil "~a ~a ~a" 
                            (to-double-float (the width)) 
                            (to-double-float (the length))
                            (to-double-float (the height)))))))))
@@ -494,12 +494,12 @@
     ()
     (let ((points (the interpolated-points)))
       (cl-who:with-html-output (*stream* nil :indent nil)
-	(:Shape
-	 (:Appearance (write-the material-properties))
-	 (:IndexedLineSet 
-	  :coordIndex (format nil "~{~a~^ ~}" (list-of-numbers 0 (1- (length points))))
-	  (:Coordinate 
-	   :point (format nil "~{~a~^ ~}" 
+	(:|Shape|
+	 (:|Appearance| (write-the material-properties))
+	 (:|IndexedLineSet| 
+	  :|coordIndex| (format nil "~{~a~^ ~}" (list-of-numbers 0 (1- (length points))))
+	  (:|Coordinate|
+	   :|point| (format nil "~{~a~^ ~}" 
 			  (mapcar #'(lambda(point) 
 				      (let ((point (the (global-to-local point))))
 					(format nil "~a ~a ~a" (get-x point) (get-y point) (get-z point)))) points))))))))))
@@ -511,12 +511,12 @@
    (shape
     ()
     (cl-who:with-html-output (*stream* nil :indent nil)
-      (:Shape
-       (:Appearance (progn (when (getf (the display-controls) :linetype)
+      (:|Shape|
+       (:|Appearance| (progn (when (getf (the display-controls) :linetype)
                              (write-the line-properties))
                            (write-the material-properties)))
-       (:IndexedLineSet :coordIndex (format nil "~{~a ~}-1" (list-of-numbers 0 (1- (length (the vertex-list)))))
-                        (:Coordinate :point (format nil "~{~a~^, ~}" 
+       (:|IndexedLineSet| :|coordIndex| (format nil "~{~a ~}-1" (list-of-numbers 0 (1- (length (the vertex-list)))))
+                        (:|Coordinate| :|point| (format nil "~{~a~^, ~}" 
                                                     (let ((*read-default-float-format* 'single-float))
                                                       (mapcar #'(lambda(point) (format nil "~a ~a ~a"
                                                                                        (coerce (get-x point) 'single-float)
@@ -531,12 +531,12 @@
   ((shape
     ()
     (cl-who:with-html-output (*stream* nil :indent t)
-      (:Shape
-       (:Appearance (write-the material-properties))
-       ((:IndexedFaceSet :solid "FALSE"
-			 :creaseAngle "1.571"
-                         :coordIndex (format nil "~{~{~a~^ ~}~^ -1 ~}" (the ifs-indices)))
-        ((:Coordinate :point (format nil "~{~{~a~^ ~}~^ ~}"
+      (:|Shape|
+       (:|Appearance| (write-the material-properties))
+       ((:|IndexedFaceSet| :|solid| "FALSE"
+	  :|creaseAngle| "1.571"
+	  :|coordIndex| (format nil "~{~{~a~^ ~}~^ -1 ~}" (the ifs-indices)))
+        ((:|Coordinate| :|point| (format nil "~{~{~a~^ ~}~^ ~}"
                                      (map 'list #'(lambda(point) 
                                                     (let ((point (the (global-to-local point))))
                                                       (list (get-x point) (get-y point) (get-z point))) )
@@ -551,10 +551,10 @@
            (points (the (equi-spaced-points total-points))))
       (let ((indices (list-of-numbers 0 (1- (length points)))))
         (cl-who:with-html-output (*stream* nil :indent nil)
-          (:Shape
-           (:Appearance (write-the material-properties))
-           (:IndexedLineSet :coordIndex (format nil "~{~a ~}-1" indices)
-                            (:Coordinate :point (format nil "~{~a~^, ~}"
+          (:|Shape|
+           (:|Appearance| (write-the material-properties))
+           (:|IndexedLineSet| :|coordIndex| (format nil "~{~a ~}-1" indices)
+                            (:|Coordinate| :|point| (format nil "~{~a~^, ~}"
                                                         (let ((*read-default-float-format* 'single-float))
                                                           (mapcar #'(lambda(point) 
                                                                       (let ((point (the (global-to-local point))))

@@ -58,13 +58,18 @@ carry over (the checking prevents it).")
 
 (defparameter *till-now* nil)
 
+
 (defvar *compile-circular-reference-detection?* nil
   "Boolean. This is a compile-time switch. Determines whether GDL detects circular references
 in messages.  Defaults to NIL.")
 
+
 (defvar *run-with-circular-reference-detection?* nil
   "Boolean. This is a runtime switch. Determines whether GDL detects circular references
 in messages.  Defaults to NIL.")
+
+;;(defvar *compile-circular-reference-detection?* t)
+;;(defvar *run-with-circular-reference-detection?* t)
 
 (defvar *compile-dependency-tracking?* t
   "Boolean. This is a compile-time switch. Determines whether GDL keeps track of object and message 

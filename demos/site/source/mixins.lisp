@@ -49,7 +49,7 @@ system used for creating web-centric Knowledge-based Engineering and Business ap
       (when (the normal-layout?)
 	(htm
 	 ((:div :class "content")
-	  (when (the column-left main-view)
+	  (when (the column-left inner-html)
 	    (htm ((:div :class "column_left_top")
 		  ((:div :class "column_left_bottom")
 		   ((:div :class "column_left") 
@@ -58,13 +58,13 @@ system used for creating web-centric Knowledge-based Engineering and Business ap
 	  ((:div :class "column_center") 
 	   (str (the column-center main-div)))
        
-	  (when (the column-right main-view)
+	  (when (the column-right inner-html)
 	    (htm ((:div :class "column_right_top")
 		  ((:div :class "column_right_bottom")
 		   ((:div :class "column_right") 
 		    (str (the column-right main-div)))))))
        
-	  (when (the footer main-view)
+	  (when (the footer inner-html)
 	    (htm ((:p :class "clear") "&nbsp;")
 		 ((:div :class :footer)
 		  (str (the footer main-div)))))))))))
@@ -72,7 +72,7 @@ system used for creating web-centric Knowledge-based Engineering and Business ap
   :objects
   ((column-left 
     :type 'sheet-section
-    :main-view 
+    :inner-html
     (with-cl-who-string ()
       (:h3 "Connections")
       (:ul
@@ -116,16 +116,16 @@ system used for creating web-centric Knowledge-based Engineering and Business ap
       ((:p :class "clear") "&nbsp;")))
    
    (column-center :type 'sheet-section
-		  :main-view (with-cl-who-string ()
+		  :inner-html (with-cl-who-string ()
 			       (:p "This section intentionally left blank.")))
 
    
    (empty-footer :type 'sheet-section
-		 :main-view nil)
+		 :inner-html nil)
    
    (column-right 
     :type 'sheet-section
-    :main-view 
+    :inner-html
     (with-cl-who-string ()
       (:h3 "Interactive Demos") 
       (:p "Click Links Below To See GDL in Action")

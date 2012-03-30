@@ -156,8 +156,10 @@ loadScript(xdom_script.src);
    
 
    
-
-   (main-view (with-cl-who-string () (write-the main-view)))
+   ;;
+   ;; FLAG -- probably not needed, inherited from skeleton-ui-mixin via base-ajax-sheet, base-html-sheet, sheet-section. 
+   ;;
+   (inner-html (with-cl-who-string () (write-the inner-html)))
    
    ("String of valid HTML. This can be used to 
 include the PNG or JPG raster-graphics of the geometry."
@@ -346,7 +348,7 @@ to call the :write-embedded-x3d-world function."))
                        :width (the view-object page-width)
                        :height (the view-object page-length))
 
-		 (:scene
+		 (:scene 
 		  (with-format (x3d *stream*) (write-the view-object cad-output)))
 		 
 		 ((:script :type "text/javascript" 
@@ -358,10 +360,6 @@ to call the :write-embedded-x3d-world function."))
                          "Show All")))))))))
 
 
-   (toggle-shape!
-    ()
-    (the x3dom-div (set-slot! :box? (not (the x3dom-div box?)))))
-   
    (web3d-graphics
     ()
     

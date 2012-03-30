@@ -303,6 +303,8 @@ Defaults to the foreground color specified in <tt>*colors-default*</tt>. This me
    
    (%renderer-info% nil)
    
+
+
    (%internal-hidden-object-keywords% (append (list :local-bbox
                                                     :bounding-bbox
                                                     :beziers)

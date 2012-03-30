@@ -81,7 +81,7 @@
   ;; :amend? t
   
   :output-functions
-  ((main-view
+  ((inner-html
     ()
     (with-html-form (:name "click-mode" :on-submit "return false;")
       ((:table :border 0 :cellpadding 0 :cellspacing 0)

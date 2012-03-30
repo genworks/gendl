@@ -1436,3 +1436,144 @@ add any new keys.
 
 
 
+(defun gdl::convert-to-radial (plist)
+  
+  (let ((radial-number (second (getf plist :sequence)))
+	(radial-keys (rest (rest (getf plist :sequence))))
+	(has-orientation? (getf plist :orientation))
+	(has-center? (getf plist :center))
+	(base-plist (remove-plist-key plist :sequence)))
+    
+    (append (radial-special-inputs radial-keys :has-orientation? has-orientation?
+				   :has-center? has-center?)
+	    base-plist
+	    `(:sequence (:radial ,radial-number)))))
+
+
+(defun radial-special-inputs (radial-keys &key has-orientation? has-center?)
+  
+  (print-variables radial-keys)
+  
+  (append
+   
+   
+   `(:%radial-vector% 
+     (rotate-vector (the (face-normal-vector (the-child %radial-start-direction%)))
+			      (* (the-child index) (the-child %radial-angle%))
+			      (the (face-normal-vector (the-child %radial-normal-direction%))))
+     
+     :%radial-start-direction% ,(or (getf radial-keys :start-direction) :right)
+     :%radial-normal-direction% ,(or (getf radial-keys :normal-direction) :top)
+     :%radial-radius% ,(or (getf radial-keys :radius)
+			   `(half (ecase (the-child %radial-start-direction%)
+				    ((:left :right) (the width))
+				    ((:front :rear) (the length))
+				    ((:top :bottom) (the height)))))
+     
+     :%radial-angle% ,(or (getf radial-keys :angle)
+			  `(div 2pi (the-child aggregate number-of-elements))))
+
+   
+   (unless (or has-orientation? 
+	       (and (member :rotate? (plist-keys radial-keys))
+		    (null (getf radial-keys :rotate?))))
+     '(:orientation (alignment (the-child %radial-normal-direction%)
+		     (the (face-normal-vector (the-child %radial-normal-direction%)))
+		     (the-child %radial-start-direction%)
+		     (the-child %radial-vector%))))
+   
+   (unless has-center?
+     `(:center (translate-along-vector (the center)
+						 (the-child %radial-vector%)
+						 (the-child %radial-radius%))))))
+
+
+
+
+(defun gdl::convert-to-matrix (plist)
+  
+  (let ((matrix-axis-1 (second (getf plist :sequence)))
+	(matrix-axis-2 (fourth (getf plist :sequence)))
+	(has-center? (getf plist :center))
+	(base-plist (remove-plist-key plist :sequence)))
+    
+    (append (matrix-special-inputs matrix-axis-1 matrix-axis-2
+				   :has-center? has-center?)
+	    base-plist
+	    `(:sequence ,(getf plist :sequence)))))
+
+
+(defun axis-to-direction (axis &key reverse?)
+  (if reverse?
+      (ecase axis 
+	(:lateral :left)
+	(:longitudinal :front)
+	(:vertical :bottom))    
+    (ecase axis 
+      (:lateral :right)
+      (:longitudinal :rear)
+      (:vertical :top))))
+
+
+(defun matrix-special-inputs (matrix-axis-1 matrix-axis-2
+			      &key has-center?)
+  
+  (let ((direction-1 (axis-to-direction matrix-axis-1))
+	(direction-2 (axis-to-direction matrix-axis-2))
+	(direction-r1 (axis-to-direction matrix-axis-1 :reverse? t))
+	(direction-r2 (axis-to-direction matrix-axis-2 :reverse? t)))
+    (unless has-center?
+      `(%matrix-vector-1% 
+	(the-child quantify-box (face-normal-vector ,direction-1))
+	
+	%matrix-dim-1% (ecase ,matrix-axis-1
+			 (:lateral (the-child quantify-box width))
+			 (:longitudinal (the-child quantify-box length))
+			 (:vertical (the-child quantify-box height)))
+	%matrix-dim-2% (ecase ,matrix-axis-2
+			 (:lateral (the-child quantify-box width))
+			 (:longitudinal (the-child quantify-box length))
+			 (:vertical (the-child quantify-box height)))
+	%matrix-child-dim-1% (ecase ,matrix-axis-1
+			       (:lateral (the-child width))
+			       (:longitudinal (the-child length))
+			       (:vertical (the-child height)))
+	
+	%matrix-child-dim-2% (ecase ,matrix-axis-2
+			       (:lateral (the-child width))
+			       (:longitudinal (the-child length))
+			       (:vertical (the-child height)))
+	
+	%matrix-vector-2% (the-child quantify-box (face-normal-vector ,direction-2))
+	%matrix-vector-r1% (the-child quantify-box (face-normal-vector ,direction-r1))
+	%matrix-vector-r2% (the-child quantify-box (face-normal-vector ,direction-r2))
+	%matrix-corner% (translate-along-vector
+			 (if (= (second (the-child number-of-elements)) 1)
+			     (the-child quantify-box center)
+			   (translate-along-vector (the-child quantify-box center)
+							     (the-child %matrix-vector-r1%)
+							     (half (- (the-child %matrix-dim-1%) 
+								      (the-child %matrix-child-dim-1%)))))
+			 (the-child %matrix-vector-r2%)
+			 (if (= (fourth (the-child number-of-elements)) 1) 0
+			   (half (- (the-child %matrix-dim-2%)
+				    (the-child %matrix-child-dim-2%)))))
+	
+	%matrix-increment-1% (if (= (second (the-child number-of-elements)) 1) 0
+			       (div (- (the-child %matrix-dim-1%)
+				       (the-child %matrix-child-dim-1%))
+				    (1- (second (the-child number-of-elements)))))
+	
+	%matrix-increment-2% (if (= (fourth (the-child number-of-elements)) 1) 0
+			       (div (- (the-child %matrix-dim-2%)
+				       (the-child %matrix-child-dim-2%))
+				    (1- (fourth (the-child number-of-elements)))))
+	
+	
+	:center (translate-along-vector
+		 (translate-along-vector (the-child %matrix-corner%)
+						   (the-child %matrix-vector-1%)
+						   (* (first (the-child index)) (the-child %matrix-increment-1%)))
+		 (the-child %matrix-vector-2%)
+		 (* (second (the-child index)) (the-child %matrix-increment-2%)))))))
+						

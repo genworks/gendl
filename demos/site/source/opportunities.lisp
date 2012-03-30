@@ -8,7 +8,7 @@
   :objects
   ((column-center 
     :type 'sheet-section
-    :main-view
+    :inner-html
     (with-cl-who-string ()
       
       (:h2 "Value Added Reseller (VAR) Arrangements")

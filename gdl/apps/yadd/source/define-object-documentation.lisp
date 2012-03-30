@@ -252,7 +252,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
   :hidden-objects
   (
    (main-section :type 'sheet-section
-                 :main-view (with-cl-who-string
+                 :inner-html (with-cl-who-string
                                 ()
                               
                               (when *developing?* (htm (:p (str (the devo-links-string)))))

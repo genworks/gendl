@@ -141,7 +141,7 @@ instance at what time should the recovery instance expire?"
            (settables (when bashee (the-object bashee %settable-slots%)))
            (rest-keys (plist-keys rest-plist))
            (query-plist (mapcan #'(lambda(key) (list key (getf rest-plist key)))
-                                (remove-if #'(lambda(key) (gethash (make-keyword key) settables)) rest-keys))))
+                                (remove-if #'(lambda(key) (gethash (make-keyword-sensitive key) settables)) rest-keys))))
       
       
       
@@ -189,14 +189,14 @@ instance at what time should the recovery instance expire?"
               (t (let ((*query-plist* query-plist) (*field-plist* rest-plist)) 
                    (the-object requestor (before-set!)))
               
-                 (when *debug?* (print-variables *query-plist* rest-plist rest-keys))
+                 ;;(when *debug?* (print-variables *query-plist* rest-plist rest-keys))
 
-                 (when *debug?* (setq *f-e-p* fe-processor))
+                 ;;(when *debug?* (setq *f-e-p* fe-processor))
                  
                  (dolist (key rest-keys)
-                   (when (gethash (make-keyword key) settables)
-                     (when *debug?* (print-variables key))
-                     (the-object bashee (set-slot-if-needed! (make-keyword key) (getf rest-plist key)))))
+                   (when (gethash (make-keyword-sensitive key) settables)
+                     ;;(when *debug?* (print-variables key))
+                     (the-object bashee (set-slot-if-needed! (make-keyword-sensitive key) (getf rest-plist key)))))
                  
                  (the-object fe-processor validate-and-set!)
                  
@@ -305,7 +305,7 @@ instance at what time should the recovery instance expire?"
     ;; FLAG -- handle skins
     ;;
     (let* ((instance-id (the-object object instance-id))
-           (current (gethash (make-keyword instance-id) *instance-hash-table*))
+           (current (gethash (make-keyword-sensitive instance-id) *instance-hash-table*))
            (root-part-and-version (list object *dummy-version*)))
       (setf (gethash (first root-part-and-version) *weak-objects*) t)
       (when current
@@ -315,12 +315,12 @@ instance at what time should the recovery instance expire?"
                 (progn (the-object object (set-slot! :instance-id instance-id))
                        (the-object object instance-id))))
       (the-object (first root-part-and-version) url)
-      (setf (gethash (make-keyword instance-id) *instance-hash-table*) root-part-and-version))))
+      (setf (gethash (make-keyword-sensitive instance-id) *instance-hash-table*) root-part-and-version))))
 
 
 (defun %gwl-make-object% (part &key make-object-args share? skin)
   (let* ((instance-id (if share? "share" (make-new-instance-id)))
-         (current (gethash (make-keyword instance-id) *instance-hash-table*))
+         (current (gethash (make-keyword-sensitive instance-id) *instance-hash-table*))
          (skin (if skin (make-instance skin) t))
          (root-part-and-version 
           (if (or (not share?) (not current))
@@ -330,7 +330,7 @@ instance at what time should the recovery instance expire?"
     (setf (gethash (first root-part-and-version) *weak-objects*) t)
     (setq root-part-and-version (append root-part-and-version (list skin)))
     (when (or (not share?) (not current))
-      (setf (gethash (make-keyword instance-id) *instance-hash-table*) root-part-and-version))
+      (setf (gethash (make-keyword-sensitive instance-id) *instance-hash-table*) root-part-and-version))
     (first root-part-and-version)))
   
 
@@ -353,7 +353,7 @@ package-qualified object name\")
   </pre>"
   (let ((query (request-query req)))
     (let ((part (or part (rest (assoc "part" query :test #'string-equal)))))
-      (let* ((current (gethash (make-keyword instance-id) *instance-hash-table*))
+      (let* ((current (gethash (make-keyword-sensitive instance-id) *instance-hash-table*))
              (skin (if skin (make-instance skin) t))
              (root-part-and-version 
               (if (or (not share?) (not current))
@@ -364,7 +364,7 @@ package-qualified object name\")
         (setf (gethash (first root-part-and-version) *weak-objects*) t)
         (setq root-part-and-version (append root-part-and-version (list skin)))
         (when (or (not share?) (not current)) 
-          (setf (gethash (make-keyword instance-id) *instance-hash-table*) root-part-and-version))
+          (setf (gethash (make-keyword-sensitive instance-id) *instance-hash-table*) root-part-and-version))
         
         (let ((object (first root-part-and-version)))
           (when (typep object 'session-control-mixin)
@@ -382,7 +382,7 @@ package-qualified object name\")
 
 
 (defun publish-shared (&key path object-type host (server *wserver*)
-                       (key (make-keyword path)))
+                       (key (make-keyword-sensitive path)))
     "Void. Used to publish a site which is to have a shared toplevel instance tree,  
 and no URI rewriting (i.e. no \"/sessions/XXX/\" at the beginning of the path). So,
 this site will appear to be a normal non-dynamic site even though the pages are
@@ -439,31 +439,32 @@ being generated dynamically.
    (form-element-keys (mapcar #'(lambda(object) (the-object object field-name))
                               (the form-element-objects)))
    
-   
    (radios (mapcan 
             #'(lambda(key)
                 (when (and (glisp:match-regexp "^radio-" (format nil "~a" key))
                            (string-equal (second (getf (the query-plist) key)) "true"))
-                  (list (make-keyword (glisp:replace-regexp
+                  (list (make-keyword-sensitive (glisp:replace-regexp
                                        (glisp:replace-regexp (format nil "~a" key) "^radio-" "")
                                        "-.*" ""))
                         (first (getf (the query-plist) key)))))
                    (plist-keys (the query-plist))))
    
    (query-plist-all 
-    (append (the radios) 
-            (mapcan #'(lambda(key val)
-                        (unless (or (glisp:match-regexp "^radio-" (format nil "~a" key))
-                                    (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
-                          (list key val)))
-                    (plist-keys (the query-plist))
-                    (plist-values (the query-plist)))))
+    (progn
+      (print-variables (the query-plist))
+      (append (the radios) 
+	      (mapcan #'(lambda(key val)
+			  (unless (or (glisp:match-regexp "^radio-" (format nil "~a" key))
+				      (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
+			    (list key val)))
+		      (plist-keys (the query-plist))
+		      (plist-values (the query-plist))))))
    
    (checked-booleans 
     (mapcan #'(lambda(key)
                 (when (glisp:match-regexp "-checkedp$" (format nil "~a" key ))
                   (list 
-                   (make-keyword (glisp:replace-regexp (format nil "~a" key ) "-checkedp$" ""))
+                   (make-keyword-sensitive (glisp:replace-regexp (format nil "~a" key ) "-checkedp$" ""))
                    (let ((checked (getf (the query-plist) key)))
                      (not (string-equal checked "false"))))))
             (plist-keys (the query-plist))))
@@ -479,12 +480,13 @@ being generated dynamically.
                    ;; anywhere in the tree). This really should be the correct
                    ;; behavior. 
                    ;;
-                   #+nil
                    (keys (remove-if-not #'(lambda(key) 
                                             ;; FLAG -- check for value
                                             ;; form-control object for
                                             ;; each key
                                             ;;
+
+					    (print-variables key)
                                             (typep 
                                              (ignore-errors 
                                               (the bashee root
@@ -494,25 +496,35 @@ being generated dynamically.
 
                    ;;
                    ;;
-                   ;;#+nil
+                   #+nil
                    (keys (remove-if-not #'(lambda(key) 
                                             (find key query-plist-keys))
                                         (the form-element-keys))))
+	      
+	      
+	      (print-variables keys)
 
               (mapcan #'(lambda(key) (list key 
                                            (if (member key (the checked-booleans))
                                                (getf (the checked-booleans) key)
                                              (getf (the query-plist-all) key))))
                       keys))))
-
-       (append submitted-elements
-               (mapcan #'(lambda(object) (list (the-object object field-name)
-                                               (the-object object value)))
-                       (remove-if #'(lambda(objct)
-                                      (member (the-object objct field-name)
-                                              (plist-keys submitted-elements)))
-                                  (ensure-list (the force-validation-for)))))))
+       
+       (let ((result
+	      (append submitted-elements
+		      (mapcan #'(lambda(object) (list (the-object object field-name)
+						      (the-object object value)))
+			      (remove-if #'(lambda(objct)
+					     (member (the-object objct field-name)
+						     (plist-keys submitted-elements)))
+					 (ensure-list (the force-validation-for)))))))
+	 result)))
    
+
+   (form-elements-to-bash (progn (print-variables (the form-elements-to-bash%))
+				 (the form-elements-to-bash%)))
+
+   #+nil
    (form-elements-to-bash (mapcan #'(lambda(key val)
                                       ;;
                                       ;; The comparison of old and new should work, to avoid unneeded
@@ -539,8 +551,8 @@ being generated dynamically.
   ((validate-and-set!
     ()
 
-    (when *debug?* (print-variables (the form-elements-to-bash)))
-    
+    (print-variables (the form-elements-to-bash))
+
     (dotimes (n 2)
       (dolist (key (plist-keys (the form-elements-to-bash)))
         

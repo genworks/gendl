@@ -29,12 +29,12 @@
   (let* ((query-plist (gwl::assoc-list-to-plist (request-query req)))
          (plist (progn (when *debug?* (print-variables query-plist))
                        (read-safe-string 
-                        (base64-decode-safe (coerce (getf query-plist :args) 'string)))))
+                        (base64-decode-safe (coerce (getf query-plist :|args|) 'string)))))
          (fields 
           (progn (when *debug?* (print-variables plist))
                  (let ((encoded-fields
                         (read-safe-string 
-                         (base64-decode-safe (coerce (getf query-plist :fields) 
+                         (base64-decode-safe (coerce (getf query-plist :|fields|) 
                                                      'string)))))
                    (mapcan 
                     #'(lambda(key value)
@@ -45,16 +45,17 @@
                                 (base64-decode-safe value))))
                     (plist-keys encoded-fields)
                     (plist-values encoded-fields)))))
-         (raw-fields (getf query-plist :raw-fields))
-         (iid (getf plist :iid))
+         (raw-fields (getf query-plist :|raw-fields|))
+         (iid (getf plist :|iid|))
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (plist (decode-from-ajax plist self))
-         (bashee (getf plist :bashee))
+         (bashee (getf plist :|bashee|))
          (respondent (progn (when *debug?* (print-variables plist))
-                            (or (getf plist :respondent) bashee)))
-         (function (getf plist :function))
-         (arguments (getf plist :arguments)))
+                            (or (getf plist :|respondent|) bashee)))
+         (function (getf plist :|function|))
+         (arguments (getf plist :|arguments|)))
     
+
     
     (when *debug?*
       (let ((bashee-root (the-object bashee root-path))
@@ -62,10 +63,13 @@
         (print-variables raw-fields bashee-root respondent-root fields function)))
 
     
-    (let ((*clicked-x* (let ((string (getf query-plist :x)))
+    (let ((*clicked-x* (let ((string (getf query-plist :|x|)))
                          (when string (ignore-errors (parse-integer string)))))
-          (*clicked-y* (let ((string (getf query-plist :y)))
+          (*clicked-y* (let ((string (getf query-plist :|y|)))
                          (when string (ignore-errors (parse-integer string))))))
+      
+
+      (print-variables (merge-plist-duplicates fields))
 
       (let ((f-e-p (make-object 'form-element-processor 
                                 :bashee bashee 
@@ -113,10 +117,10 @@
   (let ((security-ok? (the root do-security-check)))
     (let (replace-list)
       (dolist (section (the html-sections) (reverse replace-list))
-        (let ((status (the-object section (slot-status :main-view)))
+        (let ((status (the-object section (slot-status :inner-html)))
               (js-status (the-object section (slot-status :js-to-eval))))
         
-          (when *debug?* (print-variables section status js-status))
+          (when *debug?* (print-variables (the-object section root-path) status js-status))
         
           (when (or (eql status :unbound)
                     (eql js-status :unbound))
@@ -125,7 +129,7 @@
                           (multiple-value-bind (string error backtrace)
                               (ignore-errors-with-backtrace
                                 
-                                (the-object section main-view))
+                                (the-object section inner-html))
                             (cond ((typep error 'error)
                                    (with-output-to-string(ss)
                                      (with-html-output(ss)

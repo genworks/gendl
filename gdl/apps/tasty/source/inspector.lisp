@@ -52,7 +52,7 @@
         :cookies-to-send :dash-pattern :dom-id :fill-color-decimal
         :fixed-url-prefix :header-plist :home-page :instance-id 
         :last-visited-root-path :left-handed? :local-bbox :local-box
-        :local-center :local-left-handed? :local-orientation :main-view
+        :local-center :local-left-handed? :local-orientation :inner-html
         :obliqueness :parent-tree :plain-url? :possible-nils 
         :quantify-box :query-toplevel :refresh-toggle :remote-id :respondent 
         :return-object :root-path-string :target :time-instantiated 
@@ -183,7 +183,7 @@
 (define-lens (html-format inspector)()
   
   :output-functions
-  ((main-view
+  ((inner-html
     ()
     (with-cl-who ()
       (if (the node) 
@@ -465,7 +465,7 @@
 
 (define-lens (html-format settables-form)()
   :output-functions
-  ((main-view
+  ((inner-html
     ()
     (with-cl-who ()
       (when (the show-settables?) 

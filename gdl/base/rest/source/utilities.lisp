@@ -23,7 +23,8 @@
 (in-package :gdl)
 
 (defmacro with-error-handling ((&key (error? nil)
-                                     (timeout 2) 
+                                     ;;(timeout 2) 
+				     (timeout nil) 
                                      (timeout-body 
                                       `(warn "Timed Out after ~a Seconds" ,timeout))) 
                                &body body)
@@ -743,3 +744,6 @@ toplevel inputs as specified in the snapshot file.
       (cond ((near-to? mid-value value tolerance) mid)
             ((> mid-value value) (binary-search function value low mid tolerance verbose?))
             ((< mid-value value) (binary-search function value mid high tolerance verbose?))))))
+
+
+

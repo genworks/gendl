@@ -281,7 +281,7 @@ function decode64(input) {
 
 function gdlResize()
 {
- gdlAjax(null, 'args=' + encode64('(:iid '+ doublequote + gdliid + doublequote + ' :bashee (:%rp% nil) :function :set-slot! :arguments (:viewport-dimensions (:width ' + (InnerLayout.state.center.innerWidth -20 ) +  ' :length ' + (InnerLayout.state.center.innerHeight - 75) + ')))'));
+ gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (InnerLayout.state.center.innerWidth -20 ) +  ' :length ' + (InnerLayout.state.center.innerHeight - 75) + ')))'));
 }
 
 
@@ -290,7 +290,7 @@ function collectMenuSelections(select)
     var items = "";
     for (var i = 0; i < select.options.length; i++)
         if (select.options[i].selected)
-            items = items + ':' + select.name + ' ' + doublequote + encode64(select.options[i].value) + doublequote + ' ';
+            items = items + ':|' + select.name + '| ' + doublequote + encode64(select.options[i].value) + doublequote + ' ';
     return(items);
 }
 

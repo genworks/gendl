@@ -85,14 +85,13 @@ from the fields on the form upon submission. Defaults to self."
    ("GDL Object. Object to respond to the form submission. Defaults to self."
     respondent self :defaulting)
    
-   
+
    ("String. This can be used with (str ...) [in cl-who] or (:princ ...) [in htmlGen] 
 to output this section of the page, without the wrapping :div tag [so if you use this, 
 your code would be responsible for wrapping the :div tag with :id (the dom-id).]"
-    main-view (progn (the view-toggle) (with-cl-who-string () 
-                                         (let ((*html-stream* *stream*))
-                                           (write-the main-view)))))
-   
+    inner-html (progn (the view-toggle) (with-cl-who-string () 
+					  (let ((*html-stream* *stream*))
+					    (write-the inner-html)))))
    
    
    ("String of valid Javascript. This Javascript will be send with the Ajax response,
@@ -102,10 +101,17 @@ and evaluated after the innerHTML for this section has been replaced."
    
    (js-always-to-eval nil) 
    
+
+   ("String. This is the auto-computed dom-id which should be used for rendering 
+this section. If you use the main-div HTML string for rendering this object as a 
+page section, then you do not have to generate the :div tag yourself - the main-div 
+will be a string of HTML which is wrapped in the correct :div tag already."
+    dom-id (the base64-encoded-root-path))
+
    )
   
   
-  
+  :trickle-down-slots (respondent)
 
   
   :computed-slots 
@@ -115,11 +121,7 @@ and evaluated after the innerHTML for this section has been replaced."
     (base64-encode-safe 
      (format nil "~s" (remove :root-object-object (the root-path)))))
    
-   ("String. This is the auto-computed dom-id which should be used for rendering 
-this section. If you use the main-div HTML string for rendering this object as a 
-page section, then you do not have to generate the :div tag yourself - the main-div 
-will be a string of HTML which is wrapped in the correct :div tag already."
-    dom-id (the base64-encoded-root-path))
+   
    
    
    (main-div (progn (when *debug?* (print-variables (the respondent)))
@@ -247,7 +249,11 @@ checkbox-form-control."
 
   
   :functions
-  ((register-html-section!
+  ((relative-url-to 
+    (url)
+    (glisp:replace-regexp (namestring (relativize-pathname url (the url))) "\\" "/"))
+
+   (register-html-section!
     (section)
     
     (when *debug?*
@@ -339,7 +345,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
                             (format nil "~{~a~^ + ~}"
                                     (mapcar 
                                      #'(lambda(n)
-                                         (format nil "' :radio-~a-~a (' + doublequote + document.getElementById('~a-~a').value + doublequote + ' ' + doublequote + document.getElementById('~a-~a').checked + doublequote + ')' "
+                                         (format nil "' :|radio-~a-~a| (' + doublequote + document.getElementById('~a-~a').value + doublequote + ' ' + doublequote + document.getElementById('~a-~a').checked + doublequote + ')' "
                                                  (the-object form-control field-name) n
                                                  (the-object form-control id) n
                                                  (the-object form-control id) n))
@@ -387,14 +393,14 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
      
      (with-output-to-string (ss)
        (pprint 
-        (encode-for-ajax (append (list :iid (the-object respondent instance-id)
-                                       :bashee bashee)
+        (encode-for-ajax (append (list :|iid| (the-object respondent instance-id)
+                                       :|bashee| bashee)
                                  (unless (eql respondent bashee)
-                                   (list :respondent respondent))
+                                   (list :|respondent| respondent))
                                  (when function-key
-                                   (list :function function-key))
+                                   (list :|function| function-key))
                                  (when arguments 
-                                   (list :arguments arguments)))) ss))))
+                                   (list :|arguments| arguments)))) ss))))
    
    (toggle-view-toggle! () (the (set-slot! :view-toggle (not (the view-toggle)))))))
 
@@ -402,15 +408,36 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 (define-lens (html-format skeleton-ui-element)()
   :output-functions
   (
-   (main-view 
+   (inner-html
     ()
     (with-cl-who ()
-      (fmt "~a Has no main-view defined." (the strings-for-display))))
+      (fmt "~a Has no inner-html defined." (the strings-for-display))))
+   
 
    
    (main-div 
     ()
     (with-cl-who ()
       ((:div :id (the dom-id) :class (the div-class))
-       (str (the  main-view)))))))
+       (str (the  inner-html)))))))
+
+
+
+;;
+;; from http://paste.lisp.org/display/125460
+;;
+(defun relativize-pathname (target-pathname relative-to-pathname)
+  "Return a relative pathname for TARGET-PATHNAME that can be reached                                                                    
+  from the directory that TARGET-PATHNAME refers to."
+  (let* ((target-directory (pathname-directory (merge-pathnames target-pathname)))
+         (relative-to-directory (pathname-directory (merge-pathnames relative-to-pathname)))
+         (root-length (mismatch target-directory relative-to-directory :test #'equal)))
+    (if root-length
+        (merge-pathnames (enough-namestring target-pathname
+					    (make-pathname :name nil :type nil
+							   :directory (subseq target-directory 0 root-length)))
+                         (make-pathname :name nil :type nil
+                                        :directory `(:relative ,@(loop for i below (- (length relative-to-directory) root-length)
+                                                                       collect :up))))
+        (make-pathname :directory nil :defaults target-pathname))))
 

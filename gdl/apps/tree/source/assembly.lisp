@@ -151,7 +151,7 @@ height: 1px;
       ((:div :id "tree-css") ((:style :type "text/css" :media "screen") 
                               (str (the tree-style))))))
    
-   (main-view 
+   (inner-html
     ()
     (html-stream *stream*
                  ((:div :id (the tree-dom-id)) (write-the tree))))))
@@ -188,9 +188,9 @@ height: 1px;
    ;;
    (base64-encoded-root-path (base64-encode-safe (format nil "~s" (the root-path))))
    (dom-id (the base64-encoded-root-path))
-   (main-view (with-output-to-string (*html-stream*)
+   (inner-html (with-output-to-string (*html-stream*)
                 (with-format (html-format *html-stream*)
-                  (write-the main-view))))
+                  (write-the inner-html))))
    ;;
    ;; endFLAG
    ;;
@@ -218,7 +218,7 @@ height: 1px;
    ;;
    ;; required by skeleton-ui-mixin
    ;;
-   (main-view () (write-the tree))
+   (inner-html () (write-the tree))
 
    
    (tree

@@ -11,7 +11,7 @@
   
   :objects
   ((column-center :type 'sheet-section
-		  :main-view 
+		  :inner-html
 		  (with-cl-who-string ()
 		    ((:p :id "genworks_title") 
 		     ((:img :src "/site-static/images/icons/Genworks_title.gif" :alt "Genworks")))

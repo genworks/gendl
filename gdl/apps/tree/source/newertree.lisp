@@ -125,7 +125,7 @@ Converting to a string to avoid error."
    
    (child-nodes (list-elements (the nodes)))
    
-   (main-view
+   (inner-html
     (with-cl-who-string ()
       ((:ul :id "tree-root" :class "tasty-tree") 
        (str (the tree-node-view)))))

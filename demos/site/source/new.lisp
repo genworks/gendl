@@ -8,7 +8,7 @@
   :objects
   ((column-center 
     :type 'sheet-section
-    :main-view
+    :inner-html
     (with-cl-who-string ()
       (:h2 "What's New for May, 2011")
       (:p (:i "Stay tuned for additional Demos")) 

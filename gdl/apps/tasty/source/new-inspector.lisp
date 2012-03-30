@@ -464,7 +464,7 @@
 
 (define-lens (html-format settables-form)()
   :output-functions
-  ((main-view
+  ((inner-html
     ()
     (with-cl-who ()
       (htm
