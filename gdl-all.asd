@@ -7,7 +7,7 @@
   :author "Dave Cooper <david.cooper@genworks.com>"
   :license "AGPL"
   :serial t
-  :version "2011100200"
+  :version "2012040100"
   :depends-on (:gdl-gwl-graphics
                :gdl-ta2
                :gdl-tasty
