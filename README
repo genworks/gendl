@@ -1,5 +1,5 @@
 ;;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2012 Genworks International and Genworks BV 
 ;;
 ;; This file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -22,24 +22,46 @@
 
 Welcome to the General-purpose Declarative Language Open-Source Distribution.
 
+GDL is distributed under AGPL, which has the requirement that you
+release your updates and any applications compiled with GDL under
+AGPL-compatible license (if distributed at all).
+
+Proprietary (closed-source) licenses are available from Genworks as
+well. This will be described in more detail on the Genworks website
+soon.
+
 
 Current Requirements:
 
- o Common Lisp: LispWorks or AllegroCL
+ o Common Lisp: Allegro CL, LispWorks, or SBCL (SBLC verified only on
+   Linux and Mac).
 
    Note: Allegro CL 8.2 comes with ASDF, but (sys:update-allegro) will
    bring it to ASDF2 which is what you want.
 
- To load the entire system, you can do it from scratch with 
 
-  (load ".../load.lisp") 
+ To load the entire system, you can do it with:
 
-We are working on making GDL to bootstrap with pure Quicklisp/asdf.
+  (ql:quickload :genworks-gdl)
+  (gdl:start-gdl :edition :open-source)
 
-We plan to target SBCL as next CL host. 
 
-If you want to load individual modules, you can do so using quicklisp
-or asdf. 
+Now you can do a quick sanity test by visiting:
+
+  localhost:9000/tasty 
+
+in your browser and trying to instantiate the default assembly tree
+(robot).
+
+Note that ql:quickload is from the Quicklisp package - you have to get
+your system bootstrapped with Quicklisp first in order to use
+this. See www.quicklisp.org.
+
+Slime is recommended for editing GDL applications with Emacs. 
+
+Documentation is in documentation/gdl-documentation.pdf and this very
+much an active work in progress. Training tutorials and videos are
+also in progress, and a www.genworks.com website overhaul.
 
 
 To help in understanding the role of each module, the overall GDL
@@ -67,64 +89,39 @@ under AGPL.
 
  :gdl-base - GDL language kernel.
 
-    depends-on:  :asdf (and normally we use Quicklisp to bootstrap asdf). 
+
+ :gdl-cl-lite - GDL system definitions and loading facility. Supplements our use of asdf. 
 
 
- :cl-lite - GDL system definitions and loading facility. Supplements our use of asdf. 
-
-    depends-on: :gdl-base, :glisp+
+ :gdl-regression - regression test utilities. 
 
 
- :translators - Partially translate other KBE syntax such as PCPACK,
-    ICAD to and/or from GDL.
-   
-    :depends-on: :gdl-base, :glisp+
+ :gdl-geom-base  - Built-in GDL wireframe primtives and basic geometry/vector manipulation functions.
 
 
- :lift-utilities - regression test utilities. 
 
-    :depends-on: :gdl-base, :lift, :glisp+
-
-
- :geom-base  - Built-in GDL wireframe primtives and basic geometry/vector manipulation functions.
-
-    depends-on: :gdl-base, :glisp+
-
-
- :geom-base text-block and document primitives -- 
-
-    depends on: :geom-base, cl-typesetting, :glisp+. 
-
-
- :gwl - Generative Web Language, represent web pages using GDL
+ :gdl-gwl - Generative Web Language, represent web pages using GDL
         objects, includes Ajax interaction with your model.
 
-     depends-on: Native or Portable AllegroServe (aserve or paserve),
-                 :cl-who, :glisp+. 
+
+ :gdl-gwl-graphics - include graphics rendered from geometry object in GWL web pages. 
 
 
- :gwl-graphics - include graphics rendered from geometry object in GWL web pages. 
-
-     depends-on: :gwl, :geom-base, :glisp+.
+ :gdl-surf - surface primitives without underlying geometry kernel middleware or implementation. 
 
 
- :surf - surface primitives without underlying geometry kernel middleware or implementation. 
-
-     depends-on: :geom-base, :glisp+. 
+ :gdl-smlib - (proprietary) add-on to implement :surf primitives with middleware and SMLib geometry kernel
 
 
- :smlib - (proprietary) add-on to implement :surf primitives with middleware and SMLib geometry kernel
-
-     depends-on: :surf, :uffi, :glisp+.      
+ :gdl-yadd - self auto-documentation.
 
 
- :yadd - self auto-documentation.
+ :gdl-build - Utilities for building development and runtime images with various GDL modules built-in. 
 
-     depends-on: gdl-base, gwl (and others if you want their documentation).
-
-
- :build - Utilities for building development and runtime images with various GDL modules built-in. 
-     depends-on: gdl-base. 
-
+ :gdl-translators - Partially translate other KBE syntax such as PCPACK,
+    ICAD to and/or from GDL (note -- these need to be added back to
+    the repository).
+ 
+ 
 
 

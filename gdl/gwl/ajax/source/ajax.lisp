@@ -24,8 +24,6 @@
 
 (defun gdlAjax (req ent)
 
-  (format t "At 1~%")
-  
   (let* ((query-plist (gwl::assoc-list-to-plist (request-query req)))
          (plist (progn (when *debug?* (print-variables query-plist))
                        (read-safe-string 
@@ -68,9 +66,6 @@
           (*clicked-y* (let ((string (getf query-plist :|y|)))
                          (when string (ignore-errors (parse-integer string))))))
       
-
-      (print-variables (merge-plist-duplicates fields))
-
       (let ((f-e-p (make-object 'form-element-processor 
                                 :bashee bashee 
                                 :query-plist (merge-plist-duplicates fields))))

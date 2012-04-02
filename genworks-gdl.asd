@@ -2,8 +2,8 @@
 
 
 
-(asdf:defsystem #:gdl-all
-  :description "The Genworks GDL full system."
+(asdf:defsystem #:genworks-gdl
+  :description "The Genworks GDL full system (synonym for :gdl-all)."
   :author "Dave Cooper <david.cooper@genworks.com>"
   :license "AGPL"
   :serial t

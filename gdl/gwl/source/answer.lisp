@@ -450,15 +450,13 @@ being generated dynamically.
                    (plist-keys (the query-plist))))
    
    (query-plist-all 
-    (progn
-      (print-variables (the query-plist))
-      (append (the radios) 
-	      (mapcan #'(lambda(key val)
-			  (unless (or (glisp:match-regexp "^radio-" (format nil "~a" key))
-				      (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
-			    (list key val)))
-		      (plist-keys (the query-plist))
-		      (plist-values (the query-plist))))))
+    (append (the radios) 
+	    (mapcan #'(lambda(key val)
+			(unless (or (glisp:match-regexp "^radio-" (format nil "~a" key))
+				    (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
+			  (list key val)))
+		    (plist-keys (the query-plist))
+		    (plist-values (the query-plist)))))
    
    (checked-booleans 
     (mapcan #'(lambda(key)
@@ -485,8 +483,6 @@ being generated dynamically.
                                             ;; form-control object for
                                             ;; each key
                                             ;;
-
-					    (print-variables key)
                                             (typep 
                                              (ignore-errors 
                                               (the bashee root
@@ -501,9 +497,6 @@ being generated dynamically.
                                             (find key query-plist-keys))
                                         (the form-element-keys))))
 	      
-	      
-	      (print-variables keys)
-
               (mapcan #'(lambda(key) (list key 
                                            (if (member key (the checked-booleans))
                                                (getf (the checked-booleans) key)
@@ -521,8 +514,7 @@ being generated dynamically.
 	 result)))
    
 
-   (form-elements-to-bash (progn (print-variables (the form-elements-to-bash%))
-				 (the form-elements-to-bash%)))
+   (form-elements-to-bash (the form-elements-to-bash%))
 
    #+nil
    (form-elements-to-bash (mapcan #'(lambda(key val)
@@ -550,8 +542,6 @@ being generated dynamically.
   :functions
   ((validate-and-set!
     ()
-
-    (print-variables (the form-elements-to-bash))
 
     (dotimes (n 2)
       (dolist (key (plist-keys (the form-elements-to-bash)))

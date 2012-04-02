@@ -105,6 +105,7 @@
       ;;
       ;; Quicklisp:
       ;;
+      #+nil
       (glisp:copy-directory (merge-pathnames "../../common/quicklisp/" glisp:*genworks-source-home*)
 			    (merge-pathnames "quicklisp/" (the target-parent)))
       ;;
@@ -139,6 +140,7 @@
       ;;
       ;; gpl on windows
       ;;
+      #+nil
       (when (string-equal (the os) "windows")
 	(glisp:copy-directory (merge-pathnames "../../common/gpl/" glisp:*genworks-source-home*)
 			      (merge-pathnames "gpl/" (the target-parent))))))))

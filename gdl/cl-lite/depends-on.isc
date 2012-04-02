@@ -1,2 +1,2 @@
-(:gdl-base :cl-fad :gdl-cl-typesetting-ql-patch)
+(:gdl-base :cl-fad)
 
