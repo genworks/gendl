@@ -39,11 +39,6 @@ Current Requirements:
    Note: Allegro CL 8.2 comes with ASDF, but (sys:update-allegro) will
    bring it to ASDF2 which is what you want.
 
-   Note: Currently Allegro CL requires pre-loading of patches for
-   portableallegroserve and cl-typesetting, please see these in
-   ql-patches. We hope these libraries will be updated for the April
-   2012 Quicklisp release so the special loading will not be needed.
-
 
  To load the entire system, you can do it with:
 
