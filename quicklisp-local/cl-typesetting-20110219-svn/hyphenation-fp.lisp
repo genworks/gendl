@@ -12,9 +12,6 @@
 ;;;        F-57070 Metz France
 ;;; www:   http://www.metz.supelec.fr/~popineau/
 
-
-
-
 (defpackage :cl-typesetting-hyphen
   (:use common-lisp)
   (:export
