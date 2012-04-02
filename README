@@ -48,7 +48,15 @@ Current Requirements:
  To load the entire system, you can do it with:
 
   (ql:quickload :genworks-gdl)
+  (gdl:start-gdl :edition :open-source)
 
+
+Now you can do a quick sanity test by visiting:
+
+  localhost:9000/tasty 
+
+in your browser and trying to instantiate the default assembly tree
+(robot).
 
 Note that ql:quickload is from the Quicklisp package - you have to get
 your system bootstrapped with Quicklisp first in order to use
