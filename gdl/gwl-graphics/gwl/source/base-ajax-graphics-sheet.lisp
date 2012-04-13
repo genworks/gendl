@@ -103,9 +103,8 @@ Defaults to the
     background-color (lookup-color (getf *colors-default* :background) :format :decimal))
 
    ("Number in angular degrees. The maximum angle of the view frustrum 
-for perspective views. Defaults to 0.1 (which results in a near parallel 
-projection with virtually no perspective effect)."
-    field-of-view-default 1)
+for perspective views. Defaults to 45 which is natural human eye field of view. "
+    field-of-view-default 45)
    
    
    ("Keyword symbol. Determines the default image format. Defaults to the currently selected
@@ -116,6 +115,8 @@ value of the image-format-selector, which itself defaults to :raphael."
    ("Boolean. Indicates whether standard view-controls panel should be included with the graphics."
     include-view-controls? t)
    
+   (x3dom-view-controls? t)
+
    )
 
   
@@ -341,24 +342,24 @@ to call the :write-embedded-x3d-world function."))
           (t
            (with-cl-who ()
              ((:table :cellspacing 0 :cellpadding 0)
-	      (:tr ((:span :onclick (the (gdl-ajax-call :function-key :toggle-shape!))) "Toggle"))
               (:tr
                (:td
-                ((:x3d :id "the_element"
-                       :width (the view-object page-width)
-                       :height (the view-object page-length))
+		(:p
+		 ((:|X3D| :id "the_element"
+		    :swfpath "/static/3rdpty/x3dom/x3dom.swf"
+		    :width (the view-object page-width)
+		    :height (the view-object page-length))
+		  
+		  (:|Scene|
+		    (with-format (x3d *stream*) (write-the view-object cad-output)))))
+		
+		((:script :type "text/javascript" 
+			  :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))))
 
-		 (:scene 
-		  (with-format (x3d *stream*) (write-the view-object cad-output)))
-		 
-		 ((:script :type "text/javascript" 
-			   :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script")))))
-
-
-              (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-                                :onclick "document.getElementById('the_element').runtime.showAll();")
-                         "Show All")))))))))
-
+	      (when (the x3dom-view-controls?)
+		(htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
+				       :onclick "document.getElementById('the_element').runtime.showAll();")
+				"Show All")))))))))))
 
    (web3d-graphics
     ()

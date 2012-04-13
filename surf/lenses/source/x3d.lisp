@@ -74,74 +74,26 @@
 	   (mapc #'(lambda(key viewpoint)
 		     (let ((position (getf viewpoint :point))
                           
-			   #+nil
-			   (orientation (or (quaternion-to-rotation 
-					     (matrix-to-quaternion (getf viewpoint :orientation)))
-					    (make-vector 0 0 1 0)))
-                          
 			   (orientation (matrix-to-rotation (getf viewpoint :orientation)))
                           
 			   (field-of-view (degree (getf viewpoint :field-of-view)))
                           
 			   ;;(tri-view (getf *standard-views* :trimetric))
 			   ;;(tri-view (make-vector 0.8342367128320977 -0.4377640254359154 0.3352786378480434 ))
-			   (tri-view (getf *standard-views* :left))
+			   ;;(tri-view (getf *standard-views* :left))
                           
-			   (distance 100)
 			   )
                       
-		       (declare (ignore orientation position field-of-view))
-                      
 		       (cl-who:htm 
-			((:|viewpoint| :|position|
-				     (let ((point (scalar*vector distance tri-view)))
-				       (format nil "~a ~a ~a" 
-					       (get-x point)
-					       (get-y point) 
-					       (get-z point)))
-
-				     :orientation 
-				     (let ((orientation 
-					    (matrix-to-rotation
-					     (let ((eye-vector (subtract-vectors (make-vector 0 0 0)
-										 tri-view)))
-					       (alignment :bottom eye-vector
-							  :left (let ((ortho 
-								       (orthogonal-component 
-									eye-vector 
-									(if (coincident-point? eye-vector 
-											       (the (face-normal-vector 
-												     :rear)))
-									    (the (face-normal-vector :right))
-									    (the (face-normal-vector :rear))))))
-								  (if (coincident-point? eye-vector ortho)
-								      (the (face-normal-vector :rear))))))))
-                                          
-					   #+nil
-					   (orientation 
-					    (quaternion-to-rotation 
-					     (matrix-to-quaternion 
-					      (let ((eye-vector (subtract-vectors (make-vector 0 0 0)
-										  tri-view)))
-						(alignment :bottom eye-vector
-							   :left (let ((ortho 
-									(orthogonal-component 
-									 eye-vector 
-									 (if (coincident-point? eye-vector 
-												(the (face-normal-vector 
-												      :rear)))
-									     (the (face-normal-vector :right))
-									     (the (face-normal-vector :rear))))))
-								   (if (coincident-point? eye-vector ortho)
-								       (the (face-normal-vector :rear))))))))))
-				       (format nil "~a ~a ~a ~a"
-					       (get-x orientation)
-					       (get-y orientation)
-					       (get-z orientation)
-					       (get-w orientation)))
-				     :description (string-capitalize key)
-				     ;;:fieldofview (format nil "~a" (/ pi 4))
-				     ))
+			((:|Viewpoint| 
+			   :position (format nil "~a ~a ~a" (get-x position) (get-y position) (get-z position))
+			   :orientation (format nil "~a ~a ~a ~a"
+						(get-x orientation)
+						(get-y orientation)
+						(get-z orientation)
+						(get-w orientation))
+			   :|fieldOfView| field-of-view
+			   :description (string-capitalize key)))
 
 			((:|navigationinfo| :type "Examine"
 			   :headlight "TRUE"
@@ -150,19 +102,25 @@
 		 ;;(plist-values  (the viewpoints))
 		 (list (first (the viewpoints)))
 		 (list (second  (the viewpoints))))
+	   
+	   (let ((background (lookup-color (the background-color))))
+	     (cl-who:htm (:|Background| :|skyColor| (format nil "~a ~a ~a" 
+							    (to-double-float (get-x background))
+							    (to-double-float (get-y background))
+							    (to-double-float (get-z background))))))
+						     
         
-        
-	  (mapc #'(lambda(view)
-		    (let ((object-roots (ensure-list (the-object view object-roots)))
-			  (objects (ensure-list (the-object view  objects))))
+	   (mapc #'(lambda(view)
+		     (let ((object-roots (ensure-list (the-object view object-roots)))
+			   (objects (ensure-list (the-object view  objects))))
                       
-		      (when *debug?* (print-variables object-roots objects))
+		       (when *debug?* (print-variables object-roots objects))
                     
-		      (mapc #'(lambda(root) (write-the-object root (cad-output-tree :header? nil))) object-roots)
+		       (mapc #'(lambda(root) (write-the-object root (cad-output-tree :header? nil))) object-roots)
                     
-		      (mapc #'(lambda(leaf) (write-the-object leaf (cad-output :header? nil))) objects)))
+		       (mapc #'(lambda(leaf) (write-the-object leaf (cad-output :header? nil))) objects)))
 
-		(the views))
+		 (the views))
 	  )
 
         )))))

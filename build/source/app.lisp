@@ -42,14 +42,14 @@ Defaults to a directory called <tt>(the application-name)</tt> in the user
 temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
     destination-directory 
     (make-pathname :name nil :type nil 
-		   :directory (append (pathname-directory (glisp:temporary-folder)) (the application-name))
+		   :directory (append (pathname-directory (glisp:temporary-folder)) (ensure-list (the application-name)))
 		   :defaults (glisp:temporary-folder)))
 
    (overwrite? t)
 
    (load-core-gdl-form `(progn (load ,(merge-pathnames "../build"
 						   glisp:*genworks-source-home*))
-			       
+			       #+nil
 			       (setf (symbol-value (read-from-string 
 						    "asdf:*central-registry*")) nil)))
 
@@ -57,7 +57,7 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 
    (post-load-form nil)
    
-   (init-file-names (list "gdlinit.cl" ".gdlinit.cl"))
+   (init-file-names nil)
    
    (restart-init-function nil)
    
@@ -71,6 +71,9 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
   :functions
   ((make!
     ()
+
+    (print-variables (the init-file-names))
+
     (when (and (probe-file (the destination-directory)) (the overwrite?))
       (glisp:delete-directory-and-files (the destination-directory)))
     (glisp:make-gdl-app   :application-name (the application-name)
@@ -136,9 +139,9 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 				 (format nil "~a-~a" implementation-identifier
 					 (glisp:next-datestamp prefix implementation-identifier)))) prefix))))
     (app :application-name "gdl"
-	 :application-class :development
+	 :application-class #+64bit :runtime #-64bit :development
 	 :destination-directory destination-directory
-	 :modules (list :agraph :ide)
+	 :modules (list #-64bit :agraph #-64bit :ide)
 	 :restart-init-function '(lambda()
 				  (setq glisp:*gdl-home* (glisp:current-directory))
 				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
@@ -159,16 +162,19 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 	 (asdf:load-system :gdl-demos)  
 	 (load (merge-pathnames "../downloads/gdl-downloads.asd" glisp:*genworks-source-home*))
 	 (asdf:load-system :gdl-downloads)
+	 (load (merge-pathnames "demos/newsite/gdl-newsite.asd" glisp:*genworks-source-home*))
+	 (asdf:load-system :gdl-newsite)
 	 (setf (symbol-value (read-from-string 
 			      "glisp:*genworks-source-home*")) nil))
        :destination-directory 
-       (merge-pathnames "../../staging/site/" glisp:*genworks-source-home*)
+       (merge-pathnames "~/share/staging/site/" glisp:*genworks-source-home*)
        :overwrite? t
        :application-name "genworks-site"
        :application-class :development
        :demo-days nil
        :restart-init-function '(lambda()
 				(gdl:start-gdl :edition :trial)
+				(setf (symbol-value (read-from-string "www.genworks.com::*smtp-server*")) "localhost")
 				(glisp:set-gs-path 
 				 #+mswindows (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*)))))
 

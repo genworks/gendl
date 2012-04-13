@@ -2,9 +2,6 @@
 
 (let ((static (namestring 
 	       (merge-pathnames "newsite/static/" 
-				(asdf:system-source-directory "gdl-demos"))))
-      (images (namestring 
-	       (merge-pathnames "newsite/images/" 
 				(asdf:system-source-directory "gdl-demos")))))
   (publish-directory :prefix "/newsite-static/"
 		     :headers (list (cons :cache-control "86400"))

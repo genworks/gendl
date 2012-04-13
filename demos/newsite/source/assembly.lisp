@@ -4,7 +4,8 @@
 
   :computed-slots
   ((title "Genworks International - Welcome")
-   (right-section-inner-html (the index-html right-section-inner-html))
+   (right-section-inner-html (the current-right-section right-section-inner-html))
+
    (link-title "Home")
    
    (pages (the children)))
@@ -13,13 +14,17 @@
 
   :hidden-objects
   ((news :type 'news)
-
-   (configurator :type 'configurator))
+   
+   (robot :type 'robot:assembly))
 
   :objects
-  ((index-html :type 'index-html)
-   (products :type 'products)
-   (services :type 'services)
-   (demos :type 'demos)
-   (people :type 'people)
-   (contact-us :type 'contact-us)))
+  ((index-html :type 'index-html
+	       :respondent self)
+   (products :type 'products
+	     :respondent self)
+   ;;(services :type 'services)
+   ;;(demos :type 'demos)
+   (people :type 'people
+	   :respondent self)
+   (contact-us :type 'contact-us
+	       :respondent self)))
