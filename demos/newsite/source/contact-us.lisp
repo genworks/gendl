@@ -61,8 +61,7 @@ provide the appropriate level of service.")
 	    :prompt "Subject: "
 	    :size 1
 	    :label-position :prepend
-	    ;;:default (if (the matched-email) :tech-support :general)
-	    :default (if :tech-support)
+	    :default (if (the matched-email) :tech-support :general)
 	    :ajax-submit-on-change? t
 	    :choice-plist 
 	    (append (when (the matched-email) (the supported-subject-options))

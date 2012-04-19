@@ -5,7 +5,7 @@
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
                 :version "2012041200" :depends-on
-                (:gdl-gwl-graphics :gdl-smlib) :components
+                (:gdl-gwl-graphics) :components
                 ((:file "robot/source/package")
                  (:file "robot/source/assembly")
                  (:file "bus/source/package")
@@ -71,20 +71,5 @@
                  (:file "site/source/products")
                  (:file "site/source/publish")
                  (:file "site/source/security")
-                 (:file "wind-demo-1/source/package")
-                 (:file "wind-demo-1/source/parameters")
-                 (:file "wind-demo-1/source/assembly")
-                 (:file "wind-demo-1/source/blade-tanase-new")
-                 (:file "wind-demo-1/source/edge-blend-surface-wind")
-                 (:file "wind-demo-1/source/flaps-blade")
-                 (:file "wind-demo-1/source/hub")
-                 (:file "wind-demo-1/source/nacelle")
-                 (:file "wind-demo-1/source/profile-curv")
-                 (:file "wind-demo-1/source/rotor-assembly")
-                 (:file "wind-demo-1/source/support")
-                 (:file
-                  "wind-demo-1/source/surface-general-rotation")
-                 (:file "wind-demo-1/source/test")
-                 (:file "wind-demo-1/source/wt-demo-1")
                  (:file "wire-world/source/package")
                  (:file "wire-world/source/assembly")))

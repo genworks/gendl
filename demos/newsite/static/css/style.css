@@ -51,8 +51,21 @@ body {
   left: 243px;
   width: 535px;
   height: 279px;
-  background: url(../images/header_2.jpg) no-repeat;
-  background: url(../images/aero-small.png) no-repeat; 
+  /* background: url(../images/header_2.jpg) no-repeat;
+  background: url(../images/aero-small.png) no-repeat;  */
+  /* background: url(../images/Gendl-dave-low.png) no-repeat; */ 
+}
+
+
+#product-image {
+  position: absolute;
+  top: 0;
+  left: 243px;
+  width: 535px;
+  height: 411px;
+  /* background: url(../images/header_2.jpg) no-repeat;
+  background: url(../images/aero-small.png) no-repeat;  */
+  background: url(../images/Gendl-dave-low-521.png) no-repeat;
 }
 
 #header-nobg {
@@ -60,7 +73,7 @@ body {
   top: 0;
   left: 243px;
   width: 535px;
-  height: 279px;
+  height: 279px;  
 }
 
 .header-nobg {
@@ -68,7 +81,7 @@ body {
   top: 0;
   left: 0px;
   width: 535px;
-  height: 279px;
+  height: 279px; 
 }
 
 
@@ -222,9 +235,10 @@ body {
 
 #right {
   float: right;
+q  float: top;
   width: 490px;
   padding-right: 9px;
-  padding-top: 301px;
+  padding-top: 301px; 
 }
 #right h2 {
   font: 18px arial, sans-serif;

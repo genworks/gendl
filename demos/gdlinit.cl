@@ -4,9 +4,7 @@
 (net.aserve:shutdown)
 
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (net.aserve:start :port 80 :listeners 50))
-
+(net.aserve:start :port 80 :listeners 50)
 
 
 (publish-gwl-app "/" "genworks.com:assembly")
@@ -26,6 +24,9 @@
 			   :file (format nil "~a" (probe-file "../static-old/aclu.html"))))
 
 
+
+(net.aserve:publish-directory :prefix "/downloads/" 
+			      :destination "../downloads/")
 
 (excl.osi:setgid 1002)
 (excl.osi:setuid 1002)

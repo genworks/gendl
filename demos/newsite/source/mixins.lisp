@@ -8,10 +8,10 @@
       
       ((:link :type "text/css" :rel "stylesheet" :href "/newsite-static/css/style.css"))
       ((:meta :name "description" 
-	      :content "Genworks is a developer and vendor for General-purpose Declarative Language (GDL), 
+	      :content "Genworks is a developer and vendor for General-purpose Declarative Language (Gendl), 
 a high-productivity application development system used for creating web-centric Knowledge-based 
 Engineering and Business applications which can involve complex 3D geometry."))
-      ((:meta :name "keywords" :content "Genworks, Knowledge-Based Engineering, KBE, GDL, Common Lisp, 
+      ((:meta :name "keywords" :content "Genworks, Knowledge-Based Engineering, KBE, GDL, Gendl, GenDL, Common Lisp, 
 Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, Disruptive Technologies"))
 
       ((:script :src "/newsite-static/detect.js"))
@@ -101,6 +101,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 	 (str (the vector-graphics)))
 	((:div :id "all-go" :class "header-nobg" :style "display:none;")
 	 (the write-embedded-x3dom-world)))
+       ;;((:div :id "product-image"  :style "display:none;"))
        ((:div :id "left")
 	((:div :id "logo") (if *developing?* (str (the development-links))
 			       (htm (:H1 "Genworks International") ))
@@ -108,6 +109,8 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 	(str (the nav-section main-div))
 	(str (the news-section main-div))
 	(str (the support-section main-div)))
+
+       
        (str (the right-section main-div))
        ((:div :class "clear")) ((:div :id "spacer"))
        (str (the footer-section main-div)))))

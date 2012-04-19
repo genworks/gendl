@@ -433,16 +433,15 @@
 
 (define-lens (x3d box)()
   :output-functions
-  (
-   (shape
+  ((shape
     ()
-    (cl-who:with-html-output (*stream* nil :indent nil)
+    (cl-who:with-html-output (*stream* nil :indent t)
       (:|Shape|
        (:|Appearance| (write-the material-properties))
        (:|Box| :|size| (format nil "~a ~a ~a" 
-                           (to-double-float (the width)) 
-                           (to-double-float (the length))
-                           (to-double-float (the height)))))))))
+			       (to-double-float (the width))
+			       (to-double-float (the length))
+			       (to-double-float (the height)))))))))
 
 
 

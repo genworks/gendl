@@ -243,7 +243,7 @@ UI specific jQuery Layout JavaScript."
                    ;; FLAG 090907-JB: indiscussion with Dave - removed
                    ;;(use-raphael-graf? nil)
 
-		   
+		   (use-x3dom? nil)
 		   
                    (development-links
                     (with-cl-who-string () (write-the development-links)))
@@ -452,6 +452,11 @@ UI specific jQuery Layout JavaScript."
          ))
       
       
+      (when (the use-x3dom?)
+        (htm ((:script :type "text/javascript" 
+                       :src 
+                       "/static/3rdpty/x3dom/x3dom.js" :id "x3dom_script"))))
+
       (when (the use-raphael?)
         (htm ((:script :type "text/javascript" 
                        :src 
