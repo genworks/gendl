@@ -11,7 +11,7 @@
   :depends-on (:gdl-gwl-graphics
                :gdl-ta2
                :gdl-tasty
-               :gdl-demos
+               ;;:gdl-demos
                :gdl-yadd
                ;;:gdl-geom-base  FLAG -- remove, this is depended on already by gdl-gwl-graphics.
                ;;:gdl-gwl  FLAG -- remove, this is depended on already by gdl-gwl-graphics.

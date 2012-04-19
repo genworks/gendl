@@ -191,8 +191,12 @@ and the defaults come from the following parameters:
                      :v (get-iso-curves *geometry-kernel* self 
                                         :v (or (getf (the isos) :n-v)))))
    
-
+   ;;
+   ;; FLAG -- replace with bounding box directly from kernel. 
+   ;; 
    (bounding-box (bounding-box-from-points 
+		  (flatten (the control-points))
+		  #+nil
                   (apply #'append 
                          (apply #'append (mapsend (the outline-objects) 
                                                   :%curves-to-draw%)))))

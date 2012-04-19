@@ -4,9 +4,11 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012031300" :depends-on (:gdl-gwl-graphics)
-                :components
-                ((:file "bus/source/package")
+                :version "2012041200" :depends-on
+                (:gdl-gwl-graphics) :components
+                ((:file "robot/source/package")
+                 (:file "robot/source/assembly")
+                 (:file "bus/source/package")
                  (:file "bus/source/assembly")
                  (:file "bus/source/body")
                  (:file "bus/source/chassis")
@@ -35,8 +37,21 @@
                  (:file "ledger/source/package")
                  (:file "ledger/source/assembly")
                  (:file "ledger/source/html")
-                 (:file "robot/source/package")
-                 (:file "robot/source/assembly")
+                 (:file "newsite/source/package")
+                 (:file "newsite/source/Services")
+                 (:file "newsite/source/assembly")
+                 (:file "newsite/source/configurator")
+                 (:file "newsite/source/contact-us")
+                 (:file "newsite/source/demos")
+                 (:file "newsite/source/index")
+                 (:file "newsite/source/licensing")
+                 (:file "newsite/source/mixins")
+                 (:file "newsite/source/news")
+                 (:file "newsite/source/people")
+                 (:file "newsite/source/product-descriptions")
+                 (:file "newsite/source/product-licensing")
+                 (:file "newsite/source/products")
+                 (:file "newsite/source/publish")
                  (:file "site/source/package")
                  (:file "site/source/assembly")
                  (:file "site/source/contact")
@@ -55,4 +70,6 @@
                  (:file "site/source/pricing")
                  (:file "site/source/products")
                  (:file "site/source/publish")
-                 (:file "site/source/security")))
+                 (:file "site/source/security")
+                 (:file "wire-world/source/package")
+                 (:file "wire-world/source/assembly")))

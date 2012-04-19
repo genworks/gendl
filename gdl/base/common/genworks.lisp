@@ -302,6 +302,13 @@
 
 (defun display-startup-banner (edition banner)
   (ecase edition
+    (:runtime (format t "
+
+Welcome to GDL Runtime Edition, 1581 Github Mix, Beta Release.
+
+
+
+"))
     (:open-source (format t banner))
     (:trial (format t "
  

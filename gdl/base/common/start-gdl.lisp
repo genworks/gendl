@@ -47,7 +47,7 @@
       (when (and homedir-init? homedir-init-file) (load homedir-init-file)))))
 
 
-(pushnew #'load-gdl-init-files *gdl-init-functions*)
+;;(pushnew #'load-gdl-init-files *gdl-init-functions*)
 
 
 (defun startup-banner (&key edition)       
