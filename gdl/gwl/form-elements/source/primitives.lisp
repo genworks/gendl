@@ -589,6 +589,10 @@ Please see base-form-control for a broader example which uses more form-control 
                 
                 ("Boolean. Are multiple selections allowed? Default is nil." multiple? nil)
                 
+		("List of keyword symbols. Each of these should match a key in the choice-plist, and where there is a 
+match, that key will be disabled in the rendering."
+		 disabled-keys nil)
+		
                 ("Boolean. Indicates whether this should be included in possible-nils. Defaults to (the multiple?)" 
                  possible-nil? (the multiple?))
                 
@@ -679,15 +683,15 @@ eql for keywords, string-equal for strings, and equalp otherwise."
            ((:option :value (format nil  (the format-string) key)
                      :style (getf (the choice-styles) key)
                      :multiple (the multiple?)
-                     :selected (cond ((listp key)
-                                 (funcall (the test) key (the value)))
-                                (t (member key (ensure-list (the value)) 
-                                           :test (the test)))))
-            (fmt (the display-format-string)
+		     :disabled (when (member key (the disabled-keys)) "disabled")
+                     :selected (let ((selected? (cond ((listp key)
+						       (funcall (the test) key (the value)))
+						      (t (member key (ensure-list (the value)) 
+								 :test (the test))))))
+				 (when selected? "selected")))
+	    (fmt (the display-format-string)
                  (first (rest (member key (the effective-choice-plist) 
                                       :test (the test)))))))))))))
-   
-
    
 
 ;;
@@ -732,6 +736,7 @@ Contact Genworks if you need this documented."
     (with-expanded-html-output (*stream* nil)
       ((:input :type :radio :name (the field-name) 
                :id (format nil "~a-~a" (the field-name) count)
+	       :disabled (when (member key (the disabled-keys)) "disabled")
                :value (format nil (the format-string) key) 
                :checked (funcall (the test) key (the value))))))
    

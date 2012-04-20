@@ -354,3 +354,7 @@ q  float: top;
 .clickable:hover {
   text-decoration: underline;
   }
+
+.disabled {
+    color: #aaa
+}
