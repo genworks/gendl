@@ -1,168 +1,5 @@
 (in-package :www.genworks.com)
 
-
-(define-object configurator (base-site-sheet)
-  
-  :computed-slots
-  ((link-title "Configurator")
-   (right-section-inner-html (with-cl-who-string ()
-			       (:h1 "Configure Your Weapon:  $" (fmt "~:d" (ceiling (the current-price))))
-			       (str (the current-choice-screen inner-html))))
-
-   
-   ;;
-   ;; FLAG -- figure out how to make this whole thing into an object tree instead of this hairy-calc.
-   ;; 
-   (current-price
-    (+ (the gendl-license selected-price)
-       (the cl-engine selected-price)
-       (the geometry-kernel selected-price)
-       (the support-level selected-price)
-       (the training-level selected-price)))
-   
-   
-   (current-choice-screen (the gendl-license) :settable)
-
-   
-   (selected-gendl-license (the gendl-license choice value))
-   (selected-cl-engine (the cl-engine choice value))
-   (selected-geometry-kernel (the geometry-kernel choice value))
-   (selected-support-level (the support-level choice value))
-   (selected-training-level (the training-level choice value))
-
-   (set-current-sheet-function #'(lambda(sheet) 
-				   (the (set-slot! :current-choice-screen sheet)))))
-
-  :trickle-down-slots (respondent set-current-sheet-function)
-
-  :objects
-  ((gendl-license :type 'gendl-license-choice
-		  :pass-down (selected-gendl-license 
-			      selected-cl-engine selected-geometry-kernel selected-support-level
-			      selected-training-level)
-		  :next-sheet (the cl-engine))
-
-   (cl-engine :type 'cl-engine-choice
-	      :pass-down (selected-gendl-license 
-			  selected-cl-engine selected-geometry-kernel selected-support-level
-			  selected-training-level)
-	      :previous-sheet (the gendl-license)
-	      :next-sheet (the geometry-kernel))
-
-
-   (geometry-kernel :type 'geometry-kernel-choice
-		    :pass-down (selected-gendl-license 
-				selected-cl-engine selected-geometry-kernel selected-support-level
-				selected-training-level)
-		    :previous-sheet (the cl-engine)
-		    :next-sheet (the support-level))
-
-   (support-level :type 'support-level-choice
-		  :pass-down (selected-gendl-license 
-			      selected-cl-engine selected-geometry-kernel selected-support-level
-			      selected-training-level)
-		  :previous-sheet (the geometry-kernel)
-		  :next-sheet (the training-level))
-
-   
-   (training-level :type 'training-level-choice
-		   :pass-down (selected-gendl-license 
-			       selected-cl-engine selected-geometry-kernel selected-support-level
-			       selected-training-level)
-		   :previous-sheet (the support-level))))
-
-
-
-(define-object wizard-screen (sheet-section)
-  :input-slots ((previous-sheet nil) (next-sheet nil) set-current-sheet-function
-		selected-gendl-license selected-cl-engine selected-geometry-kernel 
-		selected-support-level selected-training-level)
-
-  :computed-slots ((inner-html (with-cl-who-string ()
-				 (:p
-				  (:h2 (str (the heading)))
-				  (:fieldset 
-				   (str (the choice html-string))))
-				 (:p 
-				  (when (the previous-sheet)
-				    (str (the previous-button form-control-string)))
-				  (when (the next-sheet)
-				    (str (the next-button form-control-string))))))
-
-		   (selected-price (the selected-item current-price))
-
-		   (radio-price-choices (remove-if-not #'(lambda(child) (typep child 'radio-price-choice))
-								 (the children)))
-
-		   (choice-plist
-		    (mapcan #'(lambda(radio)
-				(list (make-keyword (the-object radio strings-for-display))
-				      (the-object radio choice-price-string)))
-			    (the radio-price-choices)))
-
-		   (selected-item (dolist (object (the radio-price-choices))
-				    (when (eql (the-object object key) (the choice value))
-				      (return object)))))
-  
-
-  :trickle-down-slots (selected-item selected-price)
-  
-  :objects ((previous-button :type 'button-form-control
-			     :label "&lt;-Previous"  
-			     :onclick (the (gdl-ajax-call :function-key :set-current-sheet
-							  :arguments (list (the previous-sheet)))))
-	    (next-button :type 'button-form-control
-			 :label "Next-&gt;"
-			 :onclick (the (gdl-ajax-call :function-key :set-current-sheet
-						      :arguments (list (the next-sheet)))))
-
-	    
-	    (choice 
-	     :type 'radio-form-control
-	     :choice-plist (the choice-plist)
-	     :prompt ""
-	     :default (make-keyword (the default strings-for-display))
-	     :disabled-keys nil
-	     :disabled-keys 
-	     (remove-if-not #'(lambda(key) (the (evaluate key) disabled?))
-					   (plist-keys (the-child choice-plist)))
-	     :ajax-submit-on-change? t
-	     ))
-
-
-  :functions
-  ((set-current-sheet
-    (sheet)
-    (funcall (the set-current-sheet-function) sheet))))
-
-
-
-(define-object radio-price-choice ()
-
-  :input-slots (string current-price (disabled? nil) (disabled-message ""))
-
-  :computed-slots ((key (make-keyword (the strings-for-display)))
-		   
-		   (selected? (eql (the selected-item) self))
-
-		   (delta (- (the current-price) (the selected-price)))
-
-		   (choice-price-string 
-		    (if (the disabled?)
-			(with-cl-who-string()
-			  ((:span :class "disabled") (str (the string)))
-			  " " 
-			  (unless (string-equal (the disabled-message) "")
-			    (htm (:i (str (the disabled-message))))))
-			(format nil "~a ~a" (the string) 
-				(if (the selected?) "" (format nil "(~a$~:d)" 
-							       (cond ((zerop (the delta)) "+")
-								     ((plusp (the delta)) "+")
-								     ((minusp (the delta)) "-"))
-							       (abs (ceiling (the delta))))))))))
-
-
-
 (define-object gendl-license-choice (wizard-screen)
 
   :computed-slots ((heading "Gendl Licensing Level")
@@ -173,7 +10,7 @@
   ((agpl :type 'radio-price-choice
 	 :string "Open Source (AGPL)"
 	 :disabled? (eql (the selected-geometry-kernel) :smlib)
-	 :disabled-message "Select \"Basic\" Geometry Kernel to enable this option."
+	 :disabled-message "Please Select \"Basic\" Geometry Kernel to enable this option."
 	 :current-price 0)
 
    (trial :type 'radio-price-choice
@@ -203,7 +40,9 @@
   :objects
   ((none :type 'radio-price-choice
 	 :string "None (i.e. self-provided)"
-	 :current-price 0)
+	 :current-price 0
+	 :disabled? (eql (the selected-geometry-kernel) :smlib)
+	 :disabled-message "Please Select \"Basic\" Geometry Kernel to enable this option.")
 
    (acl-32 :type 'radio-price-choice
 	   :string "Franz Allegro CL&reg; 32-bit"
@@ -266,40 +105,51 @@
   :computed-slots ((heading "Technical Support Level")
 		   
 		   (default (the none))
-
+		   
 		   (surcharge-function (ecase (the selected-cl-engine)
 					 (:none #'(lambda(num) (* num 5/2)))
 					 ((:acl-32 :acl-64) #'identity)
-					 ((:lw-32 :lw-64) #'(lambda(num) (+ 3600 num))))))
-  
+					 ((:lw-32 :lw-64) #'(lambda(num) (+ 3600 num)))))
 
+		   
+		   (money-saving-tip (when (eql (the selected-cl-engine) :none)
+				       (with-cl-who-string ()
+					 "Select a commercial "
+					 ((:span :class :clickme
+						 :onclick (the (gdl-ajax-call :function-key :set-current-sheet
+									      :arguments (list (the cl-engine)))))
+					  "Common Lisp engine")
+					 " to reduce Technical Support prices."))))
+  
 
   :objects ((none :type 'radio-price-choice
 		  :string "None (i.e. self-provided or third-party)"
 		  :current-price 0)
+	    
+	    (install :type 'radio-price-choice
+		     :string "Installation and Configuration"
+		     :current-price (ecase (the selected-geometry-kernel)
+				      (:smlib (funcall (the surcharge-function) 1950))
+				      (:basic (funcall (the surcharge-function) 750))))
 
-	    (production :type 'radio-price-choice
-			:string "Mission-critical Production Environment"
-			:current-price (ecase (the selected-geometry-kernel)
-					 (:smlib (funcall (the surcharge-function) 14200))
-					 (:basic (funcall (the surcharge-function) 10000))))
-	  
-	    (development :type 'radio-price-choice
-			 :string "Application Code Nondisclosure"
-			 :current-price (ecase (the selected-geometry-kernel)
-					  (:smlib (funcall (the surcharge-function) 12200))
-					  (:basic (funcall (the surcharge-function) 8000))))
 	    (how-to :type 'radio-price-choice
 		    :string "Technical how-to questions/answers"
 		    :current-price (ecase (the selected-geometry-kernel)
 				     (:smlib (funcall (the surcharge-function) 9200))
 				     (:basic (funcall (the surcharge-function) 5000))))
+	    
+	    (development :type 'radio-price-choice
+			 :string "Application Code Nondisclosure"
+			 :current-price (ecase (the selected-geometry-kernel)
+					  (:smlib (funcall (the surcharge-function) 12200))
+					  (:basic (funcall (the surcharge-function) 8000))))
 
-	    (install :type 'radio-price-choice
-		     :string "Installation and Configuration"
-		     :current-price (ecase (the selected-geometry-kernel)
-				      (:smlib (funcall (the surcharge-function) 1950))
-				      (:basic (funcall (the surcharge-function) 750))))))
+	    (production :type 'radio-price-choice
+			:string "Mission-critical Production Environment"
+			:current-price (ecase (the selected-geometry-kernel)
+					 (:smlib (funcall (the surcharge-function) 14200))
+					 (:basic (funcall (the surcharge-function) 10000))))))
+
 
 
 

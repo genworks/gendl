@@ -512,6 +512,10 @@ and cleared when the error is gone." error nil :settable)
 Note that this does not automatically give encrypted transmission to the server - you need SSL
 for that. Defaults to nil. Use password-form-control to get a default of t." 
     password? nil)
+
+   ("Boolean. Specifies whether this should be a number form control with support for numerical input. 
+Defaults to nil. Use number-form-control to get a default of t." 
+    number? nil)
    
    ("Integer. The number of columns for a TEXTAREA (if rows is > 1). Defaults to (the size)." 
     cols (the size)))
@@ -539,6 +543,11 @@ for that. Defaults to nil. Use password-form-control to get a default of t."
   :computed-slots ((password? t)))
 
 
+(define-object number-form-control (text-form-control)
+  :input-slots ((min nil) (max nil) (step nil))
+  :computed-slots ((number? t)))
+
+
 (define-lens (html-format text-form-control)()
   :output-functions
   ((form-control
@@ -552,9 +561,21 @@ for that. Defaults to nil. Use password-form-control to get a default of t."
            (when (the str-ready-string) 
              (str (the str-ready-string)))))
       (with-expanded-html-output (*stream* nil)
-        ((:input :type (if (the password?) :password :text) 
+        ((:input :type (cond ((the password?) :password)
+			     ((the number?) :number)
+			     (t :text) )
                  :value (when (the str-ready-string)
                           (the str-ready-string))
+
+		 :min (when (and (the number?)
+				 (the min))
+			(the min))
+		 :max (when (and (the number?)
+				 (the max))
+			(the max))
+		 :step (when (and (the number?)
+				 (the step))
+			(the step))
                  :name (the field-name) :id (the field-name))))))))
 
 

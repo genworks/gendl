@@ -23,7 +23,8 @@
    (products :type 'products
 	     :respondent self)
    ;;(services :type 'services)
-   ;;(demos :type 'demos)
+   (demos :type 'demos
+	  :respondent self)
    (people :type 'people
 	   :respondent self)
    (contact-us :type 'contact-us
