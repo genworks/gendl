@@ -135,6 +135,7 @@
    #:radio-form-control
    #:menu-form-control
    #:text-form-control
+   #:number-form-control
    #:password-form-control
    #:file-form-control
    #:hidden-form-control

@@ -65,11 +65,11 @@ provide the appropriate level of service.")
 	    :ajax-submit-on-change? t
 	    :choice-plist 
 	    (append (when (the matched-email) (the supported-subject-options))
-		    (list :sales "purchase Genworks GDL and/or Technical Support"
+		    (list :sales "purchase GenDL components and/or Technical Support"
 			  :var "become a Genworks Value-added Reseller"
 			  :evaluation "do a Software Evaluation"
 			  :license-renewal "renew or retrieve license key file(s)"
-			  :general "ask a general question about Genworks GDL")))
+			  :general "ask a general question about GenDL")))
 
    
    (message-body :type 'text-form-control

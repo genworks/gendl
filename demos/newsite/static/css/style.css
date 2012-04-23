@@ -57,17 +57,6 @@ body {
 }
 
 
-#product-image {
-  position: absolute;
-  top: 0;
-  left: 243px;
-  width: 535px;
-  height: 411px;
-  /* background: url(../images/header_2.jpg) no-repeat;
-  background: url(../images/aero-small.png) no-repeat;  */
-  background: url(../images/Gendl-dave-low-521.png) no-repeat;
-}
-
 #header-nobg {
   position: absolute;
   top: 0;
@@ -156,7 +145,7 @@ body {
 #nav a, .clickable {
   color: #fff;
   text-decoration: none;
-  border-left: 1px solid #959595;
+/*  border-left: 1px solid #959595; */
   padding-left: 10px;
   display: block; 
   width: 90%;
@@ -235,7 +224,7 @@ body {
 
 #right {
   float: right;
-q  float: top;
+  float: top;
   width: 490px;
   padding-right: 9px;
   padding-top: 301px; 
@@ -347,10 +336,57 @@ q  float: top;
         font-size:1px;
 }
 
-.clickable {
-    /* color: blue; */ 
+.clickable  {
+    /* color: blue; */
     cursor: pointer;}
 
 .clickable:hover {
   text-decoration: underline;
   }
+
+.disabled {
+    color: #aaa
+}
+
+.quotation-summary table, .quotation-summary th, .quotation-summary td {
+    border: 1px solid green;
+    border-collapse: collapse;
+}
+
+.quotation-summary td, .quotation-summary th {
+    font-size: 0.8em;
+    border: 1px solid #98bf21;
+    padding: 3px 7px 2px 7px;
+}
+
+.quotation-summary th {
+    text-align: center;
+    background-color: #A7C942;
+    font-size: 0.9em;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    color: #fff
+}
+
+.quotation-summary tr.alt, quotation-summary td {
+    color: #000;
+    background-color: #EAF2D3;
+}
+
+.right-justify {
+    text-align: right;
+    }
+
+.look-at-me {
+    font-weight: bold;
+    }
+
+.clickme {
+    color: blue;
+    cursor: pointer;
+    }
+
+.helpful-tip {
+    color: DarkGreen;
+    font-style: italic;
+    }

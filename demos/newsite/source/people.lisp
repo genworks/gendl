@@ -24,7 +24,7 @@ Knowledge Based Engineering available to more than just the toplevel niche marke
 	(:h4 "Head of Product Development")
 	(:p
 	 "Dave started as Head of Product Development with the first commercial release of 
-Genworks GDL in August, 2002.  Prior to that, he performed contract KBE programming with 
+Genworks GDL (GenDL) in August, 2002.  Prior to that, he performed contract KBE programming with 
 The ICAD System&reg; at Ford Motor Company, General Motors, Raytheon Aircraft, Embraer, and elsewhere. 
 Prior to that Dave was an employee at Ford Motor Company for several years, involved with ICAD application
 development and systems deployment.")
@@ -47,7 +47,7 @@ the CL programming language, and is a Director on the Association of Lisp Users.
        ((:div :class "people")
 	(:h4 "Documentation, Geometry Primitives Development, Support")
 	(:p "Teodor founded KE-Works S.R.L. Romania in 2009, which is a Value-Added General Reseller for
-Genworks GDL. At that time, he was a PhD Researcher at Delft University of Technology in the department 
+Genworks GenDL. At that time, he was a PhD Researcher at Delft University of Technology in the department 
 of Systems Engineering and Aircraft Design. In 2011 he became engaged directly with Genworks International 
 as a consultant for Documentation, Geometry Primitives Development and Support.")
 	(:p "Teodor holds a Dipl-Ing. \"M.Sc.\" degree in Aircraft Propulsion System, from 
@@ -58,12 +58,12 @@ Applied Chemistry and Materials Science.")))
       (:h3 "Paul Tarvydas") 
       ((:div :class "profile")
        ((:div :class "people")
-	(:h4 "GDL Porting and Symmetric Multiprocessing")
+	(:h4 "GenDL Porting and Symmetric Multiprocessing")
 	(:p "Mr. Tarvydas has a background in Physics and Electrical Engineering from the 
 University of Toronto. He is involved with improving ANSI Common Lisp standards compliance of the 
-GDL source code to facilitate the porting of GDL to additional CL platforms. Paul also
+GenDL source code to facilitate the porting of GenDL to additional CL platforms. Paul also
 has expertise in Symmetric Multiprocessing with CL and helping to make SMP capabilities 
-seamlessly available in the GDL environment.")))
+seamlessly available in the GenDL environment.")))
 
       (:h3 "David Cooper Sr.") 
       ((:div :class "profile")
@@ -87,7 +87,7 @@ relationships running smoothly.")))
        ((:div :class "people")
 	(:h4 "Accounts Manager and Licensing Administrator")
 	(:p "Kai handles bookkeeping, customer relations, and license tracking for 
-the GDL product. Kai will also act as a language liaison for Genworks activities 
+the GenDL product. Kai will also act as a language liaison for Genworks activities 
 in the Chinese market. Kai studied English language at Changchun University 
 in China, obtained a Master's Degree in Accounting from Walsh College in 
 Troy, Michigan, worked for several years as a Financial Analyst at a global 

@@ -178,7 +178,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 				((:div :class "hr-dots")) 
 				(:h3 "2012-03-15")
 				(:p
-				 "Integration and Testing of Genworks GDL 1581 with "
+				 "Integration and Testing of Genworks GDL 1581 (GenDL) with "
 				 ((:a :href "http://www.smlib.com") " SMLib 8.51 ")
 				 " is completed.")
 				(if (eql self (the news))
@@ -192,7 +192,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 		    :inner-html (with-cl-who-string ()
 				  (:ul
 				   (:li (:h3 ((:a :href "http://dl.dropbox.com/u/19667598/static/documents/gdl-documentation.pdf" :target "_fresh")
-					      "Prototype GDL Manual")))
+					      "Prototype GenDL Manual")))
 				   (:li (:h3 ((:a :href "/yadd" :target "_fresh")
 					      "Live Reference Docs (YADD)"))))))
 

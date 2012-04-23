@@ -512,6 +512,10 @@ and cleared when the error is gone." error nil :settable)
 Note that this does not automatically give encrypted transmission to the server - you need SSL
 for that. Defaults to nil. Use password-form-control to get a default of t." 
     password? nil)
+
+   ("Boolean. Specifies whether this should be a number form control with support for numerical input. 
+Defaults to nil. Use number-form-control to get a default of t." 
+    number? nil)
    
    ("Integer. The number of columns for a TEXTAREA (if rows is > 1). Defaults to (the size)." 
     cols (the size)))
@@ -539,6 +543,11 @@ for that. Defaults to nil. Use password-form-control to get a default of t."
   :computed-slots ((password? t)))
 
 
+(define-object number-form-control (text-form-control)
+  :input-slots ((min nil) (max nil) (step nil))
+  :computed-slots ((number? t)))
+
+
 (define-lens (html-format text-form-control)()
   :output-functions
   ((form-control
@@ -552,9 +561,21 @@ for that. Defaults to nil. Use password-form-control to get a default of t."
            (when (the str-ready-string) 
              (str (the str-ready-string)))))
       (with-expanded-html-output (*stream* nil)
-        ((:input :type (if (the password?) :password :text) 
+        ((:input :type (cond ((the password?) :password)
+			     ((the number?) :number)
+			     (t :text) )
                  :value (when (the str-ready-string)
                           (the str-ready-string))
+
+		 :min (when (and (the number?)
+				 (the min))
+			(the min))
+		 :max (when (and (the number?)
+				 (the max))
+			(the max))
+		 :step (when (and (the number?)
+				 (the step))
+			(the step))
                  :name (the field-name) :id (the field-name))))))))
 
 
@@ -589,6 +610,10 @@ Please see base-form-control for a broader example which uses more form-control 
                 
                 ("Boolean. Are multiple selections allowed? Default is nil." multiple? nil)
                 
+		("List of keyword symbols. Each of these should match a key in the choice-plist, and where there is a 
+match, that key will be disabled in the rendering."
+		 disabled-keys nil)
+		
                 ("Boolean. Indicates whether this should be included in possible-nils. Defaults to (the multiple?)" 
                  possible-nil? (the multiple?))
                 
@@ -679,15 +704,15 @@ eql for keywords, string-equal for strings, and equalp otherwise."
            ((:option :value (format nil  (the format-string) key)
                      :style (getf (the choice-styles) key)
                      :multiple (the multiple?)
-                     :selected (cond ((listp key)
-                                 (funcall (the test) key (the value)))
-                                (t (member key (ensure-list (the value)) 
-                                           :test (the test)))))
-            (fmt (the display-format-string)
+		     :disabled (when (member key (the disabled-keys)) "disabled")
+                     :selected (let ((selected? (cond ((listp key)
+						       (funcall (the test) key (the value)))
+						      (t (member key (ensure-list (the value)) 
+								 :test (the test))))))
+				 (when selected? "selected")))
+	    (fmt (the display-format-string)
                  (first (rest (member key (the effective-choice-plist) 
                                       :test (the test)))))))))))))
-   
-
    
 
 ;;
@@ -732,6 +757,7 @@ Contact Genworks if you need this documented."
     (with-expanded-html-output (*stream* nil)
       ((:input :type :radio :name (the field-name) 
                :id (format nil "~a-~a" (the field-name) count)
+	       :disabled (when (member key (the disabled-keys)) "disabled")
                :value (format nil (the format-string) key) 
                :checked (funcall (the test) key (the value))))))
    
