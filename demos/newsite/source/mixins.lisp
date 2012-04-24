@@ -104,8 +104,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
        ;;((:div :id "product-image"  :style "display:none;"))
        ((:div :id "left")
 	((:div :id "logo") (if *developing?* (str (the development-links))
-			       (htm (:H1 "Genworks International") ))
-	 (:p "Practical Tools for Generative Application Development"))
+			       (htm (:H1 "Genworks International") )))
 	(str (the nav-section main-div))
 	(str (the news-section main-div))
 	(str (the support-section main-div)))
@@ -189,7 +188,12 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 
    (support-section :type 'sheet-section
 		    :dom-id "support"
+		    
 		    :inner-html (with-cl-who-string ()
+				  ((:div :class "support")
+			(:img :src "/newsite-static/images/support.jpg"))	  
+			
+#+nil
 				  (:ul
 				   (:li (:h3 ((:a :href "http://dl.dropbox.com/u/19667598/static/documents/gdl-documentation.pdf" :target "_fresh")
 					      "Prototype GenDL Manual")))
@@ -205,8 +209,10 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 		    :dom-id "footer"
 		    :inner-html (with-cl-who-string ()
 				  ((:div :id "copyright") 
+				   (:h1 "Practical Tools for Generative Application Development")
+				   (:p "")
 				   "Copyright &copy; 2012 Genworks International. All right reserved.")
-				  ((:div :id "footerline"))))))
+				   ((:div :id "footerline"))))))
 
 
 

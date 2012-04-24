@@ -51,7 +51,7 @@ provide the appropriate level of service.")
   :objects
   (;; FLAG -- change this to email-form-control when available 
    (email-address :type 'text-form-control 
-		  :size 42
+		  :size 25
 		  :label-position :prepend
 		  :prompt "Your Email Address: "
 		  :default ""
@@ -65,7 +65,8 @@ provide the appropriate level of service.")
 	    :ajax-submit-on-change? t
 	    :choice-plist 
 	    (append (when (the matched-email) (the supported-subject-options))
-		    (list :sales "purchase GenDL components and/or Technical Support"
+		    (list :sales-component "purchase GenDL components"
+			  :sales-support "purchase Technical Support"
 			  :var "become a Genworks Value-added Reseller"
 			  :evaluation "do a Software Evaluation"
 			  :license-renewal "renew or retrieve license key file(s)"
