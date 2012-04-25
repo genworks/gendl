@@ -118,6 +118,7 @@
 (define-object wizard-screen (sheet-section)
   :input-slots ((previous-sheet nil) (next-sheet nil) (extra-controls-html nil)
 		
+
 		set-current-sheet-function
 		selected-gendl-license selected-cl-engine selected-geometry-kernel 
 		selected-support-level selected-training-level academic?
@@ -129,7 +130,6 @@
 		(explanation-html (when (and (the explanation)
 					     (typep (the explanation) 'sheet-section))
 				    (the explanation inner-html))))
-
 
   :computed-slots ((inner-html (with-cl-who-string ()
 				 (:p

@@ -174,6 +174,9 @@ SMLib-related components.")))
 		 therefore be deployed free of charge without limit.")))))
 
 
+
+
+
 (define-object cl-engine-explanation (sheet-section)
 
   :computed-slots
@@ -252,7 +255,7 @@ space, enabling orders of magnitude larger models and object trees...")))
 		 ((:div :class "profile")
 		  ((:div :class "people")
 		   (:p "Allegro CL 64-bit brings the stability and depth of Allegro to a 64-bit address 
-space, enabling orders of magnitude larger models and object trees...")))
+space, enabling orders of magnitude larger models and object trees...")))))))
 
 
 
@@ -266,4 +269,3 @@ space, enabling orders of magnitude larger models and object trees...")))
 
 
 
-))))

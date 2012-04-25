@@ -106,7 +106,6 @@
 	   (:english "LispWorks 64-bit Expanded"
 	    :chinese "扩展 LispWorks 64-bit")
 
-
 	   :geometry-kernel
 	   (:english "Geometry Kernel"
 	    :chinese "几何内核")

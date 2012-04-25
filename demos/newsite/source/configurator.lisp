@@ -13,8 +13,9 @@
 
 		   (extra-controls-html (with-cl-who-string ()
 					    (str (the academic-input? html-string)))))
-
+		   
   :objects
+
   ((agpl :type 'radio-price-choice
 	 :string (string-append (locale-string :open-source-agpl)
 				(info-anchor "agpl-license"))
@@ -49,11 +50,8 @@
 		    :label-position :table-td-append
 		    :prompt (string-append (locale-string :order-qualifies-for-academic)
 					   (info-anchor "academic-pricing")))
-
    
-   (explanation :type 'license-choice-explanation)
-   
-   ))
+   (explanation :type 'license-choice-explanation)))
 
 
 
@@ -96,6 +94,7 @@
 				   (if (eql (the selected-gendl-license) :trial)
 				       (locale-string :a-non-evaluation-gendl-license) "")
 				   (locale-string :to-enable-this-option )))
+
    
    (sbcl :type 'radio-price-choice
 	 :string "SBCL"
@@ -104,6 +103,7 @@
 			(eql (the selected-gendl-license) :trial))
 	 :disabled-message (the none disabled-message))
    
+
    (acl-32 :type 'radio-price-choice
 	   :string (locale-string :franz-allegro-cl-32)
 	   :current-price 
@@ -153,13 +153,12 @@
 
 
 
+
 (define-object geometry-kernel-choice (wizard-screen)
 
   :computed-slots ((heading (locale-string :geometry-kernel)) 
-		   (default (the basic))
+		   (default (the basic)))
 
-
-		   )
 
   :objects
   ((basic :type 'radio-price-choice
