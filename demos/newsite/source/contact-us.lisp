@@ -103,7 +103,7 @@ provide the appropriate level of service.")
 		     (getf (the subject choice-plist)
 			   (the subject value)))
     
-    #+allegro
+    #+(and linux allegro)
     (net.post-office:send-letter *smtp-server* 
 				 (the email-address value)
 				 "info@genworks.com"

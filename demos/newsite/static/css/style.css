@@ -46,66 +46,66 @@ body {
 }
 
 #header {
-  position: absolute;
-  top: 0;
-  left: 243px;
-  width: 535px;
-  height: 279px;
-  /* background: url(../images/header_2.jpg) no-repeat;
-  background: url(../images/aero-small.png) no-repeat;  */
-  /* background: url(../images/Gendl-dave-low.png) no-repeat; */ 
+    position: absolute;
+    top: 0;
+    left: 243px;
+    width: 535px;
+    height: 279px;
+/* background: url(../images/header_2.jpg) no-repeat;
+   background: url(../images/aero-small.png) no-repeat;  */
+/* background: url(../images/Gendl-dave-low.png) no-repeat; */ 
 }
 
 
 #header-nobg {
-  position: absolute;
-  top: 0;
-  left: 243px;
-  width: 535px;
-  height: 279px;  
+    background: url(../images/body_top.jpg) no-repeat;
+    position: absolute;
+    left: 243px;
+    width: 535px;
+    height: 420px;  
 }
 
 .header-nobg {
-  position: absolute;
-  top: 0;
-  left: 0px;
-  width: 535px;
-  height: 279px; 
+    
 }
-
+.product-image {
+    /*background: url(../images/Gendl-dave-low-521.png) no-repeat;*/
+    padding-top: 10px;
+    padding-left: 2px;
+}
 
 #header-people {
-  position: absolute;
-  top: 0;
-  left: 243px;
-  width: 535px;
-  height: 279px;
-  background: url(../images/header_22.jpg) no-repeat;
+    position: absolute;
+    top: 0;
+    left: 243px;
+    width: 535px;
+    height: 279px;
+    background: url(../images/header_22.jpg) no-repeat;
 }
 #left {
-  float: left;
-  width: 243px;
+    float: left;
+    width: 243px;
 }
 #logo {
-  width: 244px;
-  height: 152px;
-  background: url(../images/header_1.jpg) no-repeat;
-  text-align: center;
-  color: #595959;
+    width: 244px;
+    height: 152px;
+    background: url(../images/header_1.jpg) no-repeat;
+    text-align: center;
+    color: #595959;
 }
 #logo h1 {
-  padding-top: 14px;
-  /* font: 24px "arial narrow", arial, sans-serif; */
-  font-size: 32px; 
-  font-family: "Times New Roman", Times, sans-serif;
+    padding-top: 14px;
+    /* font: 24px "arial narrow", arial, sans-serif; */
+    font-size: 32px; 
+    font-family: "Times New Roman", Times, sans-serif;
 }
 #logo p {
-  margin: 8px 25px 4px 25px;
-  border-top: 1px solid #B8B8B8;
-  border-bottom: 1px solid #B8B8B8;
-  padding: 3px;
-  letter-spacing: 0.2em;
-  font-weight: bold;
+    margin: 8px 25px 4px 25px;
+    border-top: 1px solid #B8B8B8;
+    border-bottom: 1px solid #B8B8B8;
+    padding: 3px;
+    letter-spacing: 0.2em;
+    font-weight: bold;
 }
 
 #nav {
@@ -229,7 +229,7 @@ body {
   float: top;
   width: 490px;
   padding-right: 9px;
-  padding-top: 301px; 
+  padding-top: 450px; 
 }
 #right h2 {
   font: 18px arial, sans-serif;

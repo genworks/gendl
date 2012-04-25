@@ -88,27 +88,32 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 			(the right-section)
 			(the footer-section)))
    
-   (length 279)
-   (width 525)
-   (background-color :gold-bright)
+   (length 420)
+   (width 526)
+   (background-color :silver )
    
    (main-sheet-body
     (with-cl-who-string ()
       ((:canvas :id "x3dom-logo" :style "display:none"))
       ((:div :id "wrapper") 
-       ((:div :id "header-nobg")
+   ((:div :id "header-nobg")
 	((:div :id "no-webgl-no-flash" :class "header-nobg" :style "display:none;")
 	 (str (the vector-graphics)))
-	((:div :id "all-go" :class "header-nobg" :style "display:none;")
-	 (the write-embedded-x3dom-world)))
-       ;;((:div :id "product-image"  :style "display:none;"))
+  
+  ((:div :id "all-go" :class "header-nobg" :style "display:none;")
+     (the write-embedded-x3dom-world))
+  
+  #+nil	
+
+    ((:div :id "all-go" :class "product-image" :style "display:none;")
+     (:img :src "/newsite-static/images/Gendl-dave-low-521.png" )))
        ((:div :id "left")
 	((:div :id "logo") (if *developing?* (str (the development-links))
-			       (htm (:H1 "Genworks International") )))
+			       (htm (:H1 "Genworks International"))))
 	(str (the nav-section main-div))
 	(str (the news-section main-div))
 	(str (the support-section main-div)))
-
+       
        
        (str (the right-section main-div))
        ((:div :class "clear")) ((:div :id "spacer"))
@@ -193,7 +198,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 				  ((:div :class "support")
 			(:img :src "/newsite-static/images/support.jpg"))	  
 			
-#+nil
+				  #+nil
 				  (:ul
 				   (:li (:h3 ((:a :href "http://dl.dropbox.com/u/19667598/static/documents/gdl-documentation.pdf" :target "_fresh")
 					      "Prototype GenDL Manual")))
