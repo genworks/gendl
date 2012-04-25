@@ -1,6 +1,8 @@
 (in-package :www.genworks.com)
 
 (define-object base-site-sheet (base-ajax-graphics-sheet)
+  
+  :input-slots ((lang *lang* :defaulting))
 
   :computed-slots
   ((additional-header-content 

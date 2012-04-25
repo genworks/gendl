@@ -42,15 +42,15 @@ the CL programming language, and is a Director on the Association of Lisp Users.
 	     "2007 AIAA/ATIO Conference, presented in Belfast, N. Ireland"))
 	(:p ((:a :href "http://downloads.genworks.com/hsc.pdf") "2005 Huntsville Simulation Conference"))))
 
-      (:h3 "Teodor-Gelu Chiciudean") 
+      (:h3 "Teodor-Gelu \"Ted\" Chiciudean") 
       ((:div :class "profile")
        ((:div :class "people")
 	(:h4 "Documentation, Geometry Primitives Development, Support")
-	(:p "Teodor founded KE-Works S.R.L. Romania in 2009, which is a Value-Added General Reseller for
+	(:p "\"Ted\" founded KE-Works S.R.L. Romania in 2009, which is a Value-Added General Reseller for
 Genworks GenDL. At that time, he was a PhD Researcher at Delft University of Technology in the department 
 of Systems Engineering and Aircraft Design. In 2011 he became engaged directly with Genworks International 
 as a consultant for Documentation, Geometry Primitives Development and Support.")
-	(:p "Teodor holds a Dipl-Ing. \"M.Sc.\" degree in Aircraft Propulsion System, from 
+	(:p "\"Ted\" holds a Dipl-Ing. \"M.Sc.\" degree in Aircraft Propulsion System, from 
 Politehnica University of Bucharest, Faculty of Aerospace Engineering, and a Doctor degree in 
 Chemical Engineering \"Composite Materials\" from Politehnica University Bucharest, Faculty of 
 Applied Chemistry and Materials Science.")))
