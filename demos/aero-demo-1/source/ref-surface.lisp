@@ -56,11 +56,13 @@
    
    (end-cap-surf :type 'revolved-surface 
                  :hidden? (the layer-2)
-                 ;;'smlib::revolved-surface-nlib ;;the smlib revolved-surface from GDL has at the moment memory leaks
+                 ;;'smlib::revolved-surface-nlib ;;the smlib 
+		 ;;revolved-surface from GDL has at the moment memory leaks
                  :display-controls (list :color :green-yellow2)
                  :curve (the ecc-trimmed-curve)
                  :arc pi
                  :axis-point (the ecc-trimmed-curve start)
-                 :axis-vector  (make-vector 1.0 0.0 0.0));;add the real vector that contains the point 
+                 :axis-vector  (make-vector 1.0 0.0 0.0))
+   ;;add the real vector that contains the point 
    
    ))
