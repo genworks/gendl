@@ -19,7 +19,7 @@
 (defparameter *d* nil)
 
 
-(defun twenty-four (a b c d)
+(defun twenty-four (a b c d &key (target 24))
   
   (let (all-results (all-perms (all-permutations (list a b c d))))
     (dolist (perm all-perms)
@@ -29,7 +29,7 @@
 	      (*c* (third perm))
 	      (*d* (fourth perm)))
 	  (let ((subst-plist (list '*a* *a* '*b* *b* '*c* *c* '*d* *d*)))
-	    (when (eql (ignore-errors (eval expression)) 24)
+	    (when (eql (ignore-errors (eval expression)) target)
 	      (pushnew 
 		(subst-recursive expression subst-plist) all-results :test #'equalp))))))
     

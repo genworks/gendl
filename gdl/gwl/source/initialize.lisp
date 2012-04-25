@@ -70,7 +70,7 @@
   (let ((port port))
     (do ((error (client-test port) (client-test port)))
         (error (format t "~&~%Starting AllegroServe on ~a...~%~%" port)
-         (net.aserve:start :port port :listeners listeners)
+         (net.aserve:start :port port :listeners listeners :external-format :utf-8)
          port)
       (incf port))))
 

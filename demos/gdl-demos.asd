@@ -4,18 +4,21 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012042200" :depends-on (:gdl-gwl-graphics)
+                :version "2012042500" :depends-on (:gdl-gwl-graphics)
                 :components
                 ((:file "robot/source/package")
                  (:file "robot/source/assembly")
                  (:file "newsite/source/package")
+                 (:file "newsite/source/locales")
                  (:file "newsite/source/Services")
                  (:file "newsite/source/assembly")
                  (:file "newsite/source/configurator-engine")
                  (:file "newsite/source/configurator")
                  (:file "newsite/source/contact-us")
                  (:file "newsite/source/demos")
+                 (:file "newsite/source/explanations")
                  (:file "newsite/source/index")
+                 (:file "newsite/source/language")
                  (:file "newsite/source/licensing")
                  (:file "newsite/source/mixins")
                  (:file "newsite/source/news")
@@ -26,6 +29,7 @@
                  (:file "newsite/source/publish")
                  (:file "twenty-four/source/infpre")
                  (:file "twenty-four/source/assembly")
+                 (:file "twenty-four/source/cards-by-number")
                  (:file "twenty-four/source/find")
                  (:file "bus/source/package")
                  (:file "bus/source/assembly")

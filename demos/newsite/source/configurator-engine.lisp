@@ -6,10 +6,15 @@
   :computed-slots
   ((link-title "Configurator")
    (right-section-inner-html (with-cl-who-string ()
+			       ((:a :name "Top"))
 			       (:h1 "Configure Your Weapon:  $" (fmt "~:d" (ceiling (the current-price))))
 			       (str (the current-choice-screen inner-html))
 			       
 			       (str (the summary inner-html))
+
+			       (when (the current-choice-screen explanation-html)
+				 (htm (:p 
+				       (str (the current-choice-screen explanation-html)))))
 			       
 			       ))
 
@@ -33,6 +38,7 @@
    (selected-geometry-kernel (the geometry-kernel choice value))
    (selected-support-level (the support-level choice value))
    (selected-training-level (the training-level choice value))
+   (academic? (the gendl-license academic-input? value))
 
    (set-current-sheet-function #'(lambda(sheet) 
 				   (the (set-slot! :current-choice-screen sheet))))
@@ -47,13 +53,13 @@
   ((gendl-license :type 'gendl-license-choice
 		  :pass-down (selected-gendl-license 
 			      selected-cl-engine selected-geometry-kernel selected-support-level
-			      selected-training-level)
+			      selected-training-level academic?)
 		  :next-sheet (the cl-engine))
 
    (cl-engine :type 'cl-engine-choice
 	      :pass-down (selected-gendl-license 
 			  selected-cl-engine selected-geometry-kernel selected-support-level
-			  selected-training-level)
+			  selected-training-level academic?)
 	      :previous-sheet (the gendl-license)
 	      :next-sheet (the geometry-kernel))
 
@@ -61,14 +67,14 @@
    (geometry-kernel :type 'geometry-kernel-choice
 		    :pass-down (selected-gendl-license 
 				selected-cl-engine selected-geometry-kernel selected-support-level
-				selected-training-level)
+				selected-training-level academic?)
 		    :previous-sheet (the cl-engine)
 		    :next-sheet (the support-level))
 
    (support-level :type 'support-level-choice
 		  :pass-down (selected-gendl-license 
 			      selected-cl-engine selected-geometry-kernel selected-support-level
-			      selected-training-level)
+			      selected-training-level academic?)
 		  :previous-sheet (the geometry-kernel)
 		  :next-sheet (the training-level))
 
@@ -76,7 +82,7 @@
    (training-level :type 'training-level-choice
 		   :pass-down (selected-gendl-license 
 			       selected-cl-engine selected-geometry-kernel selected-support-level
-			       selected-training-level)
+			       selected-training-level academic?)
 		   :previous-sheet (the support-level))
    
 
@@ -97,7 +103,9 @@
   ((inner-html (with-cl-who-string ()
 		 ((:div :class "quotation-summary")
 		  (:table 
-		      (:tr (:th "Gendl Component") (:th "Your Selection") (:th "Price"))
+		      (:tr (:th (str (locale-string :gendl-component)))
+			   (:th (str (locale-string :your-selection)))
+			   (:th (str (locale-string :price))))
 		    (dolist (item (the selected-items))
 		      (htm (:tr ((:td :class "clickme") (str (the-object item go-to-link)))
 				(:td (str (the-object item string)))
@@ -108,18 +116,27 @@
 
 
 (define-object wizard-screen (sheet-section)
-  :input-slots ((previous-sheet nil) (next-sheet nil) set-current-sheet-function
+  :input-slots ((previous-sheet nil) (next-sheet nil) (extra-controls-html nil)
+		(explanation-html nil)
+		set-current-sheet-function
 		selected-gendl-license selected-cl-engine selected-geometry-kernel 
-		selected-support-level selected-training-level)
+		selected-support-level selected-training-level academic?
+		(discount-func (if (the academic?)
+				   #'(lambda(num) (half num))
+				   #'identity)))
 
   :computed-slots ((inner-html (with-cl-who-string ()
 				 (:p
 				  (:h2 (str (the heading)))
 				  (:fieldset 
-				   (str (the choice html-string))))
+				   (str (the choice html-string))
+				   
+				   (when (the extra-controls-html)
+				     (str (the extra-controls-html)))))
 
 				 (when (the money-saving-tip)
-				   (htm ((:p :class "helpful-tip") "TIP: " (str (the money-saving-tip)))))
+				   (htm ((:p :class "helpful-tip") 
+					 (str (locale-string :tip)) ": " (str (the money-saving-tip)))))
 				 
 				 (:p 
 				  (when (the previous-sheet)
@@ -151,11 +168,11 @@
   :trickle-down-slots (selected-item selected-price heading current-choice-object)
   
   :objects ((previous-button :type 'button-form-control
-			     :label "&lt;-Previous"  
+			     :label (format nil "&lt;-~a" (locale-string :previous))
 			     :onclick (the (gdl-ajax-call :function-key :set-current-sheet
 							  :arguments (list (the previous-sheet)))))
 	    (next-button :type 'button-form-control
-			 :label "Next-&gt;"
+			 :label (format nil "~a-&gt;" (locale-string :next))
 			 :onclick (the (gdl-ajax-call :function-key :set-current-sheet
 						      :arguments (list (the next-sheet)))))
 
@@ -203,14 +220,13 @@
 			  ((:span :class "disabled") (str (the string)))
 			  " " 
 			  (unless (string-equal (the disabled-message) "")
-			    (htm (:i (str (the disabled-message))))))
+			    (htm :br "&nbsp;" (:i (str (the disabled-message))))))
 			(format nil "~a ~a" (the string) 
 				(if (the selected?) "" (format nil "(~a$~:d)" 
 							       (cond ((zerop (the delta)) "+")
 								     ((plusp (the delta)) "+")
 								     ((minusp (the delta)) "-"))
 							       (abs (ceiling (the delta)))))))))
-
   :functions ((set-current-sheet (object)
 				 (funcall (the set-current-sheet-function) object))))
 
