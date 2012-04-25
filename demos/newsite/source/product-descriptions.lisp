@@ -9,9 +9,6 @@
    (right-section-inner-html 
     (with-cl-who-string ()
       (:h2 "Product Descriptions") 
-
-      (:p  ((:img :src "/newsite-static/images/Gendl-dave-low-521.png" :width "500px")))
-      
       (:h3 "Overview")
       ((:div :class "profile")
        ((:div :class "people")
