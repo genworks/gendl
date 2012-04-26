@@ -3,8 +3,10 @@
 (define-object product-licensing (base-site-sheet)
 
   :computed-slots
-  ((title "Genworks International - Product Descriptions")
-   (link-title  "Descriptions")
+  ((title "Genworks International - Product Licensing")
+   (link-title  "Licensing")
+
+   (right-section-js-to-eval "$j('#all-go').hide(200);$j('#product-image').show(200);")
 
    (right-section-inner-html 
     (with-cl-who-string ()

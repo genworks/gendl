@@ -9,6 +9,8 @@
    (lang (the language choice value))
    
    (right-section-inner-html (the current-right-section right-section-inner-html))
+   (right-section-js-to-eval (the current-right-section right-section-js-to-eval))
+   (right-section-js-always-to-eval (the current-right-section right-section-js-to-eval))
 
    (link-title "Home")
    

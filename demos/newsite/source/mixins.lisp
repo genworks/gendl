@@ -26,6 +26,18 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
       (:script "
 
         $j = jQuery.noConflict();
+
+        function show_x3dom ()
+        {
+/*              var x3d_element;
+              x3d_element = document.getElementById('the_element');
+              x3d_element.style.width = \"526px\";
+              x3d_element.style.height = \"420px\"; */
+              $j(\"all-go\").show();
+              alert('hey now - shown');
+         }
+
+
         $j(document).ready(function() {
             var canvas;
             var gl, experimental;
@@ -76,7 +88,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
                 $j(\"#all-go\").show();
             }
 
-        });
+        }); 
 
 ")))
 
@@ -90,29 +102,30 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 			(the right-section)
 			(the footer-section)))
    
-   (length 420)
+   (length 444)
    (width 526)
-   (background-color :silver )
+   (background-color :silver)
    
    (main-sheet-body
     (with-cl-who-string ()
       ((:canvas :id "x3dom-logo" :style "display:none"))
       ((:div :id "wrapper") 
-   ((:div :id "header-nobg")
+       ((:div :id "header-nobg")
+	
 	((:div :id "no-webgl-no-flash" :class "header-nobg" :style "display:none;")
 	 (str (the vector-graphics)))
-  
-  ((:div :id "all-go" :class "header-nobg" :style "display:none;")
-     (the write-embedded-x3dom-world))
-  
-  #+nil	
 
-    ((:div :id "all-go" :class "product-image" :style "display:none;")
-     (:img :src "/newsite-static/images/Gendl-dave-low-521.png" )))
+	((:div :id "all-go" :class "header-nobg" :style "display:none;")
+	 (the write-embedded-x3dom-world))
+	
+	((:div :id "product-image" :class "product-image" :style "display:none;")
+	 (:img :src "/newsite-static/images/Gendl-dave-low-521.png" )))
+
        ((:div :id "left")
 	((:div :id "logo") (if *developing?* (str (the development-links))
 			       (htm (:H1 "Genworks International"))))
 	(str (the nav-section main-div))
+	
 	(str (the news-section main-div))
 	(str (the support-section main-div)))
        
@@ -123,6 +136,8 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
    
    (right-section-inner-html (with-cl-who-string ()
 			       (:h2 "Empty Template")))
+   
+   (right-section-js-to-eval "$j('#product-image').hide(200); $j('#all-go').show(200); $j('#address').hide(200); $j('#tickete').show(200);")
 
 
    (link-title (the strings-for-display))
@@ -151,27 +166,33 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 
 
   :hidden-objects
-  ((nav-section :type 'sheet-section
-		:dom-id "nav"
-		:inner-html (with-cl-who-string ()
-			      (:ul (dolist (page (the pages))
-				     (htm (:li ((:span :class (format nil "clickable~a" (if (eql (the current-right-section) page) " selected" ""))
-						       :onclick (the (gdl-ajax-call :function-key (if (the-object page child-pages) 
-												      :toggle-children! 
-												      :set-right-section-rp!)
-											:arguments (list page))))
-						(str (the-object page link-title)))
-					       ;;
-					       ;; FLAG - make this recursive
-					       ;;
-					       (when (the-object page show-child-links?)
-						 (htm (dolist (child (the-object page children))
-							(htm (:li ((:span :class (format nil "clickable submenu~a" (if (eql (the current-right-section) child) " selected" ""))
-									  :onclick (the (gdl-ajax-call :function-key (if (the-object child child-pages) 
-															 :toggle-children! 
-															 :set-right-section-rp!)
-												       :arguments (list child))))
-								   "&nbsp;&nbsp;" (str (the-object child link-title))))))))))))))
+  ((nav-section 
+    :type 'sheet-section
+    :dom-id "nav"
+    :inner-html 
+    (with-cl-who-string ()
+      (:ul (dolist (page (the pages))
+	     (htm (:li ((:span :class (format nil "clickable~a" 
+					      (if (eql (the current-right-section) page) " selected" ""))
+			       :onclick (the (gdl-ajax-call :function-key (if (the-object page child-pages) 
+									      :toggle-children! 
+									      :set-right-section-rp!)
+							    :arguments (list page))))
+			(str (the-object page link-title)))
+		       ;;
+		       ;; FLAG - make this recursive
+		       ;;
+		       (when (the-object page show-child-links?)
+			 (htm (dolist (child (the-object page children))
+				(htm (:li ((:span :class 
+						  (format nil "clickable submenu~a" 
+							  (if (eql (the current-right-section) child) " selected" ""))
+						  :onclick (the (gdl-ajax-call 
+								 :function-key (if (the-object child child-pages) 
+										   :toggle-children! 
+										   :set-right-section-rp!)
+									       :arguments (list child))))
+					   "&nbsp;&nbsp;" (str (the-object child link-title))))))))))))))
    
    (news-section :type 'sheet-section
 		 :dom-id "news"
@@ -193,23 +214,22 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 				    (htm ((:p :class "more") 
 					  ((:a :href (the (relative-url-to (the news url)))) "more...")))))))
 
-   (support-section :type 'sheet-section
-		    :dom-id "support"
-		    
-		    :inner-html (with-cl-who-string ()
-				  ((:div :class "support")
-			(:img :src "/newsite-static/images/support.jpg"))	  
-			
-				  #+nil
-				  (:ul
-				   (:li (:h3 ((:a :href "http://dl.dropbox.com/u/19667598/static/documents/gdl-documentation.pdf" :target "_fresh")
-					      "Prototype GenDL Manual")))
-				   (:li (:h3 ((:a :href "/yadd" :target "_fresh")
-					      "Live Reference Docs (YADD)"))))))
-
+   (support-section 
+    :type 'sheet-section
+    :dom-id "support"
+    :inner-html (with-cl-who-string ()
+		  ((:div :id "tickete" :class "support" :style "display:block")
+		   (:img :src "/newsite-static/images/support.jpg"))
+		  ((:div :id "address" :class "support" :style "display:none")
+		   "255 E Brown Street, Suite 310" :br
+		   "Birmingham, MI 48009 USA" :br
+		   "+1 248-327-3253" :br
+		   "info@genworks.com")))
    
    (right-section :type 'sheet-section
 		  :dom-id "right"
+		  :js-to-eval (the right-section-js-to-eval)
+		  :js-always-to-eval (the right-section-js-to-eval)
 		  :inner-html (the right-section-inner-html))
    
    (footer-section :type 'sheet-section

@@ -10,6 +10,8 @@
   ((title "Genworks International - Contact Us")
    (link-title  "Contact us")
    
+   (right-section-js-to-eval "$j('#tickete').hide(200);$j('#address').show(200);")
+   
    (right-section-inner-html
     (with-cl-who-string ()
       (:h2 "Contact Genworks") ((:div :id "contact"))

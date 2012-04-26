@@ -340,6 +340,33 @@ to call the :write-embedded-x3d-world function."))
                                 (the :view-object :height) :align :center :valign :center)
                            (:big (:b "No Graphics Object Specified")))))))
           (t
+
+
+	   
+	   (with-cl-who ()
+	     (:p
+	      ((:|X3D| :id "the_element"
+		 :swfpath "/static/3rdpty/x3dom/x3dom.swf"
+		 :width  "100%"
+		 :height  "100%"
+		 ;;:width (the view-object page-width)
+		 ;;:height (the view-object page-length)
+		 )
+		  
+	       (:|Scene|
+		 (with-format (x3d *stream*) (write-the view-object cad-output)))))
+		
+	     ((:script :type "text/javascript" 
+		       :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))
+
+	     (when (the x3dom-view-controls?)
+	       (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
+				      :onclick "document.getElementById('the_element').runtime.showAll();")
+			       "Show All")))))))
+
+
+
+	   #+nil
            (with-cl-who ()
              ((:table :cellspacing 0 :cellpadding 0)
               (:tr
@@ -359,7 +386,9 @@ to call the :write-embedded-x3d-world function."))
 	      (when (the x3dom-view-controls?)
 		(htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
 				       :onclick "document.getElementById('the_element').runtime.showAll();")
-				"Show All")))))))))))
+				"Show All")))))))
+
+	   )))
 
    (web3d-graphics
     ()

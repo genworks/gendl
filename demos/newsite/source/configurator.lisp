@@ -69,6 +69,7 @@
 		   (discount-func #'(lambda(price key)
 				      (ecase key 
 					(:none price)
+					(:sbcl price)
 					(:acl-32 (* (the acl-uplift) price))
 					(:acl-64 (* (the acl-uplift) price))
 					(:lw-32-base (* (the lw-uplift) price))

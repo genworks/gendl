@@ -123,7 +123,6 @@
                         (let ((timeout? nil))
                           (multiple-value-bind (string error backtrace)
                               (ignore-errors-with-backtrace
-                                
                                 (the-object section inner-html))
                             (cond ((typep error 'error)
                                    (with-output-to-string(ss)
@@ -138,15 +137,23 @@
 You can reload to get previous state" *ajax-timeout*))
                                        (:pre (esc backtrace)))))
                                   (t string))))
-                        (multiple-value-bind (string error)
-                            (ignore-errors (the-object section js-to-eval))
-                          (if (typep error 'error)
-                              (with-output-to-string(ss)
-                                (with-html-output(ss)
-                                  (:i (fmt "alert('This section threw error: ~a !!');" error))))
-                            (or string (the-object section js-always-to-eval) ""))))
-                  replace-list))))
+			(if t ;;(eql js-status :unbound)
+			    (multiple-value-bind (string error)
+				(ignore-errors (the-object section js-to-eval))
+			      (if (typep error 'error)
+				  (with-output-to-string(ss)
+				    (with-html-output(ss)
+				      (:i (fmt "alert('This section threw error: ~a !!');" error))))
+				  (or string (the-object section js-always-to-eval) "")))
+
+			    ""))
+                  replace-list)))
+
+	(when *debug?* (print-variables (the-object section js-always-to-eval)))
+	)
     
+
+
       (when *debug?* (print-variables replace-list))
         
     
@@ -160,9 +167,10 @@ You can reload to get previous state" *ajax-timeout*))
                                (:|newHTML| (str (wrap-cdata (if security-ok?
                                                                 (second replace-pair)
                                                               "<i>Security Error</i>"))))
-                               (:|jsToEval| (str (wrap-cdata (if security-ok?
-                                                                 (third replace-pair)
-                                                               ""))))))))))))))
+                               (:|jsToEval| (when (third replace-pair)
+					      (str (wrap-cdata (if security-ok?
+								   (third replace-pair)
+								   "")))))))))))))))
 
 (defun remove-html-sections (sections string)
   (remove-substrings string (mapsend sections :main-div)))
