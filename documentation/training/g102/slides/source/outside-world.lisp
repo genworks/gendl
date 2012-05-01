@@ -2,7 +2,7 @@
 ;; Copyright 2002, 2009 Genworks International and Genworks BV 
 ;;
 ;; This source file is part of the General-purpose Declarative
-;; Language project (GDL).
+;; Language project (Gendl).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -125,7 +125,7 @@ made of that address)")
         (:description 
          "The response function should write the data to the 
 <span class=lisp-code>request-reply-stream</span>, using the applicable
-GDL format and <span class=gdl-message-name>output-function</span>")
+Gendl format and <span class=gdl-message-name>output-function</span>")
         (:description
          "The slot which contains the URL should do the publishing, then
 return the URL for use in laying out the actual web page"
@@ -147,7 +147,7 @@ return the URL for use in laying out the actual web page"
          ((:define-object wing-readers)))
         
         (:description "If you want to save geometry for yourself or exchange with
-other GDL users, use the native format and \".iwp\" file extension.")
+other Gendl users, use the native format and \".iwp\" file extension.")
         
         (:description "The readers yield a flat list of entities currently;
 Assembly tree and attribute readers and direct Catia/ProE/UG readers are 

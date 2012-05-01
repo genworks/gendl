@@ -144,12 +144,13 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 
    
    (display-list-object-roots (list (the robot)))
+
    (x3dom-view-controls? nil)
    
    (current-right-section-rp (the index-html root-path) :settable)
    (current-right-section (the root (follow-root-path (the current-right-section-rp))))
 
-   (show-child-links? nil :settable)
+   (show-child-links? t :settable)
 
    (child-pages (remove-if-not #'(lambda(item) (typep item 'base-site-sheet)) (the children)))
 
@@ -183,7 +184,9 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 		       ;; FLAG - make this recursive
 		       ;;
 		       (when (the-object page show-child-links?)
-			 (htm (dolist (child (the-object page children))
+			 (htm (dolist (child (remove-if-not #'(lambda(page)
+								(typep page 'base-site-sheet))
+							    (the-object page children)))
 				(htm (:li ((:span :class 
 						  (format nil "clickable submenu~a" 
 							  (if (eql (the current-right-section) child) " selected" ""))

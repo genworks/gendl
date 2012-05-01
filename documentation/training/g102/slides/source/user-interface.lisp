@@ -2,7 +2,7 @@
 ;; Copyright 2002, 2009 Genworks International and Genworks BV 
 ;;
 ;; This source file is part of the General-purpose Declarative
-;; Language project (GDL).
+;; Language project (Gendl).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -108,11 +108,11 @@ produce a link to the page:"
               :include-page-link? t)))))
       
       (:title 
-       "Calling GDL Functions and Setting Slot Values"
+       "Calling Gendl Functions and Setting Slot Values"
        :bullet-points
        ((:description 
-         "the <span class=gdl-message-name>gdl-ajax-call</span> GDL 
-function will generate a Javascript function call which can invoke a GDL function:"
+         "the <span class=gdl-message-name>gdl-ajax-call</span> Gendl 
+function will generate a Javascript function call which can invoke a Gendl function:"
          :examples
          ((:define-object wing-with-restore)))
         

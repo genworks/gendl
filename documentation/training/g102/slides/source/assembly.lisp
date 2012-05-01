@@ -2,7 +2,7 @@
 ;; Copyright 2002, 2009 Genworks International and Genworks BV 
 ;;
 ;; This source file is part of the General-purpose Declarative
-;; Language project (GDL).
+;; Language project (Gendl).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -24,7 +24,7 @@
 
 (define-object assembly (slide-show-node)
   :input-slots
-  ((title "G102: GDL Quickstart")
+  ((title "G102: Gendl Quickstart")
    (slide-package (find-package :training-g102))
    (image-base-url "/g102/images/")
    (images-path *images-path*)

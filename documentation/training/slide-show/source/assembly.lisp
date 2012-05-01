@@ -137,6 +137,8 @@
                (the next-slide (write-self-link :class "navigation" :display-string (the next-slide-display-string))))
 
              (:p ((:div :id "title") (:princ (the numbered-title))))
+
+
              (:p ((:ul :class "bullet-list")
                   (dolist (bullet (list-elements (the bullets)))
                     (html (:li (write-the-object bullet slide-output))))))
@@ -167,8 +169,8 @@
   
   :computed-slots
   ((description (getf (the data) :description))
-   (image-url (getf (the data) :image-url)))
-  
+   (image-url (getf (the data) :image-url))
+   (image-caption (getf (the data) :image-caption)))
   
   :objects
   ((examples :type 'example 
@@ -181,10 +183,15 @@
   :output-functions
   ((slide-output
     ()
-    (html ((:div :class "bullet")  
-           (:princ (the description))
-           (when (the image-url)
-             (html " " ((:img :src (format nil "~a~a" (the image-base-url) (the image-url))))))))
+    (with-cl-who ()
+      ((:div :class "bullet")  
+       (str (the description))
+       (cond ((and (the image-url) (the image-caption))
+	      (htm (:table 
+			(:tr (:td ((:img :src (format nil "~a~a" (the image-base-url) (the image-url))))))
+		      (:tr ((:td :align :center) ((:span :class "caption") (str (the image-caption))))))))
+	     ((the image-url)
+	      (htm  (:p ((:img :src (format nil "~a~a" (the image-base-url) (the image-url))))))))))
     (dolist (example (list-elements (the examples)))
       (write-the-object example slide-output)))))
 
@@ -231,6 +238,9 @@
              (output-file (merge-pathnames image-name (the images-path)))
              (temp-file (merge-pathnames (string-append image-name "-t")
                                          (the images-path))))
+
+	(ensure-directories-exist (the images-path))
+	
         (generate-sample-drawing 
          :page-width 500
          :page-length 350
@@ -260,12 +270,21 @@
     (html 
       
      (unless (eql (the code) :code-not-found)
-       (html (:pre ((:span :class "lisp-code")
-                    (:princ-safe (with-output-to-string(ss)
-                                   (let (*print-length* *print-level*
-                                         (*print-right-margin* 50)
-                                         (*package* (the slide-package)))
-                                     (pprint (the code) ss))))))))
+       #+nil
+       (html ((:span :class "lisp-code")
+	      (:princ-safe (with-output-to-string(ss)
+			     (let (*print-length* *print-level*
+						  (*print-right-margin* 50)
+						  (*package* (the slide-package)))
+			       (pprint (the code) ss))))))
+
+       (html  ((:span :class "lisp-code")
+	       (:pre
+		(:princ-safe (with-output-to-string(ss)
+			       (let (*print-length* *print-level*
+						    (*print-right-margin* 50)
+						    (*package* (the slide-package)))
+				 (pprint (the code) ss))))))))
      
      (when (the define-object)
        (let ((object-doc (the yadd (find-object-doc (the define-object)))))
@@ -278,14 +297,14 @@
                 (html (:princ-safe (the print-string)))))))
 
      (when (the have-return-value?)
-       (html (:pre ((:div :class "lisp-value")
+       (html (:pre ((:div :class "lisp-return-value")
                     (:princ-safe "-> "
                                  (subseq (with-output-to-string(ss)
                                            (let ((*package* (the slide-package)))
                                              (pprint (the return-value) ss))) 1))))))
      
      (when (the have-return-value*?)
-       (html (:pre ((:div :class "lisp-value")
+       (html (:pre ((:div :class "lisp-return-value")
                     (:princ-safe "-> "
                                  (with-output-to-string(ss)
                                    (let ((*package* (the slide-package)))
@@ -323,13 +342,16 @@
   :output-functions
   ((copyright
     ()
-    (html ((:div :id "copyright")
+    (html :hr
+	  ((:div :id "copyright")
            (when gwl:*developing?*
              (the write-development-links))
-           "Copyright &copy; 2011 "
-           ((:a :href "http://www.genworks.com") "Genworks")
-           (:sup "&reg;") " "
-           ((:a :href "http://www.genworks.com") "B.V."))))))
+           "Copyright &copy; 2012 "
+           ((:a :href "http://www.genworks.com") "Genworks" (:sup "&reg;") "International")
+	   :br
+	   "with thanks to the "
+	   ((:a :href "http://home.tudelft.nl/en/") "Delft University of Technology")
+	   " for sponsorship of these training materials.")))))
 
 
 #|

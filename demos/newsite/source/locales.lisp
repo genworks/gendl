@@ -2,12 +2,21 @@
 
 (defparameter *lang* :english)
 
+(defmacro locale-string (key) 
+  `(let ((string (getf (gethash ,key *locale-strings-hash*) (the lang))))
+     (or string 
+	 (progn (warn "~s not found in *locale-strings-hash* for current *lang*: ~a"
+		      ,key (the lang))
+		(format nil "!! ~s !!" ,key)))))
+
 (defparameter *locale-strings-hash*
 
   (let ((strings 
-	 '(:gendl-component
+	 '(
+
+	   :gendl-component
 	   (:english "Gendl Component"
-	    :chinese "Gendl 成份")
+	    :chinese "Gendl 组成部份")
 
 	   :your-selection
 	   (:english "Your Selection"
@@ -24,11 +33,11 @@
 	   
 	   :previous
 	   (:english "Previous"
-	    :chinese "先前")
+	    :chinese "前一页")
 
 	   :next 
 	   (:english "Next"
-	    :chinese "下一项")
+	    :chinese "下一页")
 
 	   :gendl-licensing-level
 	   (:english "Gendl Licensing Level"
@@ -40,11 +49,11 @@
 
 	   :please-select-basic-geom
 	   (:english "Please Select \"Basic\" Geometry Kernel to enable this option."
-	    :chinese "请选择几何内核选项 ")
+	    :chinese "请选择基本几何内核选项 ")
 
 	   :evaluation
 	   (:english "Evaluation"
-	    :chinese "评估")
+	    :chinese "试用软件")
 
 	   :student
 	   (:english "Student"
@@ -60,7 +69,7 @@
 
 	   :order-qualifies-for-academic
 	   (:english "This Order Qualifies for Academic Pricing"
-	    :chinese "此项学术定价资格")
+	    :chinese "此项具备学术定价资格")
 
 	   :common-lisp-engine
 	   (:english "Common Lisp Engine"
@@ -75,8 +84,8 @@
 	    :chinese "请选")
 
 	   :the-basic-geometry-kernel
-	   (:english "the \"Basic\" geometry kernel" ""
-	    :chinese "基本几何内核" "")
+	   (:english "the \"Basic\" geometry kernel"
+	    :chinese "基本几何内核")
 
 	   :and
 	   (:english "and"
@@ -148,32 +157,32 @@
 
 	   :none
 	   (:english "None"
-	    :chinese "None")
+	    :chinese "无")
 
 	   :i-e
 	   (:english "i.e."
-	    :chinese "i.e.")
+	    :chinese "例如")
 
 	   :self-provided-or-third-party
 	   (:english "self-provided or third-party"
-	    :chinese "self-provided or third-party")
+	    :chinese "自方或者第三方")
 
 	   :installation-and-configuration
 	   (:english "Installation and Configuration"
-	    :chinese "Installation and Configuration")
+	    :chinese "安装和配置")
 
 	   :non-trial
 	   (:english "non-Trial"
-	    :chinese "non-Trial")
+	    :chinese "非试用")
 
 	   :non-student
 	   (:english "non-Student"
-	    :chinese "non-Student")
+	    :chinese "非学生")
 	   
 
 	   :technical-how-to-q-a
 	   (:english "Technical how-to questions/answers"
-	    :chinese "Technical how-to questions/answers")
+	    :chinese "技术问答")
 
 	   :application-code-nda
 	   (:english "Application Code Nondisclosure"
@@ -185,33 +194,37 @@
 
 	   :an-open-source
 	   (:english "an Open Source"
-	    :chinese "an Open Source")
+	    :chinese "开源软件")
 
 	   :or 
 	   (:english "or"
-	    :chinese "or")
+	    :chinese "或者")
 
 	   :enterprise-class
 	   (:english "Enterprise-class"
-	    :chinese "Enterprise-class")
+	    :chinese "企业级")
 
 
 	   :gendl-license
 	   (:english "Gendl license"
-	    :chinese "Gendl license")
-
+	    :chinese "Gendl 软件")
+	   
+	   :less-than
+	   (:english "less than"
+	    :chinese "less than")
+	   
 
 	   :training-level
 	   (:english "Training Level"
-	    :chinese "Training Level")
+	    :chinese "培训等级")
 
 	   :self-guided-etc
 	   (:english "self-guided, online videos &amp; tutorials, or third-party"
-	    :chinese "self-guided, online videos &amp; tutorials, or third-party")
+	    :chinese "自学, 网上视频; 教程, 或者是第三方")
 	    
 	   :remote 
 	   (:english "Remote"
-	    :chinese "Remote")
+	    :chinese "远程教学")
 
 	   :three-day
 	   (:english "Three-day"
@@ -227,33 +240,37 @@
 
 	   :excl-travel-and-exp
 	   (:english "excl. travel and expenses"
-	    :chinese "差")
+	    :chinese "差及其它费用")
 
 	   :language-selection 
 	   (:english "Language Selection"
-	    :chinese "Language Selection")
+	    :chinese "语言选项")
 
 	   :language 
 	   (:english "Language"
-	    :chinese "Language")
+	    :chinese "语言")
 	   
 	   :tip
 	   (:english "TIP"
 	    :chinese "TIP")
 
+	   :other-than
+	   (:english "other than"
+	    :chinese "other than")
+	   
+	   :known
+	   (:english "known"
+	    :chinese "known")
+
 	   )))
+
 
 
     (let ((ht (make-hash-table :size (length strings))))
       (mapc #'(lambda(key value) (setf (gethash key ht) value))
 	    (plist-keys strings) (plist-values strings)) ht)))
 
-(defmacro locale-string (key) 
-  `(let ((string (getf (gethash ,key *locale-strings-hash*) (the lang))))
-     (or string 
-	 (progn (warn "~s not found in *locale-strings-hash* for current *lang*: ~a"
-		      ,key (the lang))
-		(format nil "!! ~s !!" ,key)))))
-       
-       
+
+
+
 

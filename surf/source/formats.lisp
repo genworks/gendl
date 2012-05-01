@@ -118,7 +118,7 @@
    (finalize-output
     ()
     (write-env (objects-output))
-    (write-env (a "%Finalized Output"))
+    ;;(write-env (a "%Finalized Output"))
     (write-env (newline-out)))))
 
 (define-format step (nurbs)
@@ -196,7 +196,7 @@
    (finalize-output
     ()
     (write-env (objects-output))
-    (write-env (a "%Finalized Output"))
+    ;;(write-env (a "%Finalized Output"))
     (write-env (newline-out)))))
 
 

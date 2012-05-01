@@ -54,6 +54,7 @@
              #:set-defpackage-behavior
              #:set-local-compiler-tweaks
              #:set-window-titles
+	     #:system-home
              #:upcase
              #:w-o-interrupts
              #:xref-off
@@ -225,6 +226,10 @@
   #+(and allegro mswindows)
   (excl:console-control :title "Genworks GDL Console")
   (retitle-emacs))
+
+(defun system-home (system-designator)
+  (asdf:system-source-directory system-designator))
+
 
 (defun retitle-emacs (&key (title "Genworks GDL Interactive Authoring Environment"))
   "Retitles the associated GDL emacs window with the specified title.
