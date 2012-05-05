@@ -53,17 +53,24 @@
                        (with-http-body (req ent)
                          (let ((value (if object (multiple-value-bind (value error)
                                                      (ignore-errors 
-                                                       (apply (symbol-function (intern message :gdl-inputs))
-                                                              object (intern part-name :gdl-acc) child args))
-                                                   (if (typep error 'error) 
-                                                       (progn
-                                                         (when *debug?* (error error))
-                                                         (cond ((or (search "could not handle"
-                                                                            (format nil "~a" error))
-                                                                    (search "instances could handle"
-                                                                            (format nil "~a" error)))
-                                                                'gdl-rule:%not-handled%)
-                                                               (t (list :error (format nil "~a" error)))))
+                                                       (apply (symbol-function (glisp:intern message :gdl-inputs))
+                                                              object (glisp:intern part-name :gdl-acc) child args))
+						   (if (typep error 'error) 
+						       (let ((error-string 
+							      (glisp:replace-regexp 
+							       (format nil "~a" error) "\\n" " ")))
+							 (cond ((or (search "could not handle"
+									    error-string)
+								    #+nil
+								    (search "which is the root"
+									    error-string)
+								    (search "instances could handle"
+									    error-string))
+								'gdl-rule:%not-handled%)
+							       (t (when *debug?* 
+								    (format t "Throwing error on fetch-input server because gwl::*debug?* is set to non-nil~%")
+								    (error error))
+								  (list :error (format nil "~a" error)))))
                                                        value))
                                           (list :error :no-such-object (getf args-list :remote-id)))))
                            (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
@@ -97,6 +104,11 @@
          (args (rest (assoc "args" query :test #'string-equal)))
          (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
     (let ((args-list (base64-decode-list args)))
+      
+      (when *debug?*
+	(format t "~%In send-remote-message-object response func:~%")
+	(print-variables args-list))
+
       (let ((*package* (or (find-package (getf args-list :package)) *package*)))
         (let ((object (when (gethash (getf args-list :remote-id) *remote-objects-hash*)
                         (the-object (gethash (getf args-list :remote-id) *remote-objects-hash*)
@@ -107,19 +119,20 @@
           
           (with-http-response (req ent)
             (with-http-body (req ent)
-              
               (let ((value (if object (multiple-value-bind (value error)
                                           (glisp:w-o-interrupts 
                                             (ignore-errors (if args
                                                                (the-object object ((evaluate message)
                                                                                    (:apply args)))
                                                              (the-object object (evaluate message)))))
+					
                                         (if (typep error 'error)
                                             (progn
                                               (when *debug?* (error error))
                                               (list :error (format nil "~a" error)))
                                           value))
                              (list :error :no-such-object (getf args-list :remote-id)))))
+		
                 (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
                   (html (format *html-stream* encoded-value)))))))))))
 
@@ -146,7 +159,7 @@
                                  (with-http-body (req ent)
                                    (let ((value
                                           (with-output-to-string(*stream*)
-                                            (apply (intern message :gdl-output)
+                                            (apply (glisp:intern message :gdl-output)
                                                    *%format%* object  t ;; flag pick up skin
                                                    args))))
                                      (let ((encoded-value
@@ -165,8 +178,13 @@
                     (ipaddr (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
                     (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
                     (args (rest (assoc "args" query :test #'string-equal))))
+
                (let ((args-list (base64-decode-list args)))
-                           
+		 
+		 (when *debug?*
+		   (format t "~%In make-remote-object response func:~%")
+		   (print-variables args-list))
+
                  (let ((*package* (or (find-package (getf args-list :package)) *package*))
                        (name (getf args-list :name))
                        (index (getf args-list :index))

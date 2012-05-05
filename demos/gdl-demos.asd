@@ -4,7 +4,7 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012042700" :depends-on (:gdl-gwl-graphics)
+                :version "2012050200" :depends-on (:gdl-gwl-graphics)
                 :components
                 ((:file "robot/source/package")
                  (:file "robot/source/assembly")
@@ -16,6 +16,7 @@
                  (:file "newsite/source/configurator")
                  (:file "newsite/source/contact-us")
                  (:file "newsite/source/demos")
+                 (:file "newsite/source/documentation")
                  (:file "newsite/source/explanations")
                  (:file "newsite/source/index")
                  (:file "newsite/source/language")

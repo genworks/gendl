@@ -30,7 +30,7 @@
 	     :respondent self)
    ;;(services :type 'services)
    
-   (documentation :type 'documentation
+   (documentation :type 'documentation-and-educational
 		  :respondent self)
    
    (demos :type 'demos
@@ -42,4 +42,5 @@
    
    (language :type 'language
 	     :respondent self)
+   
    ))
