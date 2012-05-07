@@ -231,7 +231,6 @@ body {
     /* border-top: 1px solid #B8B8B8;*/
     /* border-bottom: 1px solid #B8B8B8;*/
     /* padding: 3px;*/
-    padding-left: 12px;
     height: 97px;
     width: 243px;
 }
@@ -243,6 +242,18 @@ body {
 }
 
 #support.itemizedlist li {margin-top: 4em;}
+
+.support-contact {
+     background: url(../images/contact-support.jpg); 
+    /* margin: 8px 25px 20px 25px; */
+    /* border-top: 1px solid #B8B8B8;*/
+    /* border-bottom: 1px solid #B8B8B8;*/
+    /* padding: 3px;*/
+    height: 97px;
+    width: 243px;
+}
+.support-contact-text {
+ padding-left: 20px;}
 
 #right {
   float: right;
