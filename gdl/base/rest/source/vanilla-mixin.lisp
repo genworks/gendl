@@ -688,12 +688,11 @@ current instance. Typically this file can be read back into the system using the
     modified since the last time it was demanded and eager setting is not enabled).</li>
 <li><tt>:evaluated</tt>: it has been demanded and it is currently bound to the default
 value based on the code.</li>
-<li><tt>:set</tt>: (for :settable slots only, which includes all required
-:input-slots) it has been modified and is currently bound to
-the value to which it was explicitly set.</li>
-<li><tt>:toplevel</tt>: (for root-level object only) its value was passed 
-into the root-level object as a toplevel input at the time of object 
-instantiation.</li></ol>"
+<li><tt>:set</tt>: (for :settable slots only, which includes all required :input-slots) 
+it has been modified and is currently bound to the value to which it was explicitly set.</li>
+<li><tt>:toplevel</tt>: (for root-level object only) its value was passed into the root-level 
+object as a toplevel input at the time of object instantiation.</li></ol>"
+
     slot-status 
     (slot)
     (let ((slot-value (funcall (glisp:intern (symbol-name slot) :gdl-acc) self)))
