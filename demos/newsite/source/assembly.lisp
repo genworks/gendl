@@ -29,6 +29,10 @@
    (products :type 'products
 	     :respondent self)
    ;;(services :type 'services)
+   
+   (documentation :type 'documentation-and-educational
+		  :respondent self)
+   
    (demos :type 'demos
 	  :respondent self)
    (people :type 'people
@@ -38,4 +42,5 @@
    
    (language :type 'language
 	     :respondent self)
+   
    ))

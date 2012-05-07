@@ -299,6 +299,7 @@ You have a dependency on caffeine. Your children are your dependants.
 
 
 (defclass gdl-basis () () (:metaclass gdl-class))
+(defclass gdl-remote () () (:metaclass gdl-class))
 
 (defun to-double-float (num) (coerce num 'double-float))
 (defun to-single-float (num) (coerce num 'single-float))

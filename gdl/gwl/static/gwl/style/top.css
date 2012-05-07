@@ -68,9 +68,11 @@ font-size: large;
 .lisp-code {
 color: blue;
 /* whitespace: pre; */
-font-family: Courier, fixed, serif;
+/* font-family: Courier, fixed, serif; */
+font-family: monospace;
 font-size: 18;
 font-weight: 600;
+
         }
 
   
@@ -86,6 +88,16 @@ font-weight: 600;
 
 .lisp-value {
 color: green;
+/* whitespace: pre; */
+font-family: Courier, fixed, serif;
+font-size: 18;
+font-weight: 600;
+        }
+
+
+.lisp-return-value {
+color: green;
+background-color: yellow;
 /* whitespace: pre; */
 font-family: Courier, fixed, serif;
 font-size: 18;

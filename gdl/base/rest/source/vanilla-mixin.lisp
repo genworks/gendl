@@ -740,6 +740,7 @@ object as a toplevel input at the time of object instantiation.</li></ol>"
     ()
     nil)
    
+   #+nil
    (fetch-input 
     ()
     nil)

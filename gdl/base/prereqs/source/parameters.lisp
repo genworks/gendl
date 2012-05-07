@@ -171,10 +171,18 @@ values are a color indicator for the default foreground and background of graphi
 (defparameter *error-on-reserved-words?* t)
 
 
+
 (defparameter *compile-for-dgdl?* nil "Boolean. Determines whether
   global methods are defined during compilation to allow calling any
   message on a gdl remote-object. This functionality is not available
   in the core GDL kernel and depends on additional web/networking
   modules. Defaults to nil.")
+
+#+nil
+(defparameter *compile-for-dgdl?* t "Boolean. Determines whether
+  global methods are defined during compilation to allow calling any
+  message on a gdl remote-object. This functionality is not available
+  in the core GDL kernel and depends on additional web/networking
+  modules. Defaults to t.")
 
 (defparameter *gs-path* nil)

@@ -21,6 +21,53 @@
 
 (in-package :com.genworks.lisp)
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defpackage :com.genworks.lisp 
+    (:use :common-lisp)
+    (:shadow #:intern)
+    (:nicknames :glisp) 
+    (:import-from #+allegro :mop #+lispworks :hcl #+sbcl :sb-mop 
+                  #:validate-superclass)
+    (:export #:*external-text-format*
+             #:*gdl-home*
+             #:*genworks-source-home*
+             #:basic-command-line-arguments
+             #:begin-redefinitions-ok
+             #:current-directory
+             #:define-constant
+             #:direct-superclasses
+             #:direct-superclass-names
+             #:display-startup-banner
+             #:end-redefinitions-ok
+             #:eql-specializer
+             #:featurep
+             #:gl-class-name
+             #:gl-method-specializers
+             #:hex-string-to-integer
+             #:intern
+             #:make-sans-value-equalp-hash-table
+             #:make-sans-value-hash-table
+             #:make-weak-hash-table
+             #:set-default-float-format
+             #:set-default-package
+             #:set-defpackage-behavior
+             #:set-local-compiler-tweaks
+             #:set-window-titles
+             #:system-home
+             #:upcase
+             #:w-o-interrupts
+             #:xref-off
+             #:xref-on
+             #:validate-superclass
+             #:without-package-variance-warnings)))
+
+
+(defmacro without-package-variance-warnings (&body body)
+  `(eval-when (:compile-toplevel :load-toplevel :execute)
+     (handler-bind (#+sbcl(sb-int:package-at-variance #'muffle-warning))
+       ,@body)))
+
+
 (glisp:without-package-variance-warnings
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
@@ -91,11 +138,11 @@ and \"..\" entries."
 
   #+lispworks
   (directory (merge-pathnames *wild-entry* pathspec)
-	      :directories t
-	      :link-transparency nil)
+              :directories t
+              :link-transparency nil)
   #+sbcl
   (directory (merge-pathnames *wild-entry* pathspec)
-	     :resolve-symlinks nil))
+             :resolve-symlinks nil))
 
 
 ;;

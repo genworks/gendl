@@ -67,7 +67,7 @@ body {
 
 .header-nobg {
     position: absolute;
-    top: -1px;
+   /*  top: -1px; */
     left: 0px; 
     width: 526px; 
     height: 420px;  
@@ -96,6 +96,7 @@ body {
     float: left;
     width: 243px;
 }
+
 #logo {
     width: 244px;
     height: 152px;
@@ -103,6 +104,15 @@ body {
     text-align: center;
     color: #595959;
 }
+
+#genworks-noesis-logo {
+    width: 244px;
+    height: 152px;
+    background: url(../images/genworks-noesis-compact.png) no-repeat;
+    text-align: center;
+    color: #595959;
+}
+
 #logo h1 {
     padding-top: 14px;
     /* font: 24px "arial narrow", arial, sans-serif; */
@@ -239,7 +249,8 @@ body {
   float: top;
   width: 490px;
   padding-right: 9px;
-  padding-top: 450px; 
+  /* padding-top: 450px;  */ 
+  padding-top: 500px; 
 }
 #right h2 {
   font: 18px arial, sans-serif;

@@ -83,7 +83,13 @@
                                                                          :package *package*)))))
       (multiple-value-bind 
           (result length)
-          (read-safe-string 
+	  
+	  (base64-decode-list
+	   (net.aserve.client:do-http-request (format nil "http://~a:~a/fetch-remote-input?args=~a"
+						      (the host) (the port) encoded-args)))
+
+	  #+nil
+	(read-safe-string 
            (base64-decode-safe
             (net.aserve.client:do-http-request (format nil "http://~a:~a/fetch-remote-input?args=~a"
                                                        (the host) (the port) encoded-args))))
@@ -121,19 +127,24 @@
                                                                          :remote-id (the remote-id)
                                                                          :remote-root-path (the remote-root-path)
                                                                          :package *package*)))))
+
+      
       (multiple-value-bind
           (result length)
           (read-safe-string
            (base64-decode-safe
             (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-message?args=~a"
                                                        (the host) (the port) encoded-args)))) 
+
         (declare (ignore length))
+
         
         ;;
         ;; FLAG -- pass result through generic function to sanitize
         ;;
         
         (let ((result (decode-from-http result)))
+	  
           (cond ((and (consp result) (eql (first result) :error)
                       (eql (second result) :no-such-object))
                  (progn
@@ -185,6 +196,9 @@
 
 (defmethod encode-for-http ((item t)) item)
 
+(defmethod encode-for-http ((item pathname))
+  (format nil "~a" item))
+
 (defmethod encode-for-http ((item package))
   (package-name item))
 
@@ -231,7 +245,8 @@
         :root-path (the-object item root-path) 
         :host :unknown
         :port (slot-value (slot-value (symbol-value (read-from-string "net.aserve:*wserver*"))
-                                      (read-from-string "net.aserve::socket")) 'socket:local-port)))
+                                      (read-from-string "net.aserve::socket")) #+allegro 'socket:local-port
+				      #-allegro 'acl-compat.socket::port)))
 
 
 (defmethod print-object ((object remote-object) stream)

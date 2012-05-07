@@ -1,0 +1,55 @@
+(in-package :www.genworks.com)
+
+(define-object documentation-and-educational (base-site-sheet)
+
+  :computed-slots
+  ((title "Genworks International - Documentation")
+   (link-title  "Documentation")
+   
+   (right-section-inner-html
+    (with-cl-who-string ()
+      (:h2 "Documenation and Educational Resources") 
+      
+      (:h3 "Lecture and Tutorial Videos")
+      ((:div :class "profile")
+       ((:div :class "people")
+	(:h4 "G102: Gendl Quickstart")
+	(:p "Note: Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102/" :target "g102-slides") "here") ", "
+	    "Exercise skeletons " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/g102-exercises.lisp?raw=true" :target "gendl-code") "here") ", and "
+	    "Sample code from the slides " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/section-2-examples.lisp?raw=true" :target "gendl-code") "here") ".")
+	
+	(:p "You can play all the G102 videos, one after another, using this " 
+	    ((:a :href "http://www.youtube.com/playlist?list=PLCF84A1DE8098DCE2" :target "gdl-videos") "playlist") ".")
+
+	(:ol
+	 (:li ((:a :href "http://www.youtube.com/watch?v=9QSzuBeYHPE&hd=1" :target "gdl-videos") 
+	       "Section 1: Introduction (3:34)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=z0jSK3RyVIM&hd=1" :target "gdl-videos") 
+	       "Section 2.1 - 2.3: Functions (4:20)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=AeYUr1AQH1Y&hd=1" :target "gdl-videos") 
+	       "Section 2.3 - 2.4: Defining Functions (4:14)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=-KpiRYODYJ0&hd=1" :target "gdl-videos") 
+	       "Section 2.4 - 2.5: Functions as Objects (3:57)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=qKbgzdvfjfE&hd=1" :target "gdl-videos") 
+	       "Section 2.6 - 2.8: Basic Syntax of define-object (4:36)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=syMKEtC_rVI&hd=1" :target "gdl-videos") 
+	       "Section 2.8 - 2.9: Making Objects and Sending Messages to them (3:35)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=DSQTeUMQ8Og&hd=1" :target "gdl-videos") 
+	       "Section 2.10: Exercise 1 Intro (3:29)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=ZuYOZ33PiDI&hd=1" :target "gdl-videos") 
+	       "Section 2.11: Child Objects (5:02)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=bIu_AywMMQU&hd=1" :target "gdl-videos") 
+	       "Section 2.12: Gendl Object Sequences (4:44)")))))
+      
+      (:h3 "Manuals and Tutorials")
+      ((:div :class "profile")
+       ((:div :class "people")
+	(:h4 "Gendl full Documentaion")
+	(:p (:ul (:li ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/gdl-documentation.pdf?raw=true") "GDL Unified Documentation"))))))
+      
+
+      ))))
+	 
+	 
+	
+	    

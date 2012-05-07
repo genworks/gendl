@@ -78,15 +78,22 @@
 
 (define-object test-b-spline-surface (b-spline-surface)
   
-  :input-slots ((display-controls (list :color :periwinkle :line-thickness 2)))
+  :input-slots ((display-controls (list :color :periwinkle :line-thickness 2))
+
+		(z-stretch 1))
   
   :computed-slots
   ((points-data '(((0 0 0)(4 1 0)(8 1 0)(10 0 0)(8 -1 0)(4 -1 0)(0 0 0))
                   ((0 0 2) (4 2 2) (8 2 2) (10 0 2) (8 -2 2) (4 -2 2) (0 0 2))
                   ((0 0 4) (4 2 4) (8 2 4) (10 0 4) (8 -2 4) (4 -2 4) (0 0 4))
                   ((0 0 7) (4 1 7) (8 1 7) (10 0 7) (8 -1 7) (4 -1 7) (0 0 7))))
-                  
-   (control-points (mapcar #'(lambda(list) (mapcar #'apply-make-point list)) 
+   
+   (control-points (mapcar #'(lambda(list) (mapcar #'apply-make-point 
+						   (mapcar #'(lambda(list)
+							       (list (first list)
+								     (second list)
+								     (* (third list) (the z-stretch))))
+							   list)))
                            (the points-data))))
 
   

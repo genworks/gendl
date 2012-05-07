@@ -1,6 +1,5 @@
-;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: user; Base: 10 -*-
+(in-package :common-lisp-user)
 
-(in-package :user)
+(gwl:define-package :training-g102 (:use :slide-show)  (:export #:assembly #:push!))
 
-(gwl:define-package :training-g102 (:use :slide-show)  (:export #:assembly))
-
+o

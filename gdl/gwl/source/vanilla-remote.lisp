@@ -22,5 +22,5 @@
 (in-package :gwl)
 
 
-(define-object vanilla-remote (vanilla-mixin* gdl-remote gdl-basis)
+(define-object vanilla-remote (vanilla-mixin* gdl-remote gdl::gdl-basis)
                :no-vanilla-mixin? t)

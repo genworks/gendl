@@ -22,6 +22,9 @@
 (in-package :gdl-build)
 
 (define-object app ()
+  
+  :computed-slots ((hey-now "hey now"))
+  
   :input-slots
   (("String. The name which will be used for your application's executable and dxl file. 
 Defaults to \"my-gdl-app\""
