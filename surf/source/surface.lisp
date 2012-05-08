@@ -134,20 +134,20 @@ The keys are as follows:
 
 and the defaults come from the following parameters:
 
- <tt>
+ <tt><dl>
+ <dd>(list </dd>
+       <dd>:min-number-of-segments *tess-min-number-of-segments* </dd>
+       <dd>:max-3d-edge-factor *tess-max-3d-edge-factor* </dd>
+       <dd>:min-parametric-ratio *tess-min-parametric-ratio* </dd>
+       <dd>:max-chord-height *tess-max-chord-height* </dd>
+       <dd>:max-angle-degrees *tess-max-angle-degrees* </dd>
+       <dd>:min-3d-edge *tess-min-3d-edge* </dd>
+       <dd>:min-edge-ratio-uv *tess-min-edge-ratio-uv* </dd>
+       <dd>:max-aspect-ratio *tess-max-aspect-ratio*) </dd>
 
- (list :min-number-of-segments *tess-min-number-of-segments*
-       :max-3d-edge-factor *tess-max-3d-edge-factor*
-       :min-parametric-ratio *tess-min-parametric-ratio*
-       :max-chord-height *tess-max-chord-height*
-       :max-angle-degrees *tess-max-angle-degrees*
-       :min-3d-edge *tess-min-3d-edge*
-       :min-edge-ratio-uv *tess-min-edge-ratio-uv*
-       :max-aspect-ratio *tess-max-aspect-ratio*)
+</dl></tt>
 
- </tt>
-
-"
+" 
     tessellation-parameters
     
     (list :min-number-of-segments *tess-min-number-of-segments*

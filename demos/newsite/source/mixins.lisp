@@ -223,12 +223,14 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
     :inner-html (with-cl-who-string ()
 		  ((:div :id "tickete" :class "support" :style "display:block")
 		   (:img :src "/newsite-static/images/support.jpg"))
-		  ((:div :id "address" :class "support" :style "display:none")
+		  ((:div :id "address" :class "support-contact" :style "display:none")
+		   ((:div :id "address-text" :class "support-contact-text") ;;:style "display:none")
+		   "" :br
 		   "255 E Brown Street, Suite 310" :br
 		   "Birmingham, MI 48009 USA" :br
 		   "+1 248-327-3253" :br
-		   "info@genworks.com")))
-   
+		   "info@genworks.com" :br))))
+    
    (right-section :type 'sheet-section
 		  :dom-id "right"
 		  :js-to-eval (the right-section-js-to-eval)

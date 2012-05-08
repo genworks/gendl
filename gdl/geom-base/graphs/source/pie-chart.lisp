@@ -25,8 +25,8 @@
 (define-object pie-chart (base-object)
   :documentation (:description "Generates a standard Pie Chart with colored filled pie sections.
 
-This object was inspired by the pie-chart in Marc Battyani's (marc.battyani@fractalconcept.com)
-cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil@cern.ch)."
+This object was inspired by the pie-chart in Marc Battyani's (marc.battyani(at)fractalconcept.com)
+cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch)."
                   
                   :examples "
 

@@ -17,7 +17,7 @@
                   
 		      (the geom-base write-package-index)
 		      (the geom-base write-class)
-		      
+		     
 		      (the surf write-package-index)
 		      (the surf write-class)
 		      ;;-!!!!!!!!
@@ -80,7 +80,7 @@
                                    (the-object doc-messages message-names)) 
                              (list 
                               (mapcar #'(lambda (doc)  
-                                          (the-object doc ;;;remark-string
+                                          (the-object doc ;; remark-string))
 						      section-plist))
                                       (list-elements 
                                        (the-object doc-messages messages))))
@@ -166,7 +166,7 @@
                (remove #\* (concatenate 'string  
                              (getf (nth n (the part-documentation-plist)) :classr)
                              ".texi"))))
-          ;;it is necessary to remove characters * : ? .etc from the ilfe-names
+          ;;it is necessary to remove characters * : ? .etc from the files-names
           
           (with-open-file (out 
                            (merge-pathnames 
@@ -182,7 +182,11 @@
             (format out "~a~%~%" 
                     (if (getf (nth n (the part-documentation-plist)) 
                               :description) 
-                        (excl:replace-re 
+
+			(html2texi-string (getf (nth n (the part-documentation-plist)) 
+					  :description))  
+                        #+nil
+			(excl:replace-re 
                          (excl:replace-re 
 			  (excl:replace-re 
 			   (excl:replace-re 
@@ -223,7 +227,7 @@
 			(if  (fourth documentation) 
 			     (if (eql :functions (first documentation))
 				 (progn	
-				   (format out "@noindent @b{~@(~a~)}~%~%" (first documentation))
+				   (format out "~%~%@noindent @b{~@(~a~)}~%~%" (first documentation))
 
 				   (let ((index (length (second documentation)))) 
 				     (dotimes (n index)
@@ -242,11 +246,11 @@
 					 (if (getf (nth n (third documentation)) :&key) 
 					     (format out "~%~%@i{Keyword Arguments:} ~%~% @itemize {}~%~% ~{@item ~a~}~%~%@end itemize~%~%"
 						     (mapcar #'(lambda (arg-1 arg-2) 
-								 (format nil "@b{~a} ~a, Default Value: ~a, ~{~a.~} ~%~%"
+								(html2texi-string  (format nil "@b{~a} ~a, Default Value: ~a, ~{~a.~} ~%~%"
 									 (if  (listp arg-1) (first arg-1) arg-1)
 									 (first (split arg-2 #\.))
 									 (if  (listp arg-1) (second arg-1) "@code{nil}")
-									 (cdr (split arg-2 #\.))))
+									 (cdr (split arg-2 #\.)))))
 							     (plist-keys  (getf (nth n (third documentation)) :&key))
 							     (plist-values  (getf (nth n (third documentation)) :&key))))
 					     (format out "~%~%"))
@@ -297,14 +301,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 			;;#+nil	
 				 (progn	
-				  (format out "@noindent @b{~@(~a~)}~%~%" (first documentation-s))
+				  (format out "~%~% @noindent @b{~@(~a~)}~%~%" (first documentation-s))
 				  (let ((index (length (second documentation-s)))) 
 				    (dotimes (n index)
 				      (when (nth n (third documentation-s))
-					(format out "@noindent @b{~a}~%~%" 
-						(nth n (second documentation-s)))
-					(format out "~%~% @itemize {}~%~% ~%~% @item ~%~% ~a~%~%@end itemize~%~%"
-						(excl:replace-re
+					(format out "~%~% @noindent @b{~a} @i{~a} ~%~%" 
+						(nth n (second documentation-s))
+						(string-downcase (first (split (nth n (third documentation-s)) #\.))))
+
+					;;(format out "~%~% @itemize {}~%~% ~%~% @item ~%~% ~a~%~%@end itemize~%~%"
+(format out "~a"
+(html2texi-string	
+(format nil "~{~A~^ ~}" (cdr (split (nth n (third documentation-s)) #\.))))
+			
+						#+nil(excl:replace-re
 						 (excl:replace-re
 						  (excl:replace-re
 						   (excl:replace-re
@@ -418,10 +428,19 @@
   :hidden-objects
   ((general-description :type 'base-object)))
 
-(defun html2texi-string (my-string) 
-
-
-	(excl:replace-re
+(defun html2texi-string (my-string) (excl:replace-re 
+				     (excl:replace-re 
+				      (excl:replace-re
+				       (excl:replace-re
+					(excl:replace-re
+					 (excl:replace-re
+					  (excl:replace-re
+					   (excl:replace-re
+					    (excl:replace-re
+					     (excl:replace-re
+					      (excl:replace-re
+					       (excl:replace-re
+						(excl:replace-re
 						 (excl:replace-re
 						  (excl:replace-re
 						   (excl:replace-re
@@ -438,51 +457,71 @@
 							      (excl:replace-re
 							       (excl:replace-re
 								(excl:replace-re
-								 (excl:replace-re
-								  (excl:replace-re
-								  ; (excl:replace-re
-								  ;  (excl:replace-re
-								    ;; (excl:replace-re
-								     ;; (excl:replace-re
-								  
-									my-string  
-									 
-									 "<p>" "" )
-									"</p>" "" )
-								      ;; "<ol>" " @enumerate ")
-								    ;;  "</ol>" "
-;@end enumerate
+							       ;; (excl:replace-re
+							       my-string
+							       ;;"@" "(at)")
+							
+							       "<pre>" "
+@sp1  
+@smallexample 
+")
+							      "</pre>" " 
+@end smallexample 
+@sp1
+")
+							     "<p>" "" )
+							      "</p>" "" )
+							     "<ol>" " @enumerate ")
+							    "</ol>" "
+@end enumerate
 
-;")
-								   "<i>" "@i{" )
-								  "</i>" "} ")
-								 "<b>" "@b{" )
-								"</b>" "} ")
-							       "<tt>" "@code{" )
-							      "</tt>" "}")
-							     "
-" "")
-							    "<ul>" " @itemize ")
-							   "</ul>" "
+")
+							   "<i>" "@i{" )
+							  "</i>" "} ")
+							 "<b>" "@b{" )
+							"</b>" "} ")
+						       "<tt><dl>" " @itemize ")
+						      "</dl></tt>" "
 @end itemize
 
 ")
-							 ;; "<li>" " @item " )
-							 ;;"</li>" "" )
-							"<dl>" " @itemize {} " )
-						       "</dl>" "
+						       "<tt><ul>" " @itemize ")
+						      "</ul></tt>" "
 @end itemize
 
 ")
-						      "<dt>" " @item " )
-						     "</dt>" "" )
-						    "<strong>" " @b{")
-						   "</strong>" "} ")
-						  "<dd>" " @itemize @minus ")
-						 "</dd>" "
+						     "<li>" "  @item  " )
+						    "</li>" " " )
+						   "<dl>" " @itemize {} " )
+						  "</dl>" "
 @end itemize
 
-"))
+")
+						 "<dt>" " @item " )
+						"</dt>" "" )
+					       "<strong>" " @b{")
+					      "</strong>" "} ")
+					    ;;; "<dd>" " @itemize @minus ")
+					   ;; "</dd>" "
+;;@end itemize
+
+;;")
+
+
+					 "<dd>" "
+@item 
+")
+					   "</dd>" " ")					   
+					   "<tt>" "@code{" )
+					  "</tt>" "}")
+				      
+					 "<ul>" " @itemize @bullet  ")
+					"</ul>" "
+@end itemize
+
+")
+	"" "") 
+       )
 
 
 
