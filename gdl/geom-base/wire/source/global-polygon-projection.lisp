@@ -58,7 +58,7 @@ the local center and orientation do not affect the positioning or orientation of
    "List of 3D points. The vertex list making up the polyline, same as the input for global-polyline."
    vertex-list
    
-   ("The direction of extrusion with respect to the vertices in vertex-list and the projection-vector:
+   ("Keyword symbol. The direction of extrusion with respect to the vertices in vertex-list and the projection-vector:
 <ul>
 <li><tt>:up</tt> Indicates to start from current location of vertices and move in the direction of 
 the projection-vector.</li>

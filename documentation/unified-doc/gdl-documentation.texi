@@ -15,7 +15,7 @@
 @comment The title is printed in a large font.
 @center @titlefont{GDL Unified Documentation}
 @sp 1
-@center version 1581 2011-09-26
+@center version 1581 2012-05-05
 @sp 2
 
 
