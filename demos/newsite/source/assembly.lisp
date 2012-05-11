@@ -35,6 +35,10 @@
    
    (demos :type 'demos
 	  :respondent self)
+
+   (downloads :type 'downloads
+	      :respondent self)
+
    (people :type 'people
 	   :respondent self)
    (contact-us :type 'contact-us

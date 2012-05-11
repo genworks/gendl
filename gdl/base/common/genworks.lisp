@@ -304,33 +304,9 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
-
 (defun display-startup-banner (edition banner)
-  (ecase edition
-    (:runtime (format t "
-
-Welcome to GDL Runtime Edition, 1581 Github Mix, Beta Release.
-
-
-
-"))
-    (:open-source (format t banner))
-    (:trial (format t "
- 
-Welcome to GDL Trial Edition, 1581 Github Mix, Beta Release.
-
-This program is covered by the following license:
-
-   http://www.genworks.com/contracts/eval.txt
-
-If you are covered by a Genworks Proprietary License (Commercial or
-Academic), then that license takes precedence. 
-
-This program also contains materials as listed in the accompanying
-quicklisp/ directory, with respective copyrights and licenses.
-
-"
-))))
+  (declare (ignore edition))
+  (format t banner))
 
      
 (defmacro without-package-variance-warnings (&body body)

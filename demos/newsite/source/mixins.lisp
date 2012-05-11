@@ -150,7 +150,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
    (current-right-section-rp (the index-html root-path) :settable)
    (current-right-section (the root (follow-root-path (the current-right-section-rp))))
 
-   (show-child-links? t :settable)
+   (show-child-links? nil :settable)
 
    (child-pages (remove-if-not #'(lambda(item) (typep item 'base-site-sheet)) (the children)))
 

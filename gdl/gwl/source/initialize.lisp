@@ -65,12 +65,12 @@
     (when (typep error 'error)
       port)))
 
-(defun start-gwl (&key (port 9000) (listeners *aserve-listeners*))
+(defun start-gwl (&key (port 9000) (listeners *aserve-listeners*) (external-format :utf8-base))
   (net.aserve:shutdown)
   (let ((port port))
     (do ((error (client-test port) (client-test port)))
         (error (format t "~&~%Starting AllegroServe on ~a...~%~%" port)
-         (net.aserve:start :port port :listeners listeners :external-format :utf-8)
+         (net.aserve:start :port port :listeners listeners #-mswindows :external-format #-mswindows external-format)
          port)
       (incf port))))
 

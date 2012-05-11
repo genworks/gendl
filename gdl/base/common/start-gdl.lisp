@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2011 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -27,7 +27,7 @@
 (defun start-gdl (&key edition)
   (mapc #'(lambda(function)
             (funcall function :edition edition))
-        (reverse *gdl-init-functions*))
+        *gdl-init-functions*)
   (values))
 
 (defun load-gdl-init-files (&key edition)
@@ -47,7 +47,7 @@
       (when (and homedir-init? homedir-init-file) (load homedir-init-file)))))
 
 
-;;(pushnew #'load-gdl-init-files *gdl-init-functions*)
+(pushnew #'load-gdl-init-files *gdl-init-functions*)
 
 
 (defun startup-banner (&key edition)       
@@ -55,9 +55,9 @@
 "
 
 
- Copyright 2002-2011 Genworks International and Genworks BV 
+ Copyright 2002-2011 Genworks International
 
- This is the General-purpose Declarative Language (GDL).
+ This is the General-purpose Declarative Language (GenDL).
 
  This program contains free software: you can redistribute it
  and/or modify it under the terms of the GNU Affero General Public
@@ -73,6 +73,15 @@
  License along with the source code for this program. If not, see:
 
  http://www.gnu.org/licenses/
+
+ -----
+
+ Note that you may have received Gendl under supplemental licensing
+ terms, e.g. Proprietary or Trial/Evaluation. The terms of such a
+ dual-license, and information about whether they do or do not
+ override the AGPL, were printed at the initial startup of your
+ session. Please contact Genworks if you have any uncertainty about
+ licensing terms beyond those in the AGPL.
 
 "))
 

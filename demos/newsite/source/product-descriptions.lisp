@@ -131,7 +131,8 @@ domain-specific CAD solutions.")
 distribution rights, but who wish to perform their own software builds
 using their own Common Lisp engine, and do not require Genworks
 support or the SMLib geometry kernel, may purchase Proprietary
-Licensing as an unbundled product."))
+Licensing as an unbundled product. Please see the Configurator 
+for specific configurations."))
 
       ))))
 
