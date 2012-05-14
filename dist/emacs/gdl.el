@@ -197,7 +197,6 @@
 (require 'slime-autoloads)
 (eval-after-load "slime"
   '(progn
-    ;;(add-to-list 'load-path "../quicklisp/dists/quicklisp/software/slime-20120407-cvs/contrib")
     (slime-setup '(slime-fancy slime-banner))
     (setq slime-complete-symbol*-fancy t)
     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)

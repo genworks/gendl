@@ -1,3 +1,25 @@
+;;
+;; Copyright 2002-2011, 2012 Genworks International
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
 (in-package :www.genworks.com)
 
 (defparameter *smtp-server* "smtp.comcast.net")
@@ -106,12 +128,15 @@ provide the appropriate level of service.")
 			   (the subject value)))
     
     #+(and linux allegro)
-    (net.post-office:send-letter *smtp-server* 
-				 (the email-address value)
-				 "info@genworks.com"
-				 (the message-body value)
-				 :subject (getf (the subject choice-plist)
-						(make-keyword (the subject value))))
+    (when (and (find-package :net.post-office)
+	       (fboundp 'net.post-office::send-letter))
+      (funcall (read-safe-string "net.post-office:send-letter")
+	       *smtp-server* 
+	       (the email-address value)
+	       "info@genworks.com"
+	       (the message-body value)
+	       :subject (getf (the subject choice-plist)
+			      (make-keyword (the subject value)))))
     
 
     (the restore-form-controls!)
@@ -124,10 +149,5 @@ provide the appropriate level of service.")
 
 
 
-(defparameter *licensed-emails*
-  (list (list "david.cooper@genworks.com" :name "Dave")
-	(list "teodor-gelu@genworks.com" :name "Teodor")
-	(list "michel.vantooren@fokker.com" :name "Michel")
-	(list "jochem.berends@ke-works.nl" :name "Jochem")
-	(list "trobertson@whiteboxlearning.com" :name "Tom")))
+(defparameter *licensed-emails* nil)
    

@@ -59,7 +59,9 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
    (pre-load-form (the load-core-gdl-form))
 
    (post-load-form '(progn (setf (symbol-value (read-from-string 
-						"asdf:*central-registry*")) nil)))
+						"asdf:*central-registry*")) nil)
+		     (asdf:map-systems #'asdf:clear-system)))
+
    
    (init-file-names nil)
    

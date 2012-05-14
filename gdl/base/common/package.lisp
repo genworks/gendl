@@ -244,6 +244,14 @@
 (defpackage :gdl-format (:use) (:export))
 (defpackage :gdl-output (:use) (:export))
 
+;;
+;; Pre-define these just in case.  a bit of a kludge because
+;; gdl:define-package gets redefined when these modules
+;; are loaded, to :use these packages. 
+;;
+(defpackage :geom-base)
+(defpackage :surf)
+
 
 (defmacro gdl:define-package (name &rest body)
   `(defpackage ,name 
