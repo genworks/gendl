@@ -186,7 +186,7 @@
 	    (if (and (find-package :gwl) (symbol-value (read-safe-string "gwl::*onclick-function*")))
 		(cl-who:htm 
 		 ((:|Anchor| :url (format nil "javascript:event=null;~a"
-					  (funcall (symbol-value (read-safe-string "gwl::*onclick-function*") self))))
+					  (funcall (symbol-value (read-safe-string "gwl::*onclick-function*")) self)))
                    
 		  (write-the shape)))
 		(write-the shape)))
@@ -234,7 +234,7 @@
 		(if (and (find-package :gwl) (symbol-value (read-safe-string "gwl::*onclick-function*")))
 		    (cl-who:htm 
 		     ((:|Anchor| :url (format nil "javascript:event=null;~a"
-					      (funcall (symbol-value (read-safe-string "gwl::*onclick-function*") self))))
+					      (funcall (symbol-value (read-safe-string "gwl::*onclick-function*")) self)))
 		      (write-the shape)))
 		    (write-the shape))
 		
