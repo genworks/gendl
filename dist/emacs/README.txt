@@ -1,70 +1,181 @@
 
 
-            Welcome to Emacs with Genworks GDL
-
-            Genworks(R) --- Generate Tomorrow!
+            Welcome to the Gendl™ Environment
 
 
+===============
+Emacs and Gendl
+===============
 
-Learning Emacs
-==============
+Although you are free to use other editors or IDEs, spending some time
+to get familiar with Emacs is the best small investment you can make
+for working with a Lisp-based system like Gendl. Genworks supports two
+distinct emacs-based IDEs for Gendl development: Franz ELI and SLIME
+(Superior Lisp Interaction Mode for Emacs). Slime works across all
+major OS platforms and CL implementations, is well-supported by the
+Common Lisp community. Genworks plans to continue adding specialized
+Gendl support to Slime.
 
-If you are new to Emacs, you can get an Emacs Tutorial under the Help
-menu above. After completing the Tutorial, try to practice what you
-learned and not use the mouse too much in Emacs.
+If you are new to Emacs, you can get a general Emacs Tutorial under
+the Help menu above. After completing the Tutorial, try to practice
+what you learned by forcing yourself not to use the mouse too much in
+Emacs.
+
+Touch-typing ability is definitely an asset for Gendl development, but
+with auto-completion of symbols (possible with M-/ -- you'll know what
+that means after looking at the tutorial) it is possible to be an
+extremely effective Gendl developer without having world-class typing
+speed.
+
+It is strongly recommended to map your Caps Lock key to be a Control
+key, if you have sufficient priveleges on your machine. This will give
+you a much more comfortable experience, allowing you to use all the
+Emacs navigation keystrokes without constantly curling your left pinky
+finger down to the Control key.  Here are some resources which can
+help you do this:
+
+      
+  http://emacswiki.org/emacs/MovingTheCtrlKey
+  http://www.howtogeek.com/howto/windows-vista/disable-caps-lock-key-in-windows-vista/
 
 
-Learning GDL
-============
+Finally, please see the Genworks Documentation (URL below) for an
+introductory video on using Emacs in the Gendl environment.
+
+
+
+===============
+Learning Gendl
+===============
+
+Absolutely the best way to learn Gendl is to dive in and start using
+it for small exercises and projects.
 
 Documentation:
 
-  The main entry point to GDL documentation
+  The main entry point to GDL documentation is here:
+
+     http://www.genworks.com/newsite
+
+  Then click the link for Documentation.
 
 
-     http://www.genworks.com/downloads/customer-documentation
-
-  For the latest Reference documentation, ask your locally running GDL
-  instance:
-
-     http://localhost:9000/yadd  
-
-     (substitute the webserver port you use in your gdlinit.cl here)
+ There are videos and a tutorial manual. We hope to update this site
+ frequently so please come round often.
 
 
-
+=======
 Startup
 =======
 
-Now, you can start GDL itself by typing:
-
-    M-x gdl (that's hold down the Meta (or Alt) key, and type x, then
-            type 'gdl' and hit Enter.
-
-
-After starting GDL, you will probably want to get the latest updates
-and extra modules, and start the webserver and possibly load the
-geometry kernel, with:
-
-       (update-gdl)
+There are two ways to start the Gendl environment. The first is Slime,
+the Superior Lisp Interaction Mode for Emacs. Slime enjoys wide
+community support and works across all major OS platforms and CL
+implementations. The second is Franz ELI (Emacs Lisp Interface). ELI
+works with Allegro CL-based Gendl environments (currently supported by
+Genworks on Linux and Windows) and receives commercial support from
+Franz Inc.
 
 
-See the yadd documentation on update-gdl or gdl-updater for many more
-options.
+1. Slime
+=========
+
+Starting:
+
+   M-x slime  (that is, hold down the Meta (or Alt) key, and type x,
+               then type 'slime' and hit Enter.)
 
 
-Quitting
-========
+Quitting: 
 
-When you have had enough of using GDL and Emacs, you should do two
-things:
+  When you have had enough of using Gendl with Slime, you should do
+  two things:
 
- 1. type :exit (and hit Return) at the command prompt in the 
-    *gdl toplevel* buffer to kill the GDL process.
+ 1. type M-x slime-quit-lisp (and hit Return) from anywhere in Emacs,
+    to kill the GDL process.
 
- 2. type C-x C-c (that's Control-x, Control-c) to kill the Emacs
+ 2. (optional) type C-x C-c (that's Control-x, Control-c) to kill the Emacs
     process and exit the window.
+    
+ 3. If you kept Emacs up and running, it is possible to restart the
+    Gendl session with either ELI or Slime, by following the
+    instructions under "Starting."
 
+
+
+2. ELI
+=======
+
+Starting:
+
+
+    M-x gdl (that is, hold down the Meta (or Alt) key, and type x,
+             then type 'gdl' and hit Enter.)
+
+
+Quitting:
+
+
+  When you have had enough of using Gendl with ELI, you should do two
+  things:
+
+ 1. type :exit (and hit Return) at the command prompt in the *gdl
+    toplevel* buffer to kill the GDL process.
+
+ 2. (optional) type C-x C-c (that's Control-x, Control-c) to kill the
+    Emacs process and exit the window.
+
+ 3. If you kept Emacs up and running, it is possible to restart the
+    Gendl session with either ELI or Slime, by following the
+    instructions under "Starting."
+
+
+Customizing Emacs
+=================
+
+If a file exists in your home directory called ".emacs-gendl" this
+will be loaded upon startup. You can put any custom emacs-list code in
+this file to customize your startup (see below for an example to
+customize the color theme).
+
+You can always find out where Emacs thinks is your home directory's
+location by typing C-x d ~/ <RET>. This should present the list of
+files in the home directory, and show its full name on the first
+line. Likewise, to visit your init file, type C-x C-f ~/.emacs-gendl <RET>.
+
+
+Color Themes
+============
+
+Starting now, we are releasing Gendl with the color-theme:
+
+  http://emacswiki.org/emacs/ColorTheme
+
+and solarized:
+
+  http://ethanschoonover.com/solarized
+
+packages for Gnu emacs.
+
+You can select any of the themes from color-theme with 
+
+  M-x color-theme-select
+
+The solarized themes are called color-theme-solarized-light and
+color-theme-solarized-dark. The default is
+color-theme-solarized-light.
+
+To revert to the 1580 GDL color scheme, use:
+   
+  M-x gdl:set-colors 
+
+
+To set a color theme automatically, put something like the following at the end of
+your ~/.emacs-gendl :
+
+
+  (color-theme-solarized-dark)  ;; for solarized dark theme, or 
+  (gdl:set-colors) ;; for legacy color scheme
 
 
 Emacs Reference
@@ -72,67 +183,63 @@ Emacs Reference
 
 The following is a reference for the Emacs keychords which are
 commonly used when working with GDL. They will be understandable after
-you completed the Emacs Tutorial mentioned above. Don't be scared,
-after a few days of practice, these will become like old friends.
+you completed the Emacs Tutorial mentioned above. If you force
+yourself to use these for a few days, they will soon become like old
+friends.
 
-It is also an excellent idea (if you have admin priveleges on your
-machine) to map your Caps Lock key to be a second Control key. There
-is a Windows registry hack which we can recommend (don't worry, it's
-safe) here (there's a .reg for undoing the mapping too, if need be):
-      
-  http://johnhaller.com/jh/useful_stuff/disable_caps_lock/
-  http://johnhaller.com/jh/useful_stuff/disable_caps_lock/caps_lock_to_control.reg
+;;
+;; Backing out of a command (important! use this whenever you are lost)
+;;
 
-Linux users should already know how to do that mapping, ask the Google
-if you don't.
-
-
-;; Backing out from a minibuffer command C-g quit the active command
-
-
+C-g  : quit the active command (use this if you ever get confused)
 
 ;;
 ;; Navigating Through the Buffer
 ;;
-C-n next line
-C-p previous line
-C-f forward char
-M-f forward word
-C-M-f forward s-expression
-C-b backward char
-M-b backward word
-C-M-b backward s-expression
-C-a begin of line
-C-e end of line
+
+C-n   : next line
+C-p   : previous line
+C-f   : forward char
+M-f   : forward word
+C-M-f : forward s-expression
+C-b   : backward char
+M-b   : backward word
+C-M-b : backward s-expression
+C-a   : begin of line
+C-e   : end of line
 
 ;;
 ;; Auto-completion
 ;;
-M-/   complete word
 
-C-c ]  "super-bracket" -- close parens to enclosing toplevel.
+M-/    : complete word
+
+C-c ]  : "super-bracket" -- close parens to enclosing toplevel.
+
 
 ;;
 ;; Copying, Cutting, Pasting, working with Lisp S-expressions
 ;;
-C-d   delete character
-M-d   delete word
-C-M-k kill s-expression
-C-<space> begins a selection
-C-M-<space> selects current sexpression
-M-w copies selection
-C-w cuts selection
-C-y yanks (pastes) the selection
-M-y yanks previous 
-C-k kills current line
-C-x u  Undo!
-M-<space> removes all but one whitespace under point.
-M-\ removes all whitespace under point.
+
+C-d         : delete character
+M-d         : delete word
+C-M-k       : kill s-expression
+C-<space>   : begins a selection
+C-M-<space> : selects current sexpression
+M-w         : copies selection
+C-w         : cuts selection
+C-y         : yanks (pastes) the selection
+M-y         : yanks previous 
+C-k         : kills current line
+C-x u       : Undo!
+M-<space>   : removes all but one whitespace under point.
+M-\         : removes all whitespace under point.
 
 ;;
 ;; Indenting
 ;;
-C-M-q indents entire expression
+
+C-M-q indents entire expression  (with cursor on opening parenthesis)
 
 C-q indents and word-wraps a paragraph of text to reasonable line
     length.
@@ -140,45 +247,58 @@ C-q indents and word-wraps a paragraph of text to reasonable line
 ;;
 ;; Working with Files & Buffers
 ;;
-C-x C-b get list of open buffers
-C-x k   kills current buffer
-C-x b   visit other buffer (default is previous)
-C-x C-s   saves current buffer to file
-C-x C-w   saves current buffer to a new file
-C-x C-f   find file (i.e. file open)
+
+C-x C-b   : get list of open buffers
+C-x k     : kills current buffer
+C-x b     : visit other buffer (default is previous)
+C-x C-s   : saves current buffer to file
+C-x C-w   : saves current buffer to a new file
+C-x C-f   : find file (i.e. file open)
 
 ;;
 ;; Dired (Directory editor) mode
 ;;
+
 C-x C-f  to visit a directory, then <Enter> for Directory Editor (Dired)
 Within Dired: 
 
-  d  marks file for deletion
-  f  visits the file or directory
-  ~  marks all backup files for deletion
-  x  executes pending commands (usually deletions)
+  d  : marks file for deletion
+  f  : visits the file or directory
+  ~  : marks all backup files for deletion
+  x  : executes pending commands (usually deletions)
 
 ;;
 ;; Windows and Frames
 ;;
-C-x 2 split screen into two windows
-C-x 1 make current window be the only window
-C-x 0 close current window
-C-x o change to next window
-C-x y change to previous window
-C-x 2 5 Open a new Frame (a new desktop window)
-C-x & Jump to *gdl-devo* buffer
+
+C-x 2    : split screen into two windows
+C-x 1    : make current window be the only window
+C-x 0    : close current window
+C-x o    : change to next window
+C-x y    : change to previous window
+C-x 2 5  : Open a new Frame (a new desktop window)
+C-x &    : Jump to *gdl-devo* buffer
 
 ;;
 ;; Command-line Shortcuts
 ;;
-M-p   bring back previous command
-M-n   bring back next command
 
+M-p   : bring back previous command
+M-n   : bring back next command
 
 
 ;;
 ;; Compiling and Loading from Buffer
 ;;
-C-c C-b Compile Buffer
-C-c C-f Compile Form
+
+C-c C-b  : Compile Buffer  (in ELI)
+C-c C-k  : Compile Buffer  (in Slime)
+C-c C-f  : Compile Form   (in ELI)
+C-x C-e  : Compile Form   (in Slime, with cursor after closing parenthesis)
+
+;;
+;; Mental Health Services 
+;;
+
+M-x doctor  : Get mental help from a pseudo psycho-therapist
+

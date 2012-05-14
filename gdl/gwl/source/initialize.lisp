@@ -26,33 +26,30 @@
     (publish-directory
      :prefix "/images/gwl/"
      :server server
-     :destination (if (and (glisp:patches-dir)
-                           (probe-file (merge-pathnames "static/gwl/images/" (glisp:patches-dir))))
-                      (format nil "~a" (merge-pathnames "static/gwl/images/" (glisp:patches-dir)))
-                    (format nil "~a" (merge-pathnames "gdl/gwl/static/gwl/images/" 
-                                                      glisp:*genworks-source-home*))))))
+     :destination (cond (glisp:*genworks-source-home*
+			 (format nil "~a" (merge-pathnames "gdl/gwl/static/gwl/images/" 
+							   glisp:*genworks-source-home*)))
+			(t (format nil "~a" (merge-pathnames "static/gwl/images/" glisp:*gdl-home*)))))))
+		      
 (defun publish-statics ()
   (with-all-servers (server)
     (publish-directory
      :prefix "/static/"
      :server server
-     :destination (if (and (glisp:patches-dir)
-                           (probe-file (merge-pathnames "static/" (glisp:patches-dir))))
-                      (format nil "~a" (merge-pathnames "static/" (glisp:patches-dir)))
-                    (format nil "~a" (merge-pathnames "gdl/gwl/static/" 
-                                                      glisp:*genworks-source-home*))))))
+     :destination (cond (glisp:*genworks-source-home*
+			 (format nil "~a" (merge-pathnames "gdl/gwl/static/" 
+							   glisp:*genworks-source-home*)))
+			(t (format nil "~a" (merge-pathnames "static/" glisp:*gdl-home*)))))))
 
 (defun publish-style ()
   (with-all-servers (server)
     (publish-directory
      :prefix "/style/"
      :server server
-     :destination (if (and (glisp:patches-dir)
-                           (probe-file (merge-pathnames "static/style/" (glisp:patches-dir))))
-                      (format nil "~a" (merge-pathnames "static/style/" (glisp:patches-dir)))
-                    (format nil "~a" (merge-pathnames "gdl/gwl/static/style/" 
-                                                      glisp:*genworks-source-home*))))))
-
+     :destination (cond (glisp:*genworks-source-home*
+			 (format nil "~a" (merge-pathnames "gdl/gwl/static/style/" 
+							   glisp:*genworks-source-home*)))
+			(t (format nil "~a" (merge-pathnames "static/style/" glisp:*gdl-home*)))))))
 
 (defvar *aserve-listeners* 25)
 
@@ -65,12 +62,12 @@
     (when (typep error 'error)
       port)))
 
-(defun start-gwl (&key (port 9000) (listeners *aserve-listeners*))
+(defun start-gwl (&key (port 9000) (listeners *aserve-listeners*) (external-format :utf8-base))
   (net.aserve:shutdown)
   (let ((port port))
     (do ((error (client-test port) (client-test port)))
         (error (format t "~&~%Starting AllegroServe on ~a...~%~%" port)
-         (net.aserve:start :port port :listeners listeners :external-format :utf-8)
+         (net.aserve:start :port port :listeners listeners #-mswindows :external-format #-mswindows external-format)
          port)
       (incf port))))
 

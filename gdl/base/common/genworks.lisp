@@ -31,6 +31,7 @@
 		  #:validate-superclass)
     (:export #:*external-text-format*
 	     #:*gdl-home*
+	     #:*gdl-program-home*
              #:*genworks-source-home*
              #:basic-command-line-arguments
              #:begin-redefinitions-ok
@@ -77,14 +78,24 @@
                                  (butlast (pathname-directory gdl-base-home)))
                      :defaults gdl-base-home)))
 
-(defparameter *gdl-home* (merge-pathnames "../../common/" *genworks-source-home*))
-
 
 #-(or allegro lispworks sbcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
   #+lispworks system:*line-arguments-list*
   #+sbcl sb-ext:*posix-argv*)
+
+
+(defparameter *gdl-program-home* (let ((exe (first (glisp:basic-command-line-arguments))))
+				   (make-pathname :name nil
+						  :type nil
+						  :directory (pathname-directory exe)
+						  :defaults exe)))
+
+(defparameter *gdl-home* (make-pathname :name nil
+					:type nil
+					:directory (butlast (pathname-directory *gdl-program-home*))
+					:defaults *gdl-program-home*))
 
 
 #-(or allegro lispworks sbcl) 
@@ -224,14 +235,14 @@
 #-allegro(warn "Find out how to retitle relevant windows in currently running lisp.~%")
 (defun set-window-titles ()
   #+(and allegro mswindows)
-  (excl:console-control :title "Genworks GDL Console")
+  (excl:console-control :title "Genworks GenDL Console")
   (retitle-emacs))
 
 (defun system-home (system-designator)
   (asdf:system-source-directory system-designator))
 
 
-(defun retitle-emacs (&key (title "Genworks GDL Interactive Authoring Environment"))
+(defun retitle-emacs (&key (title "Genworks GenDL Interactive Authoring Environment"))
   "Retitles the associated GDL emacs window with the specified title.
 
 :arguments (title \"The title to be placed on emacs title bar.\")"
@@ -304,33 +315,9 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
-
 (defun display-startup-banner (edition banner)
-  (ecase edition
-    (:runtime (format t "
-
-Welcome to GDL Runtime Edition, 1581 Github Mix, Beta Release.
-
-
-
-"))
-    (:open-source (format t banner))
-    (:trial (format t "
- 
-Welcome to GDL Trial Edition, 1581 Github Mix, Beta Release.
-
-This program is covered by the following license:
-
-   http://www.genworks.com/contracts/eval.txt
-
-If you are covered by a Genworks Proprietary License (Commercial or
-Academic), then that license takes precedence. 
-
-This program also contains materials as listed in the accompanying
-quicklisp/ directory, with respective copyrights and licenses.
-
-"
-))))
+  (declare (ignore edition))
+  (format t banner))
 
      
 (defmacro without-package-variance-warnings (&body body)

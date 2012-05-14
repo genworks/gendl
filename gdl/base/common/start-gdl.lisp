@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2011 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -28,6 +28,10 @@
   (mapc #'(lambda(function)
             (funcall function :edition edition))
         (reverse *gdl-init-functions*))
+  
+  (startup-banner)
+  (load-gdl-init-files)
+
   (values))
 
 (defun load-gdl-init-files (&key edition)
@@ -47,17 +51,15 @@
       (when (and homedir-init? homedir-init-file) (load homedir-init-file)))))
 
 
-;;(pushnew #'load-gdl-init-files *gdl-init-functions*)
-
 
 (defun startup-banner (&key edition)       
   (glisp:display-startup-banner edition
 "
 
 
- Copyright 2002-2011 Genworks International and Genworks BV 
+ Copyright 2002-2011 Genworks International
 
- This is the General-purpose Declarative Language (GDL).
+ This is the General-purpose Declarative Language (GenDL).
 
  This program contains free software: you can redistribute it
  and/or modify it under the terms of the GNU Affero General Public
@@ -74,11 +76,17 @@
 
  http://www.gnu.org/licenses/
 
+ -----
+
+ Note that you may have received Gendl under supplemental licensing
+ terms, e.g. Proprietary or Trial/Evaluation. The terms of such a
+ dual-license, and information about whether they do or do not
+ override the AGPL, were printed at the initial startup of your
+ session. Please contact Genworks if you have any uncertainty about
+ licensing terms beyond those in the AGPL.
+
 "))
 
-
-
-(pushnew #'startup-banner *gdl-init-functions*)
 
 ;;
 ;; FLAG -- do some of these at beginning of bootstrapping, others
@@ -87,8 +95,33 @@
 
 (defun initialize-gdl (&key edition)
   (declare (ignore edition))
-  (glisp:set-defpackage-behavior)
-  (glisp:set-default-float-format)
+
+  (setq glisp:*genworks-source-home* 
+	(when (asdf:find-system :gdl-base nil)
+	  (let ((gdl-base-home (asdf:system-source-directory :gdl-base)))
+	    (make-pathname :name nil
+			   :type nil
+			   :directory (butlast 
+				       (butlast (pathname-directory gdl-base-home)))
+			   :defaults gdl-base-home))))
+  
+  (setq glisp:*gdl-program-home* (let ((exe (first (glisp:basic-command-line-arguments))))
+				   (make-pathname :name nil
+						  :type nil
+						  :directory (pathname-directory exe)
+						  :defaults exe)))
+
+  (setq glisp:*gdl-home* (make-pathname :name nil
+					:type nil
+					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
+					:defaults glisp:*gdl-program-home*))
+  
+  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+
+  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+
+  (asdf:initialize-output-translations)
+
   (glisp:set-default-package)
   (glisp:xref-off)
   (glisp:set-window-titles))

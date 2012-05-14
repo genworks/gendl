@@ -1,25 +1,75 @@
 (require 'cl)
 
 (defvar gdl:*gdl-home* (concat default-directory "../"))
+
 (defvar gdl:*gdl-program-home* default-directory)
 (defvar gdl:*gdl-toplevel-base* "*gdl toplevel*")
 (defvar gdl:*mgdl-image-name* "gdl")
 
-(load-file (concat gdl:*gdl-home* "emacs/eli/fi-site-init.el"))
+(defun add-gdl-font-lock-keywords ()
+  (let ((definition-keywords 
+          (regexp-opt (list "define-object-amendment" "define-object" "define-view" "define-lens" "define-format" "define-skin" 
+                            "defpart" "defwriter" "defcompanion" "write-the-object" "write-the"
+                            "the " "the-child" "the-object" "the-element"  ) t))
+        (keyword-keywords
+         (regexp-opt (list ":documentation"
+                           ":input-slots" ":computed-slots" ":objects" ":hidden-objects" ":functions" ":methods"
+                           ":output-functions" ":skin" ":trickle-down-slots" ":type" ":sequence" 
+                           ":size" ":parameters" ":pass-down" ":inputs" ":optional-inputs"  
+                           ":modifiable-optional-inputs" ":descendant-attributes" ":attributes" 
+                           ":parts" ":pseudo-parts" ":methods") t)))
+    (pushnew (list definition-keywords 0 font-lock-keyword-face) lisp-font-lock-keywords)
+    (pushnew (list keyword-keywords 0 font-lock-type-face) lisp-font-lock-keywords)))
 
+
+(defmacro defindent (name indentation)
+  (let* ((keyword-list '(lisp-font-lock-keywords t t t nil nil nil "&allow-other-keys"))
+         (spec (if (eq indentation 'gdl-object-style) `((1 t ,keyword-list) (0 t 2)) indentation)))
+    `(put ',name 'lisp-indent-hook ',spec)))
+
+(defun gdl:define-indents ()
+  (defindent define-object gdl-object-style)
+  (defindent define-view (like define-object))
+  (defindent define-format (like define-object))
+  (defindent defpart (like define-object))
+  (defindent defwriter (like define-object))
+  (defindent defcompanion (like define-object)))
+
+
+(add-gdl-font-lock-keywords)
+(gdl:define-indents)
+
+
+;;
+;; Normal ELI startup
+;;
 (defun gdl () (interactive)
-  (gdl-devo gdl:*mgdl-image-name*))
+  (load-file (concat gdl:*gdl-home* "emacs/eli/fi-site-init.el"))  
+  (gdl-devo gdl:*mgdl-image-name*)
+  ;;(add-gdl-font-lock-keywords)
+  (setq fi:lisp-mode-hook
+	  (function
+	   (lambda ()
+	     (let ((map (current-local-map)))
+	       (define-key map "\C-c."	'find-tag)
+	       (define-key map "\C-c,"	'tags-loop-continue)
+	       (define-key map "\e."	'fi:lisp-find-definition)
+	       (define-key map "\e,"	'fi:lisp-find-next-definition)))))
+
+  ;;(gdl:define-indents)
+  )
+
+
 
 (defun gdl-devo (image-name) 
   (interactive)
   (let ((executable (or (fi::probe-file (concat gdl:*gdl-program-home* image-name ".exe"))
                         (fi::probe-file (concat gdl:*gdl-program-home* image-name)))))
-    
     (setq gdl:*gdl-toplevel* 
-          (concat gdl:*gdl-toplevel-base*
-                  (if (equalp (subseq (file-name-sans-extension executable)
-                                      0 1) "a")
-                      "(ANSI)" "(modern)")))
+	  (concat gdl:*gdl-toplevel-base*
+		  (if (equalp (subseq (file-name-sans-extension executable)
+				      0 1) "a")
+		      "(ANSI)" "(modern)")))
     (fi:common-lisp gdl:*gdl-toplevel* gdl:*gdl-home* executable nil)))
 
 
@@ -34,7 +84,6 @@
   (global-set-key "\C-xy" '(lambda() (interactive) (other-window -1))))
 
 (gdl:global-keys)
-
 
 
 ;;
@@ -78,7 +127,7 @@
 
 ;; ignore errors when setting colors in case of running in console
 ;; terminal (there's probably a better way to test for this).
-(ignore-errors (gdl:set-colors))
+;;(ignore-errors (gdl:set-colors))
 
 (defun gdl:set-font ()
   (interactive)
@@ -88,50 +137,6 @@
 
 (show-paren-mode t)
 
-
-
-(defun add-gdl-font-lock-keywords ()
-  (let ((definition-keywords 
-          (regexp-opt (list "define-object-amendment" "define-object" "define-view" "define-lens" "define-format" "define-skin" 
-                            "defpart" "defwriter" "defcompanion" "write-the-object" "write-the"
-                            "the " "the-child" "the-object" "the-element"  ) t))
-        (keyword-keywords
-         (regexp-opt (list ":documentation"
-                           ":input-slots" ":computed-slots" ":objects" ":hidden-objects" ":functions" ":methods"
-                           ":output-functions" ":skin" ":trickle-down-slots" ":type" ":sequence" 
-                           ":size" ":parameters" ":pass-down" ":inputs" ":optional-inputs"  
-                           ":modifiable-optional-inputs" ":descendant-attributes" ":attributes" 
-                           ":parts" ":pseudo-parts" ":methods") t)))
-    (pushnew (list definition-keywords 0 font-lock-keyword-face) fi:lisp-font-lock-keywords)
-    (pushnew (list keyword-keywords 0 font-lock-type-face) fi:lisp-font-lock-keywords)))
-
-
-
-(add-gdl-font-lock-keywords)
-
-
-(defmacro defindent (name indentation)
-  (let* ((keyword-list '(lisp-font-lock-keywords t t t nil nil nil "&allow-other-keys"))
-         (spec (if (eq indentation 'gdl-object-style) `((1 t ,keyword-list) (0 t 2)) indentation)))
-    `(put ',name 'lisp-indent-hook ',spec)))
-
-(defun gdl:define-indents ()
-  (defindent define-object gdl-object-style)
-  (defindent define-view (like define-object))
-  (defindent define-format (like define-object))
-  (defindent defpart (like define-object))
-  (defindent defwriter (like define-object))
-  (defindent defcompanion (like define-object)))
-
-
-(setq fi:lisp-mode-hook
-	  (function
-	   (lambda ()
-	     (let ((map (current-local-map)))
-	       (define-key map "\C-c."	'find-tag)
-	       (define-key map "\C-c,"	'tags-loop-continue)
-	       (define-key map "\e."	'fi:lisp-find-definition)
-	       (define-key map "\e,"	'fi:lisp-find-next-definition)))))
 
 
 ;;
@@ -167,42 +172,79 @@
 (defvar time-stamp-format "%3a, %:y-%02m-%02dT%02H:%02M:%02S -- %f")
 
 
-;; if you encounter a file with ^M or ... at the end of every line,
-;; this means a worng copy by samba or floppy disk of the DOS file to UNIX.
-;; get rid of them by pressing [F5].
-(defun cut-ctrlM ()
-  (interactive)
-  (goto-char (point-min));(beginning-of-buffer)
-  (while (search-forward "\r" nil t)
-    (replace-match "" nil t))
-  (not-modified)
-  (goto-char (point-min)))
+(cd gdl:*gdl-home*)
 
-(defun replace-ctrlM (ch)               ;2001-04-17T17:46:41+0200
-  (interactive)
-  "Replace all visible ^M with argument (defaulting to the empty string.)"
-  (goto-char (point-min))
-  (while (search-forward "\r" nil t)
-    (replace-match ch nil t))
-  ;;(not-modified)
-  (goto-char (point-min)))
 
-(defun remove-trailing-whitespace ()
-  "Removes trailing blanks and tabs from the buffer."
-  (interactive)
-  (save-excursion                       ;let deactivate-mark nil?
-    (goto-char (point-min))
-    (while (re-search-forward "[ \t]+$" nil t)
-      (replace-match "" nil nil))))
+;;
+;; SLIME setup
+;;
 
-(defun tidy-up ()
-  "Removes trailing whitespace and ^M from the end of lines.
-Bug: does not leave point at the position it had when the function was called"
+(load-file "quicklisp/slime-helper.el")
+(setq inferior-lisp-program (if (file-exists-p "program/gdl.exe")
+				(concat "program/run-gdl-slime.bat"
+					" "
+					"program\\gdl.exe")
+			      "program/gdl"))
+
+(defun remove-dos-eol ()
+  "Do not show ^M in files containing mixed UNIX and DOS line endings."
   (interactive)
-  (save-excursion
-    (let ((curpos (point)))
-      (cut-ctrlM)
-      (remove-trailing-whitespace)
-      (goto-char curpos))))
+  (setq buffer-display-table (make-display-table))
+  (aset buffer-display-table ?\^M []))
+
+
+(slime-setup '(slime-fancy))
+(require 'slime-autoloads)
+(eval-after-load "slime"
+  '(progn
+    ;;(add-to-list 'load-path "../quicklisp/dists/quicklisp/software/slime-20120407-cvs/contrib")
+    (slime-setup '(slime-fancy slime-banner))
+    (setq slime-complete-symbol*-fancy t)
+    (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
+    (set-slime-shortcuts)
+    (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
+    ))
+
+;;
+;; To switch to slime buffer shortcuts
+;;
+(defun set-slime-shortcuts ()
+  (interactive)
+  (global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer "*slime-repl allegro*")))
+  (global-set-key "\C-x*" '(lambda()(interactive) (switch-to-buffer "*inferior-lisp*"))))
+
+;;
+;; To switch back to ELI bindings
+;;
+(defun set-eli-shortcuts ()
+  (interactive)
+  (global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer gdl:*gdl-toplevel*)))
+  (global-set-key "\C-x*" 'fi:open-lisp-listener))
+
+
+(find-file "emacs/README.txt")
+(toggle-read-only)
+
+(cd gdl:*gdl-home*)
+
+(add-to-list 'load-path "emacs/emacs-goodies-el")
+(add-to-list 'load-path "emacs/solarized")
+
+(require 'color-theme)
+(color-theme-initialize)
+(require 'color-theme-solarized)
+(color-theme-solarized-light)
+
+(defun frame-retitle (title)
+  (modify-frame-parameters nil (list (cons 'name title))))
+
+(frame-retitle "Genworks GenDL Interactive Authoring Environment")
+
+(message "Please see the Startup section of this document for starting the Gendl environment.")
+
+(when (file-exists-p "~/.emacs-gendl")
+  (load-file "~/.emacs-gendl"))
+
+(cd gdl:*gdl-home*)
 
 ;;; EOF

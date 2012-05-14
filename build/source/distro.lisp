@@ -79,71 +79,78 @@
   :computed-slots ((source (first (the pair)))
 		   (target (rest (the pair)))
 		   (target-parent (merge-pathnames "../" (the target)))
-		   (os (lastcar (butlast (pathname-directory (the target-parent))))))
+		   (os (lastcar (butlast (pathname-directory (the target-parent)))))
+		   
+		   (distributed? (probe-file (merge-pathnames "distributed.txt" (the source)))))
 
   :functions
   ((make! 
     ()
-    (when (and (probe-file (the target)) (the overwrite?))
-      (glisp:delete-directory-and-files (the target-parent) :quiet t))
+    
+    (if (the distributed?)
+	(format t "~% ~a is Already Distributed (fill in time & date here from contents of distributed.txt)~%~%" (the source))
+	
+	(progn
+	  (when (and (probe-file (the target)) (the overwrite?))
+	    (glisp:delete-directory-and-files (the target-parent) :quiet t))
 
-    (unless (probe-file (the target-parent))
-      (glisp:copy-directory (the source) (the target))
-      ;;
-      ;; Documentation:
-      ;;
-      (ensure-directories-exist (merge-pathnames "documentation/" (the target-parent)))
-      (glisp:copy-file (merge-pathnames "documentation/gdl-documentation.pdf" glisp:*genworks-source-home*)
-		       (merge-pathnames "documentation/gdl-documentation.pdf" (the target-parent)))
-      ;;
-      ;; GDL source code:
-      ;;
-      (glisp:copy-directory glisp:*genworks-source-home*
-			    (merge-pathnames "src/" (the target-parent)))
-      (glisp:delete-directory-and-files (merge-pathnames "src/.git/" (the target-parent)) :quiet t)
-      (delete-file  (merge-pathnames "src/.gitignore" (the target-parent)))
-      ;;
-      ;; Quicklisp:
-      ;;
-      #+nil
-      (glisp:copy-directory (merge-pathnames "../../common/quicklisp/" glisp:*genworks-source-home*)
-			    (merge-pathnames "quicklisp/" (the target-parent)))
-      ;;
-      ;; eli: 
-      ;;
-      (ensure-directories-exist (merge-pathnames "emacs/" (the target-parent)))
-      (glisp:copy-directory (translate-logical-pathname "sys:eli;")
-			    (merge-pathnames "emacs/eli/" (the target-parent)))
-      (glisp:copy-file (merge-pathnames "dist/emacs/gdl.el" glisp:*genworks-source-home*)
-		       (merge-pathnames "emacs/gdl.el" (the target-parent)))
-      ;;
-      ;; Startup batch file or script:
-      ;;
-      (if (string-equal (the os) "windows")
-	  (glisp:copy-file (merge-pathnames "dist/run-gdl.bat" glisp:*genworks-source-home*)
-			   (merge-pathnames "run-gdl.bat" (the target-parent)))
-	  (glisp:copy-file (merge-pathnames "dist/run-gdl" glisp:*genworks-source-home*)
-			   (merge-pathnames "run-gdl" (the target-parent))))
+	  (unless (probe-file (the target-parent))
+	    (glisp:copy-directory (the source) (the target))
+	    ;;
+	    ;; Documentation:
+	    ;;
+	    (ensure-directories-exist (merge-pathnames "documentation/" (the target-parent)))
+	    (glisp:copy-file (merge-pathnames "documentation/gdl-documentation.pdf" glisp:*genworks-source-home*)
+			     (merge-pathnames "documentation/gdl-documentation.pdf" (the target-parent)))
+	    ;;
+	    ;; GDL source code:
+	    ;;
+	    (glisp:copy-directory glisp:*genworks-source-home*
+				  (merge-pathnames "src/" (the target-parent)))
+	    (glisp:delete-directory-and-files (merge-pathnames "src/.git/" (the target-parent)) :quiet t)
+	    (delete-file  (merge-pathnames "src/.gitignore" (the target-parent)))
+	    ;;
+	    ;; Quicklisp:
+	    ;;
+	    #+nil
+	    (glisp:copy-directory (merge-pathnames "../../common/quicklisp/" glisp:*genworks-source-home*)
+				  (merge-pathnames "quicklisp/" (the target-parent)))
+	    ;;
+	    ;; eli: 
+	    ;;
+	    (ensure-directories-exist (merge-pathnames "emacs/" (the target-parent)))
+	    (glisp:copy-directory (translate-logical-pathname "sys:eli;")
+				  (merge-pathnames "emacs/eli/" (the target-parent)))
+	    (glisp:copy-file (merge-pathnames "dist/emacs/gdl.el" glisp:*genworks-source-home*)
+			     (merge-pathnames "emacs/gdl.el" (the target-parent)))
+	    ;;
+	    ;; Startup batch file or script:
+	    ;;
+	    (if (string-equal (the os) "windows")
+		(glisp:copy-file (merge-pathnames "dist/run-gdl.bat" glisp:*genworks-source-home*)
+				 (merge-pathnames "run-gdl.bat" (the target-parent)))
+		(glisp:copy-file (merge-pathnames "dist/run-gdl" glisp:*genworks-source-home*)
+				 (merge-pathnames "run-gdl" (the target-parent))))
 
-      ;;
-      ;; smlib shared library
-      ;;
+	    ;;
+	    ;; smlib shared library
+	    ;;
       
-      (let ((smlib-version "8.51"))
-	(ensure-directories-exist (merge-pathnames (format nil "SMLib~a/" smlib-version) (the target-parent)))
-	(let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
-			      (error "smlib-name not known (smlib module probably not loaded)."))))
-	  (glisp:copy-file (merge-pathnames (format nil "../../common/SMLib~a/~a" smlib-version smlib-name)
-					    glisp:*genworks-source-home*)
-			   (merge-pathnames (format nil "SMLib~a/~a" smlib-version smlib-name)
-					    (the target-parent)))))
-      ;;
-      ;; gpl on windows
-      ;;
-      #+nil
-      (when (string-equal (the os) "windows")
-	(glisp:copy-directory (merge-pathnames "../../common/gpl/" glisp:*genworks-source-home*)
-			      (merge-pathnames "gpl/" (the target-parent))))))))
+	    (let ((smlib-version "8.51"))
+	      (ensure-directories-exist (merge-pathnames (format nil "SMLib~a/" smlib-version) (the target-parent)))
+	      (let ((smlib-name (if (find-package :smlib) (funcall (read-from-string "glisp:smlib-name"))
+				    (error "smlib-name not known (smlib module probably not loaded)."))))
+		(glisp:copy-file (merge-pathnames (format nil "../../common/SMLib~a/~a" smlib-version smlib-name)
+						  glisp:*genworks-source-home*)
+				 (merge-pathnames (format nil "SMLib~a/~a" smlib-version smlib-name)
+						  (the target-parent)))))
+	    ;;
+	    ;; gpl on windows
+	    ;;
+	    #+nil
+	    (when (string-equal (the os) "windows")
+	      (glisp:copy-directory (merge-pathnames "../../common/gpl/" glisp:*genworks-source-home*)
+				    (merge-pathnames "gpl/" (the target-parent))))))))))
 
 
 (defun distro (&rest args)

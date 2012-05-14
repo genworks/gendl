@@ -4,9 +4,10 @@ proprietary licenses (described below) some of which allow you to
 distribute your application and derivative code and keep it as
 closed-source, proprietary (Trade Secret) software.
 
-genworks Gendl 是所称的“双轨制”软件，即提供两种授权模式，一种是AGPL开
-源软件模式，一种非AGPL商业授权模式。商业授权模式可以保护您的专利权和
-商业密秘，也就是享受闭源软件的保护。
+Genworks Gendl 是所称的“双轨制”软件，即提供 AGPL开源软件模式，与此同时
+用户可选择性地使用多样的私人授权方式（下面有详细叙述），用户可以发行个
+人的应用程序和衍生代码，保持一种非AGPL商业授权模式。保护您的专利权和商
+业密秘，也就是享受闭源软件的保护。
 
 开源软件
 
@@ -17,8 +18,8 @@ and distributing a compiled application without making any choice of
 license), you agree to distribute your application source code under
 the AGPL or a compatible license. 
 
-（“自由软件”）的开源许可证允许您的应用程序享受完全的自由。但是您要遵循
-APGL许可协议。此许可协议就是一种授权方式， 人们可以从Genworks 网站自己
+(“自由软件”）的开源许可证允许您的应用程序享受完全的自由。但是您要遵循
+APGL许可协议。在此许可协议的授权方式下， 人们可以从Genworks 网站自己
 获得开放源代码软件资源，并允许自由修改，自由发布相应的版本。
 
 
@@ -37,17 +38,18 @@ general do not allow for code originally developed on an Open Source
 seat to be converted into a closed-source proprietary application
 after the fact, using a proprietary Gendl license.  
 
-gendl应用程序或实用程序代码开发与开放源码许可的安装，必须始终保持作为自
-由软件;的原本开源座椅开发的代码将一个闭源的专有的应用程序转换后的事实，
-一般的专有许可证不允许，使用专有Gendl许可证。
+开源协议授权下安装的gendl应用程序或开放的实用程序代码必须始终保持为自
+由软件; 使用专有Gendl许可证，私人授权不可以将在开源授权方式下开放的源代
+码转换为一个闭源授权的应用程序。  
 
-There is an opportunity to overcome this limitation, however: If you have Gendl application or
-utility code which was developed using an Open Source installation,
-and you wish to include or build upon this code in a
-proprietary/closed-source application, you may:
+There is an opportunity to overcome this limitation, however: If you
+have Gendl application or utility code which was developed using an
+Open Source installation, and you wish to include or build upon this
+code in a proprietary/closed-source application, you may:
 
-有一个机会来克服这个限制，但是如果你有Gendl应用程序或实用程序代码，这是
-开发利用开放源码安装，和你希望包括建立一个专有/闭源应用此代码后，你可以：
+下面几点可以不束服这个限制，如果你有利用开源授权安装开发的Gendl应用程序或
+实用程序代码，你希望包括或在源代码基础上建立一个专有/闭源应用此代码，你
+可以：
 
 1. Contribute the code to the Gendl project under our standard
 Contributor's Agreement, sharing with Genworks the copyright to any
@@ -55,9 +57,9 @@ original work. After suitable review, Genworks may choose to include
 the code either in the mainline Gendl codebase, or in a "contrib"
 directory;
 
-1. 贡献代码的Gendl项目，根据我们的标准所提供的协议，与Genworks分
-享任何原创作品的版权。经过适当的审查，的Genworks可以选择包括在的主线
-Gendl的codebase，或在“的contrib”目录代码;
+1. 根据我们的标准所提供的协议，发行代码到Gendl项目，，与Genworks分
+享任何原创作品的版权。经过适当的审查，Genworks可以选择包括在主线
+Gendl的codebase，或在“分享”目录;
 
 2. Purchase an appropriate proprietary Gendl license;
 
@@ -65,9 +67,9 @@ Gendl的codebase，或在“的contrib”目录代码;
 
 3. Freely include the contributed code in your distributed closed-source applications.
 
-3. 自由包括在分布式闭源应用的贡献代码。
+3. 在您的闭源应用程序中可以自由包括贡献代码。
 
-评价
+评估许可
 
 The Evaluation license provides a fully-functional, time-limited
 Common Lisp engine configured to load Gendl from its source code on
@@ -79,13 +81,13 @@ purchase or Open Source decision is being made. After a successful
 Trial period with the Evaluation license, a request may be made to add
 the SMLib geometry kernel to an extended Evaluation period. 
 
-评估许可证提供一个全功能的，有时间限制的Common Lisp的发动机配置，其源代码在启动时
-加载的Gen​​dl。通过使用评估许可证，您同意“的份额和占有率都”的AGPL开源许可
-证，以及“商业用途”和对theEvaluation许可的其他条款。评估许可证可续期合理
-数量的时间，而正在购买或开源决定。一个成功的试用期评估许可证后，可以请
-求作出，添加SMLib的几何内核扩展的评估期。
+评估许可证提供一个全功能的，有时间限制的Common Lisp的核心机制，配置成在
+启动时加载Gendl源代码。通过使用评估许可证，您必须同意开源许可授权下的
+“分享和与他人分享”，以及“无商业用途”和评估许可的其他条款。评估许可证
+可在正式购买和开源决定期间合理数量地续约。完成一个成功的评估试用期后，
+可以请求添加SMLib的几何内核扩展的评估期。
 
-学生
+学生版
 
 The Student license is valid for one year from date of initiation
 (renewable each year at current prices), and is intended for
@@ -101,14 +103,14 @@ Evaluation license. The Student license also qualifies to have the
 SMLib geometry kernel added as an option.
 
 
-学生版许可证有效期为一年，从开始之日起（按当年价格计算年可再生每个），目
-的是作为一种学习工具，并有为，课程的本科生。学生级许可没有被授权使用大
-学认可或政府/工业界资助的研究项目。学生水平许可软件包的设计提供一个全功
-能的配置，其源代码在启动时加载的Gen​​dl Common Lisp的发动机。通过使用学生
-证，你同意“的份额和占有率都”的AGPL开源许可证，以及“商业使用”评估许可证
-的条款。学生证也有资格，有SMLib几何内核，作为一个选项添加。
+学生版许可证有效期为一年，从开始之日起（按当年价格每年可续约），目的是
+作为一种本科生的学习工具，辅助课程。学生级许可没有被授权使用在大学认可
+或政府/工业界资助的研究项目。学生水平许可软件包的设计提供一个全功能的
+Common Lisp配置，其源代码在启动时加载Gendl。通过使用学生证，你同意开源
+许可授权的“分享和与他人分享”，以及“无商业使用”评估许可证的条款。学生版
+许可证也有资格把SMLib几何内核作为一个选项添加。
 
-专业的
+专业版
 
 
 The Professional License is intended for use in the early phases of
@@ -122,10 +124,11 @@ compiled binaries (so-called "fasl" files) for use on licensed
 installations of Gendl Runtime.
 
 
-职业资格证书的目的是为使用专有的应用程序开发的早期阶段。它不包括生成运
-行的应用程序分布的能力。专业版，也可能是适当的提供额外的开发已经有至少
-有一个企业席位的机构或部门内席位。专业版开发gendl的源代码可以分布专有，
-封闭源代码编译为二进制文件（即所谓的“FASL”档案）在持牌Gendl运行安装使用。
+专业版本许可证可用来开发最初阶段的私有应用程序。它不包括生成运行的应用
+程序分布的能力。专业版适合于已经拥有企业版的公司和部门里， 作为额外的开
+发版本。专业版开发gendl的源代码可以发布为专有，封闭源代码编译为二进制文
+件（即所谓的“FASL”文件）在持牌Gendl运行安装使用。
+
 
 The Professional license is a perpetual Gendl license; from date of
 initiation, you may continue to develop and distribute closed-source
@@ -134,20 +137,20 @@ an option you may renew maintenance and support on an annual basis for
 25% of the initiation price for Gendl-related components and support,
 and 50% for SMLib-related components.
 
-专业执照是一个永久Gendl许可证;从开始之日起，您可能会继续开发和分发封闭
-源代码编译的文件，与发起Gendl版本，到永远。作为一个选项，您可能会延续每
-年为启动Gendl相关的组件和支持，50％SMLib相关的组件价格的25％的基础上维
-护和支持。
+专业版执照是一个永久不失效的Gendl许可证;从开始之日起，你可以永远利用
+Gendl版本持续开发和发布闭源代码编译的文件。您可以选择每年延续Gendl的维
+护和售后咨旬。费用是原价25%的Gendl相关组件的支持和维护，和原价50％的SMLib
+相关维护和支持。
 
-企业
+企业版本
 
 The Enterprise License Enterprise license allows all uses provided by
 the Professional license, with the additional ability to generate
 closed-source, proprietary, self-contained Runtime applications. These
 Runtime applications may be used free of charge in
 
-企业许可证的企业许可证，允许所有使用提供额外的能力产生闭源的，专有的，
-自足运行的应用程序，由专业牌照。这些运行时应用程序可以免费使用
+企业版本的许可证是建立在专业版的基础上，允许所有用户产生闭源的，专有的，
+自足运行的应用程序。这些运行时应用程序可以免费使用在：
 
 1. Noncommercial deployments (e.g. for testing and demonstration purposes)
 1. 非商业性部署（例如用于测试和演示目的）
@@ -160,8 +163,9 @@ For commercial closed-source runtime deployments, Gendl Runtime
 licenses are available under a flat-fee, internal model or a
 percentage-based VAR distribution model.
 
-对于闭源的商业运行部署，Gendl运行许可证下的固定费用，内部模型或百分
-比基于VAR的分布模型。
+对于闭源的商业运行部署，我们提供Gendl运行许可证下的VAR销售模式，您只付
+您销售额的百分比。
+
 
 Professional license is a perpetual Gendl license; from date of
 initiation, you may continue to develop and distribute closed-source
@@ -171,10 +175,10 @@ your Gendl Enterprise license must be paid-up with maintenance on an
 annual basis, at a price of 25% of the initiation price for
 Gendl-related components, and 50% for SMLib-related components.
 
-专业执照是一个永久Gendl许可证;从开始之日起，您可能会继续开发和分发封闭
-源代码编译的文件，与发起Gendl版本，到永远。为了生成闭源自足运行的应用程
-序，您的Gendl企业许可证必须缴足维修每年的基础上，在的为Gendl相关组件的
-起始价格25％的价格，50％为SMLib相关的组件。
+专业版执照是一个永久不失效的Gendl许可证;从开始之日起，你可以永远利用
+Gendl版本持续开发和发布闭源代码编译的文件。但是为了生成闭源自足运行的应
+用程序，您必须每年延续Gendl的维护和售后咨旬并上缴每年的维修费用，原价
+25%的Gendl相关组件的支持和维护，和原价50％的SMLib相关维护和支持。
 
 学术定价
 
@@ -183,8 +187,9 @@ Gendl from research results, Genworks offers a 50% discount for most
 Gendl components for use in Academic institutions. Academic settings
 which qualify for Academic pricing include:
 
-作为我们的投资在未来，可能改善的研究成果Gendl中，Genworks提供了一个在学
-术机构中使用的最Gendl组件50％的折扣。学术环境，学术定价资格包括：
+作为我们对未来的投资以及研究成果可能给Gendl带来的改进，
+Genworks将把Gendl的大部分组件对学术机构中提供50％的折扣。
+符合学术定价的学术环境包括：
 
 1. Academic Institutions of higher learning (i.e. Universities)
 1. 高校（即大学）的学术机构
@@ -200,7 +205,8 @@ from an Enterprise-level licensed Gendl seat) are by definition
 non-commercial, and can therefore be deployed free of charge without
 limit. 
 
-此外，在学术环境中（从一个企业级的的持牌Gendl座位）的应用程序运
-行时定义非商业，因此，可以免费无限制部署。
+此外，在学术环境中的运行应用程序（来自于企业版本证书支持的Gendl席位）被
+定义为非商业用途，因此，可以免费无限制部署。
+ 
 
 生成应用程序开发的实用工具版权所有©2012 Genworks国际。保留所有权利。
