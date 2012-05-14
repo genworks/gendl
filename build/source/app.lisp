@@ -58,7 +58,8 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 
    (pre-load-form (the load-core-gdl-form))
 
-   (post-load-form nil)
+   (post-load-form '(progn (setf (symbol-value (read-from-string 
+						"asdf:*central-registry*")) nil)))
    
    (init-file-names nil)
    
@@ -122,7 +123,6 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 				  (setq glisp:*gdl-home* (glisp:current-directory))
 				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
 				  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
-				  (asdf:initialize-output-translations)
 				  (gdl:start-gdl :edition :trial)
 				  (glisp:set-gs-path (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))))
 
@@ -146,12 +146,7 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 	 :destination-directory destination-directory
 	 :modules (list #-64bit :agraph #-64bit :ide)
 	 :restart-init-function '(lambda()
-				  (setq glisp:*gdl-home* (glisp:current-directory))
-				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
-				  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
-				  (asdf:initialize-output-translations)
-				  (gdl:start-gdl :edition :trial)
-				  (glisp:set-gs-path (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))))
+				  (gdl:start-gdl :edition :trial)))
 
     destination-directory))
 

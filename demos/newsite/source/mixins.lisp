@@ -243,8 +243,8 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 				  ((:div :id "copyright") 
 				   (:h1 "Practical Tools for Generative Application Development")
 				   (:p "")
-				   "Copyright &copy; 2012 Genworks International. All right reserved.")
-				   ((:div :id "footerline"))))))
+				   (str (locale-string :copyright-genworks))
+				   ((:div :id "footerline")))))))
 
 
 

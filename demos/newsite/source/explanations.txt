@@ -82,7 +82,7 @@ Trial period with the Evaluation license, a request may be made to add
 the SMLib geometry kernel to an extended Evaluation period. 
 
 评估许可证提供一个全功能的，有时间限制的Common Lisp的核心机制，配置成在
-启动时加载Gen​​dl源代码。通过使用评估许可证，您必须同意开源许可授权下的
+启动时加载Gendl源代码。通过使用评估许可证，您必须同意开源许可授权下的
 “分享和与他人分享”，以及“无商业用途”和评估许可的其他条款。评估许可证
 可在正式购买和开源决定期间合理数量地续约。完成一个成功的评估试用期后，
 可以请求添加SMLib的几何内核扩展的评估期。

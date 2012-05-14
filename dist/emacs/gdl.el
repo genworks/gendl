@@ -127,7 +127,7 @@
 
 ;; ignore errors when setting colors in case of running in console
 ;; terminal (there's probably a better way to test for this).
-(ignore-errors (gdl:set-colors))
+;;(ignore-errors (gdl:set-colors))
 
 (defun gdl:set-font ()
   (interactive)
@@ -197,7 +197,7 @@
 (require 'slime-autoloads)
 (eval-after-load "slime"
   '(progn
-    (add-to-list 'load-path "../quicklisp/dists/quicklisp/software/slime-20120407-cvs/contrib")
+    ;;(add-to-list 'load-path "../quicklisp/dists/quicklisp/software/slime-20120407-cvs/contrib")
     (slime-setup '(slime-fancy slime-banner))
     (setq slime-complete-symbol*-fancy t)
     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
@@ -223,9 +223,28 @@
 
 
 (find-file "emacs/README.txt")
+(toggle-read-only)
 
-(cd "../")
+(cd gdl:*gdl-home*)
 
+(add-to-list 'load-path "emacs/emacs-goodies-el")
+(add-to-list 'load-path "emacs/solarized")
 
+(require 'color-theme)
+(color-theme-initialize)
+(require 'color-theme-solarized)
+(color-theme-solarized-light)
+
+(defun frame-retitle (title)
+  (modify-frame-parameters nil (list (cons 'name title))))
+
+(frame-retitle "Genworks GenDL Interactive Authoring Environment")
+
+(message "Please see the Startup section of this document for starting the Gendl environment.")
+
+(when (file-exists-p "~/.emacs-gendl")
+  (load-file "~/.emacs-gendl"))
+
+(cd gdl:*gdl-home*)
 
 ;;; EOF

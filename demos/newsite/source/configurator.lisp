@@ -247,7 +247,7 @@
 
 		   
    (money-saving-tip 
-    (when (eql (the selected-cl-engine) :none)
+    (when (eql (the selected-cl-engine) :sbcl)
       (with-cl-who-string ()
 	(str (locale-string :select))
 	" "

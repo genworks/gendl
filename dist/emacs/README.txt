@@ -23,7 +23,7 @@ Emacs.
 
 Touch-typing ability is definitely an asset for Gendl development, but
 with auto-completion of symbols (possible with M-/ -- you'll know what
-that means after looking at the tutorial!) it is possible to be an
+that means after looking at the tutorial) it is possible to be an
 extremely effective Gendl developer without having world-class typing
 speed.
 
@@ -32,7 +32,7 @@ key, if you have sufficient priveleges on your machine. This will give
 you a much more comfortable experience, allowing you to use all the
 Emacs navigation keystrokes without constantly curling your left pinky
 finger down to the Control key.  Here are some resources which can
-help you to this:
+help you do this:
 
       
   http://emacswiki.org/emacs/MovingTheCtrlKey
@@ -64,7 +64,7 @@ Documentation:
  frequently so please come round often.
 
 
-
+=======
 Startup
 =======
 
@@ -129,6 +129,53 @@ Quitting:
     Gendl session with either ELI or Slime, by following the
     instructions under "Starting."
 
+
+Customizing Emacs
+=================
+
+If a file exists in your home directory called ".emacs-gendl" this
+will be loaded upon startup. You can put any custom emacs-list code in
+this file to customize your startup (see below for an example to
+customize the color theme).
+
+You can always find out where Emacs thinks is your home directory's
+location by typing C-x d ~/ <RET>. This should present the list of
+files in the home directory, and show its full name on the first
+line. Likewise, to visit your init file, type C-x C-f ~/.emacs-gendl <RET>.
+
+
+Color Themes
+============
+
+Starting now, we are releasing Gendl with the color-theme:
+
+  http://emacswiki.org/emacs/ColorTheme
+
+and solarized:
+
+  http://ethanschoonover.com/solarized
+
+packages for Gnu emacs.
+
+You can select any of the themes from color-theme with 
+
+  M-x color-theme-select
+
+The solarized themes are called color-theme-solarized-light and
+color-theme-solarized-dark. The default is
+color-theme-solarized-light.
+
+To revert to the 1580 GDL color scheme, use:
+   
+  M-x gdl:set-colors 
+
+
+To set a color theme automatically, put something like the following at the end of
+your ~/.emacs-gendl :
+
+
+  (color-theme-solarized-dark)  ;; for solarized dark theme, or 
+  (gdl:set-colors) ;; for legacy color scheme
 
 
 Emacs Reference

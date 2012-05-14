@@ -27,7 +27,11 @@
 (defun start-gdl (&key edition)
   (mapc #'(lambda(function)
             (funcall function :edition edition))
-        *gdl-init-functions*)
+        (reverse *gdl-init-functions*))
+  
+  (startup-banner)
+  (load-gdl-init-files)
+
   (values))
 
 (defun load-gdl-init-files (&key edition)
@@ -46,8 +50,6 @@
       (when (and current-dir-init? current-init-file) (load current-init-file))
       (when (and homedir-init? homedir-init-file) (load homedir-init-file)))))
 
-
-(pushnew #'load-gdl-init-files *gdl-init-functions*)
 
 
 (defun startup-banner (&key edition)       
@@ -86,9 +88,6 @@
 "))
 
 
-
-(pushnew #'startup-banner *gdl-init-functions*)
-
 ;;
 ;; FLAG -- do some of these at beginning of bootstrapping, others
 ;; defer until end of loading everything.
@@ -96,8 +95,33 @@
 
 (defun initialize-gdl (&key edition)
   (declare (ignore edition))
-  (glisp:set-defpackage-behavior)
-  (glisp:set-default-float-format)
+
+  (setq glisp:*genworks-source-home* 
+	(when (asdf:find-system :gdl-base nil)
+	  (let ((gdl-base-home (asdf:system-source-directory :gdl-base)))
+	    (make-pathname :name nil
+			   :type nil
+			   :directory (butlast 
+				       (butlast (pathname-directory gdl-base-home)))
+			   :defaults gdl-base-home))))
+  
+  (setq glisp:*gdl-program-home* (let ((exe (first (glisp:basic-command-line-arguments))))
+				   (make-pathname :name nil
+						  :type nil
+						  :directory (pathname-directory exe)
+						  :defaults exe)))
+
+  (setq glisp:*gdl-home* (make-pathname :name nil
+					:type nil
+					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
+					:defaults glisp:*gdl-program-home*))
+  
+  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+
+  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+
+  (asdf:initialize-output-translations)
+
   (glisp:set-default-package)
   (glisp:xref-off)
   (glisp:set-window-titles))
