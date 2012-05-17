@@ -106,7 +106,14 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
   (let ((self (apply #'make-object 'app args)))
     (the make!)))
 
-
+;; 
+;; 
+;;  FLAG -- this is given as an example for how one might create a
+;;  standalone runtime executable. Note that its restart-init-function
+;;  modifies the Quicklisp environment, so you would only do this when
+;;  the user does not already have a known Quicklisp environment. 
+;; 
+;;
 (defun gdl-runtime ()
   (let ((destination-directory 
 	 (let ((implementation-identifier (glisp:implementation-identifier))
@@ -124,7 +131,7 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 	 :restart-init-function '(lambda()
 				  (setq glisp:*gdl-home* (glisp:current-directory))
 				  (setq glisp:*genworks-source-home* (merge-pathnames "src/" glisp:*gdl-home*))
-				  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+				  (setf (symbol-value (read-from-string "ql:*quicklisp-home*")) (merge-pathnames "quicklisp/" glisp:*gdl-home*))
 				  (gdl:start-gdl :edition :trial)
 				  (glisp:set-gs-path (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))))
 

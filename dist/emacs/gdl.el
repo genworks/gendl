@@ -48,13 +48,13 @@
   (gdl-devo gdl:*mgdl-image-name*)
   ;;(add-gdl-font-lock-keywords)
   (setq fi:lisp-mode-hook
-	  (function
-	   (lambda ()
-	     (let ((map (current-local-map)))
-	       (define-key map "\C-c."	'find-tag)
-	       (define-key map "\C-c,"	'tags-loop-continue)
-	       (define-key map "\e."	'fi:lisp-find-definition)
-	       (define-key map "\e,"	'fi:lisp-find-next-definition)))))
+          (function
+           (lambda ()
+             (let ((map (current-local-map)))
+               (define-key map "\C-c."  'find-tag)
+               (define-key map "\C-c,"  'tags-loop-continue)
+               (define-key map "\e."    'fi:lisp-find-definition)
+               (define-key map "\e,"    'fi:lisp-find-next-definition)))))
 
   ;;(gdl:define-indents)
   )
@@ -66,10 +66,10 @@
   (let ((executable (or (fi::probe-file (concat gdl:*gdl-program-home* image-name ".exe"))
                         (fi::probe-file (concat gdl:*gdl-program-home* image-name)))))
     (setq gdl:*gdl-toplevel* 
-	  (concat gdl:*gdl-toplevel-base*
-		  (if (equalp (subseq (file-name-sans-extension executable)
-				      0 1) "a")
-		      "(ANSI)" "(modern)")))
+          (concat gdl:*gdl-toplevel-base*
+                  (if (equalp (subseq (file-name-sans-extension executable)
+                                      0 1) "a")
+                      "(ANSI)" "(modern)")))
     (fi:common-lisp gdl:*gdl-toplevel* gdl:*gdl-home* executable nil)))
 
 
@@ -181,10 +181,10 @@
 
 (load-file "quicklisp/slime-helper.el")
 (setq inferior-lisp-program (if (file-exists-p "program/gdl.exe")
-				(concat "program/run-gdl-slime.bat"
-					" "
-					"program\\gdl.exe")
-			      "program/gdl"))
+                                (concat "program/run-gdl-slime.bat"
+                                        " "
+                                        "program\\gdl.exe")
+                              "program/gdl"))
 
 (defun remove-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."
@@ -226,6 +226,10 @@
 
 (cd gdl:*gdl-home*)
 
+;;
+;; Set up color-theme and solarized color-themes:
+;;
+
 (add-to-list 'load-path "emacs/emacs-goodies-el")
 (add-to-list 'load-path "emacs/solarized")
 
@@ -233,6 +237,10 @@
 (color-theme-initialize)
 (require 'color-theme-solarized)
 (color-theme-solarized-light)
+
+;;
+;; end of color-theme setup.
+;;
 
 (defun frame-retitle (title)
   (modify-frame-parameters nil (list (cons 'name title))))

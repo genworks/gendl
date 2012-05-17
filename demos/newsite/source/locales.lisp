@@ -36,8 +36,8 @@
 	 `(
 
 	   :gendl-component
-	   (:english "Gendl Component"
-	    :chinese "Gendl 组成部份")
+	   (:english "GenDL Component"
+	    :chinese "GenDL 组成部份")
 
 	   :your-selection
 	   (:english "Your Selection"
@@ -61,8 +61,8 @@
 	    :chinese "下一页")
 
 	   :gendl-licensing-level
-	   (:english "Gendl Licensing Level"
-	    :chinese "Gendl 软件级别")
+	   (:english "GenDL Licensing Level"
+	    :chinese "GenDL 软件级别")
 	   
 	   :open-source-agpl
 	   (:english "Open Source (AGPL)"
@@ -74,7 +74,7 @@
 
 	   :evaluation
 	   (:english "Evaluation"
-	    :chinese "试用软件")
+	    :chinese "评估")
 
 	   :student
 	   (:english "Student"
@@ -94,11 +94,11 @@
 
 	   :common-lisp-engine
 	   (:english "Common Lisp Engine"
-	    :chinese "Common Lisp Engine")
+	    :chinese "Common Lisp 配置")
 
 	   :to-enable-this-option
 	   (:english "to enable this option"
-	    :chinese "选此项")
+	    :chinese "启用此项")
 
 	   :please-select
 	   (:english "Please select"
@@ -112,9 +112,17 @@
 	   (:english "and"
 	    :chinese "和")
 
+	   :for
+	   (:english "for"
+	    :chinese "为")
+
+	   :space 
+	   (:english " "
+	    :chinese "")
+
 	   :a-non-evaluation-gendl-license
-	   (:english "a non-Evaluation Gendl license"
-	    :chinese "无评估 Gendl 软件")
+	   (:english "a non-Evaluation GenDL license"
+	    :chinese "无评估 GenDL 软件")
 	   
 	   :franz-allegro-cl-32
 	   (:english "Franz Allegro CL&reg; 32-bit"
@@ -125,16 +133,16 @@
 	    :chinese "Franz Allegro CL&reg; 64-bit")
 
 	   :lispworks-32-basic
-	   (:english "LispWorks 32-bit Basic"
-	    :chinese "基本 LispWorks 32-bit")
+	   (:english "LispWorks 32-bit Professional"
+	    :chinese "专业版 LispWorks 32-bit")
 
 	   :lispworks-32-expanded
-	   (:english "LispWorks 32-bit Expanded"
-	    :chinese "扩展LispWorks 32-bit")
+	   (:english "LispWorks 32-bit Enterprise"
+	    :chinese "企业版 LispWorks 32-bit")
 
 	   :lispworks-64-expanded 
-	   (:english "LispWorks 64-bit Expanded"
-	    :chinese "扩展 LispWorks 64-bit")
+	   (:english "LispWorks 64-bit Enterprise"
+	    :chinese "企业版 LispWorks 64-bit")
 
 	   :geometry-kernel
 	   (:english "Geometry Kernel"
@@ -149,12 +157,12 @@
 	    :chinese "SMLib&reg;")
 	   
 	   :non-agpl-gendl 
-	   (:english "a non-AGPL Gendl license"
-	    :chinese "无 AGPL Gendl 软件")
+	   (:english "a non-AGPL GenDL license"
+	    :chinese "非 AGPL GenDL 软件")
 
 	   :commercial-cl-engine
 	   (:english "a commercial CL engine"
-	    :chinese "a commercial CL engine")
+	    :chinese "a commercial CL 配置")
 	   
 	   :technical-support-level
 	   (:english "Technical Support Level"
@@ -166,7 +174,7 @@
 
 	   :a 
 	   (:english "a"
-	    :chinese "a")
+	    :chinese "")
 
 	   :commercial
 	   (:english "commercial"
@@ -174,7 +182,7 @@
 
 	   :to-reduce-tech-support-prices
 	   (:english " to reduce Technical Support prices."
-	    :chinese " to reduce Technical Support prices.")
+	    :chinese "降低技术售后服务价格.")
 
 	   :none
 	   (:english "None"
@@ -207,11 +215,11 @@
 
 	   :application-code-nda
 	   (:english "Application Code Nondisclosure"
-	    :chinese "Application Code Nondisclosure")
+	    :chinese "应用程序代码保密")
 
 	   :mission-critical-prod-env
 	   (:english "Mission-critical Production Environment"
-	    :chinese "Mission-critical Production Environment")
+	    :chinese "投产紧急状况")
 
 	   :an-open-source
 	   (:english "an Open Source"
@@ -227,12 +235,12 @@
 
 
 	   :gendl-license
-	   (:english "Gendl license"
-	    :chinese "Gendl 软件")
+	   (:english "GenDL license"
+	    :chinese "GenDL 软件")
 	   
 	   :less-than
 	   (:english "less than"
-	    :chinese "less than")
+	    :chinese "少于")
 	   
 
 	   :training-level
@@ -245,7 +253,7 @@
 	    
 	   :remote 
 	   (:english "Remote"
-	    :chinese "远程教学")
+	    :chinese "远程培训")
 
 	   :three-day
 	   (:english "Three-day"
@@ -261,7 +269,7 @@
 
 	   :excl-travel-and-exp
 	   (:english "excl. travel and expenses"
-	    :chinese "差及其它费用")
+	    :chinese "差旅费及其它费用")
 
 	   :language-selection 
 	   (:english "Language Selection"
@@ -273,15 +281,15 @@
 	   
 	   :tip
 	   (:english "TIP"
-	    :chinese "TIP")
+	    :chinese "提示")
 
 	   :other-than
 	   (:english "other than"
-	    :chinese "other than")
+	    :chinese "另外")
 	   
 	   :known
 	   (:english "known"
-	    :chinese "known")
+	    :chinese "特定")
 	   
 
 
@@ -290,8 +298,8 @@
 	    :chinese "软件级别详解")
 
 	   :genworks-gendl-is-so-called
-	   (:english "Genworks Gendl is so-called"
-	    :chinese "Genworks Gendl 是所称的")
+	   (:english "Genworks GenDL is so-called"
+	    :chinese "Genworks GenDL 是所称的")
 
 	   :dual-licensed
 	   (:english "dual-licensed"
@@ -318,7 +326,7 @@
 	   (:english "The Open Source (\"free software\") license allows
                   your application to enjoy complete freedom. This
                   license follows the philosophy of \"share and share
-                  alike.\" By choosing this license (or by using Gendl
+                  alike.\" By choosing this license (or by using GenDL
                   and distributing a compiled application without
                   making any choice of license), you agree to
                   distribute your application source code under the "
@@ -332,36 +340,36 @@
 	   (:english "There are no restrictions against Commercial Use
                   with the Open Source license; the main requirement
                   is that you offer to share your application code at
-                  no cost, just as the Gendl code has been shared with
+                  no cost, just as the GenDL code has been shared with
                   you."
-	    :chinese "我们没有对Gendl开源软件加以商业用途的限制; 但在向市场发布前，必须将自己修改的部分源代码及时返还回
-                      社区，而且没有任何付加成本。 就象我们已与您共享的Gendl源代码一样。")
+	    :chinese "我们没有对GenDL开源软件加以商业用途的限制; 但在向市场发布前，必须将自己修改的部分源代码及时返还回
+                      社区，而且没有任何付加成本。 就象我们已与您共享的GenDL源代码一样。")
 
 	   :code-must-remain-free
-	   (:english "Gendl application or utility code developed with an
+	   (:english "GenDL application or utility code developed with an
                   Open Source-licensed installation must always remain
                   as Free Software; the Proprietary licenses in
                   general do not allow for code originally developed
                   on an Open Source seat to be converted into a
                   closed-source proprietary application after the
-                  fact, using a proprietary Gendl license."
-	    :chinese "开源协议授权下安装的gendl应用程序或开放的实用程序代码必须始终保持为自由软件; 使用专有Gendl许可证，
+                  fact, using a proprietary GenDL license."
+	    :chinese "开源协议授权下安装的gendl应用程序或开放的实用程序代码必须始终保持为自由软件; 使用专有GenDL许可证，
                       私人授权不可以将在开源授权方式下开放的源代码转换为一个闭源授权的应用程序。")
 
 	   :opportunity-to-overcome-limitation
 	   (:english "There is an opportunity to overcome this limitation,
-                 however: If you have Gendl application or utility
+                 however: If you have GenDL application or utility
                  code which was developed using an Open Source
                  installation, and you wish to include or build upon
                  this code in a proprietary/closed-source application,
                  you may:"
-	    :chinese "下面几点可以不束服这个限制，如果你有利用开源授权安装开发的Gendl应用程序或实用程序代码，你希望包括
+	    :chinese "下面几点可以不束服这个限制，如果你有利用开源授权安装开发的GenDL应用程序或实用程序代码，你希望包括
                       或在源代码基础上建立一个专有/闭源应用此代码，你可以：")
 	   
 	   :contribute-to-gendl
-	   (:english "Contribute the code to the Gendl project
+	   (:english "Contribute the code to the GenDL project
 		    under our standard "
-	    :chinese "根据我们的标准所提供的协议，发行代码到Gendl项目")
+	    :chinese "根据我们的标准所提供的协议，发行代码到GenDL项目")
 
 	   :contributors-agreement
 	   (:english "Contributor's Agreement"
@@ -371,12 +379,12 @@
 	   (:english "sharing with Genworks the copyright to any
 		    original work. After suitable review, Genworks may
 		    choose to include the code either in the mainline
-		    Gendl codebase, or in a \"contrib\" directory"
-	    :chinese "享任何原创作品的版权。经过适当的审查，Genworks可以选择包括在主线Gendl的codebase，或在“分享”目录")
+		    GenDL codebase, or in a \"contrib\" directory"
+	    :chinese "享任何原创作品的版权。经过适当的审查，Genworks可以选择包括在主线GenDL的codebase，或在“分享”目录")
 
 	   :purchase-appropriate-license
-	   (:english "Purchase an appropriate proprietary Gendl license"
-	    :chinese "购买一个适当的的专有Gendl许证")
+	   (:english "Purchase an appropriate proprietary GenDL license"
+	    :chinese "购买一个适当的的专有GenDL许证")
 
 	   :freely-include 
 	   (:english "Freely include the contributed code in your
@@ -398,10 +406,10 @@
 	   :provides-fully-functional
 	   (:english "provides a fully-functional,
 		 time-limited Common Lisp engine configured to load
-		 Gendl from its source code on startup. By using the
+		 GenDL from its source code on startup. By using the
 		 Evaluation license, you agree to both the \"share and
 		 share alike\" terms of the"
-	    :chinese "证提供一个全功能的，有时间限制的Common Lisp的核心机制，配置成在启动时加载Gendl源代码。通过使用评估许可证，您必须同意")
+	    :chinese "证提供一个全功能的，有时间限制的Common Lisp的核心机制，配置成在启动时加载GenDL源代码。通过使用评估许可证，您必须同意")
 
 	   :agpl-open-source-license
 	   (:english "AGPL Open Source license"
@@ -435,11 +443,11 @@
 		   government/industry sponsored research
 		   projects. The software package designed for the
 		   Student level License provides a fully-functional
-		   Common Lisp engine configured to load Gendl from
+		   Common Lisp engine configured to load GenDL from
 		   its source code on startup. By using the Student
 		   license, you agree to both the \"share and share
 		   alike\" terms of the "
-	    :chinese "许可证有效期为一年，从开始之日起（按当年价格每年可续约），目的是作为一种本科生的学习工具，辅助课程。学生级许可没有被授权使用在大学认可或政府/工业界资助的研究项目。学生水平许可软件包的设计提供一个全功能的Common Lisp配置，其源代码在启动时加载Gendl。通过使用学生证，你同意")
+	    :chinese "许可证有效期为一年，从开始之日起（按当年价格每年可续约），目的是作为一种本科生的学习工具，辅助课程。学生级许可没有被授权使用在大学认可或政府/工业界资助的研究项目。学生水平许可软件包的设计提供一个全功能的Common Lisp配置，其源代码在启动时加载GenDL。通过使用学生证，你同意")
 
 	   :student-license-also-qualifies-for-smlib
 	   (:english "The Student license also
@@ -460,24 +468,24 @@
                        Edition may also be appropriate for providing
                        additional Development seats within an
                        organization or department which already has at
-                       least one Enterprise seat. Gendl source code
+                       least one Enterprise seat. GenDL source code
                        developed with Professional Edition may be
                        distributed as proprietary, closed-source
                        compiled binaries (so-called \"fasl\" files)
-                       for use on licensed installations of Gendl
+                       for use on licensed installations of GenDL
                        Runtime."
-	    :chinese "本许可证可用来开发最初阶段的私有应用程序。它不包括生成运行的应用程序分布的能力。专业版适合于已经拥有企业版的公司和部门里， 作为额外的开发版本。专业版开发gendl的源代码可以发布为专有，封闭源代码编译为二进制文件（即所谓的“FASL”文件）在持牌Gendl运行安装使用。")
+	    :chinese "本许可证可用来开发最初阶段的私有应用程序。它不包括生成运行的应用程序分布的能力。专业版适合于已经拥有企业版的公司和部门里， 作为额外的开发版本。专业版开发gendl的源代码可以发布为专有，封闭源代码编译为二进制文件（即所谓的“FASL”文件）在持牌GenDL运行安装使用。")
 
 	   :professional-is-perpetual
-	   (:english "The Professional license is a perpetual Gendl
+	   (:english "The Professional license is a perpetual GenDL
                    license; from date of initiation, you may continue
                    to develop and distribute closed-source compiled
-                   files, with the initiated Gendl version, into
+                   files, with the initiated GenDL version, into
                    perpetuity. As an option you may renew maintenance
                    and support on an annual basis for 25% of the
-                   initiation price for Gendl-related components and
+                   initiation price for GenDL-related components and
                    support, and 50% for SMLib-related components."
-	    :chinese "专业版执照是一个永久不失效的Gendl许可证;从开始之日起，你可以永远利用Gendl版本持续开发和发布闭源代码编译的文件。您可以选择每年延续Gendl的维护和售后咨旬。费用是原价25%的Gendl相关组件的支持和维护，和原价50％的SMLib相关维护和支持。")
+	    :chinese "专业版执照是一个永久不失效的GenDL许可证;从开始之日起，你可以永远利用GenDL版本持续开发和发布闭源代码编译的文件。您可以选择每年延续GenDL的维护和售后咨旬。费用是原价25%的GenDL相关组件的支持和维护，和原价50％的SMLib相关维护和支持。")
 	   
 	   :enterprise-license
 	   (:english "Enterprise License"
@@ -494,7 +502,7 @@
 	    :chinese "的许可证是建立在专业版的基础上，允许所有用户产生闭源的，专有的，自足运行的应用程序。这些运行时应用程序可以免费使用在：")
 
 	   :noncommercial-testing
-	   (:english "Noncommercial deployments (e.g. for testing
+	   (:english "Non-commercial deployments (e.g. for testing
 		    and demonstration purposes)"
 	    :chinese "非商业性部署（例如用于测试和演示目的）")
 
@@ -504,23 +512,23 @@
 
 	   :for-commercial-deployments-gendl-runtime-are-available
 	   (:english "For commercial closed-source runtime
-                   deployments, Gendl Runtime licenses are available
+                   deployments, GenDL Runtime licenses are available
                    under a flat-fee, internal model or a
                    percentage-based VAR distribution model."
-	    :chinese "对于闭源的商业运行部署，我们提供Gendl运行许可证下的VAR销售模式，您只付您销售额的百分比。")
+	    :chinese "对于闭源的商业运行部署，我们提供GenDL运行许可证下的VAR销售模式，您只付您销售额的百分比。")
 
 	   :enterprise-is-perpetual
-	   (:english "Enterprise license is a perpetual Gendl
+	   (:english "Enterprise license is a perpetual GenDL
                    license; from date of initiation, you may continue
                    to develop and distribute closed-source compiled
-                   files, with the initiated Gendl version, into
+                   files, with the initiated GenDL version, into
                    perpetuity. In order to generate closed-source
-                   self-contained Runtime applications, your Gendl
+                   self-contained Runtime applications, your GenDL
                    Enterprise license must be paid-up with maintenance
                    on an annual basis, at a price of 25% of the
-                   initiation price for Gendl-related components, and
+                   initiation price for GenDL-related components, and
                    50% for SMLib-related components."
-	    :chinese "企业版本执照是一个永久不失效的Gendl许可证;从开始之日起，你可以永远利用Gendl版本持续开发和发布闭源代码编译的文件。但是为了生成闭源自足运行的应用程序，您必须每年延续Gendl的维护和售后咨旬并上缴每年的维修费用，原价25%的Gendl相关组件的支持和维护，和原价50％的SMLib相关维护和支持。")
+	    :chinese "企业版本执照是一个永久不失效的GenDL许可证;从开始之日起，你可以永远利用GenDL版本持续开发和发布闭源代码编译的文件。但是为了生成闭源自足运行的应用程序，您必须每年延续GenDL的维护和售后咨旬并上缴每年的维修费用，原价25%的GenDL相关组件的支持和维护，和原价50％的SMLib相关维护和支持。")
 	   
 	   :academic-pricing
 	   (:english "Academic Pricing"
@@ -528,12 +536,12 @@
 
 	   :as-our-investment-in-future
 	   (:english "As our investment in the future, and in the
-		 possible improvement of Gendl from research results,
-		 Genworks offers a 50% discount for most Gendl
+		 possible improvement of GenDL from research results,
+		 Genworks offers a 50% discount for most GenDL
 		 components for use in Academic institutions. Academic
 		 settings which qualify for Academic pricing
 		 include:"
-	    :chinese "作为我们对未来的投资以及研究成果可能给Gendl带来的改进，Genworks将把Gendl的大部分组件对学术机构中提供50％的折扣。符合学术定价的学术环境包括：")
+	    :chinese "作为我们对未来的投资以及研究成果可能给GenDL带来的改进，Genworks将把GenDL的大部分组件对学术机构中提供50％的折扣。符合学术定价的学术环境包括：")
 
 	   :academic-institutions
 	   (:english "Academic Institutions of higher learning (i.e. Universities)"
@@ -550,18 +558,20 @@
 	   :furthermore-academic-runtimes-free
 	   (:english "Furthermore, Runtime applications in an Academic
 		 setting (generated from an Enterprise-level licensed
-		 Gendl seat) are by definition non-commercial, and can
+		 GenDL seat) are by definition non-commercial, and can
 		 therefore be deployed free of charge without limit."
-	    :chinese "此外，在学术环境中的运行应用程序（来自于企业版本证书支持的Gendl席位）被定义为非商业用途，因此，可以免费无限制部署。")
+	    :chinese "此外，在学术环境中的运行应用程序（来自于企业版本证书支持的GenDL席位）被定义为非商业用途，因此，可以免费无限制部署。")
 
 	   :copyright-genworks
-	   (:english "Copyright &copy; 2012 Genworks International. All right reserved."
-		     :chinese "生成应用程序开发的实用工具版权所有©2012 Genworks国际。保留所有权利。")
-
-
-	   )))
-
-
+	   (:english ,(with-cl-who-string 
+		       ()
+		       "Copyright &copy; 2012 "
+		       ((:a :href "http://www.genworks.com") "Genworks International")
+		       ". All rights reserved. Powered by "
+		       ((:a :href "http://www.genworks.com/newsite") "GenDL") ", "
+		       ((:a :href "http://www.quicklisp.org") "Quicklisp") ", and "
+		       ((:a :href "http://www.franz.com") "Allegro CL"))
+		     :chinese "生成应用程序开发的实用工具版权所有©2012 Genworks国际。保留所有权利。"))))
 
     (let ((ht (make-hash-table :size (length strings))))
       (mapc #'(lambda(key value) (setf (gethash key ht) value))

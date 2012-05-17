@@ -32,7 +32,7 @@
       
       ((:link :type "text/css" :rel "stylesheet" :href "/newsite-static/css/style.css"))
       ((:meta :name "description" 
-	      :content "Genworks is a developer and vendor for General-purpose Declarative Language (Gendl), 
+	      :content "Genworks is a developer and vendor for General-purpose Declarative Language (GenDL), 
 a high-productivity application development system used for creating web-centric Knowledge-based 
 Engineering and Business applications which can involve complex 3D geometry."))
       ((:meta :name "keywords" :content "Genworks, Knowledge-Based Engineering, KBE, GDL, Gendl, GenDL, Common Lisp, 
@@ -209,15 +209,16 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 			 (htm (dolist (child (remove-if-not #'(lambda(page)
 								(typep page 'base-site-sheet))
 							    (the-object page children)))
-				(htm (:li ((:span :class 
-						  (format nil "clickable submenu~a" 
+				(htm (:li "&nbsp;&nbsp;&nbsp;&nbsp;"
+					  ((:span :class 
+						  (format nil "clickable ~a" 
 							  (if (eql (the current-right-section) child) " selected" ""))
 						  :onclick (the (gdl-ajax-call 
 								 :function-key (if (the-object child child-pages) 
 										   :toggle-children! 
 										   :set-right-section-rp!)
 									       :arguments (list child))))
-					   "&nbsp;&nbsp;" (str (the-object child link-title))))))))))))))
+					   (str (the-object child link-title))))))))))))))
    
    (news-section :type 'sheet-section
 		 :dom-id "news"

@@ -34,7 +34,7 @@
       (:h3 "Lecture and Tutorial Videos")
       ((:div :class "profile")
        ((:div :class "people")
-	(:h4 "G102: Gendl Quickstart")
+	(:h4 "G102: GenDL Quickstart")
 	(:p "Note: Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102/" :target "g102-slides") "here") ", "
 	    "Exercise skeletons " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/g102-exercises.lisp?raw=true" :target "gendl-code") "here") ", and "
 	    "Sample code from the slides " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/section-2-examples.lisp?raw=true" :target "gendl-code") "here") ".")
@@ -44,7 +44,7 @@
 
 	(:ol
 	 (:li ((:a :href "http://www.youtube.com/watch?v=WC3B7ztMRcE&hd=1" :target "gdl-videos")
-	       "Installation of Gendl (Windows version) from simple Zipfile distribution (4:21)"))
+	       "Installation of GenDL (Windows version) from simple Zipfile distribution (4:21)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=9QSzuBeYHPE&hd=1" :target "gdl-videos") 
 	       "Section 1: Introduction (3:34)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=z0jSK3RyVIM&hd=1" :target "gdl-videos") 
@@ -62,12 +62,12 @@
 	 (:li ((:a :href "http://www.youtube.com/watch?v=ZuYOZ33PiDI&hd=1" :target "gdl-videos") 
 	       "Section 2.11: Child Objects (5:02)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=bIu_AywMMQU&hd=1" :target "gdl-videos") 
-	       "Section 2.12: Gendl Object Sequences (4:44)")))))
+	       "Section 2.12: GenDL Object Sequences (4:44)")))))
       
       (:h3 "Manuals and Tutorials")
       ((:div :class "profile")
        ((:div :class "people")
-	(:h4 "Gendl full Documentaion")
+	(:h4 "GenDL full Documentaion")
 	(:p (:ul (:li ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/gdl-documentation.pdf?raw=true") "GDL Unified Documentation"))))))
       
 

@@ -130,10 +130,21 @@ And really this should be done in the post-load-form of your build."))
 					:type nil
 					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
 					:defaults glisp:*gdl-program-home*))
-  
-  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
 
-  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+
+  ;;
+  ;; FLAG -- don't do this here. Don't want to mess up people's
+  ;; Quicklisp environment if they are just loading Gendl from within
+  ;; an existing Quicklisp environment. 
+  ;;
+  ;; Furthermore it is not allowed by Quicklisp to have libraries
+  ;; which depend on Quicklisp itself.
+  ;;
+  ;; Only worry about this in proprietary builds, handled from the
+  ;; internal Genworks codebase.
+  ;;
+  ;;(setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+  ;;
 
   (asdf:initialize-output-translations)
 

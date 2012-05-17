@@ -26,7 +26,6 @@
                  (:file "newsite/source/news")
                  (:file "newsite/source/people")
                  (:file "newsite/source/product-descriptions")
-                 (:file "newsite/source/product-licensing")
                  (:file "newsite/source/products")
                  (:file "newsite/source/publish")
                  (:file "twenty-four/source/infpre")
