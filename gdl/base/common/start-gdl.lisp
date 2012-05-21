@@ -95,30 +95,56 @@
 
 (defun initialize-gdl (&key edition)
   (declare (ignore edition))
-
-  (setq glisp:*genworks-source-home* 
-	(when (asdf:find-system :gdl-base nil)
-	  (let ((gdl-base-home (asdf:system-source-directory :gdl-base)))
-	    (make-pathname :name nil
-			   :type nil
-			   :directory (butlast 
-				       (butlast (pathname-directory gdl-base-home)))
-			   :defaults gdl-base-home))))
   
-  (setq glisp:*gdl-program-home* (let ((exe (first (glisp:basic-command-line-arguments))))
-				   (make-pathname :name nil
-						  :type nil
-						  :directory (pathname-directory exe)
-						  :defaults exe)))
+  ;;
+  ;; FLAG -- pull asdf-specific code into glisp layer
+  ;;
+  (multiple-value-bind (value error)
+      (ignore-errors (asdf::system-definition-pathname :gdl-base))
+    (declare (ignore value))
+    (when error
+      (warn "
+
+asdf has system definitions for non-existent source directories. 
+
+You should probably do: 
+
+  (asdf:map-systems #'asdf:clear-system)
+
+And really this should be done in the post-load-form of your build."))
+    
+    (if error
+	(setq glisp:*genworks-source-home* nil)
+	(setq glisp:*genworks-source-home* 
+	      (when (asdf:find-system :gdl-base nil)
+		(let ((gdl-base-home (asdf:system-source-directory :gdl-base)))
+		  (make-pathname :name nil
+				 :type nil
+				 :directory (butlast 
+					     (butlast (pathname-directory gdl-base-home)))
+				 :defaults gdl-base-home))))))
+  
+  (setq glisp:*gdl-program-home* (glisp:executable-homedir-pathname))
 
   (setq glisp:*gdl-home* (make-pathname :name nil
 					:type nil
 					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
 					:defaults glisp:*gdl-program-home*))
-  
-  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
 
-  (setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+
+  ;;
+  ;; FLAG -- don't do this here. Don't want to mess up people's
+  ;; Quicklisp environment if they are just loading Gendl from within
+  ;; an existing Quicklisp environment. 
+  ;;
+  ;; Furthermore it is not allowed by Quicklisp to have libraries
+  ;; which depend on Quicklisp itself.
+  ;;
+  ;; Only worry about this in proprietary builds, handled from the
+  ;; internal Genworks codebase.
+  ;;
+  ;;(setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
+  ;;
 
   (asdf:initialize-output-translations)
 

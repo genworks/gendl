@@ -1,8 +1,8 @@
 ;;;
-;; Copyright 2002-2012 Genworks International and Genworks BV 
+;; Copyright 2012 Genworks International
 ;;
 ;; This file is part of the General-purpose Declarative
-;; Language project (GDL).
+;; Language project (Gendl).
 ;;
 ;; This file is free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -20,24 +20,23 @@
 ;; 
 
 
-Welcome to the General-purpose Declarative Language Open-Source Distribution.
+Welcome to the General-purpose Declarative Language Open-Source
+Distribution.
 
-GDL is distributed under AGPL, which has the requirement that you
-release your updates and any applications compiled with GDL under
+Gendl is distributed under AGPL, which has the requirement that you
+release your updates and any applications compiled with Gendl under
 AGPL-compatible license (if distributed at all).
 
 Proprietary (closed-source) licenses are available from Genworks as
-well. This will be described in more detail on the Genworks website
-soon.
+well. These are described in preview form in the Configurator section
+on genworks.com/newsite and will be available in more detail on the
+main Genworks website soon.
 
 
 Current Requirements:
 
- o Common Lisp: Allegro CL, LispWorks, or SBCL (SBLC verified only on
-   Linux and Mac).
-
-   Note: Allegro CL 8.2 comes with ASDF, but (sys:update-allegro) will
-   bring it to ASDF2 which is what you want.
+ o Common Lisp: recently patched Allegro CL 8.2, LispWorks, or SBCL
+   (SBLC verified only on Linux and Mac).
 
 
  To load the entire system, you can do it with:
@@ -61,7 +60,8 @@ Slime is recommended for editing GDL applications with Emacs.
 
 Documentation is in documentation/gdl-documentation.pdf and this very
 much an active work in progress. Training tutorials and videos are
-also in progress, and a www.genworks.com website overhaul.
+also in progress, and a www.genworks.com website overhaul. The current
+preview of the website overhaul is genworks.com/newsite.
 
 
 To help in understanding the role of each module, the overall GDL
@@ -118,9 +118,6 @@ under AGPL.
 
  :gdl-build - Utilities for building development and runtime images with various GDL modules built-in. 
 
- :gdl-translators - Partially translate other KBE syntax such as PCPACK,
-    ICAD to and/or from GDL (note -- these need to be added back to
-    the repository).
  
  
 

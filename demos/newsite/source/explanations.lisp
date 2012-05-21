@@ -1,3 +1,24 @@
+;;
+;; Copyright 2002-2011, 2012 Genworks International
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
 (in-package :www.genworks.com)
 
 (define-object license-choice-explanation (sheet-section)
@@ -133,38 +154,42 @@
   :computed-slots
   ((inner-html (with-cl-who-string ()
 		 (:h2 "CL Engines Explained")
-	
-		 (:p ((:a :href "http://en.wikipedia.com/Common_Lisp"r)
-		      "Common Lisp")
-		     " (CL) is an industry-standard programming
+		 
+		 ((:div :class "profile")
+		  ((:div :class "people")
+		   (:p ((:a :href "http://en.wikipedia.com/Common_Lisp"r)
+			"Common Lisp")
+		       " (CL) is an industry-standard programming
                   language, available today in several commercial as
                   well as community-supported Open Source
-                  implementations. It is a goal of the Gendl project
+                  implementations. It is a goal of the GenDL project
                   to run on all major CL implementations, and as of
-                  today, Gendl builds are available for three: "
+                  today, GenDL builds are available for three: "
 
-		     ((:a :href "http://www.franz.com/products/allegro-common-lisp/") 
-		      "Allegro CL")
+		       ((:a :href "http://www.franz.com/products/allegro-common-lisp/") 
+			"Allegro CL")
 
-                  " from "
+		       " from "
 
-		  ((:a :href "http://www.franz.com") "Franz Inc")
+		       ((:a :href "http://www.franz.com") "Franz Inc")
+		  
+		       ", "
 
-		  ((:a :href "http://www.lispworks.com/products/index.html") 
-		   "LispWorks")
+		       ((:a :href "http://www.lispworks.com/products/index.html") 
+			"LispWorks")
 
-		  " from "
+		       " from "
 
-		  ((:a :href "http://www.lispworks.com") "LispWorks Ltd") 
+		       ((:a :href "http://www.lispworks.com") "LispWorks Ltd") 
 
-                  " and "
+		       ", and "
 
-		  ((:a :href "http://www.sbcl.org") "SBCL")
+		       ((:a :href "http://www.sbcl.org") "SBCL")
 
-                  ", an Open Source implementation supported
+		       ", an Open Source implementation supported
                   by the community and by several third-party firms.")
 
-		 (:p "It is possible to obtain Gendl seats bundled
+		   (:p "It is possible to obtain GenDL seats bundled
 		 with one of the commercial CL engines, with one of
 		 our supported Open Source CL engines, or with no CL
 		 engine at all. The selection of a commercial CL
@@ -177,7 +202,7 @@
 		 The selection of no CL engine at all results in no
 		 availability of Technical Support from
 		 Genworks (third-party technical support may be a
-		 possibility in this case)")
+		 possibility in this case)")))
 
 		 ((:a :name "cl-none"))
 		 ((:a :href "#Top") (:h3 "No CL Engine"))
@@ -188,7 +213,7 @@
                    Technical Support. This option may be appropriate
                    if you already have an existing CL infrastructure
                    in place, and you are equipped to handle your own
-                   Gendl technical support.")))
+                   GenDL technical support.")))
 
 
 		 ((:a :name "cl-sbcl"))
@@ -197,14 +222,15 @@
 		  ((:div :class "people")
 		   (:p "By choosing this option explicitly, you enable
                    Genworks to offer Technical Support, because we do
-                   have experience running Gendl with SBCL
+                   have experience running GenDL with SBCL
                    ourselves. The Technical Support prices are higher
                    than with a commercial CL engine, because the SBCL
                    price (zero) includes no support. In order to
-                   support Gendl on SBCL, Genworks will from time to
+                   support GenDL on SBCL, Genworks will from time to
                    time have to become more familiar with SBCL
                    internals, or contract with a third-party such as "
-		       ((:a :href "") "Steel Bank Studios")
+		       ((:a :href "http://sb-studio.net") "Steel Bank
+		       Studio")
 		       ".")))
 
 
@@ -217,13 +243,13 @@
 		    ((:a :href "http://www.franz.com/products/allegro-common-lisp/") 
 		     "Allegro CL")
 		    " 32-bit has been the primary deployment platform
-                    for Gendl for over 10 years and remains a trusty
+                    for GenDL for over 10 years and remains a trusty
                     workhorse for small to medium sized applications
                     and models. Allegro CL also ships with a wide
                     array of supported add-on products, some of which
-                    are available with standard Allegro CL Gendl at no
+                    are available with standard Allegro CL GenDL at no
                     extra charge. The Professional and Enterprise
-                    editions of Gendl correspond to the Professional
+                    editions of GenDL correspond to the Professional
                     and Enterprise editions of Allegro CL.")
 		   (:p "Allegro CL is supported on Windows, Linux,
                     FreeBSD, MacOS, and several commercial Unix
@@ -232,11 +258,11 @@
                    of technical support, so selecting Allegro CL will
                    result in a reduction of Genworks' listed support
                    prices relative to the other CL choices
-                   available. As with Gendl, Allegro CL's pricing
+                   available. As with GenDL, Allegro CL's pricing
                    model carries license/support fees or royalties for
                    delivery of runtime applications. These fees are
                    included in the quoted runtime license/royalty fees
-                   for a Gendl package configured with Allegro as the
+                   for a GenDL package configured with Allegro as the
                    CL Engine.")))
 
 		 ((:a :name "cl-acl-64"))
@@ -253,12 +279,12 @@
                      limits of the host machine. This results in the
                      ability to retain computed object trees with vast
                      amounts of detailed information during a running
-                     Gendl session. All attributes of Allegro CL
+                     GenDL session. All attributes of Allegro CL
                      32-bit described above also apply to 64-bit.")))
 
 
 		 ((:a :name "lw-32-pro"))
-		 ((:a :href "#Top") (:h3 "LispWorks 32-bit Basic"))
+		 ((:a :href "#Top") (:h3 "LispWorks 32-bit Professional"))
 		 ((:div :class "profile")
 		  ((:div :class "people")
 		   (:p "Common Lisp has long been the standard for
@@ -272,40 +298,39 @@
 		   (:p "The pricing model for LispWorks is exclusive
                    of technical support, so selecting LispWorks will
                    result in an increase of Genworks' listed support
-                   prices (relative to Allegro CL).  Unlike Gendl,
+                   prices (relative to Allegro CL).  Unlike GenDL,
                    LispWorks' pricing model for most platforms carries
                    no license/support fees or royalties for
                    delivery. This results in a reduction in the quoted
-                   runtime license/royalty fees for a Gendl package
+                   runtime license/royalty fees for a GenDL package
                    configured with LispWorks as the CL Engine.")
 		   
-		   (:p "What we refer to as \"LispWorks 32-bit Basic\"
+		   (:p "What we refer to as \"LispWorks 32-bit Professional\"
 		   corresponds to "
 		       ((:a :href "http://www.lispworks.com/products/lispworks.html")
 		       "LispWorks Professional")
 		       " Edition. Unlike the Allegro CL Professional
 		   Edition, LispWorks Professional Edition is capable
 		   of generating runtime applications. Therefore it is
-		   possible to configure an Enterprise Gendl seat with
+		   possible to configure an Enterprise GenDL seat with
 		   this edition of LispWorks, but not with the
 		   Professional Edition of Allegro CL. The LispWorks
-		   Professional (\"Basic\") Edition is a complete
-		   Common Lisp development environment, but lacks
-		   certain add-on features which are available in the
-		   Enterprise (\"Expanded\") Edition (described as
-		   \"Expanded Edition\" below).")))
+		   Professional Edition is a complete Common Lisp
+		   development environment, but lacks certain add-on
+		   features which are available in the LispWorks
+		   Enterprise Edition.")))
 
 
 		 ((:a :name "lw-32-exp"))
-		 ((:a :href "#Top") (:h3 "LispWorks 32-bit Expanded"))
+		 ((:a :href "#Top") (:h3 "LispWorks 32-bit Enterprise"))
 		 ((:div :class "profile")
 		  ((:div :class "people")
 		   (:p "What we refer to as \"LispWorks 32-bit
-                   Expanded\" corresponds to "
+                   Enterprise\" corresponds to "
 		       ((:a :href "http://www.lispworks.com/products/lispworks.html")
 			"LispWorks 32-bit")
-		       " Enterprise Edition. The Lispworks
-                   Enterprise (\"Expanded\") Edition includes all the "
+		       " Enterprise Edition. The Lispworks Enterprise
+                   Edition includes all the "
 		       ((:a :href "http://www.lispworks.com/products/features.html") 
 			"features")
 		       " of Professional (\"Basic\"), with the
@@ -319,19 +344,19 @@
 
 
 		 ((:a :name "lw-64-exp"))
-		 ((:a :href "#Top") (:h3 "LispWorks 64-bit Expanded"))
+		 ((:a :href "#Top") (:h3 "LispWorks 64-bit Enterprise"))
 		 ((:div :class "profile")
 		  ((:div :class "people")
 		   (:p "What we refer to as \"LispWorks 64-bit
-                   Expanded\" corresponds to LispWorks 64-bit
-                   Enterprise Edition. The Lispworks 64-bit
-                   Enterprise (\"Expanded\") Edition includes all the
-                   features of 32-bit Enterprise, with the addition of
-                   64-bit support, enabling increased computing
-                   performance enabling models and object trees to
-                   utilize up to the physical memory limits of the
-                   host machine. This results in the ability to retain
-                   computed object trees with vast amounts of detailed
-                   information during a running Gendl session.")))))))
+                   Enterprise\" corresponds to LispWorks 64-bit
+                   Enterprise Edition. The Lispworks 64-bit Enterprise
+                   Edition includes all the features of 32-bit
+                   Enterprise, with the addition of 64-bit support,
+                   enabling increased computing performance enabling
+                   models and object trees to utilize up to the
+                   physical memory limits of the host machine. This
+                   results in the ability to retain computed object
+                   trees with vast amounts of detailed information
+                   during a running GenDL session.")))))))
 
 

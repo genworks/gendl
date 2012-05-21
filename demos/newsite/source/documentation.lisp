@@ -1,3 +1,24 @@
+;;
+;; Copyright 2002-2011, 2012 Genworks International
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
 (in-package :www.genworks.com)
 
 (define-object documentation-and-educational (base-site-sheet)
@@ -13,7 +34,7 @@
       (:h3 "Lecture and Tutorial Videos")
       ((:div :class "profile")
        ((:div :class "people")
-	(:h4 "G102: Gendl Quickstart")
+	(:h4 "G102: GenDL Quickstart")
 	(:p "Note: Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102/" :target "g102-slides") "here") ", "
 	    "Exercise skeletons " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/g102-exercises.lisp?raw=true" :target "gendl-code") "here") ", and "
 	    "Sample code from the slides " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/section-2-examples.lisp?raw=true" :target "gendl-code") "here") ".")
@@ -22,6 +43,8 @@
 	    ((:a :href "http://www.youtube.com/playlist?list=PLCF84A1DE8098DCE2" :target "gdl-videos") "playlist") ".")
 
 	(:ol
+	 (:li ((:a :href "http://www.youtube.com/watch?v=WC3B7ztMRcE&hd=1" :target "gdl-videos")
+	       "Installation of GenDL (Windows version) from simple Zipfile distribution (4:21)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=9QSzuBeYHPE&hd=1" :target "gdl-videos") 
 	       "Section 1: Introduction (3:34)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=z0jSK3RyVIM&hd=1" :target "gdl-videos") 
@@ -39,12 +62,12 @@
 	 (:li ((:a :href "http://www.youtube.com/watch?v=ZuYOZ33PiDI&hd=1" :target "gdl-videos") 
 	       "Section 2.11: Child Objects (5:02)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=bIu_AywMMQU&hd=1" :target "gdl-videos") 
-	       "Section 2.12: Gendl Object Sequences (4:44)")))))
+	       "Section 2.12: GenDL Object Sequences (4:44)")))))
       
       (:h3 "Manuals and Tutorials")
       ((:div :class "profile")
        ((:div :class "people")
-	(:h4 "Gendl full Documentaion")
+	(:h4 "GenDL full Documentaion")
 	(:p (:ul (:li ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/gdl-documentation.pdf?raw=true") "GDL Unified Documentation"))))))
       
 

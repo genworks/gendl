@@ -312,7 +312,7 @@ Anchor
 url \"javascript:event=null;~a\"
 children [
 
-"  (funcall (symbol-value (read-safe-string "gwl::*onclick-function*") self))))
+"  (funcall (symbol-value (read-safe-string "gwl::*onclick-function*")) self)))
 
       
       (write-the shape)
@@ -395,7 +395,7 @@ url \"javascript:event=null;~a\"
 children [
 
 "  
-                (funcall (symbol-value (read-safe-string "gwl::*onclick-function*") self))))
+                (funcall (symbol-value (read-safe-string "gwl::*onclick-function*")) self)))
           
           (write-the shape)
           

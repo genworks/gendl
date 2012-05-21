@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2011, 2012 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -42,6 +42,7 @@
              #:display-startup-banner
              #:end-redefinitions-ok
              #:eql-specializer
+	     #:executable-homedir-pathname
 	     #:featurep
              #:gl-class-name
              #:gl-method-specializers
@@ -57,11 +58,11 @@
              #:set-window-titles
 	     #:system-home
              #:upcase
+	     #:validate-superclass
+	     #:without-package-variance-warnings
              #:w-o-interrupts
              #:xref-off
-             #:xref-on
-	     #:validate-superclass
-	     #:without-package-variance-warnings)))
+             #:xref-on)))
 
 
 (in-package :com.genworks.lisp)
@@ -79,23 +80,30 @@
                      :defaults gdl-base-home)))
 
 
+
+
+#-(or allegro lispworks cmu sbcl) 
+(error "Need implementation for executable-homedir-pathname for currently running lisp.~%")
+(defun executable-homedir-pathname ()
+  #+allegro (translate-logical-pathname "sys:")
+  #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
+  #+lispworks *lispworks-directory*)
+
+
+(defparameter *gdl-program-home* (glisp:executable-homedir-pathname))
+
+(defparameter *gdl-home* (make-pathname :name nil
+					:type nil
+					:directory (butlast (pathname-directory *gdl-program-home*))
+					:defaults *gdl-program-home*))
+
+
 #-(or allegro lispworks sbcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
   #+lispworks system:*line-arguments-list*
   #+sbcl sb-ext:*posix-argv*)
 
-
-(defparameter *gdl-program-home* (let ((exe (first (glisp:basic-command-line-arguments))))
-				   (make-pathname :name nil
-						  :type nil
-						  :directory (pathname-directory exe)
-						  :defaults exe)))
-
-(defparameter *gdl-home* (make-pathname :name nil
-					:type nil
-					:directory (butlast (pathname-directory *gdl-program-home*))
-					:defaults *gdl-program-home*))
 
 
 #-(or allegro lispworks sbcl) 
@@ -144,6 +152,10 @@
   "Return a list of names of the direct superclasses."
   (mapcar #'gl-class-name
           (direct-superclasses class)))
+
+(defun display-startup-banner (edition banner)
+  (declare (ignore edition))
+  (format t banner))
 
 #-(or allegro lispworks cmu sbcl) 
 (error "Need implementation for eql-specializer for currently running lisp.~%")
@@ -315,11 +327,7 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
-(defun display-startup-banner (edition banner)
-  (declare (ignore edition))
-  (format t banner))
 
-     
 (defmacro without-package-variance-warnings (&body body)
   `(eval-when (:compile-toplevel :load-toplevel :execute)
      (handler-bind (#+sbcl(sb-int:package-at-variance #'muffle-warning))

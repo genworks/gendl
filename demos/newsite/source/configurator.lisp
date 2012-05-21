@@ -1,3 +1,25 @@
+;;
+;; Copyright 2002-2011, 2012 Genworks International
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
 (in-package :www.genworks.com)
 
 (defun info-anchor (string)
@@ -58,9 +80,10 @@
 (define-object cl-engine-choice (wizard-screen)
   
   :computed-slots ((heading (locale-string :common-lisp-engine)) 
-
+		   
 		   (default (case (the selected-gendl-license)
 			      (:agpl (the none))
+			      (:professional (the lw-32-base))
 			      (otherwise (the acl-32))))
 
 		   (lw-uplift 1)
@@ -79,21 +102,39 @@
   :objects
   ((none :type 'radio-price-choice
 	 :string (string-append (locale-string :none) " (" 
-				(locale-string :i-e) " "
+				(locale-string :i-e) (locale-string :space)
 				(locale-string :self-provided-or-third-party) ")")
 	 :current-price (funcall (the discount-func) 0 (first (the-child root-path)))
 	 :disabled? (or (eql (the selected-geometry-kernel) :smlib)
-			(eql (the selected-gendl-license) :trial))
-	 :disabled-message (format nil "~a ~a~a~a ~a."
+			(eql (the selected-gendl-license) :trial)
+			(not (eql (the selected-support-level) :none)))
+	 :disabled-message (format nil "~a ~a~a~a~a~a ~a."
 				   (locale-string :please-select)
 				   (if (eql (the selected-geometry-kernel) :smlib)
 				       (locale-string :the-basic-geometry-kernel) "")
 				   (cond ((and (eql (the selected-geometry-kernel) :smlib)
 					       (eql (the selected-gendl-license) :trial))
-					  (string-append " " (locale-string :and) " "))
-					 (t " "))
+					  (string-append (locale-string :space) (locale-string :and) (locale-string :space)))
+					 (t (locale-string :space)))
+
 				   (if (eql (the selected-gendl-license) :trial)
 				       (locale-string :a-non-evaluation-gendl-license) "")
+
+				   (cond ((and (not (eql (the selected-support-level) :none))
+					       (or (eql (the selected-gendl-license) :trial)
+						   (eql (the selected-geometry-kernel) :smlib)))
+					  (string-append (locale-string :space) (locale-string :and) (locale-string :space)))
+					 ((not (eql (the selected-support-level) :none))
+					  (locale-string :space))
+					 (t ""))
+
+				   (if (not (eql (the selected-support-level) :none))
+				       (string-append "\"" (locale-string :none) "\""
+						      (locale-string :space)
+						      (locale-string :for) 
+						      (locale-string :space)
+						      (locale-string :technical-support-level))
+				       "")
 				   (locale-string :to-enable-this-option )))
 
    
@@ -123,17 +164,17 @@
 			  (eql (the selected-gendl-license) :student))
 	   :disabled-message (string-append 
 			      (locale-string :please-select)
-			      " "
+			      (locale-string :space)
 			      (locale-string :a)
-			      " "
+			      (locale-string :space)
 			      (locale-string :gendl-license)
-			      " "
+			      (locale-string :space)
 			      (locale-string :other-than)
-			      " "
+			      (locale-string :space)
 			      (locale-string :student)
 			      " or "
 			      (locale-string :evaluation)
-			      " "
+			      (locale-string :space)
 			      (locale-string :to-enable-this-option))
 			      
 					    
@@ -192,20 +233,20 @@
 
 	  :disabled-message 
 	  (string-append 
-	   (locale-string :please-select) " "
+	   (locale-string :please-select) (locale-string :space)
 	   (cond ((and (eql (the selected-gendl-license) :agpl)
 		       (eql (the selected-cl-engine) :none))
 		  (string-append (locale-string :non-agpl-gendl)
-				 " "
+				 (locale-string :space)
 				 (locale-string :and)
-				 " "
+				 (locale-string :space)
 				 (locale-string :commercial-cl-engine)))
 		 ((and (eql (the selected-gendl-license) :trial)
 		       (eql (the selected-cl-engine) :none))
 		  (string-append (locale-string :a-non-evaluation-gendl-license)
-				 " "
+				 (locale-string :space)
 				 (locale-string :and)
-				 " "
+				 (locale-string :space)
 				 (locale-string :commercial-cl-engine)))
 		 ((eql (the selected-gendl-license) :agpl)
 		  (locale-string :non-agpl-gendl))
@@ -213,7 +254,7 @@
 		  (locale-string :a-non-evaluation-gendl-license))
 		 ((eql (the selected-cl-engine) :none)
 		  (locale-string :commercial-cl-engine)))
-	   " " (locale-string :to-enable-this-option) ".")
+	   (locale-string :space) (locale-string :to-enable-this-option) ".")
 
 	  :current-price (if (eql (the selected-gendl-license) :student)
 			     220 (funcall (the discount-func) 6900)))))
@@ -223,16 +264,17 @@
 
   :computed-slots 
   ((heading (locale-string :technical-support-level))
-		   
-   (default (cond ((and (member (the selected-cl-engine) '(:acl-32 :acl-64 :lw-32-full :lw-64-full))
+
+
+   (default (cond ((and (member (the selected-cl-engine) '(:acl-32 :acl-64 :lw-32-full :lw-32-base :lw-64-full))
 			(eql (the selected-gendl-license) :enterprise))
 		   (the production))
-		  ((and (member (the selected-cl-engine) '(:acl-32 :acl-64 :lw-32-full :lw-64-full))
+		  ((and (member (the selected-cl-engine) '(:acl-32 :acl-64 :lw-32-base :lw-32-full :lw-64-full))
 			(eql (the selected-gendl-license) :professional))
-		   (the development))
-		  ((and (member (the selected-cl-engine) '(:acl-32 :acl-64 :lw-32-full :lw-64-full))
+		   (the none))
+		  ((and (member (the selected-cl-engine) '(:acl-32 :acl-64 :lw-32-base :lw-32-full :lw-64-full))
 			(eql (the selected-gendl-license) :agpl))
-		   (the production))
+		   (the none))
 		  
 		  (t (the none))))
 		
@@ -245,16 +287,25 @@
       ((:lw-32-base :lw-32-full :lw-64-full) 
        #'(lambda(num) (+ 3600 num)))))
 
+   
+   (discount-func (cond ((and (the academic?) 
+			      (or (eql (the selected-gendl-license) :agpl)
+				  (eql (the selected-gendl-license) :trial)
+				  (eql (the selected-gendl-license) :student)))
+			 #'identity)
+			((the academic?)
+			 #'(lambda(num) (half num)))
+			(t #'identity)))
 		   
    (money-saving-tip 
     (when (eql (the selected-cl-engine) :sbcl)
       (with-cl-who-string ()
 	(str (locale-string :select))
-	" "
+	(str (locale-string :space))
 	(str (locale-string :a))
-	" "
+	(str (locale-string :space))
 	(str (locale-string :commercial))
-	" "
+	(str (locale-string :space))
 	((:span :class :clickme
 		:onclick (the (gdl-ajax-call :function-key :set-current-sheet
 					     :arguments (list (the cl-engine)))))
@@ -266,23 +317,24 @@
 		  :string (string-append (locale-string :none)
 					 " ("
 					 (locale-string :i-e)
-					 " " 
-					 (locale-string :self-provided-or-third-party))
+					 (locale-string :space) 
+					 (locale-string :self-provided-or-third-party)
+					 ")")
 		  :disabled? (member (the selected-cl-engine) '(:acl-32 :acl-64))
 		  :disabled-message (string-append (locale-string :please-select)
-						   " "
+						   (locale-string :space)
 						   (locale-string :a)
-						   " "
+						   (locale-string :space)
 						   (locale-string :common-lisp-engine)
-						   " "
+						   (locale-string :space)
 						   (locale-string :other-than)
-						   " "
+						   (locale-string :space)
 						   (locale-string :franz-allegro-cl-32)
-						   " "
+						   (locale-string :space)
 						   (locale-string :or)
-						   " "
+						   (locale-string :space)
 						   (locale-string :franz-allegro-cl-64)
-						   " "
+						   (locale-string :space)
 						   (locale-string :to-enable-this-option) ".")
 
 		  :current-price (funcall (the discount-func) 0))
@@ -322,17 +374,17 @@
 								     "")
 								 (string-append 
 								  (locale-string :a)
-								  " "
+								  (locale-string :space)
 								  (locale-string :common-lisp-engine)
-								  " "
+								  (locale-string :space)
 								  (locale-string :other-than)
-								  " "
+								  (locale-string :space)
 								  (locale-string :franz-allegro-cl-32)
-								  " "
+								  (locale-string :space)
 								  (locale-string :or)
-								  " "
+								  (locale-string :space)
 								  (locale-string :franz-allegro-cl-64))))
-							(t " "))
+							(t (locale-string :space)))
 						   
 						  (locale-string :to-enable-this-option))))
 						   
@@ -367,7 +419,7 @@
 							      (locale-string :a)
 							      (locale-string :known)
 							      (locale-string :common-lisp-engine))
-						      " ")
+						      (locale-string :space))
 						   
 						  (locale-string :to-enable-this-option))))
 
@@ -403,7 +455,7 @@
 								   (locale-string :a)
 								   (locale-string :known)
 								   (locale-string :common-lisp-engine))
-							   " ")
+							   (locale-string :space))
 						   
 						       (locale-string :to-enable-this-option))))
 			 
@@ -427,7 +479,7 @@
 						  (locale-string :gendl-license)
 						  
 						  (if (member (the selected-cl-engine) '(:acl-32 :acl-64 :lw-32-base :lw-32-full :lw-64-full))
-						      " "
+						      (locale-string :space)
 						      (format nil " ~a ~a ~a ~a "
 							      (locale-string :and)
 							      (locale-string :a)
@@ -462,13 +514,13 @@
 	    
 	    (remote-3-day :type 'radio-price-choice
 			  :string (string-append (locale-string :remote)
-						 " "
+						 (locale-string :space)
 						 (locale-string :three-day))
 			  :current-price (funcall (the discount-func) (* (the fraction) 2400)))
 
 	    (onsite-3-day :type 'radio-price-choice
 			  :string (string-append (locale-string :onsite)
-						 " "
+						 (locale-string :space)
 						 (locale-string :three-day)
 						 " ("
 						 (locale-string :excl-travel-and-exp)
@@ -477,7 +529,7 @@
 
 	    (onsite-10-day :type 'radio-price-choice
 			   :string (string-append (locale-string :onsite)
-						  " "
+						  (locale-string :space)
 						  (locale-string :ten-day)
 						  " ("
 						  (locale-string :excl-travel-and-exp)

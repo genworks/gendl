@@ -2,11 +2,11 @@
   Genworks International Gendl Trial License Agreement
   ======================================================
 
-By breaking the seal on the Gendl Trial CD envelope, downloading, and/or
-using the Gendl software, you agree to the terms and conditions of the
-Genworks International Trial License Agreement. Please read this
-agreement before installing and/or using the accompanying Gendl
-software product.
+By downloading and/or accessing the distribution media for this Gendl
+GDL Entitlement, and/or using the included Gendl software, you agree
+to the terms and conditions of the Genworks International Trial
+License Agreement. Please read this agreement before installing and/or
+using the accompanying Gendl software product.
 
 The main intention of Genworks in making available a Gendl Trial
 Edition is to provide a small-scale introductory evaluation
@@ -26,10 +26,15 @@ Development System ("Trial Edition") is subject to certain
 restrictions in the accompanying Genworks license agreement, and is
 designed to be used for learning, evaluating, and demonstrating to
 yourself the capabilities of the tool. The Trial Edition consists of
-three parts: a binary distribution containing the Gendl development
-software, documentation in human-readable electronic format, and a
-License Key File. This License Agreement applies to the use of all of
-these parts.
+three parts: a binary distribution containing a commercial core Common
+Lisp engine (currently Allegro CL is available), a License Key File,
+source code for the Gendl development software licensed under the Gnu
+Affero General Public License, documentation in human-readable
+electronic format, and (optionally) a binary distribution of a
+commercial Solid Modeling kernel (currently SMLib is available). This
+License Agreement applies to the binary parts of the distribution and
+to the License Key File. The Affero General Public License continues
+to apply to the source code part of the distribution.
 
 Commercial and certain academic use of the Trial Edition are strictly
 prohibited without Genworks' prior written consent. For example, the
@@ -56,14 +61,15 @@ obligations imposed on you for using this software.
 
 Copyright and Trademark Notices: 
 -------------------------------- 
-The Trial Edition is Copyright (c) Genworks International 2008, All
+The Trial Edition is Copyright © Genworks® International 2012, All
 Rights Reserved. The on-line documentation and all computer files are
-also Copyright (c) Genworks International 2003, all rights
+also Copyright © Genworks® International 2012, all rights
 reserved. These rights include but are not limited to any foreign
 language translations of the documentation or the software, and all
-derivative works of both. The trademarks Genworks, Genworks Gendl,
-Genworks GWL, Genworks Gendl, and Genworks Gendl Trial Edition are
-the property of Genworks International.
+derivative works of both. The trademarks Genworks®, Genworks Gendl™,
+Genworks® GWL, Genworks® Gendl, and Genworks® Gendl™, Genworks® GWL,
+Genworks® Gendl, and Genworks® Trial Edition are the property of
+Genworks® International.
 
 General License 
 ===============
@@ -88,16 +94,16 @@ Product: Gendl Development System, Trial Edition
 1. LICENSE. Genworks International ("Genworks") hereby grants you
    (each licensee is addressed as "you") a non-exclusive,
    non-transferable license to use its accompanying software product
-   known as "Gendl Development System, Trial Edition" and
-   accompanying documentation (the program's object code, accompanying
-   source code [if any] provided by Genworks, and documentation are
-   collectively referred to as the "Software") on the following terms
-   and only for non-commercial purposes (see Section 2 below). You may
-   use the Software on any computer in your possession. Any use of the
-   software which falls outside the constraints and limitations set
-   forth by this License Agreement will constitute a breach of
-   contract and copyright violation, and will make available to
-   Genworks various legal remedies.
+   known as "Gendl Development System, Trial Edition" and accompanying
+   documentation (the combination of the program's object code,
+   accompanying source code [if any] provided by Genworks, and
+   documentation are collectively referred to as the "Software") on
+   the following terms and only for non-commercial purposes (see
+   Section 2 below). You may use the Software on any computer in your
+   possession. Any use of the software which falls outside the
+   constraints and limitations set forth by this License Agreement
+   will constitute a breach of contract and copyright violation, and
+   will make available to Genworks various legal remedies.
 
 2. LIMITATIONS ON LICENSE. The license granted in Section 1 is subject
    to the following restrictions:
@@ -114,10 +120,11 @@ Product: Gendl Development System, Trial Edition
      (i) Developing university-sanctioned research projects and
 	 applications;
 
-     (ii) Teaching university courses or training seminars for which a
-         tuition fee or other fee is charged, unless the University is
-         already a licensee of one or more Academic or Commercial Gendl
-         licenses;
+     (ii) Using the Software as a teacher or a student in university
+         courses or technical training seminars for which a tuition
+         fee or other fee is charged, unless this takes place in an
+         Institution which is already a licensee of one or more
+         Academic or Commercial Gendl licenses;
 
      (iii) Licensing or renting the Software, or any applications
  	 incorporating the Software, to third parties for a fee (by
@@ -130,8 +137,7 @@ Product: Gendl Development System, Trial Edition
  	 for which you are compensated in any manner (by payment of
  	 money or otherwise, whether direct or indirect), including,
  	 without limitation, providing support or maintenance for the
- 	 Software, with the exception of for-hire services performed
- 	 directly for Genworks.
+ 	 Software.
 
      (v) Selling support for products which incorporate the Trial
          Edition or have been developed using the Trial Edition.
@@ -152,22 +158,23 @@ Product: Gendl Development System, Trial Edition
   b. You shall use your best efforts to promptly notify Genworks upon
      learning of any violation of the above restrictions.
 
-  c. You may not modify or otherwise prepare derivative works of the
-     Software. You may, however, create additional programming code
-     (e.g., AGPL open-source), provided that each Additional File is
-     stored in a file separate from the Software. Each Additional File
-     must carry prominent and conspicuous notices stating the date of
-     its creation, and the name, street address, telephone number, and
-     electronic mail address of the person responsible for its
-     creation.
+  c. Any modifications, derivative works, or Gendl-developed
+     application programming code distributed in source code or binary
+     form must be distributed under the terms of the Gnu Affero
+     General Public License, and with a shared copyright assigned to
+     Genworks International, as if under the standard Genworks
+     Contributor Agreement.  Each Additional File must carry prominent
+     and conspicuous notices stating the date of its creation, and the
+     name, street address, telephone number, and electronic mail
+     address of the person responsible for its creation.
 
   d. In order to preserve the value of the Genworks name and/or any
      trademarks, service marks, trade dress adopted and/or used by
      Genworks from time to time, you shall not make use of any of them
      for any reason (e.g., with respect to an Additional File, in
-     advertising, marketing your own products, press releases, or
-     other publicity) except solely as expressly authorized by the
-     prior written consent of Genworks.
+     advertising, marketing your own products, press releases, product
+     reviews, academic papers, or other publicity) except solely as
+     expressly authorized by the prior written consent of Genworks.
 
   e. You shall not REVERSE ENGINEER, DECOMPILE, DISASSEMBLE, EMPLOY
      MACROEXPANSION, OR USE ANY OTHER MEANS TO REDUCE ANY PORTION OF
@@ -256,18 +263,14 @@ Product: Gendl Development System, Trial Edition
     not located in, under the control of, or a national or resident of
     any such country.
 
-11. U. S. GOVERNMENT USE. The Software and any accompanying
-    documentation are deemed to be "commercial computer software" and
-    "commercial computer software documentation," respectively,
-    pursuant to DFAR Section 227.7202 and FAR Section 12.212, as
+11. GOVERNMENT USE. The Software and any accompanying documentation
+    are deemed to be "commercial computer software" and "commercial
+    computer software documentation," respectively, pursuant to United
+    States DFAR Section 227.7202 and FAR Section 12.212, as
     applicable.  Any use, modification, reproduction, release,
     performing, displaying or disclosing of the Software and
-    accompanying documentation by the U.S. Government shall be
-    governed solely by the terms of this Agreement and shall be
-    prohibited except to the extent expressly permitted by the terms
-    of this Agreement.  Contractor/manufacturer is Genworks
-    International, 280 N Old Woodward, Suite 217, Birmingham, MI
-    48009-5392.
+    accompanying documentation by the U.S. or any other Government
+    entity is prohibited, as specified in this Agreement.
 
 12. MISCELLANEOUS. This Agreement represents the complete agreement
     concerning this license between the parties and supersedes all
