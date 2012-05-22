@@ -58,16 +58,13 @@
 			     ((:define-object gdl-user::empty-surface)))
 
 	       
-	       (:description ,(with-cl-who-string 
-			       ()
+	       (:description ,(with-htm
 			       ((:span :class "gdl-operator") "define-object") " - main operator used in GenDL to create definitions."))
 
-	       (:description ,(with-cl-who-string 
-			       ()
+	       (:description ,(with-htm
 			       ((:span :class "gdl-object-def") "empty-surface") " - Name of our new definition."))
 
-	       (:description ,(with-cl-who-string
-			       ()
+	       (:description ,(with-htm
 			       ((:span :class "gdl-object-def") "base-object") " - Name of single mixin (should be pre-defined)."))))
 
       (:title "Basic Wing Skeleton"
@@ -75,16 +72,19 @@
 	      ((:description "Define a wing with initial slots, mixes in empty surface to start with"
 			     :examples
 			     ((:define-object gdl-user::wing)))
-	       (:description ,(with-cl-who-string 
-			       ()
+	       (:description ,(with-htm
 			       ((:span :class "gdl-object-def") "wing") " - our new definition name."))
-	       (:description ,(with-cl-who-string
-			       ()
+	       (:description ,(with-htm
 			       ((:span :class "gdl-object-def") "empty-surface") " - Name of single mixin (which we already defined)."))
-	       (:description ,(with-cl-who-string
-			       ()
+	       (:description ,(with-htm
 			       ((:span :class "gdl-section-keyword") ":computed-slots") " - constant and computed values which can be 
-\"answered\" by instances of this definition."))))
+\"answered\" by instances of this definition."))
+
+	       (:description ,(with-htm (:small 
+					 (:i "Example code is "
+					     ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
+					      "here")
+					     ". Press \"Raw\" for raw downloadable form."))))))
 
       
       (:title ,(with-cl-who-string
@@ -140,7 +140,14 @@
 
 	       (:description "So there is heavy use of \"the\" inside most object definitions:"
 			     :examples
-			     ((:define-object gdl-user::wing)))))
+			     ((:define-object gdl-user::wing)))
+
+	       (:description ,(with-htm (:small
+					 (:i
+					  "Example code is "
+					  ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
+					   "here")
+					  ". Press \"Raw\" for raw downloadable form."))))))
 
 
       (:title "Making and Using Objects in \"tasty\""
@@ -195,7 +202,14 @@
 					((:span :class "gdl-section-keyword") ":input-slots")
 					" to be able to give values to certain slots at the time of an object's birth.")
 			     :image-url "uml-2-8.png"
-			     :examples ((:define-object gdl-user::wing-with-input)))))
+			     :examples ((:define-object gdl-user::wing-with-input)))
+
+	       (:description ,(with-htm (:small 
+					 (:i
+					  "Example code is "
+					  ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
+					   "here")
+					  ". Press \"Raw\" for raw downloadable form."))))))
 
 
       (:title ,(with-htm ((:span :class "gdl-section-keyword") ":input-slots"))
@@ -227,8 +241,13 @@
 	      :bullet-points
 	      ((:description "This wing has two settable input-slots"
 			     :image-url "uml-2-9c.png"
-			     :examples ((:define-object gdl-user::wing-more-inputs)))))
-      
+			     :examples ((:define-object gdl-user::wing-more-inputs)))
+
+	       (:description ,(with-htm (:small 
+					 "Example code is "
+					 ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
+					  "here")
+					 ". Press \"Raw\" for raw downloadable form.")))))
       
       (:title "Open it in Tasty"
 	      :bullet-points 
@@ -258,7 +277,13 @@
 	      ((:description "Don't look at this until You Try It:"
 			     :image-url "uml-2-10b.png"
 			     :examples
-			     ((:define-object gdl-user::fuselage)))))
+			     ((:define-object gdl-user::fuselage)))
+
+	       (:description ,(with-htm (:small 
+					 "Solutions code is "
+					 ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-solutions.lisp")
+					  "here")
+					 ". Press \"Raw\" for raw downloadable form.")))))
 
       
       (:title "Child Object in a Sequence"
