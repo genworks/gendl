@@ -195,12 +195,8 @@
             
             
             (if (the-object object fill-color-decimal)
-                (progn (format t "we are filling")
-                       
-                       (pdf:fill-and-stroke)
-                       ;;(pdf:close-fill-and-stroke)
-                       )
-              (pdf:stroke)))))))))
+		(pdf:fill-and-stroke)
+		(pdf:stroke)))))))))
 
 
 (define-lens (dxf view-object-cache)()

@@ -528,7 +528,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
   (message-object objects? functions?
    section
    (source-indent 4)
-   (print-margin 70)
+   (print-margin 50)
    )
 
   

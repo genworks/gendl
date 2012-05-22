@@ -173,4 +173,14 @@ font-size: small;
 
 }
 
+.gdl-comment
+{
+ color: #d89719;
+/*  whitespace: pre; */
+ font-family: Courier, fixed, serif;
+ font-size: 18;
+ font-weight: 700;
+
+}
+
 

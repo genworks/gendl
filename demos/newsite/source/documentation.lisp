@@ -43,7 +43,7 @@
 	    ((:a :href "http://www.youtube.com/playlist?list=PLCF84A1DE8098DCE2" :target "gdl-videos") "playlist") ".")
 
 	(:ol
-	 (:li ((:a :href "http://www.youtube.com/watch?v=WC3B7ztMRcE&hd=1" :target "gdl-videos")
+	 (:li ((:a :href "http://www.youtube.com/watch?v=0fj9Cv_QWpw&hd=1" :target "gdl-videos")
 	       "Installation of GenDL (Windows version) from simple Zipfile distribution (4:21)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=9QSzuBeYHPE&hd=1" :target "gdl-videos") 
 	       "Section 1: Introduction (3:34)"))
