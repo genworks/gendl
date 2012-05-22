@@ -333,7 +333,7 @@
                    Edition includes all the "
 		       ((:a :href "http://www.lispworks.com/products/features.html") 
 			"features")
-		       " of Professional (\"Basic\"), with the
+		       " of Professional, with the
                    addition of several "
 		       ((:a :href "http://www.lispworks.com/products/LW60.pdf") 
 			"add-on modules")

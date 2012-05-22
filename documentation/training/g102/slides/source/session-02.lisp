@@ -90,36 +90,35 @@ into the function <span class=lisp-code>+</span> to yield the result which is <s
 	      ((:description
 		,(with-output-to-string (ss)
 					(html-stream 
-					 ss "Purpose in Life"
+					 ss 
 					 ((:table :border 1)
-					  (:tr ((:th :width 0.5 :background "#BBDDFF")  "<br>")
-					       ((:th :width 0.5 :background "#BBFFDD") 
+					  (:tr ((:th :width 0.5))
+					       ((:th :width 0.5 ) 
 						"Function (Common Lisp)")
-					       ((:th :width 0.5 :background "#BBFFDD") 
+					       ((:th :width 0.5 ) 
 						"Object (Gendl)"))
 					  (:tr
 					   (:td (:b "Typical Purpose"))
-					   ((:td :background "#CCEEFF")
-					    "Accepts some " (:i "arguments") 
-					    ", possibly performs some " 
-					    (:i "side-effects") 
-					    ", and computes a "
-					    (:i "return-value"))
-					   ((:td :background "#CCEEFF")
-					    "Accepts some " 
-					    (:i "inputs")
-					    ", possibly performs some " 
-					    (:i "side-effects") 
-					    ", and computes a set of "
-					    (:i "outputs")))
+					   ((:td :bgcolor (lookup-color :aquamarine :format :hex)
+						 :colspan 2)
+					    (:ol
+					     (:li "Accept some " 
+						  (:i "inputs"))
+					     (:li "possibly performs some " 
+						  (:i "side-effects"))
+					     (:li "compute one or more "
+						  (:i "outputs")))))
+
 					  (:tr
 					   (:td (:b "How to Use"))
-					   ((:td :background "#CCEEFF")
+					   ((:td :bgcolor (lookup-color :thistle :format :hex))
 					    "You call it by name, by evaluating a Lisp expression")
-					   ((:td :background "#CCEEFF")
+
+					   ((:td :bgcolor (lookup-color :aquamarine :format :hex))
 					    (:ol (:li "You create or retrieve an " (:i "object"))
 						 (:li "You send " (:i "messages") 
 						      " to the object to get the outputs"))))
+
 					  (:tr
 					   (:td (:b "How to Define"))
 					   ((:td :background "#CCEEFF")

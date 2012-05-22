@@ -368,10 +368,10 @@
              (the write-development-links))
            "Copyright &copy; 2012 "
            ((:a :href "http://www.genworks.com") "Genworks" (:sup "&reg;") "International")
-	   :br
-	   "with thanks to the "
+	   " and "
 	   ((:a :href "http://home.tudelft.nl/en/") "Delft University of Technology")
-	   " for sponsorship of these training materials.")))))
+	   "."
+	   )))))
 
 
 #|

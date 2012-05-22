@@ -45,7 +45,8 @@ Defaults to a directory called <tt>(the application-name)</tt> in the user
 temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
     destination-directory 
     (make-pathname :name nil :type nil 
-		   :directory (append (pathname-directory (glisp:temporary-folder)) (ensure-list (the application-name)))
+		   :directory (append (pathname-directory (glisp:temporary-folder)) 
+				      (ensure-list (the application-name)))
 		   :defaults (glisp:temporary-folder)))
 
    (overwrite? t)
@@ -60,7 +61,10 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 
    (post-load-form '(progn (setf (symbol-value (read-from-string 
 						"asdf:*central-registry*")) nil)
-		     (asdf:map-systems #'asdf:clear-system)))
+		     (asdf:map-systems #'asdf:clear-system)
+		     (asdf:clear-output-translations)
+		     (asdf:disable-output-translations)
+		     ))
 
    
    (init-file-names nil)

@@ -33,17 +33,23 @@
                           ))
 
                  (:title "Topics Covered in G102" :bullet-points
-                  ((:description "Objects in Gendl and the <span class=gdl-operator>define-object</span> operator") 
+                  ((:description ,(with-cl-who-string 
+				   ()
+				   "Objects in Gendl and the " ((:span :class "gdl-operator") "define-object") " operator"
+				   (:ul (:li "Debugging (basic)")
+					(:li "Inspection & Visualization (tasty)"))))
+
                    (:description ,(with-output-to-string (ss)
                                     (html-stream 
                                      ss
                                      "Geometry and Coordinate Systems"
-                                     (:ul (:li "Wireframe")
-                                          (:li "Surfaces/Curves")
+                                     (:ul (:li "Points")
+					  (:li "Curves")
+                                          (:li "Surfaces")
                                           (:li "Solids")))))
-                   (:description "Custom User Interfaces")
+                   (:description "Custom User Interfaces (optional)")
                    (:description "Interacting with the Outside World")
-                   (:description "Debugging and Performance")))
+                   (:description "Debugging and Performance (detailed)")))
 
                  (:title "What is Gendl?" :bullet-points
                   ((:description "A Dynamic, Declarative, Object-oriented 
@@ -52,23 +58,6 @@ language environment embedded in Common Lisp")
 problems and their solutions using an intuitive, straightforward structure")
                    (:description "A cross-platform server solution for web application deployment")))
                  
-                 (:title "What are Dynamic, Declarative, Object-oriented?" 
-                         :bullet-points
-                         ((:description "The system is <i>Dynamic</i> vs. <i>Static</i> on several levels:
-<ul>
-<li>Change code (definitions) and compile/load without restarting your model
-<li>Define variables/slots without the need for predefined data types (dynamic vs. static typing)
-<li>Modify slot values <i>and even object types</i> at runtime
-</ul>")
-                          (:description "Definitions in Gendl have no \"begin\" or \"end\" - they are specified <i>declaratively</i>, in whatever order is convenient.")
-                          (:description "All standard OO features plus several advanced ones:
-<ul>
-<li> Clear separation between the <i>definition</i> of an object and an <i>instance</i> (the object itself)</li>
-<li> Multiple Inheritance: the ability for one definition to have several <i>superclasses</i></li>
-<li> Message-passing (object-centric) and Generic Function (method-centric) styles
-<li> Meta-object protocol (MOP): definitions themselves are also first-class objects</li>
-<li> Reflection: ability for an object to generate documentation and source code for itself</li>
-</ul>")))
                  
                  (:title "A Path of Discovery: Gendl as a Learning Tool"
                          :bullet-points 

@@ -4,7 +4,7 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012032900" :depends-on nil :components
+                :version "2012052100" :depends-on nil :components
                 ((:file "slide-show/source/package")
                  (:file "slide-show/source/assembly")
                  (:file "slide-show/source/publish")
@@ -40,7 +40,8 @@
                  (:file "g102/examples/solids/source/primitives")
                  (:file "g102/examples/solids/source/web-page")
                  (:file "g102/examples/source/fuselage-example")
-                 (:file "g102/examples/source/hairy")
+                 (:file "g102/examples/source/g102-exercises")
+                 (:file "g102/examples/source/section-2-examples")
                  (:file "g102/examples/source/tower-example")
                  (:file "g102/examples/table/source/t-support")
                  (:file "g102/examples/table/source/table")
@@ -71,6 +72,11 @@
                  (:file "g102/solutions/city/source/assembly")
                  (:file "g102/solutions/city/source/building")
                  (:file "g102/solutions/city/source/grid-section")
+                 (:file "g102-tud/source/package")
+                 (:file "g102-tud/source/publish")
+                 (:file "g102-tud/examples/source/ch2-examples")
+                 (:file "g102-tud/examples/source/ch2-solutions")
+                 (:file "g102-tud/slides/source/ch2")
                  (:file "g105/source/package")
                  (:file "g105/source/publish")
                  (:file "g105/examples/source/drilled-block")
