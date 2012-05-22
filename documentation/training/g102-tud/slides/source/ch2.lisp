@@ -1,8 +1,6 @@
 ;;
-;; Copyright 2002, 2009 Genworks International
-;;
-;; with thanks to the Delft University of Technology for sponsorship
-;; of these training materials.
+;; Copyright 2012 Genworks International and the Delft University of
+;; Technology
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GenDL).
