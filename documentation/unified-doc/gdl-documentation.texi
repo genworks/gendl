@@ -437,7 +437,9 @@ shortcut keys; see below description:
 @i{C-x C-e  evaluates previous form (cursor should be after the last paren)}
 @end itemize
 
-@noindent @i{Note: If the buffer is not saved, the compiler will offer the option to save the file (yes or no).} 
+@noindent @i{Note: If the buffer is not saved, the compiler will offer 
+the option to save the file (yes or no). For new definitions, warnings can appear on the 
+first compile. A second compile is required to clear them.} 
 
 The @b{graphical option} is available from the “Slime” menu at the top of the Emacs screen; see the screenshot illustrated below:
 @sp 1
