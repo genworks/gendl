@@ -29,7 +29,7 @@
 
 (define-object assembly (slide-show-node)
   :input-slots
-  ((title "G102 Supplement: GenDL Quickstart for TU Delft")
+  ((title "G102: GenDL Quickstart (customized for TU Delft)")
    (slide-package (find-package :training-g102-tud))
    (image-base-url "/g102-tud/images/")
    (images-path *images-path*)
@@ -37,7 +37,7 @@
 
   
   :objects
-  (
+  ((introduction :type 'introduction)
    (objects :type 'objects)
    
 
@@ -45,15 +45,197 @@
 
 
 
+(define-object introduction (slide-show-leaf)
+  
+  :computed-slots
+  ((strings-for-display "Introduction")
+   
+   (slide-data `((:title "Goals" :bullet-points
+                         ((:description "Spark an interest in the Generative KBE approach for solving Engineering and other problems")
+                          (:description "Provide Theoretical Knowledge combined with Hands-on Experience")
+                          (:description "Help you develop the Judgement to know when Generative KBE will be Appropriate for a given problem")))
+
+                 (:title "Topics Covered in G102" :bullet-points
+			 ((:description ,(with-cl-who-string 
+					  ()
+					  "Objects in GenDL and the " ((:span :class "gdl-operator") "define-object") " operator"
+					  (:ul (:li "Debugging (basic)")
+					       (:li "Inspection & Visualization (tasty)"))))
+
+			  (:description ,(with-output-to-string (ss)
+								(html-stream 
+								 ss
+								 "Geometry and Coordinate Systems"
+								 (:ul (:li "Points")
+								      (:li "Curves")
+								      (:li "Surfaces")
+								      (:li "Solids")))))
+			  (:description "Custom User Interfaces (optional)")
+			  (:description "Interacting with the Outside World")
+			  (:description "Debugging and Performance (detailed)")))
+
+		 (:title "What is Common Lisp?" :bullet-points
+			 ((:description ,(with-htm "A " ((:a :href "http://en.wikipedia.org/wiki/Common_Lisp_HyperSpec" :target "supplemental") 
+							 "Specification")
+						   " for a "
+						   ((:a :href "https://www.google.com/search?client=ubuntu&channel=fs&q=dynamic+languages&ie=utf-8&oe=utf-8"
+							:target "supplemental") 
+						    "Dynamic")
+						   ", Object-oriented Language and Runtime environment"))
+			  (:description "Industry-standard dialect of the Lisp language family")
+			  (:description "Available in several Commercial and Open-Source implementations")
+			  (:description "A cross-platform server solution for web application deployment")))
+
+                 (:title "What is GenDL?" :bullet-points
+			 ((:description "A Declarative language environment embedded in Common Lisp")
+			  (:description "A technology which allows any type of engineer to define 
+problems and their solutions using an intuitive, straightforward structure")
+			  (:description ,(with-htm "A cross-platform "
+						   ((:a :href "http://en.wikipedia.org/wiki/Web_application_framework")
+						    "web application framework")
+						   " seamlessly embedded in the core language."))))
+                                  
+                 (:title "A Path of Discovery: GenDL as a Learning Tool"
+                         :bullet-points 
+                         ((:description "Humans learn best through Action and Discovery")
+                          (:description "Applies to learning GenDL itself")
+                          (:description "Applies to learning about your own engineering domain")))))))
+
+
 (define-object objects (slide-show-leaf)
 
   :computed-slots
-  ((strings-for-display "Aero Object Examples")
+  ((strings-for-display "Functions and Objects")
    
    (slide-data 
-    `((:title "Empty Surface Mixin"
+    `((:title 
+       "Function"
+       :bullet-points
+       ((:description
+	 "A machine which accepts some Input then yields a defined Output"
+	 :image-url "function-machine.jpg"
+	 :image-caption "A Function Machine <small><i>(image from http://wbadvies.nl)</i></small>")
+	
+	))
+
+      (:title 
+       "Calling Functions in Common Lisp"
+       :bullet-points 
+       ((:description "Function Call is expressed as a List 
+expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
+	(:description "Function name first, then arguments, separated by spaces")
+	(:description ,(with-htm "For example, we feed "
+				 ((:span :class :lisp-code) "2")
+				 " and "
+				 ((:span :class :lisp-code) "2")
+				 " into the function "
+				 ((:span :class :lisp-code) "+")
+				 " to yield the result which is "
+				 ((:span :class :lisp-code) "4"))
+		      :examples
+		      ((:code 
+			(+ 2 2)
+			:return-value 4)))
+
+	(:description 
+	 ,(with-htm "The multiply function ("
+		    ((:span :class :lisp-code) "*")
+		    " applied to "
+		    ((:span :class :lisp-code) "3")
+		    " and "
+		    ((:span :class :lisp-code) "3"))
+	 :examples
+	 ((:code 
+	   (* 3 3)
+	   :return-value 9)))
+
+	(:description 
+	 ,(with-htm "The "
+		    ((:span :class :lisp-code) "string-append")
+		    " function applied to three strings")
+	 :examples
+	 ((:code 
+	   (string-append "hey" " " "now")
+	   :return-value "hey now")))))
+
+      (:title 
+       "Defining and Using Custom Functions in Common Lisp"
+       :bullet-points 
+       ((:description 
+	 ,(with-htm "Use the operator "
+		    ((:span :class :lisp-code) "defun")
+		    ", followed by name, argument list, and body.")
+	 :examples
+	 ((:code 
+	   (defun square (number) (* number number))
+	   :return-value square)))
+	(:description 
+	 "Now you can call it just like any other function"
+	 :examples
+	 ((:code 
+	   (square 3)
+	   :return-value 9)))))
+
+      (:title "Function as Object" 
 	      :bullet-points
-	      ((:description "Define an Empty Surface - will use real built-in surface later"
+	      ((:description
+		,(with-htm
+		  ((:table :border 1)
+		   (:tr ((:th :width 0.5) :br)
+			((:th :width 0.5 ) 
+			 "Function (Common Lisp)")
+			((:th :width 0.5 ) 
+			 "Object (GenDL)"))
+		   (:tr
+		    (:td (:b "Typical Purpose"))
+		    ((:td :bgcolor (lookup-color :aquamarine :format :hex)
+			  :colspan 2 :align :center)
+		     (:ol
+		      (:li "Accept some " 
+			   (:i "inputs"))
+		      (:li "possibly performs some " 
+			   (:i "side-effects"))
+		      (:li "compute one or more "
+			   (:i "outputs")))))
+
+		   (:tr
+		    (:td (:b "How to Use"))
+		    ((:td :bgcolor (lookup-color :thistle :format :hex))
+		     "You call it by name, by evaluating a Lisp expression")
+
+		    ((:td :bgcolor (lookup-color :aquamarine :format :hex))
+		     (:ol (:li "You create or retrieve an " (:i "object"))
+			  (:li "You send " (:i "messages") 
+			       " to the object to get the outputs"))))
+
+		   (:tr
+		    (:td (:b "How to Define"))
+		    ((:td :bgcolor (lookup-color :thistle :format :hex))
+		     (:pre
+		      (:b ((:span :class :lisp-code) "(defun " (:i "name (arguments) body)")))))
+		    ((:td :bgcolor (lookup-color :aquamarine :format :hex))
+		     (:code
+		      (:pre (:b ((:span :class :gdl-object-def)
+				 ((:span :class :gdl-operator) "(define-object ")
+				 ((:span :class :gdl-object-def) (:i "name ")) 
+
+				 (:i "(mixins) " :br
+				     "&nbsp;&nbsp;"  ((:span :class :lisp-code) "specifications)"))))))))
+
+		   (:tr
+		    (:td (:b "How to Decompose Complexity"))
+		    ((:td :bgcolor (lookup-color :thistle :format :hex))
+		     "Call other function definitions from within a function definition")
+		    ((:td :bgcolor (lookup-color :aquamarine :format :hex))
+		     (:ol (:li "<i>Inherit</i> <i>slots</i> from other definitions using <i>mixins</i>")
+			  (:li "Include <i>objects</i> of other types inside an object"))))))
+		:suppress-end-dot? t)))
+
+
+
+      (:title "Empty Surface Mixin"
+	      :bullet-points
+	      ((:description "Define an Empty Surface (we will use real built-in surface later)"
 			     :examples
 			     ((:define-object gdl-user::empty-surface)))
 
@@ -70,6 +252,7 @@
       (:title "Basic Wing Skeleton"
 	      :bullet-points 
 	      ((:description "Define a wing with initial slots, mixes in empty surface to start with"
+			     :image-url "uml-2-5.png"
 			     :examples
 			     ((:define-object gdl-user::wing)))
 	       (:description ,(with-htm
@@ -211,7 +394,37 @@
 					   "here")
 					  ". Press \"Raw\" for raw downloadable form."))))))
 
+      (:title ,(with-htm "Providing Values for " ((:span :class "gdl-section-keyword") ":input-slots")
+			 " when an Instance is Born")
+	      :bullet-points ((:description ,(with-htm ((:span :class :lisp-code) "make-object")
+						       " and "
+						       ((:span :class :lisp-code) "make-self")
+						       " accept "
+						       (:i "optional keyword arguments")
+						       " corresponding to the input-slots of the object type being created."))
 
+			      (:description ,(with-htm "What are Keyword Arguments?"
+						       (:ul (:li "Keyword symbols are symbols (i.e. Lisp words) preceded by a colon (:)")
+							    (:li "Keyword Arguments are keyword-value pairs")
+							    (:li "They consist of a keyword symbol (the name) followed by the actual argument value.")
+							    (:li "Example: " 
+								 ((:span :class "lisp-code") ":b 12")
+								 " is a keyword-value pair."))))
+
+			      (:description ,(with-htm "Let's make a " ((:span :class "lisp-code") "wing-with-input")
+						       " with a value of " ((:span :class "lisp-code") "12")
+						       " for its input-slot " ((:span :class "gdl-message-name") "b"))
+					    :examples ((:code (make-self 'wing-with-input :b 12)
+							      :return-value ";; self is now set to a wing-with-input object instance.")
+						       (:code (the b)
+							      :return-value 12)
+						       (:code (the S)
+							      :return-value 54)
+						       (:code (the A)
+							      :return-value 8/3)))
+			      (:description "Later you will see that input values are passed into Child Objects in the same manner.")))
+
+      
       (:title ,(with-htm ((:span :class "gdl-section-keyword") ":input-slots"))
 	      :bullet-points
 	      ((:description ,(with-htm 
@@ -220,17 +433,17 @@
 			       ((:span :class "gdl-message-name") "a")
 			       ((:span :class "gdl-comment") " ;; Required input - no default value")
 			       :br
-			       ((:span :class "lisp-code") "(")
+			       "&nbsp;&nbsp;" ((:span :class "lisp-code") "(")
 			       ((:span :class "gdl-message-name") "b")
 			       ((:span :class "lisp-code") ")")
 			       ((:span :class "gdl-comment") " ;; optional - default is nil")
 			       :br
-			       ((:span :class "lisp-code") "(")
+			       "&nbsp;&nbsp;" ((:span :class "lisp-code") "(")
 			       ((:span :class "gdl-message-name") "c 10")
 			       ((:span :class "lisp-code") ")")
 			       ((:span :class "gdl-comment") " ;; optional - default is 10")
 			       :br
-			       ((:span :class "lisp-code") "(")
+			       "&nbsp;&nbsp;" ((:span :class "lisp-code") "(")
 			       ((:span :class "gdl-message-name") "d 20 :settable")
 			       ((:span :class "lisp-code") "))")
 			       ((:span :class "gdl-comment") " ;; optional - default is 20, can be \"bashed\"")))))
@@ -280,10 +493,8 @@
 			     ((:define-object gdl-user::fuselage)))
 
 	       (:description ,(with-htm (:small 
-					 "Solutions code is "
-					 ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-solutions.lisp")
-					  "here")
-					 ". Press \"Raw\" for raw downloadable form.")))))
+					 "Solutions code will be available later.")))))
+
 
       
       (:title "Child Object in a Sequence"
@@ -364,15 +575,19 @@
 							  (list :w 2 :l 2.5 :h 0.2 )
 							  (list :w 1.5 :l 2 :h 0.15)))))))
       (:title "Solution, Part 1"
-	      :bullet-points ((:description "First, our fuel tank definition:"
-					    :image-url "uml-sol2.png"a
-					    :examples
-					    ((:define-object gdl-user::fuel-tank)))))
+	      :bullet-points ((:description "First, our fuel tank definition (code will be provided later):"
+					    :image-url "uml-sol2.png"
+					    
+					    ;;:examples
+					    #+nil
+					    ((:define-object gdl-user::fuel-tank))
+					    )))
 
       (:title "Solution, Part 2"
-	      :bullet-points ((:description "Then, our wing definition:"
+	      :bullet-points ((:description "Then, our wing definition (code will be provided later):"
 					    :image-url "uml-sol2-contd.png"
-					    :examples
+					    ;;:examples
+					    #+nil
 					    ((:define-object gdl-user::wing-with-tanks)))
 			      (:description "Yes, there is a shorter way to do the inputs for the fuel-tank object (but do it the long way for now).")))
 
@@ -420,9 +635,10 @@
 
       (:title "Solution" 
 	      :bullet-points 
-	      ((:description "Note that this could also mix-in the original aircraft, and avoid the repeated code"
+	      ((:description "Note that this could also mix-in the original aircraft, and avoid the repeated code (code will be provided later)."
 			     :image-url "uml-2-17.png"
-			     :examples ((:define-object gdl-user::aircraft-with-lift)))))
+			     ;;:examples ((:define-object gdl-user::aircraft-with-lift))
+			     )))
 
       (:title "Today's Cumulative UML object Tree" 
 	      :bullet-points 

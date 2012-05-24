@@ -34,11 +34,21 @@
       (:h3 "Lecture and Tutorial Videos")
       ((:div :class "profile")
        ((:div :class "people")
-	(:h4 "G102: GenDL Quickstart")
-	(:p "Note: Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102/" :target "g102-slides") "here") ", "
+
+	(:h4 "G102: GenDL Quickstart (customized for TU Delft ADM Course)")
+	(:p "Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102-tud/" :target "g102-slides") "here") ", "
+	    "Sample code " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp" 
+				:target "gendl-code") "here") 
+	    ". The exercise solutions will be provided later, after you have had a chance to try them yourself.")
+
+	(:h4 "G102: GenDL Quickstart (old slides)")
+	(:p "Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102/" :target "g102-slides") "here") ", "
 	    "Exercise skeletons " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/g102-exercises.lisp?raw=true" :target "gendl-code") "here") ", and "
 	    "Sample code from the slides " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/section-2-examples.lisp?raw=true" :target "gendl-code") "here") ".")
-	
+
+
+	(:h4 "Lecture Vidoes for Some of the Slides")
+
 	(:p "You can play all the G102 videos, one after another, using this " 
 	    ((:a :href "http://www.youtube.com/playlist?list=PLCF84A1DE8098DCE2" :target "gdl-videos") "playlist") ".")
 

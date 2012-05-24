@@ -7,12 +7,6 @@
 (print-variables *load-truename*)
 
 
-
-#+nil
-(defparameter *images-path* (make-pathname :directory (append (butlast (butlast (pathname-directory *load-truename*)))
-							      (list "images"))
-					   :device (pathname-device *load-truename*)))
-					     
 (defparameter *images-path* (merge-pathnames "g102/images/" (glisp:system-home :gdl-training)))
 
 

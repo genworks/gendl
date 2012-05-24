@@ -87,7 +87,7 @@
 (defun executable-homedir-pathname ()
   #+allegro (translate-logical-pathname "sys:")
   #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
-  #+lispworks *lispworks-directory*)
+  #+lispworks lw:*lispworks-directory*)
 
 
 (defparameter *gdl-program-home* (glisp:executable-homedir-pathname))
@@ -105,23 +105,33 @@
   #+sbcl sb-ext:*posix-argv*)
 
 
-
+;;
+;; FLAG -- bind these redefinitions more precisely/surgically.  for
+;;         now we are using a sledgehammer and just turning off
+;;         redefinition warnings until we get a better handle on
+;;         things.
+;;
 #-(or allegro lispworks sbcl) 
 (error "Need parameter for redefinition warnings for currently running lisp.~%")
+
 (let (#+(or allegro lispworks)
 	(original-redefinition-warnings 
 	 #+allegro excl:*redefinition-warnings*
 	 #+lispworks lw:*redefinition-action*))
+  (declare (ignore original-redefinition-warnings))
   (defun begin-redefinitions-ok () 
     #+sbcl (declare (sb-ext:muffle-conditions sb-ext:compiler-note))
     #+(or allegro lispworks)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* nil))
   (defun end-redefinitions-ok () 
-    #+sbcl (declare (sb-ext:unmuffle-conditions sb-ext:compiler-note))
-    #+(or allegro lispworks)
+    ;; #+sbcl (declare (sb-ext:unmuffle-conditions sb-ext:compiler-note))
+    ;; #+(or allegro lispworks)
+    #+nil
     (setq #+allegro excl:*redefinition-warnings* 
-          #+lispworks lw:*redefinition-action* original-redefinition-warnings)))
+          #+lispworks lw:*redefinition-action* 
+	  nil #+nil original-redefinition-warnings)))
+
 
 #-(or allegro lispworks cmu sbcl) 
 (error "Need implementation for current-directory for currently running lisp.~%")

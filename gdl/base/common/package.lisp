@@ -249,8 +249,8 @@
 ;; gdl:define-package gets redefined when these modules
 ;; are loaded, to :use these packages. 
 ;;
-(defpackage :geom-base)
-(defpackage :surf)
+(defpackage :geom-base (:use))
+(defpackage :surf (:use))
 
 
 (defmacro gdl:define-package (name &rest body)

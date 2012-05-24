@@ -41,6 +41,7 @@
                  (:file "g102/examples/solids/source/web-page")
                  (:file "g102/examples/source/fuselage-example")
                  (:file "g102/examples/source/g102-exercises")
+                 (:file "g102/examples/source/hairy")
                  (:file "g102/examples/source/section-2-examples")
                  (:file "g102/examples/source/tower-example")
                  (:file "g102/examples/table/source/t-support")
