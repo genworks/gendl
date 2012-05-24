@@ -2,16 +2,16 @@
 @i{Tasty}@footnote{Tasty is a tortured acronym of acronyms - it stands
 for TAtu (ta2) with STYle (sheets), or Testing And tracking utility
 with STYle.} is a web based testing and tracking utility. Note that
-Tasty is designed for developers of GDL applications --- it is not
+Tasty is designed for developers of GenDL applications --- it is not
 intended as an end-user application interface (see the [FLAG --
 gdlAjax section] for the recommended steps to create end-user
 interfaces).
 
-Tasty allows you to visualize and inspect any object defined in GDL,
+Tasty allows you to visualize and inspect any object defined in GenDL,
 which mixes at least @b{base-object} into its root-level
 part@footnote{base-object is the core mixin for all geometric objects
 and gives them a coordinate system, length, width, and height. This
-restriction in tasty will be removed in a future GDL release so you
+restriction in tasty will be removed in a future GenDL release so you
 will be able to instantiate non-geometric root-level objects in tasty
 as well, for example to inspect objects which generate a web page but
 no geometry.} To access Tasty, point your web browser to the URL:
@@ -66,7 +66,7 @@ three view frames (tree frame, inspector frame and viewport frame
 @subsection The Toolbars
 
 The first toolbar consists of two ``tabs'' which allow the user to
-select between the display of the application itself or the GDL
+select between the display of the application itself or the GenDL
 reference documentation.
 
 The second toolbar is designed to select various ``click modes'' for
@@ -267,7 +267,7 @@ of how the inspector frame may be used.
 
 To prepare for the first example, we will modify the assembly
 definition by adding a settable @b{input-slot} for the piston radius.
-In GDL, the @b{:input-slots} are made up of a list, each of whose
+In GenDL, the @b{:input-slots} are made up of a list, each of whose
 elements is either a symbol (for required inputs) or a list expression
 beginning with a symbol (for optional inputs). In either case, the
 symbol represents a value which can be supplied either:
@@ -579,7 +579,7 @@ Where H is:
 @center Figure 11: The definition of volume-a and volume-b.
 @sp 1
 
-In GDL S-expression (i.e. Lisp) notation, the formula for volume-a is
+In GenDL S-expression (i.e. Lisp) notation, the formula for volume-a is
 equivalent to:
 
 @sp 1
