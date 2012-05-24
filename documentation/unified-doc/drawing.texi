@@ -1,20 +1,20 @@
-@node GDL Output Formats and Drawing
-@chapter GDL Output Formats and Drawing
+@node GenDL Output Formats and Drawing
+@chapter GenDL Output Formats and Drawing
 
-@node GDL Output Formats
-@section GDL Output Formats
+@node GenDL Output Formats
+@section GenDL Output Formats
 
-In GDL a series of output formats can be used in conjunction with the
-"with-format" macro to produce customized output from GDL objects, as
+In GenDL a series of output formats can be used in conjunction with the
+"with-format" macro to produce customized output from GenDL objects, as
 shown in this chapter.
 
-If you create new GDL objects, it is possible to create output-functions
+If you create new GenDL objects, it is possible to create output-functions
 for your new object for various formats by using the define-lens
 macro. You can also define your own output-formats using the define-format
 macro.  Please see the reference documentation for define-lens for
 more details.
 
-GDL has several output-formats and lenses already defined, which you
+GenDL has several output-formats and lenses already defined, which you
 can use via the @b{with-format} macro. The basic syntax for
 @b{with-format} is as follows:
 
@@ -47,17 +47,17 @@ followed by any number of optional keyword arguments for the format
 slots. Next it takes a body of code.  The body uses the @b{write-the} macro to
 invoke an output-function. 
 
-The most frequently used outputs formats in GDL are: PDF, DXF, VRML and IGES.
+The most frequently used outputs formats in GenDL are: PDF, DXF, VRML and IGES.
 
 @node Portable Document Format (PDF)
 @subsection Portable Document Format (PDF)
 
-PDF is the native graphics and document format of GDL and as such is
-the most developed. Most graphical and textual objects in GDL have PDF
+PDF is the native graphics and document format of GenDL and as such is
+the most developed. Most graphical and textual objects in GenDL have PDF
 lenses defined for them with at least a "cad-output" method. The term
 "cad-output" is somewhat dated, as the output could refer to a paper
 report with charts and graphs as much as a drawing of mechanical
-parts, so these names may be refined in future GDL releases.
+parts, so these names may be refined in future GenDL releases.
 
 Available slots for the PDF output-format and their defaults:
 
@@ -78,14 +78,14 @@ Please see  @ref{Drawing and Output Formats Examples} for examples.
 
 DXF is AutoCAD's drawing exchange format. Currently most of the
 geometric objects and drawing and text objects have a cad-output
-method for this output-format. The GDL DXF writer currently outputs a
-relatively old-style AutoCAD Release 11/12 DXF header. In future GDL
+method for this output-format. The GenDL DXF writer currently outputs a
+relatively old-style AutoCAD Release 11/12 DXF header. In future GenDL
 versions this will be switchable to be able to target different
 release levels of the DXF format.
 
 
 Note that the DXF writer is currently 2D in nature and therefore it is
-only intended to work for 2D objects in GDL, i.e. drawings.
+only intended to work for 2D objects in GenDL, i.e. drawings.
 
 
 Available slots for the DXF output-format and their defaults:
@@ -101,9 +101,9 @@ Please see  @ref{Drawing and Output Formats Examples} for examples.
 @node Virtual Reality Modeling Language (VRML)
 @subsection Virtual Reality Modeling Language (VRML)
 
-GDL currently contains a rudimentary VRML writer which maps GDL
+GenDL currently contains a rudimentary VRML writer which maps GenDL
 primitive geometric objects (boxes, spheres, etc) into their VRML
-equivalents. Future GDL releases will include surfaces and curves to
+equivalents. Future GenDL releases will include surfaces and curves to
 be outputted in the pure BSpline format which is supported by
 BSContact and some other VRML and X3D viewers. It will also include
 more object types and mechanisms to specify viewpoints, lighting,
@@ -114,8 +114,8 @@ Please see  @ref{Example of a VRML Output Format} for a detailed exemplification
 @node Initial Graphics Exchange Specification (IGES)
 @subsection Initial Graphics Exchange Specification (IGES)
 
-GDL platform supplies an IGES output-format with the optional GDL
-NURBS Surfaces Facility. The IGES format will also convert certain GDL
+GenDL platform supplies an IGES output-format with the optional GenDL
+NURBS Surfaces Facility. The IGES format will also convert certain GenDL
 wireframe primitives into appropriate curve and surface objects for
 IGES output (e.g. l-lines into linear-curves, arcs into arc-curves).
 
@@ -189,8 +189,8 @@ The default is :inches.
 @subsection  HTML Format
 
 The HTML output format is used extensively throughout GWL for
-generating dynamic web page hierarchies corresponding to GDL object
-hierarchies. Please see @ref {Custom User Interfaces in GDL} for
+generating dynamic web page hierarchies corresponding to GenDL object
+hierarchies. Please see @ref {Custom User Interfaces in GenDL} for
 extensive examples of using this output format.
 
 @node Base Drawing
@@ -203,7 +203,7 @@ embedded, clickable, zoomable, pannable image. An empty drawing does
 not do much of anything. It has to contain at least one object of type
 base-view to be useful.
 
-A Drawing is generally output by itself, as one whole unit. GDL
+A Drawing is generally output by itself, as one whole unit. GenDL
 currently does not support outputting of individual parts of a
 drawing, or children of a drawing. The Drawing can have as many
 children and other descendants as you like. Only those children which
@@ -229,7 +229,7 @@ window onto a set of 3D and/or 2D geometric objects transformed and
 scaled in a specified way. The objects can be auto-fit to the page, or
 scaled and translated manually with user-specified inputs.
 
-A base-view by itself does not have any defined behavior in GDL. It
+A base-view by itself does not have any defined behavior in GenDL. It
 must be contained as a child object of a base-drawing.
 
 See the reference documentation for base-view for detailed
@@ -243,20 +243,20 @@ There are three main input-slots for base-view which specify what
 objects are to be included in a view:
 @itemize @bullet
  
-@item @i{objects} - a list of GDL objects. These objects will be displayed 
+@item @i{objects} - a list of GenDL objects. These objects will be displayed 
 in each view by default. Note that these objects are taken directly --
 the children or leaves of these objects are not displayed (n.b. this
 is analogous to the cad-output output-function). These objects are
 defined in the normal 3D "world" coordinate system, but will be
 transformed and scaled according to the properties of the base-view.
 
-@item @i{object-roots} - a list of GDL objects whose _leaves_ will be displayed 
+@item @i{object-roots} - a list of GenDL objects whose _leaves_ will be displayed 
 in the view (n.b. this is analogous to the cad-output-tree
 output-format). These objects are defined in the normal 3D "world"
 coordinate system, but will be transformed and scaled according to the
 properties of the base-view.
 
-@item @i{annotation-objects} - a list of GDL objects (usually 2D objects such 
+@item @i{annotation-objects} - a list of GenDL objects (usually 2D objects such 
 as dimensioning or text primitives) which you want to display in the view. 
 These objects are defined in the coordinate system of the view, and are 
 not scaled or transformed (so, for example, their size will remain constant 

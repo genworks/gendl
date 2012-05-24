@@ -2,10 +2,10 @@
 
 While in the previous chapter most of the coding was done at the
 prompt level, in this chapter the coding is done by using a project
-management approach, in separate files. Each time you start a new GDL
+management approach, in separate files. Each time you start a new GenDL
 project, it is recommended to structure your applications in a modular
 fashion. This allows you to incrementally compile and load your
-applications. To illustrate the best practice in creating a new GDL
+applications. To illustrate the best practice in creating a new GenDL
 project, we will describe in detail a small application. This
 application is created and loaded following the next three steps:
 
@@ -48,17 +48,17 @@ an empty pre-defined package for your use, if you do not wish to make
 a new package just for scratch work.
 
 For real projects, however, it is recommended that you make and work
-in your own GDL package.
+in your own GenDL package.
 
-In GDL, the macro @b{define-package} is used to set up a new working package. 
+In GenDL, the macro @b{define-package} is used to set up a new working package. 
 
 Packages defined with @b{gdl:define-package} will implicitly @b{:use}
-the GDL package and the Common-Lisp package, so you will have access
+the GenDL package and the Common-Lisp package, so you will have access
 to all exported symbols in these packages without prefixing them with
 their package name. You may extend this behavior by calling
 @b{gdl:define-package} and adding additional packages to use with
 @b{(:use ...)}.  For example, if you want to work in a package with
-access to GDL exported symbols, Common Lisp exported symbols, and
+access to GenDL exported symbols, Common Lisp exported symbols, and
 symbols which are defined in other packages like @b{:my-utilities}, you
 could set it up as follows:
 
@@ -92,19 +92,19 @@ this point.}
 
 @b{The second file} will be named @b{assembly.lisp} and will contain
 the definition for the toplevel ``assembly'' (i.e. object) of your
-application. As you have already seen, this file will contain a GDL
+application. As you have already seen, this file will contain a GenDL
 object definition so it will have the following structure:
 
 @image{images/define-object}
 
 As stated in previous chapters, @b{define-object} is the basic macro for defining objects 
-(i.e. creating classes) in GDL. A GDL object definition in which:
+(i.e. creating classes) in GenDL. A GenDL object definition in which:
 
 @itemize @bullet
 
-@item @b{class-name} is any non-keyword symbol [i.e. a symbol not preceded by a colon (``:'')]. A GDL Class will be generated for this symbol, so that any name you use will override a previous class if one is already defined with the same name.
+@item @b{class-name} is any non-keyword symbol [i.e. a symbol not preceded by a colon (``:'')]. A GenDL Class will be generated for this symbol, so that any name you use will override a previous class if one is already defined with the same name.
 
-@item @b{mixin-list} is a list of other class-names (i.e. object definition names) from which this object will inherit. Note that the standard mixin @b{gdl:vanilla-mixin} gets mixed in automatically with any GDL object and carries some of the basic GDL functionalities (messages).
+@item @b{mixin-list} is a list of other class-names (i.e. object definition names) from which this object will inherit. Note that the standard mixin @b{gdl:vanilla-mixin} gets mixed in automatically with any GenDL object and carries some of the basic GenDL functionalities (messages).
 
 @item @b{specification-plist} is a plist made up of pairs made from special keywords and expression lists.
 
@@ -235,10 +235,10 @@ instance, and you can ask for the object @b{my-cylinder} or for the
 @end cartouche 
 @sp 1
 
-Basically, the presented approach is the root of a typical GDL application. In the next chapter, 
+Basically, the presented approach is the root of a typical GenDL application. In the next chapter, 
 we will add more contour to this application using the complete @b{specification-plist} 
 @i{(:input-slots :trickle-down-slots :computed-slots etc.)} in conjunction with the introduction 
-of a set of other GDL features. The intent is to present the necessary steps in modeling a simple 
+of a set of other GenDL features. The intent is to present the necessary steps in modeling a simple 
 shock absorber, as the one presented in figure 5.
 @sp 1
 @center @image{images/shock-absorber}
@@ -318,10 +318,10 @@ The example code for this geometrical model is further presented:
 @sp 1
 
 As presented above, this geometric model is relatively simple; it is
-built by using just a cone and cylinder from predefined GDL primitive
+built by using just a cone and cylinder from predefined GenDL primitive
 classes. However, even at this level of simplicity, it is not easy for
 the user to foresee how each defined object will become instantiated
 to form the shock absorber assembly. In order to allow for incremental
-``discovery'' during the development cycle, GDL features a dedicated
+``discovery'' during the development cycle, GenDL features a dedicated
 inspection utility called @b{``Tasty''}, designed for graphical
 development and testing purposes.

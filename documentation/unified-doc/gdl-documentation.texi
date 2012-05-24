@@ -7,7 +7,7 @@
 
 @ifnottex
 @node Top
-@top GDL Unified Documentation
+@top GenDL Unified Documentation
 @end ifnottex
 
 @titlepage
@@ -15,7 +15,7 @@
 @comment The title is printed in a large font.
 @center @titlefont{GenDL Documentation}
 @sp 1
-@center version 1581 2012-05-05
+@center version 1581 2012-05-24
 @sp 2
 
 
@@ -35,8 +35,8 @@ Copyright @copyright{} 2011 Genworks
 * Introduction::
 * Installation and Tips::
 * Getting Started with Emacs::
-* Getting Started with GDL Itself::
-* Reference Documentation for GDL Objects, Operators, and Parameters::
+* Getting Started with GenDL Itself::
+* Reference Documentation for GenDL Objects, Operators, and Parameters::
 * Other Documentation and Reference::
 * Customer Support::
 @end menu
@@ -44,7 +44,7 @@ Copyright @copyright{} 2011 Genworks
 @node Introduction
 @chapter Introduction
 
-The acronym GDL stands for General-Purpose Declarative Language.  By
+The acronym GenDL stands for General-Purpose Declarative Language.  By
 General-Purpose it is meant that the language may be used to create a
 wide spectrum of end results. It is a superior platform for creating
 and deploying web-centric Knowledge-based Engineering and Business
@@ -64,17 +64,17 @@ Examples without geometry include a Trucking company's national
 delivery scheduling, a multi-national corporate Patent Tracking
 system, an individual's computer Diary system.
 
-@section What is GDL/GWL
+@section What is GenDL/GWL
 
-GDL is a superset of ANSI Common Lisp (with case-sensitive ``modern
+GenDL is a superset of ANSI Common Lisp (with case-sensitive ``modern
 mode'' extensions), and consists mainly of automatic code-expanding
 extensions to Common Lisp, implemented in the form of macros. When you
-write, for example, 20 lines in GDL, you might be writing the
-equivalent of 200 lines of Common Lisp. Of course, since GDL is a
+write, for example, 20 lines in GenDL, you might be writing the
+equivalent of 200 lines of Common Lisp. Of course, since GenDL is a
 superset of Common Lisp, you still have the full power of the CL
-language at your fingertips whenever you are working in GDL.
+language at your fingertips whenever you are working in GenDL.
 
-Since GDL code expands into CL, everything you write in GDL will be
+Since GenDL code expands into CL, everything you write in GenDL will be
 compiled ``down to the metal'' to machine code with all the
 optimizations and safety that the tested-and-true CL compiler
 provides. This is an important distinction when contrasted to some
@@ -83,13 +83,13 @@ nothing more than interpreted scripting languages which quickly meet
 their limitations when pushed to compute something more demanding than
 simple parameter-passing.
 
-GDL is also a true declarative language. When you put together a GDL
+GenDL is also a true declarative language. When you put together a GenDL
 application, you write and think mainly in terms of objects and their
 properties, and how they depend on one another in a direct sense. You
 do not have to track in your mind explicitly how one object or
 property will “call” another object or property, in what order this
 will happen, etc. Those details are taken care of for you
-automatically by the language.  Because GDL is object-oriented, you
+automatically by the language.  Because GenDL is object-oriented, you
 have all the features you would normally expect from an
 object-oriented language, such as:
 
@@ -105,17 +105,17 @@ The ability for one object to “inherit” from others
 The ability to “use” an object without concern for its “under-the-hood” implementation
 @end itemize 
 
-GDL supports the “message-passing” paradigm of object orientation,
+GenDL supports the “message-passing” paradigm of object orientation,
 with some extensions.  Since full-blown ANSI CLOS (Common Lisp Object
 System) is always available as well, the Generic Function paradigm is
 supported as well. Do not be concerned at this point if you are not
 fully aware of the differences between these two
 @uref{http://www.paulgraham.com/acl.html,, paradigms}.
 
-GDL ships also with a standard web-development-component, the GWL
+GenDL ships also with a standard web-development-component, the GWL
 (Generative Web Language), which consists essentially of a set of
 mixins and a few functions which provide a convenient mechanism to
-present KB objects defined in GDL through a standard HTTP/HTML web
+present KB objects defined in GenDL through a standard HTTP/HTML web
 user interface.  GWL is designed to operate in conjunction with
 @uref{http://opensource.franz.com,, AllegroServe} and a compatible
 HTML generating facility such as cl-who or htmlgen. 
@@ -123,7 +123,7 @@ HTML generating facility such as cl-who or htmlgen.
 
 @section Packages and Licensing
 
-Genworks offers GDL in a variety of packages, from Personal/Trial
+Genworks offers GenDL in a variety of packages, from Personal/Trial
 Editions and Student Editions through to high-end Commercial packages.
 The most popular packages are presented in the next sections.
 
@@ -136,11 +136,11 @@ environment. It. includes:
 
 @sp 1
 @itemize @bullet 
-@item @i{ All GDL/GWL Professional Edition components} 
-@item @i{Ability to generate standalone runtime single-user and (web) server-based GDL/GWL applications, as well as shared-library (.DLL or .so) applications.}
-@item @i{ Distributed GDL (dGDL), allowing child objects of GDL instance trees to exist on separate processes on local or remote server(s).}
+@item @i{ All GenDL/GWL Professional Edition components} 
+@item @i{Ability to generate standalone runtime single-user and (web) server-based GenDL/GWL applications, as well as shared-library (.DLL or .so) applications.}
+@item @i{ Distributed GenDL (dGenDL), allowing child objects of GenDL instance trees to exist on separate processes on local or remote server(s).}
 @item  @i{Access to Relational Databases}
-@item  @i{GDL integrated object-oriented relational database support, including table definition compiler and caching and dependency-tracking for database table and row objects}
+@item  @i{GenDL integrated object-oriented relational database support, including table definition compiler and caching and dependency-tracking for database table and row objects}
 @item  @i{GWL relational database user interface, providing default web-based access to insert, update, and delete database table rows}
 @item  @i{Secure Socket Layer for building secure web server and client applications}
 @item  @i{Enterprise customers are automatically licensed to generate and use Runtime Applications for noncommercial activities (e.g. deployment testing, demonstrations, etc.)}
@@ -156,11 +156,11 @@ applications. It includes:
 
 @sp 1
 @itemize @bullet 
-@item @i{GDL Compiler and Development Environment (integrated with CL/CLOS compiler)}
-@item @i{Library of GDL Objects, Functions, and Macros}
+@item @i{GenDL Compiler and Development Environment (integrated with CL/CLOS compiler)}
+@item @i{Library of GenDL Objects, Functions, and Macros}
 @item @i{GWL Web Application Framework, integrated with a fully-featured web server}
-@item @i{GWL-based GDL Object Tree Browser and Inspector}
-@item @i{Fully cross-referenced web-based GDL/GWL reference documentation, tutorials, and a set of functioning sample applications} 
+@item @i{GWL-based GenDL Object Tree Browser and Inspector}
+@item @i{Fully cross-referenced web-based GenDL/GWL reference documentation, tutorials, and a set of functioning sample applications} 
 @item  @i{Base CL/CLOS compiler and development system with profiler and debugger}
 @end itemize 
 
@@ -176,24 +176,28 @@ please visit the Web-site @uref{http://genworks.com}
 
 @node Installation and tips
 @chapter Installation and tips
+
+This Chapter is applicable if you are running a GenDL version newer than May 2012. 
+Detailed installation instructions are available on www.genworks.com/newsite. 
+
 @node Basic Installation
 @section  Basic Installation
 
-This section describes how to install GDL. To download the software
+This section describes how to install GenDL. To download the software
 and retrieve a license key, follow the next steps:
 
 @sp 1
 @enumerate
 @item
-Visit the following URL: @uref{http://genworks.com/dl}
+Visit the download section of the next URL: @uref{http://genworks.com/newsite}
 
 @item
 Enter your email address. If you don't have an email address on file
-with Genworks, send email to: @email{licensing@@genworks.com}.  Read
+with Genworks, send email to: @email{licensing@@genworks.com}. Read
 and accept the applicable license agreement and click the checkbox.
 
 @item
-Click the link to download the .zip or .exe install file, and start
+Click the link to download the .zip file, and start
 the download to a known location on your computer.
 
 @item
@@ -202,46 +206,19 @@ file(s) emailed to you.
 
 @end enumerate
 
-GDL is currently distributed for all the platforms as a self-contained
-"zip" file which does not require official administrator installation,
-or an install executable ("exe") file. To install the downloaded
-software, you can either:
+GenDL is currently distributed for all the platforms as a self-contained
+"zip" file which does not require official administrator installation.
+To install the downloaded software follow the instructions received in the 
+license email.
 
-@itemize @bullet 
-
-@item
-
-unzip the "zip" file to a known location or,
-
-@item
-
-(on Windows) run the installer executable (exe) file and follow the
-prompts
-
-@end itemize 
-
-After the GDL application directory is in place (typically in
-"c:/Program Files" on Windows, or "/usr/local/" on Linux), you have to
-copy your license file in the GDL application directory. The license
-file was obtained via email in a previous step, and should be named
-either "devel.lic" for Enterprise or Student editions, or "gdl.lic"
-for Professional/Trial versions. Now you can start the GDL development
-environment by running the included "run-gdl.bat" startup script
-(Windows) or "run-gdl" script (Linux/Mac).
- 
-@i{NOTE:} In current versions of GDL on Windows, the Start Menu item,
-which gets installed by the Windows installation will invoke the
-run-gdl.bat script which starts Emacs with GDL.  This method of
-starting the GDL development environment can be used, so it is not
-necessary to navigate to the GDL installation directory to run the
-batch file on Windows, if the .exe installer has been used.
+@sp 1
+@i{NOTE: For the Windows platform, you will need to download the gpl directory.} 
 
 
+@node Becoming an effective GenDL developer
+@section Becoming an effective GenDL developer
 
-@node Becoming an effective GDL developer
-@section Becoming an effective GDL developer
-
-Becoming effective with GDL requires three (3) basic skills: 
+Becoming effective with GenDL requires three (3) basic skills: 
 @sp 1
 @enumerate
 @item
@@ -251,11 +228,11 @@ supported by Genworks);
 @item
 Very basic Common Lisp programming;
 @item
-Writing Object Definitions in GDL itself, using the define-object
+Writing Object Definitions in GenDL itself, using the define-object
 macro.
 @end enumerate
 
-Beyond this, if you want to create nice Web applications with GDL, it
+Beyond this, if you want to create nice Web applications with GenDL, it
 helps to know something about HTML and server-based computing. But
 these concepts can be picked up over time and are not necessary to get
 started or to make simple applications or 3D geometric objects.
@@ -264,7 +241,7 @@ started or to make simple applications or 3D geometric objects.
 @chapter Getting Started with Emacs
 Assuming you followed the steps described in @ref{Basic Installation},
 at this moment you now have Emacs running on your PC.  If not, start
-Emacs with the GDL environment with the "run-gdl.bat" script (Windows)
+Emacs with the GenDL environment with the "run-gdl.bat" script (Windows)
 or the "run-gdl" shell-script (Linux). Emacs should come up with
 instructions for:
 
@@ -272,9 +249,9 @@ instructions for:
 @item
 How to use  Emacs 'basic tutorial'
 @item
-How to start the GDL process
+How to start the GenDL process
 @item
-Instructions for using special keychord shortcuts in GDL
+Instructions for using special keychord shortcuts in GenDL
 @end enumerate
 
 @node How to use  Emacs 'basic tutorial'
@@ -285,7 +262,7 @@ core is an interpreter for Emacs Lisp, a dialect of the Lisp
 programming language with extensions to support text editing, for more
 details see @uref{http://www.gnu.org/software/emacs/}. Note that Emacs
 Lisp is a @i{different} Lisp process (memory space) and dialect from
-the Common Lisp which hosts GDL. However the existence of Emacs Lisp
+the Common Lisp which hosts GenDL. However the existence of Emacs Lisp
 makes Emacs a very ``Lisp-aware'' environment.
 
 The best way to become proficient in Emacs quickly is to invest
@@ -310,7 +287,7 @@ Emacs the following abbreviations are used:
 
 Emacs is highly customizable and extensible, but it is not necessary
 to master its full capabilities in order to become highly proficient
-in GDL development. If you can commit the following commands to memory
+in GenDL development. If you can commit the following commands to memory
 in your first few days, it will greatly speed up your future
 development:
 
@@ -376,73 +353,123 @@ Other commands:
 @end itemize
 @end enumerate
 
-For more commands see the Emacs help menu or the GDL readme.txt which is automatically displayed at startup.
+For more commands see the Emacs help menu or the GenDL readme.txt which is automatically displayed at startup.
 
-@node How to start and exit the GDL process
-@section How to start and exit the GDL process
+@node How to start and exit the GenDL process
+@section How to start and exit the GenDL process
 
-The GDL process starts automatically if the run-gdl batch file is
-invoked as mentioned in @ref{Basic Installation}. Based on your
-specific needs, the batch file can be edited as desired and for some
-users, which are using Emacs as a daily text editor separate from GDL
-work, the GDL startup process can be suppressed. For the previous
-case, the GDL process can be started at any time from Emacs by typing:
-@b{M-x gdl} (that's hold down the Meta or Alt key, and type x, then
-type 'gdl' and press Enter). After starting GDL, it is recommended to
-get the latest updates, extra modules, load the geometry kernel and
-start the webserver. This can be accomplished by typing:
+There are two ways to start the Gendl environment. The first is Slime,
+the Superior Lisp Interaction Mode for Emacs. Slime enjoys wide
+community support and works across all major OS platforms and CL
+implementations. The second is Franz ELI (Emacs Lisp Interface). ELI
+works with Allegro CL-based Gendl environments (currently supported by
+Genworks on Linux and Windows) and receives commercial support from
+Franz Inc.
 
 @sp 1
-@smallexample
-
-@b{(update-gdl)}
-
-
-
-@end smallexample 
-@sp 1
-
-@i{Note: In Windows 7 is recommended to run GDL as administrator in order to performer an update-gdl call. This is required when new updates are available to be downloaded. If the updates are already downloaded the call can be performed by regular users.}  
-   
-Simply invoking the function @i{update-gdl} will update your GDL
-platform to the latest stable patch level. It is also possible to
-update your GDL platform to the latest build patch or to a specific
-patch-level by invoking:
+@noindent @b{Starting Slime} can be achieved by typing @i{M-x slime} (that is, hold down the Meta (or Alt) key, and type x,
+               then type 'slime' and hit Enter.)
 
 @sp 1
-@smallexample
-@b{(update-gdl :patch-level :nightly)}
-or  (for example)
-@b{(update-gdl :patch-level 010)}
-@end smallexample
-@sp 1
-The function @i{update-gdl} is a complex function with many options,
-so please see the @uref{http://localhost:9000/yadd,, yadd}
-documentation on @i{update-gdl} or @i{gdl-updater} for a description
-of all the options and what they do.
+@noindent @b{Quitting Slime} can be achieved as follow:
 
-To end the GDL process and close Emacs it is recommended to follow the next two steps:
-@sp 1 
 @enumerate
+
+@item
+type M-x slime-quit-lisp (and hit Return) from anywhere in Emacs, to kill the GenDL process.
+
+@item 
+(optional) type C-x C-c (that's Control-x, Control-c) to kill the Emacs process and exit the window.
+
+@item 
+If you kept Emacs up and running, it is possible to restart the 
+Gendl session with either ELI or Slime, by following the 
+instructions under "Starting."
+
+@end enumerate
+@sp 1
+@noindent @b{Starting ELI} can be achieved by typing M-x gdl (that is, hold down the Meta (or Alt) 
+key, and type x, then type 'gdl' and hit Enter.)
+
+@sp 1
+@noindent @b{Quitting ELI} can be achieved as follow:
+
 @enumerate
+
+@item 
+type :exit (and hit Return) at the command prompt in the *gdl 
+toplevel* buffer to kill the GenDL process.
+
+@item 
+type C-x C-c (that's Control-x, Control-c) to kill the 
+Emacs process and exit the window.
+
 @item
-Type @b{:exit} at the command prompt in the *gdl toplevel* buffer and press the Enter or Return key;
-this will kill the GDL process.
-@item
-Type C-x C-c (that's Ctrl-x, Ctrl-c) this will kill the Emacs process and exit the window.
-@end enumerate
+If you kept Emacs up and running, it is possible to restart the 
+Gendl session with either ELI or Slime, by following the 
+instructions under "Starting."
 @end enumerate
 
-@node Getting Started with GDL Itself
-@chapter Getting Started with GDL Itself
 
-The Genworks GDL language is a superset of ANSI Common Lisp (CL). If
+@node Compiling and loading a buffer in GenDL 
+@section Compiling and loading a buffer in GenDL 
+
+A buffer can be compiled and loaded while its content is edited. 
+Depending on how the GenDL process was started (using Slime or ELI) 
+there are two options to compile and load a buffer for each starting modes: 
+one using the Emacs graphical interface and the other using a set of 
+shortcut keys; see below description:
+
+@sp 1
+@noindent @b{Compile and load a buffer using Slime} 
+@sp 1
+
+@noindent @b{Shortcut key option:}
+@itemize @bullet 
+
+@item
+@i{C-c C-c  compile/load current top-level form (within which the cursor is)}
+
+@item
+@i{C-c C-k  compile/load file}
+
+@item
+@i{C-x C-e  evaluates previous form (cursor should be after the last paren)}
+@end itemize
+
+@noindent @i{Note: If the buffer is not saved, the compiler will offer the option to save the file (yes or no).} 
+
+The @b{graphical option} is available from the “Slime” menu at the top of the Emacs screen; see the screenshot illustrated below:
+@sp 1
+@center @image{images/slime-compilation,,3.8in}
+@sp 1
+@noindent @b{Compile and load a buffer using ELI}
+@sp 1
+@noindent The @b{graphical option} is available by right clicking on the buffer screen; see the screenshot illustrated below:
+@sp 1
+@center @image{images/eli-compilation,,3.8in}
+
+@noindent @i{Note: The buffer must be saved and have the extension .lisp} 
+@sp 1
+@noindent @b{Shortcut key option:}
+@sp 1
+@itemize @bullet 
+@item
+C-x C-s -- save current top-level form.
+@item
+C-c C-b -- compile/load current toplevel form (within which the cursor is)
+@end itemize
+
+@node Getting Started with GenDL Itself
+@chapter Getting Started with GenDL Itself
+
+The Genworks GenDL language is a superset of ANSI Common Lisp (CL). If
 you are new to the CL language, we recommend that you supplement this
 chapter with other resources. Resources for Common Lisp abound in
 bookstores and on the Web@footnote{http://www.cliki.net,
 http://www.common-lisp.net}.  One example of a concise resource to get
 started is Basic Lisp Techniques@footnote{http://www.genworks.com/downloads/blt-2011.pdf}, 
-which also includes a small Genworks GDL example.
+which also includes a small Genworks GenDL example.
 
 
 In the meantime, this chapter will provide a condensed overview of the
@@ -453,7 +480,7 @@ techniques possible with Common Lisp.
 @node Overview of CL and its Syntax
 @section Overview of CL and its Syntax
 
-The first thing you should observe about GDL (and most languages in the Lisp family) is
+The first thing you should observe about GenDL (and most languages in the Lisp family) is
 that it uses a generalized @i{prefix} notation.
 
 One of the most frequent actions in a CL program, or at the toplevel @i{read-eval-print} loop, 
@@ -755,18 +782,18 @@ optimisation. @uref{http://abhishek.geek.nz/docs/features-of-common-lisp/,,
 @i{(source)}}.
 
 Although we introduce macros to familiarize you with the concept, you
-typically will have no need to author new macros when using GDL. In
-fact, the GDL @i{kernel} (i.e. core software component) already
+typically will have no need to author new macros when using GenDL. In
+fact, the GenDL @i{kernel} (i.e. core software component) already
 provides a general-purpose macro which covers the most typical
 requirements for a generative application. This macro is called
 @i{define-object}, introduced in the next section.
 
-@section GDL Syntax
+@section GenDL Syntax
 
 @subsection Define-Object
 
 The @i{define-object} macro acts as the basic operator for defining
-objects in GDL. An @i{object definition} acts a generic ``recipe'' or
+objects in GenDL. An @i{object definition} acts a generic ``recipe'' or
 ``blueprint,'' from which specific @i{object instances} (also simply
 called @i{objects}) may be generated.
 
@@ -818,14 +845,14 @@ just like a normal CL function defined with @b{defun}.
 
 Figure 2.1 shows a simple example, which contains two input-slots,
 @b{first-name} and @b{last-name}, and a single computed-slot,
-@b{greeting}. As you can see, a GDL Object is analogous in some ways
+@b{greeting}. As you can see, a GenDL Object is analogous in some ways
 to a @b{defun}, where the input-slots are like arguments to the
 function, and the computed-slots are like return values. But seen
-another way, each computed-slot in a GDL object is like a function in
+another way, each computed-slot in a GenDL object is like a function in
 its own right.
 
 The referencing macro @b{the} shadows CL’s @b{the} (which is a
-seldom-used type declaration operator). @b{the} in GDL is used to
+seldom-used type declaration operator). @b{the} in GenDL is used to
 reference the value of other messages within the same object or within
 contained objects. In the above example, we are using @b{the} to refer
 to the values of the messages (input-slots) named @b{first-name} and
@@ -838,12 +865,12 @@ and the @b{the} macro will process them identically.
 In the previous example, the mixin-list is an empty list. As a
 consequence, the object hello is a ``stand-alone'' object; it does not
 inherit characteristics from any other definition within
-GDL@footnote{Actually, this is a simplification. GDL contains a
+GenDL@footnote{Actually, this is a simplification. GenDL contains a
 built-in object definition called @b{vanilla-mixin}, which is
 inherited automatically by all definitions created with
 @b{define-object}.}.  Figure 2 shows an example containing the
 definition of an object named my-circle-sample which inherit the
-characteristics of the circle object defined in GDL.
+characteristics of the circle object defined in GenDL.
 
 @smallexample
 @cartouche
@@ -1049,7 +1076,7 @@ default expression.  Note that a passed-in value will always override
 the default expression.
 @end itemize
 
-This GDL syntax overview has been kept purposely brief, covering the
+This GenDL syntax overview has been kept purposely brief, covering the
 fundamentals of the language in a dense manner. On one hand, it is not
 meant to be a comprehensive language reference; on the other hand, do
 not be concerned if you are still unsure about some of the
@@ -1065,8 +1092,8 @@ should begin to emerge.
 @include drawing.texi
 
 
-@node Custom User Interfaces in GDL
-@chapter Custom User Interfaces in GDL
+@node Custom User Interfaces in GenDL
+@chapter Custom User Interfaces in GenDL
 
 @include custom-user-interfaces.texi
 
@@ -1074,19 +1101,19 @@ should begin to emerge.
 @c @section Examples
 
 
-@node Reference Documentation for GDL Objects; Operators; and Parameters
-@chapter Reference Documentation for GDL Objects; Operators; and Parameters
+@node Reference Documentation for GenDL Objects; Operators; and Parameters
+@chapter Reference Documentation for GenDL Objects; Operators; and Parameters
 
-@i{GDL contains auto-generated reference documentation for all its
+@i{GenDL contains auto-generated reference documentation for all its
 built-in primitive objects and operators. This documentation can be
-accessed from a live GDL session through the ``Documentation'' tab of
+accessed from a live GenDL session through the ``Documentation'' tab of
 TaSty.}
 
 
-@c @i{GDL contains auto-generated reference documentation for all its
+@c @i{GenDL contains auto-generated reference documentation for all its
 @c built-in primitive objects, and operators. This documentation will be
 @c compiled and included in this manual, but for now it can be accessed
-@c from a live GDL session through the ``Documentation'' tab of TaSty.}
+@c from a live GenDL session through the ``Documentation'' tab of TaSty.}
 
 @c 
 @c @i{The same documentation facility can also be used to document your own
@@ -1095,8 +1122,8 @@ TaSty.}
 
 
 @c This chapter describes the existing defined objects "classes" available in 
-@c GDL. To be more consistent in this chapter we will addressee the predefined 
-@c objects available in GDL as  primitive objects. The GDL Systems is an 
+@c GenDL. To be more consistent in this chapter we will addressee the predefined 
+@c objects available in GenDL as  primitive objects. The GenDL Systems is an 
 @c object-oriented programming language. It  make an important distinction 
 @c between classes, which are generic descriptions of objects, and instances, 
 @c which are specific objects. 
@@ -1111,15 +1138,15 @@ TaSty.}
 @c In general terms as described in previous chapters the objects displayed 
 @c in TaSty are computed instances of a define-object. 
 
-@c Concluding this small introduction bellow each GDL primitive will be first 
+@c Concluding this small introduction bellow each GenDL primitive will be first 
 @c generically described followed by an instance exemplification. The description 
 @c is alphabetically ordered  for beginners it is recommended to follow the 
 @c learning guide.    
 @c
 
-@c @section GDL Geometrical Primitives
+@c @section GenDL Geometrical Primitives
 
-@c The basic GDL primitives are grouped into the following packages: 
+@c The basic GenDL primitives are grouped into the following packages: 
 
 @c         - gdl
 
@@ -1141,11 +1168,11 @@ TaSty.}
 
 @c @itemize
 
-@c @item Distributed GDL --- Connecting to child objects on a separate GDL process (on a local or remote host).
+@c @item Distributed GenDL --- Connecting to child objects on a separate GenDL process (on a local or remote host).
 
 @c @item YADD --- Yet Another Definition Documenter (for generating your own reference docs for your applications).
 
-@c @item Drawing --- more detail on the GDL drawing package and generating engineering drawings
+@c @item Drawing --- more detail on the GenDL drawing package and generating engineering drawings
 
 @c @item Output  --- more detail on output-formats and lenses
 
@@ -1162,7 +1189,7 @@ directly from Genworks. @i{Please register for the Genworks Google
 Group then post your questions there.}
 
 For @b{commercial licensees}, Genworks Customer support is
-available. Support for all included components of GDL/GWL can be
+available. Support for all included components of GenDL/GWL can be
 provided by Genworks as your single point of contact. Our VAR
 agreements with vendors such as Franz Inc. and SMS stipulate that
 Genworks' customers contact only Genworks for support, and not
