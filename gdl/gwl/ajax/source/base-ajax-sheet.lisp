@@ -162,14 +162,14 @@ in the applicable lens for  html-format."
                 ("String or nil. Names the value of class attribute for the body tag. Default is nil."
                  body-class nil)
 
-		(body-onload nil)
+                (body-onload nil)
                 
                 ("String or nil. Contains the string for the doctype at the top of the document. Default is:
  
-  \"\"
+  \"<!DOCTYPE HTML>\"
 "
 
-                 doctype-string "")
+                 doctype-string "<!DOCTYPE HTML>")
                 
                 ("Boolean. Include jquery javascript libraries in the page header? 
 Default nil."  
@@ -231,8 +231,8 @@ UI specific jQuery Layout JavaScript."
                  ui-specific-layout-js nil :settable)
                 
                 
-		(respondent (the bashee))
-		
+                (respondent (the bashee))
+                
                 )
 
   
@@ -243,8 +243,8 @@ UI specific jQuery Layout JavaScript."
                    ;; FLAG 090907-JB: indiscussion with Dave - removed
                    ;;(use-raphael-graf? nil)
 
-		   (use-x3dom? nil)
-		   
+                   (use-x3dom? nil)
+                   
                    (development-links
                     (with-cl-who-string () (write-the development-links)))
                    
@@ -264,7 +264,7 @@ UI specific jQuery Layout JavaScript."
                 ((:a :href (the return-object url)) (str display-string))))
               
               (update-root! () 
-			    (format t "Updateing root...~%~%")
+                            (format t "Updateing root...~%~%")
                             (unpublish-instance-urls (the instance-id) (the url))
                             (the root update!)
                             (the url)
@@ -311,10 +311,10 @@ UI specific jQuery Layout JavaScript."
   ((main-sheet
     ()
     (with-cl-who ()
-      "<!DOCTYPE HTML>"
+      (str (the doctype-string))
       ((:html :lang "en")
        (:head (:title (str (the title)))
-	      (:meta :charset "UTF-8")
+              (:meta :charset "UTF-8")
               (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")
               (when (the additional-header-content) (str (the additional-header-content)))
               (write-the standard-javascript)
@@ -322,16 +322,16 @@ UI specific jQuery Layout JavaScript."
                 (str (the additional-header-js-content))))
        
        ((:body :class (the body-class)
-	       :onload (the body-onload))
+               :onload (the body-onload))
         (the reset-html-sections!)
 
-	(str (the main-sheet-body))
-	
-	#+nil
+        (str (the main-sheet-body))
+        
+        #+nil
         ((:div :id (the dom-id))
          (str (the main-sheet-body))
-	 )
-	))))
+         )
+        ))))
 
 
    #+nil
@@ -358,7 +358,7 @@ UI specific jQuery Layout JavaScript."
                 (str (the additional-header-js-content))))
        
        ((:body :class (the body-class)
-	       :onload (the body-onload))
+               :onload (the body-onload))
         (the reset-html-sections!)
         ((:div :id (the dom-id))
          (str (the main-sheet-body)))))))
@@ -409,7 +409,7 @@ UI specific jQuery Layout JavaScript."
       ((:span :style "color: blue; cursor: pointer;"
               :onclick (string-append (the (gdl-sjax-call :function-key :update-root!))
                                       " location.reload(true);"
-				      ))
+                                      ))
        "Update!")))
 
 
@@ -430,11 +430,11 @@ UI specific jQuery Layout JavaScript."
                    :src "/static/3rdpty/jquery/js/jquery-current.min.js"))
          ;; JB-090813 using the patched rc2 of layout 1.3 for ta2.0 alpha
          ;; updating to 1.3 when it becomes available.
-	 
-	 ((:script :type "text/javascript" 
+         
+         ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery-ui-current.min.js"))
 
-	 ((:script :type "text/javascript"
+         ((:script :type "text/javascript"
                    :src "/static/3rdpty/jquery/js/jquery.layout-current.min.js"))
 
 
@@ -442,11 +442,11 @@ UI specific jQuery Layout JavaScript."
                    :src "/static/3rdpty/jquery/js/jquery-superfish.js"))
          ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery.bgiframe.min.js"))
-	 
+         
 
          ;; FLAG 090909-JB: added the dataTables plugin for the inspector
-	 ;; FLAG -- is this still needed? 
-	 #+nil
+         ;; FLAG -- is this still needed? 
+         #+nil
          ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery.dataTables.min.js"))
          ))

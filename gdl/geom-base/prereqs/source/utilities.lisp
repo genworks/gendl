@@ -808,7 +808,7 @@ and <b>sphere-radius</b>. Iff the circle and sphere do not intersect at all, NIL
                     #2A((-1.0d0 0.0d0 0.0d0) (0.0d0 0.0d0 1.0d0)(0.0d0 1.0d0 0.0d0)))
                    ((same-direction-vectors? vector-1 *nominal-y-vector-r*)
                     #2A((1.0d0 0.0d0 0.0d0)(0.0d0 0.0d0 1.0d0) (0.0d0 1.0d0 0.0d0)))
-                   (t (matrix:invert-matrix transform))))
+                   (t (matrix:transpose-matrix transform))))
          
          (sphere-circle-center-n (array-to-3d-vector 
                                   (multiply-matrices (3d-vector-to-array sphere-circle-center) inverse)))
