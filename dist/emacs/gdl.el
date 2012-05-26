@@ -188,6 +188,9 @@
                               "program/gdl"))
 
 (defun glime () (interactive) (slime))
+(defun gendl () (interactive) (slime))
+(defun quit-gendl () (interactive (slime-quit-lisp)))
+
 
 (defun remove-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."
