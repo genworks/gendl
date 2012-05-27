@@ -83,17 +83,19 @@
 						    "Dynamic")
 						   ", Object-oriented Language and Runtime environment"))
 			  (:description "Industry-standard dialect of the Lisp language family")
-			  (:description "Available in several Commercial and Open-Source implementations")
-			  (:description "A cross-platform server solution for web application deployment")))
+			  (:description "Available in several Commercial and Open-Source implementations")))
+
 
                  (:title "What is GenDL?" :bullet-points
 			 ((:description "A Declarative language environment embedded in Common Lisp")
-			  (:description "A technology which allows any type of engineer to define 
+			  (:description "A technology enabling you to define 
 problems and their solutions using an intuitive, straightforward structure")
+			  (:description "A Compiler and Runtime engine enabling Model creation and Application deployment")
 			  (:description ,(with-htm "A cross-platform "
 						   ((:a :href "http://en.wikipedia.org/wiki/Web_application_framework")
 						    "web application framework")
-						   " seamlessly embedded in the core language."))))
+						   " seamlessly embedded in the core language"))
+			  (:description "Available under Free/Open-source and Proprietary packages")))
                                   
                  (:title "A Path of Discovery: GenDL as a Learning Tool"
                          :bullet-points 
@@ -462,12 +464,6 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 					  "here")
 					 ". Press \"Raw\" for raw downloadable form.")))))
       
-      (:title "Open it in Tasty"
-	      :bullet-points 
-	      ((:description "Visit http://localhost:9000/tasty")
-	       (:description ,(with-htm "Specify " ((:span :class "lisp-code") "wing-more-inputs") " as the Class Type")
-			     :image-url "wing-more-inputs-tasty.png")))
-
       (:title "Exercise 1: make a Fuselage object"
 	      :bullet-points 
 	      ((:description ,(with-htm "Parameters (i.e. Inputs):"
@@ -479,15 +475,10 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 					     (:li "wetted surface (Sw)")
 					     (:li "slenderness-ratio (= l / d)"))))))
 
-      (:title "How it should look in Tasty"
-	      :bullet-points 
-	      ((:description "Like this:"
-			     :image-url "fuselage-tasty.png")))
-
-      
       (:title "Exercise 1 Solution"
 	      :bullet-points
-	      ((:description "Don't look at this until You Try It:"
+	      (#+nil
+	       (:description "Don't look at this until You Try It:"
 			     :image-url "uml-2-10b.png"
 			     :examples
 			     ((:define-object gdl-user::fuselage)))
@@ -495,21 +486,22 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 	       (:description ,(with-htm (:small 
 					 "Solutions code will be available later.")))))
 
+      (:title "Child Objects"
+	      :bullet-points  ((:description "UML \"Has-a\" relationship"
+					     :image-url "uml-2-12.png")
+			       (:description "Skeleton Engine Definition:"
+					     :examples ((:define-object gdl-user::engine)))
 
+			       (:description "Wing with a single engine as Child Object:"
+					     :examples ((:define-object gdl-user::wing-with-engine)))
+							))
       
       (:title "Child Object in a Sequence"
-	      :bullet-points  ((:description "UML \"Has-a\" relationship"
+	      :bullet-points  ((:description "Specify keyword :size and an expression returning an integer."
 					     :image-url "uml-2-12.png"
-					     :examples ((:define-objet gdl-user::engine)
-							(:define-object gdl-user::wing-with-engines)))))
+					     :examples ((:define-object gdl-user::wing-with-engines)))))
 
-					     
-			       
-      (:title "How it might look in Tasty"
-	      :bullet-points ((:description "Something like this:"
-					    :image-url "wing-with-engines-tasty.png")))
 
-      
       (:title "Working with Sequences"
 	      :bullet-points ((:description ,(with-htm ((:span :class "lisp-code") "list-elements")
 						       " converts a sequence into a Lisp list."))
@@ -541,7 +533,7 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 
       
       (:title "Lisp background: <i>Plists</i>"
-	      :bullet-points ((:description "Property Lisp, a type of <i>map</i>")
+	      :bullet-points ((:description "Property List, a type of <i>map</i>")
 			      (:description "This is a list of pairs")
 			      (:description "Maps keyword symbols (i.e. names) to values")
 			      (:description ,(with-htm "Use " ((:span :class "lisp-code") "getf")

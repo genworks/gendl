@@ -2,9 +2,6 @@
 ;; Copyright 2012 Genworks International and the Delft University of
 ;; Technology
 ;;
-;; This source file is part of the General-purpose Declarative
-;; Language project (GenDL).
-;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
 ;; License as published by the Free Software Foundation, either
@@ -21,6 +18,8 @@
 ;; 
 
 (in-package :gdl-user)
+
+
 
 (define-object empty-surface (base-object)
   ;;
@@ -71,27 +70,45 @@
   :input-slots
   (Tmax))
 
+
+(define-object wing-with-engine (empty-surface)
+
+  :input-slots
+  ((Tmax 800)
+   (b 20)
+   (c-root 6 :settable)
+   (c-tip 3 :settable))
+
+  :computed-slots
+  ((c-avg (/ (+ (the c-root) (the c-tip)) 2))
+   (taper (/ (the c-tip) (the c-root)))
+   (S (* (the b) (the c-avg)))
+   (A (/ (expt (the b) 2) (the S))))
+
+  :objects
+  ((engine :type 'engine
+	   :Tmax (the Tmax))))
+
+
+
 (define-object wing-with-engines (empty-surface)
   :input-slots
   ((Tmax-list (list 1000 800 900 1200) :settable)
    (c-root 6 :settable)
    (c-tip 3 :settable)
-   (other-inputs "..."))
-
+   (b 20))
 
   :computed-slots 
   ((Tmax-total (sum-elements (the engines) (the-element Tmax)))
-
-   (other-slots "..."))
+   (c-avg (/ (+ (the c-root) (the c-tip)) 2))
+   (taper (/ (the c-tip) (the c-root)))
+   (S (* (the b) (the c-avg)))
+   (A (/ (expt (the b) 2) (the S))))
 
   :objects
   ((engines :type 'engine
             :sequence (:size (length (the Tmax-list)))
             :Tmax (nth (the-child index) (the Tmax-list)))))
-
-
-
-
 
 
 (define-object aircraft (base-object)
@@ -108,7 +125,8 @@
   :objects
   ((right-wing :type 'wing-with-tanks)
    (left-wing :type 'wing-with-tanks)
-   (fuselage :type 'fuselage))
+   (fuselage :type 'fuselage
+	     :d 5 :l 42))
   
 
   :functions

@@ -34,7 +34,7 @@
        ((:img :src "/newsite-static/images/logo-transparent.png" :ALT "star-logo" :CLASS "left" :WIDTH "155"
 	      :height "149"))
        (:p (:strong "Genworks")
-	   " provides General-purpose Declarative Language (GenDL), a Generative Applicaton Development system 
+	   " provides General-purpose Declarative Language (GenDL), a Generative Application Development system 
 for creating web-centric Knowledge Based Engineering and Business applications. Based on both ANSI and 
 de-facto standards, GenDL is generative on many levels, "
 	   ((:a :href "http://en.wikipedia.org/wiki/Automatic_programming") "generating")

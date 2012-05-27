@@ -2,5 +2,5 @@
 
 (in-package :gdl-user)
 
-(gwl:define-package :training-g105 (:use :surf :slide-show)  (:export #:assembly))
+(gwl:define-package :training-g105 (:use :slide-show)  (:export #:assembly))
 

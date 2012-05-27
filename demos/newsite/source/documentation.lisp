@@ -35,11 +35,33 @@
       ((:div :class "profile")
        ((:div :class "people")
 
-	(:h4 "G102: GenDL Quickstart (customized for TU Delft ADM Course)")
+	
+	(:h4 "Videos: Gendl Introduction to Emacs")
+
+	(:p "Use this "
+	    ((:a :href "http://www.youtube.com/playlist?list=PLCD0CCC8235C9E988" :target "gdl-videos") (:b "playlist"))
+	    " to play all these videos one after another, or individually:")
+
+	(:ol
+	 (:li ((:a :href "http://www.youtube.com/watch?v=1kcspOlfrc4&hd=1" :target "gdl-videos")
+	       "Emacs Tutorial Part 1: Moving around Emacs"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=7093SgxBQ9M&hd=1" :target "gdl-videos")
+	       "Emacs Tutorial Part 2: Files and Buffers (4:28)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=-Wr7X6RV_qw&hd=1" :target "gdl-videos")
+	       "Emacs Tutorial Part 3: Cutting/Copying & Pasting, Searching, Tutorial Conclusion (4:58)"))
+	 (:li ((:a :href "http://www.youtube.com/watch?v=Z4XLEG8Jj3E&hd=1" :target "gdl-videos")
+	       "Introduction to Emacs for Gendl Editing"))
+	 
+	 )
+
+
+	(:h4 "G102: GenDL Quickstart (examples customized for TU Delft ADM Course)")
 	(:p "Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102-tud/" :target "g102-slides") "here") ", "
 	    "Sample code " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp" 
 				:target "gendl-code") "here") 
 	    ". The exercise solutions will be provided later, after you have had a chance to try them yourself.")
+
+	
 
 	(:h4 "G102: GenDL Quickstart (old slides)")
 	(:p "Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102/" :target "g102-slides") "here") ", "
@@ -47,7 +69,7 @@
 	    "Sample code from the slides " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/section-2-examples.lisp?raw=true" :target "gendl-code") "here") ".")
 
 
-	(:h4 "Lecture Vidoes for Some of the Slides")
+	(:h4 "Lecture Videos for Some of the Slides")
 
 	(:p "You can play all the G102 videos, one after another, using this " 
 	    ((:a :href "http://www.youtube.com/playlist?list=PLCF84A1DE8098DCE2" :target "gdl-videos") "playlist") ".")

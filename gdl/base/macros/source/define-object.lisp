@@ -243,7 +243,7 @@ future GDL release."
            (class (gensym)))
 
 
-      `(progn
+      `(with-compilation-unit () ;;progn
          ,(when (and *compile-documentation-database?* documentation)
             `(when *load-documentation-database?*
                (setf (gdl-documentation ,class) ',documentation)))
@@ -411,7 +411,7 @@ overview of <tt>define-object</tt> syntax."
           (when duplicates
             (error "duplicate slot name~p: ~{~a~^, ~}" (length duplicates) (sort duplicates #'string-lessp :key #'symbol-name))))))
     
-    `(progn
+    `(with-compilation-unit () ;; progn
        
        
        (defclass ,name ,(if (or no-vanilla-mixin? 

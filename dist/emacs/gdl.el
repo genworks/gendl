@@ -187,8 +187,8 @@
                                         "program\\gdl.exe")
                               "program/gdl"))
 
-(defun glime () (interactive) (slime))
-(defun gendl () (interactive) (slime))
+(defun glime () (interactive) (cd gdl:*gdl-home*) (slime))
+(defun gendl () (interactive) (glime))
 (defun quit-gendl () (interactive (slime-quit-lisp)))
 
 
@@ -242,7 +242,8 @@
 (require 'color-theme)
 (color-theme-initialize)
 (require 'color-theme-solarized)
-(color-theme-solarized-light)
+;;(color-theme-solarized-light)
+(color-theme-katester)
 
 ;;
 ;; end of color-theme setup.

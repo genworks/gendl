@@ -250,7 +250,7 @@
 ;; are loaded, to :use these packages. 
 ;;
 (defpackage :geom-base (:use))
-(defpackage :surf (:use))
+(defpackage :surf (:use) (:shadow #:step) (:export #:step))
 
 
 (defmacro gdl:define-package (name &rest body)

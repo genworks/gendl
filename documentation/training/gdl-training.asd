@@ -4,7 +4,8 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012052100" :depends-on nil :components
+                :version "2012052700" :depends-on (:gdl-smlib)
+                :components
                 ((:file "slide-show/source/package")
                  (:file "slide-show/source/assembly")
                  (:file "slide-show/source/publish")
