@@ -39,6 +39,7 @@
   :objects
   ((introduction :type 'introduction)
    (objects :type 'objects)
+   (geometry :type 'geometry)
    
 
    ))

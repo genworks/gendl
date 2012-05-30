@@ -4,7 +4,7 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012052700" :depends-on (:gdl-smlib)
+                :version "2012053000" :depends-on (:gdl-smlib)
                 :components
                 ((:file "slide-show/source/package")
                  (:file "slide-show/source/assembly")
@@ -78,7 +78,9 @@
                  (:file "g102-tud/source/publish")
                  (:file "g102-tud/examples/source/ch2-examples")
                  (:file "g102-tud/examples/source/ch2-solutions")
+                 (:file "g102-tud/examples/source/ch3-examples")
                  (:file "g102-tud/slides/source/ch2")
+                 (:file "g102-tud/slides/source/ch3")
                  (:file "g105/source/package")
                  (:file "g105/source/publish")
                  (:file "g105/examples/source/drilled-block")

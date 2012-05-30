@@ -17,6 +17,17 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+ATTENTION!!! 
+ATTENTION!!! DO NOT LOOK AT THIS SOURCE UNTIL YOU TRY THE EXERCISES YOURSELF!!!
+ATTENTION!!!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (in-package :gdl-user)
 
 (define-object fuselage (cylinder)

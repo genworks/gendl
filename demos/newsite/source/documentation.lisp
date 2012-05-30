@@ -31,43 +31,89 @@
     (with-cl-who-string ()
       (:h2 "Documenation and Educational Resources") 
       
-      (:h3 "Lecture and Tutorial Videos")
+      (:h3 "Emacs Tutorial Videos")
       ((:div :class "profile")
        ((:div :class "people")
 
-	
-	(:h4 "Videos: Gendl Introduction to Emacs")
+	(:h4 "Standard Emacs Tutorial:")
 
 	(:p "Use this "
 	    ((:a :href "http://www.youtube.com/playlist?list=PLCD0CCC8235C9E988" :target "gdl-videos") (:b "playlist"))
-	    " to play all these videos one after another, or individually:")
+	    " (23:36) to play all these videos one after another, or individually:")
 
 	(:ol
 	 (:li ((:a :href "http://www.youtube.com/watch?v=1kcspOlfrc4&hd=1" :target "gdl-videos")
-	       "Emacs Tutorial Part 1: Moving around Emacs"))
+	       "Emacs Tutorial Part 1") ": Moving around Emacs (5:09)")
 	 (:li ((:a :href "http://www.youtube.com/watch?v=7093SgxBQ9M&hd=1" :target "gdl-videos")
-	       "Emacs Tutorial Part 2: Files and Buffers (4:28)"))
+	       "Emacs Tutorial Part 2") ": Files and Buffers (4:28)")
 	 (:li ((:a :href "http://www.youtube.com/watch?v=-Wr7X6RV_qw&hd=1" :target "gdl-videos")
-	       "Emacs Tutorial Part 3: Cutting/Copying & Pasting, Searching, Tutorial Conclusion (4:58)"))
-	 (:li ((:a :href "http://www.youtube.com/watch?v=Z4XLEG8Jj3E&hd=1" :target "gdl-videos")
-	       "Introduction to Emacs for Gendl Editing"))
-	 
-	 )
-
-
-	(:h4 "G102: GenDL Quickstart (examples customized for TU Delft ADM Course)")
-	(:p "Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102-tud/" :target "g102-slides") "here") ", "
-	    "Sample code " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp" 
-				:target "gendl-code") "here") 
-	    ". The exercise solutions will be provided later, after you have had a chance to try them yourself.")
-
+	       "Emacs Tutorial Part 3") ": Cutting/Copying & Pasting, Searching, Tutorial Conclusion (4:58)"))
 	
+	:br
+	(:h4 "Gendl Authoring with Emacs:")
+	(:p "Use this "
+	    ((:a :href "http://www.youtube.com/playlist?list=PLCD0CCC8235C9E988" :target "gdl-videos") (:b "playlist"))
+	    " (23:36) to play all these videos one after another, or individually:")
+	(:ol
+	 (:li ((:a :href "http://www.youtube.com/watch?v=GYJwwYJQfJg&hd=1" :target "gdl-videos")
+	       "Emacs for Gendl Editing Part 1 (4:55)"))
+	 (:li "...Stay tuned for more parts in this series..."))))
 
-	(:h4 "G102: GenDL Quickstart (old slides)")
+
+      (:h3 "Gendl Lecture and Tutorial Videos")
+      ((:div :class "profile")
+       ((:div :class "people")
+
+	(:h4 "G102-TUD (G102 with examples from TU Delft Advanced Design Methods Course)")
+	:br
+	(:h4 "Lecture Slides & Code:")
+	(:p
+	 (:ol
+	  (:li ((:a :href "http://www.genworks.com/downloads/training-g102-tud/" :target "g102-slides") "Lecture Slides"))
+	  (:li "Sample code for:" 
+	       (:ul (:li ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp" 
+			      :target "gendl-code") "Section 2 (Objects)"))
+		    (:li ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch3-examples.lisp" 
+			      :target "gendl-code") "Section 3 (Geometry)"))))))
+	(:p ". The exercise solutions will be provided after you have had a chance to try them yourself.")
+
+	:br
+	(:h4 "Videos:")
+
+	(:p "Use this "
+	    ((:a :href "http://www.youtube.com/playlist?list=PL3DEECB461E154659" :target "gdl-videos") (:b "playlist"))
+	    " (32:56) to play all these videos one after another, or individually:")
+
+	(:ol
+	 (:li ((:a :href "http://www.youtube.com/watch?v=2ybhiiw7Z0M&hd=1" :target "gdl-videos")
+	       "G102-TUD Seminar Part 1 (4:55)")
+	      " Basic introduction and defining a first Common Lisp function")
+	 (:li ((:a :href "http://www.youtube.com/watch?v=f8fra0SVFyU&hd=1" :target "gdl-videos")
+	       "G102-TUD Seminar Part 2 (4:59)")
+	      " Up through the concept of (setq self (make-object ...))")
+	 (:li ((:a :href "http://www.youtube.com/watch?v=dlIWDhDLSPU&hd=1" :target "gdl-videos")
+	       "G102-TUD Seminar Part 3 (4:23)")
+	      " Shorthand for setting self to a new instance; Defining an object which takes
+inputs, and providing input values when creating an instance.")
+	 (:li ((:a :href "http://www.youtube.com/watch?v=AK9pLmU_L18&hd=1" :target "gdl-videos")
+	       "G102-TUD Seminar Part 4 (4:54)")
+	      " Different types of input-slots; Exercise 1 involving input-slots; 
+Inroduction to Child objects.")
+	 (:li ((:a :href "http://www.youtube.com/watch?v=ZHxYhbst3Zc&hd=1" :target "gdl-videos")
+	       "G102-TUD Seminar Part 5 (4:53)")
+	      " Working with standard object sequences (via aggregate objects) ")
+	 (:li ((:a :href "http://www.youtube.com/watch?v=RUYP8_e4QN0&hd=1" :target "gdl-videos")
+	       "G102-TUD Seminar Part 6 (4:29)")
+	      " Lisp background on plists. Exercise 2 using plist to feed a sequenced child object.")
+	 (:li ((:a :href "http://www.youtube.com/watch?v=MucUXirjVnA&hd=1" :target "gdl-videos")
+	       "G102-TUD Seminar Part 7 (4:20)")
+	      " Gendl Functions, and Exercise 3 involving Gendl Functions."))
+
+	#|
+	(:h4 "G102: GenDL Quickstart")
 	(:p "Slides are available " ((:a :href "http://www.genworks.com/downloads/training-g102/" :target "g102-slides") "here") ", "
 	    "Exercise skeletons " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/g102-exercises.lisp?raw=true" :target "gendl-code") "here") ", and "
 	    "Sample code from the slides " ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102/examples/source/section-2-examples.lisp?raw=true" :target "gendl-code") "here") ".")
-
 
 	(:h4 "Lecture Videos for Some of the Slides")
 
@@ -94,7 +140,10 @@
 	 (:li ((:a :href "http://www.youtube.com/watch?v=ZuYOZ33PiDI&hd=1" :target "gdl-videos") 
 	       "Section 2.11: Child Objects (5:02)"))
 	 (:li ((:a :href "http://www.youtube.com/watch?v=bIu_AywMMQU&hd=1" :target "gdl-videos") 
-	       "Section 2.12: GenDL Object Sequences (4:44)")))))
+	       "Section 2.12: GenDL Object Sequences (4:44)")))
+	|#
+
+	))
       
       (:h3 "Manuals and Tutorials")
       ((:div :class "profile")

@@ -82,6 +82,9 @@ of side-effecting anything at all to the default *stream*."
 
         (with-cl-who (,@args) ,@body)))
 
+(defmacro with-htm (&body body)
+  `(with-cl-who-string () ,@body))
+
 
 
 (define-object base-html-sheet (sheet-section)

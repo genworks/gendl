@@ -162,6 +162,7 @@
    
    #:with-cl-who
    #:with-cl-who-string
+   #:with-htm
    #:publish-gwl-app
    #:publish-string-content
    ))
