@@ -87,8 +87,7 @@
 (defun executable-homedir-pathname ()
   #+allegro (translate-logical-pathname "sys:")
   #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
-  #+lispworks lw:*lispworks-directory*)
-
+  #+lispworks (make-pathname :name nil :type nil :defaults (first (glisp:basic-command-line-arguments))))
 
 (defparameter *gdl-program-home* (glisp:executable-homedir-pathname))
 

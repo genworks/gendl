@@ -139,7 +139,6 @@
       (let ((leaves (reverse (ensure-list objects))))
         (let (entity-plist)
           (dolist (leaf leaves)
-            
             (cond ((or (typep leaf 'trimmed-surface)(typep leaf 'face)) 
                    (push leaf (getf entity-plist :trimmed-surfaces)))
                   ((and (typep leaf 'brep) 

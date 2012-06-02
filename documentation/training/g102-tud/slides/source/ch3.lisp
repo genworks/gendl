@@ -82,10 +82,10 @@ is equivalent to:")
          :examples 
          ((:define-object gdl-user::single-box-trickle)))
         (:description
-         "If you are ever tempted to define your own "
-	 ((:span :class "gdl-section-keyword") "trickle-down-slots")
-	  " in your definitions, do it with caution; they can make it 
-difficult to trace where values are coming from.")))
+         ,(with-htm "If you are ever tempted to define your own "
+		    ((:span :class "gdl-section-keyword") "trickle-down-slots")
+		    " in your definitions, do it with caution; they can make it 
+difficult to trace where values are coming from."))))
       
       (:title 
        "Working with points and vectors"
@@ -144,7 +144,7 @@ a point by a distance in any of the six direction keywords:
 <span class=lisp-code>:left</span>,
 <span class=lisp-code>:rear</span>,
 <span class=lisp-code>:front</span>,
-<span class=lisp-code>:top</span>,
+<span class=lisp-code>:up</span>,
 and <span class=lisp-code>:down</span>")
         
         (:description 
@@ -229,7 +229,7 @@ grid) which induces non-uniform parameterization.")
         (:description "<b>Rational</b> means a curve or surface can have 
 weighting factors (one per control point) to affect the geometry. Weights 
 are required to represent analytics (e.g. arcs (spheres)) using NURBS.")
-        (:description "<b>B-Splines</b> \"B\" from \"Bezier\" (I think), and it
+        (:description "<b>B-Splines</b> (short for \"Basis Splines\"), 
 means the curve (surface) is controlled by a list (grid) of 3D control-points.")
         (:description "Sometimes the control-points are combined with the weights
 and written as 4D  points.")))

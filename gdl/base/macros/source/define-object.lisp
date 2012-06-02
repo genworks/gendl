@@ -411,7 +411,9 @@ overview of <tt>define-object</tt> syntax."
           (when duplicates
             (error "duplicate slot name~p: ~{~a~^, ~}" (length duplicates) (sort duplicates #'string-lessp :key #'symbol-name))))))
     
-    `(with-compilation-unit () ;; progn
+    `(with-compilation-unit () 
+      ;;progn
+      ;;eval-when (:compile-toplevel :load-toplevel :execute)
        
        
        (defclass ,name ,(if (or no-vanilla-mixin? 
