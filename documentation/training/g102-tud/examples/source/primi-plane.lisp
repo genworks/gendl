@@ -63,12 +63,12 @@
 	      :c-tip (the data tail-c-tip)
 	      :span (the data tail-span)
 	      :root-center (translate (the center) 
-				      :down (- (the fuselage radius) (half (the-child thickness)))
+				      :down (- (the fuselage radius) (the-child thickness))
 				      :rear (- (half (the fuselage length))
-					       (half (the-child c-root))))
+					       (the-child c-root)))
 	      :rudder-root-center (translate (the-child root-center) :up 
 					     (- (twice (the fuselage radius))
-						(half (the-child thickness))))
+						(twice (the-child thickness))))
 	      :thickness (the data tail-thickness)
 	      :dihedral (the data tail-dihedral)
 	      :rudder-span  (the data rudder-span)
@@ -82,6 +82,7 @@
    (fuselage :type 'cylinder-fuselage
 	     :d (the data fuselage-diameter)
 	     :l (the data fuselage-length)
+	     :cross-section-percents (the data fuselage-cross-section-percents)
 	     :display-controls (list :color :red)
 	     )))
 
@@ -90,6 +91,7 @@
   :input-slots (wing-span wing-thickness wing-dihedral
 			  wing-c-root wing-c-tip Tmax rho C-of-F 
 			  fuselage-diameter fuselage-length
+			  fuselage-cross-section-percents
 			  tail-c-root tail-c-tip tail-span
 			  tail-thickness tail-dihedral
 			  points-data
@@ -124,10 +126,81 @@
 
 
 (define-object cylinder-fuselage (cylinder)
-  :input-slots (d l)
+  :input-slots (d l cross-section-percents)
 
   :computed-slots ((radius (half (the d)))
-		   (length (the l))))
+		   (length (the l))
+		   
+		   (section-offset-percentages (plist-keys (the cross-section-percents)))
+		   (section-centers (let ((nose-point (translate (the center) :front (half (the length)))))
+				      (mapcar #'(lambda (percentage)
+						  (translate nose-point :rear
+							     (* 1/100 percentage (the length))))
+					      (the section-offset-percentages))))
+		   (section-diameter-percentages (plist-values (the cross-section-percents)))
+		   (section-radii (mapcar #'(lambda (percentage)
+					      (* 1/100 percentage (the radius)))
+					  (the section-diameter-percentages))))
+  
+  :objects ((regioned :type 'regioned-solid
+		      :display-controls (list :transparency 0.5)
+		      :brep (the merged))
+
+	    (interior :type 'cabin-interior
+		      :display-controls (list :color :black)
+		      :width (twice (the radius))))
+
+
+
+  :hidden-objects ((section-curves :type 'arc-curve
+				   :sequence (:size (length (the section-centers)))
+				   :center (nth (the-child index) (the section-centers))
+				   :radius (nth (the-child index) (the section-radii))
+				   :orientation (alignment :top (the (face-normal-vector :front))))
+
+
+		   (floor-plane :type 'rectangular-surface
+				:display-controls (list :color :black)
+				:width (* (the radius) 4)
+				:length (* (the length) 3/2))
+	    
+		   (merged :type 'merged-solid
+			   :brep (the loft brep)
+			   :other-brep (the floor-plane brep)
+			   :make-manifold? t)
+	    
+		   (loft :type 'lofted-surface
+			 :end-caps-on-brep? t
+			 :curves (list-elements (the section-curves)))))
+
+
+(define-object cabin-interior (base-object)
+  
+  :computed-slots ((nose-point (translate (the center) 
+					  :front (- (half (the length))
+						    (* 1/10 (the length))))))
+
+  :objects
+  ((seat-rows :type 'seat-row
+	      :sequence (:size (floor (/ (* 8/10 (the length)) 2)))
+	      :length 1
+	      :height 1
+	      :width (* .8 (the width))
+	      :center (translate (the nose-point) 
+				 :rear (* (twice (the-child length))
+					  (the-child index))
+				 :up (half (the-child height))))))
+
+(define-object seat-row (base-object)
+  
+  :objects
+  ((seats :type 'box
+	  :width 0.5
+	  :sequence (:matrix :lateral 5 :longitudinal 1))))
+
+  
+
+
 
 (define-object box-wings (base-object)
   :input-slots (root-center span c-root c-tip thickness dihedral canonical-profile)
@@ -186,7 +259,7 @@
 
   :objects ((box :type 'box
 		 :hidden? t
-		 :display-controls (list :color :yellow :transparency 0.7))
+		 :display-controls (list :color :orange :transparency 0.7))
 
 
 	    (root-profile :type 'boxed-curve
@@ -197,7 +270,8 @@
 			  :scale-y (/ (the thickness) (the canonical-profile max-thickness))
 			  :scale-x (/ (the c-root) (the canonical-profile chord))
 			  :center (the (edge-center :left :front))
-			  :hidden? t)
+			  :hidden? t
+			  )
 	    
 	    (tip-profile :type 'boxed-curve
 			 :curve-in (the canonical-profile)
@@ -208,8 +282,12 @@
 			 :scale-x (/ (the c-tip) (the canonical-profile chord))
 			 :center (translate (the (edge-center :right :front))
 					    :rear (- (the length) (the c-tip)))
-			 :hidden? t)
+			 :hidden? t
+			 )
 
 	    (loft :type 'lofted-surface
+		  :end-caps-on-brep? t
 		  :curves (list (the root-profile) (the tip-profile)))))
 						   
+(setq *tess-max-3d-edge-factor* 0.3)
+(setq *tess-max-angle-degrees* 25)

@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011, 2012 Genworks International
+;; Copyright 2012 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -59,7 +59,7 @@
                              (when (getf (the display-controls) :linetype)
                                (write-the line-properties))))
          (:IndexedFaceSet :creaseAngle "1.571"
-                          :solid "false"
+                          :solid "true"
                           :coordIndex formatted-vertices
                           (:Coordinate :point (format nil "~{~a~^, ~}" 
                                                       (let ((*read-default-float-format* 'single-float))
@@ -76,7 +76,8 @@
   :output-functions
   ((shape
     ()
-    (let* ((total-points (floor (the total-length)))
+    (let* ((total-points *curve-chords* ;;(floor (the total-length))
+	     )
            (points (the (equi-spaced-points total-points)))
 	   (3d-points (mapcar #'(lambda(point) (the (global-to-local* point))) points)))
       (let ((indices (list-of-numbers 0 (1- (length points)))))
@@ -84,13 +85,13 @@
           (:|Shape|
            (:|Appearance| (write-the material-properties))
            (:|IndexedLineSet| :|coordIndex| (format nil "~{~a ~}-1" indices)
-                            (:|Coordinate| :|point| (format nil "~{~a~^, ~}"
-                                                        (let ((*read-default-float-format* 'single-float))
-                                                          (mapcar #'(lambda(point) 
-								      (format nil "~a ~a ~a" 
-									      (coerce (get-x point) 'single-float)
-									      (coerce (get-y point) 'single-float) 
-									      (coerce (get-z point) 'single-float)))
-								  3d-points))))))))))))
+	     (:|Coordinate| :|point| (format nil "~{~a~^, ~}"
+					     (let ((*read-default-float-format* 'single-float))
+					       (mapcar #'(lambda(point) 
+							   (format nil "~a ~a ~a" 
+								   (coerce (get-x point) 'single-float)
+								   (coerce (get-y point) 'single-float) 
+								   (coerce (get-z point) 'single-float)))
+						       3d-points))))))))))))
 
 

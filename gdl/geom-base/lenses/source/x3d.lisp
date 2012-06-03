@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011, 2012 Genworks International
+;; Copyright 2012 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -144,10 +144,10 @@
       
       (cl-who:with-html-output (*stream* nil :indent nil)
         (:|Transform| :translation (when (not (every #'zerop (list x y z)))
-                                   (format nil "~3,7f ~3,7f ~3,7f" x y z))
-                    :rotation (when rotation
-                                (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
-                    (:|Group| (write-the shape))))))
+				     (format nil "~3,7f ~3,7f ~3,7f" x y z))
+	  :rotation (when rotation
+		      (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
+	  (:|Group| (write-the shape))))))
    
    (scene 
     ()
@@ -190,8 +190,11 @@
                    
 		  (write-the shape)))
 		(write-the shape)))
+
+	   
 	   (when (and (typep self 'outline-specialization-mixin)
-		      (not (ignore-errors (typep self (read-from-string "surf:surface")))))
+		      (not (ignore-errors (typep self (read-from-string "surf:surface"))))
+		      (not (ignore-errors (typep self (read-from-string "surf:curve")))))
 	     (let* ((center (reverse-vector (the center)))
 		    (x (get-x center)) (y (get-y center)) (z (get-z center))
 		    (inverse (when (the orientation*)
@@ -240,10 +243,12 @@
 		
 		(mapc #'(lambda(child) 
 			  (write-the-object child (cad-output-tree :header? nil :from-root? nil))) (the children)))
-    
+	    
+
 	    (when (and (typep self 'outline-specialization-mixin)
-		       (not (ignore-errors (typep self (read-from-string "surf:surface")))))
-      
+		       (not (ignore-errors (typep self (read-from-string "surf:surface"))))
+		       (not (ignore-errors (typep self (read-from-string "surf:curve")))))
+	      
 	      (let* ((center (reverse-vector (the center)))
 		     (x (get-x center)) (y (get-y center)) (z (get-z center))
 		     (inverse (when (the orientation*)
@@ -262,7 +267,20 @@
 
 
    
+(defmacro with-corrected-orientation (&body body)
+  `(let* ((orientation (when (the orientation*)
+			 (alignment :rear (the (face-normal-vector :rear))
+				    :top (the (face-normal-vector :bottom))
+				    :right (the (face-normal-vector :right)))))
 
+	   (local (when orientation
+		    (matrix:multiply-matrix orientation (matrix:transpose-matrix (the orientation*)))))
+
+	   (rotation (when local (matrix-to-rotation local))))
+    
+    (cl-who:with-html-output (*stream* nil :indent t)
+      (:|Transform| :rotation (when rotation (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
+	,@body))))
 
 
 (define-lens (x3d line)()
@@ -281,8 +299,6 @@
                                                                         (get-x point) 
                                                                         (get-y point) 
                                                                         (get-z point))) points)))))))))))
-
-
 
 
 
@@ -327,20 +343,19 @@
 									  (get-z point))) points))))))))))))
 
 
-
 (define-lens (x3d cone)()
   :output-functions
   (
    (shape
     ()
     (if (the simple?)
-	(cl-who:with-html-output (*stream* nil :indent nil)
-	  (:|Shape|
-	   (:|Appearance| (write-the material-properties))
-	   (:|Cone| :bottomRadius (the radius-1)
-		  :topRadius (the radius-2)
-		  :height (the length)
-		  :bottom (when (the bottom-cap?) "TRUE"))))
+	(with-corrected-orientation
+	    (:|Shape|
+	      (:|Appearance| (write-the material-properties))
+	      (:|Cone| :bottomRadius (the radius-1)
+		:topRadius (the radius-2)
+		:height (the length)
+		:bottom (when (the bottom-cap?) "TRUE"))))
 	(call-next-method)))))
 	
 
@@ -361,6 +376,9 @@
 
 
 
+;;
+;; FLAG -- why doesn't this need the corrected-orientation?
+;;
 (define-lens (x3d cylinder)()
   :output-functions
   (
@@ -369,9 +387,9 @@
     (if (the simple?)
 	(cl-who:with-html-output (*stream* nil :indent nil)
 	  (:|Shape|
-	   (:|Appearance| (write-the material-properties))
-	   (:|Cylinder| :|radius| (to-double-float (the radius) )
-		      :|height| (to-double-float (the length)))))
+	    (:|Appearance| (write-the material-properties))
+	    (:|Cylinder| :|radius| (to-double-float (the radius))
+	      :|height| (to-double-float (the length)))))
 	(call-next-method)))))
 
 
@@ -379,13 +397,13 @@
   :output-functions
   ((shape
     ()
-    (cl-who:with-html-output (*stream* nil :indent t)
-      (:|Shape|
-       (:|Appearance| (write-the material-properties))
-       (:|Box| :|size| (format nil "~a ~a ~a" 
-			       (to-double-float (the width))
-			       (to-double-float (the length))
-			       (to-double-float (the height)))))))))
+    (with-corrected-orientation 
+	(:|Shape|
+	  (:|Appearance| (write-the material-properties))
+	  (:|Box| :|size| (format nil "~a ~a ~a" 
+				  (to-double-float (the width))
+				  (to-double-float (the length))
+				  (to-double-float (the height)))))))))
 
 
 
@@ -424,8 +442,8 @@
                                                                                        (coerce (get-y point) 'single-float) 
                                                                                        (coerce (get-z point) 'single-float)
                                                                                        ))
-                                                              (the vertex-list)))))))))))
-
+                                                              (mapcar #'(lambda(point) (the (global-to-local* point)))
+								      (the vertex-list))))))))))))
 
 (define-lens (x3d ifs-output-mixin)()
   :output-functions
@@ -442,4 +460,5 @@
                                                     (let ((point (the (global-to-local* point))))
                                                       (list (get-x point) (get-y point) (get-z point))) )
                                           (the ifs-array)))))))))))
+
 
