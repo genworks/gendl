@@ -1,0 +1,30 @@
+
+(:wing-span 
+ 30
+ :wing-c-root 6
+ :wing-c-tip 3
+ :wing-thickness 1
+ :wing-dihedral 10
+ :Tmax 800
+ :rho 0.73
+ :C-of-F 0.005
+ :fuselage-diameter 5
+ :fuselage-length 42
+
+ :tail-span 
+ 15
+ :tail-c-root 5
+ :tail-c-tip 2
+ :tail-thickness 0.8
+ :tail-dihedral 8
+
+ :rudder-span 
+ 10
+ :rudder-c-root 5
+ :rudder-c-tip 2
+ :rudder-thickness 0.8
+
+ )
+
+
+	    

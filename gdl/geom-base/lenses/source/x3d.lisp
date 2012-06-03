@@ -136,8 +136,8 @@
    
    (transform
     ()
-    (let* (;;(rotation (quaternion-to-rotation (matrix-to-quaternion (the orientation))))
-           (rotation (matrix-to-rotation (the orientation)))
+    (let* (;;(rotation (quaternion-to-rotation (matrix-to-quaternion (the orientation*))))
+           (rotation (matrix-to-rotation (the orientation*)))
            (x (get-x (the center))) 
            (y (get-y (the center))) 
            (z (get-z (the center))))
@@ -168,7 +168,7 @@
     
     (when header? (write-the header))
     
-    (let ((orientation (the orientation)))
+    (let ((orientation (the orientation*)))
       
       (let (;;(rotation (quaternion-to-rotation (matrix-to-quaternion orientation)))
             (rotation (matrix-to-rotation orientation))
@@ -194,12 +194,12 @@
 		      (not (ignore-errors (typep self (read-from-string "surf:surface")))))
 	     (let* ((center (reverse-vector (the center)))
 		    (x (get-x center)) (y (get-y center)) (z (get-z center))
-		    (inverse (when (the orientation)
+		    (inverse (when (the orientation*)
 			       (matrix-to-rotation (matrix:transpose-matrix 
-						    (the orientation)))
+						    (the orientation*)))
 			       #+nil
 			       (quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix 
-									      (the orientation)))))))
+									      (the orientation*)))))))
 	       (cl-who:htm
 		((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
 					    (format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
@@ -216,13 +216,13 @@
     
     (when header? (write-the header))
     
-    (let ((center (if from-root? (the center) (the local-center)))
-	  (orientation (if from-root? (the orientation) (the local-orientation))))
+    (let ((center (if from-root? (the center) (the local-center*)))
+	  (orientation (if from-root? (the orientation*) (the local-orientation*))))
       (let (;;(rotation (quaternion-to-rotation (matrix-to-quaternion orientation)))
             (rotation (matrix-to-rotation orientation))
             (x (get-x center)) (y (get-y center)) (z (get-z center)))
         
-         
+
         (cl-who:with-html-output (*stream* nil :indent nil)
           ((:|Transform| :|translation| (unless (every #'zerop (list x y z))
 				      (format nil "~3,7f ~3,7f ~3,7f" x y z)))
@@ -246,10 +246,10 @@
       
 	      (let* ((center (reverse-vector (the center)))
 		     (x (get-x center)) (y (get-y center)) (z (get-z center))
-		     (inverse (when (the orientation)
+		     (inverse (when (the orientation*)
 				#+nil
-				(quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix (the orientation))))
-				(matrix-to-rotation (matrix:transpose-matrix (the orientation))))))
+				(quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix (the orientation*))))
+				(matrix-to-rotation (matrix:transpose-matrix (the orientation*))))))
 		(cl-who:htm
 		 ((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
 					     (format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
@@ -270,7 +270,7 @@
   ((shape
     ()
     
-    (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (list (the start) (the end))))
+    (let* ((points (mapcar #'(lambda(point) (the (global-to-local* point))) (list (the start) (the end))))
            (indices (list-of-numbers 0 (1- (length points)))))
       (cl-who:with-html-output (*stream* nil :indent nil)
         ((:|Shape| 
@@ -292,7 +292,7 @@
   ((shape
     ()
     (dolist (bezier (list-elements (the beziers)))
-      (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (the-object bezier (equi-spaced-points *curve-chords*))))
+      (let* ((points (mapcar #'(lambda(point) (the (global-to-local* point))) (the-object bezier (equi-spaced-points *curve-chords*))))
              (indices (list-of-numbers 0 (1- (length points)))))
 	(cl-who:with-html-output (*stream* nil :indent nil)
 	  ((:|Shape| 
@@ -314,7 +314,7 @@
   ((shape
     ()
     (dolist (bezier (list-elements (the beziers)))
-      (let* ((points (mapcar #'(lambda(point) (the (global-to-local point))) (the-object bezier (equi-spaced-points *curve-chords*))))
+      (let* ((points (mapcar #'(lambda(point) (the (global-to-local* point))) (the-object bezier (equi-spaced-points *curve-chords*))))
              (indices (list-of-numbers 0 (1- (length points)))))
 	(cl-who:with-html-output (*stream* nil :indent nil)
 	  ((:|Shape| 
@@ -370,8 +370,8 @@
 	(cl-who:with-html-output (*stream* nil :indent nil)
 	  (:|Shape|
 	   (:|Appearance| (write-the material-properties))
-	   (:|Cylinder| :|radius| (the radius) 
-		      :|height| (the length))))
+	   (:|Cylinder| :|radius| (to-double-float (the radius) )
+		      :|height| (to-double-float (the length)))))
 	(call-next-method)))))
 
 
@@ -402,7 +402,7 @@
 	  (:|Coordinate|
 	   :|point| (format nil "~{~a~^ ~}" 
 			  (mapcar #'(lambda(point) 
-				      (let ((point (the (global-to-local point))))
+				      (let ((point (the (global-to-local* point))))
 					(format nil "~a ~a ~a" (get-x point) (get-y point) (get-z point)))) points))))))))))
 
 
@@ -439,7 +439,7 @@
 	  :|coordIndex| (format nil "~{~{~a~^ ~}~^ -1 ~}" (the ifs-indices)))
         ((:|Coordinate| :|point| (format nil "~{~{~a~^ ~}~^ ~}"
                                      (map 'list #'(lambda(point) 
-                                                    (let ((point (the (global-to-local point))))
+                                                    (let ((point (the (global-to-local* point))))
                                                       (list (get-x point) (get-y point) (get-z point))) )
                                           (the ifs-array)))))))))))
 

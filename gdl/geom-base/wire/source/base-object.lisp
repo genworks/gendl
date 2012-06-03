@@ -22,6 +22,10 @@
 (in-package :geom-base)
 
 
+(glisp:define-constant +identity-lh-matrix+ (alignment :top (make-vector 0 0 1)
+						       :left (make-vector 1 0 0)
+						       :rear (make-vector 0 1 0)))
+
 ;;
 ;; FLAG -- consider name change to something indicating that this is geometric.
 ;;
@@ -119,6 +123,12 @@ of one (1.0).
    
    (left-handed? (and (the orientation) (minusp (determinant (the orientation)))))
 
+
+   (orientation* (if (the left-handed?)
+		     (matrix:multiply-matrix (the orientation) +identity-lh-matrix+)
+		     (the orientation)))
+
+
    (local-left-handed? (and (the local-orientation) (minusp (determinant (the local-orientation)))))
    
    (%orientation% nil)
@@ -195,6 +205,14 @@ of this object.
 
     )
 
+   ("3D Point. The center of this object, from the perspective of the parent. Starting
+from the parent's center and using the parent's orientation, this is the relative center
+of this object.
+"
+    local-center* (the (convert-point-to-local* (the center)))
+
+    )
+
 
    
    (%dimension-mapping% (let ((dimensions (list :width :length :height)))
@@ -227,6 +245,18 @@ with this matrix will always result in the absolute orientation for this part.
                         (if parent-inverse
                             (matrix:multiply-matrix (the orientation) parent-inverse)
                           (the orientation))))
+
+
+   (local-orientation* (let ((parent-inverse
+			      (when (and (the parent) 
+					 (the parent orientation*))
+				(matrix:transpose-matrix (the parent orientation*)))))
+			 (if (and parent-inverse (the orientation*))
+			     (matrix:multiply-matrix (the orientation*) parent-inverse)
+			     (the orientation*))))
+
+
+   
 
    ;;
    ;; FLAG -- replace face hash tables with struct since it's always
@@ -348,6 +378,15 @@ based on the orientation and center of the object to which the global-to-local m
     (let ((point (if (the orientation) (matrix*vector (the orientation) point) point))
           (center (if (the orientation) (matrix*vector (the orientation) (the center)) (the center))))
       (subtract-vectors point center)))
+
+
+   (global-to-local*
+    (point) 
+    (let ((point (if (the orientation*) (matrix*vector (the orientation*) point) point))
+          (center (if (the orientation*) (matrix*vector (the orientation*) (the center)) (the center))))
+      (subtract-vectors point center)))
+
+
    
    ("3D-point. This function returns the point given in relative local coordinates, converted into global coordinates,
 based on the orientation and center of the object to which the local-to-global message is sent.
@@ -361,6 +400,12 @@ based on the orientation and center of the object to which the local-to-global m
     (point)
     
     (translate (the center) :right (get-x point) :rear (get-y point) :up (get-z point)))
+
+   (local-to-global*
+    (point)
+    
+    (translate (the center) :right (get-x point) :rear (- (get-y point)) :up (get-z point)))
+
    
    (convert-point-to-local
     (point)
@@ -383,6 +428,30 @@ based on the orientation and center of the object to which the local-to-global m
                point-transformed))))
       
       point))
+
+
+   (convert-point-to-local*
+    (point)
+    (let ((point
+           (let* ((parent-orientation
+                   (when (the parent) (the parent orientation*)))
+                  (parent-center (when (the parent) (the parent center)))
+                  (point-transformed
+                   (if parent-orientation
+                       (matrix*vector parent-orientation point)
+                     point))
+                  (parent-center-transformed
+                   (when (the parent)
+                     (if parent-orientation
+                         (matrix*vector parent-orientation parent-center)
+                       parent-center))))
+             (if parent-center-transformed
+                 (subtract-vectors point-transformed
+                                   parent-center-transformed)
+               point-transformed))))
+      
+      point))
+
  
    (distance-along-axis
     (axis point &key (from (the center)))

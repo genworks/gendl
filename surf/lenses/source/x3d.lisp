@@ -46,9 +46,10 @@
     (face)
     (let* ((vertex-list (coerce (getf face :vertex-indices) 'list))
            (3d-point-list (coerce (getf face :3d-points) 'list))
-           (formatted-vertices (format nil "~{~a -1 ~}" (surf::make-triplet-strings vertex-list)))
+           (formatted-vertices (format nil "~{~a -1 ~}" 
+				       (surf::make-triplet-strings vertex-list)))
            (3d-points (mapcar #'(lambda (coord)
-                                  (the (global-to-local coord)))
+                                  (the (global-to-local* coord)))
                               3d-point-list)))
       (cl-who:with-html-output (*stream* nil :indent nil)
         (:Shape
@@ -76,7 +77,8 @@
   ((shape
     ()
     (let* ((total-points (floor (the total-length)))
-           (points (the (equi-spaced-points total-points))))
+           (points (the (equi-spaced-points total-points)))
+	   (3d-points (mapcar #'(lambda(point) (the (global-to-local* point))) points)))
       (let ((indices (list-of-numbers 0 (1- (length points)))))
         (cl-who:with-html-output (*stream* nil :indent nil)
           (:|Shape|
@@ -85,11 +87,10 @@
                             (:|Coordinate| :|point| (format nil "~{~a~^, ~}"
                                                         (let ((*read-default-float-format* 'single-float))
                                                           (mapcar #'(lambda(point) 
-                                                                      (let ((point (the (global-to-local point))))
-                                                                        (format nil "~a ~a ~a" 
-                                                                                (coerce (get-x point) 'single-float)
-                                                                                (coerce (get-y point) 'single-float) 
-                                                                                (coerce (get-z point) 'single-float)
-                                                                                ))) points))))))))))))
+								      (format nil "~a ~a ~a" 
+									      (coerce (get-x point) 'single-float)
+									      (coerce (get-y point) 'single-float) 
+									      (coerce (get-z point) 'single-float)))
+								  3d-points))))))))))))
 
 

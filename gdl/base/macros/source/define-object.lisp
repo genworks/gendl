@@ -243,10 +243,10 @@ future GDL release."
            (class (gensym)))
 
 
-      `(with-compilation-unit () ;;progn
+      `(glisp:with-definition-unit
          ,(when (and *compile-documentation-database?* documentation)
-            `(when *load-documentation-database?*
-               (setf (gdl-documentation ,class) ',documentation)))
+		`(when *load-documentation-database?*
+		   (setf (gdl-documentation ,class) ',documentation)))
          
          (let* ((,class (find-class ',name)))
            (setf (messages ,class) ',new-messages)
@@ -411,10 +411,7 @@ overview of <tt>define-object</tt> syntax."
           (when duplicates
             (error "duplicate slot name~p: ~{~a~^, ~}" (length duplicates) (sort duplicates #'string-lessp :key #'symbol-name))))))
     
-    `(with-compilation-unit () 
-      ;;progn
-      ;;eval-when (:compile-toplevel :load-toplevel :execute)
-       
+    `(glisp:with-definition-unit 
        
        (defclass ,name ,(if (or no-vanilla-mixin? 
                                 (some #'(lambda(mixin)

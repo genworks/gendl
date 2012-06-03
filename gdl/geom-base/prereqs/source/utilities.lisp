@@ -1204,62 +1204,64 @@ that axis.
 
 
 (defun matrix-to-rotation (matrix)
-  
   (when matrix
     (if (and (zerop (- (aref matrix 0 1) (aref matrix 1 0)))
-             (zerop (- (aref matrix 0 2) (aref matrix 2 0)))
-             (zerop (- (aref matrix 1 2) (aref matrix 2 1))))
-        ;;
-        ;; have singularity
-        ;;
+	     (zerop (- (aref matrix 0 2) (aref matrix 2 0)))
+	     (zerop (- (aref matrix 1 2) (aref matrix 2 1))))
+	;;
+	;; have singularity
+	;;
       
-        (if (and (zerop (+ (aref matrix 0 1) (aref matrix 1 0)))
-                 (zerop (+ (aref matrix 0 2) (aref matrix 2 0)))
-                 (zerop (+ (aref matrix 1 2) (aref matrix 2 1)))
-                 (zerop (+ (aref matrix 0 0) (aref matrix 1 1) (aref matrix 2 2) -3)))
-            ;;
-            ;; have identity matrix
-            ;;
-            (make-vector 1 0 0 0)
-          ;;
-          ;; have 180-degree rotation singularity
-          ;; 
-          (let ((angle pi)
-                x y z
-                (xx (half (+ (aref matrix 0 0) 1)))
-                (yy (half (+ (aref matrix 1 1) 1)))
-                (zz (half (+ (aref matrix 2 2) 1)))
-                (xy (/ (+ (aref matrix 0 1) (aref matrix 1 0)) 4))
-                (xz (/ (+ (aref matrix 0 2) (aref matrix 2 0)) 4))
-                (yz (/ (+ (aref matrix 1 2) (aref matrix 2 1)) 4)))
-            (cond ((and (> xx yy) (> xx zz))
-                   (if (zerop xx)
-                       (setq x 0.0 y +half-sqrt-2+ z +half-sqrt-2+)
-                     (setq x (sqrt xx)
-                           y (/ xy x)
-                           z (/ xz x))))
-                  ((> yy zz)
-                   (if (zerop yy)
-                       (setq x +half-sqrt-2+ y 0.0 z +half-sqrt-2+)
-                     (setq y (sqrt yy) x (div xy y) z (div yz y))))
-                  (t 
-                   (if (zerop zz)
-                       (setq x +half-sqrt-2+ y +half-sqrt-2+ z 0.0)
-                     (setq z (sqrt zz) x (/ xz z) y (/ yz z)))))
-            (make-vector x y z angle)))
+	(if (and (zerop (+ (aref matrix 0 1) (aref matrix 1 0)))
+		 (zerop (+ (aref matrix 0 2) (aref matrix 2 0)))
+		 (zerop (+ (aref matrix 1 2) (aref matrix 2 1)))
+		 (zerop (+ (aref matrix 0 0) (aref matrix 1 1) (aref matrix 2 2) -3)))
+	    ;;
+	    ;; have identity matrix
+	    ;;
+	    (make-vector 1 0 0 0)
+	    ;;
+	    ;; have 180-degree rotation singularity
+	    ;; 
+	    (let ((angle pi)
+		  x y z
+		  (xx (half (+ (aref matrix 0 0) 1)))
+		  (yy (half (+ (aref matrix 1 1) 1)))
+		  (zz (half (+ (aref matrix 2 2) 1)))
+		  (xy (/ (+ (aref matrix 0 1) (aref matrix 1 0)) 4))
+		  (xz (/ (+ (aref matrix 0 2) (aref matrix 2 0)) 4))
+		  (yz (/ (+ (aref matrix 1 2) (aref matrix 2 1)) 4)))
+	      (cond ((and (> xx yy) (> xx zz))
+		     (if (zerop xx)
+			 (setq x 0.0 y +half-sqrt-2+ z +half-sqrt-2+)
+			 (setq x (sqrt xx)
+			       y (/ xy x)
+			       z (/ xz x))))
+		    ((> yy zz)
+		     (if (zerop yy)
+			 (setq x +half-sqrt-2+ y 0.0 z +half-sqrt-2+)
+			 (setq y (sqrt yy) x (div xy y) z (div yz y))))
+		    (t 
+		     (if (zerop zz)
+			 (setq x +half-sqrt-2+ y +half-sqrt-2+ z 0.0)
+			 (setq z (sqrt zz) x (/ xz z) y (/ yz z)))))
+	      (make-vector x y z angle)))
+
   
-      (let* ((angle (acos (half (+ (aref matrix 0 0)
-                                   (aref matrix 1 1)
-                                   (aref matrix 2 2)
-                                   (- 1)))))
-             (s (sqrt (+ (expt (- (aref matrix 2 1) (aref matrix 1 2)) 2)
-                         (expt (- (aref matrix 0 2) (aref matrix 2 0)) 2)
-                         (expt (- (aref matrix 1 0) (aref matrix 0 1)) 2))))
+	(let* ((angle (acos (half (+ (aref matrix 0 0)
+				     (aref matrix 1 1)
+				     (aref matrix 2 2)
+				     (- 1)))))
+	       (s (sqrt (+ (expt (- (aref matrix 2 1) (aref matrix 1 2)) 2)
+			   (expt (- (aref matrix 0 2) (aref matrix 2 0)) 2)
+			   (expt (- (aref matrix 1 0) (aref matrix 0 1)) 2))))
         
-             (x (/ (- (aref matrix 2 1) (aref matrix 1 2)) s))
-             (y (/ (- (aref matrix 0 2) (aref matrix 2 0)) s))
-             (z (/ (- (aref matrix 1 0) (aref matrix 0 1)) s)))
-        (make-vector x y z (- angle))))))
+	       (x (/ (- (aref matrix 2 1) (aref matrix 1 2)) s))
+	       (y (/ (- (aref matrix 0 2) (aref matrix 2 0)) s))
+	       (z (/ (- (aref matrix 1 0) (aref matrix 0 1)) s)))
+	    
+	  (make-vector x y z (- angle))))))
+
 
 
 

@@ -21,6 +21,86 @@
 
 (in-package :gdl)
 
+
+
+
+
+(defun computed-slots-section (name computed-slots &key query?)
+  (mapcan 
+   #'(lambda(attribute)
+       (let ((attr-remarks (message-strings attribute))
+             (attr-sym (intern (symbol-name (message-symbol attribute)) :gdl-acc))
+             (attr-expr (message-source-code attribute)))
+         (remove
+          nil
+          (list
+           (when (and name *compile-documentation-database?* attr-remarks)
+             `(when *load-documentation-database?*
+                (let ((ht (or (message-documentation (find-class ',name))
+                              (setf (message-documentation (find-class ',name)) (make-hash-table)))))
+                  (setf (gethash (make-keyword ',attr-sym) ht) ,attr-remarks))))
+           (when (and name *compile-source-code-database?*)
+             `(when *load-source-code-database?*
+                (let ((ht (or (message-source (find-class ',name))
+                              (setf (message-source (find-class ',name)) (make-hash-table)))))
+                  (setf (gethash (make-keyword ',attr-sym) ht) ',attr-expr))))
+
+           
+           (when name
+             `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
+                (declare (ignore ,args-arg))
+                (let ((*error-on-not-handled?* t))
+                  (with-dependency-tracking (,attr-sym)
+                    ,(if query? (error "Query-slots are not supported in this distribution of Genworks GDL.")
+                       attr-expr)))))
+           
+           ;;
+           ;;
+           ;;
+
+           (when (and *compile-for-dgdl?* (not (string-equal (symbol-name name) "remote-object")))
+             `(when (or (not (fboundp ',(glisp:intern attr-sym :gdl-slots)))
+                        (not (find-method (symbol-function ',(glisp:intern attr-sym :gdl-slots))
+                                          nil (list (find-class 'gdl-remote)) nil)))
+                (defmethod ,(glisp:intern attr-sym :gdl-slots) ((,self-arg gdl-remote) &rest ,args-arg)
+                  (the-object ,self-arg (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) 
+                                                            ,args-arg)))))))
+           
+	   ;;
+	   ;; FLAG -- duplicated from inputs.lisp and objects.lisp, functions.lisp, and below in this file. 
+	   ;; 
+	   `(eval-when (:compile-toplevel :load-toplevel :execute) 
+	      (glisp:begin-redefinitions-ok)
+
+	      (unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+				     (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+						  nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
+		      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
+										     ,part-arg 
+										     (,self-arg gdl-basis))
+			(declare (ignore ,part-arg))
+			(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
+					      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
+			  (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg))))
+	   
+	      (glisp:end-redefinitions-ok))
+
+	   `(when (or (not (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-slots)))
+		      (not (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
+					nil (list (find-class 'gdl-basis)) nil)))
+	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
+		(declare (ignore ,args-arg))
+		(let ((,parent-arg (the-object ,self-arg %parent%)))
+		  (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword attr-sym))
+		      (let ((,val-arg (let (*error-on-not-handled?*)
+					(,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
+					  ,parent-arg (the-object ,self-arg :%name%) ,self-arg))))
+			(if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg)))))))))) 
+   computed-slots))
+
+
+
+#+nil
 (defun computed-slots-section (name computed-slots &key query?)
   (mapcan 
    #'(lambda(attribute)

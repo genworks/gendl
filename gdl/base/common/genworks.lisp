@@ -56,9 +56,11 @@
              #:set-defpackage-behavior
              #:set-local-compiler-tweaks
              #:set-window-titles
+	     #:source-pathname
 	     #:system-home
              #:upcase
 	     #:validate-superclass
+	     #:with-definition-unit
 	     #:without-package-variance-warnings
              #:w-o-interrupts
              #:xref-off
@@ -81,6 +83,12 @@
 
 
 
+#-(or allegro lispworks sbcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
+(defun basic-command-line-arguments ()
+  #+allegro (sys:command-line-arguments :application nil)
+  #+lispworks system:*line-arguments-list*
+  #+sbcl sb-ext:*posix-argv*)
+
 
 #-(or allegro lispworks cmu sbcl) 
 (error "Need implementation for executable-homedir-pathname for currently running lisp.~%")
@@ -95,13 +103,6 @@
 					:type nil
 					:directory (butlast (pathname-directory *gdl-program-home*))
 					:defaults *gdl-program-home*))
-
-
-#-(or allegro lispworks sbcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
-(defun basic-command-line-arguments ()
-  #+allegro (sys:command-line-arguments :application nil)
-  #+lispworks system:*line-arguments-list*
-  #+sbcl sb-ext:*posix-argv*)
 
 
 ;;
@@ -259,6 +260,12 @@
   (excl:console-control :title "Genworks GenDL Console")
   (retitle-emacs))
 
+#-(or allegro lispworks) (warn "Find out how to get the source-pathname  in current lisp.")
+(defun source-pathname ()
+  #+allegro excl:*source-pathname*
+  #+lispworks dspec:*source-pathname*
+  #+sbcl (error "need source-pathname in sbcl~%"))
+
 (defun system-home (system-designator)
   (asdf:system-source-directory system-designator))
 
@@ -336,6 +343,11 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
+#-(or allegro lispworks sbcl) (error "need with-definition-unit for currently running lisp.~%")
+(defmacro with-definition-unit (&body body)
+  #+allegro  `(with-compilation-unit () ,@body)
+  #+(or lispworks sbcl) `(progn ,@body))
+  
 
 (defmacro without-package-variance-warnings (&body body)
   `(eval-when (:compile-toplevel :load-toplevel :execute)

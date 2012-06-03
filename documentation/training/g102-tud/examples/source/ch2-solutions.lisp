@@ -20,11 +20,11 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-ATTENTION!!! 
-ATTENTION!!! DO NOT LOOK AT THIS SOURCE UNTIL YOU TRY THE EXERCISES YOURSELF!!!
-ATTENTION!!!
-
+;;
+;; ATTENTION!!! 
+;; ATTENTION!!! DO NOT LOOK AT THIS SOURCE UNTIL YOU TRY THE EXERCISES YOURSELF!!!
+;; ATTENTION!!!
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
