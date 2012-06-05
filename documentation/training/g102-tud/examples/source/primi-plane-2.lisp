@@ -19,12 +19,35 @@
 
 (in-package :gdl-user)
 
-(defparameter *data-folder* (merge-pathnames "../../data/" 
-					     (make-pathname :name nil
-							    :type nil
-							    :defaults excl:*source-pathname*
-							    ;; in future: (glisp:source-pathname)
-							    )))
+
+;;
+;; For convenience, look for data folder two levels up, one level up,
+;; and in same directory as source file.
+;;
+(defparameter *data-folder* 
+  (or (probe-file 
+       (merge-pathnames "../../data/" 
+			(make-pathname :name nil
+				       :type nil
+				       :defaults excl:*source-pathname*
+				       ;; in future: (glisp:source-pathname)
+				       )))
+      (probe-file 
+       (merge-pathnames "../data/" 
+			(make-pathname :name nil
+				       :type nil
+				       :defaults excl:*source-pathname*
+				       ;; in future: (glisp:source-pathname)
+				       )))
+      (probe-file 
+       (merge-pathnames "data/" 
+			(make-pathname :name nil
+				       :type nil
+				       :defaults excl:*source-pathname*
+				       ;; in future: (glisp:source-pathname)
+				       )))))
+      
+      
   
   
 
