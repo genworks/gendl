@@ -135,6 +135,41 @@ orientation, and the first Exercise.")
 		    " NURBS Surfaces"))))))
 
 
+
+      (:h3 "4. Primi Plane")
+      ((:div :class "profile")
+       ((:div :class "people")
+	(:ul 
+	 (:li "No Slides for This Section")
+	 (:li ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/" 
+		   :target "gendl-code") "Example Code (see \"primi-plane...\" files)"))
+
+	 (:li ((:a :href "http://www.youtube.com/playlist?list=PL80CC81A3C4471615&feature=view_all" :target "g102-slides")
+	       "Video Playlist (29:21)")
+	      (:ol
+	       (:li ((:a :href "http://www.youtube.com/watch?v=sLcH9S891AY&hd=1" :target "gdl-videos")
+		     "G102-TUD Seminar Part 13 (4:57)")
+		    " Primi Plane Part 1, orientation with a left-handed coordinate system, variable binding with let and let*, conditional with ecase.")
+	       (:li ((:a :href "http://www.youtube.com/watch?v=kBeH-b1UML8&hd=1" :target "gdl-videos")
+		     "G102-TUD Seminar Part 14 (4:55)")
+		    " Primi Plane Part 2, Reading the input data from a data file")
+	       (:li ((:a :href "http://www.youtube.com/watch?v=2XJlqYDZJJo&hd=1" :target "gdl-videos")
+		     "G102-TUD Seminar Part 15 (4:59)")
+		    " Primi Plane Part 3, Passing the data into a data object using the :parameters input, testing that the data from the file is making it into our model and can be changed without editing or recompiling source code")
+	       (:li ((:a :href "http://www.youtube.com/watch?v=wR66rw2awhE&hd=1" :target "gdl-videos")
+		     "G102-TUD Seminar Part 16 (5:00)")
+		    " Primi Plane Part 4, Reading airfoil profile points from a data file")
+	       (:li ((:a :href "http://www.youtube.com/watch?v=vtSSIsIMZsY&hd=1" :target "gdl-videos")
+		     "G102-TUD Seminar Part 17 (5:01)")
+		    " Primi Plane Part 5, Assembling x y points data into 3D points")
+	       (:li ((:a :href "http://www.youtube.com/watch?v=T7pkV3uu6Og&hd=1" :target "gdl-videos")
+		     "G102-TUD Seminar Part 18 (4:28)")
+		    " Primi Plane Part 6, Finally instantiating and probing the fitted-curve object from the list of 3D points.")
+	       )))))
+
+
+
+
       (:h3 "Manuals and Tutorials")
       ((:div :class "profile")
        ((:div :class "people")
