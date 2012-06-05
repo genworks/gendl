@@ -20,33 +20,6 @@
 (in-package :gdl-user)
 
 
-;;
-;; For convenience, look for data folder two levels up, one level up,
-;; and in same directory as source file.
-;;
-(defparameter *data-folder* 
-  (or (probe-file 
-       (merge-pathnames "../../data/" 
-			(make-pathname :name nil
-				       :type nil
-				       :defaults excl:*source-pathname*
-				       ;; in future: (glisp:source-pathname)
-				       )))
-      (probe-file 
-       (merge-pathnames "../data/" 
-			(make-pathname :name nil
-				       :type nil
-				       :defaults excl:*source-pathname*
-				       ;; in future: (glisp:source-pathname)
-				       )))
-      (probe-file 
-       (merge-pathnames "data/" 
-			(make-pathname :name nil
-				       :type nil
-				       :defaults excl:*source-pathname*
-				       ;; in future: (glisp:source-pathname)
-				       )))))
-      
       
   
   
@@ -160,3 +133,37 @@
   :objects ((box :type 'box
 		 :hidden? t
 		 :display-controls (list :color :orange :transparency 0.7))))
+
+
+;;
+;; For convenience, look for data folder two levels up, one level up,
+;; and in same directory as source file.
+;;
+(defparameter *data-folder* 
+  (or (probe-file 
+       (merge-pathnames "../../data/" 
+			(make-pathname :name nil
+				       :type nil
+				       :defaults excl:*source-pathname*
+				       ;; in future: (glisp:source-pathname)
+				       )))
+      (probe-file 
+       (merge-pathnames "../data/" 
+			(make-pathname :name nil
+				       :type nil
+				       :defaults excl:*source-pathname*
+				       ;; in future: (glisp:source-pathname)
+				       )))
+
+      (probe-file 
+       (merge-pathnames "../data/" 
+			(make-pathname :name nil
+				       :type nil
+				       :defaults excl:*source-pathname*
+				       ;; in future: (glisp:source-pathname)
+				       )))
+      
+      (error "Your data folder is not there. Please make a data folder with 
+aircraft and points data, two or one or zero directory levels up from the 
+directory of this source file.~%")))
+      
