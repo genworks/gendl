@@ -181,7 +181,7 @@
 				       )))
 
       (probe-file 
-       (merge-pathnames "../data/" 
+       (merge-pathnames "data/" 
 			(make-pathname :name nil
 				       :type nil
 				       :defaults excl:*source-pathname*
