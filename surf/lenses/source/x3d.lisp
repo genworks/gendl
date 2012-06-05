@@ -59,7 +59,7 @@
                              (when (getf (the display-controls) :linetype)
                                (write-the line-properties))))
          (:IndexedFaceSet :creaseAngle "1.571"
-                          :solid "true"
+                          :solid "false"
                           :coordIndex formatted-vertices
                           (:Coordinate :point (format nil "~{~a~^, ~}" 
                                                       (let ((*read-default-float-format* 'single-float))
