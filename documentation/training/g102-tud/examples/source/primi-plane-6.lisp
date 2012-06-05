@@ -59,9 +59,36 @@
 	      :display-controls (list :color :green)
 	      :canonical-profile (the canonical-profile))
 
+   (tail-assy :type 'box-tail
+	      :c-root (the data tail-c-root)
+	      :c-tip (the data tail-c-tip)
+	      :span (the data tail-span)
+	      :root-center (translate (the center) 
+				      :down (- (the fuselage radius) 
+					       (half (the-child thickness)))
+				      :rear (- (half (the fuselage length))
+					       (the-child c-root)))
+				      
+
+	      :fin-root-center (translate (the-child root-center)
+					  :up (* 4/3 (the fuselage radius)))
+
+
+	      :thickness (the data tail-thickness)
+	      :dihedral (the data tail-dihedral)
+	      
+	      :fin-span (the data fin-span)
+	      :fin-c-root (the data fin-c-root)
+	      :fin-c-tip (the data fin-c-tip)
+	      :fin-thickness (the data fin-thickness)
+
+	      :display-controls (list :color :blue)
+	      :canonical-profile (the canonical-profile))
+
    (fuselage :type 'cylinder-fuselage
 	     :d (the data fuselage-diameter)
 	     :l (the data fuselage-length)
+	     :cross-section-percents (the data fuselage-cross-section-percents)
 	     :display-controls (list :color :red))))
 
 
@@ -120,11 +147,52 @@
 
 
 (define-object cylinder-fuselage (cylinder)
-  :input-slots (d l)
+  :input-slots (d l cross-section-percents)
 
   :computed-slots ((radius (half (the d)))
-		   (length (the l))))
+		   (length (the l))
+		   
+		   (section-offset-percentages (plist-keys (the cross-section-percents)))
 
+		   (section-centers (let ((nose-point (the (face-center :front))))
+				      (mapcar #'(lambda(percentage)
+						  (translate nose-point :rear
+							     (* percentage 1/100
+								(the length))))
+					      (the section-offset-percentages))))
+
+		   (section-diameter-percentages (plist-values (the cross-section-percents)))
+		   
+		   (section-radii (mapcar #'(lambda(percentage)
+					      (* 1/100 percentage (the radius)))
+					  (the section-diameter-percentages))))
+
+
+  :hidden-objects ((section-curves 
+		    :type 'arc-curve
+		    :sequence (:size (length (the section-centers)))
+		    :center (nth (the-child index) (the section-centers))
+		    :radius (nth (the-child index) (the section-radii))
+		    :orientation (alignment :top (the (face-normal-vector :rear)))))
+
+  :objects
+  ((floor-plane :type 'rectangular-surface
+		:display-controls (list :color :black)
+		:width (* (the radius) 4)
+		:length (* (the length) 3/2))
+
+   (merged :type 'merged-solid
+	   :brep (the floor-plane)
+	   :other-brep (the loft)
+	   :make-manifold? t)
+   
+   (regioned :type 'regioned-solid
+	     :display-controls nil
+	     :brep (the merged))
+
+   (loft :type 'lofted-surface
+	 :end-caps-on-brep? t
+	 :curves (list-elements (the section-curves)))))
 
 
 (define-object box-wings (base-object)
@@ -156,6 +224,20 @@
 				    :front (the (face-normal-vector :front)))))))
 
 
+(define-object box-tail (box-wings)
+  :input-slots (fin-span fin-c-root fin-c-tip fin-thickness
+			 fin-root-center)
+
+  :objects
+  ((fin :type 'box-wing
+	:root-point (the fin-root-center)
+	:span (the fin-span)
+	:c-root (the fin-c-root)
+	:c-tip (the fin-c-tip)
+	:thickness (the fin-thickness)
+	:orientation (alignment :right (the (face-normal-vector :top))
+				:top (the (face-normal-vector :left))))))
+
 
 (define-object box-wing (box)
 
@@ -171,29 +253,31 @@
 						   (half (the width))
 						   )))
 
-  :objects ((box :type 'box
-		 :hidden? t
-		 :display-controls (list :color :orange :transparency 0.7))
+  :hidden-objects ((box :type 'box
+			:display-controls (list :color :orange :transparency 0.7))
 
-	    (root-profile :type 'boxed-curve
-			  :curve-in (the canonical-profile)
-			  :scale-y (/ (the thickness) (the canonical-profile max-thickness))
-			  :scale-x (/ (the c-root) (the canonical-profile span))
-			  :center (the (edge-center :left :front))
-			  :orientation (alignment :top (the (face-normal-vector :right))
-						  :right (the (face-normal-vector :rear))
-						  :rear (the (face-normal-vector :top))))
+		   (root-profile 
+		    :type 'boxed-curve
+		    :curve-in (the canonical-profile)
+		    :scale-y (/ (the thickness) (the canonical-profile max-thickness))
+		    :scale-x (/ (the c-root) (the canonical-profile span))
+		    :center (the (edge-center :left :front))
+		    :orientation (alignment :top (the (face-normal-vector :right))
+					    :right (the (face-normal-vector :rear))
+					    :rear (the (face-normal-vector :top))))
 	    
-	    (tip-profile :type 'boxed-curve
-			 :curve-in (the canonical-profile)
-			 :scale-y (/ (the thickness) (the canonical-profile max-thickness))
-			 :scale-x (/ (the c-tip) (the canonical-profile span))
-			 :center (translate (the (edge-center :right :front))
-					    :rear
-					    (- (the c-root) (the c-tip)))
-			 :orientation (the root-profile orientation))
+		   (tip-profile 
+		    :type 'boxed-curve
+		    :curve-in (the canonical-profile)
+		    :scale-y (/ (the thickness) (the canonical-profile max-thickness))
+		    :scale-x (/ (the c-tip) (the canonical-profile span))
+		    :center (translate (the (edge-center :right :front))
+				       :rear
+				       (- (the c-root) (the c-tip)))
+		    :orientation (the root-profile orientation)))
 
-	    (loft :type 'lofted-surface
+  :objects ((loft :type 'lofted-surface
+		  :end-caps-on-brep? t
 		  :curves (list (the root-profile) (the tip-profile)))))
 
 
@@ -205,30 +289,23 @@
 ;; and in same directory as source file.
 ;;
 (defparameter *data-folder* 
-  (or (probe-file 
-       (merge-pathnames "../../data/" 
-			(make-pathname :name nil
-				       :type nil
-				       :defaults excl:*source-pathname*
-				       ;; in future: (glisp:source-pathname)
-				       )))
-      (probe-file 
-       (merge-pathnames "../data/" 
-			(make-pathname :name nil
-				       :type nil
-				       :defaults excl:*source-pathname*
-				       ;; in future: (glisp:source-pathname)
-				       )))
-
-      (probe-file 
-       (merge-pathnames "data/" 
-			(make-pathname :name nil
-				       :type nil
-				       :defaults excl:*source-pathname*
-				       ;; in future: (glisp:source-pathname)
-				       )))
-      
-      (error "Your data folder is not there. Please make a data folder with 
-aircraft and points data, two or one or zero directory levels up from the 
-directory of this source file.~%")))
+  (let* ((source-pathname #+allegro excl:*source-pathname*
+			  #+lispworks dspec:*source-pathname*
+			  ;; in future: (glisp:source-pathname)
+			  )
+	 (base-path (make-pathname :name nil
+				   :type nil
+				   :defaults source-pathname
+				   ;; in future: (glisp:source-pathname)
+				   )))
+    (or (probe-file 
+	 (merge-pathnames "../../data/" base-path))
+	(probe-file 
+	 (merge-pathnames "../data/"  base-path))
+	(probe-file 
+	 (merge-pathnames "data/" base-path))
+	
+	(error "Your data folder is not there. Please make a data folder with 
+aircraft and points data, two or one or zero directory levels up from the
+directory of this source file.~%"))))
       

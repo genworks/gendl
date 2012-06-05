@@ -9,7 +9,7 @@
   :serial
   t
   :version
-  "2012060300"
+  "2012060500"
   :depends-on
   (:gdl-smlib)
   :components
@@ -78,10 +78,6 @@
    (:file "g102/solutions/city/source/grid-section")
    (:file "g102-tud/source/package")
    (:file "g102-tud/source/publish")
-   (:file "g102-tud/examples/source/ch2-examples")
-   (:file "g102-tud/examples/source/ch2-solutions")
-   (:file "g102-tud/examples/source/ch3-examples")
-   (:file "g102-tud/examples/source/primi-plane")
    (:file "g102-tud/slides/source/ch2")
    (:file "g102-tud/slides/source/ch3")
    (:file "g105/source/package")

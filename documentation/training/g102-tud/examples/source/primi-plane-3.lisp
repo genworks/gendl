@@ -20,9 +20,6 @@
 (in-package :gdl-user)
 
 
-  
-  
-
 (define-object primi-plane (base-object)
   
   :input-slots ((data-folder *data-folder*)
@@ -53,7 +50,8 @@
 	      :c-tip (the data wing-c-tip)
 	      :span (the data wing-span)
 	      :root-center (translate (the center) 
-				      :down (- (the fuselage radius) (half (the-child thickness)))
+				      :down (- (the fuselage radius) 
+					       (half (the-child thickness)))
 				      :front (* 1/6 (the fuselage length)))
 	      :thickness (the data wing-thickness)
 	      :dihedral (the dihedral)

@@ -59,6 +59,32 @@
 	      :display-controls (list :color :green)
 	      :canonical-profile (the canonical-profile))
 
+   (tail-assy :type 'box-tail
+	      :c-root (the data tail-c-root)
+	      :c-tip (the data tail-c-tip)
+	      :span (the data tail-span)
+	      :root-center (translate (the center) 
+				      :down (- (the fuselage radius) 
+					       (half (the-child thickness)))
+				      :rear (- (half (the fuselage length))
+					       (half (the-child c-root))))
+				      
+
+	      :fin-root-center (translate (the-child root-center)
+					  :up (- (twice (the fuselage radius))
+						 (half (the-child thickness))))
+
+	      :thickness (the data tail-thickness)
+	      :dihedral (the data tail-dihedral)
+	      
+	      :fin-span (the data fin-span)
+	      :fin-c-root (the data fin-c-root)
+	      :fin-c-tip (the data fin-c-tip)
+	      :fin-thickness (the data fin-thickness)
+
+	      :display-controls (list :color :blue)
+	      :canonical-profile (the canonical-profile))
+
    (fuselage :type 'cylinder-fuselage
 	     :d (the data fuselage-diameter)
 	     :l (the data fuselage-length)
@@ -155,6 +181,20 @@
 				    :top (cross-vectors hinge right)
 				    :front (the (face-normal-vector :front)))))))
 
+
+(define-object box-tail (box-wings)
+  :input-slots (fin-span fin-c-root fin-c-tip fin-thickness
+			 fin-root-center)
+
+  :objects
+  ((fin :type 'box-wing
+	:root-point (the fin-root-center)
+	:span (the fin-span)
+	:c-root (the fin-c-root)
+	:c-tip (the fin-c-tip)
+	:thickness (the fin-thickness)
+	:orientation (alignment :right (the (face-normal-vector :top))
+				:top (the (face-normal-vector :left))))))
 
 
 (define-object box-wing (box)

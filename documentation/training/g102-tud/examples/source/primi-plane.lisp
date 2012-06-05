@@ -66,15 +66,15 @@
 				      :down (- (the fuselage radius) (the-child thickness))
 				      :rear (- (half (the fuselage length))
 					       (the-child c-root)))
-	      :rudder-root-center (translate (the-child root-center) :up 
+	      :fin-root-center (translate (the-child root-center) :up 
 					     (- (twice (the fuselage radius))
 						(twice (the-child thickness))))
 	      :thickness (the data tail-thickness)
 	      :dihedral (the data tail-dihedral)
-	      :rudder-span  (the data rudder-span)
-	      :rudder-thickness (the data rudder-thickness)
-	      :rudder-c-root (the data rudder-c-root)
-	      :rudder-c-tip (the data rudder-c-tip)
+	      :fin-span  (the data fin-span)
+	      :fin-thickness (the data fin-thickness)
+	      :fin-c-root (the data fin-c-root)
+	      :fin-c-tip (the data fin-c-tip)
 	      :display-controls (list :color :blue)
 	      )
 
@@ -231,17 +231,17 @@
 
 
 (define-object box-tail (box-wings)
-  :input-slots (rudder-root-center rudder-span rudder-thickness 
-				   rudder-c-root rudder-c-tip)
+  :input-slots (fin-root-center fin-span fin-thickness 
+				fin-c-root fin-c-tip)
 
-  :objects ((rudder :type 'box-wing
-		    :root-point (the rudder-root-center)
-		    :span (the rudder-span)
-		    :c-root  (the rudder-c-root)
-		    :c-tip (the rudder-c-tip)
-		    :thickness (the rudder-thickness)
-		    :orientation (alignment :right (the (face-normal-vector :top))
-					    :top (the (face-normal-vector :left))))))
+  :objects ((fin :type 'box-wing
+		 :root-point (the fin-root-center)
+		 :span (the fin-span)
+		 :c-root  (the fin-c-root)
+		 :c-tip (the fin-c-tip)
+		 :thickness (the fin-thickness)
+		 :orientation (alignment :right (the (face-normal-vector :top))
+					 :top (the (face-normal-vector :left))))))
 
 
 
