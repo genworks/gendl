@@ -45,6 +45,11 @@
 		      :hidden? t
 		      :points-data (the data points-data))
 
+   (approximated-profile :type 'approximated-curve
+			 :curve-in (the canonical-profile)
+			 :tolerance 0.001
+			 )
+
    (wing-assy :type 'box-wings
 	      :c-root (the data wing-c-root)
 	      :c-tip (the data wing-c-tip)

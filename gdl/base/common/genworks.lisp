@@ -345,6 +345,10 @@
 
 #-(or allegro lispworks sbcl) (error "need with-definition-unit for currently running lisp.~%")
 (defmacro with-definition-unit (&body body)
+  `(progn ,@body))
+
+#+nil
+(defmacro with-definition-unit (&body body)
   #+allegro  `(with-compilation-unit () ,@body)
   #+(or lispworks sbcl) `(progn ,@body))
   
