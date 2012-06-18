@@ -104,8 +104,8 @@
 		   (x-max (most 'get-x (the points)))
 		   (x-min (least 'get-x (the points)))
 
-		   (span (- (get-x (the x-max))
-			    (get-x (the x-min))))
+		   (chord (- (get-x (the x-max))
+			     (get-x (the x-min))))
 
 		   (y-max (most 'get-y (the points)))
 		   (y-min (least 'get-y (the points)))
@@ -218,7 +218,7 @@
 	    (root-profile :type 'boxed-curve
 			  :curve-in (the canonical-profile)
 			  :scale-y (/ (the thickness) (the canonical-profile max-thickness))
-			  :scale-x (/ (the c-root) (the canonical-profile span))
+			  :scale-x (/ (the c-root) (the canonical-profile chord))
 			  :center (the (edge-center :left :front))
 			  :orientation (alignment :top (the (face-normal-vector :right))
 						  :right (the (face-normal-vector :rear))
@@ -227,7 +227,7 @@
 	    (tip-profile :type 'boxed-curve
 			 :curve-in (the canonical-profile)
 			 :scale-y (/ (the thickness) (the canonical-profile max-thickness))
-			 :scale-x (/ (the c-tip) (the canonical-profile span))
+			 :scale-x (/ (the c-tip) (the canonical-profile chord))
 			 :center (translate (the (edge-center :right :front))
 					    :rear
 					    (- (the c-root) (the c-tip)))
