@@ -33,7 +33,7 @@ body {
         font: 11px verdana, arial, sans-serif;
         color: #74653D;
         padding-bottom: 10px;
-        padding-top: 31px;
+        padding-top:31px;
 }
 
 /** layout **/
@@ -357,7 +357,7 @@ body {
 }
 #copyright {
   text-align: center;
-  padding: 5px 0px 10px 0px;
+  padding: 5px 0px 0px 0px;
   font-size: 12px;
   color: #715F36;
   font-weight: bold;
@@ -371,7 +371,7 @@ body {
 #footerline{
         background: url(../images/footerline.gif) no-repeat;
         height:10px;
-        margin-top:0px;
+        margin-top:10px;
         display:block;
         font-size:1px;
 }
