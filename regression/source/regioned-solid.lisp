@@ -52,6 +52,7 @@
                                              :right (half (the b-spline-capped-surface :width))))
 
      (subtracted :type 'subtracted-solid
+		 :error-on-invalid? nil
                  :brep (the b-spline-solid)
                  :other-brep (the rectangular-surface))
 

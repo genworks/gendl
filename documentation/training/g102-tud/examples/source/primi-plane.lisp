@@ -45,9 +45,11 @@
 		      :hidden? t
 		      :points-data (the data points-data))
 
+
    (approximated-profile :type 'approximated-curve
 			 :curve-in (the canonical-profile)
-			 :tolerance 0.001
+			 :tolerance 0.01
+			 ;;:tolerance 0.001
 			 )
 
    (wing-assy :type 'box-wings
@@ -147,17 +149,17 @@
 					      (* 1/100 percentage (the radius)))
 					  (the section-diameter-percentages))))
   
-  :objects ((regioned :type 'regioned-solid
-		      :display-controls (list :transparency 0.5)
-		      :brep (the merged))
+  :hidden-objects ((regioned :type 'regioned-solid
+			     :display-controls (list :transparency 0.5)
+			     :brep (the merged))
 
-	    (interior :type 'cabin-interior
-		      :display-controls (list :color :black)
-		      :width (twice (the radius))))
+		   (interior :type 'cabin-interior
+			     :display-controls (list :color :black)
+			     :width (twice (the radius)))
 
 
 
-  :hidden-objects ((section-curves :type 'arc-curve
+		   (section-curves :type 'arc-curve
 				   :sequence (:size (length (the section-centers)))
 				   :center (nth (the-child index) (the section-centers))
 				   :radius (nth (the-child index) (the section-radii))
@@ -172,11 +174,11 @@
 		   (merged :type 'merged-solid
 			   :brep (the loft brep)
 			   :other-brep (the floor-plane brep)
-			   :make-manifold? t)
-	    
-		   (loft :type 'lofted-surface
-			 :end-caps-on-brep? t
-			 :curves (list-elements (the section-curves)))))
+			   :make-manifold? t))
+
+  :objects ((loft :type 'lofted-surface
+		  :end-caps-on-brep? t
+		  :curves (list-elements (the section-curves)))))
 
 
 (define-object cabin-interior (base-object)

@@ -45,7 +45,7 @@
  ;;
  ;; Rudder data
  ;;
- :fin-spannn  10
+ :fin-span  10
  :fin-c-root 5
  :fin-c-tip 2
  :fin-thickness 0.8

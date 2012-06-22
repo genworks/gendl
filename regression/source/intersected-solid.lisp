@@ -28,7 +28,7 @@
     :computed-slots
     ((brep (the cylinder))
      (other-brep (the box))
-     
+     (error-on-invalid? nil)
      (regression-test-data (append (multiple-value-list (the precise-properties))
 				   (the %curves-to-draw%)
 				   (the %lines-to-draw%)
