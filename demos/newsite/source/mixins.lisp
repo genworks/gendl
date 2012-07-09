@@ -49,18 +49,30 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 
         $j = jQuery.noConflict();
 
-        function show_x3dom ()
-        {
-/*              var x3d_element;
-              x3d_element = document.getElementById('the_element');
-              x3d_element.style.width = \"526px\";
-              x3d_element.style.height = \"420px\"; */
-              $j(\"all-go\").show();
-              alert('hey now - shown');
-         }
-
 
         $j(document).ready(function() {
+            b = BrowserDetect;
+            b.init(); 
+            display_x3dom_or_raphael ();
+          })
+   
+        function hide_all ()
+        {
+         $j(\"#no-webgl-no-flash\").hide();
+         $j(\"#all-go\").hide();
+         $j(\"#product-image\").hide();
+        }
+       
+        function resize_x3dom(width, height)
+        {$j(\"#the_element\").attr(\"width\",width);
+         $j(\"#the_element\").attr(\"height\",height);
+        }
+
+
+        function display_x3dom_or_raphael ()
+         {
+            hide_all();
+
             var canvas;
             var gl, experimental;
 
@@ -68,8 +80,8 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
             var has_flash  = false;
             var x3d_element = null;
             
-            b = BrowserDetect;
-            b.init();
+/*            b = BrowserDetect;
+            b.init(); */
 
             canvas = document.getElementById(\"x3dom-logo\");
 
@@ -110,8 +122,7 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
                 $j(\"#all-go\").show();
             }
 
-        }); 
-
+        } 
 ")))
 
 
@@ -159,7 +170,10 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
    (right-section-inner-html (with-cl-who-string ()
 			       (:h2 "Empty Template")))
    
-   (right-section-js-to-eval "$j('#product-image').hide(200); $j('#all-go').show(200); $j('#address').hide(200); $j('#tickete').show(200);")
+   ;;(right-section-js-to-eval "$j('#product-image').hide(200); $j('#all-go').show(200); $j('#address').hide(200); $j('#tickete').show(200);")
+   (right-section-js-to-eval (string-append "display_x3dom_or_raphael();"
+					    (format nil "resize_x3dom('~apx', '~apx');"
+						    (the width) (the length))))
 
 
    (link-title (the strings-for-display))

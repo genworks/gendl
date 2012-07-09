@@ -28,7 +28,7 @@
   :computed-slots
   ((link-title "Configurator")
    
-   (right-section-js-to-eval "$j('#all-go').hide(200);$j('#product-image').show(200);")
+   (right-section-js-to-eval "hide_all();$j('#product-image').show(200);")
 
    (right-section-inner-html (with-cl-who-string ()
 			       ((:a :name "Top"))

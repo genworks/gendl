@@ -434,6 +434,9 @@ UI specific jQuery Layout JavaScript."
          ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery-ui-current.min.js"))
 
+
+	 ((:link :rel "stylesheet" :href "http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" :media "all"))
+
          ((:script :type "text/javascript"
                    :src "/static/3rdpty/jquery/js/jquery.layout-current.min.js"))
 

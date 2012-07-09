@@ -137,6 +137,8 @@
            #:ignore-errors-with-backtrace
            #:index-filter
            #:iso-8601-date
+	   #:universal-time-from-iso-8601
+	   #:universal-time-to-plist
            #:lastcar
            #:least
            #:let-streams

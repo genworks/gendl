@@ -255,7 +255,9 @@ the <tt>follow-root-path</tt> GDL function to return the actual instance."
    ("Void. Restores all settable-slots in this instance, and recursively in all descendant instances,
 to their default values."
     restore-tree!
-    (&key (quick? t))
+    (&key (quick? t)
+          (child-function (lambda(node) (append (the-object node safe-children)
+                                        (the-object node safe-hidden-children)))))
     (if quick?
         (progn
           (setf (gdl-acc::%version-tree% self) nil)
@@ -300,7 +302,9 @@ or all mixins from the entire inheritance hierarchy.\")"
  in the slot. Any dependent slots in the tree will respond accordingly when they are next demanded. 
  Note that the slot must be specified as a keyword symbol (i.e. prepended with a colon (``:'')), 
  otherwise it will be evaluated as a variable according to normal Lisp functional evaluation rules.
- :arguments (slot \"Keyword Symbol\")"
+ :arguments (slot \"Keyword Symbol\")
+ :key (force? \"Boolean. Specify as t if you want to force non-settable slots to recompute (e.g. 
+reading from databases or external files). Defaults to nil.\")"
     restore-slot-default!
     (attribute &key (force? *force-restore-slot-default?*))
     (when (or force? (eql (the (slot-status attribute)) :set))

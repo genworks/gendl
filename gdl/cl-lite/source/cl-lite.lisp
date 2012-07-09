@@ -93,6 +93,7 @@ given as keyword args to this function)."
 
     :input-slots
     (pathname
+     (pathname-root (the pathname))
      (strings-for-display (format nil "~a" (the :local-name)))
      (subdir-type 'directory-node)
      (additional-parameters nil))
@@ -113,6 +114,7 @@ given as keyword args to this function)."
     :objects
     ((subdirs :type (the :subdir-type)
               :sequence (:size (length (the :subdir-pathnames)))
+	      :pathname-root (the pathname-root)
               :pathname (make-pathname
                          :device (the :device)
                          :directory (nth (the-child :index) (the :subdir-pathnames)))
@@ -128,7 +130,7 @@ given as keyword args to this function)."
   :input-slots
   (("Plist of keywords and lists of strings. Maps directory names to their default type classifications."
     type-mapping (list :tables '(("tables") ("table")) :source
-                       '(("source" "icons") ("lisp" "cl" "gdl")) :qa '(("qa") ("lisp"))
+                       '(("source" "icons") ("lisp" "cl" "gdl" "gendl")) :qa '(("qa") ("lisp"))
                        :exercises '(("exercises"))))
    ("List of strings. Identifies the names of directories considered to hold binaries.
 Default is (list \"bin\" \"patch\")"
@@ -179,7 +181,13 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
     load-always? t))
 
   :computed-slots
-  ((additional-parameters (list :type-mapping (the :type-mapping)
+  (
+   (strings-for-display (let ((string (enough-namestring (the pathname) (the pathname-root))))
+			  (if (string-equal string "")
+			      (string-append (lastcar (pathname-directory (the pathname))) "/")
+			      string)))
+
+   (additional-parameters (list :type-mapping (the :type-mapping)
                                 :bin-subdir-names (the :bin-subdir-names)
                                 :special-subdir-names (the :special-subdir-names)
                                 :fasl-type (the :fasl-type) :load-always?
@@ -253,21 +261,46 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                    :version ,(string-append 
                               (replace-substring (iso-8601-date (get-universal-time)) "-" "") "00")
                    :depends-on ,(the asdf-depends-on)
-                   :components ,(mapcar #'(lambda(binary) 
+		   ;;
+		   ;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
+		   ;;
+                   :components ,(mapcar #'(lambda(binary source) 
                                             (let ((binary (make-pathname :directory (remove "bin" 
                                                                                             (pathname-directory binary)
                                                                                             :test #'string-equal)
                                                                          :defaults binary)))
-                                              (list :file 
-						    (replace-substring 
-						     (namestring 
-						      (make-pathname :name (pathname-name binary)
-								     :type nil
-								     :defaults
-								     (enough-namestring binary (the ppathname)))) 
-						     "\\" "/"))))
-                                        binaries))))
-    :uncached))
+					      (let ((namestring (replace-substring 
+						      (namestring 
+						       (make-pathname :name (pathname-name binary)
+								      :type nil ;;(pathname-type source)
+								      :defaults
+								      (enough-namestring binary (the ppathname)))) 
+						      "\\" "/")))
+						
+
+						(list (make-keyword (pathname-type source))
+						      namestring)
+
+						#+nil
+						(list :file namestring
+						      :pathname
+						      (merge-pathnames namestring "")))))
+
+                                        binaries (the source-file-list)))))
+    :uncached)
+   
+
+   (source-file-list (apply #'append (list-elements (the source-files) (the-element pathname))
+			    (mapcar #'(lambda(subdir)
+					(the-object subdir source-file-list))
+				    (list-elements (the subdirs)))))
+
+   )
+
+  :objects
+  ((source-files :type 'file
+		 :sequence (:size (length (getf (the file-computation relevant-files) :source)))
+		 :pathname (nth (the-child index) (getf (the file-computation relevant-files) :source))))
 
   :hidden-objects
   ((subdir-computation :type 'subdir-computation
@@ -379,6 +412,10 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
         list-of-binaries)))))
 
 
+(define-object file ()
+  :input-slots (pathname)
+  :computed-slots ((strings-for-display (file-namestring (the pathname)))))
+
 (define-object file-computation ()
 
   :input-slots
@@ -398,6 +435,10 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                           :type "isc")))
                     (when (probe-file ordering-info-file)
                       (with-open-file (in ordering-info-file) (read in)))))
+
+   ;;
+   ;; FLAG -- read this info once in the parent directory object, not here for each file!
+   ;;
    (ignore-list (let ((ignore-list-file
                        (make-pathname
                         :directory (pathname-directory (the :pathname))

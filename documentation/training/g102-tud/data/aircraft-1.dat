@@ -41,7 +41,8 @@
  :tail-c-tip 2
  :tail-thickness 0.8
  :tail-dihedral 8
- 
+ :tail-configuration :fuselage-mounted
+
  ;;
  ;; Rudder data
  ;;

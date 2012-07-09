@@ -493,7 +493,11 @@
 						(funcall (the discount-func)
 							 (ecase (the selected-geometry-kernel)
 							   (:smlib 17200)
-							   (:basic 12000)))))))
+							   (:basic 12000)))))
+
+	    (explanation :type 'tech-support-level-explanation)
+
+	    ))
 
 
 

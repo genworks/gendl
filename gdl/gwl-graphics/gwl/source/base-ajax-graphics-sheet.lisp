@@ -61,6 +61,7 @@ Default for the image-format-selector. Defaults to :png."
 automatically included in the view-controls."
     view-direction-default :trimetric)
    
+   (zoom-factor-renderer 1)
    
    ("Boolean. Include raphael javascript library in the page header? 
 Default nil. " 
@@ -117,7 +118,10 @@ value of the image-format-selector, which itself defaults to :raphael."
    
    (x3dom-view-controls? t)
 
-   )
+   ;;
+   ;; FLAG -- probably not needed, inherited from skeleton-ui-mixin via base-ajax-sheet, base-html-sheet, sheet-section. 
+   ;;
+   (inner-html (with-cl-who-string () (write-the inner-html))))
 
   
   :computed-slots
@@ -157,10 +161,6 @@ loadScript(xdom_script.src);
    
 
    
-   ;;
-   ;; FLAG -- probably not needed, inherited from skeleton-ui-mixin via base-ajax-sheet, base-html-sheet, sheet-section. 
-   ;;
-   (inner-html (with-cl-who-string () (write-the inner-html)))
    
    ("String of valid HTML. This can be used to 
 include the PNG or JPG raster-graphics of the geometry."
@@ -214,7 +214,8 @@ bottom of the graphics inside a table."
   
   :hidden-objects
   ((view-object :type 'web-drawing
-                :pass-down (projection-vector immune-objects background-color field-of-view-default raphael-canvas-id)
+                :pass-down (projection-vector immune-objects background-color field-of-view-default raphael-canvas-id
+					      zoom-factor-renderer)
                 :page-length (the length)
                 :page-width (the width)
                 :objects (the display-list-objects)
@@ -347,10 +348,10 @@ to call the :write-embedded-x3d-world function."))
 	     (:p
 	      ((:|X3D| :id "the_element"
 		 :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		 :width  "100%"
-		 :height  "100%"
-		 ;;:width (the view-object page-width)
-		 ;;:height (the view-object page-length)
+		 ;;:width  "100%"
+		 ;;:height  "100%"
+		 :width (the view-object page-width)
+		 :height (the view-object page-length)
 		 )
 		  
 	       (:|Scene|

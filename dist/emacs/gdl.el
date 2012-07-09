@@ -208,6 +208,10 @@
     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
     (set-slime-shortcuts)
     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
+
+    (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
+    (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+
     ))
 
 ;;

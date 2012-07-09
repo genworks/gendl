@@ -357,3 +357,13 @@
   `(eval-when (:compile-toplevel :load-toplevel :execute)
      (handler-bind (#+sbcl(sb-int:package-at-variance #'muffle-warning))
        ,@body)))
+
+
+;;
+;; ASDF extensions -- depends on asdf being there, have to swap this
+;; out if moving to new system definition system.
+;;
+
+(defclass asdf::gdl (asdf-utilities:cl-source-file) ((type :initform "gdl")))
+(defclass asdf::gendl (asdf-utilities:cl-source-file) ((type :initform "gendl")))
+(defclass asdf::lisp (asdf-utilities:cl-source-file) ())

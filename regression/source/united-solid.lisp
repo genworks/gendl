@@ -91,11 +91,7 @@
 (register-test-definition 'united-solid-test)
 
 
-(defun gc-try (&key (times 1000))
-  (dotimes (n times)
-    (print-variables n)
-    (make-self 'united-solid-test)
-    (the volume)))
+
 
 
 

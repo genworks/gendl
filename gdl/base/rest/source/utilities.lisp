@@ -614,6 +614,32 @@ Common Lisp universal time integer, e.g. 2007-11-30 or
     (format nil "~a-~2,,,'0@a-~2,,,'0@a~a" year month date
             (if include-time? (format nil "T~2,,,'0@a:~2,,,'0@a:~2,,,'0@a" hours minutes seconds) ""))))
 
+(defun universal-time-to-plist (universal-time)
+  (multiple-value-bind (seconds minutes hours date month year)
+      (decode-universal-time universal-time)
+    (list :seconds (format nil "~2,,,'0@a" seconds)
+	  :minutes (format nil "~2,,,'0@a" minutes)
+	  :hours (format nil "~2,,,'0@a" hours)
+	  :date (format nil "~2,,,'0@a" date)
+	  :month (format nil "~2,,,'0@a" month)
+	  :year (format nil "~a" year)
+	  :full-date (format nil "~a-~2,,,'0@a-~2,,,'0@a" year month date))))
+
+
+(defun universal-time-from-iso-8601 (iso8601-date)
+  "Integer representing Common Lisp Universal Time. Returns the universal time from a date formatted as 
+an iso-8601 date, optionally with time, e.g. 2012-07-08 or 2012-07-08T13:33 or 2012-07-08T13:33:00"
+  (destructuring-bind (date &optional (time "00:00:00"))
+      (glisp:split-regexp "t" (string-downcase iso8601-date))
+    (destructuring-bind  (year month date) (glisp:split-regexp "-" date)
+      (destructuring-bind (hours minutes &optional (seconds "00"))
+	  (glisp:split-regexp ":" time)
+	(encode-universal-time (parse-integer seconds)
+			       (parse-integer minutes)
+			       (parse-integer hours)
+			       (parse-integer date)
+			       (parse-integer month)
+			       (parse-integer year))))))
 
 (defun print-hash (hash) 
   (maphash #'(lambda(key val) (print-variables key val)) hash))

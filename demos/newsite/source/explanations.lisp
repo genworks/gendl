@@ -360,3 +360,65 @@
                    during a running GenDL session.")))))))
 
 
+
+
+(define-object tech-support-level-explanation (sheet-section)
+
+  :computed-slots
+  ((inner-html (with-cl-who-string ()
+		 (:h2 "Technical Support Levels Explained")
+		 
+		 ((:div :class "profile")
+		  ((:div :class "people")
+		   (:p " While the main goal  of Gendl is ease of use, because of the broad and powerful nature
+of the system, some level of professional technical support can provide a valuable boost to your project."
+
+		 ((:a :name "tech-support-none"))
+		 ((:a :href "#Top") (:h3 "None (i.e. self-provided or third-party)"))
+		 ((:div :class "profile")
+		  ((:div :class "people")
+		   (:p "With this option, you will have to provide for
+                   your own CL and Gendl support. This option may be
+                   appropriate if you already have an existing CL
+                   infrastructure in place, and you are equipped to
+                   handle your own GenDL technical support.")))
+
+
+		 ((:a :name "tech-support-install"))
+		 ((:a :href "#Top") (:h3 "Installation and Configuration"))
+		 ((:div :class "profile")
+		  ((:div :class "people")
+		   (:p "We will support your initial installation...")))
+
+
+		 ((:a :name "tech-support-how-to"))
+		 ((:a :href "#Top") 
+		  (:h3 "Technical how-to Questions and Answers"))
+		 ((:div :class "profile")
+		  ((:div :class "people")
+		   (:p 
+		    " With this option, you can call or write to Genworks with customized inquiries 
+and receive custom support answers, typically within 24 hours. If you send working self-contained
+example applications, we can also attempt to replicate and debug any problems you are having with 
+your application. At this support level we cannot support Nondisclosure Agreements (NDA) on sample 
+code sent.")))
+
+		 ((:a :name "tech-support-nda"))
+		 ((:a :href "#Top") 
+		  (:h3 "Application Code Nondisclosure"))
+		 ((:div :class "profile")
+		  ((:div :class "people")
+		   (:p 
+		    "At this support level, you may send us your self-contained application code for debugging, and
+we will take measures to keep this code under strict Confidentiality and Nondisclosure.")))
+
+
+		 ((:a :name "tech-support-mission-critical"))
+		 ((:a :href "#Top") (:h3 "Mission-critical Production Environment"))
+		 ((:div :class "profile")
+		  ((:div :class "people")
+		   (:p "This is the ultimate support level, which
+provides you with custom Application Support, default Nondisclosure on
+all submitted materials, and real-time telepone and chat support for
+mission-critical applications (e.g. high-traffic websites or
+manufacturing facilities running on Gendl technology)."))))))))))
