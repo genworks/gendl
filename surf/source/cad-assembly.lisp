@@ -88,38 +88,3 @@ Defaults to the assembly-import produced from the file-name. " imported-assembly
 	 :from-location (the brep-transformed from-location))))
 
 
-
-(define-object tobie-1 (cad-assembly)
-  
-  :computed-slots ((file-name #+mswindows (or (probe-file "e:/tmp/CURSUS0104.stp")
-					      (probe-file "z:/tmp/CURSUS0104.stp"))
-			      #-mswindows (probe-file "~/share/tmp/CURSUS0104.stp"))))
-
-
-(define-object tobie-big-1 (cad-assembly)
-  :computed-slots ((file-name #+mswindows (or (probe-file "e:/tmp/cadin/cpbbd.stp")
-					      (probe-file "z:/tmp/cadin/cpbbd.stp"))
-			      #-mswindows (probe-file "~/share/tmp/cadin/cpbbd.stp"))))
-
-(defun tobie-big-1 ()
-  (let ((self (make-object 'tobie-big-1)))
-    (maptree self #'(lambda(object)(the-object object %curves-to-draw%) 
-			   (when (typep object 'outline-specialization-mixin)
-			     (the-object object outline-objects))))
-    self))
-	     
-
-(define-object tobie-big-1-flat (step-reader)
-  :computed-slots ((file-name #+mswindows (or (probe-file "e:/tmp/cadin/cpbbd.stp")
-					      (probe-file "z:/tmp/cadin/cpbbd.stp"))
-			      #-mswindows (probe-file "~/share/tmp/cpbbd.stp"))))
-
-(define-object tobie-big-2 (cad-assembly)
-  :computed-slots ((file-name #+mswindows (or (probe-file "e:/tmp/cadin/cprta.stp")
-					      (probe-file "z:/tmp/cadin/cprta.stp"))
-			      #-mswindows (probe-file "~/share/tmp/cprta.stp"))))
-
-(define-object tobie-big-2-flat (step-reader)
-  :computed-slots ((file-name #+mswindows (or (probe-file "e:/tmp/cadin/cprta.stp")
-					      (probe-file "z:/tmp/cadin/cprta.stp"))
-			      #-mswindows (probe-file "~/share/tmp/cprta.stp"))))
