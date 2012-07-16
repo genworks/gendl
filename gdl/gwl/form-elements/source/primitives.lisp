@@ -299,6 +299,7 @@ and the error string will be appended to the html-string by default. </li>
    
    (ajax-submit-on-change? nil)
    
+   ("String. Text to place in the field by default, overwritten as soon as the field is selected. Works only in HTML5. Default is nil." placeholder nil)
    ("Boolean. Maps to HTML form control attribute of the same name. Default is nil." disabled? nil)
    ("Boolean. Maps to HTML form control attribute of the same name. Default is nil." readonly? nil)
    ("Boolean. Maps to HTML form control attribute of the same name. Default is nil." ismap?  nil)   

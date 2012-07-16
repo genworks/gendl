@@ -251,32 +251,33 @@ the <tt>follow-root-path</tt> GDL function to return the actual instance."
                  (declare (ignore val))
                  (the (restore-slot-default! key)))
              (the %settable-slots%)))
-   
+
+
+   (restore-node!
+    ()
+    (let ((settables (let (result)
+		       (maphash #'(lambda(key val) 
+				    (declare (ignore val)) (push key result)) (the %settable-slots%))
+		       (nreverse result))))
+      (the (restore-slot-defaults! settables))))
+
+
    ("Void. Restores all settable-slots in this instance, and recursively in all descendant instances,
 to their default values."
-    restore-tree!
-    (&key (quick? t)
-          (child-function (lambda(node) (append (the-object node safe-children)
-                                        (the-object node safe-hidden-children)))))
-    (if quick?
-        (progn
-          (setf (gdl-acc::%version-tree% self) nil)
-          (the update!))
-      (let ((settables (let (result)
-                         (maphash #'(lambda(key val) (declare (ignore val)) (push key result)) (the %settable-slots%))
-                         (nreverse result))))
-      
-        (the (restore-slot-defaults! settables))
-      
-        (maptree  self 
-                  (lambda(node) (when (typep node 'gdl::gdl-basis) (the-object node restore-tree!)))
-                  #'always
-                  #'never
-                  (lambda(node) (append (the-object node safe-children)
-                                        (the-object node safe-hidden-children))))
-        )))
-   
-   
+      restore-tree!
+      (&key (quick? t)
+	    (keep-function #'always)
+	    (prune-function #'never)
+	    (child-function (lambda(node) (the-object node safe-children))))
+      (if quick?
+	  (progn
+	    (setf (gdl-acc::%version-tree% self) nil)
+	    (the update!))
+	  (maptree  self 
+		    (lambda(node) (when (typep node 'gdl::gdl-basis) (the-object node restore-node!)))
+		    keep-function
+		    prune-function
+		    child-function)))
    
    
    ("GDL Instance. Using this instance as the root, follow the reference chain

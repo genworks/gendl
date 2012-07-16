@@ -213,35 +213,47 @@ if (ua.indexOf(" chrome/") >= 0 || ua.indexOf(" firefox/") >= 0 || ua.indexOf(' 
 }
 
 
+/*
+
+function encode64(input)
+{return base64.encode(input).replace(/\=/g, '');}
+
+function decode64(input)
+{return base64.decode(input);}
+
+*/
+
+
 function encode64(input) {
-        var output = new StringMaker();
-        var chr1, chr2, chr3;
-        var enc1, enc2, enc3, enc4;
-        var i = 0;
-
-        while (i < input.length) {
-                chr1 = input.charCodeAt(i++);
-                chr2 = input.charCodeAt(i++);
-                chr3 = input.charCodeAt(i++);
-
-                enc1 = chr1 >> 2;
-                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-                enc4 = chr3 & 63;
-
-                if (isNaN(chr2)) {
-                        enc3 = enc4 = 64;
-                } else if (isNaN(chr3)) {
-                        enc4 = 64;
-                }
-
-                output.append(keyStr.charAt(enc1) + 
-                              keyStr.charAt(enc2) + 
-                              keyStr.charAt(enc3) + 
-                              keyStr.charAt(enc4));
-   }
-   
-        return output.toString().replace(/\=/g, '');
+    input = encode_utf8(input);
+    var output = new StringMaker();
+    var chr1, chr2, chr3;
+    var enc1, enc2, enc3, enc4;
+    var i = 0;
+    
+    while (i < input.length) {
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+	
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+	
+        if (isNaN(chr2)) {
+            enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+            enc4 = 64;
+        }
+	
+        output.append(keyStr.charAt(enc1) + 
+                      keyStr.charAt(enc2) + 
+                      keyStr.charAt(enc3) + 
+                      keyStr.charAt(enc4));
+    }
+    
+    return output.toString().replace(/\=/g, '');
 }
 
 
@@ -275,8 +287,10 @@ function decode64(input) {
                 }
         }
 
-        return output.toString();
+        return decode_utf8(output.toString());
 }
+
+
 
 
 function gdlResize()
@@ -291,6 +305,7 @@ function collectMenuSelections(select)
     for (var i = 0; i < select.options.length; i++)
         if (select.options[i].selected)
             items = items + ':|' + select.name + '| ' + doublequote + encode64(select.options[i].value) + doublequote + ' ';
+	    //items = items + ':|' + select.name + '| ' + doublequote + select.options[i].value + doublequote + ' ';
     return(items);
 }
 

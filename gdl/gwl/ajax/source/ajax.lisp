@@ -40,7 +40,10 @@
                               (if (or (glisp:match-regexp "^radio-" (format nil "~a" key))
                                       (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
                                   value
-                                (base64-decode-safe value))))
+				  (base64-decode-safe value)
+				  ;;value
+
+				  )))
                     (plist-keys encoded-fields)
                     (plist-values encoded-fields)))))
          (raw-fields (getf query-plist :|raw-fields|))

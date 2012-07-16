@@ -33,6 +33,12 @@
                             (cons (append (first form)
                                           `(:disabled 
                                             (if (the disabled?) t nil)
+					    ;;
+					    ;; The new HTML5 stuff:
+					    ;;
+					    :placeholder (the placeholder)
+
+
                                             :readonly (if (the readonly?) t nil)
                                             :ismap (if (the ismap?) t nil)
                                             :size  (the size)

@@ -367,6 +367,11 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
                             (format nil "collectMenuSelections(document.getElementById('~a'))"
                                     (the-object form-control id))))
                          
+			 #+nil
+			 (format nil "doublequote + document.getElementById('~a').value + doublequote"
+                                    (the-object form-control id))
+
+
                          (format nil "doublequote + encode64(document.getElementById('~a').value).replace(/=/g,'') + doublequote"
                                     (the-object form-control id)))))
                                             
