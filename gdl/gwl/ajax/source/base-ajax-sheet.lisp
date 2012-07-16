@@ -465,6 +465,7 @@ UI specific jQuery Layout JavaScript."
                        :src 
                        "/static/3rdpty/raphael/js/raphael-1.2-min.js"))))
       
+      #+nil
       ((:script :type "text/javascript"
                 :src "/static/gwl/js/base64.js"))
 

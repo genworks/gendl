@@ -225,7 +225,7 @@ function decode64(input)
 
 
 function encode64(input) {
-    input = encode_utf8(input);
+    //input = encode_utf8(input);
     var output = new StringMaker();
     var chr1, chr2, chr3;
     var enc1, enc2, enc3, enc4;
@@ -287,7 +287,8 @@ function decode64(input) {
                 }
         }
 
-        return decode_utf8(output.toString());
+        //return decode_utf8(output.toString());
+        return output.toString();
 }
 
 

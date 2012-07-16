@@ -197,7 +197,7 @@ been split according to <b>split-chars</b> as delimiting characters.
 :arguments (string \"String\")
 :&optional ((split-chars (list #\\space #\\newline #\\return #\\tab)) \"List of characters\")
 
-:see-also <tt>excl:split-regexp</tt>"
+:see-also <tt>glisp:split-regexp</tt>"
   
   (let ((split-chars (if (atom split-chars) (list split-chars) split-chars)))
     (let ((non-white
@@ -630,10 +630,14 @@ Common Lisp universal time integer, e.g. 2007-11-30 or
   "Integer representing Common Lisp Universal Time. Returns the universal time from a date formatted as 
 an iso-8601 date, optionally with time, e.g. 2012-07-08 or 2012-07-08T13:33 or 2012-07-08T13:33:00"
   (destructuring-bind (date &optional (time "00:00:00"))
-      (glisp:split-regexp "t" (string-downcase iso8601-date))
-    (destructuring-bind  (year month date) (glisp:split-regexp "-" date)
+      ;;(glisp:split-regexp "t" (string-downcase iso8601-date))
+      (split (string-downcase iso8601-date) #\t)
+    (destructuring-bind  (year month date) 
+	;;(glisp:split-regexp "-" date)
+	(split date #\-)
       (destructuring-bind (hours minutes &optional (seconds "00"))
-	  (glisp:split-regexp ":" time)
+	  ;;(glisp:split-regexp ":" time)
+	  (split time #\:)
 	(encode-universal-time (parse-integer seconds)
 			       (parse-integer minutes)
 			       (parse-integer hours)
