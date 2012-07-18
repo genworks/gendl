@@ -240,7 +240,8 @@ moved with respect to the original. Default is *zero-epsilon*"
                    (subtract-vectors (the from-center) 
                                      (the orientation-center))))
 
-   
+    
+    #+nil
     (unweighted 
      (if (the curve-in% rational?)
          (mapcar #'(lambda(point weight) 
@@ -248,6 +249,9 @@ moved with respect to the original. Default is *zero-epsilon*"
                  (the curve-in% control-points) (the curve-in% weights))
        (the curve-in% control-points)))
    
+
+    (unweighted 
+     (the curve-in% control-points))
    
    
     (scaled (if (every #'(lambda(value) (= value 1))
@@ -283,7 +287,10 @@ moved with respect to the original. Default is *zero-epsilon*"
                           (the oriented))
                 (the oriented)))
    
-   
+    
+    (control-points (the %control-points))
+
+    #+nil
     (control-points (if (the curve-in% rational?)
                         (mapcar #'(lambda(point weight) (scalar*vector weight point))
                                 (the %control-points) (the weights))
@@ -652,12 +659,15 @@ specify this as (the center) when passing it in from the parent]. Default is (th
    (weights (the surface-in% weights))
    (translation (when (the translated?) (subtract-vectors (the from-center) (the orientation-center))))
    
+   #+nil
    (unweighted (if (the surface-in% rational?)
                    (mapcar #'(lambda(point-row weight-row)
                                (mapcar #'(lambda(point weight) (scalar*vector (/ weight) point))
                                        point-row weight-row))
                            (the surface-in% control-points) (the surface-in% weights))
                  (the surface-in% control-points)))
+
+   (unweighted (the surface-in% control-points))
    
    (scaled (if (every #'(lambda(value) (= value 1))
                       (list (the scale-x) (the scale-y) (the scale-z)))
@@ -701,6 +711,7 @@ specify this as (the center) when passing it in from the parent]. Default is (th
                (the oriented)))
    
    
+   #+nil
    (control-points (if (the surface-in% rational?)
                        (mapcar 
                         #'(lambda(point-row weight-row)
@@ -709,6 +720,8 @@ specify this as (the center) when passing it in from the parent]. Default is (th
                                     point-row weight-row)) (the %control-points) (the weights))
                      (the %control-points)))
    
+   (control-points (the %control-points))
+
    (%control-points (if (the moved?)
                         (mapcar #'(lambda(row)
                                     (mapcar #'(lambda(point)
