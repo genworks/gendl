@@ -51,10 +51,10 @@
               ;;
               ;; Pre-demand the output in order to set up dependency tracking.
               ;;
-              #-lispworks5.1(with-format (pdf nil ;;(merge-pathnames "snap.pdf" (glisp:temporary-folder))
-                                              :page-width (the view-object page-width)
-                                              :page-length (the view-object page-length))
-                              (write-the view-object cad-output))
+              (with-format (pdf (make-broadcast-stream) 
+				:page-width (the view-object page-width)
+				:page-length (the view-object page-length))
+		(write-the view-object cad-output))
               
               (publish :path url :content-type "application/pdf"
                        :format :binary 
@@ -79,10 +79,14 @@
 
               (the view-toggle)
 
-               ;;
-               ;; Pre-demand the output in order to set up dependency tracking.
-               ;;
-	      #-lispworks5.1(with-format (x3d nil) (write-the view-object cad-output))
+	      ;;
+	      ;; Pre-demand the output in order to set up dependency tracking.
+	      ;;
+	      (with-format (x3d (make-broadcast-stream)) (write-the view-object cad-output))
+
+	      ;;
+	      ;; FLAG - find a leighter-weight way to pre-demand the output.
+	      ;;
                
 	      (publish :path url :content-type "model/x3d+xml"
 		       :function 
@@ -116,8 +120,12 @@
                
                ;;
                ;; Pre-demand the output in order to set up dependency tracking.
-               ;;
-               #-lispworks5.1(with-format (vrml nil) (write-the view-object cad-output))
+               
+               (with-format (vrml (make-broadcast-stream)) (write-the view-object cad-output))
+
+	       ;;
+	       ;; FLAG - find a more lightweight method to pre-demand the output. 
+	       ;;
                
                (publish :path url :content-type "x-world/x-vrml"
                         :function 
@@ -170,21 +178,21 @@
                      
                          (ecase (the image-format)
                            (:png
-                            #-lispworks5.1(with-format (pdf 
-                                                        nil ;;(merge-pathnames "snap.pdf" (glisp:temporary-folder))
-                                                        :page-width (the view-object page-width)
-                                                        :page-length (the view-object page-length)
-                                                        :background-color (the background-color)
-                                                        :foreground-color (the foreground-color))
-                                            (write-the view-object cad-output)))
+                            (with-format (pdf 
+					  (make-broadcast-stream)
+					  :page-width (the view-object page-width)
+					  :page-length (the view-object page-length)
+					  :background-color (the background-color)
+					  :foreground-color (the foreground-color))
+			      (write-the view-object cad-output)))
                            (:jpeg 
-                            #-lispworks5.1(with-format (jpeg nil
-                                                             :page-width (the view-object page-width)
-                                                             :page-length (the view-object page-length)
-                                                             :background-color (the background-color)
-                                                             :foreground-color (the foreground-color)
-                                                             )
-                                            (write-the view-object cad-output)))))
+                            (with-format (jpeg (make-broadcast-stream)
+					       :page-width (the view-object page-width)
+					       :page-length (the view-object page-length)
+					       :background-color (the background-color)
+					       :foreground-color (the foreground-color)
+					       )
+			      (write-the view-object cad-output)))))
                   
                       (declare (ignore result))
                   

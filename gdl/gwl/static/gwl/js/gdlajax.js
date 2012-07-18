@@ -213,19 +213,7 @@ if (ua.indexOf(" chrome/") >= 0 || ua.indexOf(" firefox/") >= 0 || ua.indexOf(' 
 }
 
 
-/*
-
-function encode64(input)
-{return base64.encode(input).replace(/\=/g, '');}
-
-function decode64(input)
-{return base64.decode(input);}
-
-*/
-
-
 function encode64(input) {
-    //input = encode_utf8(input);
     var output = new StringMaker();
     var chr1, chr2, chr3;
     var enc1, enc2, enc3, enc4;
@@ -287,7 +275,6 @@ function decode64(input) {
                 }
         }
 
-        //return decode_utf8(output.toString());
         return output.toString();
 }
 
@@ -310,11 +297,6 @@ function collectMenuSelections(select)
     return(items);
 }
 
-
-/*
-function gdlResize()
-{}
-*/
 
 function loadScript(url){
 

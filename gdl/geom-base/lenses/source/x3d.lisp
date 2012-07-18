@@ -63,8 +63,9 @@
 			((:|navigationinfo| :type "Examine"
 			   :headlight "TRUE"
 			   :speed (format nil "~a" (getf viewpoint :speed)))))))
-		 (list (first (the viewpoints)))
-		 (list (second  (the viewpoints))))
+		 		 
+		 (plist-keys (the viewpoints))
+		 (plist-values (the viewpoints)))
 	   
 	   (let ((background (lookup-color (the background-color))))
 	     (cl-who:htm (:|Background| :|skyColor| (format nil "~a ~a ~a" 
