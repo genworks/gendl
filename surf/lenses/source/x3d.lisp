@@ -49,8 +49,17 @@
            (formatted-vertices (format nil "~{~a -1 ~}" 
 				       (surf::make-triplet-strings vertex-list)))
            (3d-points (mapcar #'(lambda (coord)
-                                  (the (global-to-local* coord)))
+				  (the (global-to-local* 
+					(make-point (if (the left-handed?) 
+							(- (get-x coord)) (get-x coord))
+						    (get-y coord) (get-z coord))))
+
+                                  ;;(the (global-to-local* coord))
+				  ;;(the (global-to-local coord))
+
+				  )
                               3d-point-list)))
+      
       (cl-who:with-html-output (*stream* nil :indent nil)
         (:Shape
          (:Appearance (progn (if (getf (the display-controls) :pixel-texture)

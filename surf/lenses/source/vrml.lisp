@@ -51,25 +51,14 @@ Default is t (one IndexedFaceSet for each brep).")
            (let ((3d-points 
                   (mapcar 
                    #'(lambda(point) 
-                       (the (global-to-local 
+                       (the (global-to-local* 
                              (make-point (if (the left-handed?) 
                                              (- (get-x point)) (get-x point))
                                          (get-y point) (get-z point)))))
                    3d-points))
                 
-		 (normals normals)
-		 
-		 #+nil
-                 (normals
-                  (when *include-vrml-normals?*
-                    (mapcar 
-                     #'(lambda(point) 
-                         (the (global-to-local 
-                               (make-point (if (the left-handed?) 
-                                               (- (get-x point)) (get-x point))
-                                           (get-y point) (get-z point)))))
-                     normals))))
-              
+		 (normals normals))
+
              (format *stream* "
 Shape
   {geometry IndexedFaceSet {

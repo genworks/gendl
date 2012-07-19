@@ -138,8 +138,8 @@
    
    (transform
     ()
-    (let* (;;(rotation (quaternion-to-rotation (matrix-to-quaternion (the orientation*))))
-           (rotation (matrix-to-rotation (the orientation*)))
+    (let* ((rotation (quaternion-to-rotation (matrix-to-quaternion (the orientation*))))
+           ;;(rotation (matrix-to-rotation (the orientation*)))
            (x (get-x (the center))) 
            (y (get-y (the center))) 
            (z (get-z (the center))))
@@ -172,8 +172,8 @@
     
     (let ((orientation (the orientation*)))
       
-      (let (;;(rotation (quaternion-to-rotation (matrix-to-quaternion orientation)))
-            (rotation (matrix-to-rotation orientation))
+      (let ((rotation (quaternion-to-rotation (matrix-to-quaternion orientation)))
+            ;;(rotation (matrix-to-rotation orientation))
             (x (get-x (the center)))
             (y (get-y (the center))) 
             (z (get-z (the center)))
@@ -223,8 +223,8 @@
     
     (let ((center (if from-root? (the center) (the local-center*)))
 	  (orientation (if from-root? (the orientation*) (the local-orientation*))))
-      (let (;;(rotation (quaternion-to-rotation (matrix-to-quaternion orientation)))
-            (rotation (matrix-to-rotation orientation))
+      (let ((rotation (quaternion-to-rotation (matrix-to-quaternion orientation)))
+            ;;(rotation (matrix-to-rotation orientation))
             (x (get-x center)) (y (get-y center)) (z (get-z center)))
         
 

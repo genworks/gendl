@@ -92,6 +92,11 @@ your code would be responsible for wrapping the :div tag with :id (the dom-id).]
     inner-html (progn (the view-toggle) (with-cl-who-string () 
 					  (let ((*html-stream* *stream*))
 					    (write-the inner-html)))))
+
+
+   (main-view (progn (the view-toggle) (with-cl-who-string () 
+					  (let ((*html-stream* *stream*))
+					    (write-the main-view)))))
    
    
    ("String of valid Javascript. This Javascript will be send with the Ajax response,
@@ -413,12 +418,24 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 (define-lens (html-format skeleton-ui-element)()
   :output-functions
   (
+
+   (inner-html
+    ()
+    (with-cl-who ()
+      (str (the main-view))))
+   
+   (main-view
+    ()
+    (with-cl-who ()
+      (fmt "~a Has no main-view defined." (the strings-for-display))))
+
+   #+nil
    (inner-html
     ()
     (with-cl-who ()
       (fmt "~a Has no inner-html defined." (the strings-for-display))))
    
-
+   
    
    (main-div 
     ()
