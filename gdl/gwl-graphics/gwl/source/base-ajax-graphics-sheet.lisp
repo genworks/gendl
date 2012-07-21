@@ -343,7 +343,6 @@ to call the :write-embedded-x3d-world function."))
           (t
 
 
-	   
 	   (with-cl-who ()
 	     (:p
 	      ((:|X3D| :id "the_element"
@@ -353,9 +352,11 @@ to call the :write-embedded-x3d-world function."))
 		 :width (the view-object page-width)
 		 :height (the view-object page-length)
 		 )
-		  
+	       
 	       (:|Scene|
-		 (with-format (x3d *stream*) (write-the view-object cad-output)))))
+		 (with-format (x3d *stream*) 
+		   (let ((*onclick-function* (the onclick-function)))
+		     (write-the view-object cad-output))))))
 		
 	     ((:script :type "text/javascript" 
 		       :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))
