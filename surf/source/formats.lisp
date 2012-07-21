@@ -21,7 +21,16 @@
 
 (in-package :surf)
 
-(define-format nurbs (base-format))
+
+;;
+;; FLAG -- remove this package definition and move all low-level stuff to smlib layer. 
+;;
+(eval-when (:compile-toplevel :load-toplevel :execute) (defpackage :smlib))
+
+
+(define-format nurbs (base-format)
+  :slots ((assembly? nil)
+	  (assembly nil)))
 
 
 (define-format stl (nurbs)
@@ -131,7 +140,26 @@
           (objects nil))
 
   :functions
-  ((objects-output
+  ((assembly-output
+    ()
+    (let ((buffer-file (namestring (glisp:temporary-file))))
+      
+      (with-format-slots (assembly)
+	(smlib::write-hw-file-assembly *geometry-kernel* buffer-file assembly)
+	)
+
+      
+      (let ((buffer (make-array 4096 
+				:element-type '(unsigned-byte 8))))
+	(with-open-file (in buffer-file :element-type '(unsigned-byte 8))
+	  (do ((count (read-sequence buffer in) 
+		      (read-sequence buffer in)))
+	      ((<= count 0))
+	    (write-sequence buffer *stream* :end count))))
+      (delete-file buffer-file)))
+
+
+   (objects-output
     ()
     (with-format-slots (tolerance breps-format units 
                                   units-scale analytic-curves? 
@@ -194,9 +222,13 @@
 
    (finalize-output
     ()
-    (write-env (objects-output))
-    ;;(write-env (a "%Finalized Output"))
-    (write-env (newline-out)))))
+    (with-format-slots (assembly?)
+      (if assembly?
+	  (write-env (assembly-output))
+	  (progn
+	    (write-env (objects-output))
+	    ;;(write-env (a "%Finalized Output"))
+	    (write-env (newline-out))))))))
 
 
 

@@ -22,13 +22,87 @@
 (in-package :surf)
 
 
+
+;;
+;; FLAG -- make higher-level generic constructor for a translator assembly object
+;;
+(defun make-assembly-instance ()
+  (let ((ai (smlib::tag-pointer (smlib::new-hwstdautoptr-hwassemblyinstance) 'smlib::hwstdautoptr-hwassemblyinstance)))
+    (smlib::hwassemblyinstance-init ai)
+    ai))
+
 (define-lens (nurbs vanilla-mixin)()
   :output-functions
-  ((cad-output () (push self (format-slot objects)))
+  ((cad-output-tree ()
+		    (with-format-slots (assembly?)
+		      (if (not assembly?)
+			  (call-next-method)
+			  (write-the cad-output-assembly-tree))))
+
+
+   (cad-output-assembly-tree (&optional (assembly-instance (let ((assembly (make-assembly-instance)))
+							     (set-format-slot assembly assembly)
+							     assembly)))
+			     (dolist (child (the children))
+			       (if (the-object child children)
+				   ;;
+				   ;; Add subassemblies
+				   ;;
+				   ;;
+				   ;; FLAG -- add object also in case there is actual geometry here. 
+				   ;;
+				   (let ((child-assembly-instance (make-assembly-instance)))
+				     
+				     (write-the-object child (cad-output-assembly-tree child-assembly-instance))
+
+				     (smlib::hwassembly-addsubassembly (smlib::hwstdautoptr-hwassemblyinstance-getassembly 
+									assembly-instance)
+								       child-assembly-instance)
+
+				     )
+
+				   ;;
+				   ;; Add objects
+				   ;;
+				   (write-the-object child (cad-output-assembly assembly-instance)))))
+   
+   
+   (cad-output-assembly (assembly-instance)
+			(declare (ignore assembly-instance))
+			(format t "No cad-output-assembly action is defined for ~s with root-path ~s~%" 
+				self (the root-path)))
+
+   (cad-output () 
+	       (with-format-slots (assembly?)
+		 (unless assembly?
+		   (push self (format-slot objects)))))
    
    (nurbs-reps 
     ()
     (warn "No NURBS representation for ~s, apparently of type ~s" self (the type)))))
+
+
+(define-lens (nurbs brep) ()
+  :output-functions
+  ((cad-output-assembly (assembly-instance)
+			(smlib::hwassembly-addbrep (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
+					    (the %native-brep%)))))
+
+(define-lens (nurbs curve) ()
+  :output-functions
+  ((cad-output-assembly (assembly-instance)
+			(smlib::hwassembly-addcurve 
+			 (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
+			 (the native-curve-iw)))))
+
+(define-lens (nurbs point) ()
+  :output-functions
+  ((cad-output-assembly (assembly-instance)
+			(smlib::hwassembly-addpoint 
+			 (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
+			 (smlib::iw-make-point3d (get-x (the center))
+						 (get-y (the center))
+						 (get-z (the center)))))))
 
 
 (define-lens (nurbs line)()

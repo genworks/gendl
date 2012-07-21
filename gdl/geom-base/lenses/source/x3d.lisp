@@ -185,6 +185,7 @@
 	   ((:|Transform| :|rotation| (when rotation
 				   (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
 					   (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation))))
+	    
 	    (if (and (find-package :gwl) (symbol-value (read-safe-string "gwl::*onclick-function*")))
 		(cl-who:htm 
 		 ((:|Anchor| :url (format nil "javascript:event=null;~a"

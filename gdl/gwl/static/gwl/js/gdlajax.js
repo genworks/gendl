@@ -135,8 +135,6 @@ function gdlUpdate (request) {
 
    var children = root.childNodes;
 
-
-
    for (i=0; i< children.length; i++)
    {
     var child=children[i];
@@ -151,10 +149,6 @@ function gdlUpdate (request) {
         {newHTML = child.getElementsByTagName('newHTML')[0].firstChild.nodeValue}
 
     var jsToEval = child.getElementsByTagName('jsToEval')[0].firstChild.nodeValue;
-
-    //if (document.getElementById(myid))
-    //{document.getElementById(myid).innerHTML = newHTML;
-    //}
 
     if (myid)
         {
