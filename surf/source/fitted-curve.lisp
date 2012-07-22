@@ -85,10 +85,21 @@ A <tt>nil</tt> value indicates that no data reduction is to be attempted. Defaul
     interpolant? t)
    
    (knot-multiplicity :multiple)
-   )
+
+   ("Boolean. Indicates whether the inputted control-points should be considered in local coordinate system of this object. Default is nil." 
+    local? nil))
   
   :computed-slots
-  ((native-curve
+  ((effective-points (if (the local?)
+			 (mapcar #'(lambda(point) (the (local-to-global point))) (the points))
+			 (the points)))
+   
+   (effective-vectors (if (the local?)
+			 (mapcar #'(lambda(vector) (the (local-to-global vector))) (the vectors))
+			 (the vectors)))
+   
+
+   (native-curve
     (progn
       (when (and (the vectors)
                  (member (the vector-type) (list :tangents :normals))
@@ -104,7 +115,7 @@ A <tt>nil</tt> value indicates that no data reduction is to be attempted. Defaul
             (unless degree-ok?
               (error "The degree of a fitted-curve must be less than or equal to the number of control points."))
             (interpolate-curve 
-             *geometry-kernel* (the points) (the degree) (the parameterization) :vectors (the vectors) 
+             *geometry-kernel* (the effective-points) (the degree) (the parameterization) :vectors (the effective-vectors) 
              :vector-type (the vector-type)  :interpolant? (the interpolant?)
              :knot-multiplicity (the knot-multiplicity)
              :tolerance (the tolerance)))

@@ -193,10 +193,11 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
    
 
    (%lines-to-draw% (cond ((and (= (the degree) 1) (not (the rational?)))
-                           (mapcar #'(lambda(start end)
-                                       (list start end))
-                                   (the control-points)
-                                   (rest (the control-points))))
+			   (let ((control-points (the b-spline-data)))
+			     (mapcar #'(lambda(start end)
+					 (list start end))
+				     control-points
+				     (rest control-points))))
                           (*curve-tessellation?*
                            (let ((points (the (equi-spaced-points 
                                                (max 2 (floor (* (the total-length) )))))))

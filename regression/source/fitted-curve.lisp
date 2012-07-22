@@ -215,16 +215,45 @@
 
 (define-object fitted-curve-test-4 (fitted-curve) 
   
+  :input-slots 
+  ((degree 1))
   
   :computed-slots
   ((smooth-corners? nil)
    ;;(parameterization :chordlength)
-   (degree 1)
+   
    (points (list (make-point -1 -2 0)
 		 (make-point -1 2 0)
 		 (make-point 1 2 0)
 		 (make-point 1 -2 0)
 		 (make-point -1 -2 0)))))
 
+
+
 (dolist (symbol '(fitted-curve-test fitted-curve-test-2 fitted-curve-test-3 fitted-curve-test-4))
  (register-test-definition  symbol))
+
+
+(define-object fitted-curve-test-local-global (base-object)
+
+  :computed-slots ((child-orientation (alignment :rear (rotate-vector-d (the (face-normal-vector :rear))
+									45
+									(the (face-normal-vector :right))))))
+
+
+  :objects
+  ((local-degree-1 :type 'fitted-curve-test-4
+		   :orientation (the child-orientation)
+		   :local? t)
+
+   (local-degree-3 :type 'fitted-curve-test-4
+		   :orientation (the child-orientation)
+		   :local? t
+		   :degree 3)
+
+   (global-degree-1 :type 'fitted-curve-test-4
+		    :orientation (the child-orientation))
+
+   (global-degree-3 :type 'fitted-curve-test-4
+		    :orientation (the child-orientation)
+		    :degree 3)))

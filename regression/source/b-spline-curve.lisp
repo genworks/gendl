@@ -48,3 +48,36 @@
 
 
 (register-test-definition 'b-spline-curve-test)
+
+
+(define-object b-spline-curve-test-2 (base-object)
+
+  :input-slots
+  ((control-points (list (make-point 0 0 0)
+			 (make-point 2 3.0 0.0) 
+			 (make-point 4 2.0 0.0) 
+			 (make-point 5 0.0 0.0) 
+			 (make-point 4 -2.0 0.0) 
+			 (make-point 2 -3.0 0.0) 
+			 (make-point 0 0 0))))
+
+  :computed-slots ((child-orientation (alignment :rear (rotate-vector-d (the (face-normal-vector :rear))
+								45
+								(the (face-normal-vector :right))))))
+
+  :objects
+  ((global-curve :type 'b-spline-curve
+		 :degree 1
+		 :control-points (the control-points)
+		 :orientation (the child-orientation))
+
+   (local-curve :type 'b-spline-curve
+		:degree 1
+		:local? t
+		:control-points (the control-points)
+		:orientation (the child-orientation))))
+
+
+
+
+

@@ -43,6 +43,7 @@
    (cad-output-assembly-tree (&optional (assembly-instance (let ((assembly (make-assembly-instance)))
 							     (set-format-slot assembly assembly)
 							     assembly)))
+
 			     (dolist (child (the children))
 			       (if (the-object child children)
 				   ;;
@@ -52,14 +53,11 @@
 				   ;; FLAG -- add object also in case there is actual geometry here. 
 				   ;;
 				   (let ((child-assembly-instance (make-assembly-instance)))
-				     
 				     (write-the-object child (cad-output-assembly-tree child-assembly-instance))
 
 				     (smlib::hwassembly-addsubassembly (smlib::hwstdautoptr-hwassemblyinstance-getassembly 
 									assembly-instance)
-								       child-assembly-instance)
-
-				     )
+								       child-assembly-instance))
 
 				   ;;
 				   ;; Add objects
@@ -85,6 +83,13 @@
 (define-lens (nurbs brep) ()
   :output-functions
   ((cad-output-assembly (assembly-instance)
+			(smlib::iwaobject-addname (the %native-brep%)
+						  (smlib::iw-context *geometry-kernel*)
+						  (uffi:with-cstring (cstring "hey now")
+						    cstring))
+			(smlib::iwaobject-addcolor (the %native-brep%)
+						   (smlib::iw-context *geometry-kernel*)
+						   1.0 0.0 0.0)
 			(smlib::hwassembly-addbrep (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
 					    (the %native-brep%)))))
 

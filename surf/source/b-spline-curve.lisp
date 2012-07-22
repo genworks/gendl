@@ -129,12 +129,17 @@ If any of the weights are different from 1.0, it is Rational."
  Default is a value of 1.0 for each weight, resulting in a nonrational curve."
     weights (make-list (length (the control-points)) :initial-element 1.0))
    
+   ("Boolean. Indicates whether the inputted control-points should be considered in local coordinate system of this object. Default is nil." 
+    local? nil)
    
    (surface nil)
    )
   
   :computed-slots
-  ((native-curve (make-b-spline-curve *geometry-kernel* (the control-points) 
+  ((native-curve (make-b-spline-curve *geometry-kernel* (if (the local?) 
+							    (mapcar #'(lambda(point) (the (local-to-global point))) 
+								    (the control-points))
+							    (the control-points))
                                       (mapcar #'to-double-float (the weights)) (the degree) (the knot-vector) ))
    
    
