@@ -83,15 +83,24 @@
 (define-lens (nurbs brep) ()
   :output-functions
   ((cad-output-assembly (assembly-instance)
+			#+nil
 			(smlib::iwaobject-addname (the %native-brep%)
 						  (smlib::iw-context *geometry-kernel*)
 						  (uffi:with-cstring (cstring "hey now")
 						    cstring))
+			#+nil
 			(smlib::iwaobject-addcolor (the %native-brep%)
 						   (smlib::iw-context *geometry-kernel*)
-						   1.0 0.0 0.0)
-			(smlib::hwassembly-addbrep (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
-					    (the %native-brep%)))))
+						   100.0 0.0 0.0)
+			(let ((color (lookup-color (getf (the display-controls) :color))))
+			  (smlib::hwassembly-addbrep (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
+						     (the %native-brep%)
+						     (uffi:with-cstring (cstring (the strings-for-display))
+						       cstring)
+						     (to-double-float (get-x color))
+						     (to-double-float (get-y color))
+						     (to-double-float (get-z color)))))))
+
 
 (define-lens (nurbs curve) ()
   :output-functions
