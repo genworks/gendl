@@ -26,9 +26,13 @@
 ;;
 ;; FLAG -- make higher-level generic constructor for a translator assembly object
 ;;
-(defun make-assembly-instance ()
+(defun make-assembly-instance (&key name)
   (let ((ai (smlib::tag-pointer (smlib::new-hwstdautoptr-hwassemblyinstance) 'smlib::hwstdautoptr-hwassemblyinstance)))
-    (smlib::hwassemblyinstance-init ai)
+    (smlib::hwassemblyinstance-init ai 
+				    (uffi:with-cstring (cstring name)
+				      cstring)
+				    (uffi:with-cstring (cstring name)
+				      cstring))
     ai))
 
 (define-lens (nurbs vanilla-mixin)()
@@ -40,7 +44,7 @@
 			  (write-the cad-output-assembly-tree))))
 
 
-   (cad-output-assembly-tree (&optional (assembly-instance (let ((assembly (make-assembly-instance)))
+   (cad-output-assembly-tree (&optional (assembly-instance (let ((assembly (make-assembly-instance :name (the strings-for-display))))
 							     (set-format-slot assembly assembly)
 							     assembly)))
 
@@ -52,7 +56,7 @@
 				   ;;
 				   ;; FLAG -- add object also in case there is actual geometry here. 
 				   ;;
-				   (let ((child-assembly-instance (make-assembly-instance)))
+				   (let ((child-assembly-instance (make-assembly-instance :name (the-object child strings-for-display))))
 				     (write-the-object child (cad-output-assembly-tree child-assembly-instance))
 
 				     (smlib::hwassembly-addsubassembly (smlib::hwstdautoptr-hwassemblyinstance-getassembly 
@@ -83,15 +87,6 @@
 (define-lens (nurbs brep) ()
   :output-functions
   ((cad-output-assembly (assembly-instance)
-			#+nil
-			(smlib::iwaobject-addname (the %native-brep%)
-						  (smlib::iw-context *geometry-kernel*)
-						  (uffi:with-cstring (cstring "hey now")
-						    cstring))
-			#+nil
-			(smlib::iwaobject-addcolor (the %native-brep%)
-						   (smlib::iw-context *geometry-kernel*)
-						   100.0 0.0 0.0)
 			(let ((color (lookup-color (getf (the display-controls) :color))))
 			  (smlib::hwassembly-addbrep (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
 						     (the %native-brep%)
@@ -105,18 +100,33 @@
 (define-lens (nurbs curve) ()
   :output-functions
   ((cad-output-assembly (assembly-instance)
-			(smlib::hwassembly-addcurve 
-			 (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
-			 (the native-curve-iw)))))
+			(let ((color (lookup-color (getf (the display-controls) :color))))
+			  (smlib::hwassembly-addcurve 
+			   (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
+			   (the native-curve-iw)
+			   (uffi:with-cstring (cstring (the strings-for-display))
+			     cstring)
+			   (to-double-float (get-x color))
+			   (to-double-float (get-y color))
+			   (to-double-float (get-z color)))))))
+
+
+
 
 (define-lens (nurbs point) ()
   :output-functions
   ((cad-output-assembly (assembly-instance)
+			(let ((color (lookup-color (getf (the display-controls) :color))))
 			(smlib::hwassembly-addpoint 
 			 (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
 			 (smlib::iw-make-point3d (get-x (the center))
 						 (get-y (the center))
-						 (get-z (the center)))))))
+						 (get-z (the center)))
+			 (uffi:with-cstring (cstring (the strings-for-display))
+			   cstring)
+			 (to-double-float (get-x color))
+			 (to-double-float (get-y color))
+			 (to-double-float (get-z color)))))))
 
 
 (define-lens (nurbs line)()
