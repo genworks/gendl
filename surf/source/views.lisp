@@ -22,6 +22,7 @@
 (in-package :surf)
 
 
+(eval-when (:compile-toplevel :load-toplevel :execute) (ql:quickload :uffi))
 
 ;;
 ;; FLAG -- make higher-level generic constructor for a translator assembly object
@@ -33,6 +34,10 @@
 				      cstring)
 				    (uffi:with-cstring (cstring name)
 				      cstring))
+
+    (smlib::finalize  ai #'(lambda(obj)
+			     (smlib::delete-hwstdautoptr-hwassemblyinstance obj)))
+    
     ai))
 
 (define-lens (nurbs vanilla-mixin)()
@@ -58,10 +63,17 @@
 				   ;;
 				   (let ((child-assembly-instance (make-assembly-instance :name (the-object child strings-for-display))))
 				     (write-the-object child (cad-output-assembly-tree child-assembly-instance))
-
+				     
 				     (smlib::hwassembly-addsubassembly (smlib::hwstdautoptr-hwassemblyinstance-getassembly 
 									assembly-instance)
-								       child-assembly-instance))
+								       child-assembly-instance)
+				     
+				     #+nil
+				     (let ((new-one (smlib::tag-pointer (smlib::new-hwstdautoptr-hwassemblyinstance) 'smlib::hwstdautoptr-hwassemblyinstance))) 
+				       (smlib::hwassemblyinstance-collapseunneededlevels assembly-instance new-one)
+				       (setq assembly-instance new-one))
+
+				     )
 
 				   ;;
 				   ;; Add objects
