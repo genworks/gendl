@@ -190,10 +190,37 @@
 				   (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
 					   (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation))))
 	    
-	    ;;
-	    ;; FLAG -- revert to proper conditional
-	    ;;
-	    (write-the shape))
+
+	    (cond ((and *onclick-function* (or (getf (the display-controls) :billboard)
+					       (getf (the display-controls) :billboard-vector)))
+		   (cl-who:htm 
+		    ((:|Anchor| :url (format nil "javascript:~a;" 
+					     (funcall *onclick-function* self)))
+		     ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
+							  (let ((vector (getf (the display-controls) :billboard-vector)))
+							    (format nil "~a, ~a, ~a" (get-x vector) (get-y vector) (get-z vector)))
+							  (format nil "0, 0, 0")))
+
+		      (write-the shape)))))
+
+		  (*onclick-function*
+		   (cl-who:htm 
+		    ((:|Anchor| :url (format nil "javascript:~a;" 
+					     (funcall *onclick-function* self)))
+		     (write-the shape))))
+
+		  ((or (getf (the display-controls) :billboard)
+		       (getf (the display-controls) :billboard-vector))
+		   (cl-who:htm
+		    ((:|Billboard| :|axisOfRotation|  
+		       (if (getf (the display-controls) :billboard-vector)
+			   (let ((vector (getf (the display-controls) :billboard-vector)))
+			     (format nil "~a, ~a, ~a" (get-x vector) (get-y vector) (get-z vector)))
+			   (format nil "0, 0, 0")))
+		     (write-the shape))))
+
+		  (t (write-the shape))))
+
 	   
 	   (when (and (typep self 'outline-specialization-mixin)
 		      (not (ignore-errors (typep self (read-from-string "surf:surface"))))
@@ -246,13 +273,36 @@
            
 
 	    (if (null (the children))
+		
+		(cond ((and *onclick-function* (or (getf (the display-controls) :billboard)
+						   (getf (the display-controls) :billboard-vector)))
+		       (cl-who:htm 
+			((:|Anchor| :url (format nil "javascript:~a;" 
+						 (funcall *onclick-function* self)))
+			 ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
+							      (let ((vector (getf (the display-controls) :billboard-vector)))
+								(format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+							      (format nil "0 0 0")))
 
-		(if (and (find-package :gwl) *onclick-function*)
-		    (cl-who:htm 
-		     ((:|Anchor| :url (format nil "javascript:~a;" 
-					      (funcall *onclick-function* self)))
-		      (write-the shape)))
-		    (write-the shape))
+			  (write-the shape)))))
+
+		      (*onclick-function*
+		       (cl-who:htm 
+			((:|Anchor| :url (format nil "javascript:~a;" 
+						 (funcall *onclick-function* self)))
+			 (write-the shape))))
+
+		      ((or (getf (the display-controls) :billboard)
+			   (getf (the display-controls) :billboard-vector))
+		       (cl-who:htm
+			((:|Billboard| :|axisOfRotation|  
+			   (if (getf (the display-controls) :billboard-vector)
+			       (let ((vector (getf (the display-controls) :billboard-vector)))
+				 (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+			       (format nil "0 0 0")))
+			 (write-the shape))))
+
+		      (t (write-the shape)))
 		
 		(mapc #'(lambda(child) 
 			  (write-the-object child (cad-output-tree :header? nil :from-root? nil))) (the children)))
@@ -265,8 +315,8 @@
 	      (let* ((center (reverse-vector (the center)))
 		     (x (get-x center)) (y (get-y center)) (z (get-z center))
 		     (inverse (when (the orientation*)
-				#+nil
 				(quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix (the orientation*))))
+				#+nil
 				(matrix-to-rotation (matrix:transpose-matrix (the orientation*))))))
 		(cl-who:htm
 		 ((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
@@ -492,7 +542,7 @@
 	  (:|Appearance| (write-the material-properties))
 	  
 	  (format *stream* "<Text  string='\"~a\"' solid='false'>
-                            <FontStyle size='1' justify='MIDDLE'></FontStyle>
+                            <FontStyle size='10' justify='MIDDLE'></FontStyle>
 
                             </Text>" (the %text-to-draw%))))
 
