@@ -24,21 +24,6 @@
 
 (eval-when (:compile-toplevel :load-toplevel :execute) (ql:quickload :uffi))
 
-;;
-;; FLAG -- make higher-level generic constructor for a translator assembly object
-;;
-(defun make-assembly-instance (&key name)
-  (let ((ai (smlib::tag-pointer (smlib::new-hwstdautoptr-hwassemblyinstance) 'smlib::hwstdautoptr-hwassemblyinstance)))
-    (smlib::hwassemblyinstance-init ai 
-				    (uffi:with-cstring (cstring name)
-				      cstring)
-				    (uffi:with-cstring (cstring name)
-				      cstring))
-
-    (smlib::finalize  ai #'(lambda(obj)
-			     (smlib::delete-hwstdautoptr-hwassemblyinstance obj)))
-    
-    ai))
 
 (define-lens (nurbs vanilla-mixin)()
   :output-functions
@@ -49,7 +34,9 @@
 			  (write-the cad-output-assembly-tree))))
 
 
-   (cad-output-assembly-tree (&optional (assembly-instance (let ((assembly (make-assembly-instance :name (the strings-for-display))))
+   (cad-output-assembly-tree (&optional (assembly-instance (let ((assembly (make-tx-assembly-instance 
+									    *geometry-kernel*
+									    :name (the strings-for-display))))
 							     (set-format-slot assembly assembly)
 							     assembly)))
 
@@ -61,19 +48,14 @@
 				   ;;
 				   ;; FLAG -- add object also in case there is actual geometry here. 
 				   ;;
-				   (let ((child-assembly-instance (make-assembly-instance :name (the-object child strings-for-display))))
+				   (let ((child-assembly-instance (make-tx-assembly-instance 
+								   *geometry-kernel*
+								   :name (the-object child strings-for-display))))
 				     (write-the-object child (cad-output-assembly-tree child-assembly-instance))
 				     
-				     (smlib::hwassembly-addsubassembly (smlib::hwstdautoptr-hwassemblyinstance-getassembly 
-									assembly-instance)
-								       child-assembly-instance)
-				     
-				     #+nil
-				     (let ((new-one (smlib::tag-pointer (smlib::new-hwstdautoptr-hwassemblyinstance) 'smlib::hwstdautoptr-hwassemblyinstance))) 
-				       (smlib::hwassemblyinstance-collapseunneededlevels assembly-instance new-one)
-				       (setq assembly-instance new-one))
+				     (tx-assembly-add-subassembly *geometry-kernel*
+								  assembly-instance child-assembly-instance))
 
-				     )
 
 				   ;;
 				   ;; Add objects
@@ -100,28 +82,24 @@
   :output-functions
   ((cad-output-assembly (assembly-instance)
 			(let ((color (lookup-color (getf (the display-controls) :color))))
-			  (smlib::hwassembly-addbrep (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
-						     (the %native-brep%)
-						     (uffi:with-cstring (cstring (the strings-for-display))
-						       cstring)
-						     (to-double-float (get-x color))
-						     (to-double-float (get-y color))
-						     (to-double-float (get-z color)))))))
-
+			  (tx-assembly-add-brep *geometry-kernel*
+						assembly-instance
+						(the %native-brep%)
+						:name (the strings-for-display)
+						:red (get-x color)
+						:green (get-y color)
+						:blue (get-z color))))))
 
 (define-lens (nurbs curve) ()
   :output-functions
   ((cad-output-assembly (assembly-instance)
 			(let ((color (lookup-color (getf (the display-controls) :color))))
-			  (smlib::hwassembly-addcurve 
-			   (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
-			   (the native-curve-iw)
-			   (uffi:with-cstring (cstring (the strings-for-display))
-			     cstring)
-			   (to-double-float (get-x color))
-			   (to-double-float (get-y color))
-			   (to-double-float (get-z color)))))))
-
+			  (tx-assembly-add-curve *geometry-kernel* assembly-instance
+						 (the native-curve-iw)
+						 :name (the strings-for-display)
+						 :red (get-x color)
+						 :green (get-y color)
+						 :blue (get-z color))))))
 
 
 
@@ -129,16 +107,12 @@
   :output-functions
   ((cad-output-assembly (assembly-instance)
 			(let ((color (lookup-color (getf (the display-controls) :color))))
-			(smlib::hwassembly-addpoint 
-			 (smlib::hwstdautoptr-hwassemblyinstance-getassembly assembly-instance)
-			 (smlib::iw-make-point3d (get-x (the center))
-						 (get-y (the center))
-						 (get-z (the center)))
-			 (uffi:with-cstring (cstring (the strings-for-display))
-			   cstring)
-			 (to-double-float (get-x color))
-			 (to-double-float (get-y color))
-			 (to-double-float (get-z color)))))))
+			(tx-assembly-add-point *geometry-kernel* assembly-instance
+					       (the center)
+					       :name (the strings-for-display)
+					       :red (get-x color)
+					       :green (get-y color)
+					       :blue (get-z color))))))
 
 
 (define-lens (nurbs line)()

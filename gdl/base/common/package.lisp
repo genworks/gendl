@@ -234,7 +234,9 @@
            #:write-the
            #:write-the-object
            #:xml-reader
-           #:^2))
+           #:^2
+
+	   #:*onclick-function*))
 
 (defpackage :gdl-toplevel (:use))
 (defpackage :gdl-rule (:size 25) (:use) 

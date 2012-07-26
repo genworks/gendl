@@ -131,6 +131,8 @@ And really this should be done in the post-load-form of your build."))
 					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
 					:defaults glisp:*gdl-program-home*))
 
+  (glisp:set-default-float-format)
+  (glisp:set-defpackage-behavior)
 
   ;;
   ;; FLAG -- don't do this here. Don't want to mess up people's
@@ -145,7 +147,7 @@ And really this should be done in the post-load-form of your build."))
   ;;
   ;;(setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
   ;;
-
+  
   (asdf:initialize-output-translations)
 
   (glisp:set-default-package)

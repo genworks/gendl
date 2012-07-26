@@ -22,9 +22,6 @@
 (in-package :gwl)
 
 
-(defparameter *onclick-function* nil)
-
-
 (define-object geometry-view-mixin ()
   
   :input-slots
@@ -105,9 +102,10 @@
 				 (let ((*onclick-function* (the onclick-function)))
 				   (let ((*stream* reply-stream))
 				     (with-cl-who ()
-				       (:|scene|
-					(with-format (x3d reply-stream :use-bsplines? (the use-bsplines?))
-					  (write-the view-object cad-output))))))))))))
+				       (:|X3D|
+					 (:|Scene|
+					   (with-format (x3d reply-stream :use-bsplines? (the use-bsplines?))
+					     (write-the view-object cad-output)))))))))))))
 
                (push url (gethash (make-keyword (the instance-id)) *url-hash-table*)) url) :uncached)
    

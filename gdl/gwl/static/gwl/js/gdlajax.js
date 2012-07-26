@@ -78,7 +78,10 @@ return y;
 }
 
 
-
+function gdlAjax1 (params)
+{
+    gdlAjax(null, params, true);
+}
 
 function gdlAjax (evt, params, asynch)
 {

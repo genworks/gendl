@@ -283,3 +283,6 @@ Defaults to :error.")
   "Boolean. Determines whether the system keeps track of previous slot values 
   (accessible with previous-value function) after bashings are done. Leave this
 set to nil to improve memory performance.")
+
+(defparameter *onclick-function* nil)
+

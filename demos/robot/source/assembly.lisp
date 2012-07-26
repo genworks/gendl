@@ -192,7 +192,9 @@ to the src/ directory distributed with GDL.
    arm-angle-right
    arm-angle-left
    pincer-distance-right
-   pincer-distance-left)
+   pincer-distance-left
+   shininess transparency
+   )
 
   :computed-slots
   ((display-controls (list  :color :orange :line-thickness 2 
@@ -217,7 +219,18 @@ to the src/ directory distributed with GDL.
                                   (the (:face-normal-vector :top))))
          :pass-down (head-angle torso-type
                      arm-angle-right arm-angle-left 
-                     pincer-distance-left pincer-distance-right))))
+                     pincer-distance-left pincer-distance-right))
+
+   
+   (center-sphere :type 'sphere :radius 0.1)
+
+   (rob-text :type 'general-note
+	     :orientation (alignment :top (the (face-normal-vector :rear)))
+	     :strings "Bob"
+	     :center (the center))
+
+
+   ))
 
 
 (define-object robot-body (base-object)
@@ -282,6 +295,9 @@ to the src/ directory distributed with GDL.
                                   (the (:face-normal-vector :right))
                                   (the :head-angle)
                                   (the (:face-normal-vector :top)))))
+
+
+
    
    ))
 

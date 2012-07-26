@@ -745,3 +745,20 @@
 (define-smlib-wrapper make-extend-curve (curve &key distance distance-type extending-from continuity)) 
 
 (define-smlib-wrapper approximated-compatible-curves (curve-list &key length tolerance))
+
+(define-smlib-wrapper make-tx-assembly-instance (&key name))
+
+(define-smlib-wrapper tx-assembly-add-subassembly (parent-assembly-instance-pointer
+						   child-assembly-instance-pointer))
+
+(define-smlib-wrapper tx-assembly-add-brep (assembly-instance-pointer
+					    native-brep
+					    &key name red green blue))
+
+(define-smlib-wrapper tx-assembly-add-curve (assembly-instance-pointer
+					    native-curve
+					    &key name red green blue))
+
+(define-smlib-wrapper tx-assembly-add-point (assembly-instance-pointer
+					     point
+					     &key name red green blue))

@@ -162,7 +162,9 @@ o filter inspector slots to local slots
              :onclick-function #'(lambda(object)
                                    (the (gdl-ajax-call 
                                          :function-key :perform-action!
-                                         :arguments (list object))))
+                                         :arguments (list object)
+					 :one-arg? (member (the-child image-format) (list :x3d :x3dom))
+					 )))
              :tatu-root self)
    
    (inspector :type 'inspector

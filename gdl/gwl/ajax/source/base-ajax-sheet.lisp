@@ -434,7 +434,11 @@ UI specific jQuery Layout JavaScript."
          ((:script :type "text/javascript" 
                    :src "/static/3rdpty/jquery/js/jquery-ui-current.min.js"))
 
-
+	 
+	 ;;
+	 ;; FLAG -- put this back after re-arranging tasty color schemes to avoid the invisible menus. 
+	 ;; 
+	 #+nil
 	 ((:link :rel "stylesheet" :href "http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" :media "all"))
 
          ((:script :type "text/javascript"

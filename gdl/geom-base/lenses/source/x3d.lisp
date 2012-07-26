@@ -24,10 +24,13 @@
 
 (define-format x3d (vrml))
 
+(defparameter *onclick* nil)
+
 (define-lens (x3d base-drawing)()
   :output-functions
   ((cad-output
     ()
+
     (let (
           ;;(req (when (find-package :gwl) (symbol-value (read-from-string "gwl:*req*"))))
           )
@@ -148,7 +151,8 @@
         (:|Transform| :translation (when (not (every #'zerop (list x y z)))
 				     (format nil "~3,7f ~3,7f ~3,7f" x y z))
 	  :rotation (when rotation
-		      (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
+		      (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) 
+			      (get-z rotation) (get-w rotation)))
 	  (:|Group| (write-the shape))))))
    
    (scene 
@@ -186,14 +190,10 @@
 				   (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
 					   (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation))))
 	    
-	    (if (and (find-package :gwl) (symbol-value (read-safe-string "gwl::*onclick-function*")))
-		(cl-who:htm 
-		 ((:|Anchor| :url (format nil "javascript:event=null;~a"
-					  (funcall (symbol-value (read-safe-string "gwl::*onclick-function*")) self)))
-                   
-		  (write-the shape)))
-		(write-the shape)))
-
+	    ;;
+	    ;; FLAG -- revert to proper conditional
+	    ;;
+	    (write-the shape))
 	   
 	   (when (and (typep self 'outline-specialization-mixin)
 		      (not (ignore-errors (typep self (read-from-string "surf:surface"))))
@@ -228,19 +228,29 @@
             ;;(rotation (matrix-to-rotation orientation))
             (x (get-x center)) (y (get-y center)) (z (get-z center)))
         
+	
 
+	;;
+	;; FLAG -- factor out the redundant calls and call directly to
+	;; cad-output, which will itself call to the shape.
+	;;
         (cl-who:with-html-output (*stream* nil :indent nil)
           ((:|Transform| :|translation| (unless (every #'zerop (list x y z))
 				      (format nil "~3,7f ~3,7f ~3,7f" x y z)))
 	   ((:|Transform| :|rotation| (when rotation
-				    (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
-					    (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation))))
+					(format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
+						(get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
+
+	      
+	      )
            
+
 	    (if (null (the children))
-		(if (and (find-package :gwl) (symbol-value (read-safe-string "gwl::*onclick-function*")))
+
+		(if (and (find-package :gwl) *onclick-function*)
 		    (cl-who:htm 
-		     ((:|Anchor| :url (format nil "javascript:event=null;~a"
-					      (funcall (symbol-value (read-safe-string "gwl::*onclick-function*")) self)))
+		     ((:|Anchor| :url (format nil "javascript:~a;" 
+					      (funcall *onclick-function* self)))
 		      (write-the shape)))
 		    (write-the shape))
 		
@@ -403,10 +413,11 @@
     (with-corrected-orientation 
 	(:|Shape|
 	  (:|Appearance| (write-the material-properties))
-	  (:|Box| :|size| (format nil "~a ~a ~a" 
-				  (to-double-float (the width))
-				  (to-double-float (the length))
-				  (to-double-float (the height)))))))))
+	  ((:|Box| 
+	     :|size| (format nil "~a ~a ~a" 
+			     (to-double-float (the width))
+			     (to-double-float (the length))
+			     (to-double-float (the height))))))))))
 
 
 
@@ -465,3 +476,45 @@
                                           (the ifs-array)))))))))))
 
 
+
+
+(define-lens (x3d text-line)()
+  :output-functions
+  ((shape
+    ()
+    (let ((font-size (the character-size)))
+      
+      (declare (ignore font-size))
+      
+      
+      (cl-who:with-html-output (*stream* nil :indent t)
+	(:|Shape|
+	  (:|Appearance| (write-the material-properties))
+	  
+	  (format *stream* "<Text  string='\"~a\"' solid='false'>
+                            <FontStyle size='1' justify='MIDDLE'></FontStyle>
+
+                            </Text>" (the %text-to-draw%))))
+
+
+
+      #+nil
+      (cl-who:with-html-output (*stream* nil :indent t)
+	(let ((center (the center)))
+	  (setq center (the (global-to-local center)))
+	  (cl-who:htm ((:|Transform| #+nil :|translation| 
+			 #+nil 
+			 (format nil "~3,7f, ~3,7f, ~3,7f"
+				 (- (get-x center))
+				 (- (get-y center))
+				 (- (get-z center)))
+			 
+			 (:|Shape|
+			   (:|Appearance| (write-the material-properties))
+		    
+			   (format *stream* "<Text string='~a' solid='false'>
+                            </Text>" (the %text-to-draw%))
+			   #+nil
+			   ((:|Text| :|string| (the %text-to-draw%))
+		     
+			    )))))))))))
