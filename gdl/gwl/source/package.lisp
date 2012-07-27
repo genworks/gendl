@@ -21,7 +21,8 @@
 
 (in-package :common-lisp-user)
 
-(setq cl-who:*prologue* "<!doctype HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">")
+;;(setq cl-who:*prologue* "<!doctype HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">")
+(setq cl-who:*prologue* "<!doctype HTML>")
 (setq cl-who:*attribute-quote-char* #\")
 (setq cl-who:*downcase-tokens-p* nil)
 

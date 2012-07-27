@@ -179,5 +179,6 @@ the value of this parameter at your own risk.")
 
 (push #'initialize-geom-base *gdl-init-functions*)
 
-
+(setq cl-who:*prologue* "<!doctype HTML>")
 (setq cl-who:*attribute-quote-char* #\")
+(setq cl-who:*downcase-tokens-p* nil)
