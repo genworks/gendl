@@ -30,7 +30,7 @@
 
 (define-format nurbs (base-format)
   :slots ((assembly? nil)
-	  (assembly nil)))
+	  (%assembly% nil)))
 
 
 (define-format stl (nurbs)
@@ -144,8 +144,8 @@
     ()
     (let ((buffer-file (namestring (glisp:temporary-file))))
       
-      (with-format-slots (assembly)
-	(smlib::write-hw-file-assembly *geometry-kernel* buffer-file assembly)
+      (with-format-slots (%assembly%)
+	(smlib::write-hw-file-assembly *geometry-kernel* buffer-file %assembly%)
 	)
 
       

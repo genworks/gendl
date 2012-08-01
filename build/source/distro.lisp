@@ -26,9 +26,13 @@
   :input-slots
   ((overwrite? nil)
 
-   (staging-directory #+mswindows "e:/staging/" #-mswindows "~/share/staging/")
+   (staging-directory #+mswindows (or (probe-file "e:/staging/")
+				      (probe-file "z:/staging/"))
+		      #-mswindows "~/share/staging/")
 
-   (release-directory #+mswindows "e:/release/" #-mswindows "~/share/release/")
+   (release-directory #+mswindows (or (probe-file "e:/release/")
+				      (probe-file "z:/release/"))
+		      #-mswindows "~/share/release/")
 
    (release-name-mapping '(("acl-8.2m-linux-x86" .  "gdl1581-linux")
 			   ("acl-8.2m-win-x86" .  "gdl1581-windows")))

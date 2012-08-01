@@ -37,7 +37,7 @@
    (cad-output-assembly-tree (&optional (assembly-instance (let ((assembly (make-tx-assembly-instance 
 									    *geometry-kernel*
 									    :name (the strings-for-display))))
-							     (set-format-slot assembly assembly)
+							     (set-format-slot %assembly% assembly)
 							     assembly)))
 
 			     (dolist (child (the children))
