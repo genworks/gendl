@@ -172,6 +172,9 @@
            #:closed-boolean-operation
            #:closed-boolean-separate-operation
            #:global-brep-brep-solve
+	   
+	   #:non-rational-curve
+	   #:spiral-curve
            
            #:get-faces-from-edge
            

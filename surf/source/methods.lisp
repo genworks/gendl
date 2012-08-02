@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2011, 2012 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -762,3 +762,15 @@
 (define-smlib-wrapper tx-assembly-add-point (assembly-instance-pointer
 					     point
 					     &key name red green blue))
+
+(define-smlib-wrapper rational-to-nonrational   (curve &key tolerance
+						       maintain-end-tangents?
+						       nonrational-degree
+						       parameterization))
+
+(define-smlib-wrapper make-spiral (height
+				   radius-1
+				   radius-2
+				   pitch
+				   right-or-left
+				   tolerance))

@@ -19,6 +19,9 @@
 
 (in-package :gdl-user)
 
+(setq surf:*tess-max-3d-edge-factor* 0.2)
+(setq surf:*tess-max-angle-degrees* 12)
+
 (defparameter *data-folder* 
   (make-pathname :name nil 
 		 :type nil 
@@ -322,5 +325,3 @@
 		  :end-caps-on-brep? t
 		  :curves (list (the root-profile) (the tip-profile)))))
 						   
-(setq *tess-max-3d-edge-factor* 0.2)
-(setq *tess-max-angle-degrees* 12)
