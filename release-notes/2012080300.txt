@@ -1,0 +1,13 @@
+
+Release Notes for Build Stamp 2012080300 w.r.t. previous 2012080300
+===================================================================
+
+o FIXED glisp:set-gs-path to look in level up for gpl/ directory as
+  well, since Slime etc. work with it there now.
+
+o REMOVED :mysql client support -- this will be included only in
+  special releases. The normal release will not include it, to
+  simplify installation by avoiding the need for additional .dll's to
+  be installed.
+
+
