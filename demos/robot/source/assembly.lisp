@@ -204,8 +204,7 @@ to the src/ directory distributed with GDL.
 
   :objects
   ((base :type 'robot-base
-         :display-controls (append (merge-display-controls (list :color :blue-sky))
-				   (list :billboard t))
+         :display-controls (merge-display-controls (list :color :blue-sky))
          :height (* (the height) 0.4)
          :width (* (the :width) 0.2)
          :length (* (the :length) 0.2)

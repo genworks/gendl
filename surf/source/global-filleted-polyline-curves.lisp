@@ -89,14 +89,17 @@ into a single curve."
     ;;
     ;; FLAG clean up use of nth
     ;;
+    :pseudo-inputs (pair)
     :pair (nth (the-child index) (the straights))
     :start (second (the-child pair))
     :end (first (the-child pair)))))
 
 
-(define-object global-filleted-polyline-curve (global-filleted-polyline-curves composed-curve)
+(define-object global-filleted-polyline-curve
+    (global-filleted-polyline-curves composed-curve)
   
-  :documentation (:description "Provides a singular composed curve made from a global-filleted-polyline-curves object")
+  :documentation (:description "Provides a singular composed curve made 
+from a global-filleted-polyline-curves object")
   
   :computed-slots
   ((curves (the ordered-curves))))

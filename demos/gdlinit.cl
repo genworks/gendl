@@ -24,6 +24,8 @@
 			      :destination (format nil "~a" (merge-pathnames "downloads/" glisp:*gdl-home*)))
 
 
-
+;;
+;; Initialize SMLib here if available. 
+;;
 
 

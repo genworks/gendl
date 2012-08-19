@@ -25,7 +25,7 @@
 ;;
 ;; FLAG -- remove this package definition and move all low-level stuff to smlib layer. 
 ;;
-(eval-when (:compile-toplevel :load-toplevel :execute) (defpackage :smlib))
+(eval-when (:compile-toplevel :load-toplevel :execute) (defpackage :smlib (:use)))
 
 
 (define-format nurbs (base-format)

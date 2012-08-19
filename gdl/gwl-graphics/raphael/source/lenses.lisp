@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 20012 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -106,6 +106,8 @@
     
     (set-format-slot view nil))))
 
+
+
 (define-lens (raphael geom-base::view-object-cache)()
   :output-functions
   ((lines-and-curves
@@ -132,42 +134,48 @@
 
               (*read-default-float-format* 'single-float))
           
-          (mapc 
-           #'(lambda(line-index-pair)
-               (destructuring-bind (start-index end-index) line-index-pair
-                 (let ((start (svref 2d-vertices start-index)) 
-                       (end (svref 2d-vertices end-index))
-                       (name (base64-encode-safe 
-                              (format nil "~s" (remove :root-object-object 
-                                                       (the-object object  root-path))))))
-
-                   (with-cl-who ()
-                     (str 
-                      (format 
-                       nil 
-                       "var ~a_lines = paper.path('M ~a ~a L ~a ~a').attr({stroke: '~a'});~%"
+	  (let (prev-end 
+		(move? t))
+	    (declare (ignore prev-end))
+	    (mapc 
+	     #'(lambda(line-index-pair)
+		 (destructuring-bind (start-index end-index) line-index-pair
+		   (let ((start (svref 2d-vertices start-index)) 
+			 (end (svref 2d-vertices end-index))
+			 (name (base64-encode-safe 
+				(format nil "~s" (remove :root-object-object 
+							 (the-object object  root-path))))))
+		     (when nil ;;(and prev-end (coincident-point? start prev-end)) 
+		       (setq move? nil))
+		     (setq prev-end end)
+		     (with-cl-who ()
+		       (str 
+			(format 
+			 nil 
+			 "var ~a_lines = paper.path('~aL ~a ~a').attr({stroke: '~a'});~%"
                        
-                       name 
+			 name 
                        
-                       (to-single-float (get-x start))
-                       (to-single-float (get-y start))
-                       (to-single-float (get-x end))
-                       (to-single-float (get-y end))
+			 (if move? (format nil "M ~a ~a "
+					   (to-single-float (get-x start))
+					   (to-single-float (get-y start)))
+			     "")
+			 (to-single-float (get-x end))
+			 (to-single-float (get-y end))
                        
-                       (or (when (getf display-controls :color)
-                             (lookup-color (getf display-controls :color) :format :hex))
-                           (the-object object color-hex))))
+			 (or (when (getf display-controls :color)
+			       (lookup-color (getf display-controls :color) :format :hex))
+			     (the-object object color-hex))))
                        
-                     (let ((stroke-width-string
-                            (let* ((line-thickness (getf display-controls :line-thickness))
-                                   (line-thickness (or line-thickness (the object line-thickness)))
-                                   (line-thickness (if (zerop line-thickness) 1 line-thickness)))
-                              (if line-thickness
-                                  (format nil "~a_lines.attr('stroke-width','~a');" 
-                                          name (to-single-float line-thickness)) ""))))
-                       (htm (str stroke-width-string)))))))
-           line-index-pairs)
-            
+		       (let ((stroke-width-string
+			      (let* ((line-thickness (getf display-controls :line-thickness))
+				     (line-thickness (or line-thickness (the object line-thickness)))
+				     (line-thickness (if (zerop line-thickness) 1 line-thickness)))
+				(if line-thickness
+				    (format nil "~a_lines.attr('stroke-width','~a');" 
+					    name (to-single-float line-thickness)) ""))))
+			 (htm (str stroke-width-string)))))))
+	     line-index-pairs))
                       
           (let (result)
             (mapc #'(lambda(curve-index-quadruple)
@@ -182,10 +190,8 @@
               
             (setq result (nreverse result))
 
-            
             (when result
 
-              
               (let* ((name (base64-encode-safe 
                             (format nil "~s" (remove :root-object-object 
                                                      (the-object object  root-path)))))
@@ -198,22 +204,29 @@
                        
                        (format nil "var ~a_curves = paper.path('~{~a~}').attr({stroke: '~a'});~%"
                                name
-                               (let ((curve-strings
-                                      (mapcar 
-                                       #'(lambda(curve)
-                                           (destructuring-bind (start c1 c2 end) curve
-                                             (format nil "M ~a ~a C  ~a ~a ~a ~a ~a ~a "
-                                                     (to-single-float (get-x start))
-                                                     (to-single-float (get-y start))
-                                                     (to-single-float (get-x c1) )
-                                                     (to-single-float (get-y c1))
-                                                     (to-single-float (get-x c2) )
-                                                     (to-single-float (get-y c2))
-                                                     (to-single-float (get-x end) )
-                                                     (to-single-float (get-y end))
+                               (let* (prev-end
+				      (move? t)
+				      (curve-strings
+				       (mapcar 
+					#'(lambda(curve)
+					    (destructuring-bind (start c1 c2 end) curve
+					      (when (and prev-end (coincident-point? start prev-end))
+						(setq move? nil))
+					      (setq prev-end end)
+					      (format nil "~aC  ~a ~a ~a ~a ~a ~a "
+						      (if move? (format nil "M ~a ~a "
+									(to-single-float (get-x start))
+									(to-single-float (get-y start)))
+							  "")
+						      (to-single-float (get-x c1) )
+						      (to-single-float (get-y c1))
+						      (to-single-float (get-x c2) )
+						      (to-single-float (get-y c2))
+						      (to-single-float (get-x end) )
+						      (to-single-float (get-y end))
                                                      
                                                      
-                                                     ))) result)))
+						      ))) result)))
                                  curve-strings)
                                (let ((color (or (when (getf display-controls :color)
                                                   (lookup-color (getf display-controls :color) :format :hex))
@@ -235,16 +248,21 @@
                                
                                
                       
+		      
                       (onmouseover-string
-                       (format nil 
-                               " ~a_curves.node.onmouseover = function (){~a_curves.attr({'stroke-width': '~a'});};" 
-                               name name 
-                               (floor (to-single-float (* (or line-thickness 1) 3)))
-                               ))
+		       nil 
+			#+nil
+			(format nil 
+				" ~a_curves.node.onmouseover = function (){~a_curves.attr({'stroke-width': '~a'});};" 
+				name name 
+				(floor (to-single-float (* (or line-thickness 1) 3)))
+				))
                       
                       (onmouseout-string
-                       (format nil " ~a_curves.node.onmouseout = function (){~a_curves.attr({'stroke-width': '~a'});};" 
-                               name name (to-single-float (or line-thickness 1))))
+		       nil
+			#+nil
+			(format nil " ~a_curves.node.onmouseout = function (){~a_curves.attr({'stroke-width': '~a'});};" 
+				name name (to-single-float (or line-thickness 1))))
                       
                       (fill-string
                        (let ((color (or (when (getf display-controls :fill-color)
@@ -268,16 +286,14 @@
                     ;;         of the object. 
                     ;;
                     (when onclick-string (str onclick-string))
-                    (str onmouseover-string)
-                    (str onmouseout-string)
+                    (when onmouseover-string (str onmouseover-string))
+                    (when onmouseout-string (str onmouseout-string))
                     (str fill-string) 
                     (str stroke-width-string)
                     )))
                   
                   
               ))))))))
-
-
 
 
 
@@ -331,9 +347,54 @@
 
 
 
+
+(define-lens (raphael global-polyline)()
+  :output-functions
+  ((cad-output
+    ()
+    (with-format-slots (view)
+      (let ((line-index-pairs (the %%line-vertex-indices%%))
+            (2d-vertices (map 'vector
+                           (if view
+                               #'(lambda(point) 
+				   (let ((p (add-vectors (let ((point (subseq (the-object view (view-point point)) 0 2)))
+							   point)
+							 geom-base:*raphael-translation*)))
+				     (make-point (get-x p) (- (the-object view length) (get-y p)))
+				     ))
+			       #'identity) (the %%vertex-array%%)))
+            (name (base64-encode-safe 
+                     (format nil "~s" (remove :root-object-object 
+                                              (the  root-path))))))
+        
+         (with-cl-who ()
+          (let ((*read-default-float-format* 'single-float)
+		(start (aref 2d-vertices (first (first line-index-pairs)))))
+            (str 
+             (format 
+              nil
+              "var ~a_polyline = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a'});~%"
+              ;; FLAG -- add fill-color
+              name
+              (to-single-float (get-x start))
+              (to-single-float (get-y start))
+              
+              (mapcar #'(lambda(line-index-pair) 
+			  (destructuring-bind (start-index end-index) line-index-pair
+			    (declare (ignore start-index))
+			    (let ((end   (svref 2d-vertices end-index)))
+			      (format nil "L ~a ~a" 
+				      (to-single-float (get-x end))
+				      (to-single-float (get-y end))))))
+			  line-index-pairs)
+              
+              (the color-hex))))))))))
+
+
 ;;
 ;; FLAG -- this is not working - sort it out. 
 ;;
+#+nil
 (define-lens (raphael global-polyline)()
   :output-functions
   (
