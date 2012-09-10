@@ -31,19 +31,20 @@
     basis-surface (the %extracted-basis%))
    
    
-   "Single GDL NURBS Curve or list of same. These curves make up the outer trimming loop. Normally should
+   ("Single GDL NURBS Curve or list of same. These curves make up the outer trimming loop. Normally should
 be in counter-clockwise orientation; if not, please specify <tt>reverse-island?</tt> as non-NIL."
-   island 
+    island  (list-elements (the basis-surface brep edges)))
    
    ("List of GDL NURBS Curves or list of lists of GDL NURBS Curves. These curves make up zero or more holes within the outer trimming loop.
 Normally should be in clockwise orientation; if not, please specify <tt>reverse-holes?</tt> as non-NIL."
     holes nil)
    
    (%native-brep%
-    (let ((island-3d (mapcar #'(lambda (curve) (make-b-spline-curve* *geometry-kernel*
-                                                                     (the-object curve native-curve)
-                                                                     :schedule-finalization? nil))
-                             (if (listp (the island)) (the island) (list (the island)))))
+    (let ((island-3d (when (the island)
+		       (mapcar #'(lambda (curve) (make-b-spline-curve* *geometry-kernel*
+								       (the-object curve native-curve)
+								       :schedule-finalization? nil))
+			       (if (listp (the island)) (the island) (list (the island))))))
                          
           (holes-3d (mapcar #'(lambda (hole) 
                                 (mapcar #'(lambda (curve) (make-b-spline-curve* *geometry-kernel*

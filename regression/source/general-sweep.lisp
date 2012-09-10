@@ -96,3 +96,67 @@
    
   ))
                     
+
+(define-object filleted-triangle-curve (non-rational-curve)
+
+  :computed-slots
+  ((curve-in (the triangle)))
+  
+  :objects
+  ((triangle :type 'global-filleted-polyline-curve
+	     :vertex-list (list (make-point 0 0 0)
+				(make-point -10 -5 0)
+				(make-point -10 0 0)
+				(make-point 0 0 0))
+	     :default-radius 0.5)))
+
+
+(define-object screw-spine (spiral-curve)
+  
+  :computed-slots
+  ((height 110)
+   (radius-1 20)
+   (radius-2 20)
+   (number-of-turns 8)))
+
+
+(define-object screw-sweep (normal-sweep)
+
+  :computed-slots
+  ((display-controls (list :color :blue))
+   (guide-curve (the screw-curve))
+   (profile-curve (the triangle-curve))
+   (end-caps-on-brep? t)
+   
+   (screw-curve (the screw-curve-input (curves 0)))
+   )
+  
+  :objects
+  (;;(screw-curve :type 'screw-spine)
+
+   (screw-curve-input :type 'native-reader
+		      :file-name "/tmp/screw-curve.iwp")
+
+
+   (triangle-curve :type 'filleted-triangle-curve)))
+
+
+(define-object screw (subtracted-solid)
+
+  :computed-slots
+  ((error-on-invalid? nil)
+   (brep (the cylinder))
+   (other-brep (the cut-sweep brep))
+   (display-controls (list :color :blue))
+   )
+  
+  :objects
+  ((cut-sweep :type 'screw-sweep)
+   
+   (cylinder :type 'cylinder-solid
+	     :display-controls (list :color :red)
+	     :length 110 
+	     :radius 17.5
+	     :orientation (alignment :rear (the (face-normal-vector :top)))
+	     :center (translate (the center) :up (half (the-child length))))
+	     ))

@@ -103,24 +103,42 @@
                 (dolist (cell row)
                   (htm (:td (str cell)))))))))))))
 
+
+
 (define-object text-form (base-ajax-sheet)
   
   :computed-slots
   ((main-sheet-body
-    (with-cl-who-string ()
-      (with-html-form (:cl-who? t)
-        (:p (str (the number-input html-string)) :br
-            ((:input :type :submit :value "ok")))
-        (:p (str (the result))))))
+    (the main-area main-div))
    
-   (result (* (the number-input value) 2))
-   
-   )
+   (result (* (the number-input value) 2)))
   
-  :objects ((number-input :type 'text-form-control
+  :functions ((restore-defaults! 
+	       ()
+	       (the number-input :restore-defaults!)))
+				    
+
+  :objects ((reset :type 'button-form-control
+		   :label "Reset"
+		   :onclick (the (gdl-ajax-call :function-key :restore-defaults!)))
+
+	    (number-input :type 'text-form-control
                           :prompt "Enter a number"
                           :default 42
-                          )))
+                          )
+	    
+	    (main-area :type 'sheet-section
+		       ;;
+		       ;; FLAG -- use :inner-html instead of :main-view starting in 1581!
+		       ;;
+		       :main-view (with-cl-who-string ()
+				    (with-html-form (:cl-who? t)
+				      (:p (str (the number-input html-string)) :br
+					  ((:input :type :submit :value "ok"))
+					  " "
+					  (str (the reset form-control-string)))
+				      (:p (str (the result))))))))
+
 
 
 (publish-gwl-app "/text-form"

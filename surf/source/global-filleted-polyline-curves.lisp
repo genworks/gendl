@@ -61,10 +61,9 @@ into a single curve."
 </pre>")
                   
   :computed-slots
-  ((%lines-to-draw% nil)
-   
-   (%curves-to-draw% (append  (append-elements (the fillet-curves) (the-element %curves-to-draw%))
-                              (append-elements (the straight-curves) (the-element %curves-to-draw%))))
+  ((%lines-to-draw% (append-elements (the straight-curves) (the-element %lines-to-draw%)))
+
+   (%curves-to-draw% (append  (append-elements (the fillet-curves) (the-element %curves-to-draw%))))
     
    ("List of GDL NURBS curve objects. The curve segments in the right order for chaining together."
     ordered-curves (let ((tail (nreverse (mapcan #'list (list-elements (the straight-curves)) (list-elements (the fillet-curves))))))
@@ -102,7 +101,10 @@ into a single curve."
 from a global-filleted-polyline-curves object")
   
   :computed-slots
-  ((curves (the ordered-curves))))
+  ((curves (the ordered-curves))
+   
+
+   ))
   
 
 

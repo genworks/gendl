@@ -95,6 +95,76 @@
          :objects (list self))))
 
 
+(define-object test-planar-surface (planar-surface)
+   :computed-slots
+   ((display-controls (list :color :fuchsia :transparency 0.5))
+    (p00 (make-point 0 0 0))
+    (p01 (make-point 0 1 0))
+    (p10 (make-point 1 0 0))
+    (p11 (make-point 1.5 1.5 0))))
+
+
+(define-object test-sub (base-object)
+
+  :objects
+  ((basis :type 'test-planar-surface
+	  :display-controls (list :color :grey-light-very))
+
+   (hole :type 'global-filleted-polyline-curve
+          :default-radius .05
+          :vertex-list (list (make-point 0.5 0.5 -.05)
+                             (make-point 0.75 0.5 -.05)
+                             (make-point 0.75 0.75 -.05)
+                             (make-point 0.5 0.75 -.05)
+                             (make-point 0.5 0.5 -.05)))
+
+   (subtract :type 'subtracted-solid
+	     :brep (the basis brep)
+	     :display-controls (list :color :blue)
+	     :other-brep (the extrude))
+
+   (extrude :type 'extruded-solid
+	    :distance .1
+	    :profile (the hole))))
+
+(define-object test-trimmed-surface-3 (trimmed-surface)
+   :computed-slots
+   ((reverse-holes? t)
+    ;;(island (the island-container ordered-curves))
+    ;;(island nil)
+    (reverse-island? t)
+    (holes (list (the hole ordered-curves)))
+    (display-controls (list :color :periwinkle :line-thickness 2)))
+  
+   :hidden-objects
+   ((basis-surface :type 'test-planar-surface
+                   :display-controls (list :color :grey-light-very))
+   
+    (island-container :type 'global-filleted-polyline-curves
+                      :default-radius .05
+                      :vertex-list (list (make-point 0 0 0)
+                                         (make-point 0.3 0.6 0)
+                                         (make-point 0 1 0)
+                                         (make-point 1 1 0)
+                                         (make-point 1 0 0)
+                                         (make-point 0 0 0)))
+   
+    (island-2 :type 'b-spline-curve 
+              :control-points (list (make-point 0 0 0)
+                                    (make-point 0 1 0)
+                                    (make-point 1 1 0)
+                                    (make-point 1 0 0)
+                                    (make-point 0 0 0)))
+   
+    (hole :type 'global-filleted-polyline-curves
+          :default-radius .05
+          :vertex-list (list (make-point 0.5 0.5 0)
+                             (make-point 0.75 0.5 0)
+                             (make-point 0.75 0.75 0)
+                             (make-point 0.5 0.75 0)
+                             (make-point 0.5 0.5 0)))))
+
+
 #+nil
 (define-object test-trimmed-surface-2 (trimmed-surface)
   :computed-slots

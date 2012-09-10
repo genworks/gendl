@@ -139,6 +139,7 @@
 	    (declare (ignore prev-end))
 	    (mapc 
 	     #'(lambda(line-index-pair)
+		 ;;(setq move? t)
 		 (destructuring-bind (start-index end-index) line-index-pair
 		   (let ((start (svref 2d-vertices start-index)) 
 			 (end (svref 2d-vertices end-index))
@@ -209,6 +210,7 @@
 				      (curve-strings
 				       (mapcar 
 					#'(lambda(curve)
+					    (setq move? t)
 					    (destructuring-bind (start c1 c2 end) curve
 					      (when (and prev-end (coincident-point? start prev-end))
 						(setq move? nil))

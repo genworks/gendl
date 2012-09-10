@@ -310,7 +310,7 @@
     (with-cl-who ()
       (let ((*display-controls* (the display-controls-hash)))
         (let ((image-format (if (the 2d-boxes?) (the image-format) :png)))
-          (ecase (the image-format)
+          (ecase image-format
             (:links (the (write-geometry-links)))
             (:raphael (write-the vector-graphics))
             ((:png :jpeg) (write-the raster-graphics))

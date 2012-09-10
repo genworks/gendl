@@ -34,7 +34,10 @@
    
    (untwist? nil)
    
-   (v-degree 3))
+   (v-degree 3)
+   
+   (end-caps-on-brep? nil)
+   )
   
   
   :computed-slots
@@ -109,15 +112,16 @@
    ;;
    (lofted :type 'lofted-surface
            :synchronized? t
+	   :end-caps-on-brep? (the end-caps-on-brep?)
            :curves (cons (the start-profile)
                          (list-elements (the rest-profiles rest-profiles))))
    
    (start-profile :type 'boxed-curve
                   :curve-in (the profile-curve)
                   :center (the guide-curve start)
-                  :orientation (alignment ;;:right
-                                          ;;(funcall (the v1-function)
-                                                ;;   (the guide-curve u1)
+                  :orientation (alignment :right
+                                          (funcall (the v1-function)
+                                                   (the guide-curve u1))
                                 :top 
                                 (funcall (the v2-function)
                                          (the guide-curve u1))))
@@ -138,7 +142,8 @@
 
    
    (v1-function #'(lambda(param)
-                     (the (face-normal-vector :bottom))))))
+		    (declare (ignore param))
+		    (the (face-normal-vector :bottom))))))
 
 
 
@@ -171,7 +176,7 @@
 
 
 
-
+#+nil
 (define-object test-g-s (general-sweep)
   
   :computed-slots

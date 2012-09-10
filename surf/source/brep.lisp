@@ -195,7 +195,30 @@ Defaults to a list with keys:
    
    ;;(adaptive-tolerance (* *3d-approximation-tolerance-default* (the max-extent)))
    
+
+   ("FLAG -- for debug testing only 
+
+   Plist with :min-x :max-x :min-y :max-y :min-z :max-z. Returns the extreme points of the 
+brep in each direction (on the brep itself, not necessarily on the bounding box)."
+    
+    
+    min-max-x-y-z (let ((box (the bounding-box)))
+		    
+		    ;;
+		    ;; FLAG -- evaluate this just to see if it's the prob
+		    ;;
+		    
+		    (the bounding-box-solid faces number-of-elements)
+
+                    (list :min-x (first box)
+                          :max-x (second box)
+                          :min-y (first box)
+                          :max-y (second box)
+                          :min-z (first box)
+                          :max-z (second box))))
+
    
+   #+nil
    ("Plist with :min-x :max-x :min-y :max-y :min-z :max-z. Returns the extreme points of the 
 brep in each direction (on the brep itself, not necessarily on the bounding box)."
     
@@ -206,7 +229,7 @@ brep in each direction (on the brep itself, not necessarily on the bounding box)
                           :min-y (least #'get-y points)
                           :max-y (most #'get-y points)
                           :min-z (least #'get-z points)
-                          :max-z (most #'get-z points))))
+p                          :max-z (most #'get-z points))))
 
    
    (%triangle-data% (let ((result (the (tessellation :in-memory? t))))

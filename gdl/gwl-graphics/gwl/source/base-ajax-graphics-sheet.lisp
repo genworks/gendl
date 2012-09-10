@@ -151,15 +151,14 @@ loadScript(xdom_script.src);
    (raphael-canvas-id (format nil "raphael-~a" (the base64-encoded-root-path)))
    
    (raphael-string  (unless (the no-graphics?)
-                      (with-output-to-string (ss)
-                        (with-format (raphael ss 
-                                              :page-width (the view-object page-width)
-                                              :page-length (the view-object page-length)
-                                              :background-color (the background-color)
-                                              :foreground-color (the foreground-color))
-                          (write-the view-object cad-output)))))
-   
-
+		      (with-error-handling ()
+			(with-output-to-string (ss)
+			  (with-format (raphael ss 
+						:page-width (the view-object page-width)
+						:page-length (the view-object page-length)
+						:background-color (the background-color)
+						:foreground-color (the foreground-color))
+			    (write-the view-object cad-output))))))
    
    
    ("String of valid HTML. This can be used to 

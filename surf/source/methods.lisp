@@ -774,3 +774,6 @@
 				   pitch
 				   right-or-left
 				   tolerance))
+
+(define-smlib-wrapper make-cardinal-spline (&key control-points tension-params periodic?))
+  
