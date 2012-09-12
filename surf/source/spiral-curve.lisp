@@ -73,4 +73,13 @@ Defaults to the height divided by the tolerance-divisor."
 		 :radius-2 2.0
 		 :number-of-turns 2.0
 		 :right-or-left :right
-		 :tolerance 0.001)))
+		 :tolerance 0.001)
+   
+   
+   (boxed-1 :type 'boxed-curve
+	    :curve-in (the spiral-curve)
+	    :center (translate (the center) :left 10))
+
+   (boxed-2 :type 'boxed-curve
+	    :curve-in (the spiral-curve)
+	    :orientation (alignment :top (the (:face-normal-vector :rear))))))

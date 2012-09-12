@@ -128,12 +128,13 @@
    (profile-curve (the triangle-curve))
    (end-caps-on-brep? t)
    
-   (screw-curve (the screw-curve-input (curves 0)))
+   ;;(screw-curve (the screw-curve-input (curves 0)))
    )
   
   :objects
-  (;;(screw-curve :type 'screw-spine)
+  ((screw-curve :type 'screw-spine)
 
+   #+nil
    (screw-curve-input :type 'native-reader
 		      :file-name "/tmp/screw-curve.iwp")
 

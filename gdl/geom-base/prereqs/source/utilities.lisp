@@ -482,7 +482,7 @@ if given, must be orthogonal to the first two.
   (when (and *zero-vector-checking?* (zero-vector? vector))
     (error "~s has Euclidean length zero; cannot unitize." vector))
   
-  (if (= (length-vector vector) 1.0)
+  (if (near-to? (length-vector vector) 1.0)
       vector
     (scalar*vector (/ (length-vector vector)) vector)))
 

@@ -36,7 +36,7 @@ main Genworks website soon.
 Current Requirements:
 
  o Common Lisp: recently patched Allegro CL 8.2, LispWorks, or SBCL
-   (SBLC verified only on Linux and Mac).
+   (SBCL verified only on Linux and Mac).
 
 
  To load the entire system, you can do it with:
