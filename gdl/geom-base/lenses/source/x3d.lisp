@@ -198,8 +198,8 @@
 					     (funcall *onclick-function* self)))
 		     ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
 							  (let ((vector (getf (the display-controls) :billboard-vector)))
-							    (format nil "~a, ~a, ~a" (get-x vector) (get-y vector) (get-z vector)))
-							  (format nil "0, 0, 0")))
+							    (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+							  (format nil "0 0 0")))
 
 		      (write-the shape)))))
 
@@ -215,8 +215,8 @@
 		    ((:|Billboard| :|axisOfRotation|  
 		       (if (getf (the display-controls) :billboard-vector)
 			   (let ((vector (getf (the display-controls) :billboard-vector)))
-			     (format nil "~a, ~a, ~a" (get-x vector) (get-y vector) (get-z vector)))
-			   (format nil "0, 0, 0")))
+			     (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+			   (format nil "0 0 0")))
 		     (write-the shape))))
 
 		  (t (write-the shape))))

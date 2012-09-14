@@ -52,7 +52,7 @@
 (defun seed-all-test-data ()
   (dolist (symbol *gdl-test-definitions*)
     (format t "Seeding data for ~s...~%" symbol)
-    (with-error-handling () (seed-test-data symbol))))
+    (with-error-handling (:timeout 20) (seed-test-data symbol))))
 
 (defun get-seed-data (symbol)
   (with-open-file (in (merge-pathnames (make-pathname :name (string-downcase (format nil "~a" symbol))

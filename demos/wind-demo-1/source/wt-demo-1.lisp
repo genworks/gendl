@@ -53,7 +53,7 @@
                         (:h2 
                          (:form " WT reference input data file"
                                 (:input  :size "25" :type "file" :name "ref-input" :accept="data/")))
-                        (str (the  graphics graphics main-div))
+                        (str (the  graphics main-div))
                         (:h2 "Description")
                         (:div :class "scroll"
                               (:p "This quantification was made based on the next assumption: price of the wind turbine 1 mill/MW and 451/t price of raw steel plates. In the case of transport and installation, an equal value was allocated arbitrary to serve as input for the model implementation. Even though the assumptions reflects the reality with a ± 10% error, the assumed cost structure serves as a reference to develop a parametric model in which the identified manufacturing transport and installation processes are deeply investigated. The presented cost structure is valid just for the existing tower concepts. To account for the new concept, the identified cost structure has to be breaked in its constituent sub-parts (human resources, machining time, machining energy consumption, etc.). The model should be able to substitute processes like longitudinal welding with drilling and bolt-assembly."))))
@@ -207,7 +207,7 @@
    (power-output 88888)
    ))
 
-(define-object graphics (base-ajax-sheet base-object)
+(define-object graphics (sheet-section base-object)
   
   :input-slots (geometry number-of-blades blade-concepts)
   :computed-slots ((displayed-geometry 
@@ -228,9 +228,12 @@
                      :hub-assembly (list-elements (the-object (the rotor rotor-assembly) hub))
                      :nacell-assembly (list-elements (the-object (the rotor rotor-assembly) turbine-nacelle ))
                      :blade (list-elements (the-object (the rotor rotor-assembly) rotor-hidded))
-                     :tower (list (the rotor tower))
-                     
-                     )))
+                     :tower (list (the rotor tower))))
+		   
+		   (inner-html (the graphics inner-html))
+
+		   )
+
   
   :objects               
   ((rotor :type 'assembly
@@ -240,13 +243,13 @@
    (box :type 'surf::test-b-spline-surface
         :sequence (:size 30))
    
-    (graphics :type 'base-ajax-graphics-sheet
-              :image-format-default :png
-              :view-direction-default :trimetric
-              :viewport-border-default 0
-              :display-list-objects (getf (the displayed-geometry) (the geometry ))
-              :length 702
-              :width 690)))
+   (graphics :type 'base-ajax-graphics-sheet
+	     :image-format-default :png
+	     :view-direction-default :trimetric
+	     :viewport-border-default 0
+	     :display-list-objects (getf (the displayed-geometry) (the geometry ))
+	     :length 702
+	     :width 690)))
     
   
  (define-object displayed-component (sheet-section)
