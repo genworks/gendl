@@ -8,7 +8,47 @@
   ((css-style  "/css-demo-1/style-wind-1.css"))
   
   :computed-slots 
-  ((additional-header-content 
+  ((use-raphael? t)
+
+   (iges-url (let ((url (format nil "~a/model.iges" (the url))))
+	       (publish :path url
+			:function #'(lambda(req ent)
+				      (with-http-response (req ent)
+					(with-http-body (req ent)
+					  (with-format (iges (request-reply-stream req))
+					    (write-the graphics rotor cad-output-tree))))))
+	       url))
+
+   (step-url (let ((url (format nil "~a/model.step" (the url))))
+	       (publish :path url
+			:function #'(lambda(req ent)
+				      (with-http-response (req ent)
+					(with-http-body (req ent)
+					  (with-format (step (request-reply-stream req))
+					    (write-the graphics rotor cad-output-tree))))))
+	       url))
+
+   (stl-url (let ((url (format nil "~a/model.stl" (the url))))
+	      (publish :path url
+		       :function #'(lambda(req ent)
+				     (with-http-response (req ent)
+				       (with-http-body (req ent)
+					 (with-format (stl (request-reply-stream req))
+					   (write-the graphics rotor cad-output-tree))))))
+	       url))
+
+   (x3d-url (let ((url (format nil "~a/model.x3d" (the url))))
+	      (publish :path url
+		       :function #'(lambda(req ent)
+				     (with-http-response (req ent)
+				       (with-http-body (req ent)
+					 (with-format (x3d (request-reply-stream req))
+					   (write-the graphics rotor cad-output-tree))))))
+	       url))
+
+
+
+   (additional-header-content 
     (with-cl-who-string ()
       (:p (when *developing?* (str (the development-links))))
       (:style :type "text/css" :media "all"
@@ -69,7 +109,8 @@
   
   ((general-inputs :type 'general-inputs)
    (displayed-component :type 'displayed-component)
-   (export-section :type  'export-section)
+   (export-section :type  'export-section
+		   :pass-down (iges-url step-url stl-url x3d-url))
    (turbine-characteristics-1 :type  'turbine-characteristics-1)
    (turbine-characteristics-2 :type  'turbine-characteristics-2)
    (graphics :type 'graphics
@@ -124,6 +165,8 @@
    
 (define-object export-section (sheet-section)
   
+  :input-slots (iges-url step-url stl-url x3d-url)
+
   :computed-slots
   
   ((main-view (with-cl-who-string ()
@@ -132,13 +175,31 @@
                   (:tr (:td) (:td))
                   (:tr
                    ((:td) "IGES file")
-                   ((:td :align "right") (:button  :onClick "www.ke-works.ro" (:i "Download"))))
-                  (:tr 
-                   (:td "STL file")
-                   ((:td :align "right") (:button  :onClick "www.ke-works.ro" (:i "Download"))))
-                  (:tr 
-                   (:td "VRML file")
-                   ((:td :align "right") (:button  :onClick "www.ke-works.ro" (:i "Download"))))
+                   ((:td :align "right") 
+		    ((:a :href (the iges-url) :target "cad-data") "Flat"))
+		   ((:td :align "right")
+		    ((:span :title "coming soon...") "Assembly")))
+		  (:tr
+                   ((:td) "STEP file")
+                   ((:td :align "right") 
+		    ((:a :href (the step-url) :target "cad-data") "Flat"))
+		   ((:td :align "right")
+		    ((:span :title "coming soon...") "Assembly")))
+		  (:tr
+                   ((:td) "STL file")
+                   ((:td :align "right") 
+		    ((:a :href (the stl-url) :target "cad-data") "Flat"))
+		   ((:td :align "right")
+		    ((:span :title "coming soon...") "Assembly")))
+		  
+		  (:tr
+                   ((:td) "X3D file")
+                   ((:td :align "right") 
+		    ((:span :title "not available...") "Flat"))
+		   ((:td :align "right")
+		    ((:a :href (the x3d-url) :target "cad-data") "Assembly")))
+
+		  #+nil
                   (:tr 
                    (:td "PNG")
                    ((:td :align "right") (:button  :onClick "www.ke-works.ro" (:i "Download"))))))))))
@@ -232,6 +293,8 @@
 		   
 		   (inner-html (the graphics inner-html))
 
+		   (js-to-eval (the graphics js-to-eval))
+
 		   )
 
   
@@ -240,10 +303,13 @@
           :blade-concepts (the blade-concepts)
           :nr-blades-data (the number-of-blades))
    
+   #+nil
    (box :type 'surf::test-b-spline-surface
         :sequence (:size 30))
    
    (graphics :type 'base-ajax-graphics-sheet
+	     :hidden? t
+	     :respondent (the respondent)
 	     :image-format-default :png
 	     :view-direction-default :trimetric
 	     :viewport-border-default 0
@@ -299,3 +365,8 @@
 
 (publish-directory :prefix "/css-demo-1"
                    :destination (format nil "~a" (merge-pathnames "css-demo-1" *data-pathname*)))
+
+(defun init ()
+  (setq *data-pathname* "~dcooper8/genworks-gdl/demos/wind-demo-1/data/")
+  (publish-directory :prefix "/css-demo-1"
+		     :destination (format nil "~a" (merge-pathnames "css-demo-1" *data-pathname*))))

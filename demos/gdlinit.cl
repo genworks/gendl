@@ -28,4 +28,4 @@
 ;; Initialize SMLib here if available. 
 ;;
 
-
+;;(smlib::initialize-smlib)

@@ -26,34 +26,35 @@
 
 (defvar *log-report-buffer* nil)
 
-(defparameter *log-file* "~dcooper8/kitchen/the-logs.lisp")
+(defvar *log-file* nil)
 
-(defun start-log-maker (&key (interval 30) keep-internal-buffer? resolve-dns?)
+(defun start-log-maker (&key (interval 30)  (resolve-dns? t))
   
   (setq *log-file* (format nil "/home/dcooper8/kitchen/logs-~a-~a.lisp" 
                            (gwl::iso-time (get-universal-time))
                            (slot-value (slot-value gwl::*wserver* 'net.aserve::socket) 'socket::local-port)))
-  
-  (when keep-internal-buffer?
-    (setq *log-report-buffer*
-      (when (probe-file *log-file*)
-        (let (result)
-          (with-open-file (in *log-file*)
-            (do ((log (read in nil nil)(read in nil nil)))
-                ((null log) result)
-              (push log result)))))))
   (glisp:process-run-function
       "log-maker"
     #'(lambda()
-        (do ()(nil) (clear-log-buffer :keep-internal-buffer? keep-internal-buffer? 
-                                      :resolve-dns? resolve-dns?) (sleep interval)))))
+        (do ()(nil) (clear-log-buffer :resolve-dns? resolve-dns?) (sleep interval)))))
 
-(defun clear-log-buffer (&key resolve-dns? keep-internal-buffer?)
+(defun read-log-entries ()
+  (when (and *log-file* (probe-file *log-file*))
+    (clear-log-buffer :resolve-dns? t)
+    (with-open-file (in *log-file*)
+      (let (result)
+	(do ((entry (read in nil) (read in nil)))
+	    ((null entry) (nreverse result))
+	  (push entry result))))))
+	  
+
+(defun clear-log-buffer (&key resolve-dns?)
   (let (temp-buffer)
     (glisp:w-o-interrupts
        (setq temp-buffer *log-buffer*)
        (setq *log-buffer* nil))
     (ensure-directories-exist (make-pathname :directory (pathname-directory *log-file*)))
+    
     (with-open-file (out *log-file* :direction :output
                      :if-exists :append :if-does-not-exist :create)
       (dolist (log temp-buffer)
@@ -62,7 +63,6 @@
           (let ((processed-log (append (list :start-iso-time (when (getf log :start-time) (iso-time (getf log :start-time)))
                                              :end-iso-time (when (getf log :end-time) (iso-time (getf log :end-time)))
                                              :domain name) log)))
-            (when keep-internal-buffer? (push processed-log *log-report-buffer*))
             (print processed-log out)))))))
 
 
@@ -73,42 +73,46 @@
             year month date hours minutes seconds)))
 
 
-
-;;
-;; FLAG -- add this back when we are sure to be flushing to log file. 
-;;
-#+nil
 (defmethod net.aserve::log-request :after ((req http-request))
-  (let* ((ipaddr (socket:remote-host (request-socket req)))
-         (end-time   (net.aserve::request-reply-date req))
-         (start-time (net.aserve::request-request-date req))
-         (code   (let ((object (net.aserve::request-reply-code req)))
-                   (if object (net.aserve::response-number object) 999)))
-         (length  (or (net.aserve::request-reply-content-length req)
-                      (glisp:socket-bytes-written (request-socket req))))
-         (referrer (net.aserve:header-slot-value req :referer))
-         (user-agent (net.aserve::header-slot-value req :user-agent)))
+  (format t "At 1 in after method of log-request~%")
+  (print-variables *log-file*)
+  (when *log-file*
+    (let* ((ipaddr (socket:remote-host (request-socket req)))
+	   (end-time   (net.aserve::request-reply-date req))
+	   (start-time (net.aserve::request-request-date req))
+	   (code   (let ((object (net.aserve::request-reply-code req)))
+		     (if object (net.aserve::response-number object) 999)))
+	   (length  (or (net.aserve::request-reply-content-length req)
+			(glisp:socket-bytes-written (request-socket req))))
+	   (referrer (net.aserve:header-slot-value req :referer))
+	   (user-agent (net.aserve::header-slot-value req :user-agent)))
 
-    (let* ((uri (net.aserve::request-uri req))
-           (log-plist (list :ip-address (socket:ipaddr-to-dotted ipaddr)
-                            :start-time start-time
-                            :end-time end-time
-                            :code code
-                            :length length
-                            :query (request-query req)
-                            :uri-path (net.aserve::uri-path uri)
-                            :uri-host (net.aserve::uri-host uri)
-                            :uri-port (net.aserve::uri-port uri)
-                            :uri-scheme (net.aserve::uri-scheme uri)
-                            :method (net.aserve::request-method req)
-                            :referrer referrer
-                            :user-agent user-agent)))
-      (when (not (or (search "cgi-bin" (getf log-plist :uri-path))
-                     (search "ubb" (getf log-plist :uri-path))))
-        (glisp:w-o-interrupts
-          (if *log-buffer*
-              (nconc *log-buffer* (list log-plist))
-            (setq *log-buffer* (list log-plist))))))))
+      (let* ((uri (net.aserve::request-uri req))
+	     (log-plist (list :ip-address (socket:ipaddr-to-dotted ipaddr)
+			      :start-time start-time
+			      :end-time end-time
+			      :code code
+			      :length length
+			      :query (request-query req)
+			      :uri-path (net.aserve::uri-path uri)
+			      :uri-host (net.aserve::uri-host uri)
+			      :uri-port (net.aserve::uri-port uri)
+			      :uri-scheme (net.aserve::uri-scheme uri)
+			      :method (net.aserve::request-method req)
+			      :referrer referrer
+			      :user-agent user-agent)))
+
+	(format t "At 2 in after method of log-request~%")
+
+	(when (not (or (search "cgi-bin" (getf log-plist :uri-path))
+		       (search "ubb" (getf log-plist :uri-path))))
+
+	  (format t "At 3 in after method of log-request~%")
+	  
+	  (glisp:w-o-interrupts
+	    (if *log-buffer*
+		(nconc *log-buffer* (list log-plist))
+		(setq *log-buffer* (list log-plist)))))))))
   
 
 

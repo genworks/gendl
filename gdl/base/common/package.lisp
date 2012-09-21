@@ -185,6 +185,7 @@
            #:register-asdf-systems
            #:remote-object
            #:remove-plist-key
+	   #:remove-plist-entry
            #:remove-plist-keys
            #:replace-regexp*
            #:replace-substring

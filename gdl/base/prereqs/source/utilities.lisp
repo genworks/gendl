@@ -1,8 +1,8 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2011 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
-;; Language project (GDL).
+;; Language project (GenDL).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -42,6 +42,23 @@
   (when plist
     (cons (second plist)
           (plist-values (rest (rest plist))))))
+
+(defun remove-plist-entry (plist key &key (test #'eql))
+  "Plist. Returns a new plist sans any key/value pairs where the plist key is eql to the given key. 
+Optionally a different test than #'eql can be specified with the :test keyword argument.
+
+:arguments (plist \"Plist. The source plist.\"
+            key \"matching key, typically a keyword symbol. The key to target for removal.\")
+:&key ((test #'eql) \"predicate equality function taking two arguments. The function to use for matching.\")
+
+:examples (remove-plist-entry (list :a \"a\" :b :a) :a)
+
+"
+  (mapcan #'(lambda (%key% %val%)
+	      (unless (funcall test key %key%)
+		(list %key% %val%))) 
+	  (plist-keys plist) (plist-values plist)))
+
 
 (defun remove-plist-key (plist key)
   (let (result on-remark?)
