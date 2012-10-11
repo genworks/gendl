@@ -1,5 +1,5 @@
 ;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2011 Genworks International 
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
