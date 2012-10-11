@@ -1,0 +1,15 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Knowledge Base Concepts According to Genworks}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Goals for this Tutorial}{1}{section.1.2}
+\contentsline {section}{\numberline {1.3}What is GenDL?}{2}{section.1.3}
+\contentsline {section}{\numberline {1.4}Why GDL (what is GDL good for?)}{2}{section.1.4}
+\contentsline {section}{\numberline {1.5}What GDL is not}{3}{section.1.5}
+\contentsline {chapter}{\numberline {2}Installation}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Installation of pre-packaged Gendl}{5}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Download the Software and retrieve a license key}{5}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Unpack the Distribution}{5}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Test your Installation}{6}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}Make a Desktop Shortcut}{7}{subsection.2.1.4}
+\contentsline {subsection}{\numberline {2.1.5}Populate your Initialization File}{7}{subsection.2.1.5}
+\contentsline {section}{\numberline {2.2}Installation of open-source Gendl}{7}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Install and Configure your Common Lisp environment}{7}{subsection.2.2.1}

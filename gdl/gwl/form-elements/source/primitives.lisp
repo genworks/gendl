@@ -31,7 +31,10 @@ Does not perform the actual bashing and computation of result value, should be m
   :input-slots
   (("Boolean. Set this to t if the form-control should always occur first in an outputted snapshot file.
 Defaults to nil."
-    primary? nil))
+    primary? nil)
+
+   ("String. You can use this to specify a user-defined class for the form-control. Defaults to nil, which means no class attribute will be generated."
+    class nil))
   
   :computed-slots
   (
@@ -252,14 +255,14 @@ This specifies the expected and acceptable type for the submitted form value. If
 submitted value will be coerced into the specified type. The default is based upon
  the Lisp type of (the default) provided as input to this object. If the default is nil,
 the domain will default to :string" domain (if (null (the default))
-                                                                              :string
-                                                                            (typecase (the default)
-                                                                              (number :number)
-                                                                              (keyword :keyword)
-                                                                              (list (cond ((every #'stringp (the default))
-                                                                                           :list-of-strings)
-                                                                                          (t :list-of-anything)))
-                                                                              (otherwise :string))))
+					       :string
+					       (typecase (the default)
+						 (number :number)
+						 (keyword :keyword)
+						 (list (cond ((every #'stringp (the default))
+							      :list-of-strings)
+							     (t :list-of-anything)))
+						 (otherwise :string))))
    
    ("Boolean. Determines whether a default error string is appended to string ouput-function for 
 html-format (and therefore html-string computed-slot as well). Defaults to t."

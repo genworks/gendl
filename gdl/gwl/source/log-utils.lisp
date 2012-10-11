@@ -74,8 +74,7 @@
 
 
 (defmethod net.aserve::log-request :after ((req http-request))
-  (format t "At 1 in after method of log-request~%")
-  (print-variables *log-file*)
+
   (when *log-file*
     (let* ((ipaddr (socket:remote-host (request-socket req)))
 	   (end-time   (net.aserve::request-reply-date req))
@@ -102,13 +101,9 @@
 			      :referrer referrer
 			      :user-agent user-agent)))
 
-	(format t "At 2 in after method of log-request~%")
-
 	(when (not (or (search "cgi-bin" (getf log-plist :uri-path))
 		       (search "ubb" (getf log-plist :uri-path))))
 
-	  (format t "At 3 in after method of log-request~%")
-	  
 	  (glisp:w-o-interrupts
 	    (if *log-buffer*
 		(nconc *log-buffer* (list log-plist))

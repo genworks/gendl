@@ -23,7 +23,7 @@
 
 (let ((static (namestring 
 	       (merge-pathnames "newsite/static/" 
-				(asdf:system-source-directory "gdl-demos")))))
+				(glisp:system-home "gdl-demos")))))
   (publish-directory :prefix "/newsite-static/"
 		     :headers (list (cons :cache-control "86400"))
 		     :destination static))

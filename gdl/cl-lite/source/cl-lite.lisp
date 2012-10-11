@@ -253,7 +253,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 
    (asdf-system-list 
     (let ((binaries (the compile-and-load)))
-      (append `(asdf:defsystem ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
+      (append `(asdf-utilities:defsystem ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
                    :description "Auto-generated asdf defsys from Genworks GDL cl-lite."
                    :author "Genworks and Dave Cooper unless otherwise indicated"
                    :license "AGPL unless otherwise indicated"
@@ -278,7 +278,9 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 						      "\\" "/")))
 						
 
-						(list (make-keyword (pathname-type source))
+						(list (if (string-equal (pathname-type source) "lisp")
+							  :file 
+							  (make-keyword (pathname-type source)))
 						      namestring)
 
 						#+nil

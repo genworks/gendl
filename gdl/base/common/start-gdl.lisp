@@ -100,7 +100,7 @@
   ;; FLAG -- pull asdf-specific code into glisp layer
   ;;
   (multiple-value-bind (value error)
-      (ignore-errors (asdf::system-definition-pathname :gdl-base))
+      (ignore-errors (asdf-utilities:system-definition-pathname :gdl-base))
     (declare (ignore value))
     (when error
       (warn "
@@ -109,15 +109,15 @@ asdf has system definitions for non-existent source directories.
 
 You should probably do: 
 
-  (asdf:map-systems #'asdf:clear-system)
+  (asdf-utilities:map-systems #'asdf-utilities:clear-system)
 
 And really this should be done in the post-load-form of your build."))
     
     (if error
 	(setq glisp:*genworks-source-home* nil)
 	(setq glisp:*genworks-source-home* 
-	      (when (asdf:find-system :gdl-base nil)
-		(let ((gdl-base-home (asdf:system-source-directory :gdl-base)))
+	      (when (asdf-utilities:find-system :gdl-base nil)
+		(let ((gdl-base-home (glisp:system-home :gdl-base)))
 		  (make-pathname :name nil
 				 :type nil
 				 :directory (butlast 
@@ -148,7 +148,7 @@ And really this should be done in the post-load-form of your build."))
   ;;(setq ql:*quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gdl-home*))
   ;;
   
-  (asdf:initialize-output-translations)
+  (asdf-utilities:initialize-output-translations)
 
   (glisp:set-default-package)
   (glisp:xref-off)

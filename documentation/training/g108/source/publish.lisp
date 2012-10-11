@@ -5,7 +5,7 @@
 		       (gwl-make-object req ent "training-g108:assembly")))
 
 (defparameter *images-path* (merge-pathnames "g108/images/" 
-					     (asdf:system-source-directory "gdl-training")))
+					     (glisp:system-home "gdl-training")))
 
 
 (publish-directory :prefix "/g108/images/"

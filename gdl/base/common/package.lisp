@@ -236,7 +236,7 @@
            #:write-the-object
            #:xml-reader
            #:^2
-
+	   #:room-report
 	   #:*onclick-function*))
 
 (defpackage :gdl-toplevel (:use))

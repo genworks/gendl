@@ -37,8 +37,9 @@
 					    ;; The new HTML5 stuff:
 					    ;;
 					    :placeholder (the placeholder)
-
-
+					    
+					    
+					    :class (the class)
                                             :readonly (if (the readonly?) t nil)
                                             :ismap (if (the ismap?) t nil)
                                             :size  (the size)

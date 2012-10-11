@@ -56,8 +56,8 @@
              target :force force :quiet quiet :if-does-not-exist if-does-not-exist))
 
 
-#+(and mswindows allegro)
-(ff:def-foreign-call (memory-status-dump "memory_status_dump") ())
+#+allegro
+(ff: def-foreign-call (memory-status-dump "memory_status_dump") ())
 
 
 (defun dump-memory (&key (output-name "mem")
@@ -65,12 +65,12 @@
 		    (output-path (merge-pathnames (make-pathname :name output-name
 								 :type output-type)
 						  (glisp:temporary-folder))))
-  #+(and mswindows allegro)
+  #+allegro
   (let ((status (memory-status-dump (namestring (translate-logical-pathname output-path)))))
     (unless (zerop status) (error "~&memory-status-dump failed with non-zero return code: ~a~%~%" status))
     output-path)
-  #-(and mswindows allegro) (declare (ignore output-path))
-  #-(and mswindows allegro)
+  #-allegro (declare (ignore output-path))
+  #-allegro
   (error "Need implementation of dump-memory for currently running lisp."))
 
 (defun implementation-identifier ()

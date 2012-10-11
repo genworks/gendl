@@ -83,7 +83,9 @@ parent), followed by an index number if the part is an element of a sequence."
    
    ("List of GDL Objects. A Collection of the leaf nodes of the given object."
     leaves (maptree self #'identity #'(lambda(object)(the-object object leaf?))))
-
+   
+   ("List of GDL Objects. A Collection of the leaf nodes of the given object."
+    leaves-uncached (maptree self #'identity #'(lambda(object)(the-object object leaf?)) #'never :children-uncached) :uncached)
    
    (viewable-slots nil)
    
@@ -121,6 +123,18 @@ parent), followed by an index number if the part is an element of a sequence."
    
    ("List of GDL Instances. All objects from the :objects specification, including elements of sequences
  as flat lists."
+    children-uncached (remove-if #'(lambda(obj) 
+                            (and (typep obj 'vanilla-mixin) (the-object obj hidden?)))
+                        (mapcan #'(lambda (part-keyword)
+                                    (let ((part (the (evaluate part-keyword))))
+                                      (when (not (the-object part null-part?))
+                                        (if (typep part 'quantification)
+                                            (the-object part list-elements-uncached)
+                                          (list part)))))
+                                (the :%object-keywords%))) :uncached)
+
+   ("List of GDL Instances. All objects from the :objects specification, including elements of sequences
+ as flat lists."
     children (remove-if #'(lambda(obj) 
                             (and (typep obj 'vanilla-mixin) (the-object obj hidden?)))
                         (mapcan #'(lambda (part-keyword)
@@ -128,6 +142,8 @@ parent), followed by an index number if the part is an element of a sequence."
                                       (when (not (the-object part null-part?))
                                         (if (typep part 'quantification)
                                             (copy-list (list-elements (the-object part)))
+					    ;;(list-elements (the-object part))
+					    
                                           (list part)))))
                                 (the :%object-keywords%))))
    
@@ -149,10 +165,12 @@ parent), followed by an index number if the part is an element of a sequence."
                                                  (t (list part)))))
                                      (the :%object-keywords%))))
    
+   #+nil
+   ("Boolean. T if this object has no children, NIL otherwise."
+    leaf? (null (the :children-uncached)))
    
    ("Boolean. T if this object has no children, NIL otherwise."
     leaf? (null (the :children)))
-   
    
    ("List of GDL Instances. All objects from the :hidden-objects specification, including elements of sequences
  as flat lists."
@@ -569,7 +587,7 @@ the function returns NIL. If <tt>:normal</tt> (the default), then no filtering i
           (if return-category? (flatten-pairs sorted) (mapcar #'first sorted))))))
 
    
-   ("Void. Uncaches all cached data in slots and objects througout the instance 
+   ("Void. Uncaches all cached data in slots and objects throughout the instance 
 tree from this node, forcing all code to run again the next time values are 
 demanded. This is useful for updating an existing model or part of an existing 
 model after making changes and recompiling/reloading the code of the underlying 

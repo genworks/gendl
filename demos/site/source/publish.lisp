@@ -24,7 +24,7 @@
 
 (let ((static (namestring 
 	       (merge-pathnames "site/static/" 
-				(asdf:system-source-directory "gdl-demos")))))
+				(glisp:system-home "gdl-demos")))))
   (publish-directory :prefix "/site-static/"
 		     :destination static))
 

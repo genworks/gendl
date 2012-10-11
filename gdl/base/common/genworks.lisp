@@ -73,15 +73,16 @@
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
     #-(and mswindows allegro) :default)
 
+(defun system-home (system-designator)
+  (asdf-utilities:system-source-directory system-designator))
+
 (defparameter *genworks-source-home* 
-    (let ((gdl-base-home (asdf:system-source-directory "gdl-base")))
+    (let ((gdl-base-home (system-home "gdl-base")))
       (make-pathname :name nil
                      :type nil
                      :directory (butlast 
                                  (butlast (pathname-directory gdl-base-home)))
                      :defaults gdl-base-home)))
-
-
 
 #-(or allegro lispworks sbcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
@@ -266,8 +267,7 @@
   #+lispworks dspec:*source-pathname*
   #+sbcl (error "need source-pathname in sbcl~%"))
 
-(defun system-home (system-designator)
-  (asdf:system-source-directory system-designator))
+
 
 
 (defun retitle-emacs (&key (title "Genworks GenDL Interactive Authoring Environment"))
@@ -364,6 +364,6 @@
 ;; out if moving to new system definition system.
 ;;
 
-(defclass asdf::gdl (asdf-utilities:cl-source-file) ((type :initform "gdl")))
-(defclass asdf::gendl (asdf-utilities:cl-source-file) ((type :initform "gendl")))
-(defclass asdf::lisp (asdf-utilities:cl-source-file) ())
+(defclass asdf::gdl (asdf::cl-source-file) ((type :initform "gdl")))
+(defclass asdf::gendl (asdf::cl-source-file) ((type :initform "gendl")))
+(defclass asdf::lisp (asdf::cl-source-file) ())

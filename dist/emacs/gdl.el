@@ -245,9 +245,8 @@
 
 (require 'color-theme)
 (color-theme-initialize)
-(require 'color-theme-solarized)
-;;(color-theme-solarized-light)
-(color-theme-katester)
+(color-theme-sitaramv-solaris)
+
 
 ;;
 ;; end of color-theme setup.

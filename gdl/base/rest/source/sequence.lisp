@@ -54,14 +54,19 @@ each member of the sequence will be reinstantiated as it is demanded.")
                                          :error error))
                            list)))
 
-   
+   (list-elements-uncached (let ((result-list nil))
+			     (dotimes (n (length (the :array)) (nreverse result-list))
+			       (let ((object (the (:get-member n))))
+				 (when (not (typep object 'null-object))
+				   (push  object result-list))))) :uncached)
+
    (list-elements (let ((result-list nil))
                     (dotimes (n (length (the :array)) (nreverse result-list))
                       (let ((object (the (:get-member n))))
                         (when (not (typep object 'null-object))
                           (push  object result-list))))))
    
-   (array 
+   (array
     (let ((number-of-elements (the number-of-elements)))
       (when (or (not (integerp number-of-elements))
                 (minusp number-of-elements))
