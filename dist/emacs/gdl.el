@@ -240,12 +240,11 @@
 ;; Set up color-theme and solarized color-themes:
 ;;
 
-(add-to-list 'load-path "emacs/emacs-goodies-el")
-(add-to-list 'load-path "emacs/solarized")
+(add-to-list 'load-path "emacs/emacs-color-theme")
 
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-sitaramv-solaris)
+(color-theme-sitaramv-solaris))
 
 
 ;;
