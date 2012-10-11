@@ -74,7 +74,7 @@
     #-(and mswindows allegro) :default)
 
 (defun system-home (system-designator)
-  (asdf-utilities:system-source-directory system-designator))
+  (asdf:system-source-directory system-designator))
 
 (defparameter *genworks-source-home* 
     (let ((gdl-base-home (system-home "gdl-base")))
@@ -233,7 +233,7 @@
 	 #+allegro :weak-keys #+allegro t
          #+allegro :values #+allegro :weak
          #+lispworks :weak-kind #+lispworks t
-	 #+sbcl :weakness #+sbcl :key-or-value
+	 #+sbcl :weakness #+sbcl :key-and-value
          args))
 
 (defun set-default-float-format ()

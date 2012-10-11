@@ -15,6 +15,7 @@
              #:process-run-function
              #:remote-host
              #:replace-regexp
+	     #:room-report
 	     #:slot-definition-name
              #:socket-bytes-written
 	     #:split-regexp
@@ -88,6 +89,108 @@ the \"current\" error."
 (defun replace-regexp (string regexp to-string)
   (cl-ppcre:regex-replace-all regexp string to-string))
 
+
+
+
+(defun room-report (&optional (gc? t))
+  "Plist with keys :new-free-cons, :new-used-cons, :new-free-other, :new-used-other, :old-free-cons, :old-used-cons, :old-free-other, :old-used-other. 
+ This is the main output from this object and gives a general overview of memory state. The especially
+ noteworthy values are usually the :free-used-other and :old-used-other.
+
+:&optional ((gc nil) \"Determines whether to do a full gc before probing the room data.\")
+"
+  (when gc? 
+    (if (integerp gc?) (dotimes (n gc?) (glisp:gc-full)) (glisp:gc-full))) ;; future: (glisp:gc-full)
+  (let ((gdl:self (gdl:make-object 'room-report))) (gdl:the room-data)))
+    
+
+
+#+sbcl
+(gdl:define-object room-report ()
+
+  :computed-slots 
+  ((room-string (with-output-to-string (*standard-output*) (room)))
+
+   (room-lines (with-input-from-string (in (gdl:the room-string))
+		 (let (lines)
+		   (do ((report-line (read-line in nil) (read-line in nil)))
+		       ((null report-line) (nreverse lines))
+		     (push report-line lines)))))
+
+   (new-data (list :new-free-cons 0 :new-used-cons 0 :new-free-other 0 :new-used-other 0))
+
+   (old-data (list :old-free-cons 0 :old-used-cons (gdl:the cons-bytes) :old-used-other (- (gdl:the space-total) (gdl:the cons-bytes))))
+   
+   (cons-bytes (gdl:the (parse-line-data "cons objects.")))
+
+   (space-total (gdl:the (parse-line-data "space total.")))
+
+   ("Plist with keys :new-free-cons, :new-used-cons, :new-free-other, :new-used-other, 
+     :old-free-cons, :old-used-cons, :old-free-other, :old-used-other. This is the main
+     output from this object and gives a general overview of memory state. The especially
+     noteworthy values are usually the :free-used-other and :old-used-other."
+    room-data (let* ((data (append (gdl:the new-data) (gdl:the old-data)))
+		     (total (+ (getf data :new-used-cons)
+			       (getf data :old-used-cons)
+			       (getf data :new-used-other)
+			       (getf data :old-used-other))))
+		(let ((mb (/ (gdl:round-to-nearest total 1000000) 1000000)))
+		  (append data (list :total total
+				     :MB-int mb
+				     :MB (format nil "~a MB" mb)))))))
+
+  :functions ((parse-line-data
+	       (report-label)
+	       (let ((line (find report-label (gdl:the room-lines) :test #'search)))
+		 (parse-integer (glisp:replace-regexp (first (glisp:split-regexp "\\s" (string-trim (list #\space) line))) "," ""))))))
+
+
+
+#+allegro
+(gdl:define-object room-report ()
+
+  :computed-slots 
+  ((room-string (with-output-to-string (*standard-output*) (room)))
+
+   (room-lines (with-input-from-string (in (gdl:the room-string))
+		 (let (lines)
+		   (do ((report-line (read-line in nil) (read-line in nil)))
+		       ((null report-line) (nreverse lines))
+		     (push report-line lines)))))
+
+   (new-data (gdl:the (parse-line-data "New")))
+   (old-data (gdl:the (parse-line-data "OTot")))
+
+   ("Plist with keys :new-free-cons, :new-used-cons, :new-free-other, :new-used-other, 
+     :old-free-cons, :old-used-cons, :old-free-other, :old-used-other. This is the main
+     output from this object and gives a general overview of memory state. The especially
+     noteworthy values are usually the :free-used-other and :old-used-other."
+    room-data (append (gdl:the new-data) (gdl:the old-data))))
+
+  :functions ((parse-line-data
+	       (report-label)
+	       (let ((prefix (cond ((string-equal report-label "New") "new")
+				   ((string-equal report-label "OTot") "old"))))
+		 (let ((report-line (find t (gdl:the room-lines)
+				   :test #'(lambda(item report-line)
+					     (declare (ignore item))
+					     (and (search report-label report-line)
+						  (not (search "-----" report-line)))))))
+		   (let ((fields (remove "" (glisp:split-regexp "\\s" report-line) :test #'string-equal)))
+		 
+		     (let ((cons (third fields))
+			   (other (fourth fields)))
+		       (append
+			(destructuring-bind (free used)
+			    (glisp:split-regexp ":" cons)
+			  (list (make-keyword (format nil "~a-free-cons" prefix)) (parse-integer free)
+				(make-keyword (format nil "~a-used-cons" prefix)) (parse-integer used)))
+			(destructuring-bind (free used)
+			    (glisp:split-regexp ":" other)
+			  (list (make-keyword (format nil "~a-free-other" prefix)) (parse-integer free)
+				(make-keyword (format nil "~a-used-other" prefix)) (parse-integer used)))))))))))
+
+
 (defun slot-definition-name (slot-definition)
   #-(or allegro lispworks sbcl) (error "Need implementation for slot-definition-name for currently running lisp.~%")
   (#+allegro mop:slot-definition-name
@@ -158,7 +261,7 @@ please find implementation for the currently running lisp.~%")
 (in-package :net.aserve)
 
 
-#-allegro (eval-when (compile load eval) (glisp:begin-redefinitions-ok))
+#-allegro (eval-when  (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
 
 #-allegro
 (defclass http-request (http-header-mixin)
@@ -438,7 +541,12 @@ please find implementation for the currently running lisp.~%")
 ;; This is fixed in original-allegroserve - octets-to-string wrapped
 ;; around comment -- try to propogate into portableallegroserve.
 ;;
-#-allegro
+;;
+;; FLAG -- not currently needed in any non-Allegro CL installations, commenting out for now
+;; because for example we don't have portable schedule-finalization yet (should be from trivial-garbage?)
+;;
+;;#-allegro
+#+nil 
 (defun proxy-request (req ent &key pcache-ent (respond t) 
                                    (level *browser-level*))
   ;; a request has come in with an http scheme given in uri
@@ -922,4 +1030,11 @@ cached connection = ~s~%" cond cached-connection))
          (mp:unschedule-timer timer)
          (setf unsheduled? t))))))
 
-#-allegro (eval-when (compile load eval) (glisp:end-redefinitions-ok))
+#-allegro (eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
+
+
+
+
+
+
+

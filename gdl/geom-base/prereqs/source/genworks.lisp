@@ -24,7 +24,7 @@
 (defun run-gs (command)
   "Shell out a ghostscript command and handle errors."
   #-allegro
-  (let ((result (asdf-utilities:run-shell-command command)))
+  (let ((result (asdf:run-shell-command command)))
     (unless (zerop result) (error "Ghostscript threw error")))
   #+allegro
   (multiple-value-bind (output error return)
@@ -40,7 +40,7 @@ return: ~a"
 ;;
 ;; FLAG -- add specific keyword args e.g. for hide-window? 
 ;;
-  (apply #'asdf-utilities:run-shell-command command args))
+  (apply #'asdf:run-shell-command command args))
 
 
 (defun set-gs-path (&optional gs-path)

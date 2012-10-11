@@ -1,2 +1,2 @@
-(:gdl-base :cl-fad)
+(:gdl-base :cl-fad :asdf-utils)
 

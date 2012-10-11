@@ -69,16 +69,16 @@
 (defun bot-run ()
   (let (initial-memory delta  leaf-count)
     
-    (setq initial-memory (getf (gwl:room-report t) :MB-int))
+    (setq initial-memory (getf (glisp:room-report t) :MB-int))
 
     (setq *arr* (make-obj-array))
 
-    (setq delta (- (getf (gwl:room-report t) :MB-int) initial-memory))
+    (setq delta (- (getf (glisp:room-report t) :MB-int) initial-memory))
 
     (format t "After 97656 standalone objects in array: ~a MB~%" delta)
     (setq *arr* nil)
     1 2 3 4 5
-    (setq delta (- (getf (gwl:room-report 3) :MB-int) initial-memory))
+    (setq delta (- (getf (glisp:room-report 3) :MB-int) initial-memory))
     (format t "After clearing *arr*: ~a MB~%" delta)
     
 
@@ -87,26 +87,26 @@
     ;;(maptree *obj* #'(lambda(obj) (declare (ignore obj)) (incf object-count)))
     ;;(format t "~a total nodes.~%" object-count)
     (format t "Demanding leaves with dep tracking...~%")
-    (setq leaf-count (length (the-object *obj* leaves-uncached)))
-    (setq delta (- (getf (gwl:room-report t) :MB-int) initial-memory))
+    (setq leaf-count (length (the-object *obj* leaves)))
+    (setq delta (- (getf (glisp:room-report t) :MB-int) initial-memory))
     (format t "After ~a leaves with dep tracking: ~a MB~%" leaf-count delta)
     (setq *obj* nil)
     1 2 3 4 5
-    (setq delta (- (getf (gwl:room-report 3) :MB-int) initial-memory))
+    (setq delta (- (getf (glisp:room-report 3) :MB-int) initial-memory))
     (format t "After clearing *obj*: ~a MB~%" delta)
     
     
     (let ((*run-with-dependency-tracking?* nil))
       (setq *obj* (make-object 'base-object-tree))
-      (setq initial-memory (getf (gwl:room-report t) :MB-int))
+      (setq initial-memory (getf (glisp:room-report t) :MB-int))
       ;;(maptree *obj* #'(lambda(obj) (declare (ignore obj)) (incf object-count)))
       ;;(format t "~a total nodes.~%" object-count)
       (format t "Demanding leaves without dep tracking...~%")
-      (setq leaf-count (length (the-object *obj* leaves-uncached)))
-      (setq delta (- (getf (gwl:room-report t) :MB-int) initial-memory))
+      (setq leaf-count (length (the-object *obj* leaves)))
+      (setq delta (- (getf (glisp:room-report t) :MB-int) initial-memory))
       (format t "After ~a leaves without dep tracking: ~a MB~%" leaf-count delta)
       (setq *obj* nil)
-      (setq delta (- (getf (gwl:room-report 3) :MB-int) initial-memory))
+      (setq delta (- (getf (glisp:room-report 3) :MB-int) initial-memory))
       (format t "After clearing *obj*: ~a MB~%" delta))))
 
 

@@ -26,7 +26,6 @@
                  (:file "source/crawler") (:file "source/log-utils")
                  (:file "source/new-urls") (:file "source/publish")
                  (:file "source/remote-object")
-                 (:file "source/room-report")
                  (:file "source/security-check-failed")
                  (:file "ajax/source/parameters")
                  (:file "ajax/source/ajax")

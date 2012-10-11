@@ -4,6 +4,6 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2011111700" :depends-on (:gdl-base :cl-fad)
+                :version "2011111700" :depends-on (:gdl-base :cl-fad :asdf-utils)
                 :components
                 ((:file "source/genworks") (:file "source/cl-lite")))

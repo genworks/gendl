@@ -55,15 +55,15 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 						   glisp:*genworks-source-home*))
 			       #+nil
 			       (setf (symbol-value (read-from-string 
-						    "asdf-utilities:*central-registry*")) nil)))
+						    "asdf:*central-registry*")) nil)))
 
    (pre-load-form (the load-core-gdl-form))
 
    (post-load-form '(progn (setf (symbol-value (read-from-string 
-						"asdf-utilities:*central-registry*")) nil)
-		     (asdf-utilities:map-systems #'asdf-utilities:clear-system)
-		     (asdf-utilities:clear-output-translations)
-		     (asdf-utilities:disable-output-translations)
+						"asdf:*central-registry*")) nil)
+		     (asdf:map-systems #'asdf:clear-system)
+		     (asdf:clear-output-translations)
+		     (asdf:disable-output-translations)
 
 		     ))
 
@@ -171,11 +171,11 @@ temporary directory, returned by <tt>(glisp:temporary-folder)</tt>."
 	 (require :smtp)
 	 (require :ftp)
 	 (load (merge-pathnames "demos/gdl-demos.asd" glisp:*genworks-source-home*))
-	 (asdf-utilities:load-system :gdl-demos)  
+	 (asdf:load-system :gdl-demos)  
 	 (load (merge-pathnames "../downloads/gdl-downloads.asd" glisp:*genworks-source-home*))
-	 (asdf-utilities:load-system :gdl-downloads)
+	 (asdf:load-system :gdl-downloads)
 	 (load (merge-pathnames "demos/newsite/gdl-newsite.asd" glisp:*genworks-source-home*))
-	 (asdf-utilities:load-system :gdl-newsite)
+	 (asdf:load-system :gdl-newsite)
 	 (setf (symbol-value (read-from-string 
 			      "glisp:*genworks-source-home*")) nil))
        :destination-directory 
