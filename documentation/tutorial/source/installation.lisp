@@ -37,8 +37,7 @@ distribution"
       ((:section :title "Installation of pre-packaged Gendl")
        ((:subsection :title "Download the Software and retrieve a license key")
 	((:list :style :enumerate)
-	 (:item "Visit the Downloads section of the \\href{http://genworks.com/newsite}{Genworks Newsite}"
-	   (:footnote "http://genworks.com/newsite"))
+	 (:item "Visit the Downloads section of the \\href{http://genworks.com/newsite}{Genworks Newsite}")
 	 (:item "Enter your email address" 
 	   (:footnote "if your address is not on file, send mail to licensing@genworks.com")
 	   ".")

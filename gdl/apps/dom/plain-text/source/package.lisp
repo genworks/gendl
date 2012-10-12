@@ -20,7 +20,7 @@
 ;;
 
 
-(in-package :user)
+(in-package :gdl-user)
 
 (gdl:define-package :com.genworks.dom-plain-text
     (:use :com.genworks.dom :com.genworks.dom-writers))

@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;;
 
-(in-package :user)
+(in-package :gdl-user)
 
 (defparameter *assembly*
     `((:document :title   "Test Document"

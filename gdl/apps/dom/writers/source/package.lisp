@@ -20,7 +20,7 @@
 ;;
 
 
-(in-package :user)
+(in-package :gdl-user)
 
 (#+icad icad:def-icad-package 
 	#-icad gdl:define-package :com.genworks.dom-writers 

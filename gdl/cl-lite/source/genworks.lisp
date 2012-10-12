@@ -100,7 +100,7 @@ and \"..\" entries."
 
 (defun file-directory-p (file)
   "Returns non-nil if the path is a directory."
-  (#-(or allegro lispworks) asdf-utils:directory-pathname-p 
+  (#-(or allegro lispworks) cl-fad:directory-pathname-p 
      #+allegro excl:file-directory-p 
      #+lispworks lw:file-directory-p file))
 

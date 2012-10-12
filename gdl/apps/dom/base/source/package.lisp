@@ -20,7 +20,7 @@
 ;;
 
 
-(in-package :user)
+(in-package :gdl-user)
 
 (gwl:define-package :com.genworks.dom (:export #:base-document-component #:assembly #:section #:marked-up-string 
 					       #:item-list #:item-list-item #:text-string #:figure #:tag))

@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;;
 
-(in-package :user)
+(in-package :gdl-user)
 
 (gwl:define-package :com.genworks.dom-html
     (:use :cl-who :com.genworks.dom :com.genworks.dom-writers))

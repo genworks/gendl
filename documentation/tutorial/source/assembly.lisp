@@ -65,14 +65,14 @@ written consent from Genworks International.")
 	(with-format (com.genworks.dom-writers:latex out)
 	  (write-the-object object (:base)))))
   
-    (excl:run-shell-command 
+    (glisp:run-shell-command 
      (format nil "cd ~a; pdflatex tutorial.tex" pdf-path))
   
-  (excl:run-shell-command 
+  (glisp:run-shell-command 
    (format nil "cd ~a; makeindex tutorial" pdf-path))
   
   (dotimes (n level)
-    (excl:run-shell-command 
+    (glisp:run-shell-command 
      (format nil "cd ~a; pdflatex tutorial.tex" pdf-path)))))
 
 
