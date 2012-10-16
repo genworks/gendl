@@ -175,12 +175,15 @@ o filter inspector slots to local slots
               :tatu-root self)
 
    (viewport-status-object :type 'status-object
+			   :respondent self
                            :status-message (the viewport digitation-mode))
    
    (image-status-object :type 'status-object
+			:respondent self
                         :status-message (the viewport image-format))
    
    (tree-status-object :type 'status-object
+		       :respondent self
                        :status-message (getf (the click-mode choice-plist) (the click-mode :value)))
    
    (menu-section :type 'menu-section

@@ -221,16 +221,6 @@ to the src/ directory distributed with GDL.
                      arm-angle-right arm-angle-left 
                      pincer-distance-left pincer-distance-right))
 
-   
-   (center-sphere :type 'sphere :radius 0.1)
-   
-
-   (rob-text :type 'general-note
-	     :display-controls (list :billboard t)
-	     :orientation (alignment :top (the (face-normal-vector :rear)))
-	     :strings "Bob"
-	     :center (the center))
-
 
    ))
 

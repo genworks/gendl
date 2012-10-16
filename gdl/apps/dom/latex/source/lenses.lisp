@@ -165,6 +165,11 @@
       (:define-object 
        (warn "define-object markup-tag is not handled. In ~s~%" (the root-path)))
 
+      (:href 
+       (write-env "\\href")
+       (dolist (element (list-elements (the :elements)))
+	 (write-env "{") (write-the-object element (base)) (write-env "}")))
+      
       (otherwise 
        (when (eql (the :markup-tag) :verbatim)
 	 (write-env (:newline-out) (:newline-out)))
@@ -236,7 +241,7 @@
 		  (:newline-out)
 		  "\\includegraphics"
 		  (:a (if (and (the :width) (the :height))
-			  (format nil "[~a,~a]" (the :width) (the :height))
+			  (format nil "[width=~a,height=~a]" (the :width) (the :height))
 			""))
 		  "{"
 		  "../images/"

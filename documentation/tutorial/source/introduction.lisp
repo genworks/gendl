@@ -23,6 +23,14 @@
 
 (defparameter *introduction*
     `((:chapter :title "Introduction")
+
+      ((:section :title "Welcome")
+       "Congratulations on your purchase or download of Genworks Gendl. By investing some of your 
+valuable time into learning this system, you are investing in your future productivity and you are becoming
+part of a quiet revolution. Although you may have come to Genworks Gendl because of an interest in 3D modeling
+or mechanical engineering, you will find that a whole new world, and a whole new approach to computing, will 
+now be at your fingertips.")
+      
       ((:section :title "Knowledge Base Concepts According to Genworks")
        "You may have an idea about Knowledge Base Systems,
 or Knowledge "

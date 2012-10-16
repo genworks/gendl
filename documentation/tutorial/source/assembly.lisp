@@ -48,6 +48,7 @@ written consent from Genworks International.")
       :mainmatter
       ,*introduction*
       ,*installation*
+      ,*basic-operation*
       :backmatter
       :printindex
       ))
