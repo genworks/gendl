@@ -1,5 +1,9 @@
 \begin{theindex}
 
+  \item *slime-repl...*, \hyperpage{9}
+
+  \indexspace
+
   \item Basic Lisp Techniques, \hyperpage{2}
 
   \indexspace
@@ -13,6 +17,11 @@
 
   \item declarative, \hyperpage{2}
   \item Dependency tracking, \hyperpage{1}
+
+  \indexspace
+
+  \item gdl-user(1): , \hyperpage{9}
+  \item Genworks Gendl Console, \hyperpage{7}
 
   \indexspace
 
@@ -32,5 +41,9 @@
   \item object-orientation
     \subitem generic-function, \hyperpage{2}
     \subitem message-passing, \hyperpage{2}
+
+  \indexspace
+
+  \item regression tests, \hyperpage{11}
 
 \end{theindex}

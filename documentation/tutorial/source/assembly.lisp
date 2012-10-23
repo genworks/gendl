@@ -34,7 +34,7 @@
 		 :usepackage ("dvips" "graphicx")
 		 :usepackage ("usenames, dvipsnames" "color")
 		 :usepackage ("makeidx")
-		 ;;:usepackage ("pdfborder={0 0 0}" "hyperref")
+		 :usepackage ("textcomp")
 		 :usepackage ("colorlinks=true, urlcolor=cyan" "hyperref")
 		 :newsavebox ("\\boxedverb")
 		 :makeindex nil)
@@ -67,14 +67,14 @@ written consent from Genworks International.")
 	  (write-the-object object (:base)))))
   
     (glisp:run-shell-command 
-     (format nil "cd ~a; pdflatex tutorial.tex" pdf-path))
+     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path))
   
   (glisp:run-shell-command 
    (format nil "cd ~a; makeindex tutorial" pdf-path))
   
   (dotimes (n level)
     (glisp:run-shell-command 
-     (format nil "cd ~a; pdflatex tutorial.tex" pdf-path)))))
+     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
 
 
 (define-object assembly (com.genworks.dom:assembly)

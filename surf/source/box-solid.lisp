@@ -40,8 +40,13 @@ from brep and box."
 
   :computed-slots (;;(%line-vertex-indices% nil)
                    ;;(%lines-to-draw% nil)
-                   
-                   (%native-brep% (let ((brep (make-brep *geometry-kernel* :tolerance (the brep-tolerance))))
+		   #+nil
+                   (geometry-kernel (make-instance (read-from-string 
+						    "smlib::geometry-kernel")
+						   :iw-context (funcall (read-from-string "smlib::make-iw-context"))))
+
+                   (%native-brep% (let ((brep (make-brep  *geometry-kernel* 
+							 :tolerance (the brep-tolerance))))
                                     (let ((x-vector (the (face-normal-vector :right)))
                                           (y-vector (the (face-normal-vector :rear)))
                                           (corner (the (vertex :left :front :bottom))))
@@ -51,14 +56,14 @@ from brep and box."
                                             (origin-z (get-z corner)))
                                         
                                         
-                                        (add-box-primitive *geometry-kernel* brep 
+                                        (add-box-primitive  *geometry-kernel* brep 
                                                            (the width)(the length)(the height)
                                                            origin-x origin-y origin-z
                                                            (get-x x-vector) (get-y x-vector) (get-z x-vector)
                                                            (get-x y-vector) (get-y y-vector) (get-z y-vector)))
                                       
                                       (unless (the brep-tolerance)
-                                        (brep-reset-tolerance *geometry-kernel* brep))
+                                        (brep-reset-tolerance  *geometry-kernel* brep))
 
                                       brep)))))
 

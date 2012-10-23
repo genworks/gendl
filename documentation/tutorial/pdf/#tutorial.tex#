@@ -22,8 +22,6 @@
 
 \usepackage {makeidx}
 
-\usepackage {textcomp}
-
 \usepackage [colorlinks=true, urlcolor=cyan]{hyperref}
 
 \newsavebox {\boxedverb}
@@ -420,7 +418,8 @@ You will see this command shown in the \emph{mini-buffer} at the bottom of the E
 
 \end{figure}
 
-\item On Windows, you will get a new window, named the the \index{Genworks Gendl Console}Genworks Gendl Console, as shown in Figure 
+\item On Windows, you will get a new window, named the Allegro CL Console or the Gendl Console, 
+as shown in Figure 
 \ref{fig:genworks-gendl-console}. This window might start out in minimized form (as an icon at the bottom of your screen). Click on it 
 to open it. Watch this console for any errors or warnings. 
 
@@ -435,10 +434,10 @@ through Emacs' ``Buffers'' menu) where you will see these messages.
 The messages will consist of compiling and loading information, followed by copyright and welcome information
 for Gendl. After these messages have finished, you should see the following command prompt:
 
-\texttt{\index{gdl-user(1): }gdl-user(1): }
+\texttt{gdl-user(1): }
 
-The Genworks GenDL console contains a command prompt, but mostly you will use the \index{*slime-repl...*}*slime-repl...* buffer in Emacs to type commands. The Genworks GenDL console is mainly used for 
-displaying output text from the Gendl system and from your application.
+The Genworks GDL console contains a command prompt, but mostly you will use the Slime REPL buffer in Emacs 
+to type commands. The Genworks GDL console is mainly used for displaying output text from the Gendl system and from your application.
 
 \end{enumerate}
 
@@ -537,12 +536,12 @@ you will see the robot in a shaded dynamic view.
 
 \label{subsec:fullregressiontest}
 
-\index{regression tests}The following commands will invoke a full regression test, including a test of the Surface and Solids
+The following commands will invoke a full regression test, including a test of the Surface and Solids
 primitives provided by the SMLib geometry kernel. Note that the SMLib geometry kernel is only available with
 proprietary Gendl licenses --- therefore if you have an open-source or Trial version, you these regression
 tests will not all function.
 
-In Emacs at the \texttt{gdl-user>} prompt in the \texttt{*slime-repl...*} buffer, type the following commands:
+In Emacs at the Slime REPL prompt, type the following commands:
 
 \begin{enumerate}
 
@@ -606,24 +605,25 @@ In Gendl, if you simply shut down the system after having compiled and
 loaded a set of files with new definitions, then when you restart the
 system you will have to recompile and/or reload those definitions in
 order to bring the system back into the same state. This is typically
-done automatically, using commands placed into the \texttt{gdlinit.cl} initialization file, as introduced in Section 
-\ref{sec:customizingyourenvironment}. Alternatively, you can compile and load definitions into your Gendl
+done automatically, using commands placed into the \texttt{gdlinit.cl} initialization file.
+
+Alternatively, you can compile and load definitions into your Gendl
 session, then save the ``world'' in that state. That way, it is
 possible to start a new Gendl ``world'' which already has all your
 application's definitions loaded and ready for use, without having to
 procedurally reload any files. You can then begin to make and test new
 definitions (and re-definitions) starting from this new ``world.''
 
-\section{Startup, ``Hello, World!'' and Shutdown}
+\section{Startup and Shutdown}
 
-\label{sec:startup,hello,world!andshutdown}
+\label{sec:startupandshutdown}
 
 
 
 The typical Gendl environment consists of three programs: Gnu
-Emacs (the editor), a Common Lisp engine with Gendl system loaded or built into it (e.g. the \texttt{gdl.exe} executable in your \texttt{program/} directory), and (optionally) a web browser
+Emacs (the editor), a Common Lisp engine (e.g. the \texttt{mlisp.exe} executable of Allegro CL), and (optionally) a web browser
 such as Firefox, Google Chrome, Safari, Opera, or Internet
-Explorer. Emacs runs as the main \emph{process}, and this in turn starts the CL engine with Gendl as a \emph{sub-process}. The CL engine typically runs an embedded \emph{webserver}, enabling you to access your application through a standard web browser.
+Explorer. Emacs runs as the main \emph{process}, and this in turn starts the Common Lisp engine as a \emph{sub-process}.
 
 
 
@@ -633,20 +633,16 @@ from your computer's file manager, or from a desktop shortcut if you
 have created one as outlined in section 
 \ref{subsec:makeadesktopshortcut}. Your installation executable may also have created a
 Windows ``Start'' menu item for Genworks Gendl. Of course you can also 
-invoke \texttt{run-gdl.bat} from the Windows ``cmd'' command-line, or from another command shell such as Cygwin.\footnote{Cygwin is also useful as a command-line tool on Windows
-for interacting with a version control system like Subversion (svn).}
+invoke \texttt{run-gdl.bat} from the Windows ``cmd'' command-line, or from another command shell 
+such as Cygwin.\footnote{Cygwin is also useful as a command-line tool for interacting with a version control system like Subversion (svn).}
 
 
 
-\subsection{Startup}
+\subsection{Step-by-Step: Typical Startup and Shutdown Cycle}
 
-\label{subsec:startup}
+\label{subsec:step-by-step:typicalstartupandshutdowncycle}
 
- Startup of a typical Gendl development session consists of
-two fundamental steps: (1) starting the Emacs editing environment,
-and (2) starting the actual Gendl process as a ``sub-process'' or ``inferior'' process 
-within Emacs. The Gendl process should automatically establish a network connection
-back to Emacs, allowing you to interact directly with the Gendl process from within Emacs.
+$\rightarrow$ Please practice starting and shutting down the system by following these steps:
 
 \begin{enumerate}
 
@@ -667,30 +663,7 @@ un-minimize.
 \item Watch the Genworks GDL Console window for any
 errors. Depending on your specific installation, it may take from a
 few seconds to several minutes for the Genworks Gendl Console (or
-*inferior-lisp* buffer) to settle down and give you a \texttt{gdl-user(): } prompt. This window is where you will see most of your program's textual output, any 
-error messages, warnings, etc.
-
-\item In Emacs, type: \texttt{C-x \&} (or select Emacs menu item Buffers$\rightarrow$*slime-repl...*) to visit the ``*slime-repl ...*'' buffer. The full name
-of this buffer depends on the specific CL/Gendl platform which you are
-running. This buffer contains an interactive prompt, labeled \texttt{gdl-user>}, where you will enter most of your commands to interact with your running Gendl session
-for testing, debugging, etc. There is also a web-based graphical interactive environment called \emph{tasty} which will will cover in Chapter 
-\ref{chapter:tasty}
-
-\item To ensure that the Gendl interpreter is up and running, type: \texttt{(+ 2 3)} and press [Enter].
-
-\item You should see the result \texttt{5} echoed back to you below the prompt.
-
-\end{enumerate}
-
-
-
-\subsection{Developing and Testing a Gendl ``Hello World'' application}
-
-\label{subsec:developingandtestingagendlhelloworldapplication}
-
- 
-
-\begin{enumerate}
+*inferior-lisp* buffer) to settle down and give you a \texttt{gdl-user(): } prompt.
 
 \item type C-x (Control-x) 2, or C-x 3, or use the ``Split
 Screen'' option of the File menu to split the Emacs frame into two
@@ -698,29 +671,23 @@ Screen'' option of the File menu to split the Emacs frame into two
 rectangular areas within the main Emacs window).
 
 \item type C-x o several times to move from one window to
-the other, or move the mouse cursor and click in each window. Notice
-how the blinking insertion point moves from one window to the other.
+	the other. Notice how the blinking insertion point moves from one 
+window to the other.
 
-\item In the top (or left) window, type C-x C-f (or select Emacs menu item
-``File$\rightarrow$Open File'') to get the ``Find file'' prompt in the
-mini-buffer.
+\item In the top window, type C-x C-f (or select Emacs menu
+	``File Open File'') to get the ``Find file'' prompt in the
+	mini-buffer.
 
-\item Type C-a to move the point to the beginning of the mini-buffer line.
+\item Type C-a to go to the beginning of the mini-buffer line.
 
-\item Type C-k to delete from the point to the end of the mini-buffer.
+\item Type C-k to delete the default contents of the mini-buffer.
 
-\item Type \texttt{\textasciitilde/hello.gdl} and press [Enter]
+\item Type \texttt{~/hello.gdl} and press [Enter]
 
-\item You are now editing a (presumably new) file of Gendl
-	 code, located in your HOME directory, called \texttt{hello.gdl}
+\item You are now editing a file of Gendl code, located in your HOME directory, called \texttt{hello.gdl}
 
 \item Enter the text from Figure 
-\ref{fig:simpleobjectdefinition} into the \texttt{hello.gdl} buffer. You do not have to match the line breaks and whitespace as shown in the example.
-You can auto-indent each new line by pressing [TAB] after pressing [Enter] for the newline.
-
-\emph{Protip:}You can also try using \texttt{C-j} instead of [Enter], which will automatically give a newline and auto-indent.
-
-
+\ref{fig:simpleobjectdefinition} into the \texttt{hello.gdl} buffer.
 
 \begin{figure}
 \begin{lrbox}{\boxedverb}
@@ -745,17 +712,11 @@ You can auto-indent each new line by pressing [TAB] after pressing [Enter] for t
 
 \end{figure}
 
-\item type \texttt{C-x C-s} (or choose Emacs menu item \emph{File$\rightarrow$Save}) to save the contents of the buffer (i.e. the window) 
-to the file in your HOME directory.
+\item type \texttt{C-c C-k} to compile \& load the code from this file.
 
-\item type \texttt{C-c C-k} (or choose Emacs menu item \emph{SLIME$\rightarrow$Compilation$\rightarrow$Compile/Load File}) to compile \& load the code from this file.
+\item type \texttt{C-c o} to switch to the bottom window.
 
-\item type \texttt{C-c o} (or move and click the mouse)  to switch to the bottom window.
-
-\item In the bottom window, type \texttt{C-x \&} (or choose Emacs menu item \emph{Buffers$\rightarrow$*slime-repl...*}) to get the \texttt{*slime-repl ...*} buffer, which should contain a \texttt{gdl-user>} prompt. This is where you normally type interactive Gendl commands.
-
-\item If necessary, type \texttt{M \textgreater} (that is, hold down Meta (Alt), Shift, and the ``\textgreater'' key) to
-move the insertion point to the end of this buffer.
+\item In the bottom window, type \texttt{C-x \&} to get the \texttt{*slime-repl ...*} buffer, which should contain a \texttt{gdl-user>} prompt. This is where you normally type interactive Gendl commands.
 
 \item At the \texttt{gdl-user>} prompt, type 
 
@@ -772,81 +733,6 @@ move the insertion point to the end of this buffer.
 \end{enumerate}
 
 
-
-\subsection{Shutdown}
-
-\label{subsec:shutdown}
-
- To shut down a development session gracefully, you should first shut down the Gendl process,
-then shut down your Emacs.
-
-\begin{itemize}
-
-\item Type \texttt{M-x quit-gendl} (that is, hold Alt and press X, then release both while you type \texttt{quit-gendl} in the mini-buffer), then press [Enter]
-
-\item Type \texttt{C-x C-c} to quit from Emacs. Emacs will prompt you to save any modified buffers before exiting.
-
-\end{itemize}
-
-
-
-\section{Working with Projects}
-
-\label{sec:workingwithprojects}
-
-Gendl contains utilities which allow you to treat your
-application as a ``project,'' with the ability to compile,
-incrementally compile, and load a ``project'' from a directory tree of
-source files representing your project. In this section we give an
-overview of the expected directory structure and available control
-files, followed by a reference for each of the functions included in
-the bootstrap module.
-
-\subsection{Directory Structure}
-
-\label{subsec:directorystructure}
-
-
-
-You should structure your applications in a modular fashion, with the
-directories containing actual Lisp sources called "source."
-
-
-
-You may have subdirectories which themselves contain "source"
-directories.
-
-
-
-We recommend keeping your codebase directories relatively flat,
-however.
-
-
-
-In Figure 
-\ref{fig:yoyodyne-base} is an example application directory, with four source files.
-
-
-
-\section{Customizing your Environment}
-
-\label{sec:customizingyourenvironment}
-
- You may customize your environment in several different ways,
-for example by loading definitions and settings into your Gendl
-``world'' automatically when the system starts, and by specifying
-fonts, colors, and default buffers (to name a few) for your emacs
-editing environment.
-
-\section{Saving the World}
-
-\label{sec:savingtheworld}
-
- You may customize your environment in several different ways,
-for example by loading definitions and settings into your Gendl
-``world'' automatically when the system starts, and by specifying
-fonts, colors, and default buffers (to name a few) for your emacs
-editing environment.
 
 \backmatter
 

@@ -39,4 +39,5 @@
 (defun escape-string (string)
   (replace-substring 
    (replace-substring
-    (replace-substring string "#" "\\#") "$" "\\$") "_" "\\_"))
+    (replace-substring 
+     (replace-substring string "#" "\\#") "$" "\\$") "_" "\\_") "&dollar;" "$"))

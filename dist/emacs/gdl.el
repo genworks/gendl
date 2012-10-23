@@ -82,7 +82,15 @@
   (global-set-key "\M-n" 'fi:push-input)
   (global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer gdl:*gdl-toplevel*)))
   (global-set-key "\C-x*" 'fi:open-lisp-listener)
-  (global-set-key "\C-xy" '(lambda() (interactive) (other-window -1))))
+  (global-set-key "\C-xy" '(lambda() (interactive) (other-window -1)))
+  ;;
+  ;; Use C-j for newline-and-indent. If you really like it, you can bind
+  ;; it to [Enter] by uncommenting the following line (from
+  ;; http://emacswiki.org/emacs/AutoIndentation).
+  ;;
+  ;;(global-set-key (kbd "C-m") 'newline-and-indent)
+  )
+
 
 (gdl:global-keys)
 

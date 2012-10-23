@@ -165,8 +165,9 @@ You will see this command shown in the "
 			:caption "Genworks Gendl Console"
 			:label "fig:genworks-gendl-console"))
 
-	  (:item "On Windows, you will get a new window, named the Allegro CL Console or the Gendl Console, 
-as shown in Figure "
+	  (:item "On Windows, you will get a new window, named the the "
+	    (:indexed "Genworks Gendl Console")
+	    ", as shown in Figure "
 	    (:ref "fig:genworks-gendl-console")
 	    ". This window might start out in minimized form (as an icon at the bottom of your screen). Click on it 
 to open it. Watch this console for any errors or warnings. 
@@ -181,10 +182,12 @@ through Emacs' ``Buffers'' menu) where you will see these messages.
 
 The messages will consist of compiling and loading information, followed by copyright and welcome information
 for Gendl. After these messages have finished, you should see the following command prompt:"
-	    (:p (:texttt "gdl-user(1): "))
+	    (:p (:texttt (:indexed "gdl-user(1): ")))
 
-	    "The Genworks GDL console contains a command prompt, but mostly you will use the Slime REPL buffer in Emacs 
-to type commands. The Genworks GDL console is mainly used for displaying output text from the Gendl system and from your application."
+	    "The Genworks GenDL console contains a command prompt, but mostly you will use the "
+	    (:indexed "*slime-repl...*") 
+	    " buffer in Emacs to type commands. The Genworks GenDL console is mainly used for 
+displaying output text from the Gendl system and from your application."
 	    )))
 
        ((:subsubsection :title "Startup of open-source Gendl distribution")
@@ -242,12 +245,16 @@ you will see the robot in a shaded dynamic view.")))
 
        
        ((:subsection :title "Full Regression Test")
+	(:index "regression tests")
 	"The following commands will invoke a full regression test, including a test of the Surface and Solids
 primitives provided by the SMLib geometry kernel. Note that the SMLib geometry kernel is only available with
 proprietary Gendl licenses --- therefore if you have an open-source or Trial version, you these regression
 tests will not all function.
 
-In Emacs at the Slime REPL prompt, type the following commands:"
+In Emacs at the "
+	(:texttt "gdl-user>")
+	" prompt in the "
+	(:texttt "*slime-repl...*") " buffer, type the following commands:"
 	((:list :style :enumerate)
 	 (:item (:texttt "(ql:quickload :gdl-regression)"))
 	 (:item (:texttt "(gdl-lift-utils::define-regression-tests)"))

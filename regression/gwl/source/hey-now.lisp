@@ -30,15 +30,6 @@
       (mapc #'(lambda(key value) (setf (gethash key ht) value))
 	    (plist-keys strings) (plist-values strings)) ht)))
   
-(defmacro locale-string (key) 
-  (format t  "NOTE: Remove this locale-string version with May quicklisp release")
-  `(let ((string (getf (gethash ,key *locale-hash*) (the lang))))
-     (or string 
-	 (progn (warn "~s not found in *locale-hash* for current *lang*: ~a"
-		      ,key (the lang))
-		(format nil "!! ~s !!" ,key)))))
-
-
 (define-object hey-now (base-ajax-sheet)
  
   :input-slots ((language-default :english))
