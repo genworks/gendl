@@ -253,6 +253,9 @@ overview of the expected directory structure and available control
 files, followed by a reference for each of the functions included in
 the bootstrap module."
        ((:subsection :title "Directory Structure")
+
+	
+
 	(:p "You should structure your applications in a modular fashion, with the
 directories containing actual Lisp sources called \"source.\"")
 
@@ -264,7 +267,54 @@ however.")
 
 	(:p "In Figure "
 	    (:ref "fig:yoyodyne-base")
-	    " is an example application directory, with four source files.")))
+	    " is an example application directory, with four source files.")
+
+	((:boxed-figure :caption "Example project directory with four source files"
+			:label "fig:yoyodyne-base")
+	 (:verbatim "
+  apps/yoyodyne/booster-rocket/source/assembly.gdl
+  apps/yoyodyne/booster-rocket/source/package.gdl
+  apps/yoyodyne/booster-rocket/source/parameters.gdl
+  apps/yoyodyne/booster-rocket/source/rules.gdl
+"))
+
+	)
+
+       
+       ((:subsection :title "Source Files within a source/ subdirectory")
+
+	((:subsubsection :title "Enforcing Ordering")
+	 (:p "Within a source subdirectory, you may have a file called "
+	     (:texttt "file-ordering.isc")
+	     (:footnote (:texttt "isc") " stands for ``Intelligent Source Configuration''")
+	     " to enforce a certain ordering on the files. Here is the contents of an example for the 
+above application:")
+	 (:p (:texttt "(\"package\" \"parameters\")"))
+
+	 (:p "This will force package.lisp to be compiled/loaded first, and
+parameters.lisp to be compiled/loaded next. The ordering on the rest
+of the files should not matter (although it will default to
+lexigraphical ordering).")
+
+
+	(:p "Now our sample application directory looks like Figure "
+	    (:ref "fig:yoyodyne-with-file-ordering-isc")
+	    " is an example application directory, with four source files.")
+
+	 )
+	
+	((:boxed-figure :caption "Example project directory with file ordering configuration file"
+			:label "fig:yoyodyne-with-file-ordering-isc")
+	 (:verbatim "
+  apps/yoyodyne/booster-rocket/source/assembly.gdl
+  apps/yoyodyne/booster-rocket/source/file-ordering.isc
+  apps/yoyodyne/booster-rocket/source/package.gdl
+  apps/yoyodyne/booster-rocket/source/parameters.gdl
+  apps/yoyodyne/booster-rocket/source/rules.gdl"))
+
+	))
+
+
 
       
       ((:section :title "Customizing your Environment")

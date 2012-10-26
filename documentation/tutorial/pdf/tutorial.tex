@@ -827,6 +827,81 @@ In Figure
 \ref{fig:yoyodyne-base} is an example application directory, with four source files.
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+
+\begin{verbatim}
+  apps/yoyodyne/booster-rocket/source/assembly.gdl
+  apps/yoyodyne/booster-rocket/source/package.gdl
+  apps/yoyodyne/booster-rocket/source/parameters.gdl
+  apps/yoyodyne/booster-rocket/source/rules.gdl
+
+\end{verbatim}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example project directory with four source files}
+
+\label{fig:yoyodyne-base}
+
+\end{figure}
+
+
+\subsection{Source Files within a source/ subdirectory}
+
+\label{subsec:sourcefileswithinasource/subdirectory}
+
+
+
+\subsubsection{Enforcing Ordering}
+
+\label{subsubsec:enforcingordering}
+
+
+
+Within a source subdirectory, you may have a file called \texttt{file-ordering.isc}\footnote{\texttt{isc} stands for ``Intelligent Source Configuration''} to enforce a certain ordering on the files. Here is the contents of an example for the 
+above application:
+
+
+
+\texttt{("package" "parameters")}
+
+
+
+This will force package.lisp to be compiled/loaded first, and
+parameters.lisp to be compiled/loaded next. The ordering on the rest
+of the files should not matter (although it will default to
+lexigraphical ordering).
+
+
+
+Now our sample application directory looks like Figure 
+\ref{fig:yoyodyne-with-file-ordering-isc} is an example application directory, with four source files.
+
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+
+\begin{verbatim}
+  apps/yoyodyne/booster-rocket/source/assembly.gdl
+  apps/yoyodyne/booster-rocket/source/file-ordering.isc
+  apps/yoyodyne/booster-rocket/source/package.gdl
+  apps/yoyodyne/booster-rocket/source/parameters.gdl
+  apps/yoyodyne/booster-rocket/source/rules.gdl
+\end{verbatim}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example project directory with file ordering configuration file}
+
+\label{fig:yoyodyne-with-file-ordering-isc}
+
+\end{figure}
+
 
 \section{Customizing your Environment}
 
@@ -847,6 +922,33 @@ for example by loading definitions and settings into your Gendl
 ``world'' automatically when the system starts, and by specifying
 fonts, colors, and default buffers (to name a few) for your emacs
 editing environment.
+
+\chapter{This chapter lists the typical modifications you will want to 
+consider for upgrading from GDL 1580 to Gendl 1581.}
+
+\label{chap:thischapterliststhetypicalmodificationsyouwillwantto
+considerforupgradingfromgdl1580togendl1581.}
+
+
+
+\begin{itemize}
+
+\item (update-gdl ..) not yet available for 1581.
+
+\item (register-asdf-systems no longer needed or available) - If you want your own asdf systems, 
+                use (ql:quickload ...)  for 3rdpty files.
+
+\item system-wide gdlinit.cl in application directory, personal one in home directory.
+
+\item Slime debugging is different - refer to Slime intro
+
+\item color-themes -- M-x color-theme-select
+
+\item Gendl files can end with .lisp or .gdl
+
+\end{itemize}
+
+
 
 \backmatter
 

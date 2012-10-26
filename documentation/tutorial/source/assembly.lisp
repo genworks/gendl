@@ -49,6 +49,7 @@ written consent from Genworks International.")
       ,*introduction*
       ,*installation*
       ,*basic-operation*
+      ,*upgrade-notes*
       :backmatter
       :printindex
       ))

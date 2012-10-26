@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.11.28)  23 OCT 2012 13:44
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.11.28)  26 OCT 2012 11:25
 entering extended mode
  %&-line parsing enabled.
 **tutorial.tex
@@ -327,23 +327,22 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 ] (./tutorial.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 2.
-)
+ [3
+
+])
 \tf@toc=\write5
 \openout5 = `tutorial.toc'.
 
- [3
-
-] [4
-
-]
+ [4]
 Chapter 1.
 [1
+
 
 ] [2] [3] [4
 
 ]
 Chapter 2.
-<../images/gendl-installation.png, id=218, 127.40933pt x 70.12866pt>
+<../images/gendl-installation.png, id=229, 127.40933pt x 70.12866pt>
 File: ../images/gendl-installation.png Graphic file (type png)
 
 <use ../images/gendl-installation.png> [5]
@@ -353,11 +352,11 @@ man-ager, right-mouse on the \OT1/cmtt/m/n/10.95 run-gdl.bat
  []
 
 [6 <../images/gendl-installation.png (PNG copy)>]
-<../images/mini-buffer.png, id=246, 687.56876pt x 613.29124pt>
+<../images/mini-buffer.png, id=257, 687.56876pt x 613.29124pt>
 File: ../images/mini-buffer.png Graphic file (type png)
 
 <use ../images/mini-buffer.png>
-<../images/genworks-gendl-console.png, id=248, 318.52333pt x 212.52733pt>
+<../images/genworks-gendl-console.png, id=259, 318.52333pt x 212.52733pt>
 File: ../images/genworks-gendl-console.png Graphic file (type png)
 
 <use ../images/genworks-gendl-console.png>
@@ -373,11 +372,11 @@ Overfull \hbox (16.66708pt too wide) in paragraph at lines 457--458
 ys-tem, type: \OT1/cmtt/m/n/10.95 (ql:quickload :genworks-gdl)
  []
 
-<../images/tasty-robot.png, id=268, 542.29266pt x 441.11467pt>
+<../images/tasty-robot.png, id=279, 542.29266pt x 441.11467pt>
 File: ../images/tasty-robot.png Graphic file (type png)
 
 <use ../images/tasty-robot.png>
-<../images/tasty-robot-x3dom.png, id=269, 543.36333pt x 440.044pt>
+<../images/tasty-robot-x3dom.png, id=280, 543.36333pt x 440.044pt>
 File: ../images/tasty-robot-x3dom.png Graphic file (type png)
 
 <use ../images/tasty-robot-x3dom.png> [9] [10 <../images/tasty-robot.png (PNG c
@@ -415,13 +414,35 @@ File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 757.
  [15]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 843--844
+[][] 
+ []
 
-LaTeX Warning: Reference `fig:yoyodyne-base' on page 16 undefined on input line
- 827.
+[16]
+Overfull \hbox (6.90225pt too wide) in paragraph at lines 873--877
+[]\OT1/cmr/m/n/10.95 This will force pack-age.lisp to be com-piled/loaded first
+, and pa-ram-e-ters.lisp to be com-piled/loaded
+ []
 
-[16] [17] [18
 
-] (./tutorial.ind [19
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 897--898
+[][] 
+ []
+
+[17] [18
+
+]
+Chapter 4.
+[19]
+Overfull \hbox (352.43867pt too wide) has occurred while \output is active
+\OT1/cmr/m/n/10.95 20 \OT1/cmr/m/sl/10.95 CHAPTER 4.  THIS CHAPTER LISTS THE TY
+PICAL MODIFICATIONS YOU WILL WANT TO CONSIDER FOR UPGRADING FROM GDL 1580 TO GE
+NDL 1581.
+ []
+
+[20
+
+] (./tutorial.ind [21
 
 
 ]) (./tutorial.aux)
@@ -433,13 +454,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 5156 strings out of 494985
- 76118 string characters out of 1181033
- 144014 words of memory out of 3000000
- 8130 multiletter control sequences out of 15000+50000
+ 5170 strings out of 494985
+ 76442 string characters out of 1181033
+ 145443 words of memory out of 3000000
+ 8136 multiletter control sequences out of 15000+50000
  12647 words of font info for 44 fonts, out of 3000000 for 9000
  73 hyphenation exceptions out of 8191
- 38i,8n,36p,362b,395s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,8n,36p,384b,395s stack positions out of 5000i,500n,10000p,200000b,50000s
  </home/dcooper8/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </hom
 e/dcooper8/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive
@@ -454,9 +475,9 @@ c/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/sh
 are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tutorial.pdf (23 pages, 502745 bytes).
+Output written on tutorial.pdf (25 pages, 511748 bytes).
 PDF statistics:
- 479 PDF objects out of 1000 (max. 8388607)
- 134 named destinations out of 1000 (max. 500000)
- 274 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 507 PDF objects out of 1000 (max. 8388607)
+ 142 named destinations out of 1000 (max. 500000)
+ 290 words of extra memory for PDF output out of 10000 (max. 10000000)
 
