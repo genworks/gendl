@@ -537,8 +537,7 @@ and moments for the brep. The moments are labeled as: :area-static-moments, :are
 :area-products-of-inertia, :area-second-moment-about-coordinate-axii, :volume-static-moments, 
 :volume-moments-of-inertia, :volume-products-of-inertia, and  :volume-second-moment-about-coordinate-axii.
 
-:&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"
-    precise-properties 
+:&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"    precise-properties 
     (&key (tolerance (the adaptive-tolerance)))
     (brep-compute-precise-properties *geometry-kernel* self tolerance))
 
@@ -551,7 +550,8 @@ be faster to compute and exhibit more stability.
     properties 
     (&key (edge-tess-tolerance (the adaptive-tolerance))
           (face-tess-tolerance (the adaptive-tolerance)))
-    (brep-compute-properties *geometry-kernel* self edge-tess-tolerance face-tess-tolerance))
+    (brep-compute-properties *geometry-kernel* self :edge-tess-toleance edge-tess-tolerance 
+			     :face-tess-tolerance face-tess-tolerance))
    
    ("Number. Area covered by the faces of the brep.
 :&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"

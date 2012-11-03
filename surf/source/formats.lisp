@@ -52,8 +52,8 @@
                 (ignore-errors (the-object object (write-stl-file buffer-file)))
               (declare (ignore result))
               (if (typep error 'error)
-                  (warn "Could not write STL output for ~s (~s), skipping..." 
-                        object (the-object object root-path))
+		  (warn "Could not write STL output for ~s (~s), skipping (error was ~a)..." 
+			object (the-object object root-path) error)
                 (progn
                   (with-open-file (in buffer-file)
                     (do ((line (read-line in nil nil) (read-line in nil nil)))
