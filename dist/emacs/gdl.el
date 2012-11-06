@@ -252,8 +252,7 @@
 
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-sitaramv-solaris))
-
+(color-theme-sitaramv-solaris)
 
 ;;
 ;; end of color-theme setup.
