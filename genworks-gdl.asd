@@ -11,10 +11,10 @@
   :serial t
   :version "2012040100"
   :depends-on (:gdl-gwl-graphics
-               :gdl-ta2
-               :gdl-tasty
-               :gdl-demos
-               :gdl-yadd
+               ;;:gdl-ta2
+               ;;:gdl-tasty
+               ;;:gdl-demos
+               ;;:gdl-yadd
                ;;:gdl-lift-utils
                ;;:gdl-geom-base-tests
                ;;:gdl-gwl-tests

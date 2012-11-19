@@ -49,11 +49,16 @@
 
 #-(or allegro (and unix lispworks)) 
   (warn "~&Please implement delete-directory-and-files for the currently running lisp.~%")
-(defun delete-directory-and-files (target &key force quiet if-does-not-exist)
-  #+lispworks (declare (ignore force quiet if-does-not-exist))
-  #+lispworks (system:run-shell-command (format nil "rm -rf ~a" target))
-  #+allegro (excl.osi:delete-directory-and-files 
-             target :force force :quiet quiet :if-does-not-exist if-does-not-exist))
+(defun delete-directory-and-files (target &key force quiet (if-does-not-exist :error))
+  #+lispworks (declare (ignore force quiet))
+  (cond ((probe-file target)
+	 #+lispworks (system:run-shell-command (format nil "rm -rf ~a" target))
+	 #+allegro (excl.osi:delete-directory-and-files 
+		    target :force force :quiet quiet))
+	((null if-does-not-exist) nil)
+	(t (ecase if-does-not-exist
+	     (:warn (warn "Target ~s does not exist.~%" target))
+	     (:error (error "Target ~s does not exist.~%" target))))))
 
 
 #+allegro

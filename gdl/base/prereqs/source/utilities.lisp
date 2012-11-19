@@ -107,6 +107,11 @@ Optionally a different test than #'eql can be specified with the :test keyword a
   (apply #'concatenate 'string args))
 
 
+(defun ensure-keyword (&rest strings)
+  (if (and (= (length strings) 1) (keywordp (first strings)))
+      (first strings)
+      (make-keyword strings)))
+
 (defun make-keyword (&rest strings)
   "Keyword symbol. Converts given strings to a keyword.
 If any of the given arguments is not a string, it will be converted to one with 

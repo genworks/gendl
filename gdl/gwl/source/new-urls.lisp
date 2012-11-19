@@ -46,19 +46,25 @@
 
 
 
+
+;;
+;; FLAG -- start using ensure-keyword here. 
+;;
 (defun present-part (req ent url &key instance-id header-plist fixed-prefix)
   (declare (ignore header-plist))
   (when fixed-prefix (setq url (subseq url (1+ (length fixed-prefix)))))
   
   (let ((cookies (when *process-cookies?* (get-cookie-values req)))
         (components (split url #\/)))
-    (let* ((hash-entry (gethash (make-keyword (or instance-id (second components))) *instance-hash-table*))
+    (let* ((hash-entry (gethash (ensure-keyword (or instance-id (second components))) *instance-hash-table*))
            (root-object (first hash-entry)) (skin (third hash-entry))
            (root-path (multiple-value-bind (value found?) (gethash url *descriptive-url-hash*)
                         (if found? value
                           (compute-root-path (reverse (if instance-id components (rest (rest components))))))))
            (respondent (when root-object (the-object root-object (follow-root-path root-path)))))
       
+      (print-variables instance-id root-object root-path respondent)
+
       ;;
       ;; FLAG -- use actual application-root rather than global root here
       ;;

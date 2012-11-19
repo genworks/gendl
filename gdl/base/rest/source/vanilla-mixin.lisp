@@ -669,32 +669,35 @@ by the update."
    ("Void. Writes a file containing the toplevel inputs and modified settable-slots starting from the root of the 
 current instance. Typically this file can be read back into the system using the <tt>read-snapshot</tt> function.
 
-:&key ((filename \"/tmp/snap.gdl\") \"String or pathname. The target file to be written.\")"
+:&key ((filename \"/tmp/snap.gdl\") \"String or pathname. The target file to be written.\"
+       (root-paths-to-ignore nil) \"List of root-paths or nil. Any objects with matching root-path will be ignored for the snapshot write.\"
+       )"
     write-snapshot
-    (&key (filename "/tmp/snap.gdl"))
+    (&key (filename "/tmp/snap.gdl") (root-paths-to-ignore nil))
     (with-open-file (out filename :direction :output :if-exists :supersede :if-does-not-exist :create)
       (print `(in-package ,(make-keyword (package-name *package*))) out)
       (mapcar #'(lambda(node)
                   (let ((root-path (or (first node) (the type))) (value-plist (rest node)))
-                    (let ((keys (plist-keys value-plist)) (values (plist-values value-plist)))
-                      (let ((snap (cons root-path 
-                                        (append (when (atom root-path)
-                                                  (let (result)
-                                                    (let* ((toplevel-inputs 
-                                                            (remove-plist-key (the root active-inputs)
-                                                                              :remote-id))
-                                                           (toplevel-input-keys (plist-keys toplevel-inputs))
-                                                           (toplevel-input-values (plist-values toplevel-inputs)))
-                                                      (mapc #'(lambda(key value) 
-                                                                (when (not (member key keys)) 
-                                                                  (push key result) (push value result)))
-                                                            toplevel-input-keys toplevel-input-values))
-                                                    (nreverse result)))
-                                                (mapcan #'(lambda(key val)
-                                                            (let ((expression (readable-expression val self)))
-                                                              (unless (eql expression :%unreadable%)
-                                                                (list key expression))))
-                                                        keys values))))) (print snap out)))))
+		    (unless (member root-path root-paths-to-ignore :test #'equalp)
+		      (let ((keys (plist-keys value-plist)) (values (plist-values value-plist)))
+			(let ((snap (cons root-path 
+					  (append (when (atom root-path)
+						    (let (result)
+						      (let* ((toplevel-inputs 
+							      (remove-plist-key (the root active-inputs)
+										:remote-id))
+							     (toplevel-input-keys (plist-keys toplevel-inputs))
+							     (toplevel-input-values (plist-values toplevel-inputs)))
+							(mapc #'(lambda(key value) 
+								  (when (not (member key keys)) 
+								    (push key result) (push value result)))
+							      toplevel-input-keys toplevel-input-values))
+						      (nreverse result)))
+						  (mapcan #'(lambda(key val)
+							      (let ((expression (readable-expression val self)))
+								(unless (eql expression :%unreadable%)
+								  (list key expression))))
+							  keys values))))) (print snap out))))))
 
 
               (or (gdl-acc::%version-tree% (the root)) (list nil))))

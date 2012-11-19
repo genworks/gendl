@@ -149,6 +149,7 @@
            #:make-canonical-part
            #:make-gdl-app
            #:make-keyword
+	   #:ensure-keyword
            #:make-keyword-sensitive
            #:make-object
            #:make-part
