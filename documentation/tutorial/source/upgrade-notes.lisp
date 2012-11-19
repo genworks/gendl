@@ -22,16 +22,90 @@
 (in-package :gendl-doc)
 
 (defparameter *upgrade-notes*
-    `((:chapter :title "This chapter lists the typical modifications you will want to 
-consider for upgrading from GDL 1580 to Gendl 1581.")
+    `((:chapter* :title "Upgrade Notes")
+
+      "GDL 1580 marked the end of a major branch of GDL development,
+and 1581 was actually a major new version. With 1581, an open-source
+version was released, and eventually the name was changed to
+Gendl. 
+
+This chapter lists the typical modifications you will want to consider
+for upgrading from GDL 1580 to Gendl 1582."
 
       ((:list :style :itemize)
-       (:item "(update-gdl ..) not yet available for 1581.")
-       (:item "(register-asdf-systems no longer needed or available) - If you want your own asdf systems, 
-                use (ql:quickload ...)  for 3rdpty files.")
-       (:item "system-wide gdlinit.cl in application directory, personal one in home directory.")
-       (:item "Slime debugging is different - refer to Slime intro")
-       (:item "color-themes -- M-x color-theme-select")
-       (:item "Gendl files can end with .lisp or .gdl"))))
+       (:item "(update-gdl ..) is not yet available for 1582. Instead
+of updating incrementally with patches, Gendl 1582 is released on a
+monthly basis in conjunction with Quicklisp releases.  Updating
+quicklisp involves downloading a full Genworks source code tree and
+running a build script. Information on this procedure is provided in
+Section "
+	 (:ref "subsec:usingquicklisp") 
+	 ".")
+       
+       (:item "(make-gdl-app ..) not yet available for 1582. We are
+preparing the Enterprise Edition of 1582 which will include the
+make-gdl-app function, which creates Runtime applications without the
+compiler or Gendl development facilities.  If you are an Enterprise
+licensee, are ready to release Runtime applications on 1582, and you
+have not received information on the Enterprise Edition, please
+contact support@genworks.com")
+       
+       (:item "(register-asdf-systems) and the "
+	 (:textt "\"3rdpty/\"")
+	 " directory are no longer needed or available. Instead, we depend on the Quicklisp
+system. Details of Quicklisp are available at "
+	 (:href "http://www.quicklisp.org")
+	 ". See Section "
+	 (:ref "subsec:usingquicklisp")
+	 " for information about how to use Quicklisp with Gendl.")
+       
+       (:item "There is a system-wide gdlinit.cl in the application
+       directory, and this may have some default information which
+       ships with Gendl. There is a personal one in home directory,
+       which you should modify if you want to customize anything.")
+
+       (:item "Slime debugging is different from the ELI emacs debugger. The main thing to know is 
+to press ``a'' or ``q'' to pop out of the current error. Full documentation for the Slime debug mode
+is available with the "
+	 (:href "http://common-lisp.net/project/slime/doc/html/Debugger.html" "Slime documentation")
+	 ".")
+
+       (:item "color-themes -- Gendl now ships with the Emacs
+       color-theme package. You can select a different color theme with "
+	 (:texttt "M-x color-theme-select")
+	 ". Press [Enter] or middle-mouse on a color theme to apply it.")
+
+       (:item "Gendl files can now end with "
+	 (:texttt ".lisp")
+	 " or "
+	 (:texttt ".gdl")
+	 ". The new "
+	 (:texttt ".gdl")
+	 " extension will work for emacs Lisp mode and will work with
+	 cl-lite, ASDF, and Quicklisp for including source files in application systems. We recommend migrating
+to the new "
+	 (:texttt ".gdl")
+	 " extension for files containing "
+	 (:texttt "define-object")
+	 ", "
+	 (:texttt "define-format")
+	 ", and "
+	 (:texttt "define-lens")
+	 " forms, and any other future toplevel defining forms introduced by Gendl, in order to distinguish 
+from files containing raw Common Lisp code.")
+
+       (:item "in gdlAjax, HTML for a sheet-section is given in the slot called "
+	 (:texttt "inner-html")
+	 " instead of "
+	 (:texttt "main-view")
+	 ". This name change was made to clarify what exactly is
+	 expected in this slot -- it is the innerHTML of the page
+	 division represented by the current sheet-section. If you
+	 want to make your code back-compatible with GDL 1580, you can
+	 use the following form in place of old occurences of "
+	 (:texttt "main-view")
+	 ": "
+	 (:verbatim "... #+allegro-v8.1 main-view #-allegro-v8.1 inner-html ...")))))
+	 
 
 

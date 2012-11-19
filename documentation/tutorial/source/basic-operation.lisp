@@ -328,11 +328,20 @@ editing environment."
 
 
       ((:section :title "Saving the World")
-	" You may customize your environment in several different ways,
-for example by loading definitions and settings into your Gendl
-``world'' automatically when the system starts, and by specifying
-fonts, colors, and default buffers (to name a few) for your emacs
-editing environment."
+	" Saving the world refers to a technique of saving a complete
+binary image of your Gendl ``world'' which contains all the currently
+compiled and loaded definitions and settings.  This allows you to
+start up a saved world almost instantly, without having to reload all
+the definitions. You can then incrementally compile and load just the
+particular definitions which you are working on for your development
+session.
+
+To save a world, follow these steps:
+
+ 
+
+
+"
 
 	)
 

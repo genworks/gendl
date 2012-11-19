@@ -33,4 +33,3 @@
 \contentsline {subsubsection}{Enforcing Ordering}{17}{section*.4}
 \contentsline {section}{\numberline {3.4}Customizing your Environment}{17}{section.3.4}
 \contentsline {section}{\numberline {3.5}Saving the World}{17}{section.3.5}
-\contentsline {chapter}{\numberline {4}This chapter lists the typical modifications you will want to consider for upgrading from GDL 1580 to Gendl 1581.}{19}{chapter.4}
