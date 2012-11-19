@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.11.28)  19 NOV 2012 15:03
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.11.28)  19 NOV 2012 15:50
 entering extended mode
  %&-line parsing enabled.
 **tutorial.tex
@@ -343,7 +343,7 @@ Chapter 1.
 
 ]
 Chapter 2.
-<../images/gendl-installation.png, id=223, 127.40933pt x 70.12866pt>
+<../images/gendl-installation.png, id=228, 127.40933pt x 70.12866pt>
 File: ../images/gendl-installation.png Graphic file (type png)
 
 <use ../images/gendl-installation.png> [5]
@@ -353,11 +353,11 @@ man-ager, right-mouse on the \OT1/cmtt/m/n/10.95 run-gdl.bat
  []
 
 [6 <../images/gendl-installation.png (PNG copy)>]
-<../images/mini-buffer.png, id=251, 687.56876pt x 613.29124pt>
+<../images/mini-buffer.png, id=256, 687.56876pt x 613.29124pt>
 File: ../images/mini-buffer.png Graphic file (type png)
 
 <use ../images/mini-buffer.png>
-<../images/genworks-gendl-console.png, id=253, 318.52333pt x 212.52733pt>
+<../images/genworks-gendl-console.png, id=258, 318.52333pt x 212.52733pt>
 File: ../images/genworks-gendl-console.png Graphic file (type png)
 
 <use ../images/genworks-gendl-console.png>
@@ -373,11 +373,11 @@ Overfull \hbox (16.66708pt too wide) in paragraph at lines 457--458
 ys-tem, type: \OT1/cmtt/m/n/10.95 (ql:quickload :genworks-gdl)
  []
 
-<../images/tasty-robot.png, id=273, 542.29266pt x 441.11467pt>
+<../images/tasty-robot.png, id=278, 542.29266pt x 441.11467pt>
 File: ../images/tasty-robot.png Graphic file (type png)
 
 <use ../images/tasty-robot.png>
-<../images/tasty-robot-x3dom.png, id=274, 543.36333pt x 440.044pt>
+<../images/tasty-robot-x3dom.png, id=279, 543.36333pt x 440.044pt>
 File: ../images/tasty-robot-x3dom.png Graphic file (type png)
 
 <use ../images/tasty-robot-x3dom.png> [9] [10 <../images/tasty-robot.png (PNG c
@@ -430,16 +430,24 @@ Overfull \hbox (6.79999pt too wide) in paragraph at lines 897--898
 [][] 
  []
 
-[17] [18
+[17]
+! Undefined control sequence.
+l.983 \textt
+            {"program/"} directory.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-]
+[18]
 
 LaTeX Warning: Reference `subsec:usingquicklisp' on page 19 undefined on input 
-line 946.
+line 1011.
 
 ! Undefined control sequence.
-l.957 \textt
-            {"3rdpty/"} directory are no longer needed or available. Instead...
+l.1022 \textt
+             {"3rdpty/"} directory are no longer needed or available. Instea...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -448,9 +456,11 @@ and I'll forget about whatever was undefined.
 
 
 LaTeX Warning: Reference `subsec:usingquicklisp' on page 19 undefined on input 
-line 959.
+line 1024.
 
-[19] [20] (./tutorial.ind [21
+[19
+
+] [20] (./tutorial.ind [21
 
 
 
@@ -463,13 +473,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 5170 strings out of 494985
- 76371 string characters out of 1181033
- 145348 words of memory out of 3000000
- 8136 multiletter control sequences out of 15000+50000
+ 5182 strings out of 494985
+ 76485 string characters out of 1181033
+ 145402 words of memory out of 3000000
+ 8138 multiletter control sequences out of 15000+50000
  12647 words of font info for 44 fonts, out of 3000000 for 9000
  73 hyphenation exceptions out of 8191
- 38i,8n,36p,362b,395s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,8n,36p,362b,415s stack positions out of 5000i,500n,10000p,200000b,50000s
  </home/dcooper8/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </hom
 e/dcooper8/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive
@@ -484,9 +494,9 @@ c/amsfonts/cm/cmsl10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/sh
 are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on tutorial.pdf (25 pages, 511461 bytes).
+Output written on tutorial.pdf (25 pages, 514721 bytes).
 PDF statistics:
- 504 PDF objects out of 1000 (max. 8388607)
- 142 named destinations out of 1000 (max. 500000)
- 282 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 521 PDF objects out of 1000 (max. 8388607)
+ 152 named destinations out of 1000 (max. 500000)
+ 290 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -917,11 +917,76 @@ editing environment.
 
 \label{sec:savingtheworld}
 
- You may customize your environment in several different ways,
-for example by loading definitions and settings into your Gendl
-``world'' automatically when the system starts, and by specifying
-fonts, colors, and default buffers (to name a few) for your emacs
-editing environment.
+ Saving the world refers to a technique of saving a complete
+binary image of your Gendl ``world'' which contains all the currently
+compiled and loaded definitions and settings.  This allows you to
+start up a saved world almost instantly, without having to reload all
+the definitions. You can then incrementally compile and load just the
+particular definitions which you are working on for your development
+session.
+
+To save a world, follow these steps:
+
+\begin{enumerate}
+
+\item Load the base Gendl code and (optionally) code for Gendl
+modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For example:
+
+\begin{verbatim}
+ (ql:quickload :gdl-yadd) 
+ (ql:quickload :gdl-tasty)
+\end{verbatim}
+
+
+\item
+
+
+
+\begin{verbatim}(ff:unload-foreign-library (merge-pathnames "smlib.dll" "sys:smlib;"))
+\end{verbatim}
+
+\item
+
+
+
+\begin{verbatim}(net.aserve:shutdown)
+\end{verbatim}
+
+\item
+
+
+
+\begin{verbatim}(setq excl:*restart-init-function* '(gdl:start-gdl :edition :trial))
+\end{verbatim}
+\item  (to save an image named yoyodyne.dxl) Invoke the command 
+
+\begin{verbatim}(dumplisp :name "yoyodyne.dxl")
+\end{verbatim}Note that the standard extension for Allegro CL images is \texttt{.dxl}. Prepend the file name with path information, to write the image to a specific location.
+
+\end{enumerate}
+
+
+
+\section{Starting up a Saved World}
+
+\label{sec:startingupasavedworld}
+
+In order to start up Gendl using a custom saved image, or ``world,'' follow these steps
+
+\begin{enumerate}
+
+\item Exit Gendl
+
+\item Copy the supplied \texttt{gdl.dxl} to \texttt{gdl-orig.dxl}.
+
+\item Move the custom saved dxl image to \texttt{gdl.dxl} in the Gendl application 
+\textt{"program/"} directory.
+
+\item Start Gendl as usual.
+
+\end{enumerate}
+
+
 
 \chapter*{Upgrade Notes}
 

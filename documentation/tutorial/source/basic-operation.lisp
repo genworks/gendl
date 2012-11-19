@@ -336,16 +336,44 @@ the definitions. You can then incrementally compile and load just the
 particular definitions which you are working on for your development
 session.
 
-To save a world, follow these steps:
+To save a world, follow these steps:"
 
- 
+       ((:list :style :enumerate)
+	(:item "Load the base Gendl code and (optionally) code for Gendl
+modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For example:"
+	  (:verbatim "
+ (ql:quickload :gdl-yadd) 
+ (ql:quickload :gdl-tasty)"))
+	
+	:item (:verbatim "(ff:unload-foreign-library (merge-pathnames \"smlib.dll\" \"sys:smlib;\"))")
+
+	:item (:verbatim "(net.aserve:shutdown)")
+
+	:item (:verbatim "(setq excl:*restart-init-function* '(gdl:start-gdl :edition :trial))")
+
+	(:item  " (to save an image named yoyodyne.dxl) Invoke the command "
+	  (:verbatim "(dumplisp :name \"yoyodyne.dxl\")")
+	  "Note that the standard extension for Allegro CL images is "
+	  (:texttt ".dxl")
+	  ". Prepend the file name with path information, to write the image to a specific location.")))
 
 
-"
+      ((:section :title "Starting up a Saved World")
+       "In order to start up Gendl using a custom saved image, or ``world,'' follow these steps"
+       ((:list :style :enumerate)
+	(:item "Exit Gendl")
+	(:item "Copy the supplied "
+	  (:texttt "gdl.dxl")
+	  " to "
+	  (:texttt "gdl-orig.dxl")
+	  ".")
+	(:item "Move the custom saved dxl image to "
+	  (:texttt "gdl.dxl")
+	  " in the Gendl application "
+	  (:textt "\"program/\"")
+	  " directory.")
+	(:item "Start Gendl as usual.")))))
 
-	)
-
-      ))
 
 
 
