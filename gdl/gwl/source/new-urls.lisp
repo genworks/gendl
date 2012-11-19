@@ -63,7 +63,7 @@
                           (compute-root-path (reverse (if instance-id components (rest (rest components))))))))
            (respondent (when root-object (the-object root-object (follow-root-path root-path)))))
       
-      (print-variables instance-id root-object root-path respondent)
+      (print-variables components instance-id root-object root-path respondent)
 
       ;;
       ;; FLAG -- use actual application-root rather than global root here

@@ -12,9 +12,10 @@
   :version "2012040100"
   :depends-on (:gdl-gwl-graphics
                ;;:gdl-ta2
-               ;;:gdl-tasty
+               :gdl-tasty
+	       :gdl-robot
                ;;:gdl-demos
-               ;;:gdl-yadd
+               :gdl-yadd
                ;;:gdl-lift-utils
                ;;:gdl-geom-base-tests
                ;;:gdl-gwl-tests

@@ -110,7 +110,7 @@ Optionally a different test than #'eql can be specified with the :test keyword a
 (defun ensure-keyword (&rest strings)
   (if (and (= (length strings) 1) (keywordp (first strings)))
       (first strings)
-      (make-keyword strings)))
+      (apply #'make-keyword strings)))
 
 (defun make-keyword (&rest strings)
   "Keyword symbol. Converts given strings to a keyword.
