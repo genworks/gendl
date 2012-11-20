@@ -311,12 +311,55 @@ lexigraphical ordering).")
   apps/yoyodyne/booster-rocket/source/package.gdl
   apps/yoyodyne/booster-rocket/source/parameters.gdl
   apps/yoyodyne/booster-rocket/source/rules.gdl"))
+	
 
-	))
+	)
 
 
+       ((:subsection :title "Generating an ASDF System")
+	(:p "ASDF stands for Another System Definition Facility, which
+	is the predominant system in use for Common Lisp third-party
+	libraries. With Gendl, you can use the "
+	    (:texttt ":create-asd-file?")
+	    " keyword argument to make cl-lite generate an ASDF system
+file instead of actually compiling and loading the system. For example: "
+	    (:verbatim "(cl-lite \"apps/yoyodyne/\" :create-asd-file? t)"))
 
-      
+
+	(:p "In order to include a depends-on clause in your ASDF system file, create a file called "
+	    (:texttt "depends-on.isc")
+	    " in the toplevel directory of your system. In this file,
+place a list of the systems your system depends on. This can be
+systems from your own local projects, or from third-party libraries.
+For example, if your system depends on the "
+	    (:texttt ":cl-json")
+	    " third-party library, you would have the following contents in your "
+	    (:texttt "depends-on.isc")
+	    ": "
+	    (:verbatim "(:cl-json)")))
+
+
+       ((:subsection :title "Compiling and Loading a System")
+	"Once you have generated an ASDF file, you can compile and
+load the system using Quicklisp. To do this for our example, follow these steps:"
+	((:list :style :enumerate)
+	 (:item (:verbatim "(cl-lite \"apps/yoyodyne/\" :create-asd-file? t)")
+	   " to generate the asdf file for the yoyodyne system. This only has to be done once after every time you add, remove, or rename a file or folder from the system.")
+	 (:item (:verbatim "(pushnew \"apps/yoyodyne/\" ql:*local-project-directories*)")
+	   " This can be done in your "
+	   (:texttt "gdlinit.cl") 
+	   " for projects you want available during every development session. Note that you should include
+the full path prefix for the directory containing the ASDF system file.")
+	 (:item (:verbatim "(ql:quickload :gdl-yoyodyne)")
+	   " this will compile and load the actual system. Quicklisp uses ASDF at the low level to compile and 
+load the systems, and Quicklisp will fetch any depended-upon third-party libraries from the Internet on-demand. 
+Source files will be compiled only if the corresponding binary (fasl) file does not exist or is older than the
+source file. By default, ASDF keeps its binary files in a"
+	   (:emph "cache")
+	   " directory, separated according to CL platform and operating system. The location of this cache
+is system-dependent, but you can see where it is by observing the compile and load process."))))
+
+
       ((:section :title "Customizing your Environment")
 	" You may customize your environment in several different ways,
 for example by loading definitions and settings into your Gendl
@@ -372,7 +415,8 @@ modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For examp
 	  " in the Gendl application "
 	  (:textt "\"program/\"")
 	  " directory.")
-	(:item "Start Gendl as usual.")))))
+	(:item "Start Gendl as usual. Note: you may have to edit the system gdlinit.cl or your home gdlinit.cl
+to stop it from loading redundant code which is already in the saved image.")))))
 
 
 
