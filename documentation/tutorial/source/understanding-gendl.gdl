@@ -19,5 +19,9 @@
 ;; <http://www.gnu.org/licenses/>.
 ;;
 
-("package" "parameters" "introduction" "installation" "basic-operation" "upgrade-notes"
-	   "understanding-common-lisp" "understanding-gendl" "advanced-common-lisp" "advanced-gendl")
+(in-package :gendl-doc)
+
+(defparameter *understanding-gendl*
+    `((:chapter :title "Understanding Gendl")
+))
+

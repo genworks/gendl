@@ -33,3 +33,13 @@
 \BOOKMARK [1][-]{section.3.4}{Customizing your Environment}{chapter.3}% 33
 \BOOKMARK [1][-]{section.3.5}{Saving the World}{chapter.3}% 34
 \BOOKMARK [1][-]{section.3.6}{Starting up a Saved World}{chapter.3}% 35
+\BOOKMARK [0][-]{chapter.4}{Understanding Common Lisp}{}% 36
+\BOOKMARK [1][-]{section.4.1}{S-expression Fundamentals}{chapter.4}% 37
+\BOOKMARK [1][-]{section.4.2}{Fundamental CL Data Types}{chapter.4}% 38
+\BOOKMARK [2][-]{subsection.4.2.1}{Numbers}{section.4.2}% 39
+\BOOKMARK [2][-]{subsection.4.2.2}{Strings}{section.4.2}% 40
+\BOOKMARK [2][-]{subsection.4.2.3}{Symbols}{section.4.2}% 41
+\BOOKMARK [2][-]{subsection.4.2.4}{Lists}{section.4.2}% 42
+\BOOKMARK [0][-]{chapter.5}{Understanding Gendl}{}% 43
+\BOOKMARK [0][-]{chapter.6}{More Common Lisp for Gendl}{}% 44
+\BOOKMARK [0][-]{chapter.7}{Advanced Gendl}{}% 45

@@ -9,11 +9,14 @@
   :serial
   t
   :version
-  "2012111900"
+  "2012112000"
   :depends-on
   (:gdl-dom)
   :components
   ((:file "source/package") (:file "source/parameters")
    (:file "source/introduction") (:file "source/installation")
    (:file "source/basic-operation") (:file "source/upgrade-notes")
-   (:file "source/assembly")))
+   (:gdl "source/understanding-common-lisp")
+   (:gdl "source/understanding-gendl")
+   (:gdl "source/advanced-common-lisp")
+   (:gdl "source/advanced-gendl") (:file "source/assembly")))

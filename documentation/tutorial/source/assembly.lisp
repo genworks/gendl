@@ -49,6 +49,10 @@ written consent from Genworks International.")
       ,*introduction*
       ,*installation*
       ,*basic-operation*
+      ,*understanding-common-lisp*
+      ,*understanding-gendl*
+      ,*advanced-common-lisp*
+      ,*advanced-gendl*
       ,*upgrade-notes*
       :backmatter
       :printindex

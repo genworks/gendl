@@ -1,0 +1,284 @@
+;;
+;; Copyright 2002, 2009, 2012 Genworks International
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;;
+
+(in-package :gendl-doc)
+
+(defparameter *understanding-common-lisp*
+    `((:chapter :title "Understanding Common Lisp")
+      (:p "Gendl is a superset of Common Lisp, and is embedded in Common
+Lisp. This means that when working with Gendl, you have the full power
+of CL available to you. The lowest-level expressions in a Gendl
+definition are CL ``symbolic expressions,'' or ``s-expressions.''
+This chapter will familiarize you with CL s-expressions.")
+      ((:section :title "S-expression Fundamentals")
+       (:p "S-expressions can be used in your definitions to establish
+the value of a particular "
+	   (:emph "slot")
+	   " in an object, which will be computed on-demand. You can also
+evaluate S-expressions at the toplevel "
+	   (:texttt "gdl-user\\textgreater")
+	   " prompt, and see the result immediately. In fact, this toplevel prompt is called a "
+	   (:emph "read-eval-print")
+	   " loop, because its purpose is to "
+	   (:emph "read")
+	   " each s-expression  entered, "
+	   (:emph "evaluate")
+	   " the expression to yield a result (or "
+	   (:emph "return-value")
+	   "), and finally to "
+	   (:emph "print")
+	   " that result.")
+
+       (:p "CL s-expressions use a  "
+	  (:emph "prefix")
+	  " notation, which means that they consist of either an "
+	  (:emph "atom")
+	  " (e.g.  number, text string, symbol) or a list (one or more
+	  items enclosed by parentheses, where the first item is
+	  taken as a symbol which names an operator). Here is an example: "
+
+	  (:verbatim "(+ 2 2)")
+
+	  "This expression consists of the function named by the symbol "
+	  (:texttt "+")
+	  ", followed by the numeric arguments "
+	  (:texttt "2") 
+	  " and another "
+	  (:texttt "2")
+	  ". As you may have guessed, when this expression is evaluated it will return the value 4."
+	  (:emph "Try it: ")
+	  "try typing this expression at your command prompt, and see
+the return-value being printed on the console. What is actually
+happening here? When CL is asked to evaluate an expression, it
+processes the expression according to the following rules:")
+       (:p ((:list :style :itemize)
+	    (:item "If the expression is an "
+	      (:emph "atom")
+	      " (e.g. a non-list datatype such as a number, text
+string, or literal symbol), it simply evaluates to itself. Examples: "
+	      ((:list :style :itemize 
+		      (:item (:verbatim "gdl-user> 99
+99"))
+		      (:item (:verbatim "gdl-user> 99.9
+99.9"))
+		      (:item (:verbatim "gdl-user> 3/5
+3/5"))
+		      (:item (:verbatim "gdl-user> \"Bob\"
+\"Bob\""))
+		      (:item (:verbatim "gdl-user> \"Our golden rule is simplicity\"
+\"Our golden rule is simplicity\""))
+		      (:item (:verbatim "gdl-user> 'my-symbol
+my-symbol"))))
+	     "Note that numbers are represented directly (with decimal
+points and slashes for fractions allowed), strings are surrounded by
+double-quotes, and literal symbols are introduced with a preceding
+single-quote. Symbols are allowed to have dashes (``-'') and most
+other special characters. By convention, the dash is used as a word
+separator in CL symbols.")
+
+	    (:item "If the expression is a list (i.e. is surrounded by
+parentheses), CL processes the "
+	      (:emph "first")
+	      " element in this list as an "
+	      (:emph "operator name")
+	      ", and the "
+	      (:emph "rest")
+	      " of the elements in the list represent the "
+	      (:emph "arguments")
+	      " to the operator. An operator can take zero or more
+arguments, and can return zero or more return-values. Some operators
+evaluate their arguments immediately and work directly on those
+values (these are called "
+	      (:emph "functions")
+	      ". Other operators expand into other code. These are called "
+	      (:emph "special operators")
+	      " or "
+	      (:emph "macros")
+	      ". Macros are what give Lisp (and CL in particular) its
+special power. Here are some examples of functional s-expressions: "
+	      ((:list :style :itemize)
+	       (:item (:verbatim "gdl-user> (expt 2 5)
+32"))
+	       (:item (:verbatim "gdl-user> (+ 2 5)
+7"))
+	       (:item (:verbatim "gdl-user> (+ 2)
+2"))
+	       (:item (:verbatim "gdl-user> (+ (+ 2 2) (+ 3 3 ))
+10")))))))
+
+      ((:section :title "Fundamental CL Data Types")
+       
+       (:p "As we have seen, Common Lisp natively supports
+many data types common to other languages, such as numbers and text
+strings. CL also contains several compound data types such as lists,
+arrays, and hash tables. CL contains "
+	   (:emph "symbols")
+	   " as well, which typically are used as names for other data elements.")
+
+       (:p "Regarding data types, CL follows a paradigm called dynamic
+typing. Basically this means that values have type, but variables do
+not necessarily have type, and typically variables are not
+``pre-declared'' to be of a particular type.")
+
+       ((:subsection :title "Numbers")
+	(:p "As we have seen, numbers in CL are a native
+data type which simply evaluate to themselves when entered at the
+toplevel or included in an expression.")
+	(:p "Numbers in CL form a hierarchy of types, which includes Integers,
+Ratios, Floating Point, and Complex numbers. For many purposes, you
+only need to think of a value as a ``number'' without getting any more
+specific than that. Most arithmetic operations, such as "
+	    (:texttt "+")
+	    ", "
+	    (:texttt "-")
+	    ", "
+	    (:texttt "*")
+	    ", "
+	    (:texttt "/")
+	    " etc, will automaticaly do any necessary type coercion on their
+arguments and will return a number of the appropriate type.
+
+CL supports a full range of floating-point decimal numbers, as well as
+true Ratios, which means that "
+	    (:texttt "1/3")
+	    " is a true one-third, not "
+	    (:texttt "0.333333333")
+	    " rounded off at some arbitrary precision."))
+       ((:subsection :title "Strings")
+	(:p "Strings are actually a specialized kind of
+array, namely a one-dimensional array (vector) made up of text
+characters. These characters can be letters, numbers, or punctuation,
+and in some cases can include characters from international character
+sets (e.g. Unicode or UTF-8) such as Chinese Hanzi or Japanese
+Kanji. The string delimiter in CL is the double-quote character.")
+	(:p "As we have seen, strings in CL are a native data type which simply
+evaluate to themselves when included in an expression."))
+
+       ((:subsection :title "Symbols")
+
+	(:p "Symbols are such an important data structure in CL, that people
+sometimes refer to CL as a ``Symbolic Computing Language.'' Symbols
+are a type of CL object which provides your program with a built-in
+mechanism to store and retrieve values and functions, as well as being
+useful in their own right. A symbol is most often known by its name
+ (actually a string), but in fact there is much more to a symbol than
+its name. In addition to the name, symbols also contain a "
+	    (:emph "function")
+	    " slot, a "
+	    (:emph "value")
+	    " slot, and an open-ended "
+	    (:emph "property-list")
+	    " slot in which you can store an arbitrary number of named properties.")
+
+	(:p "For a named function such as "
+	    (:texttt "+")
+	    " the function-slot contains the actual function
+object for performing numeric addition. The value-slot of a symbol can
+contain any value, allowing the symbol to act as a global variable, or "
+	    (:emph "parameter")
+	    ". And the property-list, also known as the "
+	    (:emph "plist")
+	    " slot, can contain an arbitrary amount of information.")
+	(:p "This separation of the symbol data structure into function, value, and
+plist slots is one obvious distinction between Common Lisp and most
+other Lisp dialects. Most other dialects allow only one (1) ``thing''
+to be stored in the symbol data structure, other than its name
+ (e.g. either a function or a value, but not both at the same
+time). Because Common Lisp does not impose this restriction, it is not
+necessary to contrive names, for example for your variables, to avoid
+conflicting with existing ``reserved words'' in the system. For
+example, "
+	    (:texttt "list")
+	    " is the name of a built-in function in CL. But you
+may freely use "
+	    (:texttt "list")
+	    " as a variable name as well. There is no need to
+contrive arbitrary abbreviations such as "
+	    (:texttt "lst")
+	    ".")
+
+	(:p "How symbols are evaluated depends on where they occur in an
+expression. As we have seen, if a symbol appears first in a list
+expression, as with the "
+	    (:texttt "+")
+	    " in "
+	    (:texttt "(+ 2 2)")
+	    ", the symbol is evaluated for its function slot. If the first 
+element of an expression indeed has a function in its function slot, then any 
+subsequent symbol in the expression is taken as a variable, and it is evaluated 
+for its global or local value, depending on its scope (more on variables and 
+scope later).")
+	(:p "As noted in Section 3.1.3, if you want a literal symbol itself, one
+way to achieve this is to ``quote'' the symbol name:"
+	    (:verbatim "'a"))
+	(:p "Another way is for the symbol to appear within a quoted list expression, for example:"
+	    (:verbatim "'(a b c)")
+	    " or "
+	    (:verbatim "'(a (b c) d)"))
+	(:p "Note that the quote ("
+	    (:texttt "'")
+	    ") applies across everything in the list expression, including any sub- expressions."))
+
+       ((:subsection :title "Lists")
+	(:p "Lisp takes its name from its strong support for the list data
+structure. The list concept is important to CL for more than this
+reason alone --- most notably, lists are important because "
+	    (:emph "all CL programs are themselves lists."))
+	(:p " Having the list as a native data structure, as well as the form of all
+programs, means that it is straightforward for CL programs to compute
+and generate other CL programs. Likewise, CL programs can read and
+manipulate other CL programs in a natural manner. This cannot be said
+of most other languages, and is one of the primary distinguishing
+characteristics of Lisp as a language.")
+	(:p "Textually, a list is defined as zero or more elements surrounded by
+parentheses. The elements can be objects of any valid CL data types,
+such as numbers, strings, symbols, lists, or other kinds of
+objects. As we have seen, you must quote a literal list to evaluate it
+or CL will assume you are calling a function. Now look at the
+following list:"
+	    (:verbatim "(defun hello () (write-string \"Hello, World!\"))")
+	    "This list also happens to be a valid CL program (function definition,
+in this case). Don't worry about analyzing the function definition
+right now, but do take a few moments to convince yourself that it
+meets the requirements for a list.")
+
+	(:p "What are the types of the elements in this list?")
+
+	(:p "In addition to using the quote (') to produce a literal list, another
+way to produce a list is to call the function "
+	    (:texttt "list")
+	    ". The function "
+	    (:texttt "list")
+	    " takes any number of arguments, and returns a list made up
+from the result of evaluating each argument. As with all functions,
+the arguments to the "
+	    (:texttt "list")
+	    " function get evaluated, from left to right, before being
+processed by the function. For example:"
+	    (:verbatim "(list ’a ’b (+ 2 2))")
+	    "will return the list"
+	    (:verbatim "(a b 4)")
+	    ". The two quoted symbols evaluate to symbols, and the function
+call "
+	    (:texttt "(+ 2 2)")
+	    " evaluates to the number 4.")))))
+
+

@@ -36,3 +36,13 @@
 \contentsline {section}{\numberline {3.4}Customizing your Environment}{18}{section.3.4}
 \contentsline {section}{\numberline {3.5}Saving the World}{18}{section.3.5}
 \contentsline {section}{\numberline {3.6}Starting up a Saved World}{19}{section.3.6}
+\contentsline {chapter}{\numberline {4}Understanding Common Lisp}{21}{chapter.4}
+\contentsline {section}{\numberline {4.1}S-expression Fundamentals}{21}{section.4.1}
+\contentsline {section}{\numberline {4.2}Fundamental CL Data Types}{22}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Numbers}{22}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Strings}{22}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Symbols}{23}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Lists}{24}{subsection.4.2.4}
+\contentsline {chapter}{\numberline {5}Understanding Gendl}{25}{chapter.5}
+\contentsline {chapter}{\numberline {6}More Common Lisp for Gendl}{27}{chapter.6}
+\contentsline {chapter}{\numberline {7}Advanced Gendl}{29}{chapter.7}
