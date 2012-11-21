@@ -13,3 +13,25 @@
 \indexentry{gdl-user(1): |hyperpage}{9}
 \indexentry{*slime-repl...*|hyperpage}{9}
 \indexentry{regression tests|hyperpage}{11}
+\indexentry{objects!defining|hyperpage}{26}
+\indexentry{Define-object|hyperpage}{26}
+\indexentry{mixin-list|hyperpage}{26}
+\indexentry{specification-plist|hyperpage}{26}
+\indexentry{input-slots|hyperpage}{26}
+\indexentry{computed-slots|hyperpage}{26}
+\indexentry{objects|hyperpage}{26}
+\indexentry{functions|hyperpage}{26}
+\indexentry{the|hyperpage}{27}
+\indexentry{make-object|hyperpage}{27}
+\indexentry{make-instance|hyperpage}{27}
+\indexentry{the-object|hyperpage}{27}
+\indexentry{self|hyperpage}{27}
+\indexentry{objects|hyperpage}{28}
+\indexentry{containment!object|hyperpage}{28}
+\indexentry{objects!child|hyperpage}{28}
+\indexentry{objects!contained|hyperpage}{28}
+\indexentry{reference chains|hyperpage}{28}
+\indexentry{Objects!sequenced|hyperpage}{29}
+\indexentry{sequences|hyperpage}{29}
+\indexentry{object sequences|hyperpage}{29}
+\indexentry{:size|hyperpage}{29}

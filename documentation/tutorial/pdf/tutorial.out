@@ -40,6 +40,12 @@
 \BOOKMARK [2][-]{subsection.4.2.2}{Strings}{section.4.2}% 40
 \BOOKMARK [2][-]{subsection.4.2.3}{Symbols}{section.4.2}% 41
 \BOOKMARK [2][-]{subsection.4.2.4}{Lists}{section.4.2}% 42
-\BOOKMARK [0][-]{chapter.5}{Understanding Gendl}{}% 43
-\BOOKMARK [0][-]{chapter.6}{More Common Lisp for Gendl}{}% 44
-\BOOKMARK [0][-]{chapter.7}{Advanced Gendl}{}% 45
+\BOOKMARK [0][-]{chapter.5}{Understanding Gendl \204 Core GDL Syntax}{}% 43
+\BOOKMARK [1][-]{section.5.1}{Defining a Working Package}{chapter.5}% 44
+\BOOKMARK [1][-]{section.5.2}{Define-Object}{chapter.5}% 45
+\BOOKMARK [1][-]{section.5.3}{Making Instances and Sending Messages}{chapter.5}% 46
+\BOOKMARK [1][-]{section.5.4}{Objects}{chapter.5}% 47
+\BOOKMARK [1][-]{section.5.5}{Sequences of Objects and Input-slots with a Default Expression}{chapter.5}% 48
+\BOOKMARK [1][-]{section.5.6}{Summary}{chapter.5}% 49
+\BOOKMARK [0][-]{chapter.6}{More Common Lisp for Gendl}{}% 50
+\BOOKMARK [0][-]{chapter.7}{Advanced Gendl}{}% 51

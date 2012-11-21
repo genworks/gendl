@@ -1333,9 +1333,335 @@ call \texttt{(+ 2 2)} evaluates to the number 4.
 
 
 
-\chapter{Understanding Gendl}
+\chapter{Understanding Gendl --- Core GDL Syntax}
 
-\label{chap:understandinggendl}
+\label{chap:understandinggendl---coregdlsyntax}
+
+
+
+Now that you have a basic grasp of Common Lisp syntax (or, more accurately, \emph{lack} of syntax), we will jump directly into the Gendl framework. By using Gendl you can formulate most of 
+your engineering and computing problems in a natural way, without becoming bogged down in the complexity of
+the Common Lisp Object System (CLOS).
+
+
+
+The Gendl product is a commercially available KBE system
+dual-licensed under the Affero Gnu Public License and a Proprietary
+license. The core GDL language is a proposed standard for a
+vendor-neutral KBE language.
+
+
+
+As we mentioned in the previous chapter, Gendl is based on
+and is a superset of ANSI Common Lisp. Because ANSI CL is an
+unencumbered, open standard with several commercial and free
+implementations, it is a good bet that applications written in it will
+continue to function 50, 100, or even hundreds of years from now.
+
+
+
+Note that the historical name of Gendl was ``GDL,'' and this name persists throughout the product
+for example for naming Common Lisp packages.
+
+
+
+\section{Defining a Working Package}
+
+\label{sec:definingaworkingpackage}
+
+
+
+In Common Lisp, \emph{packages} are a mechanism to separate symbols into
+namespaces. Using packages it is possible to avoid naming collisions
+in large projects. Consider this analogy: in the United States,
+telephone numbers consist of a three-digit area code and a seven-digit
+number. The same seven-digit number can occur in two or more separate
+area codes, without causing a conflict.
+
+
+
+The macro \texttt{gdl:define-package}is used to set up a new working package in Gendl.
+
+
+
+Example:
+
+\begin{verbatim}(gdl:define-package :yoyodyne)
+\end{verbatim} will establish a new package called \texttt{:yoyodyne} which has all the Gendl operators available.
+
+
+
+The \texttt{:gdl-user} package is an empty, pre-defined package for your use if
+you do not wish to make a new package just for scratch work.
+
+
+
+For real projects it is recommended that you make and work in your own
+Gendl package, defined as above with \texttt{gdl:define-package}.
+
+
+
+\emph{Notes for advanced users:}Packages defined with \texttt{gdl:define-package} will implicitly \emph{use} the \texttt{:gdl} package and the \texttt{:common-lisp} package, so you will have access to all exported symbols
+  in these packages without prefixing them with their package name.
+
+  You may extend this behavior, by calling \texttt{gdl:define-package} and adding additional packages to use with \texttt{(:use ...)}.  For example, if  you want to work in a package with access to GDL operators,
+ Common Lisp operators, and symbols from the \texttt{:cl-json} package \footnote{CL-JSON is a free third-party library for handling JSON format, a common data format used 
+for Internet applications.}, you could set it up as follows:
+
+\begin{verbatim} (ql:quickload :cl-json)
+ (gdl:define-package :yoyodyne (:use :cl-json))
+\end{verbatim}. the first form ensures that the cl-json code module is actually  fetched and loaded. The second form
+defines a package with the \texttt{:cl-json} operators available to it.
+
+
+
+\section{Define-Object}
+
+\label{sec:define-object}
+
+\index{objects!defining}\emph{\index{Define-object}Define-object} is the basic macro for defining objects in GDL. An object 
+definition maps directly into a Lisp (CLOS) class definition. 
+
+The \texttt{define-object} macro takes three basic arguments:
+
+\begin{itemize}
+
+\item a \emph{name}, which is a symbol;
+
+\item a \emph{\index{mixin-list}mixin-list}, which is a list of symbols naming other objects from which the current object 
+will inherit characteristics;
+
+\item a \emph{\index{specification-plist}specification-plist}, which is spliced in (i.e.\ doesn't have its own surrounding 
+parentheses) after the mixin-list, and describes
+the object model by specifying properties of the object (messages, contained objects, etc.)
+The specification-plist typically makes up the bulk of the object definition.
+
+\end{itemize}
+
+
+
+Here are descriptions of the most common keywords making up the specification-plist:
+
+\begin{description}
+
+\item [\index{input-slots}input-slots]
+specify information to be passed into the object instance when it is created.
+
+\item [\index{computed-slots}computed-slots]
+are really cached methods, with expressions to compute and return a value.
+
+\item [\index{objects}objects]
+specify other instances to be ``contained'' within this instance.
+
+\item [\index{functions}functions]
+are (uncached) functions ``of'' the object, i.e.\ they are actually methods which
+discriminate on their first argument, which is the object instance upon which they are operating. 
+GDL functions can also take other non-specialized arguments, just like a normal CL function.
+
+\end{description}
+
+Figure 
+\ref{fig:object-hello} shows a simple example, which contains two input-slots, \texttt{first-name} and \texttt{last-name}, and a single computed-slot, \texttt{greeting}.
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+
+\begin{verbatim}
+
+
+ (define-object hello ()
+   :input-slots (first-name last-name)
+
+   :computed-slots 
+   ((greeting (format nil "Hello, ~a ~a!!" 
+                     (the first-name) 
+                     (the last-name)))))
+
+\end{verbatim}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example of Simple Object Definition}
+
+\label{fig:object-hello}
+
+\end{figure}
+As you can see, a GDL Object is analogous in some ways to a \texttt{defun}, where the input-slots are like arguments to the function, and the computed-slots
+are like return-values. But seen another way, each attribute in a GDL object is like a function in its own right.
+
+The referencing macro \texttt{\index{the}the} shadows CL's \texttt{the} (which is a seldom-used type declaration operator). \texttt{The} in GDL is a macro which is used to reference the value of other messages 
+within the same object or within contained objects. In the above example, we are using \texttt{the} to refer to the values of the messages (input-slots) named \texttt{first-name} and \texttt{last-name}. 
+
+Note that messages used with \texttt{the} are given as symbols. These symbols are unaffected by the current Lisp \texttt{*package*}, so they can be specified either as plain unquoted symbols or as keyword
+symbols (i.e.\ preceded by a colon), and the \texttt{the} macro will process them appropriately.
+
+\section{Making Instances and Sending Messages}
+
+\label{sec:makinginstancesandsendingmessages}
+
+Once we have defined an object such as the example above, we can use
+the constructor function \texttt{\index{make-object}make-object} in order to create an \emph{instance} of it. This function is very similar to the CLOS \texttt{\index{make-instance}make-instance} function. Here we create an instance of \texttt{hello} with specified values for \texttt{first-name} and \texttt{last-name} (the required input-slots), and assign this instance as the value of the symbol \texttt{my-instance}:
+
+\begin{verbatim}
+ GDL-USER(16): (setq my-instance
+                 (make-object 'hello :first-name "John" 
+                                     :last-name "Doe"))
+ #<HELLO @ #x218f39c2>
+\end{verbatim}As you can see, keyword symbols are used to ``tag'' the input values, and the return value is an instance of class \texttt{hello}. Now that we have an instance, we can use the macro \texttt{\index{the-object}the-object} to send messages to this instance:
+
+\begin{verbatim}
+ GDL-USER(17): (the-object my-instance greeting)
+ "Hello, John Doe!!"
+\end{verbatim}\texttt{The-object} is similar to \texttt{the}, but as its first argument it takes an expression which evaluates to an
+object instance. \texttt{The}, by contrast, assumes that the object instance is the lexical variable \texttt{\index{self}self}, which is automatically set within the lexical context of a \texttt{define-object}.
+
+Like \texttt{the}, \texttt{the-object} evaluates all but the first of its arguments as package-immune symbols,
+so although keyword symbols may be used, this is not a requirement, and plain,
+unquoted symbols will work just fine.
+
+For convenience, you can also set \texttt{self} manually at the CL Command Prompt, and use \texttt{the} instead of \texttt{the-object} for referencing:
+
+\begin{verbatim}
+ GDL-USER(18): (setq self 
+                 (make-object 'hello :first-name "John" 
+                                     :last-name "Doe"))
+ #<HELLO @ #x218f406a>
+
+ GDL-USER(19): (the greeting)
+ "Hello, John Doe!!"
+\end{verbatim}In actual fact, \texttt{(the ...)} simply expands into \texttt{(the-object self ...)}.
+
+\section{Objects}
+
+\label{sec:objects}
+
+\index{objects}\index{containment!object}\index{objects!child}\index{objects!contained}The \texttt{:objects} keyword specifies a list of ``contained'' instances,
+where each instance is considered to be a ``child'' object of the current
+object. Each child object is of a specified type, which itself must be defined
+with \texttt{define-object} before the child object can be instantiated.
+
+Inputs to each instance are specified as a plist of keywords and
+value expressions, spliced in after the object's name and type
+specification. These inputs must match the inputs protocol (i.e.\ the input-slots)
+of the object being instantiated. Figure 
+\ref{fig:object-city} shows an example of an object which contains some child objects.
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+
+\begin{verbatim}
+
+
+ (define-object city ()
+   :computed-slots
+   ((total-water-usage (+ (the hotel water-usage)
+                          (the bank water-usage))))
+   :objects
+   ((hotel :type 'hotel
+           :size :large)
+    (bank  :type 'bank
+           :size :medium)))
+
+\end{verbatim}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Object Containing Child Objects}
+
+\label{fig:object-city}
+
+\end{figure}
+In this example, \texttt{hotel} and \texttt{bank} are presumed to be already (or soon to be) defined as objects themselves, 
+which each answer the \texttt{water-usage} message. The \emph{\index{reference chains}reference chains}:
+
+\begin{verbatim}(the hotel water-usage)
+\end{verbatim} and 
+
+\begin{verbatim}(the bank water-usage)
+\end{verbatim} provide the mechanism to access messages within the child object instances.
+
+These child objects become instantiated \emph{on demand}, meaning that the first time these instances or any of their messages
+are referenced, the actual instance will be created \emph{and} cached for future reference.
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+
+\begin{verbatim}
+
+
+ (defparameter *presidents-data*
+     '((:name 
+        "Carter"
+        :term 1976)
+       (:name "Reagan"
+        :term 1980)
+       (:name "Bush"
+        :term 1988)
+       (:name "Clinton"
+        :term 1992)))
+       
+ (define-object presidents-container ()
+
+   :input-slots
+   ((data *presidents-data*))
+
+   :objects
+   ((presidents :type 'president
+                :sequence (:size (length (the data)))
+                :name (getf (nth (the-child index) (the data)) :name)
+                :term (getf (nth (the-child index) (the data)) :term))))
+
+\end{verbatim}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Sample Data and Object Definition to Contain U.S. Presidents}
+
+\label{fig:object-presidents-container}
+
+\end{figure}
+
+
+\section{Sequences of Objects and Input-slots with a Default Expression}
+
+\label{sec:sequencesofobjectsandinput-slotswithadefaultexpression}
+
+Objects may be \emph{sequenced}\index{Objects!sequenced}\index{sequences}\index{object sequences}, to specify, in effect, an array or list of object instances. The most
+common type of sequence is called a \emph{fixed size} sequence. See Figure 
+\ref{fig:object-presidents-container} for an example of an object which contains a sequenced set of 
+instances representing U.S. presidents. Each member of the sequenced set 
+is fed inputs from a list of plists, which simulates a relational database 
+table (essentially a ``list of rows'').
+        
+Note the following from this example:
+
+\begin{itemize}
+
+\item In order to sequence an object, the input keyword \texttt{:sequence} is added, with a list consisting of the keyword \texttt{\index{:size}:size} followed by an expression which must evaluate to a number.
+
+\item In the input-slots, \texttt{data} is specified together with a default expression. Used this way, 
+input-slots function as a hybrid of computed-slots and input-slots, allowing a \emph{default expression} as with computed-slots, but allowing a value to be passed in on 
+instantiation or from the parent, as with an input-slot which has no default expression. 
+A passed-in value will override the default expression.
+
+\end{itemize}
+
+
+
+\section{Summary}
+
+\label{sec:summary}
+
+This GDL syntax overview has been kept purposely brief, covering the fundamentals of the language
+in a dense manner. On one hand, it is not meant to be a comprehensive language reference; on the other
+hand, do not be concerned if you are still unsure about some of the terminology. The upcoming examples 
+will revisit and further expand many of the topics covered here, and at some point a coherent picture 
+should begin to emerge.
+
+At that point it will be like riding a bicycle, and there will be no going back.
 
 
 
