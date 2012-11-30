@@ -37,7 +37,9 @@
    (release-name-mapping '(("acl-8.2m-linux-x86" .  "gdl1581-linux")
 			   ("acl-8.2m-win-x86" .  "gdl1581-windows")
 			   ("acl-9.0m-linux-x86" .  "gdl1582-linux")
-			   ("acl-9.0m-win-x86" .  "gdl1582-windows")))
+			   ("acl-9.0m-win-x86" .  "gdl1582-windows")
+			   ("acl-9.0ms-win-x64" .  "gdl1582-win64smp")
+			   ))
 
    (os-name-mapping '(("win" . "windows")
 		      ("linux" . "linux")

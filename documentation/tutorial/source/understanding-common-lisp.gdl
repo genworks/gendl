@@ -282,3 +282,538 @@ call "
 	    " evaluates to the number 4.")))))
 
 
+
+#|
+
+3.2 The List as a Data Structure
+
+In this section we will present some of the fundamental native CL operators for manipulating
+
+lists as data structures. These include operators for doing things such as:28 CHAPTER 3. THE CL LANGUAGE
+
+1. ﬁnding the length of a list
+
+2. accessing particular members of a list
+
+3. appending multiple lists together to make a new list
+
+4. extracting elements from a list to make a new list
+
+3.2.1 Accessing the Elements of a List
+
+Common Lisp deﬁnes the accessor functions first through tenth as a means of accessing
+
+the ﬁrst ten elements in a list:
+
+CL-USER(5): (first ’(a b c))
+
+A
+
+CL-USER(6): (second ’(a b c))
+
+B
+
+CL-USER(7): (third ’(a b c))
+
+C
+
+For accessing elements in an arbitrary position in the list, you can use the function nth,
+
+which takes an integer and a list as its two arguments:
+
+CL-USER(8): (nth 0 ’(a b c))
+
+A
+
+CL-USER(9): (nth 1 ’(a b c))
+
+B
+
+CL-USER(10): (nth 2 ’(a b c))
+
+C
+
+CL-USER(11): (nth 12 ’(a b c d e f g h i j k l m n o p))
+
+M
+
+Note that nth starts its indexing at zero (0), so (nth 0 ...) is equivalent to (first ...),
+
+and (nth 1 ...) is equivalent to (second ...), etc.3.2. THE LIST AS A DATA STRUCTURE 29
+
+3.2.2 The “Rest” of the Story
+
+A very common operation in CL is to perform some operation on the first of a list, then
+
+perform the same operation on each first of the rest of the list, repeating the procedure
+
+until the end of the list, i.e. the Empty list, is reached. The function rest is very helpful
+
+in such cases:
+
+CL-USER(59): (rest ’(a b c))
+
+(B C)
+
+As you can see from this example, rest returns a list consisting of all but the first of its
+
+argument.
+
+3.2.3 The Empty List
+
+The symbol NIL is deﬁned by Common Lisp to be equivalent to the Empty List, (). NIL
+
+also has the interesting property that its value is itself, which means that it will always
+
+evaluate to itself, whether or not it is quoted. So NIL, ’NIL, and () all evaluate to the
+
+Empty List, whose default printed representation is NIL:
+
+CL-USER(14): nil
+
+NIL
+
+CL-USER(15): ’nil
+
+NIL
+
+CL-USER(16): ()
+
+NIL
+
+The function null can be used to test whether or not something is the Empty List:
+
+CL-USER(17): (null ’(a b c))
+
+NIL
+
+CL-USER(18): (null nil)
+
+T
+
+CL-USER(19): (null ())
+
+T
+
+As you may have deduced from the above examples, the symbol T is CL’s default representation for “true.” As with NIL, T evaluates to itself.
+
+3.2.4 Are You a List?
+
+To test whether or not a particular object is a list, CL provides the function listp. Like
+
+many other functions which end with the letter “p,” this function takes a single argument
+
+and checks whether it meets certain criteria (in this case, whether it qualiﬁes as a list).
+
+These predicate functions ending in the letter “p” will always return either T or NIL:30 CHAPTER 3. THE CL LANGUAGE
+
+CL-USER(20): (listp ’(pontiac cadillac chevrolet))
+
+T
+
+CL-USER(21): (listp 99)
+
+NIL
+
+CL-USER(22): (listp nil)
+
+T
+
+Note that (listp nil) returns T, since NIL is indeed a list (albeit the empty one).
+
+3.2.5 The conditional If
+
+Before continuing with a number of other basic list functions, we will cover the macro if,
+
+which allows simple conditionals. If takes three arguments, a test-form, a then-form, and
+
+an else-form. When an if form is evaluated, it ﬁrst evaluates its test-form. If the form
+
+returns non-NIL, it will evaluate the then-form, else it will evaluate the else-form. The
+
+nesting of multiple if expressions is possible, but not advised; later we will cover other
+
+constructs which are more appropriate for such cases.
+
+Here are some simple examples using the if operator:
+
+CL-USER(2): (if (> 3 4)
+
+"yes"
+
+"no")
+
+"no"
+
+CL-USER(3): (if (listp ’("Chicago" "Detroit" "Toronto"))
+
+"it is a list"
+
+"it ain’t a list")
+
+"it is a list"
+
+CL-USER(4): (if (listp 99)
+
+"it is a list"
+
+"it ain’t a list")
+
+"it ain’t a list"
+
+3.2.6 Length of a List
+
+Normally you can use the function length to get the number of elements in a list as an
+
+integer:
+
+CL-USER(5): (length ’(gm ford chrysler volkswagen))
+
+43.2. THE LIST AS A DATA STRUCTURE 31
+
+CL-USER(6): (length nil)
+
+0
+
+The length function, as with most of Common Lisp, can itself be implemented in CL. Here
+
+is a simpliﬁed version of an our-length function which illustrates how length might be
+
+implemented:
+
+(defun our-length (list)
+
+(if (null list)
+
+0
+
+(+ (our-length (rest list)) 1)))
+
+Note that the function uses the symbol list to name its argument, which is perfectly valid
+
+as we discussed in section 3.1.4.
+
+In English, this function says basically: “If the list is empty, its length is zero. Otherwise
+
+its length is one greater than the length of its rest.” As with many functions which operate
+
+on lists, this recursive deﬁnition is a natural way to express the length operation.
+
+3.2.7 Member of a List
+
+The member function will help you to determine whether a particular item is an element of
+
+a particular list. Like many similar functions, member uses eql to test for equality, which is
+
+one of the most basic equality functions in CL (see Section 3.8.4 for a discussion of equality
+
+in CL). Eql basically means the two objects must be the same symbol, integer, or actual
+
+object (i.e. the same address in memory).
+
+Member takes two arguments: an item and a list. If the item is not in the list, it returns
+
+NIL. Otherwise, it returns the rest of the list, starting from the found element:
+
+CL-USER(7): (member ’dallas ’(boston san-francisco portland))
+
+NIL
+
+CL-USER(8): (member ’san-francisco ’(boston san-francisco portland))
+
+(SAN-FRANCISCO PORTLAND)
+
+As with length, we could deﬁne member using a function deﬁnition which is very close to
+
+the English description of what the function is supposed to do
+
+3
+
+:
+
+(defun our-member (elem list)
+
+(if (null list)
+
+nil
+
+(if (eql elem (first list))
+
+list
+
+(our-member elem (rest list)))))
+
+3
+
+The use of the “nested” if statement in this example, while functionally correc
+
+
+In English, you might read this function to say “If the list is empty, return NIL. Otherwise,
+
+if the desired item is the same as the first of the list, return the entire list. Otherwise, do
+
+the same thing on the rest of the list.”
+
+Note that, for the purposes of any kind of logical operators, returning any non-NIL value
+
+is “as good as” returning T. So the possible return-values of the member function are as good
+
+as returning T or NIL as far as any logical operators are concerned.
+
+3.2.8 Getting Part of a List
+
+Subseq is a common function to use for returning a portion of a list (or actually any type
+
+of Sequence). Subseq takes at least two arguments, a list and an integer indicating the
+
+position to start from. It also takes an optional third argument, an integer indicating the
+
+position to stop. Note that the position indicated by this third argument is not included in
+
+the returned sub-list:
+
+CL-USER(9): (subseq ’(a b c d) 1 3)
+
+(B C)
+
+CL-USER(10): (subseq ’(a b c d) 1 2)
+
+(B)
+
+CL-USER(11): (subseq ’(a b c d) 1)
+
+(B C D)
+
+Note also that the optional third argument in eﬀect defaults to the length of the list.
+
+3.2.9 Appending Lists
+
+The function append takes any number of lists, and returns a new list which results from
+
+appending them together. Like many CL functions, append does not side-eﬀect, that is, it
+
+simply returns a new list as a return-value, but does not modify its arguments in any way:
+
+CL-USER(6): (setq my-slides ’(introduction welcome lists functions))
+
+(INTRODUCTION WELCOME LISTS FUNCTIONS)
+
+CL-USER(7): (append my-slides ’(numbers))
+
+(INTRODUCTION WELCOME LISTS FUNCTIONS NUMBERS)
+
+CL-USER(8): my-slides
+
+(INTRODUCTION WELCOME LISTS FUNCTIONS)
+
+CL-USER(9): (setq my-slides (append my-slides ’(numbers)))
+
+(INTRODUCTION WELCOME LISTS FUNCTIONS NUMBERS)
+
+CL-USER(10): my-slides
+
+(INTRODUCTION WELCOME LISTS FUNCTIONS NUMBERS)3.2. THE LIST AS A DATA STRUCTURE 33
+
+Note that the simple call to append does not aﬀect the variable my-slides. If we wish
+
+to modify the value of this variable, however, one way to do this is by using setq in
+
+combination with the call to append. Note also the use of setq directly at the toplevel with
+
+a new variable name. For testing and “hacking” at the command prompt, this is acceptable,
+
+but in a ﬁnished program all such global variables should really be formally declared with
+
+defparameter or defvar.
+
+3.2.10 Adding Elements to a List
+
+To add a single element to the front of a list, you can u
+
+
+3.2.10 Adding Elements to a List
+
+To add a single element to the front of a list, you can use the function cons:
+
+CL-USER(13): (cons ’a ’(b c d))
+
+(A B C D)
+
+Cons is actually the low-level primitive function upon which many of the other list-constructing
+
+functions are built. As you may have guessed, “cons” stands for “CONStruct,” as in “construct a list.” When you read or hear people talking about a CL program doing a lot of
+
+“consing,” they are referring to the program’s behavior of building a lot of list structures,
+
+many of which are transitory and will need to be “freed up” by the automatic memory
+
+management subsystem, or “garbage collector.”
+
+As with append, cons is non-destructive, meaning it does no side-eﬀecting (modiﬁcation)
+
+to its arguments.
+
+3.2.11 Removing Elements from a List
+
+The function remove takes two arguments, any item and a list, and returns a new list with
+
+all occurences of the item taken out of it:
+
+CL-USER(15): (setq data ’(1 2 3 1000 4))
+
+(1 2 3 1000 4)
+
+CL-USER(16): (remove 1000 data)
+
+(1 2 3 4)
+
+CL-USER(17): data
+
+(1 2 3 1000 4)
+
+CL-USER(18): (setq data (remove 1000 data))
+
+(1 2 3 4)
+
+CL-USER(19): data
+
+(1 2 3 4)
+
+Like append and cons, remove is non-destructive and so does not modify its arguments. As
+
+before, one way to achieve modiﬁcation with variables is to use setq.34 CHAPTER 3. THE CL LANGUAGE
+
+3.2.12 Sorting Lists
+
+The function sort will sort any sequence (including, of course, a list), based on comparing
+
+the elements of the sequence using any applicable comparison function, or predicate function.
+
+Because of eﬃciency reasons, the designers of CL made the decision to allow sort to modify
+
+(“recycle” the memory in) its sequence argument — so you must always “catch” the result
+
+of the sorting by doing something explicitly with the return-value:
+
+CL-USER(20): (setq data ’(1 3 5 7 2 4 6))
+
+(1 3 5 7 2 4 6)
+
+CL-USER(21): (setq data (sort data #’<))
+
+(1 2 3 4 5 6 7)
+
+CL-USER(22): (setq data (sort data #’>))
+
+(7 6 5 4 3 2 1)
+
+Notice that the comparison function must be a function which can take two arguments —
+
+any representative two elements in the given sequence — and compare them to give a T or
+
+NIL result. The “#’” notation is a shorthand way of retrieving the actual function object
+
+associated with a symbol or expression (in this case, the < or > symbol). We will cover more
+
+on this in Section 3.4.
+
+In the above examples, we simply reset the value of the variable data to the result of
+
+the sort, which is a common thing to do. If one wanted to retain the original pre-sorted
+
+sequence, a “safe” version of sort could be deﬁned as follows:
+
+(defun safe-sort (list predicate)
+
+(let ((new-list (copy-list list)))
+
+(sort new-list predicate)))
+
+3.2.13 Treating a List as a Set
+
+The functions union, intersection, and set-difference take two lists and compute the
+
+corresponding set operation. Because mathematical sets have no notion of ordering, the
+
+order of the results returned by these functions is purely arbitrary, so you should never
+
+depend on the results of these set operations being in any particular order:
+
+CL-USER(23): (union ’(1 2 3) ’(2 3 4))
+
+(1 2 3 4)
+
+CL-USER(25): (intersection ’(1 2 3) ’(2 3 4))
+
+(3 2)
+
+CL-USER(26): (set-difference ’(1 2 3 4) ’(2 3))
+
+(4 1)3.3. CONTROL OF EXECUTION 35
+
+3.2.14 Mapping a Function to a List
+
+If you have one list, and desire another list of the same length, there is a good chance that
+
+you can use one of the mapping functions. Mapcar is the most common of such functions.
+
+Mapcar takes a function and one or more lists, and maps the function across each element
+
+of the list, producing a new resulting list. The term car comes from the original way in
+
+Lisp of referring to the first of a list (“contents of address register”). Therefore mapcar
+
+takes its function and applies it to the first of each successive rest of the list:
+
+CL-USER(29): (defun twice (num)
+
+(* num 2))
+
+TWICE
+
+CL-USER(30): (mapcar #’twice ’(1 2 3 4))
+
+(2 4 6 8)
+
+“Lambda” (unnamed) functions are used very frequently with mapcar and similar mapping
+
+functions. More on this in Section 3.4.3.
+
+3.2.15 Property Lists
+
+Property lists (“plists”) provide a simple yet powerful way to handle keyword-value pairs.
+
+A plist is simply a list, with an even number of elements, where each pair of elements
+
+represents a named value. Here is an example of a plist:
+
+(:michigan "Lansing" :illinois "Springfield"
+
+:pennsylvania "Harrisburg")
+
+In this plist, the keys are keyword symbols, and the values are strings. The keys in a plist
+
+are very often keyword symbols. keyword symbols are symbols whose names are preceded by
+
+a colon (:), and which are generally used just for matching the symbol itself (i.e. typically
+
+they are not used for their symbol-value or symbol-function).
+
+For accessing members of a plist, CL provides the function getf, which takes a plist
+
+and a Key:
+
+CL-USER(34): (getf ’(:michigan "Lansing"
+
+:illinois "Springfield"
+
+:pennsylvania "Harrisburg")
+
+:illinois)
+
+"Springfield"
+
+3.3 Control of E
+
+
+|#

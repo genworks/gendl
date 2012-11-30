@@ -9,8 +9,8 @@
   :serial
   t
   :version
-  "2012111900"
+  "2012112900"
   :depends-on
-  nil
+  (:gdl-gwl-graphics)
   :components
   ((:file "source/package") (:file "source/assembly")))

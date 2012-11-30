@@ -48,6 +48,7 @@ return: ~a"
 	(or (and gs-path (probe-file gs-path))
 	    (if (featurep :mswindows)
 		(or (probe-file (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
+		    (probe-file (merge-pathnames "c:/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
 		    (probe-file (merge-pathnames "../gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*)))
 		(or (probe-file #p"~/bin/gs")
 		    (probe-file #p"/usr/local/bin/gs")
