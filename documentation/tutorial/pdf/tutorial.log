@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/MacPorts 2011_5) (format=pdflatex 2012.4.16)  26 NOV 2012 19:04
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/MacPorts 2011_5) (format=pdflatex 2012.4.16)  13 DEC 2012 16:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -369,7 +369,7 @@ Chapter 1.
 
 ]
 Chapter 2.
-<../images/gendl-installation.png, id=319, 127.40933pt x 70.12866pt>
+<../images/gendl-installation.png, id=350, 127.40933pt x 70.12866pt>
 File: ../images/gendl-installation.png Graphic file (type png)
 
 <use ../images/gendl-installation.png>
@@ -383,14 +383,14 @@ man-ager, right-mouse on the \OT1/cmtt/m/n/10.95 run-gdl.bat
  []
 
 [6 <../images/gendl-installation.png>]
-<../images/mini-buffer.png, id=348, 687.56876pt x 613.29124pt>
+<../images/mini-buffer.png, id=378, 687.56876pt x 613.29124pt>
 File: ../images/mini-buffer.png Graphic file (type png)
 
 <use ../images/mini-buffer.png>
 Package pdftex.def Info: ../images/mini-buffer.png used on input line 401.
 (pdftex.def)             Requested size: 216.80562pt x 216.8075pt.
 
-<../images/genworks-gendl-console.png, id=350, 318.52333pt x 212.52733pt>
+<../images/genworks-gendl-console.png, id=380, 318.52333pt x 212.52733pt>
 File: ../images/genworks-gendl-console.png Graphic file (type png)
 
 <use ../images/genworks-gendl-console.png>
@@ -409,14 +409,14 @@ Overfull \hbox (16.66708pt too wide) in paragraph at lines 457--458
 ys-tem, type: \OT1/cmtt/m/n/10.95 (ql:quickload :genworks-gdl)
  []
 
-<../images/tasty-robot.png, id=370, 542.29266pt x 441.11467pt>
+<../images/tasty-robot.png, id=400, 542.29266pt x 441.11467pt>
 File: ../images/tasty-robot.png Graphic file (type png)
 
 <use ../images/tasty-robot.png>
 Package pdftex.def Info: ../images/tasty-robot.png used on input line 494.
 (pdftex.def)             Requested size: 216.81392pt x 216.8077pt.
 
-<../images/tasty-robot-x3dom.png, id=371, 543.36333pt x 440.044pt>
+<../images/tasty-robot-x3dom.png, id=401, 543.36333pt x 440.044pt>
 File: ../images/tasty-robot-x3dom.png Graphic file (type png)
 
 <use ../images/tasty-robot-x3dom.png>
@@ -479,98 +479,147 @@ Overfull \hbox (19.1884pt too wide) in paragraph at lines 922--926
 -tem file, cre-ate a file called \OT1/cmtt/m/n/10.95 depends-on.isc
  []
 
-[17] [18]
-! Undefined control sequence.
-l.1042 \textt
-             {"program/"} directory.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-[19] [20
+[17] [18] [19] [20
 
 ]
 Chapter 4.
+[21] [22]
+Overfull \hbox (28.99066pt too wide) in paragraph at lines 1258--1258
+[] \OT1/cmtt/m/n/10 gdl-user> (format nil "The time is: ~a" (iso-8601-date (get
+-universal-time) :include-time? t))[] 
+ []
 
-! LaTeX Error: Something's wrong--perhaps a missing \item.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1098 \end{itemize}
-                    
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+LaTeX Warning: Reference `sec:input-output' on page 23 undefined on input line 
+1269.
 
-[21] [22] [23]
+
+LaTeX Warning: Reference `chapter:understandinggendlcoregdlsyntax' on page 23 u
+ndefined on input line 1270.
+
+[23] [24]
 Missing character: There is no â in font cmtt10!
 Missing character: There is no € in font cmtt10!
 Missing character: There is no ™ in font cmtt10!
 Missing character: There is no â in font cmtt10!
 Missing character: There is no € in font cmtt10!
 Missing character: There is no ™ in font cmtt10!
- [24]
+ [25] [26]
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+ [27] [28
+
+]
 Chapter 5.
-[25
-
-]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 1483--1484
+[29]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 1654--1655
 [][] 
  []
 
-[26] [27]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 1569--1570
+[30] [31]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 1740--1741
 [][] 
  []
 
-[28]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 1619--1620
+[32]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 1790--1791
 [][] 
  []
 
-[29] [30]
+[33] [34]
 Chapter 6.
-[31
 
-] [32
+LaTeX Warning: Reference `chap:userinterfacesingendl' on page 35 undefined on i
+nput line 1851.
 
-]
+
+LaTeX Warning: Reference `compiling-and-loading-files-and-systems' on page 35 u
+ndefined on input line 1871.
+
+
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 1892--1893
+[][] 
+ []
+
+
+LaTeX Warning: Reference `fig:tower1-code' on page 35 undefined on input line 1
+906.
+
+[35
+
+] <../images/tasty-start.png, id=627, 354.39067pt x 221.09267pt>
+File: ../images/tasty-start.png Graphic file (type png)
+
+<use ../images/tasty-start.png>
+Package pdftex.def Info: ../images/tasty-start.png used on input line 1914.
+(pdftex.def)             Requested size: 354.3898pt x 221.09212pt.
+
+<../images/tasty-shock-absorber-pre.pdf, id=629, 845.1575pt x 597.23125pt>
+File: ../images/tasty-shock-absorber-pre.pdf Graphic file (type pdf)
+
+<use ../images/tasty-shock-absorber-pre.pdf>
+Package pdftex.def Info: ../images/tasty-shock-absorber-pre.pdf used on input l
+ine 1947.
+(pdftex.def)             Requested size: 289.07782pt x 289.08269pt.
+ [36 <../images/tasty-start.png>]
+[37 <../images/tasty-shock-absorber-pre.pdf, page is rotated 90 degrees>]
+! Misplaced alignment tab character &.
+l.2021 \item Tree: Inspect &
+                             debug modes
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+[38] [39]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 2338--2339
+[][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 81.01605pt on input line 2344.
+
+[40] [41] [42]
 Chapter 7.
-[33] [34
+[43
+
+] [44
+
+]
+Chapter 8.
+[45] [46
+
+]
+Chapter 9.
+[47] [48
 
 ]
 
-LaTeX Warning: Reference `subsec:usingquicklisp' on page 35 undefined on input 
-line 1700.
-
-! Undefined control sequence.
-l.1711 \textt
-             {"3rdpty/"} directory are no longer needed or available. Instea...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+LaTeX Warning: Reference `subsec:usingquicklisp' on page 49 undefined on input 
+line 2432.
 
 
-LaTeX Warning: Reference `subsec:usingquicklisp' on page 35 undefined on input 
-line 1713.
+LaTeX Warning: Reference `subsec:usingquicklisp' on page 49 undefined on input 
+line 2444.
 
-[35] [36] (./tutorial.ind [37
+[49] [50] (./tutorial.ind [51
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1753.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1753.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2484.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2484.
  (./tutorial.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1753.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1753.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2484.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2484.
 
 Package rerunfilecheck Info: File `tutorial.out' has not changed.
-(rerunfilecheck)             Checksum: 4777542610533A3AB54CD2C5CE0EDB42;3706.
+(rerunfilecheck)             Checksum: 37566B0DE0CF811C065C9FBB30C15383;4126.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -578,16 +627,16 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1753.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2484.
  ) 
 Here is how much of TeX's memory you used:
- 6047 strings out of 494770
- 91107 string characters out of 3171573
- 170817 words of memory out of 3000000
- 9016 multiletter control sequences out of 15000+200000
- 12647 words of font info for 44 fonts, out of 3000000 for 9000
+ 6118 strings out of 494770
+ 92432 string characters out of 3171573
+ 174607 words of memory out of 3000000
+ 9050 multiletter control sequences out of 15000+200000
+ 12815 words of font info for 45 fonts, out of 3000000 for 9000
  134 hyphenation exceptions out of 8191
- 29i,8n,28p,455b,526s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,8n,28p,455b,565s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/opt/local/share/texmf-texlive-dist/fonts/enc/dvips/cm-super/cm-super-ts1.en
 c}</opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbx10.pf
 b></opt/local/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmbx12.pf
@@ -605,10 +654,10 @@ ocal/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></opt/l
 ocal/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></opt/lo
 cal/share/texmf-texlive-dist/fonts/type1/public/cm-super/sfrm0900.pfb></opt/loc
 al/share/texmf-texlive-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on tutorial.pdf (41 pages, 457673 bytes).
+Output written on tutorial.pdf (55 pages, 682110 bytes).
 PDF statistics:
- 725 PDF objects out of 1000 (max. 8388607)
- 653 compressed objects within 7 object streams
- 192 named destinations out of 1000 (max. 500000)
- 434 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 852 PDF objects out of 1000 (max. 8388607)
+ 760 compressed objects within 8 object streams
+ 227 named destinations out of 1000 (max. 500000)
+ 492 words of extra memory for PDF output out of 10000 (max. 10000000)
 

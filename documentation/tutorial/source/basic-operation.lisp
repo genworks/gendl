@@ -413,7 +413,7 @@ modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For examp
 	(:item "Move the custom saved dxl image to "
 	  (:texttt "gdl.dxl")
 	  " in the Gendl application "
-	  (:textt "\"program/\"")
+	  (:texttt "\"program/\"")
 	  " directory.")
 	(:item "Start Gendl as usual. Note: you may have to edit the system gdlinit.cl or your home gdlinit.cl
 to stop it from loading redundant code which is already in the saved image.")))))

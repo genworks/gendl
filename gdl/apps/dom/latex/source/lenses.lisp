@@ -170,17 +170,20 @@
        (dolist (element (list-elements (the :elements)))
 	 (write-env "{") (write-the-object element (base)) (write-env "}")))
       
+
       (otherwise 
        (when (eql (the :markup-tag) :verbatim)
 	 (write-env (:newline-out) (:newline-out)))
        (let ((markup-tag (case (the :markup-tag)
 			   (:indexed :index)
 			   (:verbatim "begin{verbatim}")
+			   (:small "{\\small")
 			   (otherwise (the :markup-tag)))))
 	 (when (not (member (the :markup-tag) (list :verbatim :footnote :emph :indexed :index :texttt)))
 	   (write-env (:newline-out)))
-	 (write-env "\\" (:a (string-downcase markup-tag)))
-	 (when (not (eql (the :markup-tag) :verbatim))
+	 (when (not (eql (the markup-tag) :small)) (write-env "\\"))
+	 (write-env (:a (string-downcase markup-tag)))
+	 (when (not (member (the :markup-tag) '(:verbatim :small)))
 	   (write-env "{")))
        (dolist (element (list-elements (the :elements)))
 	 (write-the-object element (base :escape-strings? (not (eql (the :markup-tag) :verbatim)))))

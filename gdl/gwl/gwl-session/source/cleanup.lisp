@@ -98,7 +98,10 @@ the object hierarchy rooted at the instance, as well as all associated published
   
   (setq base-url (when base-url (subseq base-url 0 (- (length base-url) (length "index.html")))))
   
-  (when *debug?* (print-variables  id base-url))
+  ;;(when *debug?* (print-variables  id base-url))
+  ;; FLAG DEBUG
+  (when t (print-variables  id base-url))
+
   (let ((urls (gethash id *url-hash-table*)) remaining-urls)
     (mapc #'(lambda(url) 
               
@@ -110,6 +113,12 @@ the object hierarchy rooted at the instance, as well as all associated published
                     ;; FLAG figure out what to do for proxy locators
                     ;;
                     (unless (typep (first (wserver-locators *wserver*)) 'net.aserve::locator-proxy)
+		      
+		      ;;
+		      ;;FLAG DEBUG
+		      ;;
+		      (let ((url-to-unpub url)) (print-variables url-to-unpub))
+
                       (net.aserve::unpublish-entity (first (wserver-locators *wserver*))
                                                     url nil nil)))
                 (push url remaining-urls))) urls)
@@ -117,6 +126,11 @@ the object hierarchy rooted at the instance, as well as all associated published
       (remhash id *url-hash-table*))))
    
 
+;;
+;; !!!!
+;; !!!! FLAG -- also remove all urls from *descriptive-url-hash* and *url-hash-table*
+;; !!!!
+;;
 (defun clear-instance-from-hash (id)
   (when (not (keywordp id))
     (setq id (make-keyword id)))

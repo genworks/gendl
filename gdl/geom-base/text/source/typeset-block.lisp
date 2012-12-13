@@ -129,7 +129,6 @@ than this default, the content will be cropped."
   :output-functions
   ((cad-output
     ()
-    (print-messages start)
     (with-format-slots (view)
       (let ((view-scale (if view (the-object view view-scale-total) 1))
             (start 

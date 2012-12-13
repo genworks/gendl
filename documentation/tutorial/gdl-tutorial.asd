@@ -9,7 +9,7 @@
   :serial
   t
   :version
-  "2012112000"
+  "2012121300"
   :depends-on
   (:gdl-dom)
   :components
@@ -19,4 +19,6 @@
    (:gdl "source/understanding-common-lisp")
    (:gdl "source/understanding-gendl")
    (:gdl "source/advanced-common-lisp")
-   (:gdl "source/advanced-gendl") (:file "source/assembly")))
+   (:gdl "source/advanced-gendl") (:file "source/assembly")
+   (:file "source/gendl-geometry")
+   (:file "source/tasty-environment")))

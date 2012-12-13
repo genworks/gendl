@@ -42,7 +42,7 @@ implementations, it is a good bet that applications written in it will
 continue to function 50, 100, or even hundreds of years from now.")
 
       (:p "Note that the historical name of Gendl was ``GDL,'' and this name persists throughout the product
-for example for naming Common Lisp packages.")
+for example appearing occasionally in documentation for naming Common Lisp packages.")
 
       ((:section :title "Defining a Working Package")
        
@@ -387,13 +387,8 @@ instantiation or from the parent, as with an input-slot which has no default exp
 A passed-in value will override the default expression.")))
 
       ((:section :title "Summary")
-       "This GDL syntax overview has been kept purposely brief, covering the fundamentals of the language
-in a dense manner. On one hand, it is not meant to be a comprehensive language reference; on the other
-hand, do not be concerned if you are still unsure about some of the terminology. The upcoming examples 
-will revisit and further expand many of the topics covered here, and at some point a coherent picture 
-should begin to emerge.
-
-At that point it will be like riding a bicycle, and there will be no going back.
-
-")))
+       "This chapter has provided a minimal introduction to the core
+Gendl syntax. In subsequent chapters we will cover more specialized
+aspects of the Gendl language, introducing new Common Lisp concepts as
+they are required along the way.")))
 

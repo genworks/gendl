@@ -51,7 +51,7 @@ have not received information on the Enterprise Edition, please
 contact support@genworks.com")
        
        (:item "(register-asdf-systems) and the "
-	 (:textt "\"3rdpty/\"")
+	 (:texttt "\"3rdpty/\"")
 	 " directory are no longer needed or available. Instead, we depend on the Quicklisp
 system. Details of Quicklisp are available at "
 	 (:href "http://www.quicklisp.org")

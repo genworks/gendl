@@ -209,24 +209,21 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
     (unless (or *curve-tessellation?*
                 (zerop (the total-length)))
       (if (typep self 'arc-curve)
-          (progn
-            (format *trace-output* 
-                    "We have an arc-curve, using simple rendering.~%")
-            (call-next-method))
-        (if (= (the decomposed curves number-of-elements) 1)
-            (unless (and (= (the degree) 1) (not (the rational?)))
-              (when (list-elements (the beziers))
-                (let (result)
-                  (dolist (bezier 
+	  (call-next-method)
+	  (if (= (the decomposed curves number-of-elements) 1)
+	      (unless (and (= (the degree) 1) (not (the rational?)))
+		(when (list-elements (the beziers))
+		  (let (result)
+		    (dolist (bezier 
                               (if t ;;*chain-beziers-for-display?*
                                   (chain-nurbs-curves (list-elements (the beziers)))
-                                (list-elements (the beziers)))
-                            result)
-                    (if (null result)
-                        (setq result (the-object bezier %curves-to-draw%))
-                      (nconc result (the-object bezier %curves-to-draw%)))))))
-          (append-elements (the decomposed curves) 
-                           (the-element %curves-to-draw%))))))
+				  (list-elements (the beziers)))
+			     result)
+		      (if (null result)
+			  (setq result (the-object bezier %curves-to-draw%))
+			  (nconc result (the-object bezier %curves-to-draw%)))))))
+	      (append-elements (the decomposed curves) 
+			       (the-element %curves-to-draw%))))))
    
    
 

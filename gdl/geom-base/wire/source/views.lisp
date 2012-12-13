@@ -88,7 +88,6 @@
            (dash-pattern (or dash-pattern (the dash-pattern))))
       
       (when dash-pattern
-        (format t "We have a dash pattern of: ~a~%" dash-pattern)
         (pdf:set-dash-pattern (list (first dash-pattern) (second dash-pattern))
                               (or (third dash-pattern) 0)))))
 

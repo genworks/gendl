@@ -1,7 +1,7 @@
 \begin{theindex}
 
   \item *slime-repl...*, \hyperpage{9}
-  \item :size, \hyperpage{29}
+  \item :size, \hyperpage{33}
 
   \indexspace
 
@@ -13,19 +13,19 @@
   \item Common Lisp, \hyperpage{2}
   \item compiled language
     \subitem benefits of, \hyperpage{2}
-  \item computed-slots, \hyperpage{26}
+  \item computed-slots, \hyperpage{30}
   \item containment
-    \subitem object, \hyperpage{28}
+    \subitem object, \hyperpage{32}
 
   \indexspace
 
   \item declarative, \hyperpage{2}
-  \item Define-object, \hyperpage{26}
+  \item Define-object, \hyperpage{30}
   \item Dependency tracking, \hyperpage{1}
 
   \indexspace
 
-  \item functions, \hyperpage{26}
+  \item functions, \hyperpage{30}
 
   \indexspace
 
@@ -35,7 +35,7 @@
   \indexspace
 
   \item Ignorance-based Engineering, \hyperpage{1}
-  \item input-slots, \hyperpage{26}
+  \item input-slots, \hyperpage{30}
 
   \indexspace
 
@@ -45,37 +45,37 @@
 
   \item macros
     \subitem code-expanding, \hyperpage{2}
-  \item make-instance, \hyperpage{27}
-  \item make-object, \hyperpage{27}
-  \item mixin-list, \hyperpage{26}
+  \item make-instance, \hyperpage{31}
+  \item make-object, \hyperpage{31}
+  \item mixin-list, \hyperpage{30}
 
   \indexspace
 
-  \item object sequences, \hyperpage{29}
+  \item object sequences, \hyperpage{33}
   \item object-orientation
     \subitem generic-function, \hyperpage{2}
     \subitem message-passing, \hyperpage{2}
   \item Objects
-    \subitem sequenced, \hyperpage{29}
-  \item objects, \hyperpage{26}, \hyperpage{28}
-    \subitem child, \hyperpage{28}
-    \subitem contained, \hyperpage{28}
-    \subitem defining, \hyperpage{26}
+    \subitem sequenced, \hyperpage{33}
+  \item objects, \hyperpage{30}, \hyperpage{32}
+    \subitem child, \hyperpage{32}
+    \subitem contained, \hyperpage{32}
+    \subitem defining, \hyperpage{30}
 
   \indexspace
 
-  \item reference chains, \hyperpage{28}
+  \item reference chains, \hyperpage{32}
   \item regression tests, \hyperpage{11}
 
   \indexspace
 
-  \item self, \hyperpage{27}
-  \item sequences, \hyperpage{29}
-  \item specification-plist, \hyperpage{26}
+  \item self, \hyperpage{31}
+  \item sequences, \hyperpage{33}
+  \item specification-plist, \hyperpage{30}
 
   \indexspace
 
-  \item the, \hyperpage{27}
-  \item the-object, \hyperpage{27}
+  \item the, \hyperpage{31}
+  \item the-object, \hyperpage{31}
 
 \end{theindex}

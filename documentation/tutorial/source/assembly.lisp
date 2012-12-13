@@ -51,6 +51,8 @@ written consent from Genworks International.")
       ,*basic-operation*
       ,*understanding-common-lisp*
       ,*understanding-gendl*
+      ,*tasty-environment*
+      ,*gendl-geometry*
       ,*advanced-common-lisp*
       ,*advanced-gendl*
       ,*upgrade-notes*

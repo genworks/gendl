@@ -177,12 +177,10 @@ the browser in development mode). Defaults to NIL (the empty list)."
                                                                   (the instance-id)) 
                                        :header-plist (the header-plist)
                                        :fixed-prefix (the fixed-url-prefix))))
-          (push url (gethash (make-keyword (the instance-id)) *url-hash-table*))
+          (pushnew url (gethash (make-keyword (the instance-id)) *url-hash-table*) :test #'string-equal)
           
           (setf (gethash url *descriptive-url-hash*) (the root-path))
           (when *debug?* (print-variables url))
-
-          
           
           url))
    

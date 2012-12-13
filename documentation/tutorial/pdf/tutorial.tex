@@ -1038,8 +1038,7 @@ In order to start up Gendl using a custom saved image, or ``world,'' follow thes
 
 \item Copy the supplied \texttt{gdl.dxl} to \texttt{gdl-orig.dxl}.
 
-\item Move the custom saved dxl image to \texttt{gdl.dxl} in the Gendl application 
-\textt{"program/"} directory.
+\item Move the custom saved dxl image to \texttt{gdl.dxl} in the Gendl application \texttt{"program/"} directory.
 
 \item Start Gendl as usual. Note: you may have to edit the system gdlinit.cl or your home gdlinit.cl
 to stop it from loading redundant code which is already in the saved image.
@@ -1094,6 +1093,42 @@ processes the expression according to the following rules:
 string, or literal symbol), it simply evaluates to itself. Examples: 
 
 \begin{itemize}
+
+\item 
+
+\begin{verbatim}gdl-user> 99
+99
+\end{verbatim}
+
+\item 
+
+\begin{verbatim}gdl-user> 99.9
+99.9
+\end{verbatim}
+
+\item 
+
+\begin{verbatim}gdl-user> 3/5
+3/5
+\end{verbatim}
+
+\item 
+
+\begin{verbatim}gdl-user> "Bob"
+"Bob"
+\end{verbatim}
+
+\item 
+
+\begin{verbatim}gdl-user> "Our golden rule is simplicity"
+"Our golden rule is simplicity"
+\end{verbatim}
+
+\item 
+
+\begin{verbatim}gdl-user> 'my-symbol
+my-symbol
+\end{verbatim}
 
 \end{itemize}
 
@@ -1210,6 +1245,32 @@ evaluate to themselves when included in an expression.
 
 
 
+A common way to produce a string in CL is with the \texttt{format} function. Although the \texttt{format} function can be used to send output to any kind of destination, or \emph{stream}, it will simply yield a string if you specify \texttt{nil} for the stream. Example: 
+{\small
+
+\begin{verbatim}
+ gdl-user> (format nil "The time is: ~a" (get-universal-time))
+ "The time is: 3564156603"
+ gdl-user> (format nil "The time is: ~a" (iso-8601-date (get-universal-time)))
+ "The time is: 2012-12-10"
+ gdl-user> (format nil "The time is: ~a" (iso-8601-date (get-universal-time) :include-time? t))
+ "The time is: 2012-12-10T14:30:17"
+\end{verbatim}}
+
+
+
+As you can see from the above example, \texttt{format} takes a \emph{stream designator} or \texttt{nil} as its first argument, then a \emph{format-string}, then enough arguments to match the \emph{format directives} in the format-string. Format directives begin with the
+tilde character (~).  The format-directive \texttt{~a} indicates that the printed representation of the corresonding argument should simpy be 
+substituted into the format-string at the point where it occurs.
+
+
+
+We will cover more details on \texttt{format} in Section 
+\ref{sec:input-output} on Input/Output, but for now, a familiarity with the simple use of \texttt{(format nil ...} will be helpful for Chapter 
+\ref{chapter:understandinggendlcoregdlsyntax}.
+
+
+
 \subsection{Symbols}
 
 \label{subsec:symbols}
@@ -1278,9 +1339,9 @@ Note that the quote (\texttt{'}) applies across everything in the list expressio
 
 
 
-\subsection{Lists}
+\subsection{List Basics}
 
-\label{subsec:lists}
+\label{subsec:listbasics}
 
 
 
@@ -1328,10 +1389,120 @@ processed by the function. For example:
 \end{verbatim}will return the list
 
 \begin{verbatim}(a b 4)
-\end{verbatim}. The two quoted symbols evaluate to symbols, and the function
+\end{verbatim}The two quoted symbols evaluate to symbols, and the function
 call \texttt{(+ 2 2)} evaluates to the number 4.
 
 
+
+\subsection{The List as a Data Structure}
+
+\label{subsec:thelistasadatastructure}
+
+In this section we will present a few of the fundamental native CL operators for manipulating
+lists as data structures. These include operators for doing things such as:
+
+\begin{enumerate}
+
+\item finding the length of a list
+
+\item accessing particular members of a list
+
+\item appending multiple lists together to make a new list
+
+\end{enumerate}
+
+
+
+\subsubsection{Finding the Length of a List}
+
+\label{subsubsec:findingthelengthofalist}
+
+The function \texttt{length} will return the length of any type of sequence, including a list:
+
+\begin{verbatim}gdl-user> (length '(a b c d e f g h i j)
+10
+gdl-user> (length nil)
+0
+\end{verbatim}Note that \texttt{nil} qualifies as a list (albeit the empty list), so taking its length yields the integer \texttt{0}.
+
+\subsubsection{Accessing the Elements of a List}
+
+\label{subsubsec:accessingtheelementsofalist}
+
+Common Lisp defines the accessor functions \texttt{first} through \texttt{tenth} as a means of accessing the first ten elements in a list:
+
+\begin{verbatim}
+gdl-user> (first '(a b c))
+
+a
+
+gdl-user> (second '(a b c))
+
+b
+
+gdl-user> (third '(a b c))
+
+c
+\end{verbatim}For accessing elements in an arbitrary position in the list, you can use the function nth,
+which takes an integer and a list as its two arguments:
+
+\begin{verbatim}
+
+gdl-user> (nth 0 '(a b c))
+
+a
+
+gdl-user> (nth 1 '(a b c))
+
+b
+
+gdl-user> (nth 2 '(a b c))
+
+c
+\end{verbatim}Note that nth starts its indexing at zero (0), so \texttt{(nth 0 ...)} is equivalent to \texttt{(first ...)}and \texttt{(nth 1 ...)} is equivalent to \texttt{(second ...)}, etc.
+
+\subsubsection{Using a List to Store and Retrieve Named Values}
+
+\label{subsubsec:usingalisttostoreandretrievenamedvalues}
+
+Lists can also be used to store and retrieve named values. When a list is used in this way, 
+it is called a \emph{plist}. Plists contain pairs of elements, where each pair consists of a \emph{key} and some \emph{value}. The key is typically an actual keyword symbol --- that is,
+a symbol preceded by a colon (:). The value can be any value, such as
+a number, a string, or even a Gendl object representing something
+complex such as an aircraft.
+
+A plist can be constructed in the same manner as any list, e.g. with the \texttt{list} operator:
+
+\begin{verbatim}(list :a 10 :b 20 :c 30)
+\end{verbatim}In order to access any element in this list, you can use the \texttt{getf} operator. The \texttt{getf} operator is specially intended for use with plists:
+
+\begin{verbatim}gdl-user> (getf (list :a 10 :b 20 :c 30) :b
+20
+gdl-user> (getf (list :a 10 :b 20 :c 30) :c
+30
+\end{verbatim} Common Lisp contains several other data structures for mapping keywords or numbers to values, such
+as \emph{arrays} and \emph{hash tables}. But for relatively short lists, and especially for rapid prototyping and testing work, plists
+can be useful. Plists can also be written and read (i.e. saved and restored) to and from plain text files
+in your filesystem, in a very natural way.
+
+\subsubsection{Appending Lists}
+
+\label{subsubsec:appendinglists}
+
+The function \texttt{append} takes any number of lists, and returns a new list which results from
+appending them together. Like many CL functions, append does not \emph{side-effect}, that is, it simply returns a new list as a return-value, but does not modify its 
+arguments in any way:
+
+\begin{verbatim}
+ gdl-user> (defparameter my-slides ’(introduction welcome lists functions))
+ (introduction welcome lists functions)
+
+ gdl-user> (append my-slides ’(numbers))
+ (introduction welcome lists functions numbers)
+
+ gdl-user> my-slides
+ (introduction welcome lists functions)
+\end{verbatim}Note that the simple call to \texttt{append} does not affect the variable \texttt{my-slides}. Later we will see how one may alter the value of a variable such as \texttt{my-slides}.
 
 \chapter{Understanding Gendl --- Core GDL Syntax}
 
@@ -1361,7 +1532,7 @@ continue to function 50, 100, or even hundreds of years from now.
 
 
 Note that the historical name of Gendl was ``GDL,'' and this name persists throughout the product
-for example for naming Common Lisp packages.
+for example appearing occasionally in documentation for naming Common Lisp packages.
 
 
 
@@ -1655,13 +1826,574 @@ A passed-in value will override the default expression.
 
 \label{sec:summary}
 
-This GDL syntax overview has been kept purposely brief, covering the fundamentals of the language
-in a dense manner. On one hand, it is not meant to be a comprehensive language reference; on the other
-hand, do not be concerned if you are still unsure about some of the terminology. The upcoming examples 
-will revisit and further expand many of the topics covered here, and at some point a coherent picture 
-should begin to emerge.
+This chapter has provided a minimal introduction to the core
+Gendl syntax. In subsequent chapters we will cover more specialized
+aspects of the Gendl language, introducing new Common Lisp concepts as
+they are required along the way.
 
-At that point it will be like riding a bicycle, and there will be no going back.
+\chapter{The Tasty Development Environment}
+
+\label{chap:thetastydevelopmentenvironment}
+
+
+
+\section{The Tasty Interface}
+
+\label{sec:thetastyinterface}
+
+
+
+\emph{Tasty}\footnote{``Tasty'' is a tortured acronym of acronyms - it stands for
+TAtu with STYle (sheets), where tatu comes from Testing And Tracking
+Utility.} is a web based testing and tracking utility. Note that Tasty is
+designed for developers of GenDL applications --- it is not intended
+as an end-user application interface (see the 
+\ref{chap:userinterfacesingendl} section for the recommended steps to create end-user interfaces).
+
+
+
+Tasty allows you to visualize and inspect any object defined in GenDL,
+which mixes at least \texttt{base-object} into the definition of its root\footnote{base-object is the core mixin for all geometric objects
+and gives them a coordinate system, length, width, and height. This
+restriction in tasty will be removed in a future GenDL release so you
+will be able to instantiate non-geometric root-level objects in tasty
+as well, for example to inspect objects which generate a web page but
+no geometry.}
+
+
+
+First, make sure you have compiled and loaded the code for
+the Chapter 5 examples, contained in 
+
+\begin{verbatim}.../src/documentation/tutorial/examples/chapter-5/
+\end{verbatim} in your Gendl distribution. If you are not sure how to do this,
+please stop reading this section now, review Section 
+\ref{compiling-and-loading-files-and-systems}, then return here...
+
+
+
+Now you should have the Chapter 5 example definitions
+compiled and loaded into the system. To access Tasty, point your web
+browser to the URL in figure
+\ref{fig:tasty-toplevel-url}.
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+
+\begin{verbatim}
+ http://<host>:<port>/tasty
+
+   emph{by default, this URL is:}
+
+ http://localhost:9000/tasty
+\end{verbatim}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Web Browser address for Tasty development environment}
+
+\label{fig:tasty-toplevel-url}
+
+\end{figure}
+This will bring up the start-up page, as seen in Figure 
+\ref{fig:tasty-startup}\footnote{This page may look slightly different, e.g. different
+icon images, depending on your specific Gendl version.}. To access an instance of a specific object definition,
+you specify the class package and the object type, separated by a
+colon (``:'') (or a double-colon (``::'') in case the symbol naming
+the type is not exported from the package). For example, consider the
+simple \texttt{tower1} definition in Figure 
+\ref{fig:tower1-code}This definition is in the \texttt{:chapter-5} package. So the specification will be 
+will be: @b{shock-absorber:assembly}, or by using the package nickname
+@b{shock} or @b{picasso} the specification would be @b{shock:assembly}
+or @b{picasso:assembly}.  @sp 1 @center
+
+
+\begin{figure}
+\begin{center}
+\includegraphics{../images/tasty-start.png}
+\end{center}
+
+\caption{Tasty start-up}
+
+\label{fig:tasty-startup}
+
+\end{figure}
+
+
+Note that if the @b{assembly} symbol had not been exported from the
+@b{:shock-absorber} package, then a double-colon would have been
+needed: @b{shock-absorber::assembly}@footnote{use of a double-colon
+indicates dubious coding practice, because it means that the code in
+quesion is accessing the ``internals'' or ``guts'' of another package,
+which may not have been the intent of that other package's designer.}.
+
+
+
+After you specify the class package and the object type and press the
+``browse'' button, the browser will bring up the utility interface
+with an instance of the specified type (see figure 
+\ref{fig:tastyshockabsorberpre}.
+
+
+
+The utility interface by default is composed of three toolbars and
+three view frames (tree frame, inspector frame and viewport frame
+``graphical view port'').
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=4in]{../images/tasty-shock-absorber-pre.pdf}
+\end{center}
+
+\caption{Tasty Interface}
+
+\label{fig:tastyshockabsorberpre}
+
+\end{figure}
+
+
+\subsection{The Toolbars}
+
+\label{subsec:thetoolbars}
+
+
+
+The first toolbar consists of two ``tabs'' which allow the
+user to select between the display of the application itself or the
+GenDL reference documentation.
+
+
+
+The second toolbar is designed to select various ``click modes'' for
+objects and graphical viewing, and to customize the interface in other
+ways. It hosts five menus: edit, tree, view, windows and
+help@footnote{A File menu will be added in a future release, to
+facilitate saving and restoring of instance ``snapshots'' -- at
+present, this can be done programmatically.}.
+
+
+
+@b{The edit and window menu} allows the user to customize the
+interface in various ways.
+
+
+
+@b{The tree menu} allows the user to customize the ``click mode'' of
+the mouse (or ``tap mode'' for other pointing device) for objects in
+any of the tree, inspector, or viewport frames. The behavior follows
+the @b{select-and-match} paradigm -- you first @b{select} a mode of
+operation with one of the buttons or menu items, then @b{match} that
+mode to any object in the tree frame or inspector frame by
+left-clicking (or tapping). These modes are as follows:
+
+
+
+\begin{itemize}
+
+\item Tree: Graphical modes
+
+\begin{description}
+
+\item [Add Node (AN)]
+Node in graphics viewport
+
+\item [Add Leaves (AL)]
+Add Leaves in graphics viewport
+
+\item [Add Leaves indiv. (AL*)]
+Add Leaves individually (so they can be deleted individually).
+
+\item [Draw Node (DN)]
+Draw Node in graphics view port (replacing any existing).
+
+\item [Draw Leaves (DL)]
+Draw Leaves in graphics view port (replacing any existing).
+
+\item [Clear Leaves (DL)]
+Delete Leaves
+
+\end{description}
+
+
+
+\item Tree: Inspect & debug modes
+
+\begin{description}
+
+\item [Inspect object (I)]
+Inspect (make the inspector frame to show the selected object).
+
+\item [Set self to Object (B)]
+Break on selected object.
+
+\item [Set Root to Object (SR)]
+Set displayed root in Tasty tree to selected object.
+
+\item [Up Root (UR!)]
+Set displayed root in Tasty tree up one level (this is grayed out if already on root).
+
+\item [Reset Root (RR!)]
+Reset displayed root in Tasty to to the true root of the tree (this is grayed out if already on root).
+
+\end{description}
+
+
+
+\item Tree: frame navigation modes
+
+\begin{description}
+
+\item [Expand to Leaves (L)]
+Nodes expand to their deepest leaves when clicked. 
+
+\item [Expand to Children (C)]
+Nodes expand to their direct children when clicked.
+
+\item [Auto Close (A)]
+When any node is clicked to expand, all other nodes close automatically.
+
+\item [Remember State (R)]
+Nodes expand to their previously expanded state when clicked.
+
+\end{description}
+
+
+
+\item View: Viewport Actions
+
+\begin{description}
+
+\item [Fit to Window!]
+Fits to the graphics viewport size the displayed objects (use after a Zoom)
+
+\item [Clear View! (CL!)]
+Clear all the objects displayed in the graphics viewport.
+
+\end{description}
+
+
+
+\item View: Image Format
+
+\begin{description}
+
+\item [PNG]
+Sets the displayed format in the graphics viewport to PNG (raster image with 
+        isoparametric curves for surfaces and brep faces).
+
+\item [JPEG]
+Sets the displayed format in the graphics viewport to JPEG
+         (raster image with isoparametric curves for surfaces and brep faces).
+
+\item [VRML/X3D]
+Sets the displayed format in the graphics viewport to
+             VRML with default lighting and viewpoint (these can be changed
+             programmatically). This requires a compatible plugin such as BS Contact
+
+\item [X3DOM]
+This experimental mode sets the displayed format in the graphics viewport to use the x3dom.js Javascript library,
+which attempts to render X3D format directly in-browser without the need for plugins. This works best in WebGL-enabled
+browsers such as a recent version of Google Chrome.
+
+\item [SVG/VML]
+Sets the displayed format in the graphics viewport to SVG/VML\footnote{For complex objects with many display curves,
+            SVG/VML can overwhelm the JavaScript engine in the web
+            browser. Use PNG for these cases.}, which is a vector graphics image format displaying 
+            isoparametric curves for surfaces and brep faces.
+
+\end{description}
+
+
+
+\item View: Click Modes
+
+\begin{description}
+
+\item [Zoom in]
+Sets the mouse left-click in the graphics viewport to zoom in.
+
+\item [Zoom out]
+Sets the mouse left-click in the graphics viewport to zoom out.
+
+\item [Measure distance]
+Calculates the distance between two selected points from the graphics viewport.
+
+\item [Get coordinates]
+Displays the coordinates of the selected point from the graphics viewport.
+
+\item [Select Object]
+Allows the user to select an object from the graphics
+                  viewport (currently works for displayed curves and
+                  in SVG/VML mode only).
+
+\end{description}
+
+
+
+\item View: Perspective
+
+\begin{description}
+
+\item [Trimetric]
+Sets the displayed perspective in the graphics viewport to trimetric.
+
+\item [Front]
+Sets the displayed perspective in the graphics viewport to Front (-Y axis).
+
+\item [Rear]
+Sets the displayed perspective in the graphics viewport to Rear (+Y axis).
+
+\item [Left]
+Sets the displayed perspective in the graphics viewport to Left (-X axis).
+
+\item [Right]
+Sets the displayed perspective in the graphics viewport to Right (+X axis).
+
+\item [Top]
+Sets the displayed perspective in the graphics viewport to Top (+Z axis).
+
+\item [Bottom]
+Sets the displayed perspective in the graphics viewport to Bottom (-Z axis).
+
+\end{description}
+
+
+
+\end{itemize}
+
+
+
+@b{Third toolbar} hosts the most frequently used buttons. This buttons have tooltips which will 
+pop up when you hover the mouse over them. However, these buttons are found in the second 
+toolbar too, except line thickness and color buttons. The line thickness and color buttons@footnote{the 
+design of the line thickness and color buttons is being refined and may appear different in your 
+installation.} 
+expand and contract when clicked on and allows the user to select a desired line thickness 
+and color for the objects displayed in the graphics viewport.
+
+
+
+\subsection{View Frames}
+
+\label{subsec:viewframes}
+
+
+
+@b{The tree frame} is a hierarchical representation of your defined object. For example for 
+the  shock-absorber @b{assembly} this will be as depicted 
+in figure 8.
+@sp 1
+@center @image{images/tree-shock-absorber,,3.2in  }
+@center Figure 8: Tasty shock-absorber tree.
+@sp 1
+
+
+
+To draw the graphics (geometry) for the shock-absorber leaf-level
+objects, you can select the ``Add Leaves (AL)'' item from the Tree
+menu, then click the desired leaf to be displayed from the tree or
+select the @i{rapid} button from third toolbar which is symbolized by
+a pencil @image{images/tbar\_pen,,0.2in}. Because this operation (draw
+leaves) is frequently used, the tree leaves has this operation
+directly available as a tooltip, which will pop up when you hover the
+mouse over them.  To perform this operation on the fly, you simply
+have to click the pencil icon; it does not require a second click on
+the leaf in the tre (see figure 8).
+
+
+
+The ``on the fly'' feature is available also for ``inspect
+object''(second icon when you hover the mouse over a leaf) and
+``highlight object'' (third icon when you hover the mouse over a
+leaf). For safety reasons highlight object requires a second click on
+the leaf (a confirmation that the user wants to remove that leaf from
+the graphics viewport).
+
+
+
+@b{The inspector frame} allows the user to inspect (and in some cases
+modify) object instance being inspected.  Following are some examples
+of how the inspector frame may be used.
+
+
+
+To prepare for the first example, we will modify the assembly
+definition by adding a settable @b{input-slot} for the piston radius.
+In GenDL, the @b{:input-slots} are made up of a list, each of whose
+elements is either a symbol (for required inputs) or a list expression
+beginning with a symbol (for optional inputs). In either case, the
+symbol represents a value which can be supplied either:
+
+\begin{itemize}
+
+\item into the toplevel object of an object hierarchy, when the object is instanted, or
+
+\item into a child object, using a @b{:objects} specification by definition in the parent.
+
+\end{itemize}
+
+Inputs are specified in the definition either as a symbol by itself
+ (for required inputs), or as an expression whose @b{first} is a symbol
+and whose @b{second} is an expression which returns a value which will
+be the default value for the input slot.
+
+
+
+Optionally, additional keywords can be supplied:
+
+\begin{itemize}
+
+\item the keyword @b{:defaulting}, which indicates that if a slot by this name is
+contained in any ancestor object's list of
+:trickle-down-slots@footnote{trickle-down slots will be introduced
+later}, the value from the ancestor will take precedence over the
+local default expression.
+
+\item @item The keyword @b{:settable}, which indiates that the default value of 
+this slot can be ``bashed,'' or overridden, at runtime after the
+object has been instantiated, using the special object function
+@b{set-slot!}@footnote{Any other slots depending on settable slots (directly or
+indirectly) will become unbound when the @b{:set-slot!} function is
+called to change the slot's value, and these will be recomputed the
+next time they are demanded.}.
+
+\end{itemize}
+
+
+
+
+
+For this example, we will supply piston-radius as an input symbol with
+a default expression and with the optional keyword @b{:settable}. We
+will also pass the piston-radius down into the child @b{piston}
+object, rather than using a hard-coded value of 12 as previously. The
+new assembly definition is now:
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :shock-absorber)
+
+ (define-object  assembly (base-object)
+   :input-slots ((piston-radius 12 :settable)) ;;;----modification ;
+   :computed-slots ()
+   :objects 
+   ((pressure-tube :type 'cone
+		   :center (make-point 0 70 0)
+		   :length 120
+		   :radius-1 13
+		   :inner-radius-1 12
+		   :radius-2 13
+		   :inner-radius-2 12)
+   
+    (tube-cap :type 'cone
+	      :center (make-point 0 5 0)
+	      :length 10
+	      :radius-1 5
+	      :inner-radius-1 0
+	      :radius-2 13
+	      :inner-radius-2 0)
+
+    (seal-cap :type 'cone
+	      :center (make-point 0 135 0)
+	      :length 10
+	      :radius-1 13
+	      :inner-radius-1 2.5
+	      :radius-2 5
+	      :inner-radius-2 2.5)
+   
+    (floating-piston :type 'cylinder
+		     :center (make-point 0 35 0)
+		     :radius 12
+		     :length 10)
+
+    (blocking-ring :type 'cone
+		   :center (make-point 0 42.5 0)
+		   :length 5
+		   :radius-1 12
+		   :inner-radius-1 10
+		   :radius-2 12
+		   :inner-radius-2 10)
+   
+    (piston :type 'cylinder
+	    :center (make-point 0 125 0)
+	    :radius (the piston-radius) ;;;----modification ;
+	    :length 10)
+   
+    (rod :type 'cylinder
+	 :center (make-point 0 175 0)
+	 :radius 2.5
+	 :length 90))
+  
+   :hidden-objects ()
+   :functions ()
+   :methods ()) 
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Shock Absorber Assembly V0.1}
+
+\label{fig:shockabsorberassemblyv01}
+
+\end{figure}
+
+
+
+
+In this new version ``V0.1'' of the assembly, the piston radius is a
+settable slot, and its value can be modified (i.e. ``bashed'') as
+desired, either programmatically from the command-line, in an end-user
+application, or from @b{Tasty}.
+
+
+
+
+@sp 1
+@center @image{images/tasty-inspector,,3.2in}
+@center Figure 9: Tasty inspector.
+@sp 1
+
+
+
+
+@center @image{images/tasty-s-slots,,3.2in}
+@center Figure 10: Tasty settable slots.
+@sp 1
+
+
+
+To modify the value in Tasty: select ``Inspect'' mode from the Tree
+menu, then select the root of the @b{assembly} tree to set the
+inspector on that object (see figure 9). Once the inspector is set to
+this object, it is possible to expand its settable slots by clicking
+on the ``Show Settables!'' link. (use the ``X'' link to collapse the
+settable slots view). When the settable slots area is open the user
+may set the values as desired by inputting the new value and pressing
+the OK button (see figure 10).
+
+
+
+As it can be observed from Figure 10, there is no dependency between
+the piston radius and the rest of the shock-absorber objects
+(components). If such a dependency is desired, the definition has to
+be modified to include it. For the moment the piston radius will be
+considered as the leading parameter, the rod radius constant and the
+piston Y position will be added as a settable input slot. In addition
+to this dimensional dependency, two computed slots will be added to the
+previous code in order to compute the volume A and B (see figure 5) as
+follows:
+
+
+
+\chapter{Working with Geometry in Gendl}
+
+\label{chap:workingwithgeometryingendl}
 
 
 
@@ -1707,8 +2439,7 @@ licensee, are ready to release Runtime applications on 1582, and you
 have not received information on the Enterprise Edition, please
 contact support@genworks.com
 
-\item (register-asdf-systems) and the 
-\textt{"3rdpty/"} directory are no longer needed or available. Instead, we depend on the Quicklisp
+\item (register-asdf-systems) and the \texttt{"3rdpty/"} directory are no longer needed or available. Instead, we depend on the Quicklisp
 system. Details of Quicklisp are available at \href{http://www.quicklisp.org}. See Section 
 \ref{subsec:usingquicklisp} for information about how to use Quicklisp with Gendl.
 

@@ -40,15 +40,25 @@
 \contentsline {section}{\numberline {4.1}S-expression Fundamentals}{21}{section.4.1}
 \contentsline {section}{\numberline {4.2}Fundamental CL Data Types}{22}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Numbers}{22}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Strings}{22}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.2}Strings}{23}{subsection.4.2.2}
 \contentsline {subsection}{\numberline {4.2.3}Symbols}{23}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}Lists}{24}{subsection.4.2.4}
-\contentsline {chapter}{\numberline {5}Understanding Gendl --- Core GDL Syntax}{25}{chapter.5}
-\contentsline {section}{\numberline {5.1}Defining a Working Package}{25}{section.5.1}
-\contentsline {section}{\numberline {5.2}Define-Object}{26}{section.5.2}
-\contentsline {section}{\numberline {5.3}Making Instances and Sending Messages}{27}{section.5.3}
-\contentsline {section}{\numberline {5.4}Objects}{28}{section.5.4}
-\contentsline {section}{\numberline {5.5}Sequences of Objects and Input-slots with a Default Expression}{29}{section.5.5}
-\contentsline {section}{\numberline {5.6}Summary}{30}{section.5.6}
-\contentsline {chapter}{\numberline {6}More Common Lisp for Gendl}{31}{chapter.6}
-\contentsline {chapter}{\numberline {7}Advanced Gendl}{33}{chapter.7}
+\contentsline {subsection}{\numberline {4.2.4}List Basics}{24}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {4.2.5}The List as a Data Structure}{25}{subsection.4.2.5}
+\contentsline {subsubsection}{Finding the Length of a List}{25}{section*.5}
+\contentsline {subsubsection}{Accessing the Elements of a List}{25}{section*.6}
+\contentsline {subsubsection}{Using a List to Store and Retrieve Named Values}{26}{section*.7}
+\contentsline {subsubsection}{Appending Lists}{27}{section*.8}
+\contentsline {chapter}{\numberline {5}Understanding Gendl --- Core GDL Syntax}{29}{chapter.5}
+\contentsline {section}{\numberline {5.1}Defining a Working Package}{29}{section.5.1}
+\contentsline {section}{\numberline {5.2}Define-Object}{30}{section.5.2}
+\contentsline {section}{\numberline {5.3}Making Instances and Sending Messages}{31}{section.5.3}
+\contentsline {section}{\numberline {5.4}Objects}{32}{section.5.4}
+\contentsline {section}{\numberline {5.5}Sequences of Objects and Input-slots with a Default Expression}{33}{section.5.5}
+\contentsline {section}{\numberline {5.6}Summary}{34}{section.5.6}
+\contentsline {chapter}{\numberline {6}The Tasty Development Environment}{35}{chapter.6}
+\contentsline {section}{\numberline {6.1}The Tasty Interface}{35}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}The Toolbars}{36}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}View Frames}{40}{subsection.6.1.2}
+\contentsline {chapter}{\numberline {7}Working with Geometry in Gendl}{43}{chapter.7}
+\contentsline {chapter}{\numberline {8}More Common Lisp for Gendl}{45}{chapter.8}
+\contentsline {chapter}{\numberline {9}Advanced Gendl}{47}{chapter.9}
