@@ -84,23 +84,23 @@ simple "
 	  (:ref "fig:tower1-code")
 	  "This definition is in the "
 	  (:texttt ":chapter-5")
-	  " package. So the specification will be 
-will be: @b{shock-absorber:assembly}, or by using the package nickname
-@b{shock} or @b{picasso} the specification would be @b{shock:assembly}
-or @b{picasso:assembly}.  @sp 1 @center")
-
+	  " package. So the specification will be "
+	  (:texttt "shock-absorber:assembly"))
 
      ((:image-figure :image-file "tasty-start.png"
 		     :caption "Tasty start-up"
 		     :label "fig:tasty-startup"))
-     
 
-     (:p "Note that if the @b{assembly} symbol had not been exported from the
-@b{:shock-absorber} package, then a double-colon would have been
-needed: @b{shock-absorber::assembly}@footnote{use of a double-colon
-indicates dubious coding practice, because it means that the code in
-quesion is accessing the ``internals'' or ``guts'' of another package,
-which may not have been the intent of that other package's designer.}.")
+     (:p "Note that if the "
+	 (:texttt "assembly")
+	 " symbol had not been exported from the "
+	 (:texttt ":shock-absorber")
+	 " package, then a double-colon would have been needed: "
+	 (:texttt "shock-absorber::assembly")
+	 (:footnote"use of a double-colon indicates dubious coding
+practice, because it means that the code in quesion is accessing the
+``internals'' or ``guts'' of another package, which may not have been
+the intent of that other package's designer."))
 
      (:p "After you specify the class package and the object type and press the
 ``browse'' button, the browser will bring up the utility interface
@@ -131,15 +131,19 @@ help@footnote{A File menu will be added in a future release, to
 facilitate saving and restoring of instance ``snapshots'' -- at
 present, this can be done programmatically.}.")
 
-      (:p "@b{The edit and window menu} allows the user to customize the
-interface in various ways.")
-
-      (:p "@b{The tree menu} allows the user to customize the ``click mode'' of
+      (:p "The "
+	  (:textbf "tree menu")
+	  " allows the user to customize the ``click mode'' of
 the mouse (or ``tap mode'' for other pointing device) for objects in
 any of the tree, inspector, or viewport frames. The behavior follows
-the @b{select-and-match} paradigm -- you first @b{select} a mode of
-operation with one of the buttons or menu items, then @b{match} that
-mode to any object in the tree frame or inspector frame by
+the "
+	  (:emph "select-and-match")
+	  " paradigm -- you first "
+	  (:emph "select")
+	  " a mode of operation with one of the buttons or menu items, 
+then "
+	  (:emph "match")
+	  " that mode to any object in the tree frame or inspector frame by
 left-clicking (or tapping). These modes are as follows:")
 
       ((:list :style :itemize)
@@ -158,7 +162,7 @@ left-clicking (or tapping). These modes are as follows:")
 	  ((:item :word "Clear Leaves (DL)")
 	   "Delete Leaves")))
 
-       (:item "Tree: Inspect & debug modes"
+       (:item "Tree: Inspect \\& debug modes"
 	 ((:list :style :description)
 	  ((:item :word "Inspect object (I)")
 	   "Inspect (make the inspector frame to show the selected object).")
@@ -239,13 +243,16 @@ browsers such as a recent version of Google Chrome.")
 	  ((:item :word "Bottom")
 	   "Sets the displayed perspective in the graphics viewport to Bottom (-Z axis)."))))
 
-      (:p "@b{Third toolbar} hosts the most frequently used buttons. This buttons have tooltips which will 
-pop up when you hover the mouse over them. However, these buttons are found in the second 
-toolbar too, except line thickness and color buttons. The line thickness and color buttons@footnote{the 
-design of the line thickness and color buttons is being refined and may appear different in your 
-installation.} 
-expand and contract when clicked on and allows the user to select a desired line thickness 
-and color for the objects displayed in the graphics viewport."))
+      (:p "Third toolbar hosts the most frequently used buttons. This
+buttons have tooltips which will pop up when you hover the mouse over
+them. However, these buttons are found in the second toolbar too,
+except line thickness and color buttons. The line thickness and color
+buttons"
+	  (:footnote "the design of the line thickness and color buttons is
+being refined and may appear different in your installation.")
+	  " expand and contract when clicked on and allows the user to
+select a desired line thickness and color for the objects displayed in
+the graphics viewport."))
 
      ((:subsection :title "View Frames")
 

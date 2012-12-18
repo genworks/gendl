@@ -28,8 +28,8 @@ an arc like object. It is not recommended to be used directly by GDL common user
 For developers it should be used as a mixin."
                   
                   :examples  "<pre>
-     For exemplification contact GenworksÂ® International.</pre>")
-                  
+     For exemplification contact Genworks® International.</pre>")
+
   :input-slots
   ("Number. Distance from center to any point on the arc."
    radius

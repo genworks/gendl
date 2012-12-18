@@ -1903,10 +1903,7 @@ you specify the class package and the object type, separated by a
 colon (``:'') (or a double-colon (``::'') in case the symbol naming
 the type is not exported from the package). For example, consider the
 simple \texttt{tower1} definition in Figure 
-\ref{fig:tower1-code}This definition is in the \texttt{:chapter-5} package. So the specification will be 
-will be: @b{shock-absorber:assembly}, or by using the package nickname
-@b{shock} or @b{picasso} the specification would be @b{shock:assembly}
-or @b{picasso:assembly}.  @sp 1 @center
+\ref{fig:tower1-code}This definition is in the \texttt{:chapter-5} package. So the specification will be \texttt{shock-absorber:assembly}
 
 
 \begin{figure}
@@ -1921,12 +1918,10 @@ or @b{picasso:assembly}.  @sp 1 @center
 \end{figure}
 
 
-Note that if the @b{assembly} symbol had not been exported from the
-@b{:shock-absorber} package, then a double-colon would have been
-needed: @b{shock-absorber::assembly}@footnote{use of a double-colon
-indicates dubious coding practice, because it means that the code in
-quesion is accessing the ``internals'' or ``guts'' of another package,
-which may not have been the intent of that other package's designer.}.
+Note that if the \texttt{assembly} symbol had not been exported from the \texttt{:shock-absorber} package, then a double-colon would have been needed: \texttt{shock-absorber::assembly}\footnote{use of a double-colon indicates dubious coding
+practice, because it means that the code in quesion is accessing the
+``internals'' or ``guts'' of another package, which may not have been
+the intent of that other package's designer.}
 
 
 
@@ -1975,17 +1970,12 @@ present, this can be done programmatically.}.
 
 
 
-@b{The edit and window menu} allows the user to customize the
-interface in various ways.
-
-
-
-@b{The tree menu} allows the user to customize the ``click mode'' of
+The 
+\textbf{tree menu} allows the user to customize the ``click mode'' of
 the mouse (or ``tap mode'' for other pointing device) for objects in
 any of the tree, inspector, or viewport frames. The behavior follows
-the @b{select-and-match} paradigm -- you first @b{select} a mode of
-operation with one of the buttons or menu items, then @b{match} that
-mode to any object in the tree frame or inspector frame by
+the \emph{select-and-match} paradigm -- you first \emph{select} a mode of operation with one of the buttons or menu items, 
+then \emph{match} that mode to any object in the tree frame or inspector frame by
 left-clicking (or tapping). These modes are as follows:
 
 
@@ -2018,7 +2008,7 @@ Delete Leaves
 
 
 
-\item Tree: Inspect & debug modes
+\item Tree: Inspect \& debug modes
 
 \begin{description}
 
@@ -2165,13 +2155,14 @@ Sets the displayed perspective in the graphics viewport to Bottom (-Z axis).
 
 
 
-@b{Third toolbar} hosts the most frequently used buttons. This buttons have tooltips which will 
-pop up when you hover the mouse over them. However, these buttons are found in the second 
-toolbar too, except line thickness and color buttons. The line thickness and color buttons@footnote{the 
-design of the line thickness and color buttons is being refined and may appear different in your 
-installation.} 
-expand and contract when clicked on and allows the user to select a desired line thickness 
-and color for the objects displayed in the graphics viewport.
+Third toolbar hosts the most frequently used buttons. This
+buttons have tooltips which will pop up when you hover the mouse over
+them. However, these buttons are found in the second toolbar too,
+except line thickness and color buttons. The line thickness and color
+buttons\footnote{the design of the line thickness and color buttons is
+being refined and may appear different in your installation.} expand and contract when clicked on and allows the user to
+select a desired line thickness and color for the objects displayed in
+the graphics viewport.
 
 
 

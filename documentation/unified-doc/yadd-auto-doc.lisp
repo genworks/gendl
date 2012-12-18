@@ -326,7 +326,7 @@
 								  (excl:replace-re
 								   (excl:replace-re
 								    my-string
-								    "<a href=’http://layout.jquery-dev.net/documentation.html’ target=’new’>" "@uref{")
+								    "<a href='http://layout.jquery-dev.net/documentation.html' target='new'>" "@uref{")
 								   "</a>" "}" )
 
 								  "Good Practice&#0153;" "@math{Good Practice^{TM}}")

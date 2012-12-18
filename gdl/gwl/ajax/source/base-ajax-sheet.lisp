@@ -217,17 +217,10 @@ just before the body.
 "
                  additional-header-js-content nil :settable)
                 
-                ;; FLAG JB-090813 added an input slot to the base-ajax-sheet in order for the user to supply
-                ;; an application specific javascript. This javascript is there to initiate the 
-                ;; layout and should follow conventions described by the jQuery Layout plugin and make
-                ;; use of the available <div>'s on the page which are commonly described in the main-sheet-body
-                ;; a define-lens of an assembly (user interface)
-                ("Absolute URI in the browser to application User Interface (UI) Specific jQuery Layout JavaScript. 
+
+                ("Absolute URI in the browser.
 This is additional JavaScript that needs to be loaded in order to initiate the layout of a user 
-interface. GDL uses the jQuery Layout plugin (<a href=’http://layout.jquery-dev.net/documentation.html’ target=’new’> http://layout.jquery-dev.net/documentation.html</a>) to construct a layout. The HTML part of the user interface 
-is normally defined in a the main-sheet-body, a lens of the main assembly. This input slot defaults to 
-/static/gwl/js/tasty-initlayout-3.js. You can check this file as a reference for your own application 
-UI specific jQuery Layout JavaScript."
+interface. Defaults to nil."
                  ui-specific-layout-js nil :settable)
                 
                 

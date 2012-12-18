@@ -58,7 +58,7 @@
 \contentsline {chapter}{\numberline {6}The Tasty Development Environment}{35}{chapter.6}
 \contentsline {section}{\numberline {6.1}The Tasty Interface}{35}{section.6.1}
 \contentsline {subsection}{\numberline {6.1.1}The Toolbars}{36}{subsection.6.1.1}
-\contentsline {subsection}{\numberline {6.1.2}View Frames}{40}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.2}View Frames}{39}{subsection.6.1.2}
 \contentsline {chapter}{\numberline {7}Working with Geometry in Gendl}{43}{chapter.7}
 \contentsline {chapter}{\numberline {8}More Common Lisp for Gendl}{45}{chapter.8}
 \contentsline {chapter}{\numberline {9}Advanced Gendl}{47}{chapter.9}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/MacPorts 2011_5) (format=pdflatex 2012.4.16)  13 DEC 2012 16:59
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/MacPorts 2011_5) (format=pdflatex 2012.4.16)  17 DEC 2012 15:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -555,35 +555,25 @@ LaTeX Warning: Reference `fig:tower1-code' on page 35 undefined on input line 1
 File: ../images/tasty-start.png Graphic file (type png)
 
 <use ../images/tasty-start.png>
-Package pdftex.def Info: ../images/tasty-start.png used on input line 1914.
+Package pdftex.def Info: ../images/tasty-start.png used on input line 1911.
 (pdftex.def)             Requested size: 354.3898pt x 221.09212pt.
 
-<../images/tasty-shock-absorber-pre.pdf, id=629, 845.1575pt x 597.23125pt>
+<../images/tasty-shock-absorber-pre.pdf, id=630, 845.1575pt x 597.23125pt>
 File: ../images/tasty-shock-absorber-pre.pdf Graphic file (type pdf)
 
 <use ../images/tasty-shock-absorber-pre.pdf>
 Package pdftex.def Info: ../images/tasty-shock-absorber-pre.pdf used on input l
-ine 1947.
+ine 1942.
 (pdftex.def)             Requested size: 289.07782pt x 289.08269pt.
  [36 <../images/tasty-start.png>]
 [37 <../images/tasty-shock-absorber-pre.pdf, page is rotated 90 degrees>]
-! Misplaced alignment tab character &.
-l.2021 \item Tree: Inspect &
-                             debug modes
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
-
 [38] [39]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 2338--2339
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 2329--2330
 [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 81.01605pt on input line 2344.
+LaTeX Warning: Float too large for page by 81.01605pt on input line 2335.
 
 [40] [41] [42]
 Chapter 7.
@@ -602,21 +592,21 @@ Chapter 9.
 ]
 
 LaTeX Warning: Reference `subsec:usingquicklisp' on page 49 undefined on input 
-line 2432.
+line 2423.
 
 
 LaTeX Warning: Reference `subsec:usingquicklisp' on page 49 undefined on input 
-line 2444.
+line 2435.
 
 [49] [50] (./tutorial.ind [51
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2484.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2484.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2475.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2475.
  (./tutorial.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2484.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2484.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2475.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2475.
 
 Package rerunfilecheck Info: File `tutorial.out' has not changed.
 (rerunfilecheck)             Checksum: 37566B0DE0CF811C065C9FBB30C15383;4126.
@@ -627,11 +617,11 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2484.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2475.
  ) 
 Here is how much of TeX's memory you used:
- 6118 strings out of 494770
- 92432 string characters out of 3171573
+ 6120 strings out of 494770
+ 92456 string characters out of 3171573
  174607 words of memory out of 3000000
  9050 multiletter control sequences out of 15000+200000
  12815 words of font info for 45 fonts, out of 3000000 for 9000
@@ -654,10 +644,10 @@ ocal/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></opt/l
 ocal/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></opt/lo
 cal/share/texmf-texlive-dist/fonts/type1/public/cm-super/sfrm0900.pfb></opt/loc
 al/share/texmf-texlive-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on tutorial.pdf (55 pages, 682110 bytes).
+Output written on tutorial.pdf (55 pages, 683001 bytes).
 PDF statistics:
- 852 PDF objects out of 1000 (max. 8388607)
- 760 compressed objects within 8 object streams
- 227 named destinations out of 1000 (max. 500000)
+ 857 PDF objects out of 1000 (max. 8388607)
+ 765 compressed objects within 8 object streams
+ 229 named destinations out of 1000 (max. 500000)
  492 words of extra memory for PDF output out of 10000 (max. 10000000)
 
