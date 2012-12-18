@@ -10,7 +10,7 @@
              #:set-gs-path)))
 
 
-#-(or allegro lispworks sbcl) (error "Need implementation for get-pid for currently running lisp~%")
+#-(or allegro lispworks sbcl ccl) (error "Need implementation for get-pid for currently running lisp~%")
 (defun get-pid ()
   #+allegro (excl.osi:getpid) 
   #+lispworks (multiple-value-bind (status pid) 
@@ -18,7 +18,8 @@
                                                      :show-cmd nil :output-stream nil) 
                 (declare (ignore status))
                 (read-from-string pid))
-  #+sbcl (sb-posix:getpid))
+  #+sbcl (sb-posix:getpid)
+  #+ccl (ccl::getpid))
 
 
 (defun run-gs (command)

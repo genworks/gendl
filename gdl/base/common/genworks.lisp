@@ -21,13 +21,13 @@
 
 (in-package :gdl)
 
-#-(or allegro lispworks sbcl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:shadow #:intern)
     (:nicknames :glisp) 
-    (:import-from #+allegro :mop #+lispworks :hcl #+sbcl :sb-mop 
+    (:import-from #+allegro :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl
 		  #:validate-superclass)
     (:export #:*external-text-format*
 	     #:*gdl-home*
@@ -84,19 +84,21 @@
                                  (butlast (pathname-directory gdl-base-home)))
                      :defaults gdl-base-home)))
 
-#-(or allegro lispworks sbcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
   #+lispworks system:*line-arguments-list*
-  #+sbcl sb-ext:*posix-argv*)
+  #+sbcl sb-ext:*posix-argv*
+  #+ccl (ccl::command-line-arguments)
+  )
 
 
-#-(or allegro lispworks cmu sbcl) 
+#-(or allegro lispworks cmu sbcl ccl) 
 (error "Need implementation for executable-homedir-pathname for currently running lisp.~%")
 (defun executable-homedir-pathname ()
   #+allegro (translate-logical-pathname "sys:")
   #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
-  #+lispworks (make-pathname :name nil :type nil :defaults (first (glisp:basic-command-line-arguments))))
+  #+(or lispworks ccl) (make-pathname :name nil :type nil :defaults (first (glisp:basic-command-line-arguments))))
 
 (defparameter *gdl-program-home* (glisp:executable-homedir-pathname))
 
@@ -113,7 +115,7 @@
 ;;         things.
 ;;
 #-(or allegro lispworks sbcl) 
-(error "Need parameter for redefinition warnings for currently running lisp.~%")
+(warn "Need parameter for redefinition warnings for currently running lisp.~%")
 
 (let (#+(or allegro lispworks)
 	(original-redefinition-warnings 
@@ -126,21 +128,22 @@
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* nil))
   (defun end-redefinitions-ok () 
-    ;; #+sbcl (declare (sb-ext:unmuffle-conditions sb-ext:compiler-note))
-    ;; #+(or allegro lispworks)
-    #+nil
+    #+sbcl (declare (sb-ext:unmuffle-conditions sb-ext:compiler-note))
+    #+(or allegro lispworks)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* 
 	  nil #+nil original-redefinition-warnings)))
 
 
-#-(or allegro lispworks cmu sbcl) 
+#-(or allegro lispworks cmu sbcl ccl) 
 (error "Need implementation for current-directory for currently running lisp.~%")
 (defun current-directory ()
   #+allegro (excl:current-directory)
   #+lispworks (sys:current-directory)
   #+sbcl *default-pathname-defaults*
-  #+cmu (second (multiple-value-list (unix:unix-current-directory))))
+  #+cmu (second (multiple-value-list (unix:unix-current-directory)))
+  #+ccl (ccl:current-directory)
+  )
 
 ;;
 ;; From SBCL manual (to avoid redef errors when compiling/loading defconstants in SBCL):
@@ -150,13 +153,14 @@
      ,@(when doc (list doc))))
 
 
-#-(or allegro lispworks sbcl) 
+#-(or allegro lispworks sbcl ccl) 
 (error "Need implementation for class-direct-superclasses for currently running lisp.~%")
 (defun direct-superclasses (class)
   "Return a list of the direct superclasses."
   (#+allegro mop:class-direct-superclasses
    #+lispworks hcl:class-direct-superclasses 
-   #+sbcl sb-mop:class-direct-superclasses class))
+   #+sbcl sb-mop:class-direct-superclasses 
+   #+ccl ccl:class-direct-superclasses class))
 
 
 (defun direct-superclass-names (class)
@@ -168,17 +172,18 @@
   (declare (ignore edition))
   (format t banner))
 
-#-(or allegro lispworks cmu sbcl) 
+#-(or allegro lispworks cmu sbcl ccl) 
 (error "Need implementation for eql-specializer for currently running lisp.~%")
 (defun eql-specializer (attr-sym)
   #+allegro (mop:intern-eql-specializer attr-sym)
   #+(or lispworks cmu) (list 'eql attr-sym)
-  #+sbcl (sb-mop:intern-eql-specializer attr-sym))
+  #+sbcl (sb-mop:intern-eql-specializer attr-sym)
+  #+ccl (ccl:intern-eql-specializer attr-sym))
 
 
-#-(or allegro lispworks sbcl) (error "Need implementation of featurep for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl) (error "Need implementation of featurep for currently running lisp.~%")
 (defun featurep (x)
-  (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep x))
+  (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep #+ccl asdf::featurep x))
 
 
 
@@ -187,14 +192,15 @@
   (#-cmu class-name #+cmu mop:class-name class))
 
 
-#-(or allegro lispworks cmu sbcl) 
+#-(or allegro lispworks cmu sbcl ccl) 
 (error "Need implementation for method-specializers for currently running lisp.~%")
 (defun gl-method-specializers (method)
   "Return a list of method specializers for the given method."
   (#+allegro mop:method-specializers  
    #+lispworks hcl:method-specializers
    #+cmu pcl:method-specializers 
-   #+sbcl sb-mop:method-specializers method))
+   #+sbcl sb-mop:method-specializers 
+   #+ccl ccl:method-specializers method))
 
 
 (defun hex-string-to-integer (string)
@@ -227,13 +233,14 @@
     #-allegro (make-hash-table)))
 
 
-#-(or allegro lispworks sbcl) (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl) (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 (defun make-weak-hash-table (&rest args)
   (apply #'make-hash-table 
 	 #+allegro :weak-keys #+allegro t
          #+allegro :values #+allegro :weak
          #+lispworks :weak-kind #+lispworks t
 	 #+sbcl :weakness #+sbcl :key-and-value
+	 #+ccl :weak t #+ccl :test #'eq
          args))
 
 (defun set-default-float-format ()
@@ -291,9 +298,10 @@
 
 (defmacro w-o-interrupts (&body body)
   (format t  "NOTE: Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else in glisp:w-o-interrupts.")
-  #-(or allegro lispworks cmu sbcl) (error "Need implementation for without-interrupts for currently running lisp.~%")
+  #-(or allegro lispworks cmu sbcl ccl) (error "Need implementation for without-interrupts for currently running lisp.~%")
   `(#+allegro  excl:without-interrupts
     #+lispworks progn
+    #+ccl progn
     #+cmu system:without-interrupts 
     #+sbcl sb-sys:without-interrupts
     ,@body))
@@ -343,14 +351,10 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
-#-(or allegro lispworks sbcl) (error "need with-definition-unit for currently running lisp.~%")
-(defmacro with-definition-unit (&body body)
-  `(progn ,@body))
-
-#+nil
+#-(or allegro lispworks sbcl ccl) (error "need with-definition-unit for currently running lisp.~%")
 (defmacro with-definition-unit (&body body)
   #+allegro  `(with-compilation-unit () ,@body)
-  #+(or lispworks sbcl) `(progn ,@body))
+  #+(or lispworks sbcl ccl) `(progn ,@body))
   
 
 (defmacro without-package-variance-warnings (&body body)

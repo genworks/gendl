@@ -36,12 +36,13 @@
     #+allegro excl:*fasl-default-type*
     #+lispworks compiler:*fasl-extension-string*
     #+sbcl sb-fasl:*fasl-file-type*
-    #-(or allegro lispworks sbcl) (error "Need fasl extension string for the currently running lisp.~%"))
+    #+ccl ccl:*.fasl-pathname*
+    #-(or allegro lispworks sbcl ccl) (error "Need fasl extension string for the currently running lisp.~%"))
 
 
 (defun concatenate-fasls (files dest)
-  #-(or allegro lispworks sbcl) (error "~&Please implement concatenate-fasls for the currently running lisp.~%")
-
+  #-(or allegro lispworks sbcl ccl) (error "~&Please implement concatenate-fasls for the currently running lisp.~%")
+  
   #+(or allegro sbcl)
   ;;
   ;; Provided by Franz:
@@ -74,7 +75,9 @@
                     result)
                   (format nil "))~%"))))
     (eval (read-from-string defsys))
-    (lispworks:concatenate-system dest 'my-system)))
+    (lispworks:concatenate-system dest 'my-system))
+
+  #+ccl (ccl:fasl-concatenate dest files :if-exists :supersede))
 
 
 (defvar *wild-entry*
@@ -95,7 +98,10 @@ and \"..\" entries."
               :link-transparency nil)
   #+sbcl
   (directory (merge-pathnames *wild-entry* pathspec)
-             :resolve-symlinks nil))
+             :resolve-symlinks nil)
+  #+ccl
+  (directory (merge-pathnames *wild-entry* directory)
+                :directories t))
 
 
 (defun file-directory-p (file)
