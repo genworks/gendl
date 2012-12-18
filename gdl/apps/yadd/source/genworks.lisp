@@ -38,20 +38,21 @@
 	   #+allegro (mapcar #'(lambda(pair) (intern (first pair) :keyword)) excl::*autoload-package-name-alist*)
 	   )))
 
-#-(or allegro lispworks sbcl) (error "Need implementation for package-documentation for the currently running Lisp.~%")
+#-(or allegro lispworks sbcl ccl) (error "Need implementation for package-documentation for the currently running Lisp.~%")
 (defun package-documentation (package)
-  #+(or allegro lispworks) (documentation (find-package package) t)
+  #+(or allegro lispworks ccl) (documentation (find-package package) t)
   #+sbcl (sb-kernel:package-doc-string (find-package package)))
 
-#-(or allegro lispworks sbcl cmu) (error "Need implementation for function-documentation for the currently running Lisp.~%")
+
+#-(or allegro lispworks sbcl cmu ccl) (error "Need implementation for function-documentation for the currently running Lisp.~%")
 (defun function-documentation (function-symbol)
   #+allegro (get function-symbol 'excl::%fun-documentation)
   #+lispworks (get function-symbol 'system::%fun-documentation)
-  #+(or cmu sbcl) (documentation function-symbol 'function))
+  #+(or cmu sbcl ccl) (documentation function-symbol 'function))
 
-#-(or allegro lispworks sbcl cmu) (error "Need implementation for variable-documentation for the currently running Lisp.~%")
+#-(or allegro lispworks sbcl cmu ccl) (error "Need implementation for variable-documentation for the currently running Lisp.~%")
 (defun variable-documentation (function-symbol)
   #+allegro (get function-symbol 'excl::%var-documentation)
   #+lispworks (get function-symbol 'system::%var-documentation)
-  #+(or cmu sbcl) (documentation function-symbol 'variable))
+  #+(or cmu sbcl ccl) (documentation function-symbol 'variable))
 
