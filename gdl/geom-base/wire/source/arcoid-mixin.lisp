@@ -25,10 +25,7 @@
   
   :documentation (:description  "This object is a low level object used to define 
 an arc like object. It is not recommended to be used directly by GDL common users. 
-For developers it should be used as a mixin."
-                  
-                  :examples  "<pre>
-     For exemplification contact Genworks® International.</pre>")
+For developers it should be used as a mixin.")
 
   :input-slots
   ("Number. Distance from center to any point on the arc."
@@ -47,9 +44,6 @@ For developers it should be used as a mixin."
   ((angles-normalized (the (normalize-start-end (the start-angle) (the end-angle))))
    (start-angle-normalized (apply #'min (the angles-normalized)))
    (end-angle-normalized (apply #'max (the angles-normalized)))
-   
-   ;;(start-angle-normalized (the start-angle))
-   ;;(end-angle-normalized (the end-angle))
    
    (start-to-end-angle (- (the end-angle-normalized) (the start-angle-normalized)))
    (%arcs% (list self)))

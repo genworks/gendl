@@ -240,7 +240,7 @@
          #+allegro :values #+allegro :weak
          #+lispworks :weak-kind #+lispworks t
 	 #+sbcl :weakness #+sbcl :key-and-value
-	 #+ccl :weak t #+ccl :test #'eq
+	 #+ccl :weak #+ccl t #+ccl :test #+ccl #'eq
          args))
 
 (defun set-default-float-format ()
