@@ -245,6 +245,7 @@
 
 (defun set-default-float-format ()
   #+allegro (tpl:setq-default *read-default-float-format* 'double-float)
+  #+ccl (ccl::def-standard-initial-binding *read-default-float-format* 'double-float)
   (setq *read-default-float-format* 'double-float))
 
 
