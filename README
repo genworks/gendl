@@ -35,8 +35,13 @@ main Genworks website soon.
 
 Current Requirements:
 
- o Common Lisp: recently patched Allegro CL 8.2, LispWorks, or SBCL
-   (SBCL verified only on Linux and Mac).
+ o Common Lisp: Allegro CL 9.0, LispWorks 6.x, SBCL, or CCL (Clozure
+   CL).
+
+ o For the full system to work, Portable AllegroServe or Original
+   AllegroServe must work on your platform. Portable AllegroServe is
+   available as :aserve in Quicklisp. This has been verified recently
+   on Allegro CL, LispWorks, SBCL (Linux), and CCL.
 
 
  To load the entire system, you can do it with:
