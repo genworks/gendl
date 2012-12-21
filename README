@@ -63,7 +63,7 @@ this. See www.quicklisp.org.
 
 Slime is recommended for editing GDL applications with Emacs. 
 
-Documentation is in documentation/gdl-documentation.pdf and this very
+Documentation is in documentation/tutorial/pdf/tutorial.pdf and this very
 much an active work in progress. Training tutorials and videos are
 also in progress, and a www.genworks.com website overhaul. The current
 preview of the website overhaul is genworks.com/newsite.
