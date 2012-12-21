@@ -21,13 +21,50 @@
 
 (in-package :gdl)
 
-#-(or allegro lispworks sbcl ccl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
+
+#+abcl (error "GenDL is not yet supported on ABCL. The first problem is something to do with meta-object GDL-CLASS
+which is supposed to be the meta-class of our VANILLA-MIXIN. To see the error, comment out this #+abcl and error
+in gdl/base/common/genworks.lisp, and try (ql:quickload :gdl-base). Then you will see the error. If you know 
+something about it, please email  open-source@genworks.com.~%")
+
+#+ecl (error "D'oh! GenDL is not yet supported on ECL. If you would like to try porting it, start with the file
+gdl/base/common/genworks.lisp. 
+Also, PortableAllegroserve is needed for the web framework. 
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+
+#+clisp (error "D'oh! GenDL is not yet supported on CLISP. If you would like to try porting it, start with the file,
+gdl/base/common/genworks.lisp.  
+Also, PortableAllegroserve is needed for the web framework. 
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+
+#+scl (error "D'oh! GenDL is not yet supported on Scieneer CL. If you would like to try porting it, start with the file, 
+gdl/base/common/genworks.lisp.  
+Also, PortableAllegroserve is needed for the web framework. 
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+
+#+genera (error "D'oh! GenDL is not yet supported on Genera. If you would like to try porting it, start with the file, 
+gdl/base/common/genworks.lisp.  
+Also, PortableAllegroserve is needed for the web framework. 
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+
+#+corman (error "D'oh! GenDL is not yet supported on Corman Lisp. If you would like to try porting it, start with the file, 
+gdl/base/common/genworks.lisp.  
+Also, PortableAllegroserve is needed for the web framework. 
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+
+
+#-(or allegro lispworks sbcl ccl abcl ecl clisp scl genera) 
+(error "GenDL is not yet supported on this Lisp. By the way, what Lisp
+is this? Please let us know at open-source@genworks.com.~%")
+
+
+#-(or allegro lispworks sbcl ccl abcl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:shadow #:intern)
     (:nicknames :glisp) 
-    (:import-from #+allegro :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl
+    (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl
 		  #:validate-superclass)
     (:export #:*external-text-format*
 	     #:*gdl-home*
@@ -84,28 +121,36 @@
                                  (butlast (pathname-directory gdl-base-home)))
                      :defaults gdl-base-home)))
 
-#-(or allegro lispworks sbcl ccl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
   #+lispworks system:*line-arguments-list*
   #+sbcl sb-ext:*posix-argv*
   #+ccl (ccl::command-line-arguments)
+  #+abcl extensions:*command-line-argument-list*
   )
 
 
-#-(or allegro lispworks cmu sbcl ccl) 
+#-(or allegro lispworks cmu sbcl ccl abcl) 
 (error "Need implementation for executable-homedir-pathname for currently running lisp.~%")
 (defun executable-homedir-pathname ()
   #+allegro (translate-logical-pathname "sys:")
   #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
-  #+(or lispworks ccl) (make-pathname :name nil :type nil :defaults (first (glisp:basic-command-line-arguments))))
+  #+(or lispworks ccl) (make-pathname :name nil :type nil :defaults (first (glisp:basic-command-line-arguments)))
+  #+abcl (warn "Don't know how to get executable-homedir-pathname on ABCL! Please find out.~%"))
 
-(defparameter *gdl-program-home* (glisp:executable-homedir-pathname))
 
-(defparameter *gdl-home* (make-pathname :name nil
-					:type nil
-					:directory (butlast (pathname-directory *gdl-program-home*))
-					:defaults *gdl-program-home*))
+(defparameter *gdl-program-home* #-abcl (glisp:executable-homedir-pathname)
+	      #+abcl (progn (warn "Don't know how to get executable-homedir-pathname on ABCL! Please find out.~%")
+			    nil))
+
+(defparameter *gdl-home* #-abcl 
+  (make-pathname :name nil
+		 :type nil
+		 :directory (butlast (pathname-directory *gdl-program-home*))
+		 :defaults *gdl-program-home*)
+  #+abcl (progn (warn "Don't know how to get *gdl-home* on ABCL! Please find out.~%")
+			    nil))
 
 
 ;;
@@ -135,12 +180,12 @@
 	  nil #+nil original-redefinition-warnings)))
 
 
-#-(or allegro lispworks cmu sbcl ccl) 
+#-(or allegro lispworks cmu sbcl ccl abcl) 
 (error "Need implementation for current-directory for currently running lisp.~%")
 (defun current-directory ()
   #+allegro (excl:current-directory)
   #+lispworks (sys:current-directory)
-  #+sbcl *default-pathname-defaults*
+  #+(or sbcl abcl)  *default-pathname-defaults*
   #+cmu (second (multiple-value-list (unix:unix-current-directory)))
   #+ccl (ccl:current-directory)
   )
@@ -153,11 +198,11 @@
      ,@(when doc (list doc))))
 
 
-#-(or allegro lispworks sbcl ccl) 
+#-(or allegro lispworks sbcl ccl abcl) 
 (error "Need implementation for class-direct-superclasses for currently running lisp.~%")
 (defun direct-superclasses (class)
   "Return a list of the direct superclasses."
-  (#+allegro mop:class-direct-superclasses
+  (#+(or allegro abcl) mop:class-direct-superclasses
    #+lispworks hcl:class-direct-superclasses 
    #+sbcl sb-mop:class-direct-superclasses 
    #+ccl ccl:class-direct-superclasses class))
@@ -172,19 +217,19 @@
   (declare (ignore edition))
   (format t banner))
 
-#-(or allegro lispworks cmu sbcl ccl) 
+#-(or allegro lispworks cmu sbcl ccl abcl) 
 (error "Need implementation for eql-specializer for currently running lisp.~%")
 (defun eql-specializer (attr-sym)
-  #+allegro (mop:intern-eql-specializer attr-sym)
+  #+(or allegro abcl) (mop:intern-eql-specializer attr-sym)
   #+(or lispworks cmu) (list 'eql attr-sym)
   #+sbcl (sb-mop:intern-eql-specializer attr-sym)
   #+ccl (ccl:intern-eql-specializer attr-sym))
 
 
-#-(or allegro lispworks sbcl ccl) (error "Need implementation of featurep for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl) (error "Need implementation of featurep for currently running lisp.~%")
 (defun featurep (x)
-  (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep #+ccl asdf::featurep x))
-
+  (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep 
+	     #+ccl asdf::featurep #+abcl extensions:featurep x))
 
 
 (defun gl-class-name (class)
@@ -192,11 +237,11 @@
   (#-cmu class-name #+cmu mop:class-name class))
 
 
-#-(or allegro lispworks cmu sbcl ccl) 
+#-(or allegro lispworks cmu sbcl ccl abcl) 
 (error "Need implementation for method-specializers for currently running lisp.~%")
 (defun gl-method-specializers (method)
   "Return a list of method specializers for the given method."
-  (#+allegro mop:method-specializers  
+  (#+(or allegro abcl) mop:method-specializers  
    #+lispworks hcl:method-specializers
    #+cmu pcl:method-specializers 
    #+sbcl sb-mop:method-specializers 
@@ -233,13 +278,13 @@
     #-allegro (make-hash-table)))
 
 
-#-(or allegro lispworks sbcl ccl) (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl) (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 (defun make-weak-hash-table (&rest args)
   (apply #'make-hash-table 
 	 #+allegro :weak-keys #+allegro t
          #+allegro :values #+allegro :weak
          #+lispworks :weak-kind #+lispworks t
-	 #+sbcl :weakness #+sbcl :key-and-value
+	 #+(or sbcl abcl) :weakness #+(or sbcl abcl) :key-and-value
 	 #+ccl :weak #+ccl t #+ccl :test #+ccl #'eq
          args))
 
@@ -269,11 +314,14 @@
   (excl:console-control :title "Genworks GenDL Console")
   (retitle-emacs))
 
-#-(or allegro lispworks) (warn "Find out how to get the source-pathname  in current lisp.")
+#-(or allegro lispworks abcl) (warn "Find out how to get the source-pathname  in current lisp.")
 (defun source-pathname ()
   #+allegro excl:*source-pathname*
   #+lispworks dspec:*source-pathname*
-  #+sbcl (error "need source-pathname in sbcl~%"))
+  #+sbcl (error "need source-pathname in sbcl~%")
+  #+ccl (error "need source-pathname in ccl~%")
+  #+abcl (extensions:source-pathname)
+  )
 
 
 
@@ -303,6 +351,7 @@
   `(#+allegro  excl:without-interrupts
     #+lispworks progn
     #+ccl progn
+    #+abcl progn
     #+cmu system:without-interrupts 
     #+sbcl sb-sys:without-interrupts
     ,@body))
@@ -352,9 +401,9 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
-#-(or allegro lispworks sbcl ccl) (error "need with-definition-unit for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl) (error "need with-definition-unit for currently running lisp.~%")
 (defmacro with-definition-unit (&body body)
-  #+allegro  `(with-compilation-unit () ,@body)
+  #+(or allegro abcl)  `(with-compilation-unit () ,@body)
   #+(or lispworks sbcl ccl) `(progn ,@body))
   
 
