@@ -32,16 +32,34 @@
              #:temporary-folder
              #:temporary-file)))
 
+;;
+;; For good meausure for e.g. ABCL which doesn't modify package definitions:
+;;
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (export '(*fasl-extension*
+	    concatenate-fasls
+	    directory-list
+	    file-directory-p
+	    temporary-folder
+	    temporary-file) :glisp))
+
+
 (defparameter *fasl-extension*
     #+allegro excl:*fasl-default-type*
     #+lispworks compiler:*fasl-extension-string*
     #+sbcl sb-fasl:*fasl-file-type*
     #+ccl ccl:*.fasl-pathname*
-    #-(or allegro lispworks sbcl ccl) (error "Need fasl extension string for the currently running lisp.~%"))
+    #+abcl "abcl"
+    #-(or allegro lispworks sbcl ccl abcl) (error "Need fasl extension string for the currently running lisp.~%"))
 
+
+#-(or allegro lispworks sbcl ccl) 
+(warn "~&Please implement concatenate-fasls for the currently running lisp.~%")
 
 (defun concatenate-fasls (files dest)
+  #-(or allegro lispworks sbcl ccl) (declare (ignore files dest))
   #-(or allegro lispworks sbcl ccl) (error "~&Please implement concatenate-fasls for the currently running lisp.~%")
+
   
   #+(or allegro sbcl)
   ;;
@@ -100,8 +118,11 @@ and \"..\" entries."
   (directory (merge-pathnames *wild-entry* pathspec)
              :resolve-symlinks nil)
   #+ccl
-  (directory (merge-pathnames *wild-entry* directory)
-                :directories t))
+  (directory (merge-pathnames *wild-entry* pathspec)
+                :directories t)
+  #+abcl
+  (directory (merge-pathnames *wild-entry* pathspec)
+                :resolve-symlinks  nil))
 
 
 (defun file-directory-p (file)

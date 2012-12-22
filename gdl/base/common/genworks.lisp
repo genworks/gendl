@@ -21,41 +21,59 @@
 
 (in-package :gdl)
 
+#+ecl (error "
 
-#+abcl (error "GenDL is not yet supported on ABCL. The first problem is something to do with meta-object GDL-CLASS
-which is supposed to be the meta-class of our VANILLA-MIXIN. To see the error, comment out this #+abcl and error
-in gdl/base/common/genworks.lisp, and try (ql:quickload :gdl-base). Then you will see the error. If you know 
-something about it, please email  open-source@genworks.com.~%")
-
-#+ecl (error "D'oh! GenDL is not yet supported on ECL. If you would like to try porting it, start with the file
+D'oh! GenDL is not yet supported on ECL. If you would like to try porting it, start with the file
 gdl/base/common/genworks.lisp. 
 Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.
 
-#+clisp (error "D'oh! GenDL is not yet supported on CLISP. If you would like to try porting it, start with the file,
+")
+
+#+clisp (error "
+
+D'oh! GenDL is not yet supported on CLISP. If you would like to try porting it, start with the file,
 gdl/base/common/genworks.lisp.  
 Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.
 
-#+scl (error "D'oh! GenDL is not yet supported on Scieneer CL. If you would like to try porting it, start with the file, 
+")
+
+#+scl (error "
+
+D'oh! GenDL is not yet supported on Scieneer CL. If you would like to try porting it, start with the file, 
 gdl/base/common/genworks.lisp.  
 Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.
 
-#+genera (error "D'oh! GenDL is not yet supported on Genera. If you would like to try porting it, start with the file, 
+")
+
+#+genera (error "
+
+D'oh! GenDL is not yet supported on Genera. If you would like to try porting it, start with the file, 
 gdl/base/common/genworks.lisp.  
 Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.
 
-#+corman (error "D'oh! GenDL is not yet supported on Corman Lisp. If you would like to try porting it, start with the file, 
+")
+
+#+corman (error "
+
+D'oh! GenDL is not yet supported on Corman Lisp. If you would like to try porting it, start with the file, 
 gdl/base/common/genworks.lisp.  
 Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.~%")
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.
+
+")
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp scl genera) 
-(error "GenDL is not yet supported on this Lisp. By the way, what Lisp
-is this? Please let us know at open-source@genworks.com.~%")
+(error "
+
+GenDL is not yet supported on this Lisp. By the way, what Lisp
+is this? Please let us know at open-source@genworks.com.
+
+")
 
 
 #-(or allegro lispworks sbcl ccl abcl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
