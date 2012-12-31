@@ -48,7 +48,7 @@
     #+allegro excl:*fasl-default-type*
     #+lispworks compiler:*fasl-extension-string*
     #+sbcl sb-fasl:*fasl-file-type*
-    #+ccl ccl:*.fasl-pathname*
+    #+ccl (namestring ccl:*.fasl-pathname*)
     #+abcl "abcl"
     #-(or allegro lispworks sbcl ccl abcl) (error "Need fasl extension string for the currently running lisp.~%"))
 
@@ -144,7 +144,8 @@ and \"..\" entries."
                                (temporary-folder))))
     (when create? 
       (with-open-file 
-          (out file :direction :output :if-does-not-exist :create :if-exists :append))) 
+          (out file :direction :output :if-does-not-exist :create :if-exists :append)
+	(declare (ignore out))))
     ;;
     ;; FLAG -- change this to return true pathname, fix code which uses it
     ;;
