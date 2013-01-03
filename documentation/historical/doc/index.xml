@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="/static/xsl/clixdoc.xsl" ?>
+
+
+
+<clix:documentation xmlns='http://www.w3.org/1999/xhtml' xmlns:clix='http://bknr.net/clixdoc'>
+  <clix:title>GDL/GWL 1.5 Documentation
+  </clix:title>
+ <clix:short-description>
+How to use General-purpose Declarative Language to do "KBE" as well as
+web applications to deploy those models.
+  </clix:short-description>
+
+
+ <h2><center>GDL/GWL 1.5 Documentation</center></h2>
+ <center> <i>interim update for gdl1578</i> </center>
+
+ <clix:chapter name="contents" title="Contents"></clix:chapter>
+ <clix:contents></clix:contents>
+
+<blockquote>
+
+<clix:chapter name="abstract" title="Becoming an effective GDL developer">
+<p>
+Becoming effective with GDL consists of three (3) basic skills:
+
+<ol>
+<li> Editing text and managing files with Gnu Emacs (yes, other
+editors will work, but Emacs provides special support and only Emacs
+is supported by Genworks);
+</li>
+
+<li>
+Very basic Common Lisp programming;
+</li>
+
+<li>
+Writing Object Definitions in GDL itself, using the define-object macro.
+</li>
+
+</ol>
+</p>
+
+<p>
+Beyond this, if you want to create nice Web applications with GDL, it
+helps to know something about HTML and server-based computing. But
+these concepts can be picked up over time and are not necessary to get
+started or to make simple applications or 3D geometric objects.
+</p>
+
+   </clix:chapter>
+
+ </blockquote>
+
+
+ <clix:chapter name="install" title="Basic Installation">
+
+
+<p>
+
+
+To download the software and retrieve license keys:
+
+<ol>
+<li>
+Visit the following URL:
+
+<pre>
+   http://www.genworks.com/dl
+</pre>
+</li>
+
+<li>
+Enter your email address. If you don't have an email address on file with Genworks, 
+send email to licensing -at- genworks -dot- com
+</li>
+
+
+<li>
+Read and accept the applicable license agreement and click the checkbox
+</li>
+
+<li>
+Click the link to download the .zip or .exe install file, and start
+the download to a known location on your computer.
+</li>
+
+<li>
+Click the "Retrieve License Key" link, to have your license key file(s)
+emailed to you.
+</li>
+
+</ol>
+
+
+<p>
+GDL is currently distributed for all the platforms as a self-contained
+"zip" file which does not requiring official administrator
+installation, or an install executable ("exe") file.
+
+To install the downloaded software, you can either:
+
+<ul>
+<li>unzip the "zip" file to a known location</li>
+or
+<li>run the installer executable (exe) file and follow the prompts</li>
+</ul>
+
+
+After the GDL application directory is in place (typically in
+"c:/Program Files" on Windows, or "/usr/local/" on Linux), you have to
+copy your license file into that GDL application directory. The
+license file was obtained via email in a previous step, and should be
+named either "devel.lic" for Enterprise or Student editions, or
+"gdl.lic" for Professional/Trial versions.
+
+
+Now you can start the GDL development environment by running the
+included "run-gdl.bat" startup script (Windows) or "run-gdl" script
+(Linux/Mac).
+</p>
+
+
+NOTE on Windows, the Start Menu item which gets installed by the
+Windows installation is not the usual way to start GDL (it will start
+it without Emacs, which is not what you normally want). This will be
+updated in a future release, but to start GDL with emacs, you should
+simply navigate to the GDL installation directory and run the batch
+file:
+
+<pre>
+
+   run-gdl.bat
+   
+</pre>
+
+This will start Emacs and should give you the welcome screen with
+instructions for starting GDL itself within Emacs.
+
+</p>
+
+
+
+
+
+ </clix:chapter>
+
+
+ <clix:chapter name="emacs" title="Getting Started with Emacs">
+
+<i>(Note -- a license key file is not required in order to get started
+with Emacs) </i>
+
+<p>
+Start Emacs with the GDL environment with the "run-gdl.bat" script
+(Windows) or the "run-gdl" shell-script (Linux). Emacs should come up
+with instructions for:
+
+
+<ol>
+<li> doing the Emacs tutorial, </li>
+<li> starting the GDL process, and </li>
+<li> special keychord shortcuts for working with GDL </li>
+</ol>
+
+</p>
+
+ </clix:chapter>
+
+
+ <clix:chapter name="cl" title="Getting Started with Common Lisp">
+
+The following resources should provide sufficient CL background to start
+with GDL:
+
+<ul>
+
+<li> <a href="blt.pdf"> Basic Lisp Techniques</a> (Chapters 1, 2, 3)</li>
+
+<li> <a href="http://www.genworks.com/training-g101"> Online CL Training
+Slides</a> <i>(designed to be used with lecture)</i></li>
+
+<li><a href="http://www.norvig.com/luv-slides.ps"> Norvig and Pitman Lisp Style Guide </a></li>
+
+<li> <a href="http://www.franz.com/support/documentation/current/ansicl/ansicl.htm"> Full ANSI Common Lisp Specification</a> <i>(for later reference)</i></li>
+
+
+</ul>
+
+
+ </clix:chapter>
+
+ <clix:chapter name="gdl-start" title="Getting Started with GDL Itself">
+
+<ul>
+<li><a href="gdl-tutorial.pdf">GDL Tutorial</a>
+<i>A Tutorial for GDL. This tutorial is somewhat outdated and we hope to
+have it revised relatively soon, but it still gives a decent overview
+of the fundamentals.</i></li>
+<li> <a href="http://www.genworks.com/training-g102"> Online GDL Training
+Slides</a> <i>(designed to be used with lecture)</i></li>
+
+</ul>
+
+
+ </clix:chapter>
+
+ <clix:chapter name="gdl-reference" title="Reference Documentation for GDL Objects, Operators, and Parameters">
+
+<ul>
+<li><a href="http://www.genworks.com/downloads/customer-documentation/reference/index.html">GDL Reference</a>
+<i>This is where you will spend 95% of your time after you are
+familiar with the basics. This documentation is auto-generated from
+GDL when we do the builds, so it gets updated with every new patch
+release. We are also working on a context-sensitive interface to this
+documentation from the live Emacs editing session. For now you have to
+refer to the Web version, and look up the object, message, or operator
+you want to know about.</i></li>
+
+</ul>
+
+ </clix:chapter>
+
+
+ <clix:chapter name="other-doc" title="Other Documentation and Reference">
+
+Currently, some of these files are in PDF format, some of the files
+are plaintext, and some are linked HTML.
+
+
+<ul>
+
+<li><a href="bootstrap.txt">Managing Projects</a>
+<i>Utilities for compiling and loading your GDL codebases.</i>
+</li>
+
+<li><a href="usage.txt">GDL Usage</a>
+<i>Concise GDL Language Specification.</i></li>
+
+<li><a href="gwl-usage.txt">GWL Usage</a>
+<i>Concise syntax guide to Web User Interface layer -- currently being updated for new GDL Ajax features</i></li>
+
+<li><a href="ta2.html">Testing and Tracking Utility (Ta2)</a>
+<i>Overview of GDL's graphical development testing and inspection utility -- this will soon be replaced with a functionally equivalent, but CSS-styled, upgrade, name yet to be determined.</i></li>
+
+<li><a href="make-gdl-app.txt">Generating Runtime Applications</a>
+<i>Generating runtime GDL and GDL/GWL applications (this is under construction, 
+to be released with 1577 Enterprise)</i></li>
+
+<li><a href="output-formats.txt">Output Formats and Lenses</a>
+<i>Creating output from GDL objects in various formats.</i></li>
+
+<li><a href="drawing.txt">GDL Drawing Package</a>
+<i>Creating Engineering Drawings with Dimensions and Annotations, as well as Typeset Text Blocks</i></li>
+
+<li><a href="reserved.txt">Reserved Symbols</a>
+<i>A listing of certain symbols you should avoid using as message names in your own apps, 
+to avoid clashes with pre-defined GDL/GWL message names.</i></li>
+
+<li><a href="translators.txt">Conversion Tools</a>
+<i>Conversion tools for object-oriented code in legacy Lisp-based and KBE formats.</i></li>
+
+</ul>
+
+ </clix:chapter>
+
+ <clix:chapter name="support" title="Customer Support">
+
+<p>
+<b>Evaluation and Student Licensees are not entitled to support directly
+from Genworks.</b> -- Please register for
+the <a href="http://groups.google.com/group/genworks">Genworks Google
+Group</a> then post your questions there.
+</p>
+
+<p>
+
+For commercial licensees, Genworks Customer support is usually
+available on U.S. business days from 9am to 5pm Michigan time (Eastern
+Standard Time, same as New York). Support for all included components
+of GDL/GWL is provided by Genworks as your single point of
+contact. Our VAR agreements with vendors such as Franz Inc. and SMS
+stipulate that Genworks' customers contact only Genworks for support,
+and not e.g. Franz Inc. or SMS directly. As necessary Genworks will
+follow up with our vendors for second-level support on Allegro CL,
+SMLib, etc.
+</p>
+
+<p>
+
+Genworks Technical Support can be reached at:
+<ul>
+<li>support@genworks.com</li>
+<li>+1 248-330-2979</li> (telephone for emergencies only, please).
+</ul></p>
+
+
+ </clix:chapter>
+
+ <clix:chapter name="copyright-legal" title="Copyright/Legal Notice">
+
+<small><i>
+
+All information contained in this documentation set is copyright
+(c) 2009, Genworks International, and is intended exclusively for
+use in operating a properly licensed installation of the Genworks
+GDL/GWL product.
+
+It may not be redistributed or otherwise used for any other purpose.
+
+</i></small>
+
+ </clix:chapter>
+
+
+
+
+</clix:documentation>

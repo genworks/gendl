@@ -1,0 +1,454 @@
+
+           YADD (Yet Another Definition Documenter)
+           ----------------------------------------
+
+1 Features
+----------
+
+  o Creates HTML documentation for:
+
+    - GDL object definitions (define-object)
+    - CL functions (defun)
+    - CL special (global) variables and constants (defparameter, defvar, defconstant)
+
+    (so actually, it's more than just a definition documenter)
+
+  o Runs dynamically from a running GDL session, or you can generate
+    static HTML files with built-in crawler.
+
+
+2 Getting Started
+-----------------
+
+The basic requirements to use YADD are that first you need at least
+one object which has :documentation (or a documented defun or
+variable) if you want to see anything show up. Second, the YADD
+package has to be loaded (this is now included with GDL by
+default). Third, you have to start the AllegroServe webserver if it is
+not already started. Then you will be able to use a web browser such
+as Firefox to view your formatted documentation.
+
+
+2.1 documentation
+----------------------
+
+:documentation is a special define-object keyword which you can put in
+the beginning of your definition. Its value is a plist consisting mainly of
+the keys :author and :description. A :documentation might look
+like the following:
+
+  (define-object try (base-object)
+    :documenation (:author "Eric Cartman"
+                   :description "Converts No. 2 to Mr. Hankey")
+
+    :computed-slots (...)
+    :objects (...)
+    :functions (...))
+
+
+IMPORTANT NOTE: In all cases, make sure never to have a left
+                parenthesis up against the left margin of your emacs
+                buffer within any string, including a remark string -
+                this will totally confuse emacs about the rest of your
+                buffer.
+
+
+To try using YADD, pick a high-level object in your package
+(i.e. "assembly"), and give it a simple :documentation plist.
+
+
+2.2 Loading the YADD package
+----------------------------
+
+You might need to do
+
+  (require :yadd)
+
+if the YADD package is not installed by default.
+
+
+2.3 Starting the AllegroServe webserver
+---------------------------------------
+
+[UPDATE: The following is now automated by calling (gwl:start-gwl)]
+
+
+As usual for starting the GDL/GWL environment, do the following:
+
+ (net.aserve:start :port 9000)
+
+If you get a socket error, try
+
+ (net.aserve:start :port 9001)
+
+Continue trying different ports until you don't get
+an error any more.
+
+
+
+2.4 Viewing your Documentation
+------------------------------
+
+Now the fun part. Once you have documented and compiled at least one
+item in your desired package, visit the following URL in a web browser
+such as Firefox:
+
+  http://<your-hostname>:<your-aserve-port>/yadd 
+
+e.g. http://localhost:9000/yadd
+
+This will show a listing of all "relevant" packages in the currently
+running session. This may take several moments to respond the first
+time you do it, since the entire Lisp image has to be scanned for
+documented symbols.
+
+
+2.5 Dynamic Updating
+---------------------
+
+By default, a lot of the information computed and presented by YADD is
+cached, meaning that if you change some source code and recompile, you
+will not see your updates simply by reloading the current web
+page. You have to go back to one of the original URLs mentioned in
+section 2.4 above, in order to re-instantiate the YADD documentation
+objects.
+
+There is an internal hook which will provide more dynamic behavior.
+The hook is to do the following in a command prompt (e.g. *gdl-devo*
+buffer):
+
+ (setq gwl:*developing?* t)
+
+This will cause the YADD pages to show a "Full Update!" link at the
+top, which can be clicked to update the documentations after changing
+and recompiling some code.
+
+To turn it off again, do:
+
+ (setq gwl:*developing?* nil)
+
+
+It is necessary to have this variable set to nil when doing a crawl
+(see section 6 below).
+
+
+2.6 Adding Examples to your Documentation
+-----------------------------------------
+
+You can add code examples (preformatted with <pre> ... </pre> html tags)
+in the :examples section of your documentation. If you include a 
+call to generate-sample-drawing, e.g:
+
+
+:examples "<pre>
+
+  (in-package :a)
+
+  (define-object test-aircraft (aircraft-assembly))
+
+  (generate-sample-drawing :object-roots (make-object 'test-aircraft)
+                           :projection-direction (getf *standard-views* :trimetric))
+
+ </pre>"
+
+
+then a PNG rendering of your example will automatically show up in the
+documentation page.
+
+
+3 Remarks for Messages in Object Definitions 
+--------------------------------------------
+
+In addition to :documentation, you can make documentation for
+individual messages in your objects. Most messages just take a string
+before the message name.
+
+IMPORTANT NOTE: In all cases, make sure never to have a left
+                parenthesis up against the left margin of your emacs
+                buffer within any string, including a remark string -
+                this will totally confuse emacs about the rest of your
+                buffer.
+
+
+3.1 Remarks for Normal Messages (input-slots, computed-slots)
+---------------------------------------------------------------
+
+Normal messages (i.e. everything other than :objects, :hidden-objects,
+and :functions) are remarked with a string before the message name,
+for example:
+
+
+ :computed-slots
+ (("Number. The number of times Eric Cartman has passed 
+            gas on South Park this season."
+   cartman-gas-factor (compute-gas-factor :cartman)))
+
+
+Notice that everything up to the first period is considered to be a
+description of the type of the message value. Other sections can be
+specified by using lines which start with a word which looks like a
+keyword symbol (i.e. starts with a colon):
+
+
+ :computed-slots
+ (("Number. The number of times Eric Cartman has passed 
+    gas on South Park this season.
+
+    :note This includes both explicit and implied occurrences.
+
+    :implementation We call a function which scans South Park
+                    episodes and picks up certain sound signatures."
+    cartman-gas-factor (compute-gas-factor :cartman)))
+
+Note that for required input-slots, which are not wrapped in their own
+set of parens, the documentation string goes directly before the slot
+name, e.g:
+
+  :input-slots
+  ("Number. The dimension in Y direction." length   
+   "Number. The dimension in X direction" width)
+
+
+As well as keyword symbols, words in ALL-CAPS are also considered to
+be section headings within a remark. Note that because of this, you
+must be careful not to start any lines of your remark with
+keyword-style or ALL-CAPS words, unless you want these to be
+considered as section headings.
+
+
+3.2 Remarks for objects and hidden-objects
+------------------------------------------
+
+Objects and hidden-objects are documented in similar manner to normal 
+messages, with the remark string coming before the name, for example:
+
+  :objects
+  (("robotic-tv. Be careful, this TV has a mind of its own."
+    chefs-tv :type 'robotic-tv
+              ...)
+    ...)
+
+Note that as with the other documentation strings, everything up to
+the first period is considered to be the type. If the object can have
+more than one type, you can use a comma-separated list of types
+leading up to the period.
+
+You can also have named sections, exactly as with the documentation
+strings for normal slots described above.
+
+
+3.3 Documenation for GDL Functions
+----------------------------------
+
+GDL functions (i.e. functions defined in the :functions section of a
+define-object) are documented in the same manner, with a string
+immediately before the function name. These work exactly like the
+documentation strings for slots and objects, but there are three
+special section headings you can use:
+
+ :arguments, :&optional, :&key
+
+These special headings each take a list of arguments with escaped
+strings with their descriptions. This is how you can document the
+required, optional, and keyword arguments to the function.
+
+Here is an example with :arguments
+
+
+ :functions
+ (("Number. Returns average weight, more if cartman? is t
+          :arguments 
+          (cartman? \"Boolean. Indicates whether we are talking about
+                      Eric Cartman.\")"
+   compute-weight
+   (cartman?)
+   (if cartman? 150 80)))
+
+
+:&optional and :&key can have each argument as a list, with an
+expression showing the default value:
+
+
+ :functions
+ (("Number. Returns average weight, more if cartman? is t
+          :arguments 
+          (cartman? \"Boolean. Indicates whether we are talking about
+                      Eric Cartman.\")
+          :&optional
+          ((donuts? t) \"Boolean. Indicates whether subject has been
+                         eating donuts lately.\")"
+
+   compute-weight
+   (cartman? &optional (donuts? t))
+
+    (if cartman? (if donuts? 160 150) (if donuts? 90 80))))
+
+
+You can also have other named sections, exactly as with remarks for
+normal messages.
+
+
+4 Documentation for Functions
+-----------------------------
+
+Remarks for CL functions (defined with "defun") are exactly like those
+for GDL functions, except that the remark string comes immediately
+following the argument list to the function:
+
+
+ (defun compute-weight (cartman? &optional (donuts? t))
+   "Number. Returns average weight, more if cartman? is t
+    :arguments 
+    (cartman? \"Boolean. Indicates whether we are talking about
+                Eric Cartman.\")
+    :&optional
+    ((donuts? t) \"Boolean. Indicates whether subject has been
+                   eating donuts lately.\")"
+
+  (if cartman? (if donuts? 160 150) (if donuts? 90 80))))
+
+
+You can also have other named sections, exactly as with remarks for
+normal messages.
+
+
+5 Documentation for Variables and Constants
+-------------------------------------------
+
+Variables and Constants, for the purposes of these instructions,
+consist of named values defined with defparameter, defvar, and
+defconstant.
+
+In all cases, the remark string comes immediately following the
+default expression for the variable:
+
+
+(defparameter *cartman-base-weight* 150 
+ "Number. Cartman's typical weight when he hasn't been 
+  eating Cheese Poofs.
+
+:value-default 150"
+
+
+As shown above, variables have a special section keyword,
+:value-default, which you can use to document the typical default
+value for the variable.
+
+You can also have other named sections, exactly as with remarks for
+normal messages.
+
+
+6 Generating Static HTML files
+------------------------------
+
+The Generative Web Language (:gwl package) has a crawl function which
+you can use to kick out static HTML files of your documentation.
+
+Note that if you have any illegal HTML tags in your text, the crawl
+will fail, since it actually parses then re-generates the text as
+HTML.
+
+So for example you can't have something like 
+
+  <number>
+
+or 
+
+ #<curve 23433>
+
+in your documentation strings.
+
+If you want literal greater-than or less-than signs like this, use:
+
+ &lt; for < 
+  
+    and
+
+ &gt; for >
+
+
+6.1 Crawling all Packages
+-------------------------
+
+First, make sure the *development?* flag is set to nil as follows:
+
+ (setq gwl:*developing?* nil)
+
+Next, call the crawl function on the part yadd:assembly as follows:
+
+
+ (gwl:crawl "yadd:assembly")
+
+
+This may take several minutes to run. By default it will produce the
+directory:
+
+
+ /tmp/sites/assembly/
+
+
+and the entry-point into your docs will be
+
+ 
+ /tmp/sites/assembly/index.html
+
+You can freely tar up the assembly/ directory, move it elsewhere,
+rename it, etc. and the index.html within it will continue to work.
+
+If you want to output to a different directory than the default /tmp/,
+you can specify an :output-root keyword argument, like this:
+
+ (gwl:crawl "yadd:assembly" :output-root "/home/dcooper8/Desktop/")
+
+
+6.2 Crawling individual Packages
+--------------------------------
+
+Call the crawl function on the part yadd:package-dokumentation as
+follows:
+
+
+ (gwl:crawl "yadd:package-dokumentation" 
+             :make-part-args (list :package <your-package-name>))
+
+<your-package-name> should be a string naming the package for which
+you wish to generate docs.
+
+This will take several seconds to run. It will produce the directory:
+
+
+ /tmp/sites/package-dokumentation/
+
+
+and the entry-point into your docs will be
+
+ 
+ /tmp/sites/package-dokumentation/index.html
+
+
+You can freely tar up the package-dokumentation/ directory, move it
+elsewhere, rename it, etc. and the index.html within it will continue
+to work.
+
+
+If you want to output to a different directory than the default /tmp/,
+you can specify an :output-root keyword argument, like this:
+
+ (gwl:crawl "yadd:package-dokumentation" :make-part-args (list :package <your-package-name>)
+                                         :output-root "/home/dcooper8/Desktop/")
+
+
+7 Editor Support
+----------------
+
+Genworks provides an Emacs Lisp (.el) file which provides enhanced
+editor support for object definitions and documentation. Specifically
+this will colorize the define-object sections, and will make all 
+the strings a certain color.
+
+IMPORTANT NOTE: In all cases, make sure never to have a left
+                parenthesis up against the left margin of your emacs
+                buffer within any string, including a remark string -
+                this will totally confuse emacs about the rest of your
+                buffer.
+

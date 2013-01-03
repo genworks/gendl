@@ -415,9 +415,9 @@
 	(with-corrected-orientation
 	    (:|Shape|
 	      (:|Appearance| (write-the material-properties))
-	      (:|Cone| :bottomRadius (the radius-1)
-		:topRadius (the radius-2)
-		:height (the length)
+	      (:|Cone| :bottomRadius (to-double-float (the radius-1))
+		:topRadius (to-double-float (the radius-2))
+		:height (to-double-float (the length))
 		:bottom (when (the bottom-cap?) "TRUE"))))
 	(call-next-method)))))
 	

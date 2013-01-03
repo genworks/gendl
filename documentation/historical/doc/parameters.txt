@@ -1,0 +1,281 @@
+;;
+;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
+
+NOTE: This information has been documented separately and the
+documentation is now available in the GDL reference section. The
+descriptions are left here for historical continuity, but this file
+may be removed in a future GDL release.
+
+
+
+      User-visible Parameters and Constants from GDL and GWL
+      ======================================================
+
+
+1 From the GDL Package:
+=======================
+
+"Constants for twice pi and half of pi. These cannot be changed."
+(defconstant 2pi (* 2 pi))
+(defconstant pi/2 (/ pi 2))
+
+"Colors and line-thickness can be specified in the :display-controls
+attribute of an object (or passed in as an input from the parent),
+with keywords :color and :line-thickness respectively.
+The colors can be HTML-style hex strings, e.g. \"#ababab,\" or keywords
+naming a color from the following *color-plist*. *color-plist* may
+be modified if desired:"
+(defparameter *color-plist*
+    '(:AQUA "#00FFFF"
+      :AQUAMARINE "#70DB93"
+      :AQUAMARINE-MEDIUM "#32CD99"
+      :BLACK "#000000"
+      :BLUE "#0000FF"
+      :BLUE-CADET "#5F9F9F"
+      :BLUE-CORN-FLOWER "#42426F"
+      :BLUE-LIGHT "#C0D9D9"
+      :BLUE-MEDIUM "#3232CD"
+      :BLUE-MIDNIGHT "#2F2F4F"
+      :BLUE-MIDNIGHT-NEW "#00009C"
+      :BLUE-NAVY "#23238E"
+      :BLUE-NEON "#4D4DFF"
+      :BLUE-RICH "#5959AB"
+      :BLUE-SKY "#3299CC"
+      :BLUE-SLATE "#007FFF"
+      :BLUE-SLATE-DARK "#6B238E"
+      :BLUE-SLATE-MEDIUM "#7F00FF"
+      :BLUE-STEEL "#236B8E"
+      :BLUE-STEEL-LIGHT "#8F8FBD"
+      :BLUE-VIOLET "#9F5F9F"
+      :BRASS "#B5A642"
+      :BRONZE "#8C7853"
+      :BRONZE-II "#A67D3D"
+      :BROWN "#A62A2A"
+      :BROWN-DARK "#5C4033"
+      :BROWN-DARK-VERY "#5C4033"
+      :CHOCOLATE-BAKERS "#5C3317"
+      :CHOCOLATE-SEMI-SWEET "#6B4226"
+      :COPPER "#B87333"
+      :COPPER-COOL "#D98719"
+      :CORAL "#FF7F00"
+      :CYAN "#00FFFF"
+      :FELDSPAR "#D19275"
+      :FIREBRICK "#8E2323"
+      :FUCHSIA "#FF00FF"
+      :GOLD "#CD7F32"
+      :GOLD-BRIGHT "#D9D919"
+      :GOLD-OLD "#CFB53B"
+      :GOLDENROD "#DBDB70"
+      :GOLDENROD-MEDIUM "#EAEAAE"
+      :GREEN "#008000"
+      :GREEN-COPPER "#527F76"
+      :GREEN-COPPER-DARK "#4A766E"
+      :GREEN-DARK "#2F4F2F"
+      :GREEN-FOREST "#238E23"
+      :GREEN-FOREST-MEDIUM "#6B8E23"
+      :GREEN-HUNTER "#215E21"
+      :GREEN-LIME "#32CD32"
+      :GREEN-OLIVE-DARK "#4F4F2F"
+      :GREEN-PALE "#8FBC8F"
+      :GREEN-SEA "#238E68"
+      :GREEN-SEA-MEDIUM "#426F42"
+      :GREEN-SPRING "#00FF7F"
+      :GREEN-SPRING-MEDIUM "#7FFF00"
+      :GREEN-YELLOW "#93DB70"
+      :GREEN-YELLOW2 "#99CC32"
+      :GRAY "#808080"
+      :GREY "#C0C0C0"
+      :GREY-DIM "#545454"
+      :GREY-LIGHT "#A8A8A8"
+      :GREY-LIGHT-VERY "#CDCDCD"
+      :GREY-SLATE-DARK "#2F4F4F"
+      :KHAKI "#9F9F5F"
+      :LIME "#00FF00"
+      :MAGENTA "#FF00FF"
+      :MAROON "#800000"
+      :NAVY "#000080"
+      :OLIVE "#808000"
+      :ORANGE "#FF7F00"
+      :ORANGE-MANDARIAN "#E47833"
+      :ORANGE-MANDARIN "#E47833"
+      :ORCHID "#DB70DB"
+      :ORCHID-DARK "#9932CD"
+      :ORCHID-MEDIUM "#9370DB"
+      :PERIWINKLE "#AAAAFF"
+      :PINK "#BC8F8F"
+      :PINK-NEON "#FF6EC7"
+      :PINK-SPICY "#FF1CAE"
+      :PLUM "#EAADEA"
+      :PURPLE "#800080"
+      :PURPLE-DARK "#871F78"
+      :QUARTZ "#D9D9F3"
+      :RED "#FF0000"
+      :RED-INDIAN "#4E2F2F"
+      :RED-ORANGE "#FF2400"
+      :RED-VIOLET "#CC3299"
+      :RED-VIOLET-MEDIUM "#DB7093"
+      :ROSE-DUSTY "#856363"
+      :SALMON "#6F4242"
+      :SCARLET "#8C1717"
+      :SIENNA "#8E6B23"
+      :SILVER "#C0C0C0"
+      :SKY-SUMMER "#38B0DE"
+      :TAN "#DB9370"
+      :TAN-DARK "#97694F"
+      :TAN-NEW "#EBC79E"
+      :TEAL "#008080"
+      :THISTLE "#D8BFD8"
+      :TURQUOISE "#ADEAEA"
+      :TURQUOISE-DARK "#7093DB"
+      :TURQUOISE-MEDIUM "#70DBDB"
+      :VIOLET "#4F2F4F"
+      :WHEAT "#D8D8BF"
+      :WHITE "#FFFFFF"
+      :WOOD-DARK "#855E42"
+      :WOOD-LIGHT "#E9C2A6"
+      :WOOD-MEDIUM "#A68064"
+      :YELLOW "#FFFF00"))
+
+
+"This will be set to the current object (self) in response to a call
+to the :break! method (normally as a result of clicking a link written
+by the :write-break-link! method of base-html-sheet)."
+(defparameter *debug-object* nil)
+
+"This is the location of the Gnu ghostscript executable. It
+ is required to get graphical output. A version of ghostscript
+ is distributed with MS Windows GDL versions, which you should
+ install in the default location (<gdl-dir>/ghostscript/). 
+ Unix and Linux system will likely already have ghostscript
+ installed as the executable /usr/local/bin/gs. If not,
+ you will have to install Gnu or APFL Ghostscript and, if
+ the executable is different from /usr/local/bin/gs, set
+ this parameter appropriately, probably in a startup 
+ script such as your .gdlinit.cl, gdlinit.cl, or an
+ application .gdlinit.cl or gdlinit.cl. If you are setting
+ this at runtime, you should also set *gs-path* to the 
+ same thing (*gspath* gets set to the value of 
+ *ghostscript-path* at application startup time).
+"
+(defparameter *ghostscript-path* 
+    (if (featurep :mswindows)
+	    (make-pathname :directory (append (pathname-directory 
+					       (translate-logical-pathname "sys:"))
+					      (list "ghostscript" "gs6.52" "bin"))
+			   :name "gswin32c" :type "exe")
+	  #p"/usr/local/bin/gs"))
+
+
+"This defaults to t, which causes the GDL compiler to give a warning
+when it encounters unsupported constructs from ICAD/IDL. Setq it to
+nil to suppress these warnings."
+(defparameter *icad-compatibility-warnings?* t)
+
+
+"The default global origin."
+(defconstant *nominal-origin* (make-point 0 0 0))
+
+
+"The following are the default global X, Y, and Z vectors.
+ They should not be modified."
+(defconstant *nominal-x-vector* (make-vector 1 0 0))
+(defconstant *nominal-y-vector* (make-vector 0 1 0))
+(defconstant *nominal-z-vector* (make-vector 0 0 1))
+
+
+"List of paper sizes for PDF output. This may be modified (carefully)."
+(defparameter *paper-size-plist*
+    (list :letter (list :verbose-name "Letter (8.5x11)"
+			:width 612 :height 792)
+	  :tabloid (list :verbose-name "Tabloid (11x17)"
+			 :width 792 :height 1224)
+	  :ledger  (list :verbose-name "Ledger (17x11)"
+			 :width 1224 :height 792)
+	  :legal   (list :verbose-name "Legal (8.5x14)"
+			 :width 612 :height 1008)
+	  :executive (list :verbose-name "Exec. (7.5x10)"
+			   :width 540 :height 720)
+	  :a3  (list :verbose-name "A3 (11.69x16.53)"
+		     :width 841.68 :length 1190.16)
+	  :a4 (list :verbose-name "A4 (8.26x11.69)"
+		    :width 594.72 :height 841.68)
+	  :a5 (list :verbose-name "A5 (5.83x8.26)"
+		    :width 419.76 :height 594.72)
+	  :b4 (list :verbose-name "B4 (9.83x13.93)"
+		    :width 707.76 :height 1001.96)
+	  :b5 (list :verbose-name "B5 (7.17x10.12)"
+		    :width 516.24 :height 728.64)))
+
+
+"This list generates the selection list in the standard view controls.
+ It may be modified (carefully)."
+(defparameter *standard-views*
+    (list :top    *nominal-z-vector*
+	  :bottom *nominal-z-vector-r*
+	  :left   *nominal-x-vector-r*
+	  :right  *nominal-x-vector*
+	  :front  *nominal-y-vector-r*
+	  :rear   *nominal-y-vector*
+	  :trimetric *trimetric-normal-vector*
+	  :tri-r-r *trimetric-normal-vector-right-rear*
+	  :tri-l *trimetric-normal-vector-left*
+	  :tri-l-r *trimetric-normal-vector-left-rear*))
+
+
+"The following are the vectors for the default trimetric views.  The
+ default view controls in a graphics area of an HTML sheet will use
+ these for the various trimetric choices on the view list. These may
+ be modified if you wish."
+(defconstant *trimetric-normal-vector* (make-vector 0.83425635 -0.43777433 0.33528653))
+(defconstant *trimetric-normal-vector-left* (make-vector -0.83425635 -0.43777433 0.33528653))
+(defconstant *trimetric-normal-vector-right-rear* (make-vector 0.83425635 0.43777433 0.33528653))
+(defconstant *trimetric-normal-vector-left-rear* (make-vector -0.83425635 0.43777433 0.33528653))
+
+
+"Used for nearness comparison functions. Modify this with caution."
+(defparameter *zero-epsilon* 0.001)
+
+
+
+2 From the GWL Package:
+=======================
+
+"Contains the root-level objects corresponding to all currently active
+sessions in the webserver. Keyed on instance id (visible in the URLs),
+made into a keyword symbol. Currently this is not cleared
+automatically - to save memory, an application could clear (or
+recycle) entries from this table in response to a logoff or timeout
+event."
+(defvar *instance-hash-table* (make-hash-table))
+
+
+"Maximum value of the randomly-generated session id's when you make a part
+ in GWL. Set this to a very large number for publicly-accessible websites."
+(defparameter *max-id-value* 999)
+
+
+"These are bound dynamically to the Allegroserve request and entry
+objects in response to a URL request, so you can access them for
+example from inside a :write-html-sheet method."
+(defparameter *req* nil)
+(defparameter *ent* nil)

@@ -1,0 +1,393 @@
+;;
+;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
+
+         Basic GWL Overview and Syntax
+         =============================
+
+This file contains basic information and usage instructions for the
+Generative Web Language System (GWL), as it ships with General-purpose
+Declarative Language (GDL).
+
+
+1 Testing your Installation
+===========================
+
+After you have installed according to install.htm:
+
+o Make sure you have started AllegroServe with:
+
+      (net.aserve:start :port 9000) 
+
+ (you may choose any free port in place of 9000)
+
+
+o In your web browser, go to:
+
+      http://<hostname>:<port>/demos/robot
+
+      e.g. http://localhost:9000/demos/robot
+
+
+You should see a page with a simple robot assembly made from boxes. If 
+the robot shows up as well as the orange graphical "compass" below the 
+graphics viewport, your installation is likely working correctly.
+
+If you are interested you can see the code for this test part in
+<gdl-home>/gwl-samples/source/robot.lisp
+  
+2 Syntax
+============
+
+The following describes the syntax which is specific to GWL as
+distinct from the underlying host language (i.e. GDL)
+
+In general, the full capabilities of the host language remain
+available under GWL. Please see Common Lisp and/or GDL documentation
+as appropriate.
+
+
+2.1 GWL:Define-Package
+======================
+
+The macro Gwl:Define-Package is used to set up a new working package
+in Gwl.
+
+To see exactly what it is doing, try a macroexpand-1 on a call
+to Gwl:Define-Package.
+
+Example:
+
+   (Gwl:define-package :Gwl-user)
+
+The :Gwl-user package is an empty, pre-defined package for your
+use if you do not wish to make a new package just for scratch work.
+
+For real projects it is recommended that you make and work in your
+own Gwl package.
+
+3 Basic Usage
+=============
+
+Every gdl object whose instances are to be presented as a web page in an
+application must:
+
+ 1. Mix in base-html-sheet or a subclass thereof;
+ 2. define a :function called Write-HTML-Sheet
+
+The Write-HTML-Sheet function is a normal HTML synthesis function which 
+should make use of the htmlgen "html" macro. It does not need to take
+any arguments.
+
+Please see the htmlgen documentation (in <gdl-home>/doc/aserve/) with
+the AllegroServe distribution for full details on the use of htmlgen.
+
+Example:
+
+(define-object president (base-html-sheet)
+ :input-slots
+ ((name "Carter")
+  (term 1976))
+
+ :functions
+ ((write-html-sheet ()
+     (html
+      (:html
+       (:head (:title (format nil "Info on President: ~a" (the name))))
+       (:body 
+        (:table
+         (:tr (:td "Name") (:td "Term"))
+         (:tr (:td (:princ (the name))) (:td (:princ (the term)))))))))))
+
+ Access this part with the URL:
+
+   http://<host>:<port>/make?part=gwl-user::president
+
+        
+Once a page has been defined with its Write-HTML-Sheet function, a user
+may instantiate it by visiting the pre-defined search URL ``make'' and
+specifying the symbol for the part type after the question mark, for
+example:
+
+  http://mie.genworks.com:9000/make?part=gwl-user::president
+
+(Note you would not need the double-colon if "president" were exported
+ from "gwl-user" package).
+
+The above URL would display the resultant HTML from running its
+Write-HTML-Sheet function with default toplevel inputs.
+
+Presentation of a form for toplevel inputs is not yet implemented
+in Gwl.
+
+4 Page Linking
+==============
+
+Creating hypertext links to other pages in the page hierarchy is
+generally accomplished with the built-in method :Write-Self-Link. 
+This method, when called on a particular page instance, will write 
+a hypertext link referring to that page instance.
+
+The hypertext link is made up from the unique root-path of the target
+part, as well as an instance-id, which identifies the particular
+root-level instance which is the ``root'' of the relevant page
+hierarchy. While this may in some cases correspond to one "user" or
+session, in general there can be a many-to-many relationship between
+user sessions and root-level instances. In the current implementation
+there is no direct support for multiple users sharing the same
+instance. Currently nothing prevents multiple users from multiple web
+browsers from visiting the same instance; however there is not yet any
+automatic concurrency control for multiple users modifying the
+underlying parts, so for an interactive application with
+fillout-forms, the underlying parts could get into an inconsistent
+state.
+
+
+Example:
+
+(define-object presidents-container (base-html-sheet)
+  :input-slots
+  ((data '((:last-name "Carter" :term 1976)
+	   (:last-name "Clinton" :term 1992))))
+  :objects
+  ((presidents :type 'president-display
+               :sequence (:size (length (the data)))
+               :last-name (getf (nth (the-child index)
+				     (the data))
+				:last-name)
+               :term (getf (nth (the-child index)
+                                (the data))
+                           :term)))
+  :functions
+  ((write-html-sheet 
+    ()
+    (html
+     (:html
+      (:head (:title "Links to Presidents"))
+      (:body
+       (:h1 "Links to the Presidents")
+       (:ol
+	(dolist (president (list-elements (the presidents)))
+	  (html
+	   (:li (the-object president (write-self-link))))))))))))
+
+(define-object president-display (base-html-sheet)
+  :input-slots
+  (last-name term)
+
+  :computed-slots
+  ((strings-for-display (the last-name)))
+  
+  :functions
+  ((write-html-sheet
+    ()
+    (html
+     (:html
+      (:head (:title (:princ (the last-name))))
+      (:body
+       (:h1 (:princ (the last-name)))
+       "Term: " (:princ (the term))
+       (:p (the (write-back-link)))))))))
+
+ Access this part with the URL:
+
+   http://<host>:<port>/make?part=gwl-user::presidents-container
+
+
+The write-html-sheet function in presidents-container will write an
+enumerated list, where each item in the list will be a hypertext link
+leading to the respective President's actual page instance. The label
+text to be displayed for the link will default to the
+strings-for-display of the given President object, which defaults to
+the page name and index number. This default can be overridden as
+necessary.
+
+Note the use of the write-back-link function in
+presidents-display. This will generate a link back to the
+return-object of the object, which defaults to the object's parent.
+
+
+5 Form Handling
+===============
+
+*******************
+NOTE: This section is outdated. The forms interface for GWL has been 
+upgraded with the base-form-control object. Please see the reference 
+documentation in the GWL package for base-form-control for detailed
+instructions on its use. This section will be updated to 
+reflect the new practices.
+*******************
+
+
+Forms are generated using the gwl macro with-html-form. You wrap this
+macro around the HTMLgen code which creates the contents of the
+form:
+
+ (with-html-form ()
+  
+   ;; the body of your form goes here
+  
+    )
+
+This macro generates code similar to the following (do not be concerned if
+you do not understand the meaning of the following code):
+
+ ((:form :method :post :action "/answer")
+ 
+  ;;
+  ;; Some internal GWL code goes here automatically
+  ;;
+  
+  ;; the body of your form goes here   
+  
+  )
+
+The above code-snippet would be included in a Write-HTML-Sheet function
+of a page definition.  
+
+By default, the same object which generates the form will also respond
+to the form, and is also the object which will have its settable slots
+modified based on form fields (i.e. html "inputs") of the same
+name. You can override the default by specifying a "bashee" and/or
+"respondent" as slots in the requestor object (i.e. the object which
+is generating the form), for example:
+
+
+ :computed-slots
+ ((respondent (the some-other-object))
+  (bashee (the yet-another-object)))
+
+
+Any :settable :computed-slots in the bashee object (which, again,
+defaults to the "requestor," i.e. the same object which is generating
+the form) may be specified as :input values in the form. Their types
+will be inferred automatically and converted appropriately. If a type
+on a slot is variable, it is best to make its default be a string,
+then have your application read from the string (with the
+"read-safe-string" function).
+
+Note that only those input values which have actually changed
+(according to equalp) will be set into the corresponding
+:computed-slot. Ones which remain the same will be left alone
+(to avoid unnecessary dependency updating in the model).
+
+Any :input values in the form which are not :settable :computed-slots
+in the object will be collected and returned as part of the special
+query-plist message when the response page's write-html-sheet method
+is invoked, where query-plist is a plist containing keywords
+representing the form field names, and values which will be strings
+representing the submitted values.
+
+(define-object hello-form (base-html-sheet)
+
+  :computed-slots ((username "Jack" :settable))
+
+  :functions
+  ((write-html-sheet 
+    ()
+    (html
+     (:html 
+      (:head (:title "Sample Form"))
+      (:body 
+       (:p "Hello there, " (:princ (the username)) "!")
+       (:p (with-html-form ()
+	    ((:input :type :text :name :username 
+		     :value (the username)))
+	    ((:input :type :submit :name :submit 
+		     :value " Change Name! "))))))))))
+
+ Access this part with the URL:
+
+   http://<host>:<port>/make?part=gwl-user::hello-form
+
+
+
+6 Including Graphics
+====================
+
+The techniques for displaying graphics with GWL is not completely
+finalized, but the folowing example is how to do it for now. Note the
+use of the view-object :hidden-object, and the write-geometry method:
+
+(define-object box-display (base-html-sheet)
+  :computed-slots
+  ((length 10 :settable)
+   (width  10 :settable)
+   (height 10 :settable))
+  
+  :objects
+  ((box :type 'box))  ;; :length, :width, :height are descendant.
+  
+  :hidden-objects
+  ((view-object :type 'graphics-preferences
+		:object (the box) ;; can also be a list
+		:main-sheet self 
+		:width 500 :height 500 ;; image pixel resolution
+		;;(the :view) defaults to :trimetric.
+		:projection-vector (getf *standard-views* (the view))))
+  :functions
+  ((write-html-sheet
+    ()
+    (html 
+     (:html 
+      (:head (:title "Box Display"))
+      ((:body :bgcolor (gethash :quartz *color-table*))
+       (:center (:h2 "Box Display"))
+       ((with-html-form ()
+	(:table (:tr (:td "Length:")
+		     (:td ((:input :type :text :name :length :size 5 :value (the length)))))
+		(:tr (:td "Height:")
+		     (:td ((:input :type :text :name :height :size 5 :value (the height)))))
+		(:tr (:td "Width:")
+		     (:td ((:input :type :text :name :width :size 5 :value (the width))))))
+	(:p ((:input :type :submit :name :submit :value " OK "))))
+       (:p (the (write-geometry))))))))))
+
+
+ Access this part with the URL:
+
+   http://<host>:<port>/make?part=gwl-user::box-display
+
+
+7 Publishing URLs for GWL Objects
+=================================
+
+You can publish a URL for a given part, to avoid having to type the
+"make?" expression in the URL, using the AllegroServe publish
+function, as per the  following example:
+
+  (publish :path "/demos/bus"
+  	   :function #'(lambda(req ent)
+		         (gwl-make-object req ent "bus:assembly")))
+  
+
+8 Sample Applications
+=====================
+
+We distribute three sample applications, in the <gdl-home>/gwl-samples/
+directory:
+
+  robot.lisp (the simple test part described above)
+      ledger (a small application for keeping track of accounts and transactions)
+         bus (a basic North American school bus model)
+
+

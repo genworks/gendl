@@ -121,6 +121,7 @@
 
 	     #:arc
 	     #:base-object
+	     #:base-coordinate-system
 	     #:base-geometry-object
 	     #:bezier-curve
 	     #:box

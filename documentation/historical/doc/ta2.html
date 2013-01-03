@@ -1,0 +1,77 @@
+<html>
+<head><title>Ta2 Introduction</title></head>
+
+<body>
+
+<h2><center> Ta2 Introduction </center></h2>
+
+<i>Note: Ta2 is currently being redesigned with a jQuery and CSS styled front-end, and the name may change.
+
+The basic functionality will remain the same.</i>
+
+<pre>
+
+             Testing and Tracking Utility (Ta2)
+         =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+ You can bring up any object in GDL, which mixes at least base-object
+ into its root-level part, by visiting the URL:
+
+   http://&lt;host&gt;:&lt;port&gt;/ta2
+
+  e.g.    http://localhost:9000/ta2
+
+ Then enter your object's package::name (or package:name if exported).
+
+ Ta2 follows the "select-and-match" paradigm -- you first "select" a
+ mode of operation with one of the buttons, then "match" that mode to
+ any object in the tree or inspector by clicking.
+
+ Here is a rundown of the common buttons. They have tooltips which
+ will pop up when you hover the mouse over them. The ones with "..."
+ mean you first select the button to go into that "mode," then select
+ one or more objects either in the tree or in the inspector to apply
+ the selected action. The ones with "!"  do an immediate action.
+
+       I...  Inspect (make the inspector show the selected object).
+       DL... Draw Leaves in graphics viewport (replacing any existing).
+       DN... Draw Node in graphics viewport (replacing any existing).
+       AL... Add Leaves in graphics viewport.
+       AL*... Add Leaves individually (so they can be deleted individually).
+       DL... (duplicate label, needs renaming) Delete Leaves.
+       AN... Add Node in graphics viewport.
+       UN... Update selected node to reflect any compiled code changes.
+       B...  Break on selected object. 
+       UI... visit UI (if there is a main-sheet or write-html-sheet).
+       UH... visit UI in place of graphics viewport frame.
+       SR... Set Root of tree to selected object.
+       UR!   Up Root one level in the tree.
+       RR!   Reset Root to true root in the tree.
+       CL!   clear the graphics and color/line thickness settings.
+       F!    toggle Frames on and off (default is on).
+       U!    Update from current node down to reflect any compiled code changes.
+       UF!   Update from the root node down to reflect any compiled code changes.
+ 
+Notes:
+
+ o The toplevel of any object tree instantiated in Ta2 has to mix in
+   at least base-object.
+
+ o You can directly start a Ta2 session by visiting the "/ta2" uri
+   in your web browser, then specifying either an object name
+   prepended with package name and single or double colon, e.g:
+
+     gwl-user::robot-assembly
+
+   or by specifying a Lisp expression which will evaluate to an object
+   instance.
+
+ o The Break command (either from Ta2 or from the developer links in a
+   normal UI) automatically sets toplevel self to the broken-upon
+   object in the Lisp console window. It no longer actually "breaks"
+   the webserver thread!
+
+
+</pre>
+</body>
+</html>

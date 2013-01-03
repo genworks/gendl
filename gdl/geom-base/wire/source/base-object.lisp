@@ -710,6 +710,12 @@ based on the orientation and center of the object to which the local-to-global m
 
 (define-object base-geometry-object (base-object))
 
+(define-object base-coordinate-system (base-object)
+  :documentation (:description "This provides a default 3D Cartesian
+   coordinate system. It mixes in base-object and does not extend it
+   in any way, so as with base-object, it provides an imaginary
+   geometric reference box with a length, width, height, center, and
+   orientation."))
 
 
 (define-object bounding-box (box)

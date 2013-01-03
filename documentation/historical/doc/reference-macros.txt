@@ -1,0 +1,91 @@
+;;
+;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
+
+NOTE: These macros have been documented separately and the
+documentation is now available in the GDL reference section. The
+descriptions are left here for historical continuity, but this file
+may be removed in a future GDL release.
+
+    Macros for Object and Message Referencing
+    =========================================
+
+(defmacro append-elements (aggregate &optional expression filter)
+  "Returns an appended list of expression, evaluated for each member
+  of aggregate, filtering out those elements for which the filter
+  returns NIL.")
+
+(defmacro list-elements (aggregate &optional expression filter)
+  "Returns a list of the expression evaluated for each member of the
+  aggregate, filtering out those elements for which the filter returns
+  NIL.")
+
+(defmacro max-of-elements (aggregate &optional expression filter)
+  "Returns the maximum of the expression evaluated for each member 
+   of aggregate, filtering out those elements for which the filter 
+   returns NIL. For each element, the expression must return a number.")
+
+(defmacro min-of-elements (aggregate &optional expression filter)
+  "Returns the minimum of the expression evaluated for each member 
+   of aggregate, filtering out those elements for which the filter 
+   returns NIL. For each element, the expression must return a number.")
+
+(defmacro sum-elements (aggregate &optional expression filter)
+  "Returns the sum of the expression evaluated for each member 
+   of aggregate, filtering out those elements for which the filter 
+   returns NIL. For each element, the expression must return a number.")
+
+(defmacro the (&rest reference-chain)
+ "Used within the context of a defpart to send
+  message at the end of the reference-chain to object
+  identified by all but the last of the reference-chain
+  (or self if reference chain contains a single element)")
+
+(defmacro the-child (&rest reference-chain)
+  "Similar to ``the,'' but used to refer to the child part
+   from within an :objects or :hidden-objects specification.")
+
+(defmacro the-element (&rest reference-chain) "Used within the context
+  of a call to list-elements, append-elements, max-of-elements,
+  min-of-elements, or sum-elements. Applies the reference chain to
+  each element in the return value of the aggregate call, and causes
+  the aggregate call to operate on these evaluated values rather than
+  the raw list of objects.")
+
+(defmacro the-object (object &rest reference-chain)
+  "Applies reference-chain to object, rather than implicitly
+   to self as with ``the.''")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

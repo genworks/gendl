@@ -23,8 +23,53 @@
 
 (defparameter *gendl-geometry*
   `((:chapter :title "Working with Geometry in Gendl")
+    (:p "Although Gendl is intended for general-purpose computing, one
+  of its particular strong points is generating geometry and
+  processing geometric entities in various ways. Geometric
+  capabilities are provided by a library of "
+	(:emph "low-level primitives")
+	", or LLPs. LLPs are pre-defined GenDL objects which you can
+	extend by ``mixing in'' with your own definitions, and/or
+	instantiate as child objects in your definitions.")
+
+    (:p "The names of the geometric LLPs are in the "
+	(:texttt ":geom-base")
+	" package, and here are some examples:"
+	((:list :style :itemize)
+	 (:item (:texttt "base-coordinate-system") " provides an empty 3D Cartesian coordinate system"
+		(:footnote (:texttt "base-coordinate-system") " is also known by its legacy name "
+			   (:texttt "base-object") ". If your Gendl version does not yet have "
+			   (:texttt "base-coordinate-system") " defined, you can use "
+			   (:texttt "base-object") " to identical effect."))
+
+	 (:item "Simple 2-dimensional primitives include "
+	   (:texttt "line")
+	   ", "
+	   (:texttt "arc")
+	   ", and " (:texttt "ellipse") ".")
+
+	 (:item "Simple 3-dimensional primitives include "
+	   (:texttt "box")
+	   ", "
+	   (:texttt "sphere")
+	   ", and " 
+	   (:texttt "cylinder")
+	   ".")
+
+	 (:itemize "Advanced 3-dimensional primitives (which depend on optional add-on Geometry Kernel module) include "
+	   (:texttt "b-spline-curve")
+	   ", "
+	   (:texttt "b-spline-surface")
+	   ", and "
+	   (:texttt "merged-solid") "."))
+
+	"This chapter will cover the default coordinate system of GenDL as well as the built-in simple 2D and 3D LLPs. Chapter "
+	(:ref "chap:workingwithsurfacesandsolids")
+	" will cover the advanced Surfaces and Solids primitives.")
 
 
+    ((:section :title "The Default Coordinate System in Gendl")
+     (:p "Gendl's default coordinate system comes with the standard mixin "
+	 (:texttt "base-coordinate-system")
+	 " and represents a standard Cartesian Coordinate system with X, Y, and Z dimensions."
 
-
-  ))

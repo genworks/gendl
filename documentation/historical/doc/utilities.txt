@@ -1,0 +1,364 @@
+;;
+;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
+
+       Utility Functions, Macros, and Types Defined in GDL
+       ====================================================
+
+
+NOTE: These are also included in the reference documentation available from a running GDL session at 
+
+        http://localhost:<port>/yadd
+
+
+
+(defun 3d-distance (point-1 point-2)
+  "Return a number which is the three-dimensional distance from point-1 to point-2")
+
+(defun 3d-vector-to-array (vector)
+  "Returns a Lisp array of numbers from a 3d-vector.")
+
+;;
+;; NOTE: matrix:add-matrix is also available, from the CMU repository.
+;;       it works similarly to this function.
+;;
+(defun add-matrices (&rest matrices)
+  "Adds together matrices of similar rank.")
+
+(defun add-vectors (&rest vectors)
+  "Return a new vector, the result of addition")
+
+(defun alignment (axis1 vector1 &optional axis2 vector2 axis3 vector3)
+  "Returns a transformation matrix corresponding to the given axes and vectors. Axis3
+and vector3 should be given only if you want the transformation matrix to have a 
+left-handed coordinate system -- otherwise vector3 will default to the cross
+of vector1 and vector2 (in the appropriate order).")
+
+(defun alist2plist (alist)
+  "Returns a plist converted from an assoc-list")
+
+(defun always (arg)
+  "Always returns T.")
+
+(defun angle-between-vectors (vector-1 vector-2 &optional reference-vector &key (epsilon *zero-epsilon*) -ve)
+  "Returns smallest positive angle between vector-1 and vector-2, if reference-vector
+   is nil. If non-nil, reference-vector indicates the direction of positive rotation.
+   If -ve is non-nil, true negative angles will be returned. Epsilon is used to check 
+   for angles close to zero or 2pi.")
+
+(defun angle-between-vectors-d (vector-1 vector-2 &optional reference-vector -ve)
+  "return the angle (in degrees) between the two vectors, in degrees. If
+   no reference-vector given, return smallest possible angle. If direction
+   vector is given, return according to right-hand rule. If \"-ve\" is given,
+   return negative number for angle if it really is negative according to
+   right-hand rule.")
+
+(defun array-to-3d-vector (array)
+  "Returns a 3d-vector from a 3-by-1 Lisp array of numbers.")
+
+(defun coincident-point? (point-1 point-2 &key (tolerance *zero-epsilon*))
+  "Returns t if the distance between point-1 and point-2 is less
+   than epsilon. The default epsilon is *zero-epsilon*.")
+
+;;
+;;NOTE: create-obliqueness currently computes absolute obliqueness - 
+;;      computation relative to self's parent is not yet implemented.")
+;;
+(defun create-obliqueness (v1 name-v1 v2 name-v2 self)
+  "Compute absolute transformation matrix. v1 and v2 are vectors,
+name-v1 and name-v2 are direction keywords such as :front, :right, 
+etc. v1 and v2 should be normal to each other.")
+
+
+(defun cross-vectors (vector-1 vector-2)
+  "Compute the cross-product of vector-1 and vector-2, a new vector.")
+
+(defun degree (degrees &optional (minutes 0) (seconds 0))
+  "Converts degrees to radians")
+
+(defun dot-vectors (vector-1 vector-2)
+  "Compute the dot-product of vector-1 and vector-2, a number.")
+
+(defun ensure-list (possible-list)
+  "Returns a list from possible-list")
+
+(defun flatten (list)
+  "Returns a flat list with all nesting (and all NIL values) removed.")
+
+(defun get-x (point) 
+  "Returns X component of point or vector")
+
+(defun get-y (point) 
+  "Returns Y component of point or vector")
+
+(defun get-z (point) 
+  "Returns Z component of point or vector")
+
+(defun half (num)
+  "Divides number by two.")
+
+(defun index-filter (function list)
+  "Returns items from list for whose indices function is true.")
+
+(defun inter-circle-circle (center-1 radius-1 center-2 radius-2 positive-angle? &key (tolerance *zero-epsilon*))
+  "Returns one of two points of intersection between two circles, or NIL if there is no intersection.")
+
+(defun inter-circle-sphere (circle-center circle-radius circle-plane-normal 
+			    sphere-center sphere-radius positive-angle? &key (tolerance *zero-epsilon*))
+  "Returns one of two points of intersection between circle and sphere, or NIL if there is no intersection.")
+
+
+(defun inter-line-plane (p-line u-line p-plane u-plane)
+  "Return single point of intersection between line and plane or NIL if
+no intersections. p-line is a point on the line, u-line is direction
+vector of the line, p-plane is a point on the plane, and u-plane is
+normal vector to the plane.")
+
+(defun inter-line-sphere (p-line u-line center radius side-vector)
+  "Takes point on the line (p-line), direction vector of line (u-line),
+   center of sphere (center), radius of sphere (radius), and a 
+   side-selection vector (side-vector) to decide between two possible
+   intersections, and return either a point or NIL.")
+
+(defun lastcar (list)
+  "Returns last element of list.")
+
+(defun length-vector (vector)
+  "Returns the vector's magnitude.")
+
+(defun list-of-numbers (num1 num2 &optional (increment 1))
+  "Returns a list of numbers starting from num2 going to num2 incremented by increment.")
+
+(defun make-keyword (string)
+  "Converts string or symbol into a keyword symbol.")
+
+(defmacro make-vector (x y z)
+  "Return a 3D vector of double-floats.")
+
+(defmacro make-point (x y z)
+  "Return a 3D vector of double-floats (points are identical with vectors).")
+
+(defun make-transform (list-of-lists)
+  "Converts a list of lists into a tranformation matrix.")
+
+(defun mapsend (object-list message)
+  "Sends message, which should evaluate to a keyword, to each object in object-list,
+and returns a new list with each resultant value.")
+
+(defun maptree (node function &optional (accept? #'always)
+					(prune?  #'never)
+					(get-children :children))
+  "Returns the list resulting from applying function to each object
+in a defpart tree starting from node, accepting only those which pass
+the accept? function, stopping tree recursion at those which pass the
+prune? function, and using the get-children message to compute the 
+children of a given object.")
+
+
+(defun matrix*vector (matrix vector)
+  "Multiplies matrix by vector with compatible rank.")
+
+;;
+;; From Paul Graham ANSI Common Lisp
+;;
+(defun most (function list)
+  "return member of list which returns max when function applied.
+As second value return actual max value (return-value of function)")
+
+;;
+;; NOTE: matrix:multiply-matrix is also available, from the CMU repository.
+;;       it works similarly to this function.
+;;
+(defun multiply-matrices (matrix-1 matrix-2)
+  "Multiplies one matrix by another of compatible rank.")
+
+(defun near-to? (number near-to &optional (tolerance *zero-epsilon*))
+  "Predicate to test if number is within tolerance of 
+   near-to. The default tolerance is *zero-epsilon*.")
+
+(defun near-zero? (number &optional (tolerance *zero-epsilon*))
+  "Returns T if number is within tolerance of zero.")
+
+(defun never (arg)
+  "Always returns NIL.")
+
+(defun number-format (number &optional decimal-places)
+  "Returns string representing number rounded to specified number of decimal places.")
+
+(defun number-round (number &optional decimal-places)
+  "Returns double-float of number rounded to specified number of decimal places.")
+
+(defun orthogonal-component (vector reference-vector)
+  "Returns the vector closest to reference-vector which is normal to vector.")
+
+(deftype part-name-symbol ()
+  "(typep <object> part-name-symbol) will return true for objects which are
+symbols naming a defpart.")
+
+(defun plist2pairs (plist)
+  "Return a list of lists, each a pair, from a plist")
+
+(defun plist-keys (plist)
+  "Return list of the keywords from a plist.")
+
+(defun plist-values (plist)
+  "Return list of the values from a plist.")
+
+(defmacro print-variables (&rest vars)
+  "Print variable name and value as with prin1, and newline.")
+
+(defun projected-vector (vector plane-normal)
+  "Returns new vector representing vector projected onto plane of plane-normal.")
+
+(defun proj-point-on-line (3d-point line-point vector)
+  "Returns a 3D-Point. Drops a point onto a line. 3D-point is a global 
+point. Line-point is a point on the line. Vector is a unit vector in the 
+direction of the line.")
+
+(defun pythagorize (&rest numbers)
+  "Number. Returns the square root of the sum of the squares of <i>numbers</i>.")
+
+(defun radians-to-degrees (radians)
+  "convert radians to degrees")
+
+(defun read-safe-string (string)
+  "Returns result of reading values from string without risk of Lisp 
+evaluating anything (e.g. with ``#.'' directive).")
+
+(defun replace-substring (string old new)
+  "Returns new string, replacing all occurences of old with new in string")
+
+(defun remove-plist-key (plist key)
+  "Return a new plist with specified key and its value removed.")
+
+(defun reverse-vector   (vector)
+  "Returns the reverse-direction vector.")
+
+(defmacro roll (axis angle &rest other-axes-and-angles)
+  "Returns a transformation matrix based on rotation about axis by some 
+angle. Axis is specified symbolically from the following list: [:lateral 
+:longitudinal :vertical]. Angle is specified in radians. Any number of 
+axis-angle pairs can be specified.
+
+NOTE: this macro must be called from within the context of a defpart since it
+relies on the part's local orientation.")
+
+(defun rotate-point (point center normal &key (arc-length nil) (angle nil))
+  "Returns a coordinate rotated about a center in the plane defined by the
+   normal vector. The rotation can be either defined by an arc length or an 
+   angle (specified in radians). A second value is also returned. This is 
+   the angle of rotation.")
+
+(defun rotate-point-d (point center normal &key (arc-length nil) (angle nil))
+  "Returns a coordinate rotated about a center in the plane defined by the
+   normal vector. The rotation can be either defined by an arc length or an 
+   angle (specified in degrees). A second value is also returned. This is 
+   the angle of rotation.")
+
+(defun rotate-vector (vector angle normal)
+  "Rotates vector, which is a global vector, around
+   normal, which is a vector normal around which to
+   rotate, by an amount of rotation specified by
+   angle, which is given in radians.")
+
+(defun rotate-vector-d (vector degrees normal)
+  "Same as rotate-vector, but takes the angle in degrees.")
+
+(defun rotation (vector angle)
+  "Returns a transformation matrix based on a rotation of some <i>angle</i>,
+specified in radians, about an arbitrary <i>vector</i>.")
+
+(defun safe-sort (list &rest args)
+  "Same as sort, but does not modify list given as argument.")
+
+(defun same-direction-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*))
+  "Predicate to test if angle between two vectors is within tolerance of zero.")
+
+(defun scalar*matrix (scalar matrix)
+  "Multiplies the scalar number by the matrix and returns a new matrix.")
+
+(defun scalar*vector (scalar vector)
+  "Multiplies the scalar number by the vector and returns a new vector.")
+
+(defmacro send (object message)
+  "Send message, which should be a keyword symbol, to object. Unlike the-object,
+this does not handle reference chains.")
+
+(defun split (string &optional (split-chars (list #\space #\newline #\return #\tab)))
+  "Returns a list of strings, the result of splitting string by any of the split-chars.")
+
+(defun string-append (&rest args)
+ "Returns concatenated string from args, each of which should be a string")
+
+(defun subtract-vectors  (&rest vectors)
+  "Return a new vector, the result of subtraction")
+
+(defun transform-and-translate-point (vector transform trans-vector)
+  "3D-Point. Returns the product of vector, which is a row vector,
+and transform, which is a 3x3 rotation matrix, translated by
+trans-vector.")
+
+(defun transform-numeric-point (vector transform)
+  "3D-Point. Returns the product of vector, which is a row
+vector, and transform, which is a 3x3 rotation matrix.")
+
+(defmacro translate (origin &rest offsets)
+  "Translate a point within a defpart instance by any number of directions
+and distances. Directions can be :up, :down, :left, :right, :front, :rear. 
+Distances should be numbers. example: (translate (the :point) :up 2 :right 3)
+
+NOTE: this macro must be called within the context of a defpart since it
+relies on the part's local orientation.")
+
+
+(defun translate-along-vector (point vector distance)
+  "Return a new point which is the point translated 
+   along the vector by the specified distance")
+
+(defun transpose-matrix (matrix)
+  "Transpose rows and columns of matrix.")
+
+(defun twice (num)
+  "Multiplies number by two.")
+
+(defun undefpart (part)
+  "Clears most definitions associated with part, which should be a (quoted) symbol.")
+
+(defun unitize-vector  (vector)
+  "Returns the normalized unit vector")
+
+(defun zero-vector? (vector)
+  "Returns T if vector has zero magnitude.")
+
+(defun ^2  (x)
+  "return number squared")
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,386 @@
+;;
+;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;;
+;; This source file is part of the General-purpose Declarative
+;; Language project (GDL).
+;;
+;; This source file contains free software: you can redistribute it
+;; and/or modify it under the terms of the GNU Affero General Public
+;; License as published by the Free Software Foundation, either
+;; version 3 of the License, or (at your option) any later version.
+;; 
+;; This source file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Affero General Public License for more details.
+;; 
+;; You should have received a copy of the GNU Affero General Public
+;; License along with this source file.  If not, see
+;; <http://www.gnu.org/licenses/>.
+;; 
+
+
+
+
+GDL Primitive Objects
+=====================
+
+The following are "stubs" for the currently implemented GDL primitive
+objects. Documentation for their messages (slots, etc) will follow.
+Below is mostly shown just input-slots.
+
+Note that Vanilla-Mixin, listed at the end of this manual, is 
+automatically and implicitly mixed in to every part type
+(both geometric and non-geometric).
+
+
+Positioning and Orientation
+===========================
+
+The GDL positioning and orientation system is very simple. You just
+specify :center and :orientation from the parent as part of an
+instance's :object specification, or as a slot inside the object
+itself. The :center is of course just any 3d-point. The :orientation
+is a transformation matrix, typically computed using a call to the
+"alignment" function. Note that for :orientation there is no preceding
+keyword such as :numeric or :absolute -- orientations are specified
+using the equivalent of :absolute, which means that whatever
+transformation matrix you pass in as the :orientation will be the
+transform (and the :obliqueness) for that child object.
+
+The default :orientation is NIL, which actually corresponds to
+the following:
+
+  (the (face-normal-vector :right)) ==  #( 1  0  0)
+  (the (face-normal-vector :left))  ==  #(-1  0  0)
+  (the (face-normal-vector :rear))  ==  #( 0  1  0)
+  (the (face-normal-vector :front)) ==  #( 0 -1  0)
+  (the (face-normal-vector :top))   ==  #( 0  0  1)
+  (the (face-normal-vector :bottom)) == #( 0  0 -1)
+
+If you specify an :orientation different from this, you will usually
+do it with the "alignment" function, e.g:
+
+  (alignment :top (rotate-vector-d (the (face-normal-vector :top))
+                                   45
+                                   (the (face-normal-vector :rear))))
+
+This is enough to rotate the object's reference box 45 degrees about the
+parent's rear vector. If you want to rotate on another axis, you can
+do so by adding more pairs of [direction vector]. Normally two axes
+are sufficient to lock the object's orientation in space, since the
+third axis will always be the cross of the first two (in the
+appropriate order). But, if you specify the third axis as pointing in
+the opposite direction from where it would be pointing by default, you
+will wind up with a left-handed coordinate system for that object. This
+is sometimes handy for making pairs of objects which are mirror images
+of each other.
+
+For further information on positioning and orientation, please see all
+the vector functions in utilities.txt, as well as the example demo
+code which should be available either with this software distribution
+or on the Genworks website at www.genworks.com.
+
+
+Primitive Objects Prototypes
+============================
+
+(define-object arc (base-object)
+  :input-slots
+  (radius
+   (start-angle 0)
+   (end-angle (twice pi))))
+
+(define-object base-object ()
+  :input-slots
+  ("Width of reference box (X direction)"
+   width 
+   
+   "Length of reference box (in Y direction)"
+   length 
+
+   "Height of reference box (Z direction)"
+   height
+
+   "Center of reference box, in absolute coordinate system"
+   (center (make-point 0 0 0) :defaulting)
+   
+   "Transformation matrix. NIL means the default (see above). 
+    An orientation matrix is normally created with the alignment 
+    function (see utilities.txt)."
+   (orientation nil :defaulting)
+   
+   "This is a plist whose keys can currently be either :color or :line-thickness.
+    Color can be an HTML-style hex string or a keyword from the *color-plist* 
+    (see parameters.txt)."
+   (display-controls nil :defaulting))
+   
+  
+  :trickle-down-slots
+  (length height width center orientation  display-controls)
+  
+
+  :functions
+  ((axis-vector 
+    (axis)
+    "Returns a vector of the object's reference box along the 
+     specified axis, which can be one of: :lateral, :longitudinal, 
+     or :vertical.")
+   
+   (edge-center 
+    (direction-1 direction-2)
+    "Returns a point which is the center of the given edge of the object's
+     reference box, as specified by two orthogonal direction keywords.")
+   
+   (face-center
+    (direction)
+    "Returns a point which is the center of the given face (e.g. :top, 
+     :left, :right, etc) of the object's reference box.")
+   
+   (face-normal-vector
+    (direction)
+    "Returns a vector pointing in the direction of the given face of the 
+     object's reference box, as specified by a standard direction keyword.")
+
+   (vertex
+    (direction-1 direction-2 direction-3)
+    "Returns a point which is the vertex of the given object's reference
+     box, as specified by three orthogonal direction keywords.")))
+
+
+(define-object box (base-object))
+
+
+(define-object circle (arc)
+  :computed-slots
+  ((start-angle 0) (end-angle (twice pi))))
+
+;; This is actually the same as cone, thus the multiple radii.
+;;
+(define-object cylinder (base-object)
+  
+  :input-slots (length radius
+		(arc (twice pi)) (inner-radius nil)
+		(number-of-sections 4)
+		(radius-1 (the :radius))
+		(radius-2 (the :radius))
+		(inner-radius-1 (the :inner-radius))
+		(inner-radius-2 (the :inner-radius))))
+
+
+(define-object c-cylinder (cylinder)
+  :input-slots (start end))
+
+
+(define-object cone (cylinder))
+
+
+(define-object ellipse (base-object)
+  
+  :input-slots
+  (major-axis-length minor-axis-length))
+
+
+(define-object global-filleted-polyline (global-polyline)
+  :input-slots
+  (vertex-list
+   (closed? (coincident-point? (first (the vertex-list))
+			       (lastcar (the vertex-list))))
+   ;; use one of these or the other, not both
+   (radius-list nil)
+   (default-radius nil)))
+
+
+(define-object global-filleted-polygon-projection (global-polygon-projection)
+
+  :input-slots
+  (;; use one of these or the other, not both
+   (radius-list nil)
+   (default-radius nil)))
+
+
+(define-object global-polyline (base-object)
+  :input-slots
+  (vertex-list))
+
+
+(define-object global-polygon-projection (base-object)
+  :input-slots
+  (projection-depth vertex-list
+   (offset :up)
+   (projection-vector (cross-vectors (subtract-vectors (second (the :vertex-list))
+						       (first (the :vertex-list)))
+				     (subtract-vectors (third (the :vertex-list))
+						       (first (the :vertex-list)))))))
+(define-object l-line (base-object)
+  :input-slots (start end))
+
+(define-object route-pipe (global-filleted-polyline)
+  :input-slots
+  (inner-pipe-radius outer-pipe-radius default-bend-radius :vertex-list
+   (radius-list nil)))
+
+
+(define-object sphere (base-object)	
+  :input-slots (radius
+		(start-horizontal-arc 0 :defaulting)
+		(:start-vertical-arc (- (half pi)) :defaulting)
+		(:end-horizontal-arc (twice pi) :defaulting)
+		(end-vertical-arc (half pi) :defaulting)
+		(inner-radius nil :defaulting)
+		(number-of-horizontal-sections 4)
+		(number-of-vertical-sections 4)))
+  
+   
+(define-object spherical-cap (base-object)
+  
+  :input-slots (axis-length base-radius
+		;; use one of these or the other, not both
+		(cap-thickness nil :defaulting)
+		(inner-base-radius nil :defaulting)
+		(number-of-horizontal-sections 4)
+		(number-of-vertical-sections 4)))
+
+
+(define-object torus (base-object)
+  :input-slots (major-radius minor-radius
+		(arc (twice pi) :defaulting)
+		(inner-minor-radius nil :defaulting)
+		(draw-centerline-arc? nil)
+		(number-of-longitudinal-sections 4)
+		(number-of-transverse-sections 3)))
+
+;;
+;; NOTE -- vanilla-mixin is implicitly and automatically
+;;         mixed into every object.
+;;
+(define-object vanilla-mixin ()
+  
+  :computed-slots
+  ("A flat list of all the child :objects"
+   (children  )
+   
+   "True iff this is a member of a quantified set and is the first one."
+   (first?  )
+   
+   "A number, if this is a member of a quantified set."
+   (index  )
+   
+   "True iff this is a member of a quantified set and is the last one."
+   (last )
+   
+   "True iff this object has no children."
+   (leaf?  )
+   
+   "If this is a member of a quantified set, gives the next member."
+   (next )
+   
+   "The parent object, or NIL if this is the root"
+   (parent )
+   
+   "If this is a member of a quantified set, gives the previous member."
+   (previous )
+   
+   "Root object of the current tree."
+   (root )
+   
+   "Default name used for the object"
+   (strings-for-display )
+   
+   "A symbol naming the most specific type of this instance.")
+   (type )
+  
+  :functions
+  ((follow-root-path
+    (root-path)
+    "Given a root-path (which is basically a reversed reference chain), 
+     do a reference chain starting from the current object (self) and
+     return the value of the resulting message.")
+   
+   (message-list 
+    (&key (category :all) (message-type :global) 
+	  return-category? base-object-type (sort-order :unsorted) (filter :normal))
+    "Return the list of keywords naming messages in this object type. 
+
+      :category defaults to :all, can be limited by :optional-inputs,
+         :required-inputs, :parts, :quantified-parts, etc.
+
+      :message-type defaults to :global, meaning all mixins, can be
+         specified as :local, meaning only from the most specific object
+         type.
+
+      :return-category? defaults to NIL, if non-NIL, this method will
+         return the message categories along with the message name
+         keywords.
+
+      :base-object-type defaults to NIL, if non-NIL should be a symbol
+         naming a mixin type from which messages will be excluded in
+         the returned list.
+
+      :sort-order defaults to :unsorted, can also be :by-category or
+         :by name.
+
+      :filter defaults to :normal, can also be a function of two
+         arguments which will be applied to the message name and
+         category name. Only those message-category pairs which pass
+         the filter (i.e. for which the filter is non-NIL) will be
+         returned.")
+   
+   (message-comments
+    (message)
+    "Return the :remark string associated with the given message.")
+   
+   (set-slot!
+    (slot value)
+    "Forcibly sets the value of slot (which should evaluate
+     to a symbol) to the new value. Any other messages in the 
+     tree which in any way depend on the slot will be notified that
+     they must recompute their values the next time they are demanded.
+     Note that GDL does not currently keep history versions or allow
+     undoing of ``bashing.'' There is no need to worry about returned
+     ``versions,'' etc.")
+
+   (set-slots!
+    (slot-value-plist)
+    "Calls :set-slot! on each pair in the plist.")
+
+   (documentation
+    ()
+    "Return the :documentation which has been defined for this object type.")
+   
+   (restore-slot-default!
+    (slot)
+    "Clears any set value from slot (which should be a keyword 
+     symbol naming a settable slot in the current object), and 
+     restores it to its unbound state such that the next time it is 
+     demanded it will return its default value as specified in its 
+     definition.")
+
+   (restore-slot-defaults!
+    (slot-list)
+    "Calls :restore-slot-default! on each item in the slot-list
+     list, which should be a list of keyword symbols naming 
+     :settable slots in the current object.")
+   
+   (update!
+    ()
+    "Starting from the root object of this instance's tree, reinstantiates
+     the tree with any new definitions which have been compiled. Any
+     set slots will retain their modified values, however.
+     This method is intended for use only during development, it
+     rarely if ever would make sense to use this in a production runtime 
+     application." )))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
