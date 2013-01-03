@@ -239,15 +239,21 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
 		 :inner-html (with-cl-who-string ()
 			       ((:div :class "news")
 				(:h2 "Latest News") 
-				(:h3 "2012-03-28")
+				(:h3 "2012-12-31")
 				(:p
-				 "New Genworks Website prototype is launched.")
+				 "New Genworks Website made live.")
 				((:div :class "hr-dots")) 
-				(:h3 "2012-03-15")
-				(:p
-				 "Integration and Testing of Genworks GDL 1581 (GenDL) with "
-				 ((:a :href "http://www.smlib.com") " SMLib 8.51 ")
-				 " is completed.")
+				(:h3 "2012-12-15")
+				(:p "Port of core Genworks GenDL
+to " ((:a :href "http://www.clozure.com/clozurecl") "Clozure Common Lisp") " (CCL) is completed.")
+				((:div :class "hr-dots"))
+
+				(:h3 "2012-11-30")
+				(:p "GenDL 1582 Professional and Student version is released.")
+				((:div :class "hr-dots"))
+
+				
+
 				(if (eql self (the news))
 				    (htm ((:p :class "more") 
 					  ((:a :href (the (relative-url-to (the index-html url)))) "less...")))

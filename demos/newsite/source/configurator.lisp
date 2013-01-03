@@ -181,11 +181,11 @@
 	   :current-price 
 	   (funcall (the discount-func) 
 		    (ecase (the selected-gendl-license)
-		      (:agpl (if (the academic?) 4500 6000))
+		      (:agpl (if (the academic?) (* 4500 1.2) (* 6000 1.2)))
 		      (:trial 0)
-		      (:student 100)
-		      (:professional (if (the academic?) 3000 4500))
-		      (:enterprise (if (the academic?) 4500 6000)))
+		      (:student (* 100 1.2))
+		      (:professional (if (the academic?) (* 3000 1.2) (* 4500 1.2)))
+		      (:enterprise (if (the academic?) (* 4500 1.2) (* 6000 1.2))))
 		    (first (the-child root-path))))
 
    (lw-32-base :type 'radio-price-choice

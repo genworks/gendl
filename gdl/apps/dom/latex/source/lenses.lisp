@@ -157,6 +157,15 @@
     (declare (ignore args))
 
     (case (the :markup-tag)
+
+
+      (:include (dolist (element (list-elements (the elements)))
+		  (with-open-file (in (the-object element data))
+		    (do ((line (read-line in nil nil) (read-line in nil nil)))
+			((null line))
+		      (write-env (:a line))
+		      (write-env (:newline-out))))))
+      
       (:p (write-env (:newline-out) (:newline-out))
 	  (dolist (element (list-elements (the :elements)))
 	    (write-the-object element (base)))

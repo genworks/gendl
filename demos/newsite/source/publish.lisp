@@ -30,5 +30,6 @@
 
 
 (publish-gwl-app "/newsite" "www.genworks.com:assembly")
+(publish-gwl-app "/" "www.genworks.com:assembly")
 (publish-gwl-app "/newsite/" "www.genworks.com:assembly")
 (publish-gwl-app "/newsite.html" "www.genworks.com:assembly")

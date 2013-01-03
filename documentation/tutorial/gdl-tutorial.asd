@@ -9,7 +9,7 @@
                 :serial
                 t
                 :version
-                "2012122900"
+                "2013010200"
                 :depends-on
                 (:gdl-dom)
                 :components
@@ -24,4 +24,5 @@
                  (:gdl "source/advanced-gendl")
                  (:file "source/tasty-environment")
                  (:file "source/gendl-geometry")
+                 (:file "source/custom-user-interfaces")
                  (:file "source/assembly")))

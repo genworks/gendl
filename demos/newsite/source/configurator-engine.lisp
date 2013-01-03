@@ -32,7 +32,7 @@
 
    (right-section-inner-html (with-cl-who-string ()
 			       ((:a :name "Top"))
-			       (:h1 "Configure Your Future:  $" (fmt "~:d" (ceiling (the current-price))))
+			       (:h1 "Estimated Pricing:  $" (fmt "~:d" (ceiling (the current-price))))
 			       (str (the current-choice-screen inner-html))
 			       
 			       (str (the summary inner-html))

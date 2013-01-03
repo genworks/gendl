@@ -29,7 +29,7 @@
 		     :destination static))
 
 
-(publish-gwl-app "/" "genworks.com:assembly")
+;;(publish-gwl-app "/" "genworks.com:assembly")
 
 #+nil
 (dolist (host (list "cl-users.com" "cl-users.org" "cl-users.net"

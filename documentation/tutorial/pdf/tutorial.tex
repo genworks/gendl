@@ -2277,25 +2277,31 @@ desired, either programmatically from the command-line, in an end-user
 application, or from the Tasty environment.
 
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=3in]{../images/tasty-inspector.png}
+\end{center}
 
+\caption{Tasty Inspector}
 
-@sp 1
-@center @image{images/tasty-inspector,,3.2in}
-@center Figure 9: Tasty inspector.
-@sp 1
+\label{fig:tasty-inspector}
 
+\end{figure}
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=3in]{../images/tasty-s-slots.png}
+\end{center}
 
+\caption{Settable Slots in Tasty}
 
-@center @image{images/tasty-s-slots,,3.2in}
-@center Figure 10: Tasty settable slots.
-@sp 1
+\label{fig:tasty-s-slots}
 
+\end{figure}
 
 
 To modify the value in Tasty: select ``Inspect'' mode from the Tree
-menu, then select the root of the @b{assembly} tree to set the
-inspector on that object (see Figure 
+menu, then select the root of the \texttt{assembly} tree to set the inspector on that object (see Figure 
 \ref{fig:tasty-inspector}). Once the inspector is displaying this object, it is
 possible to expand its settable slots by clicking on the ``Show
 Settables!''  link. (use the ``X'' link to collapse the settable slots
@@ -2309,6 +2315,493 @@ button (see Figure
 \chapter{Working with Geometry in Gendl}
 
 \label{chap:workingwithgeometryingendl}
+
+
+
+\chapter{Custom User Interfaces in GenDL}
+
+\label{chap:customuserinterfacesingendl}
+
+
+
+One of the strengths of GenDL is the ability to create custom
+web-based user interfaces. GenDL contains a built-in web server and
+supports the creation of generative \emph{web-based} user interfaces\footnote{GenDL does not contain support for native desktop
+GUI applications. Although the host Common Lisp
+environment (e.g. Allegro CL or LispWorks) may contain a GUI builder
+and Integrated Development Environment, and you are free to use these,
+GenDL does not provide specific support for them.}. Using the same \texttt{define-object} syntax which you have already learned, you can define web
+pages, sections of web pages, and \emph{form control} elements such as type-in fields, checkboxes, and choice
+lists. Using this capability does require a basic working knowledge of
+the HTML language\footnote{We will not cover HTML in this manual, but
+plentiful resources are available online and in print.}.
+
+
+
+Any web extensions such as custom JavaScript and JavaScript libraries
+can also be used, as with any standard web application.
+
+
+
+With the primitive objects and functions in its \texttt{:gwl} package, GenDL supports both the traditional ``Web 1.0''
+interfaces (with fillout forms, page submittal, and complete page
+refresh) as well as so-called ``Web 2.0'' interaction with AJAX.
+
+
+
+\section{Package and Environment for Web Development}
+
+\label{sec:packageandenvironmentforwebdevelopment}
+
+
+
+Similarly to @b{gdl:define-package}, you can use
+@b{gwl:define-package} in order to create a working package which has
+access to the symbols you will need for building a web application (in
+addition to all the other GenDL symbols).
+
+
+
+The @b{:gwl-user} package is pre-defined and may be used for practice
+work. For real projects, you should define your own package using
+@b{gwl:define-package}.
+
+
+
+The acronym ``GWL'' stands for Generative Web Language, which is not
+actually a separate language from GenDL itself, but rather a set of
+primitive objects and functions available with GenDL for building web
+applications. The YADD reference documentation for package
+``Generative Web Language'' provides detailed specifications for all
+the primitive objects and functions.
+
+
+
+\section{Traditional Web Pages and Applications}
+
+\label{sec:traditionalwebpagesandapplications}
+
+
+
+To make a GenDL object presentable as a web page, the following two
+steps are needed:
+
+\begin{enumerate}
+
+\item Mix \texttt{base-html-sheet} into the object definition.
+
+\item define a GenDL function called \texttt{main-sheet} within the object definition.
+
+\end{enumerate}
+
+The \texttt{main-sheet} function should return valid
+HTML for the page. The easiest way to produce HTML is with the use of
+an HTML generating library, such as \href{http://weitz.de/cl-who}{CL-WHO} or \href{http://www.franz.com/support/documentation/current/doc/aserve/htmlgen.html}{HTMLGen}, both of which are built into GenDL.
+
+
+
+For our examples we will use cl-who, which is currently the
+standard default HTML generating library used internally by
+GenDL. Here we will make note of the major features of cl-who while
+introducing the examples; for complete documentation on cl-who, please
+visit the page at Edi Weitz' website listed above.
+
+
+
+\subsection{A Simple Static Page Example}
+
+\label{subsec:asimplestaticpageexample}
+
+
+
+In Figure 
+\ref{fig:gwl-1}, GWL convenience macro \texttt{with-cl-who} is used; this sets up a standard default environment for outputting HTML 
+within a GWL application.
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+\tiny{
+
+\begin{verbatim}(in-package :gwl-user)
+
+(define-object president (base-html-sheet)
+  :input-slots
+  ((name "Carter") (term 1976) (table-border 1))
+
+  :functions
+  ((write-html-sheet
+    () (with-cl-who (:indent t)
+         (:html (:head (:title (fmt "Info on President: ~a" 
+                                    (the name))))
+                (:body ((:table :border (the table-border))
+                        (:tr (:th "Name") (:th "Term"))
+                        (:tr (:td (str (the name))) 
+                             (:td (str (the term)))))))))))
+;;
+;; Access the above example with 
+;; http://localhost:9000/make?object=gwl-user::president
+;;
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Simple Static Page Example}
+
+\label{fig:gwl-1}
+
+\end{figure}
+
+
+
+
+The code in Figure 
+\ref{fig:gwl-1} produces HTML output as shown in Figure 
+\ref{fig:gwl-1-html} which looks similar to Figure 
+\ref{fig:gwl-1-image} in a web browser.
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+\tiny{
+
+\begin{verbatim}
+<html>
+  <head>
+    <title>Info on President: Carter
+    </title>
+  </head>
+  <body>
+    <table border="1">
+      <tr> <th>Name</th>
+           <th>Term</th>
+      </tr>
+      <tr> <td>Carter</td>
+           <td>1976</td>
+      </tr>
+    </table>
+  </body></html>
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Simple Static Page Example}
+
+\label{fig:gwl-1-html}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=3in]{../images/gwl-1.png}
+\end{center}
+
+\caption{Simple Static Page Example}
+
+\label{fig:gwl-1-image}
+
+\end{figure}
+
+
+
+
+Several important concepts are packed into this example. Note the following:
+
+\begin{itemize}
+
+\item Our convenience macro \texttt{with-cl-who} is used to wrap the native \texttt{with-html-output} macro which comes with the cl-who library.
+
+\item We use the keyword argument \texttt{:indent t} in order to pretty-print the generated HTML. This does
+     not affect the browser display but can make the generated HTML
+     easier to read and debug. This option should be left as nil (the
+     default) for production deployments.
+
+\item The \texttt{fmt} symbol has special meaning
+      within the cl-who environment and works the same as a Common
+      Lisp \texttt{format nil}in order to evaluate a format
+      string together with matching arguments, and produce a string at
+      runtime.
+
+\item The \texttt{str} symbol has special meaning
+      within the cl-who environment and works by evaluating an
+      expression at runtime to return a string or other printable
+      object, which is then included at that point in the HTML output.
+
+\item Expressions within the \texttt{body} of an
+      HTML tag have to be evaluated, usually by use of the \texttt{fmt} or \texttt{str} in cl-who.  There are three examples of this in the
+      above sample: one \texttt{fmt} and two \texttt{str}.
+
+\item Expressions within a \emph{tag attribute} are always evaluated automatically, and so do 
+\textbf{not} require a \texttt{str} or other special symbol to force evaluation at
+      runtime. Tag attributes in HTML (or XML) are represented as a
+      plist spliced in after a tag name, wrapped in extra parentheses
+      around the tag name. In the sample above, the \texttt{:border (the table-border)} is an example of a tag attribute on the \texttt{:table} tag. Notice that the expression \texttt{(the table-border)} does not need \texttt{str} in order to be evaluated - it gets evaluated automatically.
+
+\item In cl-who, if a tag attribute evaluates to \texttt{nil}, then that tag attribute will be left out of the output
+      completely. For example if \texttt{(the table-border)} evaluates to nil, then the \texttt{:table} tag will be outputted without any attributes at
+      all. This is a convenient way to conditionalize tag
+      attributes.
+
+\item The URL \texttt{http://localhost:9000/make?object=gwl-user::president} is published automatically based on the package and
+      name of the object definition. When you visit this URL, the
+      response is redirected to a unique URL identified by
+      a \emph{session ID}. This ensures that each user to your
+      application site will see their own specific instance of the
+      page object. The session ID is constructed from a combination of
+      the current date and time, along with a pseudo-random
+      number.
+
+\end{itemize}
+
+
+
+
+
+\subsection{A Simple Dynamic Page which Mixes HTML and Common Lisp/GenDL}
+
+\label{subsec:asimpledynamicpagewhichmixeshtmlandcommonlisp/gendl}
+
+
+
+Within the cl-who environment, it is possible to include any standard
+Common Lisp structures such as \texttt{let}, \texttt{dolist} , \texttt{dotimes}, etc, which accept a \emph{body} of code. The requirement is that any internal code body
+	  must be wrapped in a list beginning with the special symbol \texttt{htm}, which has meaning to cl-who. 
+
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+\tiny{
+
+\begin{verbatim}(in-package :gwl-user)
+
+(define-object presidents (base-html-sheet)
+  :input-slots
+  ((presidents (list (list :name "Ford"
+                           :term 1974)
+                     (list :name "Carter"
+                           :term 1976)
+                     (list :name "Clinton"
+                           :term 1992)
+                     (list :name "Bush"
+                           :term 2000)
+                     (list :name "Obama"
+                           :term 2008)))
+   
+   (table-border 1))
+
+  :functions
+  ((write-html-sheet
+    () 
+    (with-cl-who (:indent t)
+      (let ((title (format nil "Info on ~a Presidents:" 
+                           (length (the presidents)))))
+        (htm
+         (:html 
+          (:head (:title (str title)))
+          (:body 
+           (:p (:c (:h3 (str title))))
+           ((:table :border (the table-border))
+            (:tr (:th "Name") (:th "Term"))
+            (dolist (president (the presidents))
+              (htm      
+               (:tr (:td (str (getf president :name)))
+                    (:td (str (getf president :term)))))))))))))))
+;;
+;; Access the above example with 
+;; http://localhost:9000/make?object=gwl-user::presidents
+;;
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Mixing Static HTML and Dynamic Content}
+
+\label{fig:gwl-2}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=3in]{../images/gwl-2.png}
+\end{center}
+
+\caption{Mixing Static HTML and Dynamic Content}
+
+\label{fig:gwl-2-image}
+
+\end{figure}
+
+
+The example in Figure 
+\ref{fig:gwl-2}  uses this technique to output an HTML table row for each ``row'' of data in a list of lists.
+The output looks similar to Figure 
+\ref{fig:gwl-2-image} in a web browser.
+
+
+
+Note the following from this example:
+
+\begin{itemize}
+
+\item \texttt{title} is a \texttt{let} variable, so we use \texttt{(str title)} to evaluate it as a string. We do not use \texttt{(str (the title))} because \texttt{title} is a local variable and not a message (i.e. slot) in the object.
+
+\item Inside the \texttt{dolist}, we ``drop back into'' HTML mode using the \texttt{htm} operator.
+
+\end{itemize}
+
+
+
+
+
+\subsection{Linking to Multiple Pages}
+
+\label{subsec:linkingtomultiplepages}
+
+
+
+The base-html-sheet mixin provides a \texttt{self-link} message for the purpose of generating a hyperlink to that
+page. Typically you will have a ``parent'' page object which links to
+its ``child'' pages, but GenDL pages can link to other pages anywhere
+in the GenDL tree\footnote{In order for dependency-tracking to work
+properly, the pages must all belong to the same tree, i.e. they must
+share a common root object.}.
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+\tiny{
+
+\begin{verbatim}(in-package :gwl-user)
+
+(define-object presidents-with-pages (base-html-sheet)
+  :input-slots
+  ((presidents (list (list :name "Ford" :term 1974)
+                     (list :name "Carter" :term 1976)
+                     (list :name "Clinton" :term 1992)
+                     (list :name "Bush" :term 2000)
+                     (list :name "Obama" :term 2008)))
+   
+   (table-border 1))
+  
+  
+  :objects
+  ((president-pages :type 'president-page
+                    :sequence (:size (length (the presidents)))
+                    :name (getf (nth (the-child index) (the presidents))
+                                :name)
+                    :term (getf (nth (the-child index) (the presidents))
+                                :term)))
+
+
+  :functions
+  ((write-html-sheet
+    () 
+    (with-cl-who (:indent t)
+      (let ((title (format nil "Info on ~a Presidents:" 
+                           (length (the presidents)))))
+        (htm
+         (:html 
+          (:head (:title (str title)))
+          (:body 
+           (:p (:c (:h3 (str title))))
+           (:ol
+            (dolist (page (list-elements (the president-pages)))
+              (htm      
+               (:li
+                (the-object 
+                 page 
+                 (write-self-link :display-string 
+                                  (the-object page name)))))))))))))))
+
+;;
+;; Access the above example with 
+;; http://localhost:9000/make?object=gwl-user::presidents-with-pages
+;;
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Linking to Multiple Pages}
+
+\label{fig:gwl-3}
+
+\end{figure}
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+\tiny{
+
+\begin{verbatim}(in-package :gwl-user)
+
+(define-object president-page (base-html-sheet)
+  :input-slots
+  (name term)
+  
+  :functions
+  ((write-html-sheet
+    ()
+    (with-cl-who ()
+      (let ((title (format nil "Term for President ~a:" 
+                           (the name))))
+        (htm
+         (:html 
+          (:head (:title (str title)))
+          (:body 
+           (the (write-back-link :display-string "&lt;Back"))
+           (:p (:c (:h3 (str title))))
+           (:p (str (the term)))))))))))
+
+      
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Linking to Multiple Pages}
+
+\label{fig:gwl-3a}
+
+\end{figure}
+ In Figures 
+\ref{fig:gwl-3} and 
+\ref{fig:gwl-3a}, we provide links from a parent page into a child page
+with detailed information on each president. The output looks similar
+to Figure 
+\ref{fig:gwl-3-image} in a web browser.
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=3in]{../images/gwl-3.png}
+\end{center}
+
+\caption{Linking to Multiple Pages}
+
+\label{fig:gwl-3-image}
+
+\end{figure}
+
+
+
+
+ Note the following from this example:
+
+\begin{itemize}
+
+\item The \texttt{write-self-link} message is a function which can take a keyword argument
+   of \texttt{:display-string}. This string is used for the actual hyperlink text.
+
+\item There is a \texttt{write-back-link} message which similarly can take a keyword argument of \texttt{:display-string}. This generates a link back to \texttt{(the return-object)} which, by default in base-html-sheet, is \texttt{(the parent).}
+
+\end{itemize}
+
+
 
 
 

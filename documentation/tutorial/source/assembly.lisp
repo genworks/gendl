@@ -53,6 +53,7 @@ written consent from Genworks International.")
       ,*understanding-gendl*
       ,*tasty-environment*
       ,*gendl-geometry*
+      ,*custom-user-interfaces*
       ,*advanced-common-lisp*
       ,*advanced-gendl*
       ,*upgrade-notes*

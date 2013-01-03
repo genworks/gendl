@@ -29,7 +29,7 @@
    (link-title "Home")
    (right-section-inner-html  
     (with-cl-who-string ()
-      (:h2 "Welcome to Genworks")
+      (:h2 "Welcome to Genworks [Happy New Year! New site prototype, being released slightly before it is ready...]")
       ((:div :id "welcome")
        ((:img :src "/newsite-static/images/logo-transparent.png" :ALT "star-logo" :CLASS "left" :WIDTH "155"
 	      :height "149"))

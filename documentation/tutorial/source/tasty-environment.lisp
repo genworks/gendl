@@ -362,20 +362,21 @@ settable slot, and its value can be modified (i.e. ``bashed'') as
 desired, either programmatically from the command-line, in an end-user
 application, or from the Tasty environment.")
 
-     (:p "
-@sp 1
-@center @image{images/tasty-inspector,,3.2in}
-@center Figure 9: Tasty inspector.
-@sp 1")
+     ((:image-figure :image-file "tasty-inspector.png"
+		     :width "4in" :height "3in"
+		     :caption "Tasty Inspector"
+		     :label "fig:tasty-inspector"))
+     
+     ((:image-figure :image-file "tasty-s-slots.png"
+		     :width "4in" :height "3in"
+		     :caption "Settable Slots in Tasty"
+		     :label "fig:tasty-s-slots"))
 
-     (:p "
-@center @image{images/tasty-s-slots,,3.2in}
-@center Figure 10: Tasty settable slots.
-@sp 1")
 
      (:p "To modify the value in Tasty: select ``Inspect'' mode from the Tree
-menu, then select the root of the @b{assembly} tree to set the
-inspector on that object (see Figure "
+menu, then select the root of the "
+	 (:texttt "assembly")
+	 " tree to set the inspector on that object (see Figure "
 	 (:ref "fig:tasty-inspector")
 	 "). Once the inspector is displaying this object, it is
 possible to expand its settable slots by clicking on the ``Show

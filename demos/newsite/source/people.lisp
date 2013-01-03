@@ -32,14 +32,6 @@
     (with-cl-who-string ()
       (:h2 "The People who make Genworks possible") 
       
-      (:h3 "J.R. \"Bob\" Dobbs")
-      ((:div :class "profile")
-       ((:div :class "people")
-	(:h4 "President")
-	(:p
-	 "\"Bob\" founded Genworks in 1997 with the intention to make Generative technology and 
-Knowledge Based Engineering available to more than just the toplevel niche markets.")))
-
       (:h3 "Dave Cooper")
       ((:div :class "profile")
        ((:div :class "people")
