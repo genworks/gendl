@@ -191,37 +191,41 @@
 					   (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation))))
 	    
 
-	    (cond ((and *onclick-function* (or (getf (the display-controls) :billboard)
-					       (getf (the display-controls) :billboard-vector)))
-		   (cl-who:htm 
-		    ((:|Anchor| :url (format nil "javascript:~a;" 
-					     (funcall *onclick-function* self)))
-		     ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
-							  (let ((vector (getf (the display-controls) :billboard-vector)))
-							    (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
-							  (format nil "0 0 0")))
+	    (cond 
+	      #+nil
+	      ((and *onclick-function* (or (getf (the display-controls) :billboard)
+					   (getf (the display-controls) :billboard-vector)))
+	       (cl-who:htm 
+		((:|Anchor| :url (format nil "javascript:~a;" 
+					 (funcall *onclick-function* self)))
+		 ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
+						      (let ((vector (getf (the display-controls) :billboard-vector)))
+							(format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+						      (format nil "0 0 0")))
 
-		      (write-the shape)))))
+		  (write-the shape)))))
+	      
+	      #+nil
+	      (*onclick-function*
+	       (cl-who:htm 
+		((:|Anchor| :url (format nil "javascript:~a;" 
+					 (funcall *onclick-function* self)))
+		 (write-the shape))))
 
-		  (*onclick-function*
-		   (cl-who:htm 
-		    ((:|Anchor| :url (format nil "javascript:~a;" 
-					     (funcall *onclick-function* self)))
-		     (write-the shape))))
+	      ((or (getf (the display-controls) :billboard)
+		   (getf (the display-controls) :billboard-vector))
+	       (cl-who:htm
+		((:|Billboard| :|axisOfRotation|  
+		   (if (getf (the display-controls) :billboard-vector)
+		       (let ((vector (getf (the display-controls) :billboard-vector)))
+			 (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+		       (format nil "0 0 0")))
+		 (write-the shape))))
 
-		  ((or (getf (the display-controls) :billboard)
-		       (getf (the display-controls) :billboard-vector))
-		   (cl-who:htm
-		    ((:|Billboard| :|axisOfRotation|  
-		       (if (getf (the display-controls) :billboard-vector)
-			   (let ((vector (getf (the display-controls) :billboard-vector)))
-			     (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
-			   (format nil "0 0 0")))
-		     (write-the shape))))
-
-		  (t (write-the shape))))
+	      (t (write-the shape))))
 
 	   
+
 	   (when (and (typep self 'outline-specialization-mixin)
 		      (not (ignore-errors (typep self (read-from-string "surf:surface"))))
 		      (not (ignore-errors (typep self (read-from-string "surf:curve")))))
@@ -234,14 +238,51 @@
 			       (quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix 
 									      (the orientation*)))))))
 	       (cl-who:htm
-		((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
-					    (format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
-		 ((:|Transform| :|rotation| (when inverse
-					  (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
-						  (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
+
+		
+		((:|Transform| :|rotation| (when inverse
+					     (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
+						     (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
+		 ((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
+						 (format nil "~3,7f ~3,7f ~3,7f" x y z)))
+		  
 		  (mapc #'(lambda(outline-object)
 			    (write-the-object outline-object (cad-output :header? nil)))
-			(the outline-leaves))))))))))))
+			(the outline-leaves))
+
+		  ))
+
+		)))
+
+
+	   #+nil
+	   (when (and (typep self 'outline-specialization-mixin)
+		      (not (ignore-errors (typep self (read-from-string "surf:surface"))))
+		      (not (ignore-errors (typep self (read-from-string "surf:curve")))))
+	     (let* ((center (reverse-vector (the center)))
+		    (x (get-x center)) (y (get-y center)) (z (get-z center))
+		    (inverse (when (the orientation*)
+			       (matrix-to-rotation (matrix:transpose-matrix 
+						    (the orientation*)))
+			       #+nil
+			       (quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix 
+									      (the orientation*)))))))
+	       (cl-who:htm
+
+		((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
+						(format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
+		 ((:|Transform| :|rotation| (when inverse
+					      (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
+						      (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
+
+		  
+		  (mapc #'(lambda(outline-object)
+			    (write-the-object outline-object (cad-output :header? nil)))
+			(the outline-leaves))
+
+		  ))
+
+		))))))))
 
    
    (cad-output-tree
@@ -274,39 +315,43 @@
 
 	    (if (null (the children))
 		
-		(cond ((and *onclick-function* (or (getf (the display-controls) :billboard)
-						   (getf (the display-controls) :billboard-vector)))
-		       (cl-who:htm 
-			((:|Anchor| :url (format nil "javascript:~a;" 
-						 (funcall *onclick-function* self)))
-			 ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
-							      (let ((vector (getf (the display-controls) :billboard-vector)))
-								(format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
-							      (format nil "0 0 0")))
+		(cond 
+		  #+nil
+		  ((and *onclick-function* (or (getf (the display-controls) :billboard)
+					       (getf (the display-controls) :billboard-vector)))
+		   (cl-who:htm 
+		    ((:|Anchor| :url (format nil "javascript:~a;" 
+					     (funcall *onclick-function* self)))
+		     ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
+							  (let ((vector (getf (the display-controls) :billboard-vector)))
+							    (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+							  (format nil "0 0 0")))
 
-			  (write-the shape)))))
+		      (write-the shape)))))
+		  
+		  #+nil
+		  (*onclick-function*
+		   (cl-who:htm 
+		    ((:|Anchor| :url (format nil "javascript:~a;" 
+					     (funcall *onclick-function* self)))
+		     (write-the shape))))
 
-		      (*onclick-function*
-		       (cl-who:htm 
-			((:|Anchor| :url (format nil "javascript:~a;" 
-						 (funcall *onclick-function* self)))
-			 (write-the shape))))
+		  ((or (getf (the display-controls) :billboard)
+		       (getf (the display-controls) :billboard-vector))
+		   (cl-who:htm
+		    ((:|Billboard| :|axisOfRotation|  
+		       (if (getf (the display-controls) :billboard-vector)
+			   (let ((vector (getf (the display-controls) :billboard-vector)))
+			     (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
+			   (format nil "0 0 0")))
+		     (write-the shape))))
 
-		      ((or (getf (the display-controls) :billboard)
-			   (getf (the display-controls) :billboard-vector))
-		       (cl-who:htm
-			((:|Billboard| :|axisOfRotation|  
-			   (if (getf (the display-controls) :billboard-vector)
-			       (let ((vector (getf (the display-controls) :billboard-vector)))
-				 (format nil "~a ~a ~a" (get-x vector) (get-y vector) (get-z vector)))
-			       (format nil "0 0 0")))
-			 (write-the shape))))
-
-		      (t (write-the shape)))
+		  (t (write-the shape)))
 		
 		(mapc #'(lambda(child) 
 			  (write-the-object child (cad-output-tree :header? nil :from-root? nil))) (the children)))
 	    
+
 
 	    (when (and (typep self 'outline-specialization-mixin)
 		       (not (ignore-errors (typep self (read-from-string "surf:surface"))))
@@ -319,14 +364,45 @@
 				#+nil
 				(matrix-to-rotation (matrix:transpose-matrix (the orientation*))))))
 		(cl-who:htm
-		 ((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
-					     (format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
-		  ((:|Transform| :|rotation| (when inverse
-					   (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
-						   (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
+		 
+		 ((:|Transform| :|rotation| (when inverse
+					      (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
+						      (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
+
+		  ((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
+						  (format nil "~3,7f ~3,7f ~3,7f" x y z)))
+
+
 		   (mapc #'(lambda(outline-object)
 			     (write-the-object outline-object (cad-output :header? nil)))
-			 (the outline-leaves)))))))))))))))
+			 (the outline-leaves))
+		   ))
+		 )))
+
+	    #+nil
+	    (when (and (typep self 'outline-specialization-mixin)
+		       (not (ignore-errors (typep self (read-from-string "surf:surface"))))
+		       (not (ignore-errors (typep self (read-from-string "surf:curve")))))
+	      
+	      (let* ((center (reverse-vector (the center)))
+		     (x (get-x center)) (y (get-y center)) (z (get-z center))
+		     (inverse (when (the orientation*)
+				(quaternion-to-rotation (matrix-to-quaternion (matrix:transpose-matrix (the orientation*))))
+				#+nil
+				(matrix-to-rotation (matrix:transpose-matrix (the orientation*))))))
+		(cl-who:htm
+		 
+		 ((:|Transform| :|translation| (when (not (every #'zerop (list x y z)))
+						 (format nil "~3,7f, ~3,7f, ~3,7f" x y z)))
+		  ((:|Transform| :|rotation| (when inverse
+					       (format nil "~3,7f ~3,7f ~3,7f ~3,7f" 
+						       (get-x inverse) (get-y inverse) (get-z inverse) (get-w inverse))))
+
+		   (mapc #'(lambda(outline-object)
+			     (write-the-object outline-object (cad-output :header? nil)))
+			 (the outline-leaves))
+		   ))
+		 )))))))))))
 
 
    
@@ -415,10 +491,10 @@
 	(with-corrected-orientation
 	    (:|Shape|
 	      (:|Appearance| (write-the material-properties))
-	      (:|Cone| :bottomRadius (to-double-float (the radius-1))
-		:topRadius (to-double-float (the radius-2))
-		:height (to-double-float (the length))
-		:bottom (when (the bottom-cap?) "TRUE"))))
+	      (:|Cone| :|bottomRadius| (to-double-float (the radius-1))
+		:|topRadius| (to-double-float (the radius-2))
+		:|height| (to-double-float (the length))
+		:|bottom| (when (the bottom-cap?) "TRUE"))))
 	(call-next-method)))))
 	
 
@@ -430,11 +506,11 @@
     ()
     (if (the simple?)
 	(cl-who:with-html-output (*stream* nil :indent nil)
-	  (:Shape
-	   (:Appearance (if (getf (the display-controls) :pixel-texture)
+	  (:|Shape|
+	   (:|Appearance| (if (getf (the display-controls) :pixel-texture)
 			    (write-the pixel-texture)
 			    (write-the material-properties)))
-	   (:Sphere :radius (the radius))))
+	   (:|Sphere| :|radius| (the radius))))
 	(call-next-method)))))
 
 
@@ -499,7 +575,7 @@
                              (write-the line-properties))
                            (write-the material-properties)))
        (:|IndexedLineSet| :|coordIndex| (format nil "~{~a ~}-1" (list-of-numbers 0 (1- (length (the vertex-list)))))
-                        (:|Coordinate| :|point| (format nil "~{~a~^, ~}" 
+                        (:|Coordinate| :|point| (format nil "~{~a~^ ~}" 
                                                     (let ((*read-default-float-format* 'single-float))
                                                       (mapcar #'(lambda(point) (format nil "~a ~a ~a"
                                                                                        (coerce (get-x point) 'single-float)
@@ -533,16 +609,17 @@
   ((shape
     ()
     (let ((font-size (the character-size)))
-      
-      (declare (ignore font-size))
-      
-      
+
       (cl-who:with-html-output (*stream* nil :indent t)
 	(:|Shape|
 	  (:|Appearance| (write-the material-properties))
 	  
-	  (format *stream* "<Text  string='\"~a\"' solid='false'>
-                            <FontStyle size='10' justify='MIDDLE'></FontStyle>
+	  ((:|Text| :|string| (the %text-to-draw%) :|solid| "FALSE")
+	   ((:|FontStyle| :|size| font-size :|justify| "CENTER")))
+
+	  #+nil
+	  (format *stream* "<Text  string='~a' solid='false'>
+                            <FontStyle size='10' justify='RIGHT'></FontStyle>
 
                             </Text>" (the %text-to-draw%))))
 

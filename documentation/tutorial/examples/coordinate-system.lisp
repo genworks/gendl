@@ -16,6 +16,7 @@
 	:display-controls (list :color :orange :transparency 0.8))
 
    (x-pointer :type 'axis-pointer 
+	      :label "X"
 	      :display-controls (list :color :red)
 	      :length (half (the length))
 	      :orientation (alignment :front (the (face-normal-vector :right))))
@@ -30,6 +31,7 @@
 			       
 
    (y-pointer :type 'axis-pointer 
+	      :label "Y"
 	      :display-controls (list :color :green)
 	      :length (half (the length))
 	      :orientation (alignment :front (the (face-normal-vector :rear))))
@@ -44,6 +46,7 @@
 
 
    (z-pointer :type 'axis-pointer 
+	      :label "Z"
 	      :display-controls (list :color :blue)
 	      :length (half (the length))
 	      :orientation (alignment :front (the (face-normal-vector :top))))
@@ -53,7 +56,7 @@
 
 (define-object axis-pointer (cylinder)
 
-  :input-slots ((radius (/ (the length) 25)))
+  :input-slots (label (radius (/ (the length) 25)))
 
   :objects
   ((shaft :type 'cylinder 
@@ -66,5 +69,11 @@
 							(half (the-child length))))
 	:orientation (alignment :rear (the (face-normal-vector :front)))
 	:length (/ (the length) 10))
+   
 
-   ))
+   (note :type 'general-note
+	 :display-controls (list :billboard t)
+	 :center (the tip center)
+	 :strings (the label))))
+
+
