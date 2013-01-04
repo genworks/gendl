@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/MacPorts 2011_5) (format=pdflatex 2012.4.16)  3 JAN 2013 10:48
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/MacPorts 2011_5) (format=pdflatex 2012.4.16)  3 JAN 2013 22:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -369,7 +369,7 @@ Chapter 1.
 
 ]
 Chapter 2.
-<../images/gendl-installation.png, id=395, 127.40933pt x 70.12866pt>
+<../images/gendl-installation.png, id=400, 127.40933pt x 70.12866pt>
 File: ../images/gendl-installation.png Graphic file (type png)
 
 <use ../images/gendl-installation.png>
@@ -383,14 +383,14 @@ man-ager, right-mouse on the \OT1/cmtt/m/n/10.95 run-gdl.bat
  []
 
 [6 <../images/gendl-installation.png>]
-<../images/mini-buffer.png, id=423, 687.56876pt x 613.29124pt>
+<../images/mini-buffer.png, id=428, 687.56876pt x 613.29124pt>
 File: ../images/mini-buffer.png Graphic file (type png)
 
 <use ../images/mini-buffer.png>
 Package pdftex.def Info: ../images/mini-buffer.png used on input line 401.
 (pdftex.def)             Requested size: 216.80562pt x 216.8075pt.
 
-<../images/genworks-gendl-console.png, id=425, 318.52333pt x 212.52733pt>
+<../images/genworks-gendl-console.png, id=430, 318.52333pt x 212.52733pt>
 File: ../images/genworks-gendl-console.png Graphic file (type png)
 
 <use ../images/genworks-gendl-console.png>
@@ -409,14 +409,14 @@ Overfull \hbox (16.66708pt too wide) in paragraph at lines 457--458
 ys-tem, type: \OT1/cmtt/m/n/10.95 (ql:quickload :genworks-gdl)
  []
 
-<../images/tasty-robot.png, id=445, 542.29266pt x 441.11467pt>
+<../images/tasty-robot.png, id=450, 542.29266pt x 441.11467pt>
 File: ../images/tasty-robot.png Graphic file (type png)
 
 <use ../images/tasty-robot.png>
 Package pdftex.def Info: ../images/tasty-robot.png used on input line 494.
 (pdftex.def)             Requested size: 216.81392pt x 216.8077pt.
 
-<../images/tasty-robot-x3dom.png, id=446, 543.36333pt x 440.044pt>
+<../images/tasty-robot-x3dom.png, id=451, 543.36333pt x 440.044pt>
 File: ../images/tasty-robot-x3dom.png Graphic file (type png)
 
 <use ../images/tasty-robot-x3dom.png>
@@ -549,7 +549,7 @@ Overfull \hbox (6.79999pt too wide) in paragraph at lines 1886--1887
 LaTeX Warning: Reference `fig:tower1-code' on page 35 undefined on input line 1
 900.
 
-<../images/tasty-start.png, id=664, 354.39067pt x 221.09267pt>
+<../images/tasty-start.png, id=669, 354.39067pt x 221.09267pt>
 File: ../images/tasty-start.png Graphic file (type png)
 
 <use ../images/tasty-start.png>
@@ -558,7 +558,7 @@ Package pdftex.def Info: ../images/tasty-start.png used on input line 1905.
  [35
 
 ]
-<../images/tasty-shock-absorber-pre.pdf, id=676, 845.1575pt x 597.23125pt>
+<../images/tasty-shock-absorber-pre.pdf, id=681, 845.1575pt x 597.23125pt>
 File: ../images/tasty-shock-absorber-pre.pdf Graphic file (type pdf)
 
 <use ../images/tasty-shock-absorber-pre.pdf>
@@ -584,7 +584,7 @@ Overfull \hbox (6.79999pt too wide) in paragraph at lines 2263--2264
 
 LaTeX Warning: Float too large for page by 34.40498pt on input line 2269.
 
-<../images/tasty-inspector.png, id=709, 685.22667pt x 428.26666pt>
+<../images/tasty-inspector.png, id=714, 685.22667pt x 428.26666pt>
 File: ../images/tasty-inspector.png Graphic file (type png)
 
 <use ../images/tasty-inspector.png>
@@ -592,7 +592,7 @@ Package pdftex.def Info: ../images/tasty-inspector.png used on input line 2282.
 
 (pdftex.def)             Requested size: 289.07928pt x 216.81207pt.
 
-<../images/tasty-s-slots.png, id=710, 685.22667pt x 428.26666pt>
+<../images/tasty-s-slots.png, id=715, 685.22667pt x 428.26666pt>
 File: ../images/tasty-s-slots.png Graphic file (type png)
 
 <use ../images/tasty-s-slots.png>
@@ -616,154 +616,184 @@ If that doesn't work, type  X <return>  to quit.
 LaTeX Warning: Reference `chap:workingwithsurfacesandsolids' on page 43 undefin
 ed on input line 2344.
 
-[43
+<../images/coord-sys-tri.png, id=734, 375.26866pt x 362.42067pt>
+File: ../images/coord-sys-tri.png Graphic file (type png)
 
-] [44
+<use ../images/coord-sys-tri.png>
+Package pdftex.def Info: ../images/coord-sys-tri.png used on input line 2359.
+(pdftex.def)             Requested size: 216.8085pt x 216.81258pt.
+
+<../images/coord-sys-front.png, id=735, 304.60466pt x 283.19133pt>
+File: ../images/coord-sys-front.png Graphic file (type png)
+
+<use ../images/coord-sys-front.png>
+Package pdftex.def Info: ../images/coord-sys-front.png used on input line 2370.
+
+(pdftex.def)             Requested size: 216.8146pt x 216.80917pt.
+
+<../images/coord-sys-top.png, id=736, 292.292pt x 286.40334pt>
+File: ../images/coord-sys-top.png Graphic file (type png)
+
+<use ../images/coord-sys-top.png>
+Package pdftex.def Info: ../images/coord-sys-top.png used on input line 2381.
+(pdftex.def)             Requested size: 216.81451pt x 216.8166pt.
+
+<../images/coord-sys-labeled-faces.png, id=737, 421.84267pt x 434.69067pt>
+File: ../images/coord-sys-labeled-faces.png Graphic file (type png)
+
+<use ../images/coord-sys-labeled-faces.png>
+Package pdftex.def Info: ../images/coord-sys-labeled-faces.png used on input li
+ne 2392.
+(pdftex.def)             Requested size: 216.81691pt x 216.80754pt.
+ [43
+
+] [44 <../images/coord-sys-tri.png> <../images/coord-sys-front.png>] [45 <../im
+ages/coord-sys-top.png> <../images/coord-sys-labeled-faces.png>] [46]
+Chapter 8.
+[47
 
 ]
-Chapter 8.
-[45]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 2473--2474
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 2571--2572
 [][] 
  []
 
 
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 2513--2514
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 2611--2612
 [][] 
  []
 
-<../images/gwl-1.png, id=754, 572.80667pt x 342.61333pt>
+<../images/gwl-1.png, id=779, 572.80667pt x 342.61333pt>
 File: ../images/gwl-1.png Graphic file (type png)
 
 <use ../images/gwl-1.png>
-Package pdftex.def Info: ../images/gwl-1.png used on input line 2523.
+Package pdftex.def Info: ../images/gwl-1.png used on input line 2621.
 (pdftex.def)             Requested size: 289.0859pt x 216.80945pt.
- [46] [47 <../images/gwl-1.png>]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 2645--2646
+ [48] [49 <../images/gwl-1.png>]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 2743--2744
 [][] 
  []
 
-<../images/gwl-2.png, id=768, 572.80667pt x 343.684pt>
+<../images/gwl-2.png, id=794, 572.80667pt x 343.684pt>
 File: ../images/gwl-2.png Graphic file (type png)
 
 <use ../images/gwl-2.png>
-Package pdftex.def Info: ../images/gwl-2.png used on input line 2655.
+Package pdftex.def Info: ../images/gwl-2.png used on input line 2753.
 (pdftex.def)             Requested size: 289.0859pt x 216.81573pt.
 
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 2753--2754
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 2851--2852
 [][] 
  []
 
-[48]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 2791--2792
+[50]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 2889--2890
 [][] 
  []
 
-<../images/gwl-3.png, id=782, 572.80667pt x 343.684pt>
+<../images/gwl-3.png, id=807, 572.80667pt x 343.684pt>
 File: ../images/gwl-3.png Graphic file (type png)
 
 <use ../images/gwl-3.png>
-Package pdftex.def Info: ../images/gwl-3.png used on input line 2806.
+Package pdftex.def Info: ../images/gwl-3.png used on input line 2904.
 (pdftex.def)             Requested size: 289.0859pt x 216.81573pt.
 
-Overfull \hbox (35.09933pt too wide) in paragraph at lines 2822--2824
+Overfull \hbox (35.09933pt too wide) in paragraph at lines 2920--2922
 []\OT1/cmr/m/n/10.95 The \OT1/cmtt/m/n/10.95 write-self-link \OT1/cmr/m/n/10.95
  mes-sage is a func-tion which can take a key-word ar-gu-ment of \OT1/cmtt/m/n/
 10.95 :display-string\OT1/cmr/m/n/10.95 .
  []
 
 
-Overfull \hbox (46.17102pt too wide) in paragraph at lines 2825--2826
+Overfull \hbox (46.17102pt too wide) in paragraph at lines 2923--2924
 []\OT1/cmr/m/n/10.95 There is a \OT1/cmtt/m/n/10.95 write-back-link \OT1/cmr/m/
 n/10.95 mes-sage which sim-i-larly can take a key-word ar-gu-ment of \OT1/cmtt/
 m/n/10.95 :display-string\OT1/cmr/m/n/10.95 .
  []
 
 
-Overfull \hbox (259.52876pt too wide) in paragraph at lines 2845--2853
+Overfull \hbox (259.52876pt too wide) in paragraph at lines 2943--2951
 \OT1/cmr/m/n/10.95 GenDL pro-vides a set of prim-i-tives use-ful for gen-er-at-
 ing the stan-dard HTML form-controls@footnotehttp://www.w3.org/TR/html401/inter
 act/forms.html
  []
 
-[49 <../images/gwl-2.png>] [50]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 2932--2933
+[51 <../images/gwl-2.png>] [52]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 3030--3031
 [][] 
  []
 
-<../images/gwl-3b.png, id=797, 572.80667pt x 343.684pt>
+<../images/gwl-3b.png, id=823, 572.80667pt x 343.684pt>
 File: ../images/gwl-3b.png Graphic file (type png)
 
 <use ../images/gwl-3b.png>
-Package pdftex.def Info: ../images/gwl-3b.png used on input line 2942.
+Package pdftex.def Info: ../images/gwl-3b.png used on input line 3040.
 (pdftex.def)             Requested size: 289.0859pt x 216.81573pt.
- [51 <../images/gwl-3.png>] [52]
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 3106--3107
+ [53 <../images/gwl-3.png>] [54]
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 3204--3205
 [][] 
  []
 
 
-Overfull \hbox (22.6881pt too wide) in paragraph at lines 3122--3127
+Overfull \hbox (22.6881pt too wide) in paragraph at lines 3220--3225
 []\OT1/cmr/m/n/10.95 We mix in \OT1/cmtt/m/n/10.95 base-ajax-sheet \OT1/cmr/m/n
 /10.95 and spec-ify a \OT1/cmtt/m/n/10.95 main-sheet-body \OT1/cmr/m/n/10.95 sl
 ot, which uses \OT1/cmtt/m/n/10.95 with-cl-who-string
  []
 
 
-Overfull \hbox (2.76746pt too wide) in paragraph at lines 3122--3127
+Overfull \hbox (2.76746pt too wide) in paragraph at lines 3220--3225
 \OT1/cmr/m/n/10.95 to com-pute a string of HTML. This ap-proach is also eas-ier
  to de-bug, since the \OT1/cmtt/m/n/10.95 main-sheet-body
  []
 
-[53 <../images/gwl-3b.png>] [54]
-Overfull \hbox (52.65045pt too wide) in paragraph at lines 3159--3162
+[55 <../images/gwl-3b.png>] [56]
+Overfull \hbox (52.65045pt too wide) in paragraph at lines 3257--3260
 \OT1/cmr/m/n/10.95 This ob-ject def-i-ni-tion takes sev-eral op-tional input-sl
 ots, but the most es-sen-tial are the \OT1/cmtt/m/n/10.95 :display-list-objects
 
  []
 
 
-Overfull \hbox (6.79999pt too wide) in paragraph at lines 3235--3236
+Overfull \hbox (6.79999pt too wide) in paragraph at lines 3333--3334
 [][] 
  []
 
-<../images/gwl-5.png, id=826, 572.80667pt x 437.36734pt>
+<../images/gwl-5.png, id=851, 572.80667pt x 437.36734pt>
 File: ../images/gwl-5.png Graphic file (type png)
 
 <use ../images/gwl-5.png>
-Package pdftex.def Info: ../images/gwl-5.png used on input line 3245.
+Package pdftex.def Info: ../images/gwl-5.png used on input line 3343.
 (pdftex.def)             Requested size: 289.0859pt x 216.80783pt.
- [55] [56] [57 <../images/gwl-5.png>] [58
+ [57] [58] [59 <../images/gwl-5.png>] [60
 
 ]
 Chapter 9.
-[59] [60
-
-]
-Chapter 10.
 [61] [62
 
 ]
+Chapter 10.
+[63] [64
 
-LaTeX Warning: Reference `subsec:usingquicklisp' on page 63 undefined on input 
-line 3321.
+]
+
+LaTeX Warning: Reference `subsec:usingquicklisp' on page 65 undefined on input 
+line 3419.
 
 
-LaTeX Warning: Reference `subsec:usingquicklisp' on page 63 undefined on input 
-line 3333.
+LaTeX Warning: Reference `subsec:usingquicklisp' on page 65 undefined on input 
+line 3431.
 
-[63] [64] (./tutorial.ind [65
+[65] [66] (./tutorial.ind [67
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3373.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3373.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3471.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3471.
  (./tutorial.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3373.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3373.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3471.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3471.
 
 Package rerunfilecheck Info: File `tutorial.out' has not changed.
-(rerunfilecheck)             Checksum: 13495DF50F9E5750936476AA8257E09D;4909.
+(rerunfilecheck)             Checksum: 0D9DC6B28E6EDCDD6BC9B8D121BA6EC9;4994.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -771,13 +801,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3373.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3471.
  ) 
 Here is how much of TeX's memory you used:
- 6246 strings out of 494770
- 94652 string characters out of 3171573
- 185162 words of memory out of 3000000
- 9116 multiletter control sequences out of 15000+200000
+ 6279 strings out of 494770
+ 95493 string characters out of 3171573
+ 185485 words of memory out of 3000000
+ 9138 multiletter control sequences out of 15000+200000
  12983 words of font info for 46 fonts, out of 3000000 for 9000
  134 hyphenation exceptions out of 8191
  29i,8n,28p,455b,565s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -799,10 +829,10 @@ ocal/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></opt/lo
 cal/share/texmf-texlive-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></opt/loc
 al/share/texmf-texlive-dist/fonts/type1/public/cm-super/sfrm0900.pfb></opt/loca
 l/share/texmf-texlive-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on tutorial.pdf (69 pages, 1195382 bytes).
+Output written on tutorial.pdf (71 pages, 1288559 bytes).
 PDF statistics:
- 1037 PDF objects out of 1200 (max. 8388607)
- 921 compressed objects within 10 object streams
- 281 named destinations out of 1000 (max. 500000)
- 599 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1063 PDF objects out of 1200 (max. 8388607)
+ 941 compressed objects within 10 object streams
+ 288 named destinations out of 1000 (max. 500000)
+ 627 words of extra memory for PDF output out of 10000 (max. 10000000)
 

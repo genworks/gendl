@@ -51,6 +51,45 @@
 	      :length (half (the length))
 	      :orientation (alignment :front (the (face-normal-vector :top))))
 
+   (front-label :type 'general-note
+		:center (the (face-center :front))
+		:orientation (alignment :top (the (face-normal-vector :front)))
+		:character-size 3
+		:strings "Front")
+
+   (rear-label :type 'general-note
+		:center (the (face-center :rear))
+		:orientation (alignment :top (the (face-normal-vector :rear)))
+		:character-size 3
+		:strings "Rear")
+
+   (right-label :type 'general-note
+		:center (the (face-center :right))
+		:orientation (alignment :top (the (face-normal-vector :right))
+					:rear (the (face-normal-vector :top)))
+		:character-size 3
+		:strings "Right")
+
+   (left-label :type 'general-note
+		:center (the (face-center :left))
+		:orientation (alignment :top (the (face-normal-vector :left))
+					:rear (the (face-normal-vector :top)))
+		:character-size 3
+		:strings "Left")
+
+   (top-label :type 'general-note
+		:center (the (face-center :top))
+		:orientation (alignment :top (the (face-normal-vector :top)))
+		:character-size 3
+		:strings "Top")
+
+   (bottom-label :type 'general-note
+		:center (the (face-center :bottom))
+		:orientation (alignment :top (the (face-normal-vector :bottom)))
+		:character-size 3
+		:strings "Bottom")
+   
+
    ))
 
 
@@ -70,10 +109,10 @@
 	:orientation (alignment :rear (the (face-normal-vector :front)))
 	:length (/ (the length) 10))
    
-
+   #+nil
    (note :type 'general-note
 	 :display-controls (list :billboard t)
-	 :center (the tip center)
+	 :center (translate (the tip center) :front (the-child character-size))
 	 :strings (the label))))
 
 

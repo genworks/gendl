@@ -2331,17 +2331,115 @@ The names of the geometric LLPs are in the \texttt{:geom-base} package, and here
 
 \begin{itemize}
 
-\item \texttt{base-coordinate-system} provides an empty 3D Cartesian coordinate system\footnote{\texttt{base-coordinate-system} is also known by its legacy name \texttt{base-object}}
+\item \texttt{base-coordinate-system} provides an empty 3D Cartesian coordinate system\footnote{\texttt{base-coordinate-system} is also known by its legacy name \texttt{base-object}. If your Gendl version does not yet have \texttt{base-coordinate-system} defined, you can use \texttt{base-object} to identical effect.}
 
 \item Simple 2-dimensional primitives include \texttt{line}, \texttt{arc}, and \texttt{ellipse}.
 
 \item Simple 3-dimensional primitives include \texttt{box}, \texttt{sphere}, and \texttt{cylinder}.
 
-\itemize{Advanced 3-dimensional primitives (which depend on optional add-on Geometry Kernel module) include \texttt{b-spline-curve}, \texttt{b-spline-surface}, and \texttt{merged-solid}}
+\itemize{Advanced 3-dimensional primitives (which depend on optional add-on Geometry Kernel module) include \texttt{b-spline-curve}, \texttt{b-spline-surface}, and \texttt{merged-solid}.}
 \end{itemize}
 
 This chapter will cover the default coordinate system of GenDL as well as the built-in simple 2D and 3D LLPs. Chapter 
 \ref{chap:workingwithsurfacesandsolids} will cover the advanced Surfaces and Solids primitives.
+
+
+
+\section{The Default Coordinate System in Gendl}
+
+\label{sec:thedefaultcoordinatesystemingendl}
+
+
+
+Gendl's default coordinate system comes with the standard mixin \texttt{base-coordinate-system} and represents a standard three-dimensional Cartesian Coordinate system with X, Y, and Z dimensions.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/coord-sys-tri.png}
+\end{center}
+
+\caption{Coordinate System in Trimetric View}
+
+\label{fig:coord-sys-tri}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/coord-sys-front.png}
+\end{center}
+
+\caption{Coordinate System in Front View}
+
+\label{fig:coord-sys-front}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/coord-sys-top.png}
+\end{center}
+
+\caption{Coordinate System in Top View}
+
+\label{fig:coord-sys-top}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/coord-sys-labeled-faces.png}
+\end{center}
+
+\caption{Coordinate System with Symbolically Labeled Faces}
+
+\label{fig:coord-sys-labeled-faces}
+
+\end{figure}
+
+
+Figure 
+\ref{fig:coord-sys-tri} shows the coordinate system in a 3D Trimetric view.
+
+
+
+Figure 
+\ref{fig:coord-sys-front} shows the coordinate system in a Front View.
+
+
+
+Figure 
+\ref{fig:coord-sys-top} shows the coordinate system in a Top View.
+
+
+
+Figure 
+\ref{fig:coord-sys-labeled-faces} shows each face of the reference box labeled with its symbolic direction:
+
+\begin{itemize}
+
+\item \texttt{Right} for the 
+\textbf{positive X} direction
+
+\item \texttt{Left} for the 
+\textbf{negative X} direction
+
+\item \texttt{Rear} for the 
+\textbf{positive Y} direction
+
+\item \texttt{Front} for the 
+\textbf{negative Y} direction
+
+\item \texttt{Top} for the 
+\textbf{positive Z} direction
+
+\item \texttt{Bottom} for the 
+\textbf{negative Z} direction
+
+\end{itemize}
+
+
 
 
 

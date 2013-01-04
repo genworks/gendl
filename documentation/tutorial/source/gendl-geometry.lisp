@@ -71,5 +71,52 @@
     ((:section :title "The Default Coordinate System in Gendl")
      (:p "Gendl's default coordinate system comes with the standard mixin "
 	 (:texttt "base-coordinate-system")
-	 " and represents a standard Cartesian Coordinate system with X, Y, and Z dimensions."
+	 " and represents a standard three-dimensional Cartesian Coordinate system with X, Y, and Z dimensions.")
+
+
+     ((:image-figure :image-file "coord-sys-tri.png" :caption "Coordinate System in Trimetric View" 
+			  :width "3in" :height "3in"
+			  :label "fig:coord-sys-tri"))
+
+
+     ((:image-figure :image-file "coord-sys-front.png" :caption  "Coordinate System in Front View"
+			  :width "3in" :height "3in"
+			  :label "fig:coord-sys-front"))
+
+     ((:image-figure :image-file "coord-sys-top.png" :caption "Coordinate System in Top View"
+			  :width "3in" :height "3in"
+			  :label "fig:coord-sys-top"))
+     
+
+     ((:image-figure :image-file "coord-sys-labeled-faces.png" :caption "Coordinate System with Symbolically Labeled Faces"
+			  :width "3in" :height "3in"
+			  :label "fig:coord-sys-labeled-faces"))
+     
+
+     (:p "Figure " (:ref "fig:coord-sys-tri") " shows the coordinate system in a 3D Trimetric view.")
+
+
+
+     (:p "Figure " (:ref "fig:coord-sys-front") " shows the coordinate system in a Front View.")
+
+
+     
+     (:p "Figure " (:ref "fig:coord-sys-top") " shows the coordinate system in a Top View.")
+
+     (:p "Figure " (:ref "fig:coord-sys-labeled-faces") " shows each face of the reference box labeled with its symbolic direction:"
+	 ((:list :style :itemize)
+	  (:item (:texttt "Right") " for the " (:textbf "positive X") " direction")
+	  (:item (:texttt "Left") " for the " (:textbf "negative X") " direction")
+	  (:item (:texttt "Rear") " for the " (:textbf "positive Y") " direction")
+	  (:item (:texttt "Front") " for the " (:textbf "negative Y") " direction")
+	  (:item (:texttt "Top") " for the " (:textbf "positive Z") " direction")
+	  (:item (:texttt "Bottom") " for the " (:textbf "negative Z") " direction")))
+
+
+
+
+     
+     
+
+     )))
 

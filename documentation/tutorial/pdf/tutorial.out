@@ -52,15 +52,16 @@
 \BOOKMARK [1][-]{subsection.6.0.1}{The Toolbars}{chapter.6}% 52
 \BOOKMARK [2][-]{subsection.6.0.2}{View Frames}{subsection.6.0.1}% 53
 \BOOKMARK [0][-]{chapter.7}{Working with Geometry in Gendl}{}% 54
-\BOOKMARK [0][-]{chapter.8}{Custom User Interfaces in GenDL}{}% 55
-\BOOKMARK [1][-]{section.8.1}{Package and Environment for Web Development}{chapter.8}% 56
-\BOOKMARK [1][-]{section.8.2}{Traditional Web Pages and Applications}{chapter.8}% 57
-\BOOKMARK [2][-]{subsection.8.2.1}{A Simple Static Page Example}{section.8.2}% 58
-\BOOKMARK [2][-]{subsection.8.2.2}{A Simple Dynamic Page which Mixes HTML and Common Lisp/GenDL}{section.8.2}% 59
-\BOOKMARK [2][-]{subsection.8.2.3}{Linking to Multiple Pages}{section.8.2}% 60
-\BOOKMARK [2][-]{subsection.8.2.4}{Form Controls and Fillout-Forms}{section.8.2}% 61
-\BOOKMARK [1][-]{section.8.3}{Partial Page Updates with gdlAjax}{chapter.8}% 62
-\BOOKMARK [2][-]{subsection.8.3.1}{Steps to Create a gdlAjax Application}{section.8.3}% 63
-\BOOKMARK [2][-]{subsection.8.3.2}{Including Graphics}{section.8.3}% 64
-\BOOKMARK [0][-]{chapter.9}{More Common Lisp for Gendl}{}% 65
-\BOOKMARK [0][-]{chapter.10}{Advanced Gendl}{}% 66
+\BOOKMARK [1][-]{section.7.1}{The Default Coordinate System in Gendl}{chapter.7}% 55
+\BOOKMARK [0][-]{chapter.8}{Custom User Interfaces in GenDL}{}% 56
+\BOOKMARK [1][-]{section.8.1}{Package and Environment for Web Development}{chapter.8}% 57
+\BOOKMARK [1][-]{section.8.2}{Traditional Web Pages and Applications}{chapter.8}% 58
+\BOOKMARK [2][-]{subsection.8.2.1}{A Simple Static Page Example}{section.8.2}% 59
+\BOOKMARK [2][-]{subsection.8.2.2}{A Simple Dynamic Page which Mixes HTML and Common Lisp/GenDL}{section.8.2}% 60
+\BOOKMARK [2][-]{subsection.8.2.3}{Linking to Multiple Pages}{section.8.2}% 61
+\BOOKMARK [2][-]{subsection.8.2.4}{Form Controls and Fillout-Forms}{section.8.2}% 62
+\BOOKMARK [1][-]{section.8.3}{Partial Page Updates with gdlAjax}{chapter.8}% 63
+\BOOKMARK [2][-]{subsection.8.3.1}{Steps to Create a gdlAjax Application}{section.8.3}% 64
+\BOOKMARK [2][-]{subsection.8.3.2}{Including Graphics}{section.8.3}% 65
+\BOOKMARK [0][-]{chapter.9}{More Common Lisp for Gendl}{}% 66
+\BOOKMARK [0][-]{chapter.10}{Advanced Gendl}{}% 67
