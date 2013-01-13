@@ -5,6 +5,10 @@
 
   \indexspace
 
+  \item AJAX, \hyperpage{55}
+
+  \indexspace
+
   \item Basic Lisp Techniques, \hyperpage{2}
 
   \indexspace
@@ -29,6 +33,7 @@
 
   \indexspace
 
+  \item gdl-ajax-call, \hyperpage{56}
   \item gdl-user(1): , \hyperpage{9}
   \item Genworks Gendl Console, \hyperpage{7}
 

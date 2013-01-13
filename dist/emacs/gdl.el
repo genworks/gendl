@@ -218,9 +218,8 @@
     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
 
     (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
-    (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+    (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))))
 
-    ))
 
 ;;
 ;; To switch to slime buffer shortcuts

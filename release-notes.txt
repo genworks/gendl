@@ -1,8 +1,0 @@
-
-GWL package
-===========
-
-
-New parameter *process-cookies?* defaults to nil. Cookies will not be processed unless this is set to t. 
-
-

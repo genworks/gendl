@@ -33,9 +33,18 @@
 
   
   :objects
-  ((twenty-four :type 'assembly-24
+  ((wind :type 'wind-demo-launcher)
+
+   (twenty-four :type 'assembly-24
 		:pass-down (respondent))))
 
 
 
 
+(define-object wind-demo-launcher (base-site-sheet)
+  :computed-slots
+  ((right-section-inner-html
+    (with-cl-who-string ()
+      "Please click "
+      ((:a :href "/demo-1") "Here")
+      " to visit the Wind Turbine demo."))))

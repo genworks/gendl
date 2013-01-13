@@ -60,17 +60,17 @@
 \contentsline {subsection}{\numberline {6.0.2}View Frames}{39}{subsection.6.0.2}
 \contentsline {chapter}{\numberline {7}Working with Geometry in Gendl}{43}{chapter.7}
 \contentsline {section}{\numberline {7.1}The Default Coordinate System in Gendl}{43}{section.7.1}
-\contentsline {chapter}{\numberline {8}Custom User Interfaces in GenDL}{47}{chapter.8}
+\contentsline {chapter}{\numberline {8}Custom User Interfaces in Gendl}{47}{chapter.8}
 \contentsline {section}{\numberline {8.1}Package and Environment for Web Development}{47}{section.8.1}
 \contentsline {section}{\numberline {8.2}Traditional Web Pages and Applications}{47}{section.8.2}
 \contentsline {subsection}{\numberline {8.2.1}A Simple Static Page Example}{48}{subsection.8.2.1}
-\contentsline {subsection}{\numberline {8.2.2}A Simple Dynamic Page which Mixes HTML and Common Lisp/GenDL}{50}{subsection.8.2.2}
+\contentsline {subsection}{\numberline {8.2.2}A Simple Dynamic Page which Mixes HTML and Common Lisp/Gendl}{50}{subsection.8.2.2}
 \contentsline {subsection}{\numberline {8.2.3}Linking to Multiple Pages}{50}{subsection.8.2.3}
 \contentsline {subsection}{\numberline {8.2.4}Form Controls and Fillout-Forms}{51}{subsection.8.2.4}
 \contentsline {subsubsection}{Form Controls}{51}{section*.9}
-\contentsline {subsubsection}{Fillout Forms}{51}{section*.10}
-\contentsline {section}{\numberline {8.3}Partial Page Updates with gdlAjax}{53}{section.8.3}
+\contentsline {subsubsection}{Fillout Forms}{53}{section*.10}
+\contentsline {section}{\numberline {8.3}Partial Page Updates with gdlAjax}{55}{section.8.3}
 \contentsline {subsection}{\numberline {8.3.1}Steps to Create a gdlAjax Application}{55}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}Including Graphics}{57}{subsection.8.3.2}
+\contentsline {subsection}{\numberline {8.3.2}Including Graphics}{58}{subsection.8.3.2}
 \contentsline {chapter}{\numberline {9}More Common Lisp for Gendl}{61}{chapter.9}
 \contentsline {chapter}{\numberline {10}Advanced Gendl}{63}{chapter.10}

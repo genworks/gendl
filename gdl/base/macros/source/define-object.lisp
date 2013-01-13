@@ -243,7 +243,9 @@ future GDL release."
            (class (gensym)))
 
 
-      `(glisp:with-definition-unit
+      `(progn 
+	;;glisp:with-definition-unit
+	;;eval-when (:compile-toplevel :load-toplevel)
          ,(when (and *compile-documentation-database?* documentation)
 		`(when *load-documentation-database?*
 		   (setf (gdl-documentation ,class) ',documentation)))
@@ -372,10 +374,6 @@ future GDL release."
                       quantified-hidden-object-syms trickle-down-slot-syms)))))))
 
 
-(defmacro defineer-object (&rest args)
-  `(define-object ,@args))
-
-
 
 (defmacro define-object (name mixin-list &rest spec-plist)
   "Defines a standard GDL object. Please see the document USAGE.TXT for an 
@@ -400,8 +398,6 @@ overview of <tt>define-object</tt> syntax."
     
     (reserved-word-warning-or-error name messages)               
     
-    
-    
     (let ((message-ht (make-hash-table :size (length messages))))
       (dolist (message messages)
         (push message (gethash message message-ht)))
@@ -411,7 +407,9 @@ overview of <tt>define-object</tt> syntax."
           (when duplicates
             (error "duplicate slot name~p: ~{~a~^, ~}" (length duplicates) (sort duplicates #'string-lessp :key #'symbol-name))))))
     
-    `(glisp:with-definition-unit 
+    `(progn 
+      ;;glisp:with-definition-unit 
+      ;;eval-when (:compile-toplevel :load-toplevel)
        
        (defclass ,name ,(if (or no-vanilla-mixin? 
                                 (some #'(lambda(mixin)
@@ -446,14 +444,14 @@ overview of <tt>define-object</tt> syntax."
              (let ((method (ignore-errors
                             (find-method (symbol-function (glisp:intern (symbol-name key) :gdl-slots)) nil
                                          (list ,class-arg) nil))))
-               (when (and method (not (search "%qb" (string key))))
-                 (when *report-gdl-redefinitions?* 
-                   (format t "~%Removing slot: ~a for object definition: ~s~%" key ',name))
-                 (remove-method (symbol-function (glisp:intern (symbol-name key) :gdl-slots)) method)))))
+               (when method 
+		 (when *report-gdl-redefinitions?*
+		   (format t "~%Removing slot: ~a for object definition: ~s~%" key ',name))
+		 (remove-method (symbol-function (glisp:intern (symbol-name key) :gdl-slots)) method)))))
        
-         ,(when (and *compile-documentation-database?* documentation)
-            `(when *load-documentation-database?*
-               (setf (gdl-documentation ,class-arg) ',documentation))))
+	 ,(when (and *compile-documentation-database?* documentation)
+		`(when *load-documentation-database?*
+		   (setf (gdl-documentation ,class-arg) ',documentation))))
 
          
        (when (message-documentation (find-class ',name)) (clrhash (message-documentation (find-class ',name))))
@@ -484,6 +482,13 @@ overview of <tt>define-object</tt> syntax."
        ;; FLAG -- consider pre-cooking these expression lists
        ;;
        
+       ,(object-inputs-generics-section (append objects hidden-objects))
+
+       ,(input-slots-generics (append (group-remark-strings (remove-if-not #'(lambda(item)
+                                                                            (or (symbolp item) (stringp item)))
+                                                                        input-slots))
+				      (remove-if-not #'consp input-slots)))
+
        ,@(input-slots-section name (group-remark-strings (remove-if-not #'(lambda(item)
                                                                             (or (symbolp item) (stringp item)))
                                                                         input-slots)))
@@ -526,6 +531,8 @@ overview of <tt>define-object</tt> syntax."
                               computed-slots))
        
        ,@(computed-slots-section name query-slots :query? t)
+
+
        
        ,@(objects-section name objects) ,@(objects-section name hidden-objects) 
        

@@ -186,7 +186,7 @@ is this? Please let us know at open-source@genworks.com.
 	(original-redefinition-warnings 
 	 #+allegro excl:*redefinition-warnings*
 	 #+lispworks lw:*redefinition-action*))
-  (declare (ignore original-redefinition-warnings))
+  #+(or allegro lispworks) (declare (ignore original-redefinition-warnings))
   (defun begin-redefinitions-ok () 
     #+sbcl (declare (sb-ext:muffle-conditions sb-ext:compiler-note))
     #+(or allegro lispworks)

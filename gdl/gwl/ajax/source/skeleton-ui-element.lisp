@@ -312,6 +312,10 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
                              from the web page and its value in the 
                              model \"bashed\" to reflect what has been 
                              entered on the page.\")"
+
+    ;;
+    ;; FLAG --  Breaks for utf-8 characters e.g. Chinese. Rewrite this entire scheme to use cl-json!!
+    ;;
     gdl-ajax-call 
     (&key (bashee (the bashee)) 
           (respondent (the respondent)) 

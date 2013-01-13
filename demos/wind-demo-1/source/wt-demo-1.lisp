@@ -58,7 +58,12 @@
    (main-sheet-body
     (with-cl-who-string ()
       (:div :id "wrapper"
-            (:div :id "header"(:h1 "Wind Turbine Geometry Demo"))
+            ((:div :id "header")
+	     (:center (:h1 "Wind Turbine Geometry Demo")
+		      ((:a :href "https://github.com/genworks/Genworks-GDL/tree/master/demos/wind-demo-1/source" :target "_sources")
+		       (:i "source code"))))
+
+		  
             (:div :id "left"
                   (:div :id "logo"
                         (:h1 "KE-Works S.R.L. & Genworks International")
@@ -121,7 +126,9 @@
 
 (define-object general-inputs (sheet-section)
   :computed-slots
-  ((main-view (with-cl-who-string ()
+  ((max-blades 12)
+
+   (main-view (with-cl-who-string ()
                 ((:table :class "input_area")
                  ((:col  :width "90%")
                   (:tr (:td) (:td))
@@ -143,6 +150,11 @@
                      :default 3
                      :prompt nil
                      :size 1
+		     :validation-function #'(lambda(value) (if (and (integerp value)
+								    (<= 1 value (the max-blades)))
+							       t
+							       (list :validated-value (the-child default) :error "The value must be an integer between 1 and 12, inclusive.")))
+		     :allow-invalid? nil
                      :ajax-submit-on-change? t)
    
    (hub-hight :type 'text-form-control
@@ -322,10 +334,11 @@
   :computed-slots
   ((main-view (with-cl-who-string ()
                 (str (the component-display-control html-string))
+		#+nil
                 (:h3 (str (if (eql (the component-display-control value) :rotor-assembly)
                              "Blade concepts"       
                             "" )))
-                
+		#+nil
                 (str (if (eql (the component-display-control value) :rotor-assembly)
                          (the blade-concepts html-string) ""))
                 )))
@@ -345,14 +358,14 @@
     
     
     (blade-concepts :type 'menu-form-control
-                              :choice-plist (list  :classic-blade "Classic blade"
-                                                   :blade-with-flaps "Blade with flaps"
-                                                   :blade-with-morfin-tip "Blade with morfin tip"
-                                                   :blade-with-m-tip-flaps "Blade with M-tip-flaps")
-                                                   :default  :classic-blade
-                                                   :size 1
-                                                   :prompt nil
-                                                   :ajax-submit-on-change? t)
+		    :choice-plist (list  :classic-blade "Classic blade"
+					 :blade-with-flaps "Blade with flaps"
+					 :blade-with-morfin-tip "Blade with morfin tip"
+					 :blade-with-m-tip-flaps "Blade with M-tip-flaps")
+		    :default  :classic-blade
+		    :size 1
+		    :prompt nil
+		    :ajax-submit-on-change? t)
     
     
     

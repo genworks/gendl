@@ -532,8 +532,6 @@ Defaults to nil. Use number-form-control to get a default of t."
   :functions
   ((set-actual-slot! 
     (new-value)
-    
-    (print-variables new-value)
     (the (set-slot-if-needed! 
           :value  
           (if (and (stringp new-value)
@@ -649,7 +647,6 @@ eql for keywords, string-equal for strings, and equalp otherwise."
                                             (number "~s")
                                             (list "~s")
                                             (symbol "~s")
-                                            (keyword "~s")
                                             (string "~a")))
                    
                    (format-string (ecase (the domain)
@@ -659,9 +656,6 @@ eql for keywords, string-equal for strings, and equalp otherwise."
   :functions
   ((tweak-raw-value-and-domain
     (&key raw-value domain)
-    
-    (print-variables raw-value)
-    
     (if (the multiple?)
         (ecase domain
           (:keyword (multiple-value-bind (possible-list error)
@@ -682,7 +676,6 @@ eql for keywords, string-equal for strings, and equalp otherwise."
           ((:number :list-of-anything)
            (multiple-value-bind (possible-list error)
                (ignore-errors (read-safe-string raw-value))
-             (print-variables error possible-list)
              (cond ((typep error 'error) (error error))
                    ((listp possible-list)
                     (values (mapcar #'read-safe-string possible-list) :list-of-anything))

@@ -265,6 +265,44 @@
      (:use :common-lisp :gdl)
      ,@body))
 
+
+;;
+;; FLAG working on this one to do a proper redefinition. 
+;;
+#+nil
+(defmacro gdl:define-package (name &rest body)
+  (let ((%exports (gensym))
+        (%uses (gensym))
+        (%shadowing-import-froms (gensym))
+        (%shadows (gensym))
+        (%import-froms (gensym))
+        (existing-package (gensym)))
+    `(flet ((,%exports (exports)
+              (export (mapcar #'(lambda(symbol) (glisp:intern symbol ,name)) exports) ,name))
+            (,%uses (uses)
+              (use-package uses ,name))
+	      
+            (,%shadowing-import-froms (imports)
+              (destructuring-bind (package &rest symbols) imports
+                (shadowing-import (mapcar #'(lambda(symbol) (glisp:intern symbol package)) symbols)
+                                  ,name)))
+            (,%shadows (symbols) (shadow symbols ,name))
+            (,%import-froms (imports)
+              (destructuring-bind (package &rest symbols) imports
+                (import (mapcar #'(lambda(symbol) (glisp:intern symbol package)) symbols) ,name))))
+       (let ((,existing-package (find-package ,name)))
+         (if ,existing-package
+             (progn
+               (,%exports (rest (find :export ',body :key #'first)))
+               (,%uses (rest (find :use ',body :key #'first)))
+               (,%shadowing-import-froms (rest (find :shadowing-import-from ',body :key #'first)))
+               (,%shadows (rest (find :shadow ',body :key #'first)))
+               (,%import-froms (rest (find :import-from ',body :key #'first))))
+             (defpackage ,name 
+               (:shadowing-import-from :gdl #:the) (:use :common-lisp :gdl) ,@body))))))
+
+
+
 (gdl:define-package :gdl-user)
 
 

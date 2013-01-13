@@ -2,10 +2,15 @@
 
 ;;
 ;; FLAG -- this will be more useful as a view-scale-independent mixin
-;;
+
 (define-object visible-coordinate-system (base-coordinate-system)
 
+
   :input-slots ((length 10) (width 10) (height 10)
+
+		(show-axes? t :settable)
+
+		(show-face-labels? t :settable)
 
 		(grid-size 10)
 
@@ -15,7 +20,9 @@
   ((box :type 'box
 	:display-controls (list :color :orange :transparency 0.8))
 
+
    (x-pointer :type 'axis-pointer 
+	      :hidden? (not (the show-axes?))
 	      :label "X"
 	      :display-controls (list :color :red)
 	      :length (half (the length))
@@ -31,6 +38,7 @@
 			       
 
    (y-pointer :type 'axis-pointer 
+	      :hidden? (not (the show-axes?))
 	      :label "Y"
 	      :display-controls (list :color :green)
 	      :length (half (the length))
@@ -46,24 +54,28 @@
 
 
    (z-pointer :type 'axis-pointer 
+	      :hidden? (not (the show-axes?))
 	      :label "Z"
 	      :display-controls (list :color :blue)
 	      :length (half (the length))
 	      :orientation (alignment :front (the (face-normal-vector :top))))
 
    (front-label :type 'general-note
+		:hidden? (not (the show-face-labels?))
 		:center (the (face-center :front))
 		:orientation (alignment :top (the (face-normal-vector :front)))
 		:character-size 3
 		:strings "Front")
 
    (rear-label :type 'general-note
-		:center (the (face-center :rear))
-		:orientation (alignment :top (the (face-normal-vector :rear)))
-		:character-size 3
-		:strings "Rear")
+	       :hidden? (not (the show-face-labels?))
+	       :center (the (face-center :rear))
+	       :orientation (alignment :top (the (face-normal-vector :rear)))
+	       :character-size 3
+	       :strings "Rear")
 
    (right-label :type 'general-note
+		:hidden? (not (the show-face-labels?))
 		:center (the (face-center :right))
 		:orientation (alignment :top (the (face-normal-vector :right))
 					:rear (the (face-normal-vector :top)))
@@ -71,26 +83,27 @@
 		:strings "Right")
 
    (left-label :type 'general-note
-		:center (the (face-center :left))
-		:orientation (alignment :top (the (face-normal-vector :left))
-					:rear (the (face-normal-vector :top)))
-		:character-size 3
-		:strings "Left")
+	       :hidden? (not (the show-face-labels?))
+	       :center (the (face-center :left))
+	       :orientation (alignment :top (the (face-normal-vector :left))
+				       :rear (the (face-normal-vector :top)))
+	       :character-size 3
+	       :strings "Left")
 
    (top-label :type 'general-note
-		:center (the (face-center :top))
-		:orientation (alignment :top (the (face-normal-vector :top)))
-		:character-size 3
-		:strings "Top")
+	      :hidden? (not (the show-face-labels?))
+	      :center (the (face-center :top))
+	      :orientation (alignment :top (the (face-normal-vector :top)))
+	      :character-size 3
+	      :strings "Top")
 
    (bottom-label :type 'general-note
-		:center (the (face-center :bottom))
-		:orientation (alignment :top (the (face-normal-vector :bottom)))
-		:character-size 3
-		:strings "Bottom")
-   
+		 :hidden? (not (the show-face-labels?))
+		 :center (the (face-center :bottom))
+		 :orientation (alignment :top (the (face-normal-vector :bottom)))
+		 :character-size 3
+		 :strings "Bottom")))
 
-   ))
 
 
 (define-object axis-pointer (cylinder)

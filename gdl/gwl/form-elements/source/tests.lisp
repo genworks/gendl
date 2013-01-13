@@ -23,7 +23,7 @@
 
 
 
-(define-object test-form (base-html-sheet session-control-mixin)
+(define-object test-form (base-ajax-sheet)
   
   
   :computed-slots ((force-validation-for (list (the radio-1) (the radio-2)))
@@ -86,6 +86,7 @@ Dr. Paul is the one exception to the Gang of 535 on Capitol Hill.")
    (issues :type 'menu-form-control
            :choice-list (list "Taxes" "Health Care" "Foreign Policy")
            :default "Taxes"
+	   :ajax-submit-on-change? t
            :multiple? t)
    
    (color :type 'menu-form-control
@@ -182,61 +183,60 @@ Dr. Paul is the one exception to the Gang of 535 on Capitol Hill.")
 
 (define-lens (html-format test-form)()
   :output-functions
-  ((main-sheet
+  ((main-sheet-body
     ()
     (with-html-output (*stream* nil :indent t)
-      (:html (:head (:title "Test Form"))
-             (:body (:h2 (:center "Test Form"))
-                    (the write-development-links)
-                    (with-html-form (:cl-who? t)
+      (:h2 (:center "Test Form"))
+      (the write-development-links)
+      (with-html-form (:cl-who? t)
                       
-                      (:p (str (the age html-string)))
+	(:p (str (the age html-string)))
                       
-                      (:p (str (the button-1 html-string)))
+	(:p (str (the button-1 html-string)))
                       
-                      (:p (str (the radio-1 html-string)))
-                      (:p (str (the radio-2 html-string)))
+	(:p (str (the radio-1 html-string)))
+	(:p (str (the radio-2 html-string)))
                       
-                      (:p (str (the reason html-string)))
+	(:p (str (the reason html-string)))
                       
-                      (:p (str (the username html-string)))
-                      (:p "(internal value is: " (fmt "~s" (the username value)) ")")
-                      (:p (str (the age html-string)))
-                      (:p "(internal value is: " (fmt "~s" (the age value)) ")")
-                      (:p (str (the bio html-string)))
-                      (:p (:table 
-                      (:tr (:td (str (the issues html-string))))
-                      (:tr (:td (str (the color html-string))))
-                      (:tr (:td (str  (the color value))))
-                      (:p (str (the early-riser? html-string)))
+	(:p (str (the username html-string)))
+	(:p "(internal value is: " (fmt "~s" (the username value)) ")")
+	(:p (str (the age html-string)))
+	(:p "(internal value is: " (fmt "~s" (the age value)) ")")
+	(:p (str (the bio html-string)))
+	(:p (:table 
+		(:tr (:td (str (the issues html-string))))
+	      (:tr (:td (str (the color html-string))))
+	      (:tr (:td (str  (the color value))))
+	      (:p (str (the early-riser? html-string)))
                       
-                      (dolist (link (list-elements (the favorite-links)))
-                        (htm (str (the-object link html-string))))
+	      (dolist (link (list-elements (the favorite-links)))
+		(htm (str (the-object link html-string))))
 
-                      (:p (str (the number-of-grid-columns
-                                 html-string)))
+	      (:p (str (the number-of-grid-columns
+			 html-string)))
                       
-                      (:table
-                       (:tr
-                        (:td
-                         ((:table :border 1)
-                          (:tr (:td " " :br))
-                          (:tr (:td "take-off angle"))
-                          (:tr (:td "take-off gap"))
-                          (:tr (:td "take-off overlap"))))
-                        (:td
-                         #+nil(str (the grid-1 form-control-string)))))
-                      
-                      
-                      (:p #+nil(str (the grid-1 value)))
+	      (:table
+		  (:tr
+		   (:td
+		    ((:table :border 1)
+		     (:tr (:td " " :br))
+		     (:tr (:td "take-off angle"))
+		     (:tr (:td "take-off gap"))
+		     (:tr (:td "take-off overlap"))))
+		   (:td
+		    #+nil(str (the grid-1 form-control-string)))))
                       
                       
-                      (:p (str (the form-1 html-string)))
-                      (:p (str (the list-choices html-string)))
+	      (:p #+nil(str (the grid-1 value)))
                       
-                      (:p (fmt "~s" (the list-choices value)))
                       
-                      (:p ((:input :type :submit :value " OK "))))))))))))
+	      (:p (str (the form-1 html-string)))
+	      (:p (str (the list-choices html-string)))
+                      
+	      (:p (fmt "~s" (the list-choices value)))
+                      
+	      (:p ((:input :type :submit :value " OK "))))))))))
                       
   
 (publish-gwl-app  "/fe" "gwl-user::test-form")

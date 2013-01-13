@@ -21,6 +21,38 @@
 
 (in-package :gdl)
 
+
+(defun object-inputs-generics-section (object-specs)
+  (let* ((special-keys (list  :type :sequence :parameters :pass-down :pseudo-inputs))
+	 (object-symbols-in-input-package (remove-duplicates (mapcar #'(lambda(spec) (glisp:intern (if (stringp (first spec))
+												       (second spec) (first spec)) :gdl-inputs))
+								     object-specs)))
+	 (object-input-keys (remove-duplicates
+			     (append 
+			      (set-difference (apply #'append (mapcar #'plist-keys (mapcar #'(lambda(spec) (if (stringp (first spec))
+													       (rest (rest spec))
+													       (rest spec)))
+											   object-specs)))
+					      special-keys)
+			     
+			      (apply #'append (mapcar #'(lambda(spec) (getf (rest (strip-strings spec)) :pass-down)) object-specs))))))
+
+    `(eval-when (:compile-toplevel :load-toplevel :execute)    
+       ,@(append 
+
+	  (mapcar #'(lambda(object-symbol)
+		      `(unless (fboundp ',object-symbol)
+			 (defgeneric ,object-symbol (parent object-name self)))) object-symbols-in-input-package)
+	  
+	  (mapcar #'(lambda(key)
+		      `(unless (fboundp ',(glisp:intern key :gdl-inputs))
+			 (defgeneric ,(glisp:intern key :gdl-inputs) (parent object-name self)))) object-input-keys)
+
+	  (mapcar #'(lambda(key)
+			     `(unless (fboundp ',(glisp:intern key :gdl-slots))
+				(defgeneric ,(glisp:intern key :gdl-slots) (self &rest args)))) object-input-keys)))))
+
+
 (defun objects-section (name objects)
   (let ((special-keys (list  :type :sequence :parameters :pass-down :pseudo-inputs)))
     (apply 
@@ -196,11 +228,10 @@ item in the list following the :sequence keyword")))))
                `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
                
 	       ;;
-	       ;; FLAG -- duplicated from inputs.lisp
+	       ;; FLAG -- duplicated from two places in inputs.lisp --- make a function for this!!
 	       ;;
-               `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-				       (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-						    nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
+               `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+				     nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil)
 		  (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
 										 ,part-arg 
 										 (,self-arg gdl-basis))

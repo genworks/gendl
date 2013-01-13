@@ -40,10 +40,7 @@
                               (if (or (glisp:match-regexp "^radio-" (format nil "~a" key))
                                       (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
                                   value
-				  (base64-decode-safe value)
-				  ;;value
-
-				  )))
+				  (base64-decode-safe value))))
                     (plist-keys encoded-fields)
                     (plist-values encoded-fields)))))
          (raw-fields (getf query-plist :|raw-fields|))
@@ -148,13 +145,10 @@ You can reload to get previous state" *ajax-timeout*))
 				    (with-html-output(ss)
 				      (:i (fmt "alert('This section threw error: ~a !!');" error))))
 				  (or string (the-object section js-always-to-eval) "")))
-
 			    ""))
                   replace-list)))
 
-	(when *debug?* (print-variables (the-object section js-always-to-eval)))
-	)
-    
+	(when *debug?* (print-variables (the-object section js-always-to-eval))))
 
 
       (when *debug?* (print-variables replace-list))
