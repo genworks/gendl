@@ -20,28 +20,64 @@
 ;; 
 
 
-Welcome to the General-purpose Declarative Language Open-Source
-Distribution.
+Welcome to the General-purpose Declarative Language ("Gendl")
+Open-Source Distribution.
+
+What is this? 
+=============
+
+Gendl is a Generative Knowledge Based Engineering framework. It allows
+for high-level declarative, object-oriented problem solving and
+application development, including but not limited to the ability to
+generate and manipulate 3D geometry. To solve a problem in Gendl, you
+formulate it using the "define-object" operator, which allows you to
+specify inputs, outputs (computed slots), and child objects (which
+gives the ability to generate a "tree" of objects, useful for
+decomposing complexity). A graphical web-based interface, tasty, is
+available for interacting with your system as you develop it.
+
+Gendl provides the fundamental KBE features of:
+
+  o Declarative (non-procedural) Syntax
+
+  o Object and value caching (i.e. runtime memorization)
+
+  o Dependency-tracking (cached values get recomputed when needed)
+
+Optionally there is available a set of surface- and solid-modeling
+primitives which currently depend on SMLib, a commercial geometry
+kernel available from Solid Modeling Solutions, Inc.
+
+The Surface (:surf) package (in the surf/ folder) contains all the
+high-level Surface and Solid modeling primitives and is available
+under the AGPL with the Gendl project. These primitives provide a
+protocol for what the objects should be able to do (i.e. what messages
+they should answer), but without the SMLib library and associated
+middleware available, they will not be able to return any results.
+The SMLib kernel and associated middleware are available as commercial
+products from http://genworks.com.
+
+If you have a different favorite solid modeling kernel
+(e.g. OpenCascade, Parasolid, Geometros sgCore), then it may be
+possible to interface the existing Surface package to that kernel, by
+implementing the methods in surf/source/methods.lisp. 
 
 Gendl is distributed under AGPL, which has the requirement that you
 release your updates and any applications compiled with Gendl under
 AGPL-compatible license (if distributed at all).
 
-Proprietary (closed-source) licenses are available from Genworks as
-well. These are described in preview form in the Configurator section
-on genworks.com/newsite and will be available in more detail on the
-main Genworks website soon.
+Proprietary (closed-source) licenses, support, fully functional
+commercial builds, surface/solid modeling kernel, and training are
+available from Genworks as well. These are described in the
+Configurator section on http://genworks.com.
 
 
 Current Requirements:
 
- o Common Lisp: Allegro CL 9.0, LispWorks 6.x, SBCL, or CCL (Clozure
-   CL).
+ 1. Common Lisp: Allegro CL 9.0, LispWorks 6.x, SBCL, or CCL (Clozure
+    CL).
 
- o For the full system to work, Portable AllegroServe or Original
-   AllegroServe must work on your platform. Portable AllegroServe is
-   available as :aserve in Quicklisp. This has been verified recently
-   on Allegro CL, LispWorks, SBCL (Linux), and CCL.
+ 2. Quicklisp (available from http://www.quicklisp.org)
 
 
  To load the entire system, you can do it with:
@@ -57,20 +93,19 @@ Now you can do a quick sanity test by visiting:
 in your browser and trying to instantiate the default assembly tree
 (robot).
 
-Note that ql:quickload is from the Quicklisp package - you have to get
-your system bootstrapped with Quicklisp first in order to use
-this. See www.quicklisp.org.
+Slime (Emacs Editor integration) is recommended for editing GDL
+applications with Emacs.  Slime is available with
 
-Slime is recommended for editing GDL applications with Emacs. 
+   (ql:quickload :quicklisp-slime-helper)
 
-Documentation is in documentation/tutorial/pdf/tutorial.pdf and this very
-much an active work in progress. Training tutorials and videos are
-also in progress, and a www.genworks.com website overhaul. The current
-preview of the website overhaul is genworks.com/newsite.
+Documentation is in documentation/tutorial/pdf/tutorial.pdf and this
+very much an active work in progress. Training tutorials and videos
+are also in progress and in their current state are available in the
+Documentation section on http://genworks.com.
 
 
 To help in understanding the role of each module, the overall GDL
-source architecture is described below.
+source architecture is partially described below.
 
 
 GDL source code Architecture:
@@ -78,52 +113,53 @@ GDL source code Architecture:
 
 GDL is separated into layered components, some of which depend on
 others. Some components also depend on third-party external libraries,
-which are currently handled with the Quicklisp system with some local
-modifications pending merging into the Quicklisp dists. 
+which are currently handled with the Quicklisp system.
 
 At the core "kernel" is the :gdl package, implemented with files in
 the folder gdl/base/. This includes the compiler/expanders for
 "define-object" and related macros as well as core primitives such as
 vanilla-mixin.
 
-
 Including gdl-base, there are approximately 12 modules supported with
 GDL. One is proprietary and closed-source, the others are open-source
 under AGPL.
 
 
- :gdl-base - GDL language kernel.
+ :gdl-base - (gdl/base/) Gendl language kernel.
 
 
- :gdl-cl-lite - GDL system definitions and loading facility. Supplements our use of asdf. 
+ :gdl-cl-lite - (gdl/cl-lite/) Gendl system definitions and loading
+      facility. Supplements our use of asdf and quicklisp.
 
 
- :gdl-regression - regression test utilities. 
+ :gdl-regression - (gdl/regression) regression test utilities.
 
 
- :gdl-geom-base  - Built-in GDL wireframe primtives and basic geometry/vector manipulation functions.
+ :gdl-geom-base - (gdl/geom-base/) Built-in Gendl wireframe primtives
+      and basic geometry/vector manipulation functions.
 
 
-
- :gdl-gwl - Generative Web Language, represent web pages using GDL
-        objects, includes Ajax interaction with your model.
-
-
- :gdl-gwl-graphics - include graphics rendered from geometry object in GWL web pages. 
+ :gdl-gwl - (gdl/gwl/) Generative Web Language, represent web pages
+       using GDL objects, includes Ajax-based web interaction with
+       your model.
 
 
- :gdl-surf - surface primitives without underlying geometry kernel middleware or implementation. 
+ :gdl-gwl-graphics - (gdl/gwl-graphics/) include graphics rendered
+      from geometry object in GWL web pages.
 
 
- :gdl-smlib - (proprietary) add-on to implement :surf primitives with middleware and SMLib geometry kernel
+ :gdl-surf - (gdl/surf/) surface primitives without underlying
+      geometry kernel middleware or implementation.
 
 
- :gdl-yadd - self auto-documentation.
+ :gdl-smlib - (proprietary) add-on to implement :surf primitives with
+        middleware and SMLib geometry kernel
 
 
- :gdl-build - Utilities for building development and runtime images with various GDL modules built-in. 
+ :gdl-yadd - (gdl/apps/yadd/) self auto-documentation.
 
- 
- 
+
+ :gdl-build - (gdl/build/) Utilities for building development and
+      runtime images with various GDL modules built-in.
 
 
