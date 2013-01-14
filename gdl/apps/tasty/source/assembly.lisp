@@ -334,8 +334,6 @@ The error was: ~a
   ((main-sheet-body 
     ()
     
-    (print-messages have-valid-instance? use-jquery?)
-    
     (if (the have-valid-instance?)
         (write-the ui-sheet)
       (write-the part-type-form main-sheet)))
