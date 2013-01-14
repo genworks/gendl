@@ -1,1 +1,2 @@
-(:gdl-base :gdl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre :cl-base64 :trivial-backtrace :cl-html-parse)
+#.(error "This has to be put in manually -- conditional includes here.)
+(:gdl-base :gdl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre #-allegro :cl-base64 #-allegro :babel :trivial-backtrace :cl-html-parse)

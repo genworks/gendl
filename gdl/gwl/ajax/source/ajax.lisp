@@ -177,3 +177,21 @@ You can reload to get previous state" *ajax-timeout*))
   (let ((result string))
     (dolist (substring substrings result)
       (setq result (replace-substring result substring "")))))
+
+
+
+
+#+nil
+(defun ajaxJSON (req ent)
+  
+  (format t "At 1~%")
+
+  (let ((query-plist (gwl::assoc-list-to-plist (request-query req))))
+    (print-variables query-plist))
+  (respond-with-nothing req ent))
+      
+#+nil
+(publish :path "/ajaxJSON" :function 'ajaxJSON)
+
+
+

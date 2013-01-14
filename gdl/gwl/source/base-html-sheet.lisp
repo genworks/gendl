@@ -23,6 +23,7 @@
 (in-package :gwl)
 
 
+
 (defmethod encode-for-ajax ((item t)) item)
 
 (defmethod encode-for-ajax ((item list))

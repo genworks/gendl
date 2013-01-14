@@ -174,7 +174,6 @@ instance at what time should the recovery instance expire?"
                                            rest-keys 
                                            query-plist))
       
-      
       (let ((fe-processor (make-object 'form-element-processor 
                                        :bashee bashee 
                                        :query-plist query-plist)))
@@ -191,7 +190,7 @@ instance at what time should the recovery instance expire?"
               
                  ;;(when *debug?* (print-variables *query-plist* rest-plist rest-keys))
 
-                 ;;(when *debug?* (setq *f-e-p* fe-processor))
+                 (when *debug?* (setq *f-e-p* fe-processor))
                  
                  (dolist (key rest-keys)
                    (when (gethash (make-keyword-sensitive key) settables)

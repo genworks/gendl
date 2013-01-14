@@ -282,6 +282,35 @@ checkbox-form-control."
     (the (gdl-ajax-call (:apply (append (list :asynch? nil) args)))))
 
    
+   #+nil
+   (ajax-json.js 
+    (&key (bashee (the bashee)) 
+          (respondent (the respondent)) 
+          function-key 
+          arguments
+          form-controls
+          (asynch? t))
+
+    (declare (ignore form-controls))
+
+    (let ((json-string (json:encode-json-to-string 
+			(encode-for-ajax 
+			 (append (list :|iid| (the-object respondent instance-id)
+				       :|bashee| bashee)
+				 (unless (eql respondent bashee)
+				   (list :|respondent| respondent))
+				 (when function-key
+				   (list :|function| function-key))
+				 (when arguments 
+				   (list :|arguments| arguments)))))))
+
+      (declare (ignore json-string))
+
+      ;;
+      ;; FLAG - build up the call to gdlAjaxJSON
+      ;;
+      (format nil "ajaxJSON(event, 'foo=合影', ~a)"  (if asynch? "true" "false"))))
+
 
    
    ("String. 
@@ -315,6 +344,9 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
     ;;
     ;; FLAG --  Breaks for utf-8 characters e.g. Chinese. Rewrite this entire scheme to use cl-json!!
+    ;;
+    ;; FLAG -- holding off on move to cl-json for now, replaced
+    ;; base64-utils with utf-8-capable versions.
     ;;
     gdl-ajax-call 
     (&key (bashee (the bashee)) 
@@ -390,6 +422,12 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
 	  (string-3 (if asynch? "true" "false")))
       
+      (when *debug?* (print-variables string-1 string-2 string-3))
+      
+      (setq string-1 (glisp:replace-regexp string-1 "\\" "\\\\\\\\")
+	    string-2 (glisp:replace-regexp string-2 "\\" "\\\\\\\\"))
+
+
       (if one-arg? 
 	  (format nil "gdlAjax1('args=~a~a);" string-1 string-2)
 	  (format nil "gdlAjax(event,'args=~a~a,~a);" string-1 string-2 string-3)))

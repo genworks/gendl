@@ -4,7 +4,8 @@
   (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:nicknames :glisp)
-    (:export #:*base64-encode-func*
+    (:export #:*enable-utf8?*
+	     #:*base64-encode-func*
              #:*base64-decode-func*
              #:class-slots
              #:gc-full
@@ -21,11 +22,41 @@
 	     #:split-regexp
              #:with-timeout-sym)))
 
+
+#+nil
 (defparameter *base64-encode-func* 
   #'cl-base64:string-to-base64-string)
 
+#+nil
 (defparameter *base64-decode-func* 
   #'cl-base64:base64-string-to-string)
+
+
+(defparameter *enable-utf8?* t)
+
+(defparameter *base64-encode-func* 
+  #+allegro #'(lambda(string)
+		(excl:string-to-base64-string string :external-format (if *enable-utf8?* :utf-8 :default)))
+  #-allegro
+  #'(lambda(string)
+      (if *enable-utf8?*
+	  (cl-base64:usb8-array-to-base64-string 
+	   (babel:string-to-octets string :encoding :utf-8))
+	  (cl-base64:string-to-base64-string string))))
+
+
+(defparameter *base64-decode-func* 
+  #+allegro
+  #'(lambda(string)
+      (excl:base64-string-to-string string :external-format (if *enable-utf8?* :utf-8 :default)))
+  #-allegro
+  #'(lambda(string)
+      (if *enable-utf8?*
+	  (babel:octets-to-string 
+	   (cl-base64:base64-string-to-usb8-array string) :encoding :utf-8)
+	  (cl-base64:base64-string-to-string string))))
+
+
 
 (defun class-slots (class)
   #-(or allegro lispworks sbcl ccl) (error "Need implementation for class-slots for currently running lisp.~%")
@@ -231,12 +262,12 @@ the \"current\" error."
 		       (append
 			(destructuring-bind (free used)
 			    (glisp:split-regexp ":" cons)
-			  (list (make-keyword (format nil "~a-free-cons" prefix)) (parse-integer free)
-				(make-keyword (format nil "~a-used-cons" prefix)) (parse-integer used)))
+			  (list (gdl:make-keyword (format nil "~a-free-cons" prefix)) (parse-integer free)
+				(gdl:make-keyword (format nil "~a-used-cons" prefix)) (parse-integer used)))
 			(destructuring-bind (free used)
 			    (glisp:split-regexp ":" other)
-			  (list (make-keyword (format nil "~a-free-other" prefix)) (parse-integer free)
-				(make-keyword (format nil "~a-used-other" prefix)) (parse-integer used)))))))))))
+			  (list (gdl:make-keyword (format nil "~a-free-other" prefix)) (parse-integer free)
+				(gdl:make-keyword (format nil "~a-used-other" prefix)) (parse-integer used)))))))))))
 
 
 (defun slot-definition-name (slot-definition)

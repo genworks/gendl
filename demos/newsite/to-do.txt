@@ -1,0 +1,23 @@
+
+
+TG
+
+  o Try to replace some formatting images with CSS3 (e.g. rounded corners)
+
+      http://jonraasch.com/blog/css-rounded-corners-in-all-browsers
+
+  o [self contribution] Look further into wind demo, try to fix smlib bug.
+
+
+
+DC
+
+  o Replace robot with primi-plane with some controls.
+
+  o Update the available options in Configurator -- brainstorm for new
+    product combinations and creative pricing options.
+  
+  o Fix the restarting bug in the server. 
+
+
+  

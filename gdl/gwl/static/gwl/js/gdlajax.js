@@ -250,8 +250,6 @@ function decode64(input) {
         var enc1, enc2, enc3, enc4;
         var i = 0;
 
-        // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
-        //input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
         input = input.replace(/[^A-Za-z0-9\-\_\=]/g, '');
 
         while (i < input.length) {
@@ -292,8 +290,11 @@ function collectMenuSelections(select)
     for (var i = 0; i < select.options.length; i++)
         if (select.options[i].selected)
             items = items + ':|' + select.name + '| ' + doublequote + encode64(select.options[i].value) + doublequote + ' ';
-	    //items = items + ':|' + select.name + '| ' + doublequote + select.options[i].value + doublequote + ' ';
-    return(items);
+
+    if (items)
+	return(items);
+    else
+	return(':|' + select.name | '|' + doublequote + encode64('nil') + doublequote + ' ');
 }
 
 
@@ -304,4 +305,6 @@ function loadScript(url){
     script.src = url;
     document.getElementsByTagName("head")[0].appendChild(script);
 }
+
+
 

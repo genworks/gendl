@@ -38,9 +38,11 @@
 "
   (let ((cl-ppcre:*allow-quoting* t))
     (glisp:replace-regexp
-     (glisp:replace-regexp 
-      (glisp:replace-regexp (funcall glisp:*base64-encode-func* string) "=" "")
-      "\\Q+\\E" "-") "/" "_")))
+     (glisp:replace-regexp
+      (glisp:replace-regexp
+       (glisp:replace-regexp 
+	(glisp:replace-regexp (funcall glisp:*base64-encode-func* string) "=" "")
+	"\\Q+\\E" "-") "/" "_") "\\n" "") "\\r" "")))
 
 
 (defun base64-decode-list (string)
@@ -49,7 +51,11 @@
 :arguments (string \"string\")
 
 "
-  (let ((decoded-string (string-downcase (base64-decode-safe string))))
+  ;;
+  ;; FLAG -- removed string-downcase for the decoded-string. Watch for this; don't know 
+  ;;         why it was there in the first place. 
+  ;;
+  (let ((decoded-string (base64-decode-safe string)))
     (read-safe-string decoded-string)))
 
 
