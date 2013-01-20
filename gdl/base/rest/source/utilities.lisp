@@ -23,7 +23,6 @@
 (in-package :gdl)
 
 (defmacro with-error-handling ((&key (error? nil)
-                                     ;;(timeout 2) 
 				     (timeout nil) 
                                      (timeout-body 
                                       `(warn "Timed Out after ~a Seconds" ,timeout))) 
@@ -235,10 +234,8 @@ been split according to <b>split-chars</b> as delimiting characters.
 
 
 ;;
-;; FLAG -- creates too many lists
-;;         look into using some kind
-;;         of sequence composition or 
-;;         series package
+;; FLAG -- creates too many lists look into using some kind of
+;;         sequence composition or series package
 ;;
 (defun maptree (node fn &optional (accept? #'always)
                                   (prune?  #'never)
@@ -417,8 +414,6 @@ comes from the Paul Graham book <u>ANSI Common Lisp</u>.
 ;;
 
 
-
-
 (defun near-to? (number near-to &optional (tolerance *zero-epsilon*))
   "Boolean. Predicate to test if number is within tolerance of 
 <b>near-to</b>. The default tolerance is the value of the parameter 
@@ -486,8 +481,6 @@ CL \"fround\" function.
   (* (fround number interval) interval))
 
 
-
-
 (defun find-all-superclasses (class &optional (local? nil))
   (let ((directs (glisp:direct-superclasses class)))
     (if local? directs
@@ -496,15 +489,12 @@ CL \"fround\" function.
                             (list direct (find-all-superclasses direct))) 
                         directs)) :from-end t))))
 
-
 (defun symbols-as-keywords (item)
   (when item
     (cond ((symbolp item) (make-keyword item))
           ((listp item) (mapcar #'symbols-as-keywords item))
           (t item))))
         
-
-
 
 (defmethod readable-expression ((object t) &optional self) 
   (declare (ignore self))

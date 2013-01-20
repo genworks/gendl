@@ -129,7 +129,6 @@
          (object-syms 
           (mapcar (compose #'make-rule-symbol #'first-symbol) 
                   (remove-if #'(lambda(part) 
-                                 ;;(member :quantify (plist-keys (rest (strip-strings part))))
                                  (intersection (list :quantify :sequence)
                                                (plist-keys (rest (strip-strings part))))
                                  ) 
@@ -138,7 +137,6 @@
          (quantified-object-syms 
           (mapcar (compose #'make-rule-symbol #'first-symbol)
                   (remove-if-not #'(lambda(part) 
-                                     ;;(member :quantify (plist-keys (rest (strip-strings part))))
                                      (intersection (list :quantify :sequence)
                                                (plist-keys (rest (strip-strings part))))
                                      ) 
@@ -147,7 +145,6 @@
          (hidden-object-syms 
           (mapcar (compose #'make-rule-symbol #'first-symbol) 
                   (remove-if #'(lambda(part) 
-                                 ;;(member :quantify (plist-keys (rest (strip-strings part))))
                                  (intersection (list :quantify :sequence)
                                                (plist-keys (rest (strip-strings part))))
                                  ) 
@@ -156,7 +153,6 @@
          (quantified-hidden-object-syms 
           (mapcar (compose #'make-rule-symbol #'first-symbol)
                   (remove-if-not #'(lambda(part) 
-                                     ;;(member :quantify (plist-keys (rest (strip-strings part))))
                                      (intersection (list :quantify :sequence)
                                                (plist-keys (rest (strip-strings part))))
                                      )
@@ -179,13 +175,11 @@
   
 
 
-
-
 (defmacro define-object-amendment (name mixin-list &rest spec-plist)
   "Supplements or alters an existing GDL object definition. Syntax is similar to that for <tt>define-object</tt>.
 Note that there is currently no way to undefine messages defined with this macro, other than redefining the 
 original object or restarting the GDL session. Support for surgically removing messages will be added in a
-future GDL release."  
+future GenDL release."  
   `(%define-object-amendment% ,name ,mixin-list ,@(merge-common-keys spec-plist)))
 
 
@@ -244,8 +238,6 @@ future GDL release."
 
 
       `(progn 
-	;;glisp:with-definition-unit
-	;;eval-when (:compile-toplevel :load-toplevel)
          ,(when (and *compile-documentation-database?* documentation)
 		`(when *load-documentation-database?*
 		   (setf (gdl-documentation ,class) ',documentation)))
@@ -345,16 +337,6 @@ future GDL release."
                                                                                  :uncached)))
                                           computed-slots)))
            
-           #|
-           ,@(functions-section 
-           name (mapcar #'(lambda(slot)
-           (list (first slot) nil (rest slot)))
-           (remove-if-not #'(lambda(slot) (and (consp slot) (eql (first (rest (rest (strip-strings slot))))
-           :uncached)))
-           computed-slots)))
-           |#
-           
-       
            ,@(computed-slots-section 
               name (remove-if-not #'(lambda(slot)
                                       (and (consp slot) (eql (first (rest (rest (strip-strings slot)))) 
@@ -408,9 +390,6 @@ overview of <tt>define-object</tt> syntax."
             (error "duplicate slot name~p: ~{~a~^, ~}" (length duplicates) (sort duplicates #'string-lessp :key #'symbol-name))))))
     
     `(progn 
-      ;;glisp:with-definition-unit 
-      ;;eval-when (:compile-toplevel :load-toplevel)
-       
        (defclass ,name ,(if (or no-vanilla-mixin? 
                                 (some #'(lambda(mixin)
                                           (let ((class (find-class mixin nil)))
@@ -483,11 +462,6 @@ overview of <tt>define-object</tt> syntax."
        ;;
        
        
-       ;;
-       ;; FLAG -- defgenerics is being moved into beginning of objects-section
-       ;;
-       ;;,(object-inputs-generics-section (append objects hidden-objects))
-       
        ,@(message-generics (set-difference messages (append method-syms cached-method-syms)))
 
        ,(input-slots-generics (append (group-remark-strings (remove-if-not #'(lambda(item)
@@ -540,7 +514,7 @@ overview of <tt>define-object</tt> syntax."
 
 
        
-       ,@(objects-section name (append objects hidden-objects)) ;; ,@(objects-section name hidden-objects) 
+       ,@(objects-section name (append objects hidden-objects))
        
        
        ,@(functions-section 
@@ -626,8 +600,6 @@ overview of <tt>define-object</tt> syntax."
                      (when local (list (glisp:gl-class-name class) local)))
                    (when (next-method-p) (call-next-method ,self-arg ,message-arg (1+ ,depth-arg))))))
 
-
-       
        ;;
        ;; FLAG -- why is this hardcoded to :all when it is first called?
        ;;
@@ -636,7 +608,6 @@ overview of <tt>define-object</tt> syntax."
             &optional (,depth-arg 0))
          (append (message-list ,self-arg 
                                :all 
-                               ;;,(make-keyword category-arg)
                                ,depth-arg ,base-part-type-arg)
                  (when (and (not (eql ,message-type-arg :local)) (next-method-p))
                    (call-next-method ,self-arg ,category-arg ,message-type-arg ,base-part-type-arg (1+ ,depth-arg)))))

@@ -86,8 +86,6 @@
                 (defmethod ,(glisp:intern attr-sym :gdl-slots) ((,self-arg gdl-remote) &rest ,args-arg)
                   (the-object ,self-arg (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) ,args-arg)))))))
            
-           
-
 	   ;;
 	   ;; FLAG -- why is this needed?? 
 	   ;;
@@ -99,26 +97,7 @@
                 (let ((,parent-arg (the-object ,self-arg %parent%)))
                   (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword attr-sym))
                     (,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
-                     ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))
-           
-           ;;`(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
-	   ;;
-	   ;; FLAG -- duplicated from inputs.lisp, objects.lisp, and computed-slots.lisp
-	   ;; 
-	   #+nil
-           `(unless nil
-	      #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-			 (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-				      nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
-	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
-									     ,part-arg 
-									     (,self-arg gdl-basis))
-		(declare (ignore ,part-arg))
-		(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
-				      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
-		  (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword attr-sym)) ,val-arg))))
-	   ;;`(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
-	   )))))
+                     ,parent-arg (the-object ,self-arg :%name%) ,self-arg))))))))))
 
 
 
@@ -179,6 +158,3 @@
                                      (block ,(make-keyword attr-sym) 
                                        (let ((*error-on-not-handled?* t))
                                          ,@(if has-declare? (rest body) body)))) ,args-arg))))))))))))
-
-              
-           

@@ -63,26 +63,11 @@
                     (when (not (member input special-keys))
                       (let ((input-sym (glisp:intern (symbol-name input) :gdl-acc)))
 			(list
-                         
-			 ;;
-			 ;; New stuff
-			 ;;
 			 `(defmethod ,(glisp:intern (symbol-name input-sym) :gdl-inputs)
 			      ((self ,name)
 			       (,part-arg (eql ',attr-sym))
 			       (child t))
-			    (let ((*error-on-not-handled?* t)) ,expr))
-
-			 #+nil
-			 `(unless (find-method (symbol-function ',(glisp:intern (symbol-name input-sym) :gdl-slots))
-					       nil (list (find-class 'gdl-basis)) nil)
-			    (defmethod ,(glisp:intern (symbol-name input-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
-			      (declare (ignore ,args-arg))
-			      (let ((,parent-arg (the-object ,self-arg %parent%)))
-				(if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword input-sym))
-				    (,(glisp:intern (symbol-name input-sym) :gdl-inputs) 
-				      ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))))))
-                
+			    (let ((*error-on-not-handled?* t)) ,expr))))))
                 keys expressions))))))
 
 
@@ -109,26 +94,6 @@
                                                                              ,part-arg 
                                                                              (,self-arg gdl-basis))
                 (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg))))
-           
-           
-	   ;;
-	   ;; FLAG -- duplicated from objects.lisp and from this file --- make a function for this!
-	   ;;
-	   ;; FLAG -- avoid duplicate invocation of (glisp:intern (symbol-name ...))
-	   ;;
-	   ;;
-	   #+nil
-           `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-				 nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil)
-	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
-		  ((,parent-arg gdl-basis) ,part-arg (,self-arg gdl-basis))
-		(declare (ignore ,part-arg))
-		(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
-				      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
-		  (if (eql ,val-arg 'gdl-rule:%not-handled%) 
-		      (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg))))
-           
-           
 
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
               (declare (ignore ,args-arg))
@@ -146,8 +111,7 @@
                              (if (member ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
                                  (,(glisp:intern (symbol-name attr-sym) :gdl-slots) ,parent-arg)
                                (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))
-                            (t (not-handled self ,(make-keyword attr-sym)))))))))))))
-   input-slots))
+                            (t (not-handled self ,(make-keyword attr-sym))))))))))))) input-slots))
 
 (defun optional-input-slots-section (name input-slots &optional (defaulted? nil))
   (mapcan 
@@ -175,10 +139,6 @@
                               (setf (message-source (find-class ',name)) (make-hash-table)))))
                   (setf (gethash (make-keyword ',attr-sym) ht) ',attr-expr))))
                 
-           ;;
-           ;; New stuff
-           ;;
-           
            `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            
            (when (and *compile-for-dgdl?* (not (string-equal (symbol-name name) "remote-object") ))
@@ -193,33 +153,6 @@
                                                                              ,part-arg 
                                                                              (,self-arg gdl-basis))
                 (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg))))
-           
-	   ;;
-	   ;; FLAG -- duplicated from objects.lisp and from this file --- make a function for this!
-	   ;;
-	   #+nil
-           `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-				 nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil)
-	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
-									     ,part-arg 
-									     (,self-arg gdl-basis))
-		(declare (ignore ,part-arg))
-		(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
-				      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
-		  (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword attr-sym)) ,val-arg))))
-           
-
-	   
-	   #+nil
-           `(when (and ,defaulted?
-                       (or (not (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)))
-                           (not (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) 
-									      :gdl-trickle-downs))
-                                             nil (list (find-class 'gdl-basis)) nil))))
-              (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)
-		  ((,self-arg gdl-basis) &rest ,args-arg)
-		(declare (ignore ,args-arg))
-                (not-handled ,self-arg ,(make-keyword attr-sym))))
            
            `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
            
@@ -244,9 +177,7 @@
                                                   ,val-arg)))
                                   (if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg))
 				,val-arg)
-			   `(if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg)))))))))))
-   
-   input-slots))
+			   `(if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg))))))))))) input-slots))
 
 
 

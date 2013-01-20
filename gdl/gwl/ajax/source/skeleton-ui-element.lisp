@@ -282,37 +282,6 @@ checkbox-form-control."
     (the (gdl-ajax-call (:apply (append (list :asynch? nil) args)))))
 
    
-   #+nil
-   (ajax-json.js 
-    (&key (bashee (the bashee)) 
-          (respondent (the respondent)) 
-          function-key 
-          arguments
-          form-controls
-          (asynch? t))
-
-    (declare (ignore form-controls))
-
-    (let ((json-string (json:encode-json-to-string 
-			(encode-for-ajax 
-			 (append (list :|iid| (the-object respondent instance-id)
-				       :|bashee| bashee)
-				 (unless (eql respondent bashee)
-				   (list :|respondent| respondent))
-				 (when function-key
-				   (list :|function| function-key))
-				 (when arguments 
-				   (list :|arguments| arguments)))))))
-
-      (declare (ignore json-string))
-
-      ;;
-      ;; FLAG - build up the call to gdlAjaxJSON
-      ;;
-      (format nil "ajaxJSON(event, 'foo=合影', ~a)"  (if asynch? "true" "false"))))
-
-
-   
    ("String. 
 
 This function returns a string of Javascript, appropriate to use for events 
@@ -342,12 +311,6 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
                              model \"bashed\" to reflect what has been 
                              entered on the page.\")"
 
-    ;;
-    ;; FLAG --  Breaks for utf-8 characters e.g. Chinese. Rewrite this entire scheme to use cl-json!!
-    ;;
-    ;; FLAG -- holding off on move to cl-json for now, replaced
-    ;; base64-utils with utf-8-capable versions.
-    ;;
     gdl-ajax-call 
     (&key (bashee (the bashee)) 
           (respondent (the respondent)) 
@@ -407,11 +370,6 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 					   (format nil "collectMenuSelections(document.getElementById('~a'))"
 						   (the-object form-control id))))
                          
-					#+nil
-					(format nil "doublequote + document.getElementById('~a').value + doublequote"
-						(the-object form-control id))
-
-
 					(format nil "doublequote + encode64(document.getElementById('~a').value).replace(/=/g,'') + doublequote"
 						(the-object form-control id)))))
                                             
@@ -430,86 +388,8 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
       (if one-arg? 
 	  (format nil "gdlAjax1('args=~a~a);" string-1 string-2)
-	  (format nil "gdlAjax(event,'args=~a~a,~a);" string-1 string-2 string-3)))
+	  (format nil "gdlAjax(event,'args=~a~a,~a);" string-1 string-2 string-3))))
 
-
-
-    #+nil
-    (format 
-     nil "gdlAjax(event,'args=~a~a,~a);"
-
-     (the (encode-ajax-args :bashee bashee
-                            :respondent respondent
-                            :function-key function-key
-                            :arguments arguments))
-     (let ((string
-            (if form-controls
-                (string-append 
-                 "&fields=' + "
-                 (format 
-                  nil "encode64('(' + ~{~a~^ + ' ' + ~} + ')').replace(/=/g,'')"
-                  (mapcar 
-                   #'(lambda(form-control) 
-                       (when *debug?* (print-variables form-control))
-                       (string-append
-                        
-                        (if (not (or (typep form-control 'radio-form-control)
-                                     (typep form-control 'menu-form-control)))
-                            (format nil "'~s ' + "
-                                    (the-object form-control field-name)) "")
-
-                        (or
-                         (typecase form-control 
-                           (radio-form-control
-                            (format nil "~{~a~^ + ~}"
-                                    (mapcar 
-                                     #'(lambda(n)
-                                         (format nil "' :|radio-~a-~a| (' + doublequote + document.getElementById('~a-~a').value + doublequote + ' ' + doublequote + document.getElementById('~a-~a').checked + doublequote + ')' "
-                                                 (the-object form-control field-name) n
-                                                 (the-object form-control id) n
-                                                 (the-object form-control id) n))
-                                     (list-of-numbers 
-                                      0 
-                                      (1- (length 
-                                           (plist-keys 
-                                            (the-object form-control 
-                                                        effective-choice-plist))))))))
-                          
-                           (checkbox-form-control 
-                            (format nil "doublequote +  encode64(document.getElementById('~a').value).replace(/=/g,'') + doublequote + ' ~s-checkedp ' + doublequote + document.getElementById('~a').checked + doublequote"
-                                    (the-object form-control id)
-                                    (the-object form-control field-name)
-                                    (the-object form-control id)))
-                          
-                          
-                           (menu-form-control 
-                            (format nil "collectMenuSelections(document.getElementById('~a'))"
-                                    (the-object form-control id))))
-                         
-			 #+nil
-			 (format nil "doublequote + document.getElementById('~a').value + doublequote"
-                                    (the-object form-control id))
-
-
-                         (format nil "doublequote + encode64(document.getElementById('~a').value).replace(/=/g,'') + doublequote"
-                                    (the-object form-control id)))))
-                                            
-                   (ensure-list form-controls))))
-              "'"
-              )))
-       string)
-     
-     (if asynch? "true" "false")))
-   
-   
-   #|
-   
-    selected = new Array();
-    for (var i = 0; i < ob.options.length; i++)
-    if (ob.options[ i ].selected)
-    selected.push(ob.options[ i ].value);
-
-    |#
    
    (encode-ajax-args
     (&key (bashee (the bashee)) (respondent (the respondent)) function-key arguments)
@@ -543,13 +423,6 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
     (with-cl-who ()
       (fmt "~a Has no main-view defined." (the strings-for-display))))
 
-   #+nil
-   (inner-html
-    ()
-    (with-cl-who ()
-      (fmt "~a Has no inner-html defined." (the strings-for-display))))
-   
-   
    
    (main-div 
     ()
