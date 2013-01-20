@@ -115,6 +115,8 @@ object in <b>object-list</b>.
 
 :arguments (object-list \"List of GDL objects.\"
             message \"Keyword symbol.\")"
+
+  (declare (ignore args))
   
   (let ((object-list (if (typep object-list 'quantification)
                          (list-elements object-list)
@@ -777,3 +779,6 @@ toplevel inputs as specified in the snapshot file.
 
 
 
+(defun gdl-rule::lookup-parameters (self message)
+  (let ((value (getf (the %parameters%) message 'gdl-rule:%not-handled%)))
+    (if (eql value 'gdl-rule:%not-handled%) (not-handled self message) value)))

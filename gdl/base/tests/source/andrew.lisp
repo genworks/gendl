@@ -25,23 +25,34 @@
 
 (define-object a ()
 
-  :trickle-down-slots (:desc-1 :desc-2)
+  :input-slots ((inp-a "hey") inp-b)
+
+  :trickle-down-slots (:desc-1)
 
   :computed-slots
-  ((desc-1 "descendant-1")
-   (desc-2 "descendant-2"))
+  ((desc-1 (format nil "descendant ~a" (the inp-a)))
+   (desc-2 (format nil "descendant-2 ~a" (the inp-b))))
 
   
   :objects
   ((part-1 :type 'b
            :input-1 1
-           :input-2 2)))
+           :input-2 2)
+
+   (part-2 :type 'b
+           :input-1 (the part-1 input-2)
+           :input-2 (the part-1 input-1))
+
+   (part-3 :type 'b
+           :input-1 (the part-2 input-1)
+           :input-2 (the part-2 input-2))))
 
 (define-object b ()
 
   :input-slots
-  ((desc-2 "local value of desc-2" :defaulting)               
-   input-1 input-2 desc-1)
+  ((desc-2 "local value of desc-2" :defaulting) 
+   (desc-1 "local value desc-1")
+   input-1 input-2 )
   
   :computed-slots
   ((strings-for-display "B")))

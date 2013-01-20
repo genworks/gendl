@@ -482,7 +482,13 @@ overview of <tt>define-object</tt> syntax."
        ;; FLAG -- consider pre-cooking these expression lists
        ;;
        
-       ,(object-inputs-generics-section (append objects hidden-objects))
+       
+       ;;
+       ;; FLAG -- defgenerics is being moved into beginning of objects-section
+       ;;
+       ;;,(object-inputs-generics-section (append objects hidden-objects))
+       
+       ,@(message-generics (set-difference messages (append method-syms cached-method-syms)))
 
        ,(input-slots-generics (append (group-remark-strings (remove-if-not #'(lambda(item)
                                                                             (or (symbolp item) (stringp item)))
@@ -534,7 +540,7 @@ overview of <tt>define-object</tt> syntax."
 
 
        
-       ,@(objects-section name objects) ,@(objects-section name hidden-objects) 
+       ,@(objects-section name (append objects hidden-objects)) ;; ,@(objects-section name hidden-objects) 
        
        
        ,@(functions-section 

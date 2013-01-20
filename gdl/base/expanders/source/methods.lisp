@@ -58,8 +58,20 @@
                 (let ((ht (or (message-source (find-class ',name))
                               (setf (message-source (find-class ',name)) (make-hash-table)))))
                   (setf (gethash (make-keyword ',attr-sym) ht) ',(cons lambda-list body)))))
-           
-           `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) ,@lambda-list)
+
+
+	   ;;
+	   ;; FLAG -- put this in when we know how to derive generic-function lambda-list from the lambda-list. 
+	   ;; 
+	   ;; FLAG -- use extract-lambda-list from glisp (make one) or c2mop package of :closer-mop.
+	   ;;
+	   #+nil
+	   `(eval-when (:compile-toplevel :load-toplevel :execute)
+	      (unless (fboundp ',(glisp:intern attr-sym :gdl-slots))
+		(defgeneric ,(glisp:intern attr-sym :gdl-slots) (,self-arg ,@lambda-list))))
+		     
+	   
+           `(defmethod ,(glisp:intern attr-sym :gdl-slots) ((self ,name) ,@lambda-list)
               ,(if has-declare? (first body) `(declare))
               
               ,(when *compile-circular-reference-detection?*

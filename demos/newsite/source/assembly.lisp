@@ -42,6 +42,8 @@
   :hidden-objects
   ((news :type 'news)
    
+   (primi-plane :type 'gdl-user::primi-plane)
+
    (robot :type 'robot:assembly))
 
   :objects

@@ -22,7 +22,30 @@
 (in-package :gdl)
 
 
+(defun message-generics (messages)
+  `((eval-when (:compile-toplevel :load-toplevel :execute)
+      ,@(append
+	 (mapcar #'(lambda(message)
+		     `(unless (fboundp ',(glisp:intern message :gdl-slots))
+			(defgeneric ,(glisp:intern message :gdl-slots) (,self-arg &rest ,args-arg)))) messages)
+	 (mapcar #'(lambda(message)
+		     `(unless (fboundp ',(glisp:intern message :gdl-inputs))
+			(defgeneric ,(glisp:intern message :gdl-inputs) (,parent-arg ,val-arg ,self-arg)))) messages)))
 
+    ,@(mapcar #'(lambda(message)
+		  `(unless (find-method (symbol-function ',(glisp:intern message :gdl-inputs))
+					nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil)
+		     (defmethod ,(glisp:intern message :gdl-inputs) ((,parent-arg gdl-basis) ,part-arg (,self-arg gdl-basis))
+		       (declare (ignore ,part-arg))
+		       ;;
+		       ;;FLAG -- replace rest of body with function call. 
+		       ;;
+		       (gdl-rule::lookup-parameters ,self-arg ,(make-keyword message))
+		       #+nil
+		       (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
+					     ,(make-keyword message) 'gdl-rule:%not-handled%)))
+			 (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword message)) ,val-arg))))) messages)))
+	
 
 
 (defun computed-slots-section (name computed-slots &key query?)
@@ -69,25 +92,20 @@
 	   ;;
 	   ;; FLAG -- duplicated from inputs.lisp and objects.lisp, functions.lisp, and below in this file. 
 	   ;; 
-	   `(eval-when (:compile-toplevel :load-toplevel :execute) 
-	      (glisp:begin-redefinitions-ok)
-
-	      (unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-				     (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
-						  nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
-		      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
-										     ,part-arg 
-										     (,self-arg gdl-basis))
-			(declare (ignore ,part-arg))
-			(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
-					      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
-			  (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg))))
+	   #+nil
+	   `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
+				 nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil)
+	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-basis) 
+									     ,part-arg 
+									     (,self-arg gdl-basis))
+		(declare (ignore ,part-arg))
+		(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
+				      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
+		  (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg))))
 	   
-	      (glisp:end-redefinitions-ok))
 
-	   `(when (or (not (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-slots)))
-		      (not (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
-					nil (list (find-class 'gdl-basis)) nil)))
+	   `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
+				 nil (list (find-class 'gdl-basis)) nil)
 	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 		(declare (ignore ,args-arg))
 		(let ((,parent-arg (the-object ,self-arg %parent%)))
@@ -184,35 +202,53 @@
          (remove 
           nil
           (list
-           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            (unless from-objects? ;; DJC trim effort
 	     ;;
  	     ;; FLAG -- duplicated from objects.lisp, inputs.lisp, functions.lisp, and above in this file. 
 	     ;;
-             `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-inputs))
-				     (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-inputs))
-						  nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
+	     ;; FLAG -- this must be get-riddable. Test carefully because trickle-downs are relatively rare. 
+	     ;;
+             `(unless (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-inputs))
+			   (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-inputs))
+					nil (list (find-class 'gdl-basis) (find-class t) (find-class 'gdl-basis)) nil))
 		(defmethod ,(glisp:intern (symbol-name slot) :gdl-inputs) ((,parent-arg gdl-basis)
 									   ,part-arg
 									   (,self-arg gdl-basis))
-		 (declare (ignore ,part-arg))
-		 (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
-				       ,(make-keyword (symbol-name slot)) 'gdl-rule:%not-handled%)))
-		   (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword slot)) ,val-arg)))))
+		  (declare (ignore ,part-arg))
+		  (let ((,val-arg (getf (the-object ,self-arg %parameters%) 
+					,(make-keyword (symbol-name slot)) 'gdl-rule:%not-handled%)))
+		    (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword slot)) ,val-arg)))))
+	   
+	   
+	   ;;
+	   ;; FLAG -- collect all the trickle-downs and group this at the top in the one eval-when.
+	   ;;
+	   `(eval-when (:compile-toplevel :load-toplevel :execute)
+	      (unless (fboundp ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
+		(defgeneric ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) (self &rest args))))
 
-	   `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
-				   (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
-						nil (list (find-class 'gdl-basis)) nil))
+	   ;;
+	   ;; FLAG -- this is really confusing and should be able to be conditional
+	   ;;
+
+	   `(unless (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
+				 nil (list (find-class 'gdl-basis)) nil)
 	      (defmethod ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) ((,self-arg gdl-basis) &rest ,args-arg)
-		
 		(trickle-down-basis ,self-arg ',slot ,args-arg)))
+
+	   #+nil
+	   `(defmethod ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) ((,self-arg gdl-basis) &rest ,args-arg)
+	      (trickle-down-basis ,self-arg ',slot ,args-arg))
            
+	   ;;
+	   ;; FLAG -- (eval-when (:c- :l- :e) ...)  for defgenerics for _all_ messages in header, then remove fboundp from conditional here. 
+	   ;;
+	   ;; FLAG -- maybe don't remove, could have a trickle-down which is not otherwise declared as a message.
            `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-slots))
 				   (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-slots))
 						nil (list (find-class 'gdl-basis)) nil))
 	      (defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 		(chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg)))
-
            
-           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))))))
+           ))))
    slots))

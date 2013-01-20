@@ -376,8 +376,8 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
                         
 				       (if (not (or (typep form-control 'radio-form-control)
 						    (typep form-control 'menu-form-control)))
-					   (format nil "'~s ' + "
-						   (the-object form-control field-name)) "")
+					   (format nil "':|~a| ' + "
+						   (string (the-object form-control field-name))) "")
 
 				       (or
 					(typecase form-control 

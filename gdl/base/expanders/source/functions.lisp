@@ -87,6 +87,10 @@
                   (the-object ,self-arg (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) ,args-arg)))))))
            
            
+
+	   ;;
+	   ;; FLAG -- why is this needed?? 
+	   ;;
            `(when (or (not (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-slots)))
                       (not (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
                                         nil (list (find-class 'gdl-basis)) nil)))
@@ -97,10 +101,11 @@
                     (,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
                      ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))
            
-           `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
+           ;;`(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
 	   ;;
 	   ;; FLAG -- duplicated from inputs.lisp, objects.lisp, and computed-slots.lisp
 	   ;; 
+	   #+nil
            `(unless nil
 	      #+nil (and (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
 			 (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-inputs))
@@ -112,7 +117,8 @@
 		(let ((,val-arg (getf (the-object ,self-arg %parameters%) 
 				      ,(make-keyword (symbol-name attr-sym)) 'gdl-rule:%not-handled%)))
 		  (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,parent-arg ,(make-keyword attr-sym)) ,val-arg))))
-	   `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok)))))))
+	   ;;`(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
+	   )))))
 
 
 

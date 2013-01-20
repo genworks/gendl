@@ -179,7 +179,9 @@ Generative Programming, Dynamic Languages, 3D Geometry, NURBS, Solid Modeling, D
    (link-title (the strings-for-display))
 
    
-   (display-list-object-roots (list (the robot)))
+   ;;(display-list-object-roots (list (the robot)))
+
+   (display-list-object-roots (list (the primi-plane)))
 
    (x3dom-view-controls? nil)
    
