@@ -21,12 +21,6 @@
 
 (in-package :com.genworks.lisp)
 
-(glisp:without-package-variance-warnings
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:nicknames :glisp)
-    (:export #:parse-xml)))
-
 
 #+allegro (eval-when (:compile-toplevel :load-toplevel :execute) (require :pxml))
 (defun parse-xml (xml-string &rest args)

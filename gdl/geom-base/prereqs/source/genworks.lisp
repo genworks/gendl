@@ -1,24 +1,5 @@
 (in-package :com.genworks.lisp)
 
-(glisp:without-package-variance-warnings
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:nicknames :glisp)
-    (:export #:get-pid
-             #:run-gs
-             #:run-shell-command
-             #:set-gs-path)))
-
-
-
-;;
-;; For good meausure for e.g. ABCL which doesn't modify package definitions:
-;;
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (export '(get-pid run-gs run-shell-command set-gs-path) :glisp))
-
-
-#+abcl (use-package (list :common-lisp :gdl :geom-base) :gdl-user)
 
 #-(or allegro lispworks sbcl ccl abcl) (error "Need implementation for get-pid for currently running lisp~%")
 (defun get-pid ()

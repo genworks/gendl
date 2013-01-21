@@ -21,7 +21,7 @@
 
 (in-package :raphael)
 
-
+#+nil
 (define-object test-sheet (base-ajax-sheet)
   
   :computed-slots ((use-raphael? t)
@@ -32,6 +32,7 @@
              :respondent self)))
 
 
+#+nil
 (define-lens (html-format test-sheet)()
   :output-functions
   ((main-sheet-body
@@ -39,7 +40,7 @@
     (with-html-output (*stream*)
       (write-the viewport main-div)))))
 
-
+#+nil
 (define-object test-vp (base-ajax-graphics-sheet)
 
   :computed-slots ((js-to-eval (the raphael-string)))
@@ -68,6 +69,7 @@
                (the view-object (restore-slot-defaults! (list :user-scale :user-center))))))
 
 
+#+nil
 (define-lens (html-format test-vp)()
   :output-functions
   ((main-view
@@ -78,13 +80,10 @@
       (str (the projection-direction html-string))
       ))))
            
-
-
-
-
+#+nil
 (defun publish-object (object &key (path (format nil "/~a" object)))
   (publish :path path
            :function #'(lambda(req ent)
                          (gwl-make-object req ent (format nil "~s" object)))))
 
-(publish-object 'test-sheet)
+;;(publish-object 'test-sheet)

@@ -156,7 +156,9 @@
              (setq current-remark-string nil on-message? nil))))))
 
 
-(defparameter *reserved-word-protected-packages* (list (find-package :gdl)))
+(defparameter *reserved-word-protected-packages* (list (find-package :gdl)
+						       (find-package :geom-base)
+						       (find-package :surf)))
 
 (defun reserved-word-warning-or-error (name messages)
   (unless (and (atom name)

@@ -50,15 +50,15 @@
   
   :input-slots ("Number. Distance from center to any point on the sphere." radius
                 ("Angle in radians. Starting horizontal angle for a partial sphere. Default is 0."
-                 start-horizontal-arc 0 :defaulting)
+                 start-horizontal-arc 0)
                 ("Angle in radians. Starting vertical angle for a partial sphere. Default is -pi/2."
-                 start-vertical-arc (- pi/2) :defaulting)
+                 start-vertical-arc (- pi/2))
                 ("Angle in radians. Ending horizontal angle for a partial sphere. Default is twice pi."
-                 end-horizontal-arc 2pi :defaulting)
+                 end-horizontal-arc 2pi)
                 ("Angle in radians. Ending vertical angle for a partial sphere. Default is pi/2."
-                 end-vertical-arc pi/2 :defaulting)
+                 end-vertical-arc pi/2)
                 ("Number. Radius of inner hollow for a hollow sphere. Default is NIL, for a non-hollow sphere."
-                 inner-radius nil :defaulting)
+                 inner-radius nil)
                 ("Number. How many lines of latitude to show on the sphere in some renderings. Default value is 4."
                  number-of-horizontal-sections 8)
                 ("Number. How many lines of longitude to show on the sphere in some renderings. Default value is 4."

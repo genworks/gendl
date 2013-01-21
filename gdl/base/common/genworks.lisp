@@ -19,110 +19,6 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :gdl)
-
-#+ecl (error "
-
-D'oh! GenDL is not yet supported on ECL. If you would like to try porting it, start with the file
-gdl/base/common/genworks.lisp. 
-Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.
-
-")
-
-
-#+clisp (error "
-
-D'oh! GenDL is not yet supported on CLISP. If you would like to try porting it, start with the file,
-gdl/base/common/genworks.lisp.  
-Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.
-
-")
-
-#+scl (error "
-
-D'oh! GenDL is not yet supported on Scieneer CL. If you would like to try porting it, start with the file, 
-gdl/base/common/genworks.lisp.  
-Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.
-
-")
-
-#+genera (error "
-
-D'oh! GenDL is not yet supported on Genera. If you would like to try porting it, start with the file, 
-gdl/base/common/genworks.lisp.  
-Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.
-
-")
-
-#+corman (error "
-
-D'oh! GenDL is not yet supported on Corman Lisp. If you would like to try porting it, start with the file, 
-gdl/base/common/genworks.lisp.  
-Also, PortableAllegroserve is needed for the web framework. 
-If you are interested in this effort we would love to hear from you at open-source@genworks.com.
-
-")
-
-
-#-(or allegro lispworks sbcl ccl abcl ecl clisp scl genera) 
-(error "
-
-GenDL is not yet supported on this Lisp. By the way, what Lisp
-is this? Please let us know at open-source@genworks.com.
-
-")
-
-
-#-(or allegro lispworks sbcl ccl abcl clos) (error "Need package for mop:validate-superclass for currently running lisp.~%")
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:shadow #:intern)
-    (:nicknames :glisp) 
-    (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+ecl :clos
-		  #:validate-superclass)
-    (:export #:*external-text-format*
-	     #:*gdl-home*
-	     #:*gdl-program-home*
-             #:*genworks-source-home*
-             #:basic-command-line-arguments
-             #:begin-redefinitions-ok
-             #:current-directory
-	     #:define-constant
-             #:direct-superclasses
-             #:direct-superclass-names
-             #:display-startup-banner
-             #:end-redefinitions-ok
-             #:eql-specializer
-	     #:executable-homedir-pathname
-	     #:featurep
-             #:gl-class-name
-             #:gl-method-specializers
-             #:hex-string-to-integer
-             #:intern
-             #:make-sans-value-equalp-hash-table
-             #:make-sans-value-hash-table
-             #:make-weak-hash-table
-             #:set-default-float-format
-             #:set-default-package
-             #:set-defpackage-behavior
-             #:set-local-compiler-tweaks
-             #:set-window-titles
-	     #:source-pathname
-	     #:system-home
-             #:upcase
-	     #:validate-superclass
-	     #:with-definition-unit
-	     #:without-package-variance-warnings
-             #:w-o-interrupts
-             #:xref-off
-             #:xref-on)))
-
-
 (in-package :com.genworks.lisp)
 
 (defparameter *external-text-format*
@@ -376,7 +272,7 @@ is this? Please let us know at open-source@genworks.com.
               (:case-sensitive-lower string)))
 
 (defmacro w-o-interrupts (&body body)
-  (format t  "NOTE: Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else in glisp:w-o-interrupts.")
+  (format t  "~&NOTE: Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else in glisp:w-o-interrupts.~%")
   #-(or allegro lispworks cmu sbcl ccl) (error "Need implementation for without-interrupts for currently running lisp.~%")
   `(#+allegro  excl:without-interrupts
     #+lispworks progn

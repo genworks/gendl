@@ -21,18 +21,6 @@
 
 (in-package :com.genworks.lisp)
 
-(glisp:without-package-variance-warnings
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:export #:copy-directory
-	     #:copy-file
-	     #:delete-directory-and-files
-	     #:dump-memory
-	     #:implementation-identifier
-	     #:make-gdl-app
-	     #:next-datestamp
-             )))
-
 
 (defun copy-file (from to &key overwrite?)
   (fad:copy-file from to :overwrite overwrite?))

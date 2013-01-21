@@ -173,26 +173,26 @@ is specified), so it is necessary to explicitly give either start or center for 
    ;;(touched-geometry nil)
    
    ("List of GDL objects. The leaves from each of these objects will be displayed in each view by default."
-    object-roots nil :defaulting) 
+    object-roots nil) 
    
    ("List of GDL objects. These objects will be displayed in each view by default."
-    objects nil :defaulting)
+    objects nil)
    
    ("List of GDL objects. These objects are immune from view scaling and transform computations and so can freely refer 
 to the view-scale, view-center, and other view information for self-scaling views. Defaults to NIL."
     immune-objects nil)
    
    ("List of GDL objects. These objects will be displayed in each view by default, with no scaling or transform (i.e. they are in Drawing space."
-    annotation-objects nil :defaulting)
+    annotation-objects nil)
    
    ("Number. Ratio of drawing scale (in points) to model scale for this view. Defaults to being auto-computed."
-    view-scale (getf (the view-contents-data) :view-scale)  :defaulting) 
+    view-scale (getf (the view-contents-data) :view-scale)) 
    
    ("3D Point in Model space. Point relative to each object's center to use as center of the view."
     ;;
     ;; FLAG -- convert this to model coordinates, then back to view-coords in the output-functions.
     ;;
-    view-center (getf (the view-contents-data) :view-center) :defaulting)
+    view-center (getf (the view-contents-data) :view-center))
    
    
    ("3D Unitized Vector. Direction of camera pointing to model (the object-roots and/or the objects) to create 
@@ -200,21 +200,21 @@ this view. The view is automatically ``twisted''about this vector to result in `
 possible to the Z vector, unless this vector is parallel to the Z vector in which case ``up'' is taken 
 to be the Y (rear) vector. This vector is normally taken from the <tt>*standard-views*</tt> built-in GDL 
 parameter. Defaults to <tt>(getf *standard-views* :top)</tt>, which is the vector [0, 0, 1]."
-    projection-vector (getf *standard-views* :top) :defaulting)
+    projection-vector (getf *standard-views* :top))
    
    
    ("Number in Drawing scale (e.g. points). Amount of margin on left and right 
 of page when <tt>view-scale</tt> is to be computed automatically. Defaults to 25."
-    left-margin (* (the width) 25/612) :defaulting) 
+    left-margin (* (the width) 25/612)) 
    
    ("Number in Drawing scale (e.g. points). Amount of margin on front and rear 
 of page when <tt>view-scale</tt> is to be computed automatically. Defaults to 25."
-    front-margin (* (the length) 25/792) :defaulting)
+    front-margin (* (the length) 25/792))
    
    
    ("Boolean. Determines whether a rectangular border box is drawn around the view, 
 with the view's length and width. Defaults to nil."
-    border-box? nil :defaulting)
+    border-box? nil)
    
    (user-scale nil :settable :defaulting)
    

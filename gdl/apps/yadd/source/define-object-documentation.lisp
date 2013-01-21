@@ -210,7 +210,10 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                                          :if-exists :supersede 
                                          :if-does-not-exist :create)
                           (princ (the example-code) out))
-                        (let (*redefinition-warnings*) (load (compile-file (the lisp-file))))) :uncached)
+			;;
+			;; FLAG -- try to muffle redefinition warnings here. 
+			;;
+                        (load (compile-file (the lisp-file)))) :uncached)
    
    (image-file (glisp:temporary-file :extension "png"))
    

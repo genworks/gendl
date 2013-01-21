@@ -23,7 +23,7 @@
 
 (defparameter *reap-expired-sessions?* t "Allows one to turn on and off the expired session reaper without starting and stopping the reaper thread")
 
-(defparameter *recovery-url-default* "/" "The url that the session-control-mixin will use for the recovery url")
+
 
 
 

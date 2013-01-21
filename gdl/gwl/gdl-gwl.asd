@@ -10,7 +10,7 @@
 		 :trivial-backtrace
                  :cl-html-parse)
                 :components
-                ((:file "source/package") (:file "source/genworks")
+                ((:file "source/genworks")
                  (:file "source/defparameters")
                  (:file "source/base-html-sheet")
                  (:file "source/base-html-utils")

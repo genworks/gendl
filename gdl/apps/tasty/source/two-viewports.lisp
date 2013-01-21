@@ -23,9 +23,10 @@
 ;;
 ;; FLAG -- experimental, needs a lot of cleaning up to truly support two viewports.
 ;; 
+#+nil
 (in-package :tasty)
 
-
+#+nil
 (define-object two-viewports (assembly)
 
   :computed-slots
@@ -81,7 +82,7 @@
    )
   )
 
-
+#+nil
 (define-lens (html-format two-viewports)()
   
   :output-functions
@@ -202,4 +203,4 @@
       ))))
 
 
-(publish-gwl-app "/t2v" "tasty::two-viewports" :make-object-args (list :title "Genworks tasty 2vp"))
+;;(publish-gwl-app "/t2v" "tasty::two-viewports" :make-object-args (list :title "Genworks tasty 2vp"))

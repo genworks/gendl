@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("compiler" "lift")
+("compiler" "lift" "tests")

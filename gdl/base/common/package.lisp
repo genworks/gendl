@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002, 2007, 2013 Genworks International and Genworks BV 
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -20,6 +20,16 @@
 ;; 
 
 (in-package :common-lisp-user)
+
+#-(or allegro lispworks sbcl ccl)   (error "
+
+D'oh! GenDL is not yet supported on ~a. If you would like to try porting it, start with this file,
+gdl/base/common/genworks.lisp. 
+Also, PortableAllegroserve is needed for the web framework. 
+If you are interested in this effort we would love to hear from you at open-source@genworks.com.
+
+" (lisp-implementation-type))
+
 
 (defpackage :gdl
   (:documentation "General-purpose Declarative Language")
@@ -240,6 +250,316 @@
 	   #:room-report
 	   #:*onclick-function*))
 
+
+#-(or allegro lispworks sbcl ccl abcl ecl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
+(defpackage :com.genworks.lisp 
+    (:use :common-lisp)
+    (:shadow #:intern)
+    (:nicknames :glisp) 
+    (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+ecl :clos
+		  #:validate-superclass)
+    (:export #:*external-text-format*
+	     #:*gdl-home*
+	     #:*gdl-program-home*
+	     #:*genworks-source-home*
+	     #:basic-command-line-arguments
+	     #:begin-redefinitions-ok
+	     #:current-directory
+	     #:define-constant
+	     #:direct-superclasses
+	     #:direct-superclass-names
+	     #:display-startup-banner
+	     #:end-redefinitions-ok
+	     #:eql-specializer
+	     #:executable-homedir-pathname
+	     #:featurep
+	     #:gl-class-name
+	     #:gl-method-specializers
+	     #:hex-string-to-integer
+	     #:intern
+	     #:make-sans-value-equalp-hash-table
+	     #:make-sans-value-hash-table
+	     #:make-weak-hash-table
+	     #:set-default-float-format
+	     #:set-default-package
+	     #:set-defpackage-behavior
+	     #:set-local-compiler-tweaks
+	     #:set-window-titles
+	     #:source-pathname
+	     #:system-home
+	     #:upcase
+	     #:validate-superclass
+	     #:with-definition-unit
+	     #:without-package-variance-warnings
+	     #:w-o-interrupts
+	     #:xref-off
+	     #:xref-on
+	     
+	     ;;
+	     ;; Implemented in gdl/cl-lite/source/genworks.lisp.
+	     ;;
+	     #:*fasl-extension*
+             #:concatenate-fasls
+             #:directory-list
+             #:file-directory-p
+             #:temporary-folder
+             #:temporary-file
+
+	     ;;
+	     ;; Implemented in gdl/geom-base/prereqs/source/genworks.lisp
+	     ;;
+	     #:get-pid
+             #:run-gs
+             #:run-shell-command
+             #:set-gs-path
+	     
+	     ;;
+	     ;; Implemented in gdl/gwl/source/genworks.lisp
+	     ;;
+	     #:*enable-utf8?*
+	     #:*base64-encode-func*
+             #:*base64-decode-func*
+             #:class-slots
+             #:gc-full
+	     #:get-backtrace
+	     #:initialize-multiprocessing
+             #:match-regexp
+             #:patches-dir
+             #:process-run-function
+             #:remote-host
+             #:replace-regexp
+	     #:room-report
+	     #:slot-definition-name
+             #:socket-bytes-written
+	     #:split-regexp
+             #:with-timeout-sym
+
+	     ;;
+	     ;; Implemented in regression/utils/source/genworks.lisp
+	     ;;
+	     #:close-old-areas
+	     #:open-old-areas
+	     #:get-mem-info
+	     #:gc-scavenge
+
+	     ;;
+	     ;; Implemented in build/source/genworks.lisp
+	     ;;
+	     #:copy-directory
+	     #:copy-file
+	     #:delete-directory-and-files
+	     #:dump-memory
+	     #:implementation-identifier
+	     #:make-gdl-app
+	     #:next-datestamp
+
+	     ;;
+	     ;; Implemented in gdl/apps/yadd/source/genworks.lisp
+	     ;;
+	     #:autoloaded-packages
+	     #:package-documentation
+	     #:function-documentation
+	     #:variable-documentation
+	     
+	     ;;
+	     ;; Implemented in gdl/apps/translators/xml/source/genworks.lisp
+	     ;;
+	     #:parse-xml
+	     ))
+
+(defpackage :geom-base
+  (:use :common-lisp :gdl)
+  (:shadowing-import-from :gdl #:the)
+  (:documentation "GDL Base Geometry Module")
+  (:export #:keyed-transform*vector
+	   #:with-translated-state
+	   #:raphael
+	   #:*raphael-translation*
+	   #:make-vector
+	   #:make-point
+	   #:apply-make-point
+	   #:merge-display-controls
+	   #:*nominal-x-vector*
+	   #:*nominal-y-vector*
+	   #:*nominal-z-vector*
+	   #:*nominal-x-vector-r*
+	   #:*nominal-y-vector-r*
+	   #:*nominal-z-vector-r*
+	   #:*trimetric-normal-vector*
+	   #:*trimetric-normal-vector-left*
+	   #:*trimetric-normal-vector-right-rear*
+	   #:*trimetric-normal-vector-left-rear*
+	   #:*left-handed-transform?*
+	   #:+lh-identity-matrix+
+	   #:+nominal-origin+
+	   #:*standard-views*
+	   #:point-expression   
+	   #:+postnet-bits+   
+	   #:*hash-transforms?*
+	   #:get-x
+	   #:get-y
+	   #:get-z
+	   #:get-w
+	   #:get-u
+	   #:get-v
+	   #:determinant
+	   #:subtract-vectors
+	   #:add-vectors
+	   #:3d-distance
+	   #:scalar*vector
+	   #:matrix*vector
+	   #:transpose-matrix
+	   #:multiply-matrices
+	   #:dot-vectors
+	   #:alignment
+	   #:make-transform
+	   #:angle-between-vectors-d
+	   #:angle-between-vectors
+	   #:unitize-vector
+	   #:orthogonal-component
+	   #:same-direction-vectors?
+	   #:parallel-vectors?
+	   #:reverse-vector
+	   #:cross-vectors
+	   #:length-vector
+	   #:zero-vector?
+	   #:degree
+	   #:radians-to-degrees
+	   #:radians-to-grads
+	   #:translate-along-vector
+	   #:array-to-list
+	   #:coincident-point?
+	   #:projected-vector
+	   #:rotate-point-d
+	   #:rotate-point
+	   #:rotate-vector
+	   #:rotate-vector-d
+	   #:inter-circle-sphere
+	   #:inter-line-sphere
+	   #:inter-line-plane
+	   #:translate
+	   #:create-obliqueness
+	   #:proj-point-on-line
+	   #:pythagorize
+	   #:roll
+	   #:rotation
+	   #:transform-and-translate-point
+	   #:transform-numeric-point
+	   #:quaternion-to-rotation
+	   #:quaternion-to-matrix
+	   #:matrix-to-quaternion
+	   #:matrix-to-rotation
+	   #:normalize-quaternion
+	   #:degrees-to-radians
+	   #:acosd
+	   #:asind
+	   #:atand
+	   #:midpoint
+	   #:between?
+	   #:curve-parameter-<
+	   #:roughly-aligned-vectors?
+	   #:distance-to-line
+	   #:equi-space-points
+	   #:sort-points-along-vector
+	   #:bounding-box-from-points
+	   #:flatten-lines
+	   #:flatten-curves
+
+	   #:arc
+	   #:base-object
+	   #:base-coordinate-system
+	   #:base-geometry-object
+	   #:bezier-curve
+	   #:box
+	   #:bbox
+	   #:c-cylinder
+	   #:circle
+	   #:cone
+	   #:cylinder
+	   #:ellipse
+	   #:global-filleted-polygon-projection
+	   #:global-filleted-polyline
+	   #:global-polygon-projection
+	   #:ifs-output-mixin
+	   #:global-polyline
+	   #:graph
+	   #:l-line
+	   #:null-geometric-object
+	   #:outline-specialization-mixin
+	   #:point
+	   #:route-pipe
+	   #:sphere
+	   #:spherical-cap
+	   #:torus
+	   #:cut-cylinder	 ;;do later
+	   #:filleted-polyline	 ;; do later
+	   #:line		 ;;do later
+	   #:point 
+	   #:polyline		  ;; do later
+	   #:polygon-projection	  ;;do later
+           
+	   #:points-display
+           
+	   #:note
+	   #:text-block
+	   #:text-lines
+	   #:typeset-block
+	   #:typeset-blocks
+	   #:base-drawing
+	   #:base-view
+	   #:document
+	   #:horizontal-dimension
+	   #:parallel-dimension
+	   #:vertical-dimension
+	   #:label
+	   #:linear-dimension
+	   #:leader-line
+           
+	   #:dxf
+	   #:obj
+	   #:pdf-multipage
+	   #:pdf
+	   #:pdf-raw
+	   #:png
+	   #:jpeg
+	   #:vrml
+	   #:x3d
+	   #:vector-graphics
+             
+           
+	   #:pie-chart
+           
+	   #:*gs-text-alpha-bits*
+	   #:*gs-graphics-alpha-bits*
+
+
+	   ;;
+	   ;; Implemented in gdl/geom-base/annotations/source/
+	   ;;
+
+	   #:angular-dimension 
+	   #:sample-drawing 
+	   #:generate-sample-drawing 
+	   #:center-line 
+	   #:*break-leaders?*
+	   #:print-document
+	   
+	   ;;
+	   ;; Implemented in gdl/geom-base/text/source/
+	   ;;
+	   #:general-note 
+	   #:text-line
+
+	   ;;
+	   ;;
+	   ;; FLAG -- consider exporting these if requested. 
+	   ;;
+	   ;;#:3d-vector-to-array
+	   ;;#:array-to-3d-vector
+           
+	   ))
+
+
 (defpackage :gdl-toplevel (:use))
 (defpackage :gdl-rule (:size 25) (:use) 
             (:export #:%not-handled% #:write-env #:write-of #:%unbound%))
@@ -250,59 +570,333 @@
 (defpackage :gdl-format (:use) (:export))
 (defpackage :gdl-output (:use) (:export))
 
-;;
-;; Pre-define these just in case.  a bit of a kludge because
-;; gdl:define-package gets redefined when these modules
-;; are loaded, to :use these packages. 
-;;
-(defpackage :geom-base (:use))
-(defpackage :surf (:use) (:shadow #:step) (:export #:step))
 
+(defpackage :surf
+  (:shadowing-import-from :gdl #:the)
+  (:use :common-lisp :gdl :geom-base)
+  (:documentation "GDL NURBS Surface and Solids Facility")
+  (:shadow #:step)
+  (:export #:make-geometry-kernel 
+           #:*geometry-kernel* 
+           #:*finalize-lofted-surfaces?*
+           #:*chain-beziers-for-display?*
+           #:curve 
+           #:iso-curve
+           #:trimmed-curve
+           #:b-spline-curve 
+           #:arc-curve
+           #:elliptical-curve
+           #:linear-curve
+           #:fitted-curve
+           #:planar-offset-curve
+           #:filleted-curve
+           #:projected-curve
+           #:approximated-curve
+           #:silhouette-curves
+           #:dropped-curve
+           #:surface 
+           #:b-spline-surface
+           #:extended-surface
+           #:offset-surface
+           #:offset-solid
+           #:shelled-solid
+           #:manifold-solid
+           #:fitted-surface
+           #:coons-surface
+           #:surface-knot-reduction
+           #:joined-surfaces
+           #:compatible-surfaces
+           #:compatible-curves
+           #:extended-curve
+           #:lofted-surface
+           #:ruled-surface
+           #:test-fitted-surface
+           #:spherical-surface
+           #:revolved-surface
+           #:revolved-surfaces
+           #:planar-surface
+           #:rectangular-surface
+           #:trimmed-surface
+           #:approximated-subsurface
+           #:basic-surface
+           
+           #:split-surface
+           
+           #:brep
+           #:edge
+           #:face
+           #:iges-reader
+           #:native-reader
+           #:brep-reader
+           #:step-reader
+           #:composed-curve
+           #:subdivided-curve
+           #:composed-curves
+           #:decomposed-curve
+           #:decomposed-curves
+           #:planar-section-curve
+           #:planar-section-curves
+           #:global-filleted-polyline-curves
+           #:global-filleted-polyline-curve
+           #:planar-contour-surface
+           #:transformed-curve
+           #:boxed-curve
+           #:boxed-surface
+           #:transformed-surface
+           #:transformed-solid
+           #:stitched-solid
+           
+           #:extruded-solid
+           #:blended-solid
+           
+           #:get-3d-point-of
+           #:get-parameter-of
+           
+           #:get-other-parameter-of
+           #:get-uv-point-of
+           #:get-point-on-surface
+           #:get-point-on-curve
+           #:get-point-on-other-curve
+           
+           #:%get-point-on-surface
+           #:%get-point-on-curve
+           
+           
+           #:iges #:native #:stl 
+           
+           
+           #:step
+           
+           
+           #:box-solid
+           #:cone-solid
+           #:cylinder-solid
+           #:separated-solid
+           #:subtracted-solid
+           #:merged-solid
+           #:validated-solid
+           #:united-solid
+           #:intersected-solid
+           #:swept-solid
+           #:brep-intersect
+           #:brep-intersect?
+           #:regioned-solid
+           
+           #:merged-brep
+           
+           #:general-sweep
+           #:normal-sweep
+           
+           #:edge-blend-surface
+           
+           
+           #:with-pinned-values
+           #:pin-value-to-range
+           
+           #:fitted-conic
+           
+           #:*3d-approximation-tolerance-default*
+           #:*boolean-operation-tolerance-default*
+           #:*approximation-tolerance-factor*
+           #:*brep-tolerance-default*
+           #:*angle-tolerance-radians-default*
+           #:*display-tolerance*
+           #:*3d-tolerance-default*
+           #:*brep-wireframe-tessellation?*
+           #:*curve-tessellation?*
+           #:*crease-angle-default*
+           #:*output-units-default*
+           #:*isos-default*
+           #:*brep-isos-default*
+           #:*brep-vrml-timeout*
+           #:*nurbs-to-beziers-timeout*
+           #:*boolean-allow-multiple-regions?*
+           #:*boolean-error-on-invalid-brep?*
+           
+           #:iwbrep-sew-and-orient
+           
+           #:test-b-spline-surface
+           #:normalized-curve
+           #:surf-grid-points
+           #:closed-boolean-operation
+           #:closed-boolean-separate-operation
+           #:global-brep-brep-solve
+	   
+	   #:non-rational-curve
+	   #:spiral-curve
+           
+           #:get-faces-from-edge
+           
+           #:*tess-min-number-of-segments*
+           #:*tess-max-3d-edge-factor*
+           #:*tess-min-parametric-ratio*
+           #:*tess-max-chord-height*
+           #:*tess-max-angle-degrees*
+           #:*tess-min-3d-edge*
+           #:*tess-min-edge-ratio-uv*
+           #:*tess-max-aspect-ratio*))
 
 (defmacro gdl:define-package (name &rest body)
   `(defpackage ,name 
+     (:use :common-lisp :gdl :geom-base :surf)
      (:shadowing-import-from :gdl #:the)
-     (:use :common-lisp :gdl)
+     (:shadowing-import-from :surf #:step)
      ,@body))
 
 
-;;
-;; FLAG working on this one to do a proper redefinition. 
-;;
-#+nil
-(defmacro gdl:define-package (name &rest body)
-  (let ((%exports (gensym))
-        (%uses (gensym))
-        (%shadowing-import-froms (gensym))
-        (%shadows (gensym))
-        (%import-froms (gensym))
-        (existing-package (gensym)))
-    `(flet ((,%exports (exports)
-              (export (mapcar #'(lambda(symbol) (glisp:intern symbol ,name)) exports) ,name))
-            (,%uses (uses)
-              (use-package uses ,name))
-	      
-            (,%shadowing-import-froms (imports)
-              (destructuring-bind (package &rest symbols) imports
-                (shadowing-import (mapcar #'(lambda(symbol) (glisp:intern symbol package)) symbols)
-                                  ,name)))
-            (,%shadows (symbols) (shadow symbols ,name))
-            (,%import-froms (imports)
-              (destructuring-bind (package &rest symbols) imports
-                (import (mapcar #'(lambda(symbol) (glisp:intern symbol package)) symbols) ,name))))
-       (let ((,existing-package (find-package ,name)))
-         (if ,existing-package
-             (progn
-               (,%exports (rest (find :export ',body :key #'first)))
-               (,%uses (rest (find :use ',body :key #'first)))
-               (,%shadowing-import-froms (rest (find :shadowing-import-from ',body :key #'first)))
-               (,%shadows (rest (find :shadow ',body :key #'first)))
-               (,%import-froms (rest (find :import-from ',body :key #'first))))
-             (defpackage ,name 
-               (:shadowing-import-from :gdl #:the) (:use :common-lisp :gdl) ,@body))))))
-
-
-
 (gdl:define-package :gdl-user)
+
+
+;;
+;; FLAG -- stop using all these library packages in here!
+;;
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (gdl:define-package :gwl
+      ;;
+      ;; FLAG moved this to a (use-package ...) in
+      ;; gdl/gwl/source/genworks.lisp (until we can clean them
+      ;; entirely)
+      ;; 
+      ;;(:use :net.aserve :net.aserve.client :net.uri :net.html.generator :cl-who)
+      (:documentation "Generative Web Language")
+    (:shadow #:define-package)
+    (:export
+     #:define-package
+     #:remote-object
+     #:*req*
+     #:*ent*
+     #:*html-referrer*
+     #:*instance-hash-table*
+     #:*max-node-depth*
+     #:*developing?*
+     #:*mime-file-types*
+     #:*max-id-value*
+     #:*server*
+     #:*query-plist*
+     #:*field-plist*
+     #:*ssl-server*
+     #:*adsense-code*
+     #:*break-on-set-self?*
+     #:*jump-to-toplevel-on-set-self?*
+     #:*process-cookies?*
+     #:encode-root-path
+     #:base-html-sheet
+     #:skeleton-ui-element
+     #:sheet-section
+     #:session-control-mixin
+     #:base-html-graphics-sheet
+     #:color-palette
+     #:crawl
+     #:html-submit-button
+     #:html-button
+     #:html-checkbox
+     #:html-radio-button
+     #:html-select-choices
+     #:html-file
+     #:html-multi-line-text
+     #:html-string
+     #:html-password
+     #:html-title
+     #:html-anchor
+     #:html-cell
+     #:html-row
+     #:html-table
+     #:html-static-text
+     #:untagify
+     #:make-new-session-id
+     #:html-format
+     #:html-format
+     ;;#:define-package
+     #:my
+     #:my-child
+     #:from-my
+     #:my-object
+     #:defpage
+     #:root-path-to-query-arg
+     #:query-arg-to-root-path
+     #:gwl-make-part
+     #:gwl-make-object
+     #:replace-substring
+     #:custom-base-html-sheet-mixin
+     #:fix-lhtml
+     #:start-log-maker
+     #:clear-log-buffer
+     #:*log-report-buffer*
+     #:pdf-output-sheet
+     #:graphics-preferences
+     #:application-mixin
+     #:node-mixin
+     #:gwl-rule-object
+     #:*js-incremental-search*
+   
+     #:html-form
+   
+     #:form-mixin
+     #:clear-all-instances
+     #:clear-instance
+   
+     #:with-html-form
+   
+     #:publish-shared
+     #:with-all-servers
+     #:web-drawing
+   
+     #:infinite
+   
+     #:base64-decode-safe
+     #:base64-encode-safe
+     #:base64-decode-list
+     #:base64-encode-list
+   
+     #:start-gwl
+     ;;
+     ;; FLAG -- test this in 1575 build
+     ;;
+     ;;#:update-gdl
+     ;;#:*patch-fasls*
+   
+   
+     ;;
+     ;;
+     ;;
+
+     #:base-form-control
+     #:button-form-control
+     #:checkbox-form-control
+     #:radio-form-control
+     #:menu-form-control
+     #:text-form-control
+     #:number-form-control
+     #:password-form-control
+     #:file-form-control
+     #:hidden-form-control
+     #:object-form-control
+     #:grid-form-control
+   
+     #:encode-for-ajax
+     #:decode-from-ajax
+     #:form-element-processor
+   
+     #:*clicked-x*
+     #:*clicked-y*
+   
+     ;;
+     ;; Ajax stuff
+     ;;
+
+     #:base-ajax-sheet
+     #:base-ajax-graphics-sheet
+
+     #:*standard-ajax-javascript*
+     #:*ajax-timeout*
+     #:*bypass-security-check?*
+   
+     #:with-cl-who
+     #:with-cl-who-string
+     #:with-htm
+     #:publish-gwl-app
+     #:publish-string-content
+     )))
+
 
 

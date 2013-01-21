@@ -21,27 +21,6 @@
 
 (in-package :com.genworks.lisp)
 
-(glisp:without-package-variance-warnings
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:nicknames :glisp)
-    (:export #:*fasl-extension*
-             #:concatenate-fasls
-             #:directory-list
-             #:file-directory-p
-             #:temporary-folder
-             #:temporary-file)))
-
-;;
-;; For good meausure for e.g. ABCL which doesn't modify package definitions:
-;;
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (export '(*fasl-extension*
-	    concatenate-fasls
-	    directory-list
-	    file-directory-p
-	    temporary-folder
-	    temporary-file) :glisp))
 
 
 (defparameter *fasl-extension*

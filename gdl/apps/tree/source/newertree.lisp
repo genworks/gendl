@@ -23,6 +23,14 @@
 
 (defparameter *trap-errors?* t)
 
+;;
+;; FLAG -- this depends on jQuery. Assume the containing sheet has 
+;;  :use-jquery? t
+;;
+;;  This shoud be upgraded to avoid that assumption and check with the
+;; containing sheet, and other sheets in the tree. If not using
+;; jquery, then use it here.
+;;
 (define-object newertree (sheet-section)
   
   :input-slots
@@ -48,13 +56,11 @@
   :computed-slots 
   (
    ;;
-   ;; FLAG -- to skeleton-ui-mixin and out of base-html-sheet.
+   ;; This overrides the one from skeleton-ui-element because we don't want to filter
+   ;; the root-object-object in the case of the tree. 
    ;;
    (base64-encoded-root-path (base64-encode-safe (format nil "~s" (the root-path))))
-   (dom-id (the base64-encoded-root-path))
-   ;;
-   ;; END FLAG
-   ;;
+
    
    (tatu-color (or (when (getf (the local-display-controls) :color)
                      (string-append "#" (getf (the local-display-controls) :color)))
@@ -77,9 +83,6 @@
                               (the target-object children))
                           (the target-object visible-children)))
 
-   ;;
-   ;; DJC - try to correct error reported 2011-03-30 by SvdE
-   ;;
    (safe-strings-for-display 
     (let ((string (multiple-value-bind (strings error)
                       (ignore-errors (the target-object 
@@ -97,18 +100,6 @@
 Converting to a string to avoid error."
                 string)
           (format nil "~s" string)))))
-
-   ;;
-   ;; DJC - try to correct error reported 2011-03-30 by SvdE
-   ;;
-   #+nil
-   (safe-strings-for-display (multiple-value-bind (strings error)
-                                  (ignore-errors (the target-object strings-for-display))
-                                (cond ((typep error 'error)
-                                       (format nil "! ~a ! from strings-for-display" error))
-                                      ((the color-error?)
-                                       (format nil "~a ! ~a ! from color-hex" strings (the color-or-error)))
-                                      (t strings))))
 
    (color-or-error (multiple-value-bind (color error)
                        (ignore-errors (the target-object color-hex))
@@ -148,23 +139,11 @@ Converting to a string to avoid error."
                            :onclick (the (gdl-ajax-call :function-key :toggle-state!))))))
              ))  
        
-       ;; JB-090810 when the node does not have a child node, it is a leaf - so display
-       ;; a leaf graphic and this is coupled via CSS
        (unless (the child-nodes)
          (htm ((:span :class "leaf")))
          )
        
-       ;; this is the name of the object including the gdlAjax call wrapped in a span
-       ;; JB-090813 in order to let the actions hover when the mouse is over the
-       ;; object name, and remove the actions imgs when the mouse is leaving the
-       ;; object name (or the images) I need to wrap this in an extra span
-       ;; to correct visual stuff this gets a class .container
-       ;; this code depends heavily on the presence of jQuery as the show() and hide()
-       ;; functions, including the selectors are jQuery functions       
-
-       
        ((:span :class "container"
-               ;; JB-090813 yep this is jQuery functionality
                :onmouseover "$(this).children('.actions').css('display','inline')"
                :onmouseout "$(this).children('.actions').hide()")
         
@@ -211,7 +190,7 @@ Converting to a string to avoid error."
             ((:span :class "highlight"
                     :onclick (the (gdl-ajax-call :function-key :set-and-call-click-mode! 
                                                  :arguments (list :highlight)))
-                    :title "Highlight this object")))))
+                    :title "Toggle Leaves of this object")))))
        
        )
        
@@ -277,6 +256,20 @@ Converting to a string to avoid error."
     (ecase mode
       (:inspect (the inspector (set-object! (the target-object))))
       (:add-leaves (the viewport (add-leaves! (the target-object))))
+      (:highlight (if (the viewport (leaves-displayed? (the target-object)))
+		      (the viewport (delete-leaves! (the target-object)))
+		      (the viewport (add-leaves*! (the target-object)))))
+      ;;
+      ;; Add :highlighted? entry to the dynamic (thread-local)
+      ;; display-list parameter, not to the actual object. Object has
+      ;; no guarantee of carrying the highlighted? slot and we are not
+       ;; going to make base-object or vanilla-mixin even heavier by
+       ;; adding yet another slots.
+       ;;
+       ;; For the time being, highlight functionality simply
+       ;; adds/deletes individual leaves.
+      ;;
+      #+nil
       (:highlight        (if (the target-object highlighted?)
                              (progn
                                (the target-object (set-slot! :highlighted? nil))
@@ -292,20 +285,14 @@ Converting to a string to avoid error."
                           :pass-down (%tree-root% respondent onclick-function expand-mode display-controls-hash
                                                   show-onmouseover-buttons?
                                                   )
-                          :visible-child? (>= (the-child index) (the safe-child-first))
-                          :depth (1+ (the depth))
+                          ;;:visible-child? (>= (the-child index) (the safe-child-first))
+                          ;;:depth (1+ (the depth))
                           :target-object (let ((node (nth (the-child index) (the safe-children))))
                                            (if (listp node)
                                                (make-object 'tasty-child-error
                                                             :error (getf node :error)
                                                             :object-key (getf node :object-key))
-                                               node)))
-
-                   #+nil
-                   (nodes :type 'newertree
-                          :sequence (:size (length (the target-object children)))
-                          :pass-down (respondent onclick-function expand-mode)
-                          :target-object (nth (the-child index) (the target-object children)))))
+                                               node)))))
 
 (define-object tasty-child-error ()
   :input-slots (error object-key)

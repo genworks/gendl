@@ -129,3 +129,12 @@ Defaults to t.")
 (defparameter *failed-request-url* "/" "The redirection url that will be returned for a failed-request")
 
 (defparameter *process-cookies?* nil)
+
+(defparameter *recovery-url-default* "/" "The url that the session-control-mixin will use for the recovery url")
+
+;;
+;; FLAG --- cl-who customizations -- should be in own file
+;;
+(setq cl-who:*prologue* "<!doctype HTML>")
+(setq cl-who:*attribute-quote-char* #\")
+(setq cl-who:*downcase-tokens-p* nil)

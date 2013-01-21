@@ -100,7 +100,7 @@ and <tt>nil</tt> are supported. The default is nil"
    
    
    ("GDL object or NIL. View object which will use this dimension. Defaults to NIL."
-    view-reference-object nil :defaulting)
+    view-reference-object nil)
    
    (text-x-scale 100)
    

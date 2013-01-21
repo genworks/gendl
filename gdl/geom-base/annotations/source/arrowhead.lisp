@@ -24,7 +24,7 @@
 (define-object arrowhead (base-object)
   
   :input-slots
-  ((style :wedge :defaulting)
+  ((style :wedge)
    (length (* .2 72))
    (width (* .1 72))
    (wedge-ratio 1/3))

@@ -140,13 +140,12 @@
   (   
    (visit-definition-in-emacs
     (definition)
-
+    (declare (ignore definition))
     (error "Sorry! This is supposed to do 'lisp-find-definition' in emacs, but not working yet... Please send email to support@genworks.com"))
    
    #+nil
    (visit-definition-in-emacs
     (definition)
-    
     (let ((emacs-lisp-command (format nil "(fi:lisp-find-definition ~s)" definition)))
       (print-variables emacs-lisp-command)
       #+allegro (lep::eval-in-emacs emacs-lisp-command)))

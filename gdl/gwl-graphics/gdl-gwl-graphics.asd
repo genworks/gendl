@@ -6,8 +6,7 @@
                 :license "AGPL unless otherwise indicated" :serial t
                 :version "2011102000" :depends-on
                 (:gdl-geom-base :gdl-gwl) :components
-                ((:file "gwl/source/package")
-		 (:file "gwl/source/parameters")
+                ((:file "gwl/source/parameters")
                  (:file "gwl/source/application-mixin")
                  (:file "gwl/source/base-ajax-graphics-sheet")
                  (:file "gwl/source/base-html-graphics-sheet")

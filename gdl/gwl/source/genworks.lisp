@@ -1,36 +1,5 @@
 (in-package :com.genworks.lisp)
 
-(glisp:without-package-variance-warnings
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:nicknames :glisp)
-    (:export #:*enable-utf8?*
-	     #:*base64-encode-func*
-             #:*base64-decode-func*
-             #:class-slots
-             #:gc-full
-	     #:get-backtrace
-	     #:initialize-multiprocessing
-             #:match-regexp
-             #:patches-dir
-             #:process-run-function
-             #:remote-host
-             #:replace-regexp
-	     #:room-report
-	     #:slot-definition-name
-             #:socket-bytes-written
-	     #:split-regexp
-             #:with-timeout-sym)))
-
-
-#+nil
-(defparameter *base64-encode-func* 
-  #'cl-base64:string-to-base64-string)
-
-#+nil
-(defparameter *base64-decode-func* 
-  #'cl-base64:base64-string-to-string)
-
 
 (defparameter *enable-utf8?* t)
 
@@ -294,4 +263,19 @@ please find implementation for the currently running lisp.~%")
   #-allegro 'acl-compat.mp:with-timeout)
 
 
+;;
+;; FLAG -- clean out symbol dependencies of (:net.aserve :net.aserve.client :net.uri :net.html.generator :cl-who)
+;;
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (use-package (list :gwl :net.aserve :net.aserve.client :net.uri :net.html.generator :cl-who) :gwl))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defmacro gwl:define-package (name &rest args)
+    `(gdl:define-package ,name 
+	 (:shadow #:define-package)
+       (:use :gwl :net.aserve :net.aserve.client :net.uri :net.html.generator :cl-who)
+       ,@args)))
+
+(gwl:define-package :gwl-user)
 

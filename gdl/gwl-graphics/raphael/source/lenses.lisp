@@ -136,7 +136,6 @@
           
 	  (let (prev-end 
 		(move? t))
-	    (declare (ignore prev-end))
 	    (mapc 
 	     #'(lambda(line-index-pair)
 		 ;;(setq move? t)
@@ -146,7 +145,7 @@
 			 (name (base64-encode-safe 
 				(format nil "~s" (remove :root-object-object 
 							 (the-object object  root-path))))))
-		     (when nil ;;(and prev-end (coincident-point? start prev-end)) 
+		     (when nil 
 		       (setq move? nil))
 		     (setq prev-end end)
 		     (with-cl-who ()

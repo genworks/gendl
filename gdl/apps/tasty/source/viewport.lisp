@@ -28,37 +28,37 @@
   
   :input-slots
   (tatu-root root-object 
-   
-   (vector-graphics-onclick? (not (eql (the digitation-mode) :select-object)))
-   
-   (color nil)
-   
-   (line-thickness-selected nil)
-   
-   onclick-function
-   
-   (inspected-object nil)
-   
-   (display-list-object-roots 
-    (let (result)
-      ;;(the recompute?)
-      (maphash #'(lambda(root-path value)
-                   (declare (ignore value))
-                   (push (the root-object (follow-root-path root-path)) result))
-               (the view-object-roots-root-paths-hash)) (nreverse result)))
-   
-   
-   (display-list-objects 
-    (let (result)
-      (the recompute?)
-      (maphash #'(lambda(root-path value)
-                   (declare (ignore value))
-                   (push (the root-object (follow-root-path root-path)) result))
-               (the view-objects-root-paths-hash)) (nreverse result)))
-   
-   (image-format-default :raphael)
-   
-   )
+	     
+	     (vector-graphics-onclick? (not (eql (the digitation-mode) :select-object)))
+	     
+	     (color nil)
+	     
+	     (line-thickness-selected nil)
+	     
+	     onclick-function
+	     
+	     (inspected-object nil)
+	     
+	     (display-list-object-roots 
+	      (let (result)
+		;;(the recompute?)
+		(maphash #'(lambda(root-path value)
+			     (declare (ignore value))
+			     (push (the root-object (follow-root-path root-path)) result))
+			 (the view-object-roots-root-paths-hash)) (nreverse result)))
+	     
+	     
+	     (display-list-objects 
+	      (let (result)
+		(the recompute?)
+		(maphash #'(lambda(root-path value)
+			     (declare (ignore value))
+			     (push (the root-object (follow-root-path root-path)) result))
+			 (the view-objects-root-paths-hash)) (nreverse result)))
+	     
+	     (image-format-default :raphael)
+	     
+	     )
 
   
   
@@ -101,7 +101,7 @@
    
    (operations-list nil :settable)
    
-      
+   
    )
   
   
@@ -155,7 +155,7 @@
               (net.aserve::debug-on :notrap)))
           
           (break (the image-url))))))
-          
+   
    
    (pop-operation!
     ()
@@ -175,13 +175,21 @@
     (object)
     (the (add-display-controls! object))
     (dolist (leaf (the-object object leaves)) (the (add-node! leaf)))
-    
-    
     (the (set-slot! :operations-list 
                     (append (the operations-list)
                             (list (list :operation :add-leaves* :object object))))))
    
+   
+   (leaves-displayed? 
+    (object)
+    (gethash (the-object (first (the-object object leaves)) root-path)
+	     (the view-objects-root-paths-hash)))
 
+   (toggle-leaves*!
+    (object)
+    (if (the (leaves-displayed? object))
+	(the (add-leaves*! object))
+	(the (delete-leaves! object))))
    
    (delete-node!
     (object)
@@ -229,9 +237,6 @@
                                      (when (or (and (<= (length root-path) (length key))
                                                     (equalp (reverse root-path) 
                                                             (subseq (reverse key) 0 (length root-path)))))
-                                       
-                                       (progn (format t "Removing ~s from ~s~%" root-path hash))
-                                       
                                        (remhash key hash))) hash) hash)))))
    
    (draw-leaves! 
@@ -263,9 +268,9 @@
                                
                                (if (or color line-thickness)
                                    (setf (gethash root-path hash) 
-                                     (list :line-thickness line-thickness
-                                           :color (the color)))
-                                 (when (gethash root-path hash) (remhash root-path hash))))
+					 (list :line-thickness line-thickness
+					       :color (the color)))
+				   (when (gethash root-path hash) (remhash root-path hash))))
                              hash)))))
    
    (clear! () 
@@ -319,8 +324,8 @@
             (:x3dom (the (write-embedded-x3dom-world :include-view-controls? nil))))))))))
 
 
-             
 
 
 
-   
+
+

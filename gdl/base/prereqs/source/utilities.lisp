@@ -70,10 +70,9 @@ Optionally a different test than #'eql can be specified with the :test keyword a
             (t (push element result))))))
 
 (defun remove-plist-keys (plist keys)
-  (if (null keys)
-      plist
-    (when plist
-      (remove-plist-keys (remove-plist-key plist (first keys)) (rest keys)))))
+  (when plist
+    (if (null keys) plist
+	(remove-plist-keys (remove-plist-key plist (first keys)) (rest keys)))))
 
 
 (defmacro print-variables (&rest vars)

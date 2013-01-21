@@ -28,6 +28,7 @@
 
 
 (defmethod initialize-instance :after ((object 2d-output) &rest init-options)
+  (declare (ignore init-options))
   (when (slot-value object 'gdl-acc::view-scale) (warn "view-scale initarg for 2d-output is deprecated."))
   (when (slot-value object 'gdl-acc::view-transform) (warn "view-transform initarg for 2d-output is deprecated."))
   (when (slot-value object 'gdl-acc::view-center) (warn "view-center initarg for 2d-output is deprecated."))

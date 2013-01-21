@@ -6,7 +6,7 @@
                 :license "AGPL unless otherwise indicated" :serial t
                 :version "2012101100" :depends-on (:gdl-gwl-graphics)
                 :components
-                ((:file "source/package") (:file "source/parameters")
+                ((:file "source/parameters")
                  (:file "source/classes") (:file "source/methods")
                  (:file "source/curve") (:file "source/surface")
                  (:file "source/approximated-curve")

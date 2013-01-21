@@ -27,7 +27,7 @@
 
   :input-slots ((inp-a "hey") inp-b)
 
-  :trickle-down-slots (:desc-1)
+  :trickle-down-slots (desc-1 desc-2)
 
   :computed-slots
   ((desc-1 (format nil "descendant ~a" (the inp-a)))

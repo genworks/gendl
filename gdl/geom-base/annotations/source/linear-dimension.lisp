@@ -171,7 +171,7 @@ are <tt>:none</tt> (the Default), <tt>:wedge</tt>, and <tt>:double-wedge</tt>."
     character-size 1)
    
    ("GDL object or NIL. View object which will use this dimension. Defaults to NIL."
-    view-reference-object nil :defaulting)
+    view-reference-object nil)
    
    
    ("String. Determines the text which shows up as the dimension label. Defaults to the dim-value, 

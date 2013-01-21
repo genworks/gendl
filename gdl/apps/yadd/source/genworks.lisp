@@ -21,15 +21,6 @@
 
 (in-package :com.genworks.lisp)
 
-(glisp:without-package-variance-warnings
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:nicknames :glisp)
-    (:export #:autoloaded-packages
-	     #:package-documentation
-	     #:function-documentation
-	     #:variable-documentation)))
-
 
 (defun autoloaded-packages ()
   (append (list :win :windows :regexp) 

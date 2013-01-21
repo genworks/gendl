@@ -57,11 +57,11 @@ construction and positioning since the actual center of the spherical cap is the
   
                 ("Number. Thickness of the shell for a hollow spherical-cap. Specify this 
                   or inner-base-radius, not both."
-                 cap-thickness nil :defaulting)
+                 cap-thickness nil)
                 
                 ("Number. Radius of base of inner for a hollow spherical-cap. Specify this 
                   or cap-thickness, not both."
-                 inner-base-radius nil :defaulting)
+                 inner-base-radius nil)
   
                 ("Integer. How many lines of latitude to show on the spherical-cap in some renderings. Default value is 2."
                  number-of-horizontal-sections 4)

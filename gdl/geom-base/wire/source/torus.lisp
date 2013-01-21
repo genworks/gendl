@@ -63,7 +63,7 @@ Partial ``bent'' cylinders are not currently supported."
     arc 2pi :defaulting)
    
    ("Number. Radius of the inner hollow part of the bent cylinder for a hollow torus. Defaults to NIL for a solid cylinder"
-    inner-minor-radius nil :defaulting)
+    inner-minor-radius nil)
    
    ("Boolean. Indicates whether the bent cylinder's centerline arc should be rendered in some renderings."
     draw-centerline-arc? nil)

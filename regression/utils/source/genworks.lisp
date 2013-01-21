@@ -1,15 +1,5 @@
 (in-package :com.genworks.lisp)
 
-(glisp:without-package-variance-warnings
-  (defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:nicknames :glisp)
-    (:export #:close-old-areas
-	     #:open-old-areas
-	     #:get-mem-info
-	     #:gc-scavenge
-	     )))
-
 
 (defun close-old-areas ()
   #+allegro

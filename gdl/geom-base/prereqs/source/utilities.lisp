@@ -1393,11 +1393,6 @@ of <b>point1</b> and <b>point2</b>.
     (list (make-point xmin ymin zmin) (make-point xmax ymax zmax))))
 
 
-(defun remove-plist-keys (plist keys)
-  (if (null keys)
-      plist
-    (remove-plist-keys (remove-plist-key plist (first keys)) (rest keys))))
-    
 
 (defun apply-make-point (list)
   "2D, 3D, or 4D point. This function takes a list of two, three, or four numbers rather 
