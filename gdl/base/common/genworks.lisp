@@ -82,7 +82,7 @@
 	(original-redefinition-warnings 
 	 #+allegro excl:*redefinition-warnings*
 	 #+lispworks lw:*redefinition-action*))
-  #+(or allegro lispworks) (declare (ignore original-redefinition-warnings))
+  
   (defun begin-redefinitions-ok () 
     #+sbcl (declare (sb-ext:muffle-conditions sb-ext:compiler-note))
     #+(or allegro lispworks)
@@ -93,7 +93,7 @@
     #+(or allegro lispworks)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* 
-	  nil #+nil original-redefinition-warnings)))
+	  original-redefinition-warnings)))
 
 
 #-(or allegro lispworks cmu sbcl ccl abcl ecl) 

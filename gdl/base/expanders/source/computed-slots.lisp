@@ -125,21 +125,28 @@
 	 ;;
 	 `(eval-when (:compile-toplevel :load-toplevel :execute)
 	    (unless (fboundp ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
-	      (defgeneric ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) (self &rest args))))
+	      (defgeneric ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) (,self-arg &rest ,args-arg)))
+	    (unless (fboundp ',(glisp:intern (symbol-name slot) :gdl-slots))
+	      (defgeneric ,(glisp:intern (symbol-name slot) :gdl-slots) (,self-arg &rest ,args-arg))))
+
 	 `(unless (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
 			       nil (list (find-class 'gdl-basis)) nil)
 	    (defmethod ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) ((,self-arg gdl-basis) &rest ,args-arg)
 	      (trickle-down-basis ,self-arg ',slot ,args-arg)))
 
 	 ;;
-	 ;; FLAG -- (eval-when (:c- :l- :e) ...)  for defgenerics for _all_ messages in header, then remove fboundp from conditional here. 
+	 ;; FLAG -- we need to redefine the standard gdl-basis method here for trickle-down-slots, 
+	 ;;         figure out how to do it without the crude off/on of redefinition warnings.
 	 ;;
-	 ;; FLAG -- maybe don't remove, could have a trickle-down which is not otherwise declared as a message.
-	 `(unless nil #+nil (and (fboundp ',(glisp:intern (symbol-name slot) :gdl-slots))
-				 (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-slots))
-					      nil (list (find-class 'gdl-basis)) nil))
-		  (defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
-		    (chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg)))
+	 `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
+	 `(defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
+	    (chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg))
+	 #+nil
+	 `(unless (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-slots))
+			       nil (list (find-class 'gdl-basis)) nil)
+	    (defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
+	      (chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg)))
+	 `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
            
 	 )))
    slots))
