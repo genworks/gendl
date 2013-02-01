@@ -21,7 +21,7 @@
 
 (in-package :common-lisp-user)
 
-#-(or allegro lispworks sbcl ccl)   (error "
+#-(or allegro lispworks sbcl ccl abcl)   (error "
 
 D'oh! GenDL is not yet supported on ~a. If you would like to try porting it, start with this file,
 gdl/base/common/genworks.lisp. 

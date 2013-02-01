@@ -37,19 +37,22 @@
        ((:div :class "people")
 	(:h4 "Head of Product Development")
 	(:p
-	 "Dave started as Head of Product Development with the first commercial release of 
-Genworks GDL (GenDL) in August, 2002.  Prior to that, he performed contract KBE programming with 
-The ICAD System&reg; at Ford Motor Company, General Motors, Raytheon Aircraft, Embraer, and elsewhere. 
-Prior to that Dave was an employee at Ford Motor Company for several years, involved with ICAD application
-development and systems deployment.")
+	 "Dave started as Head of Product Development with the first
+commercial release of Genworks GDL (GenDL) in 2002.  Prior to that, he
+performed contract KBE programming with The ICAD System&reg; at Ford
+Motor Company, General Motors, Raytheon Aircraft, Embraer, and
+elsewhere.  Prior to that Dave was an employee at Ford Motor Company
+for several years, involved with ICAD application development and
+systems deployment.")
 	(:p "Dave holds B.S and M.S degrees in Computer Science and Engineering, 
 	   both from the University of Michigan in Ann Arbor, MI.")
 	(:p "Dave is also the founder of the Common Lisp Foundation, dedicated to propogating 
 the CL programming language, and is a Director on the Association of Lisp Users.")
-	(:p "Dave has spoken and delivered papers at numerous
+	(:p "He has spoken and delivered papers at numerous
 	   Conferences in the U.S., Europe and Japan.  The
 	   presentations have focused on KBE issues and the Lisp programming
            language. Below are some representative papers.")
+	(:p "He is currently President of the Association of Lisp Users.")
 	(:p ((:a :href "http://downloads.genworks.com/kbe2008.pdf") 
 	     "2008 SAE Aerospace Conference, presented in Wichita, Kansas"))
 	(:p ((:a :href "http://downloads.genworks.com/kbe2007.pdf") 
@@ -83,18 +86,23 @@ seamlessly available in the GenDL environment.")))
       ((:div :class "profile")
        ((:div :class "people")
 	(:h4 "Vice-President and General Manager")
-	(:p "Mr Cooper's background is in the law.  His legal background is extensive, 
-based mainly around Contracts and Insurance law. He has been in practice continuously 
-for 50 years, is a graduate of the University of Michigan Law School, is the past-president 
-of the organized civil defense bar in the State of Michigan, and has been continuously 
-listed in the elite publication Best Lawyers in America since that publication's 
-inception in the late 1980's (less than 1% of practicing attorneys are included in 
-Best Lawyers). Mr Cooper has also recently been added to Super Lawyers as a specialist 
-in Insurance Coverage and Contracts Law.")
-	(:p "At Genworks, He performs a managerial role for the company, and acts as 
-General Counsel reviewing contracts and in general keeping Genworks' business 
-relationships running smoothly.")))
-
+	(:p "Mr Cooper's background is in the law.  His legal
+background is extensive, based mainly around Trial, Contracts and
+Insurance Coverage issues. He has been in practice continuously for 52
+years, is a graduate of the University of Michigan Law School, is the
+past-president of the organized civil defense bar in the State of
+Michigan, and has been continuously listed in the elite publication"
+	    (:i "Best Lawyers in America")
+	    " since that publication's inception in the late
+1980s (less than 1% of practicing attorneys are included in "
+	    (:i "Best Lawyers")
+	    "). Mr Cooper has also recently been added to "
+	    (:i "Super Lawyers")
+	    " as a specialist in Insurance Coverage and Contracts Law.")
+	(:p "At Genworks, he performs a managerial role for the
+company, and acts as General Counsel drafting and reviewing contracts
+and in general keeping Genworks' business relationships running
+smoothly.")))
       
       (:h3 "Kai Yan Cooper") 
       ((:div :class "profile")

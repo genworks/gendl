@@ -120,10 +120,11 @@ and this is defaulted to t, except for merged-solid where we default this to nil
             (error message 
                    (1- (the first-brep regions number-of-elements))))))
       
-      (let (merge-container current-breps (current-brep (the first-brep %native-brep%)))
+      (let ((count -1) (length (length (the rest-breps)))
+	    merge-container current-breps (current-brep (the first-brep %native-brep%)))
         
         (dolist (other-brep (the rest-breps))
-          
+          (incf count)
           (when *debug?*
             (print-variables (the root-path) 
                              (the first-brep root-path)
@@ -152,11 +153,14 @@ and this is defaulted to t, except for merged-solid where we default this to nil
                                            )))
                           
             ((:merge)
-             (format t "Merging ~s into merge object~%" (the-object other-brep root-path))
-             (setq current-brep (do-boolean-merge-operation *geometry-kernel* merge-container
-                                                            (the operation) (the manifold?)
-                                                            :make-manifold? (the make-manifold?)
-                                                            :sew-and-orient? (the sew-and-orient?))))
+	     (let ((try-manifold? (= count (1- length))))
+	       (format t "Merging ~s into merge object~a~%" 
+		       (the-object other-brep root-path)
+		       (if try-manifold? ", trying to make manifold..." ""))
+	       (setq current-brep (do-boolean-merge-operation  *geometry-kernel* merge-container
+							      (the operation) try-manifold?
+							      :make-manifold? try-manifold?
+							      :sew-and-orient? (the sew-and-orient?)))))
                            
             (:extract_separate
              (setq current-breps (do-boolean-separate-operation *geometry-kernel* 

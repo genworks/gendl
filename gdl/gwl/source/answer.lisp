@@ -233,7 +233,7 @@ instance at what time should the recovery instance expire?"
                      ;;
                      ;;
                    
-                     (with-http-response (req ent :response *response-moved-permanently*)
+                     (with-http-response (req ent :response *response-found*)
                        (setf (reply-header-slot-value req :cache-control) "no-cache")
                        (setf (reply-header-slot-value req :pragma) "no-cache")
                      
@@ -372,7 +372,7 @@ package-qualified object name\")
           (the-object object set-time-last-touched!)
           (the-object object (set-remote-host! req :original? t)))
         
-        (with-http-response (req ent :response *response-moved-permanently*)
+        (with-http-response (req ent :response *response-found*)
           (setf (reply-header-slot-value req :location)
             (format nil "~a" (the-object (first root-part-and-version) url)))
           (setf (reply-header-slot-value req :cache-control) "no-cache")

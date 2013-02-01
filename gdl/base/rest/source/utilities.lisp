@@ -772,3 +772,52 @@ toplevel inputs as specified in the snapshot file.
 (defun gdl-rule::lookup-parameters (self message)
   (let ((value (getf (the %parameters%) message 'gdl-rule:%not-handled%)))
     (if (eql value 'gdl-rule:%not-handled%) (not-handled self message) value)))
+
+
+(defparameter *dep-hash-threshhold* 1000)
+
+
+(defun add-notify-cons (notify-cons value &optional self message)
+  (when nil ;;(and self message)
+    (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
+      (when (and (consp aggregate)
+		 (not (consp (gdl-acc::%aggregate% self))))
+	(let ((num-value (gdl-acc::number-of-elements (first aggregate))))
+	  (when (consp num-value)
+	    (add-notify-cons (list self message) num-value))))))
+  (let ((second (second value)))
+    (if (and (listp second) (< (length second) *dep-hash-threshhold*))
+	(let ((matching-sublist (assoc (first notify-cons) (second value))))
+	  (if matching-sublist (pushnew (second notify-cons) (rest matching-sublist))
+	      (push (copy-list notify-cons) (second value))))
+	(progn    
+	  (when (listp second) (setf (second value) (alist-to-hash second)))
+	  (pushnew (second notify-cons) (gethash (first notify-cons) (second value)))))))
+
+
+(defun alist-to-hash (alist)
+  (let ((ht (make-hash-table :size (twice *dep-hash-threshhold*) :rehash-size *dep-hash-threshhold*)))
+    (dolist (entry alist ht)
+      (destructuring-bind (object . messages) entry
+	(setf (gethash object ht) messages)))))
+
+
+#+nil
+(defun add-notify-cons (notify-cons value &optional self message)
+
+  (when (and self message)
+    (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
+      (when (consp aggregate)
+	(add-notify-cons (list self message) 
+			 (gdl-acc::number-of-elements (first aggregate))))))
+  
+  (let ((matching-sublist (assoc (first notify-cons) (second value))))
+    (if matching-sublist (pushnew (second notify-cons) (rest matching-sublist))
+	(push (copy-list notify-cons) (second value)))))
+
+
+
+
+
+
+

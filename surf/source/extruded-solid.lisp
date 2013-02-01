@@ -22,47 +22,58 @@
 (in-package :surf)
 
 (define-object extruded-solid (brep)
-  :input-slots ("GDL Curve object. The profile to be extruded into a solid." profile
+  :input-slots ("GDL Curve object. The profile to be extruded into a solid." 
+		profile
                 
-                ("3D Vector. The direction of extrusion. Defaults 
+		("3D Vector. The direction of extrusion. Defaults 
 to (the (face-normal-vector :top))" 
-                 axis-vector (the (face-normal-vector :top)))
+		 axis-vector (the (face-normal-vector :top)))
                 
-                ("Number. The distance to extrude the profile along the axis-vector.
+		("Number. The distance to extrude the profile along the axis-vector.
 Defaults to (the height)." 
-                 distance (the height))
+		 distance (the height))
                 
-                ("Number. Overall tolerance for the created brep solid. Defaults to nil.
+		("Number. Overall tolerance for the created brep solid. Defaults to nil.
 Note that a value of nil indicates for SMLib a value of 1.0e-05 of the longest diagonal 
 length of the brep."
-                 brep-tolerance nil))
+		 brep-tolerance nil))
   
   
   :computed-slots ((%native-brep%
-                    (let ((brep (make-brep *geometry-kernel* 
-                                           :tolerance (the brep-tolerance))))            
-                      (add-linear-sweep-primitive
-                       *geometry-kernel* brep 
-                       (if (listp (the profile))
-                           (mapcar #'(lambda(curve) 
-                                       (the-object curve (copy-new :finalize? nil))) 
-                                   (the profile))
-                         
-                         
-                         (list (the profile (copy-new :finalize? nil))))
+		    (if (or (and (atom (the profile))(the profile closed?))
+			    (consp (the profile))
+			    (and (atom (the profile))(> (the profile degree) 1)))
+			(let ((brep (make-brep *geometry-kernel* 
+					       :tolerance (the brep-tolerance))))            
+			  (add-linear-sweep-primitive
+			   *geometry-kernel* brep 
+			   (if (listp (the profile))
+			       (mapcar #'(lambda(curve) 
+					   (the-object curve (copy-new :finalize? nil))) 
+				       (the profile))
+			       (list (the profile (copy-new :finalize? nil))))
                        
-                       (the axis-vector) (the distance)) 
+			   (the axis-vector) (the distance)) 
                       
-                      ;;(iwbrep-sew-faces *geometry-kernel* brep)
-                                    
-                      (tag-edges *geometry-kernel* brep (get-long *geometry-kernel* brep))
+			  (tag-edges *geometry-kernel* brep (get-long *geometry-kernel* brep))
 
-                      (unless (the brep-tolerance) 
-                        (brep-reset-tolerance *geometry-kernel* brep))
-                      brep)))
-  
+			  (unless (the brep-tolerance) 
+			    (brep-reset-tolerance *geometry-kernel* brep))
+			  brep)
+			(the ruled-surface brep %native-brep%))))
+
   :hidden-objects
   ((decomposed-profile :type 'decomposed-curves
-                       :curve-in (the profile))))
+		       :curve-in (the profile))
+   
+   (boxed-profile :type 'boxed-curve
+		  :curve-in (the profile)
+		  :center (translate-along-vector (the profile center)
+						  (the axis-vector)
+						  (the distance)))
+
+   (ruled-surface :type 'ruled-surface
+		  :curve-1 (the profile)
+		  :curve-2 (the boxed-profile))))
 
   

@@ -105,42 +105,43 @@ In ~s, it evaluated to ~s.
    (get-member 
     (index)
     (let ((child-types (the child-types))
-          (array (the array)))
+	  (array (the array)))
       (typecase index
-        (number
-         (if (>= index (length array))
-             (ecase *out-of-bounds-sequence-reference-action*
-               (:error
-                (error "Attempt to access element index ~a in sequence which only has ~a elements, 
+	(number
+	 (if (>= index (length array))
+	     (ecase *out-of-bounds-sequence-reference-action*
+	       (:error
+		(error "Attempt to access element index ~a in sequence which only has ~a elements, 
 
 the root-path to the sequence is ~s." 
-                       index (length array) (cons 'the (reverse (the root-path)))))
-               (:warn
-                (warn "Attempt to access element index ~a in sequence which only has ~a elements -- 
+		       index (length array) (cons 'the (reverse (the root-path)))))
+	       (:warn
+		(warn "Attempt to access element index ~a in sequence which only has ~a elements -- 
 
 the root-path to the sequence is ~s.
 
   *********** returning nil ************. 
 
 " 
-                       index (length array) (cons 'the (reverse (the root-path)))))
-               (:silent nil))
-           (or (aref array index)
-               (setf (aref array index)
-                 (make-object-internal (if (atom child-types)
-                                           child-types
-                                         (or (nth index child-types)
-                                             (first 
-                                              (last child-types))))
-                                       :%name% (list (glisp:intern (symbol-name (the :name-for-display)) :gdl-acc) nil t)
-                                       :%parent% (list (the :parent) nil t)
-                                       :%root% (gdl-acc::%root% self)
-                                       :%aggregate% (list self nil t)
-                                       :%index% (list index nil t))))))
-        (keyword
-         (ecase index
-           (:first (the :first))
-           (:last  (the :last)))))))))
+		      index (length array) (cons 'the (reverse (the root-path)))))
+	       (:silent nil))
+	     (or (aref array index)
+
+		 (setf (aref array index)
+		       (make-object-internal (if (atom child-types)
+						 child-types
+						 (or (nth index child-types)
+						     (first 
+						      (last child-types))))
+					     :%name% (list (glisp:intern (symbol-name (the :name-for-display)) :gdl-acc) nil t)
+					     :%parent% (list (the :parent) nil t)
+					     :%root% (gdl-acc::%root% self)
+					     :%aggregate% (list self nil t)
+					     :%index% (list index nil t))))))
+	(keyword
+	 (ecase index
+	   (:first (the :first))
+	   (:last  (the :last)))))))))
 
 
 ;; FLAG -- this needs a lot of work -- have to truly get rid of

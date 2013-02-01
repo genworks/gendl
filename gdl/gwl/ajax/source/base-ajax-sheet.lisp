@@ -162,7 +162,9 @@ in the applicable lens for  html-format."
                 ("String or nil. Names the value of class attribute for the body tag. Default is nil."
                  body-class nil)
 
-                (body-onload nil)
+                ("String of Javascript or nil. This Javascript will go into the :onload event of the body.
+Default is nil."
+		 body-onload nil)
                 
                 ("String or nil. Contains the string for the doctype at the top of the document. Default is:
  

@@ -21,6 +21,7 @@
     (pushnew (list definition-keywords 0 font-lock-keyword-face) lisp-font-lock-keywords)
     (pushnew (list keyword-keywords 0 font-lock-type-face) lisp-font-lock-keywords)))
 
+(add-gdl-font-lock-keywords)
 
 (defmacro defindent (name indentation)
   (let* ((keyword-list '(lisp-font-lock-keywords t t t nil nil nil "&allow-other-keys"))
@@ -36,7 +37,7 @@
   (defindent defcompanion (like define-object)))
 
 
-(add-gdl-font-lock-keywords)
+
 (gdl:define-indents)
 (setq font-lock-verbose nil)
 

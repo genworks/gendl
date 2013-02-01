@@ -273,7 +273,7 @@
 
 (defmacro w-o-interrupts (&body body)
   (format t  "~&NOTE: Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else in glisp:w-o-interrupts.~%")
-  #-(or allegro lispworks cmu sbcl ccl) (error "Need implementation for without-interrupts for currently running lisp.~%")
+  #-(or allegro lispworks cmu sbcl ccl abcl) (error "Need implementation for without-interrupts for currently running lisp.~%")
   `(#+allegro  excl:without-interrupts
     #+lispworks progn
     #+ccl progn
