@@ -778,7 +778,7 @@ toplevel inputs as specified in the snapshot file.
 
 
 (defun add-notify-cons (notify-cons value &optional self message)
-  (when nil ;;(and self message)
+  (when (and self message)
     (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
       (when (and (consp aggregate)
 		 (not (consp (gdl-acc::%aggregate% self))))
