@@ -541,6 +541,18 @@ and moments for the brep. The moments are labeled as: :area-static-moments, :are
     (&key (tolerance (the adaptive-tolerance)))
     (brep-compute-precise-properties *geometry-kernel* self tolerance))
 
+   ("Plist with keys: :area, :volume, :mass, :moments. Returns the area, volume, mass, 
+and moments for the brep. The moments are labeled as: :area-static-moments, :area-moments-of-inertia, 
+:area-products-of-inertia, :area-second-moment-about-coordinate-axii, :volume-static-moments, 
+:volume-moments-of-inertia, :volume-products-of-inertia, and  :volume-second-moment-about-coordinate-axii.
+
+:&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"    
+    precise-properties-plist
+    (&key (tolerance (the adaptive-tolerance)))
+    (multiple-value-bind (area volume mass moments)
+	(brep-compute-precise-properties *geometry-kernel* self tolerance)
+      (list :area area :volume volume :mass mass :moments moments)))
+
    ("Plist with keys: :area, :volume, :barycenter. Returns the approximate area, volume, 
 and barycenter (center of mass) for the brep. These are computed with tessellation techniques, 
 which may be less precise than the analytic techniques used in precise-properties, but should
@@ -550,7 +562,7 @@ be faster to compute and exhibit more stability.
     properties 
     (&key (edge-tess-tolerance (the adaptive-tolerance))
           (face-tess-tolerance (the adaptive-tolerance)))
-    (brep-compute-properties *geometry-kernel* self :edge-tess-toleance edge-tess-tolerance 
+    (brep-compute-properties *geometry-kernel* self :edge-tess-tolerance edge-tess-tolerance 
 			     :face-tess-tolerance face-tess-tolerance))
    
    ("Number. Area covered by the faces of the brep.
