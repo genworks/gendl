@@ -110,13 +110,30 @@
 	  (:item (:texttt "Rear") " for the " (:textbf "positive Y") " direction")
 	  (:item (:texttt "Front") " for the " (:textbf "negative Y") " direction")
 	  (:item (:texttt "Top") " for the " (:textbf "positive Z") " direction")
-	  (:item (:texttt "Bottom") " for the " (:textbf "negative Z") " direction")))
+	  (:item (:texttt "Bottom") " for the " (:textbf "negative Z") " direction"))))
 
 
+    ((:section :title "Building a Geometric Gendl Model from LLPs")
 
+     "The simplest geometric entity in Gendl is a "
+     (:texttt "box")
+     ", and in fact all entities are associated with an imaginary "
+     (:emph "reference box")
+     "which shares the same slots as a normal box. The "
+     (:texttt "box")
+     " primitive type in Gendl inherits its inputs from "
+     (:texttt "base-coordinate-system")
+     ", and the fundamental inputs are:"
+     ((:list :style :itemize)
+      (:item (:texttt "center") " Default: " (:texttt "#(0.0 0.0 0.0)"))
+      (:item (:texttt "orientation") " Default: " (:texttt "nil"))
+      (:item (:texttt "height") " Default: " (:texttt "0"))
+      (:item (:texttt "length") " Default: " (:texttt "0"))
+      (:item (:texttt "width") " Default: " (:texttt "0"))))
+    
 
      
      
 
-     )))
+     ))
 

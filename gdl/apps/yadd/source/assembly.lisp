@@ -106,7 +106,12 @@ This list defaults to standard internal and test packages"
    
    (title "GDL Reference Documentation")
    
-   )
+   
+   (dom-chapter `((:chapter :title "Gendl Reference")
+		  ,@(mapcar #'(lambda(package)
+				`((:section :title ,(the-object package strings-for-display-verbose))
+				  (:p "Here we go...")))
+			    (list-elements (the package-dokumentations))))))
 
 
   :trickle-down-slots

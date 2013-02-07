@@ -418,7 +418,7 @@
 	   (rotation (when local (matrix-to-rotation local))))
     
     (cl-who:with-html-output (*stream* nil :indent t)
-      (:|Transform| :rotation (when rotation (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
+      (:|Transform| :|rotation| (when rotation (format nil "~3,7f ~3,7f ~3,7f ~3,7f" (get-x rotation) (get-y rotation) (get-z rotation) (get-w rotation)))
 	,@body))))
 
 
@@ -488,7 +488,7 @@
    (shape
     ()
     (if (the simple?)
-	(with-corrected-orientation
+	(cl-who:with-html-output (*stream* nil :indent nil) ;;with-corrected-orientation
 	    (:|Shape|
 	      (:|Appearance| (write-the material-properties))
 	      (:|Cone| :|bottomRadius| (to-double-float (the radius-1))
@@ -536,7 +536,7 @@
   :output-functions
   ((shape
     ()
-    (with-corrected-orientation 
+    (cl-who:with-html-output (*stream* nil :indent nil) ;;with-corrected-orientation 
 	(:|Shape|
 	  (:|Appearance| (write-the material-properties))
 	  ((:|Box| 

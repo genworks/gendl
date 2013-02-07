@@ -33,9 +33,11 @@
 
   \indexspace
 
-  \item gdl-ajax-call, \hyperpage{56}
+  \item gdl-ajax-call, \hyperpage{58}
   \item gdl-user(1): , \hyperpage{9}
   \item Genworks Gendl Console, \hyperpage{7}
+  \item geometry
+    \subitem generating, \hyperpage{43}
 
   \indexspace
 
@@ -45,6 +47,11 @@
   \indexspace
 
   \item Knowledge Base System, \hyperpage{1}
+
+  \indexspace
+
+  \item LLPs, \hyperpage{43}
+  \item low-level primitives, \hyperpage{43}
 
   \indexspace
 

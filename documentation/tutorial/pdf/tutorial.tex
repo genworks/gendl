@@ -2319,9 +2319,8 @@ button (see Figure
 
 
 Although Gendl is intended for general-purpose computing, one
-  of its particular strong points is generating geometry and
-  processing geometric entities in various ways. Geometric
-  capabilities are provided by a library of \emph{low-level primitives}, or LLPs. LLPs are pre-defined GenDL objects which you can
+  of its particular strong points is generating \index{geometry!generating}geometry and  processing geometric entities in various ways. Geometric
+  capabilities are provided by a library of \emph{\index{low-level primitives}low-level primitives}, or \index{LLPs}LLPs. LLPs are pre-defined GenDL objects which you can
 	extend by ``mixing in'' with your own definitions, and/or
 	instantiate as child objects in your definitions.
 
@@ -2337,7 +2336,8 @@ The names of the geometric LLPs are in the \texttt{:geom-base} package, and here
 
 \item Simple 3-dimensional primitives include \texttt{box}, \texttt{sphere}, and \texttt{cylinder}.
 
-\itemize{Advanced 3-dimensional primitives (which depend on optional add-on Geometry Kernel module) include \texttt{b-spline-curve}, \texttt{b-spline-surface}, and \texttt{merged-solid}.}
+\item Advanced 3-dimensional primitives (which depend on optional add-on Geometry Kernel module) include \texttt{b-spline-curve}, \texttt{b-spline-surface}, and \texttt{merged-solid}.
+
 \end{itemize}
 
 This chapter will cover the default coordinate system of GenDL as well as the built-in simple 2D and 3D LLPs. Chapter 
@@ -2415,7 +2415,8 @@ Figure
 
 
 Figure 
-\ref{fig:coord-sys-labeled-faces} shows each face of the reference box labeled with its symbolic direction:
+\ref{fig:coord-sys-labeled-faces} shows each face of the reference box 
+labeled with its symbolic direction:
 
 \begin{itemize}
 
@@ -2440,6 +2441,28 @@ Figure
 \end{itemize}
 
 
+
+
+
+\section{Building a Geometric Gendl Model from LLPs}
+
+\label{sec:buildingageometricgendlmodelfromllps}
+
+The simplest geometric entity in Gendl is a \texttt{box}, and in fact all entities are associated with an imaginary \emph{reference box}which shares the same slots as a normal box. The \texttt{box} primitive type in Gendl inherits its inputs from \texttt{base-coordinate-system}, and the fundamental inputs are:
+
+\begin{itemize}
+
+\item \texttt{center} Default: \texttt{\#(0.0 0.0 0.0)}
+
+\item \texttt{orientation} Default: \texttt{nil}
+
+\item \texttt{height} Default: \texttt{0}
+
+\item \texttt{length} Default: \texttt{0}
+
+\item \texttt{width} Default: \texttt{0}
+
+\end{itemize}
 
 
 
@@ -3532,6 +3555,162 @@ from files containing raw Common Lisp code.
 \end{verbatim}
 
 \end{itemize}
+
+
+
+\chapter{Gendl Reference}
+
+\label{chap:gendlreference}
+
+
+
+\section{COM.GENWORKS.DOM }
+
+\label{sec:com.genworks.dom}
+
+
+
+Here we go...
+
+
+
+\section{COM.GENWORKS.DOM-HTML }
+
+\label{sec:com.genworks.dom-html}
+
+
+
+Here we go...
+
+
+
+\section{COM.GENWORKS.DOM-LATEX }
+
+\label{sec:com.genworks.dom-latex}
+
+
+
+Here we go...
+
+
+
+\section{COM.GENWORKS.DOM-WRITERS }
+
+\label{sec:com.genworks.dom-writers}
+
+
+
+Here we go...
+
+
+
+\section{GDL (General-purpose Declarative Language)}
+
+\label{sec:gdl(general-purposedeclarativelanguage)}
+
+
+
+Here we go...
+
+
+
+\section{GDL-USER }
+
+\label{sec:gdl-user}
+
+
+
+Here we go...
+
+
+
+\section{GENDL-DOC }
+
+\label{sec:gendl-doc}
+
+
+
+Here we go...
+
+
+
+\section{GEOM-BASE (GDL Base Geometry Module)}
+
+\label{sec:geom-base(gdlbasegeometrymodule)}
+
+
+
+Here we go...
+
+
+
+\section{GWL (Generative Web Language)}
+
+\label{sec:gwl(generativeweblanguage)}
+
+
+
+Here we go...
+
+
+
+\section{JQUERY }
+
+\label{sec:jquery}
+
+
+
+Here we go...
+
+
+
+\section{RAPHAEL }
+
+\label{sec:raphael}
+
+
+
+Here we go...
+
+
+
+\section{ROBOT }
+
+\label{sec:robot}
+
+
+
+Here we go...
+
+
+
+\section{SURF (GDL NURBS Surface and Solids Facility)}
+
+\label{sec:surf(gdlnurbssurfaceandsolidsfacility)}
+
+
+
+Here we go...
+
+
+
+\section{TREE }
+
+\label{sec:tree}
+
+
+
+Here we go...
+
+
+
+\section{YADD (GDL/GWL Documentation Facility)}
+
+\label{sec:yadd(gdl/gwldocumentationfacility)}
+
+
+
+Here we go...
 
 
 
