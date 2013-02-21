@@ -18,6 +18,7 @@
 (defparameter *c* nil)
 (defparameter *d* nil)
 
+(defparameter *all-exprs* nil)
 
 (defun twenty-four (a b c d &key (target 24))
   
@@ -107,7 +108,7 @@
 	       :nums (rest (the nums)))))
 
 
-(defparameter *all-exprs* (append (the-object (make-object 'twenty-four) all-exprs) (flat-exprs) ))
+(setq *all-exprs* (append (the-object (make-object 'twenty-four) all-exprs) (flat-exprs) ))
 
 
 

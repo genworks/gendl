@@ -23,6 +23,7 @@
 (in-package :www.genworks.com)
 
 (defparameter *smtp-server* "smtp.comcast.net")
+(defparameter *licensed-emails* nil)
 
 (define-object contact-us (base-site-sheet)
 
@@ -149,5 +150,5 @@ provide the appropriate level of service.")
 
 
 
-(defparameter *licensed-emails* nil)
+
    
