@@ -21,10 +21,6 @@
 
 (in-package :surf)
 
-
-(eval-when (:compile-toplevel :load-toplevel :execute) (ql:quickload :uffi))
-
-
 (define-lens (nurbs vanilla-mixin)()
   :output-functions
   ((cad-output-tree ()

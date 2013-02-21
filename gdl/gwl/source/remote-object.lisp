@@ -40,7 +40,7 @@
                                      (read-safe-string (net.aserve.client:do-http-request 
                                                            (format nil "http://~a:~a/make-remote-object?args=~a"
                                                                    (the host) (the port) encoded-args)))))
-                                (the (set-slot! :previous-id new-id :remember? nil))
+                                (the (set-slot! :previous-id new-id :remember? nil :warn-on-non-toplevel? nil))
                                 new-id))) :settable))
 
   
@@ -149,7 +149,7 @@
                       (eql (second result) :no-such-object))
                  (progn
                    (warn "~&Remote object returned error, creating a new one...~%")
-                   (the (set-slot! :remote-id nil))
+                   (the (set-slot! :remote-id nil :warn-on-non-toplevel? nil))
                    (the (restore-slot-default! :remote-id))
                    (the (send (:apply (cons message args))))))
                 ((and (consp result) (eql (first result) :error))
@@ -224,7 +224,7 @@
   (let ((id (or (the-object item root local-remote-id)
                 (let ((new-id (make-keyword (make-new-instance-id))))
                   (setf (gethash new-id *remote-objects-hash*) (the-object item root))
-                  (the-object item root (set-slot! :local-remote-id new-id :remember? nil))
+                  (the-object item root (set-slot! :local-remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
                   new-id))))
     (encode-object-for-http item id)))
 
@@ -232,7 +232,7 @@
   (let ((id (or (the-object item root remote-id)
                 (let ((new-id (make-keyword (make-new-instance-id))))
                   (setf (gethash new-id *remote-objects-hash*) (the-object item root))
-                  (the-object item root (set-slot! :remote-id new-id :remember? nil))
+                  (the-object item root (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
                   new-id))))
     (encode-object-for-http item id)))
 

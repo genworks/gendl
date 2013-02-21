@@ -205,9 +205,9 @@
                                               :type (read-safe-string (getf args-list :type))))
                          (new-id (make-keyword (make-new-instance-id))))
                                
-                     (the-object object (set-slot! :%name% name))
-                     (the-object object (set-slot! :remote-id new-id :remember? nil))
-                     (the-object object (set-slot! :%index% index))
+                     (the-object object (set-slot! :%name% name :warn-on-non-toplevel? nil))
+                     (the-object object (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
+                     (the-object object (set-slot! :%index% index :warn-on-non-toplevel? nil))
                      (setf (slot-value object 'gdl-acc::%parent%) 
                        (list (evaluate-object (first parent-form) (rest parent-form)) nil t))
                      (setf (gethash new-id *remote-objects-hash*) object)

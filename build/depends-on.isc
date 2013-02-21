@@ -1,2 +1,2 @@
-(:gdl-geom-base)
+(:gdl-geom-base :cl-fad)
 

@@ -269,7 +269,8 @@ checkbox-form-control."
       (the (set-slot! :%html-section-root-paths% (pushnew (the-object section root-path)
                                                 html-sections 
                                                 :test #'equalp)
-                      :remember? nil)))
+                      :remember? nil
+		      :warn-on-non-toplevel? nil)))
     
     (when *debug?*
       (format *trace-output* "~&After:~%")

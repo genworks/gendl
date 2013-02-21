@@ -57,7 +57,7 @@
 "
 
 
- Copyright 2002-2011 Genworks International
+ Copyright 2013 Genworks International
 
  This is the General-purpose Declarative Language (GenDL).
 

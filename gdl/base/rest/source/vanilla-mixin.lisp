@@ -423,12 +423,41 @@ as <tt>:settable</tt> for this to work properly. Any dependent slots in the tree
 respond accordingly when they are next demanded. Note that the slot must be specified as a keyword 
 symbol (i.e. prepended with a colon (``:'')), otherwise it will be evaluated as a variable according 
 to normal Lisp functional evaluation rules.
+
+<p>
+Note also that this must not be called (either directly or indirectly)
+from within the body of a Gendl computed-slot. The caching and
+dependency tracking mechanism in Gendl will not work properly if this
+is called from the body of a computed-slot, and furthermore a runtime
+error will be generated.
+</p>
  :arguments (slot \"Keyword Symbol\"
              value \"Lisp Object. (e.g. Number, String, List, etc.)\")
 
  :&key ((remember? t) \"Boolean. Determines whether to save in current version-tree.\")"
     set-slot!
-    (attribute value &key (remember? t))
+    (attribute value &key (remember? t) (warn-on-non-toplevel? t))
+    
+    (when (and warn-on-non-toplevel?
+	       *notify-cons*)
+      (warn "It is not possible to call set-slot! from within dependency-tracking context, e.g. from the body of a computed-slot. 
+Set-slot was called on 
+
+  ~s 
+
+with value 
+
+  ~s
+
+from 
+
+  ~s.~%"
+			       (cons 'the (append (reverse (the root-path))
+						  (list (make-keyword attribute))))
+			       value
+			       (cons 'the (append (reverse (the-object (first *notify-cons*) root-path))
+						  (list (make-keyword (second *notify-cons*)))))))
+    
     (unless (eql attribute :%primary?%)
       (when (not *run-with-dependency-tracking?*)
         (error "Dependency Tracking must be enabled in order to forcibly

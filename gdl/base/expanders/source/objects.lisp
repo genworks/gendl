@@ -107,6 +107,22 @@
 					part-type-symbol
 					name
 					special-keys)
+
+  (when (and part-type-symbol 
+	     (atom part-type-symbol)
+	     (eql part-type-symbol 'remote-object)
+	     (not *compile-for-dgdl?*))
+    
+    (warn "You are compiling an object of type 'remote-oject, 
+and you have *compile-for-dgdl?* set to nil.
+
+You probably want to do 
+
+   (setq gdl:*compile-for-dgdl?* t)
+
+and then compile this again.~%"))
+    
+    
   (when (and part-type-symbol 
 	     (atom part-type-symbol)
 	     (not (eql part-type-symbol 'remote-object)))
