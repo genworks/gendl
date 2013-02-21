@@ -101,11 +101,11 @@
                         (str (the  graphics main-div))
                         (:h2 "Description")
                         (:div :class "scroll"
-                              (:p "This quantification was made based on the next assumption: price of the wind turbine 1 mill/MW and 451/t price of raw steel plates. In the case of transport and installation, an equal value was allocated arbitrary to serve as input for the model implementation. Even though the assumptions reflects the reality with a ± 10% error, the assumed cost structure serves as a reference to develop a parametric model in which the identified manufacturing transport and installation processes are deeply investigated. The presented cost structure is valid just for the existing tower concepts. To account for the new concept, the identified cost structure has to be breaked in its constituent sub-parts (human resources, machining time, machining energy consumption, etc.). The model should be able to substitute processes like longitudinal welding with drilling and bolt-assembly."))))
+                              (:p "This quantification was made based on the next assumption: price of the wind turbine 1 mill/MW and 451/t price of raw steel plates. In the case of transport and installation, an equal value was allocated arbitrary to serve as input for the model implementation. Even though the assumptions reflects the reality with a +/- 10% error, the assumed cost structure serves as a reference to develop a parametric model in which the identified manufacturing transport and installation processes are deeply investigated. The presented cost structure is valid just for the existing tower concepts. To account for the new concept, the identified cost structure has to be breaked in its constituent sub-parts (human resources, machining time, machining energy consumption, etc.). The model should be able to substitute processes like longitudinal welding with drilling and bolt-assembly."))))
             (:div :class"clear")
             (:div :id "footer"
                   (:div :id "copyright"
-                        "Copyright &copy; 2011 Copyright KE-Works S.R.L Romania and Genworks International All right reserved.")
+                        "Copyright &copy; 2013 Copyright KE-Works S.R.L Romania and Genworks International All right reserved.")
                   (:div :id "footerline")
                   )))))     
   
