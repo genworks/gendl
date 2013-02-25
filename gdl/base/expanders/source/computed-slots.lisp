@@ -124,10 +124,13 @@
 	 ;; FLAG -- collect all the trickle-downs and group this at the top in the one eval-when.
 	 ;;
 	 `(eval-when (:compile-toplevel :load-toplevel :execute)
-	    (unless (fboundp ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
-	      (defgeneric ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) (,self-arg &rest ,args-arg)))
-	    (unless (fboundp ',(glisp:intern (symbol-name slot) :gdl-slots))
-	      (defgeneric ,(glisp:intern (symbol-name slot) :gdl-slots) (,self-arg &rest ,args-arg))))
+	    ,@(remove 
+	       nil
+	       `((unless (fboundp ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
+		   (defgeneric ,(glisp:intern (symbol-name slot) :gdl-trickle-downs) (,self-arg &rest ,args-arg)))
+		 ,(unless from-objects?
+			  `(unless (fboundp ',(glisp:intern (symbol-name slot) :gdl-slots))
+			     (defgeneric ,(glisp:intern (symbol-name slot) :gdl-slots) (,self-arg &rest ,args-arg)))))))
 
 	 `(unless (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-trickle-downs))
 			       nil (list (find-class 'gdl-basis)) nil)

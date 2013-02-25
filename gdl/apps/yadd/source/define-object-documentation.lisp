@@ -121,7 +121,6 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 
   :computed-slots
   (
-   
    (main-sheet-body
     (with-cl-who-string ()
       (str (the main-section main-div))))
@@ -297,6 +296,9 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
   
   :functions
   (   
+   (dom-body
+    ()
+    `(:p "Mixins: " ,@(mapcar #'(lambda (sym) (string sym)) (the mixins-list))))
 
 
    (write-documentation

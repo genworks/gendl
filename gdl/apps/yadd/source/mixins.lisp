@@ -76,7 +76,9 @@ The javascript loaded is jquery."
                 (:i "User Code Packages copyright &copy; their respective authors"))))))
   
   :functions
-  ((compute-url
+  ((dom-body () "")
+
+   (compute-url
     ()
     (the descriptive-url))
    
@@ -246,7 +248,31 @@ The javascript loaded is jquery."
                            :pass-down (:return-object)))
 
   :functions
-  ((write-documentation-links
+  ((dom-subsections
+    nil
+    (let ((documentations
+           (safe-sort (the :doks) #'string-lessp :key
+                      #'(lambda (obj)
+                          (format nil "~a" (the-object obj :symbol))))))
+      (when documentations
+	`((:subsection :title ,(the :heading))
+	  ((:list :style :itemize)
+	   ,@(mapcar #'(lambda(documentation) 
+			 (remove nil 
+				 `(:item 
+				      (:index ,(format nil "~a" (the-object documentation symbol)))
+				    ,(format nil "~a~a"
+					     (the-object documentation symbol)
+					     (if (the-object documentation :macro?)
+						 " [Macro]" ""))
+
+				    ,(the-object documentation dom-body))))
+		     documentations))))))
+
+
+
+
+   (write-documentation-links
     nil
     (let ((documentations
            (safe-sort (the :doks) #'string-lessp :key

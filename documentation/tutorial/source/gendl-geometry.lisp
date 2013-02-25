@@ -56,7 +56,7 @@
 	   (:texttt "cylinder")
 	   ".")
 
-	 (:itemize "Advanced 3-dimensional primitives (which depend on optional add-on Geometry Kernel module) include "
+	 (:item "Advanced 3-dimensional primitives (which depend on optional add-on Geometry Kernel module) include "
 	   (:texttt "b-spline-curve")
 	   ", "
 	   (:texttt "b-spline-surface")

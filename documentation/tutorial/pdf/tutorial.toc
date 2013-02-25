@@ -76,18 +76,27 @@
 \contentsline {chapter}{\numberline {9}More Common Lisp for Gendl}{61}{chapter.9}
 \contentsline {chapter}{\numberline {10}Advanced Gendl}{63}{chapter.10}
 \contentsline {chapter}{\numberline {11}Gendl Reference}{67}{chapter.11}
-\contentsline {section}{\numberline {11.1}COM.GENWORKS.DOM }{67}{section.11.1}
-\contentsline {section}{\numberline {11.2}COM.GENWORKS.DOM-HTML }{67}{section.11.2}
-\contentsline {section}{\numberline {11.3}COM.GENWORKS.DOM-LATEX }{67}{section.11.3}
-\contentsline {section}{\numberline {11.4}COM.GENWORKS.DOM-WRITERS }{67}{section.11.4}
-\contentsline {section}{\numberline {11.5}GDL (General-purpose Declarative Language)}{67}{section.11.5}
-\contentsline {section}{\numberline {11.6}GDL-USER }{67}{section.11.6}
-\contentsline {section}{\numberline {11.7}GENDL-DOC }{67}{section.11.7}
-\contentsline {section}{\numberline {11.8}GEOM-BASE (GDL Base Geometry Module)}{68}{section.11.8}
-\contentsline {section}{\numberline {11.9}GWL (Generative Web Language)}{68}{section.11.9}
-\contentsline {section}{\numberline {11.10}JQUERY }{68}{section.11.10}
-\contentsline {section}{\numberline {11.11}RAPHAEL }{68}{section.11.11}
-\contentsline {section}{\numberline {11.12}ROBOT }{68}{section.11.12}
-\contentsline {section}{\numberline {11.13}SURF (GDL NURBS Surface and Solids Facility)}{68}{section.11.13}
-\contentsline {section}{\numberline {11.14}TREE }{68}{section.11.14}
-\contentsline {section}{\numberline {11.15}YADD (GDL/GWL Documentation Facility)}{68}{section.11.15}
+\contentsline {section}{\numberline {11.1}ENT }{67}{section.11.1}
+\contentsline {section}{\numberline {11.2}GDL (General-purpose Declarative Language)}{67}{section.11.2}
+\contentsline {subsection}{\numberline {11.2.1}Object Definitions}{67}{subsection.11.2.1}
+\contentsline {subsection}{\numberline {11.2.2}Function and Macro Definitions}{67}{subsection.11.2.2}
+\contentsline {subsection}{\numberline {11.2.3}Variables and Constants}{70}{subsection.11.2.3}
+\contentsline {section}{\numberline {11.3}GDL-BUILD }{71}{section.11.3}
+\contentsline {subsection}{\numberline {11.3.1}Object Definitions}{71}{subsection.11.3.1}
+\contentsline {section}{\numberline {11.4}GDL-USER }{71}{section.11.4}
+\contentsline {section}{\numberline {11.5}GENDL-DOC }{71}{section.11.5}
+\contentsline {section}{\numberline {11.6}GEOM-BASE (GDL Base Geometry Module)}{71}{section.11.6}
+\contentsline {subsection}{\numberline {11.6.1}Object Definitions}{71}{subsection.11.6.1}
+\contentsline {subsection}{\numberline {11.6.2}Function and Macro Definitions}{73}{subsection.11.6.2}
+\contentsline {subsection}{\numberline {11.6.3}Variables and Constants}{75}{subsection.11.6.3}
+\contentsline {section}{\numberline {11.7}GWL (Generative Web Language)}{75}{section.11.7}
+\contentsline {subsection}{\numberline {11.7.1}Object Definitions}{75}{subsection.11.7.1}
+\contentsline {subsection}{\numberline {11.7.2}Function and Macro Definitions}{76}{subsection.11.7.2}
+\contentsline {subsection}{\numberline {11.7.3}Variables and Constants}{77}{subsection.11.7.3}
+\contentsline {section}{\numberline {11.8}RAPHAEL }{77}{section.11.8}
+\contentsline {section}{\numberline {11.9}ROBOT }{77}{section.11.9}
+\contentsline {section}{\numberline {11.10}SURF (GDL NURBS Surface and Solids Facility)}{77}{section.11.10}
+\contentsline {section}{\numberline {11.11}TREE }{77}{section.11.11}
+\contentsline {subsection}{\numberline {11.11.1}Object Definitions}{77}{subsection.11.11.1}
+\contentsline {section}{\numberline {11.12}YADD (GDL/GWL Documentation Facility)}{78}{section.11.12}
+\contentsline {subsection}{\numberline {11.12.1}Object Definitions}{78}{subsection.11.12.1}

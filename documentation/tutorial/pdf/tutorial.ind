@@ -1,48 +1,191 @@
 \begin{theindex}
 
+  \item *BREAK-LEADERS?*, \hyperpage{75}
+  \item *BREAK-ON-SET-SELF?*, \hyperpage{77}
+  \item *BYPASS-SECURITY-CHECK?*, \hyperpage{77}
+  \item *COLOR-PLIST*, \hyperpage{70}
+  \item *COLOR-TABLE*, \hyperpage{70}
+  \item *COLOR-TABLE-DECIMAL*, \hyperpage{70}
+  \item *COLORS-DEFAULT*, \hyperpage{70}
+  \item *COMPILE-CIRCULAR-REFERENCE-DETECTION?*, \hyperpage{70}
+  \item *COMPILE-DEPENDENCY-TRACKING?*, \hyperpage{70}
+  \item *COMPILE-DOCUMENTATION-DATABASE?*, \hyperpage{70}
+  \item *COMPILE-FOR-DGDL?*, \hyperpage{70}
+  \item *COMPILE-SOURCE-CODE-DATABASE?*, \hyperpage{70}
+  \item *CURVE-CHORDS*, \hyperpage{70}
+  \item *DEVELOPING?*, \hyperpage{77}
+  \item *ENSURE-LISTS-WHEN-BASHING?*, \hyperpage{70}
+  \item *ENT*, \hyperpage{77}
+  \item *FAILED-REQUEST-URL*, \hyperpage{77}
+  \item *GS-GRAPHICS-ALPHA-BITS*, \hyperpage{75}
+  \item *GS-TEXT-ALPHA-BITS*, \hyperpage{75}
+  \item *HASH-TRANSFORMS?*, \hyperpage{75}
+  \item *INSTANCE-HASH-TABLE*, \hyperpage{77}
+  \item *JUMP-TO-TOPLEVEL-ON-SET-SELF?*, \hyperpage{77}
+  \item *LOAD-DOCUMENTATION-DATABASE?*, \hyperpage{70}
+  \item *LOAD-SOURCE-CODE-DATABASE?*, \hyperpage{70}
+  \item *MAX-ID-VALUE*, \hyperpage{77}
+  \item *OUT-OF-BOUNDS-SEQUENCE-REFERENCE-ACTION*, \hyperpage{70}
+  \item *QUERY*, \hyperpage{77}
+  \item *REAP-EXPIRED-SESSIONS?*, \hyperpage{77}
+  \item *RECOVERY-URL-DEFAULT*, \hyperpage{77}
+  \item *REMEMBER-PREVIOUS-SLOT-VALUES?*, \hyperpage{70}
+  \item *REQ*, \hyperpage{77}
+  \item *ROOT-CHECKING-ENABLED?*, \hyperpage{70}
+  \item *RUN-WITH-CIRCULAR-REFERENCE-DETECTION?*, \hyperpage{70}
+  \item *RUN-WITH-DEPENDENCY-TRACKING?*, \hyperpage{70}
+  \item *UNDECLARED-PARAMETERS-ENABLED?*, \hyperpage{70}
+  \item *ZERO-EPSILON*, \hyperpage{70}
+  \item *ZERO-VECTOR-CHECKING?*, \hyperpage{75}
   \item *slime-repl...*, \hyperpage{9}
+  \item +PHI+, \hyperpage{71}
+  \item +POSTNET-BITS+, \hyperpage{75}
   \item :size, \hyperpage{33}
+  \item ^2, \hyperpage{70}
+  \item 2PI, \hyperpage{71}
+  \item 3D-DISTANCE, \hyperpage{73}
+  \item 3D-VECTOR-TO-ARRAY, \hyperpage{73}
 
   \indexspace
 
+  \item ACOSD, \hyperpage{73}
+  \item ADD-MATRICES, \hyperpage{73}
+  \item ADD-VECTORS, \hyperpage{73}
   \item AJAX, \hyperpage{55}
+  \item ALIGNMENT, \hyperpage{73}
+  \item ALIST2PLIST, \hyperpage{67}
+  \item ALWAYS, \hyperpage{67}
+  \item ANGLE-BETWEEN-VECTORS, \hyperpage{73}
+  \item ANGLE-BETWEEN-VECTORS-D, \hyperpage{73}
+  \item ANGULAR-DIMENSION, \hyperpage{71}
+  \item APP, \hyperpage{71}
+  \item APPEND-ELEMENTS, \hyperpage{67}
+  \item APPLICATION-MIXIN, \hyperpage{75}
+  \item APPLY-MAKE-POINT, \hyperpage{73}
+  \item ARC, \hyperpage{71}
+  \item ARCOID-MIXIN, \hyperpage{71}
+  \item ARRAY-TO-3D-VECTOR, \hyperpage{73}
+  \item ARRAY-TO-LIST, \hyperpage{73}
+  \item ASIND, \hyperpage{73}
+  \item ASSEMBLY, \hyperpage{78}
+  \item ATAND, \hyperpage{73}
 
   \indexspace
 
+  \item BASE-AJAX-GRAPHICS-SHEET, \hyperpage{75}
+  \item BASE-AJAX-SHEET, \hyperpage{75}
+  \item BASE-COORDINATE-SYSTEM, \hyperpage{71}
+  \item BASE-DRAWING, \hyperpage{71}
+  \item BASE-FORM-CONTROL, \hyperpage{75}
+  \item BASE-HTML-GRAPHICS-SHEET, \hyperpage{75}
+  \item BASE-HTML-SHEET, \hyperpage{75}
+  \item BASE-OBJECT, \hyperpage{71}
+  \item BASE-RULE-OBJECT, \hyperpage{67}
+  \item BASE-VIEW, \hyperpage{71}
+  \item BASE-YADD-SHEET, \hyperpage{78}
+  \item BASE64-DECODE-LIST, \hyperpage{76}
+  \item BASE64-DECODE-SAFE, \hyperpage{76}
+  \item BASE64-ENCODE-LIST, \hyperpage{76}
+  \item BASE64-ENCODE-SAFE, \hyperpage{76}
   \item Basic Lisp Techniques, \hyperpage{2}
+  \item BEZIER-CURVE, \hyperpage{71}
+  \item BOX, \hyperpage{71}
 
   \indexspace
 
+  \item C-CYLINDER, \hyperpage{71}
   \item Caching, \hyperpage{1}
+  \item CENTER-LINE, \hyperpage{71}
+  \item CHECKBOX-FORM-CONTROL, \hyperpage{76}
+  \item CIRCLE, \hyperpage{71}
+  \item CL-LITE, \hyperpage{67}
+  \item CL-PATCH, \hyperpage{67}
+  \item CLEAR-ALL-INSTANCES, \hyperpage{76}
+  \item CLEAR-INSTANCE, \hyperpage{76}
+  \item CLEAR-OLD-TIMERS, \hyperpage{76}
+  \item CODEBASE-DIRECTORY-NODE, \hyperpage{67}
+  \item COINCIDENT-POINT?, \hyperpage{73}
   \item Common Lisp, \hyperpage{2}
   \item compiled language
     \subitem benefits of, \hyperpage{2}
   \item computed-slots, \hyperpage{30}
+  \item CONE, \hyperpage{71}
   \item containment
     \subitem object, \hyperpage{32}
+  \item CREATE-OBLIQUENESS, \hyperpage{73}
+  \item CROSS-VECTORS, \hyperpage{73}
+  \item CYCLIC-NTH, \hyperpage{67}
+  \item CYLINDER, \hyperpage{71}
 
   \indexspace
 
   \item declarative, \hyperpage{2}
+  \item DEFAULTING, \hyperpage{68}
+  \item DEFINE-FORMAT, \hyperpage{68}
+  \item DEFINE-LENS, \hyperpage{68}
+  \item DEFINE-OBJECT, \hyperpage{68}
   \item Define-object, \hyperpage{30}
+  \item DEFINE-OBJECT-AMENDMENT, \hyperpage{68}
+  \item DEGREE, \hyperpage{73}
+  \item DEGREES-TO-RADIANS, \hyperpage{73}
   \item Dependency tracking, \hyperpage{1}
+  \item DISTANCE-TO-LINE, \hyperpage{73}
+  \item DIV, \hyperpage{68}
+  \item DOT-VECTORS, \hyperpage{73}
 
   \indexspace
 
+  \item ELLIPSE, \hyperpage{71}
+  \item ENSURE-LIST, \hyperpage{68}
+  \item EQUI-SPACE-POINTS, \hyperpage{73}
+
+  \indexspace
+
+  \item FIND-MESSAGES-USED-BY, \hyperpage{68}
+  \item FIND-MESSAGES-WHICH-USE, \hyperpage{68}
+  \item FLATTEN, \hyperpage{68}
+  \item FORMAT-SLOT, \hyperpage{68}
+  \item FROUND-TO-NEAREST, \hyperpage{68}
   \item functions, \hyperpage{30}
 
   \indexspace
 
   \item gdl-ajax-call, \hyperpage{58}
   \item gdl-user(1): , \hyperpage{9}
+  \item GENERAL-NOTE, \hyperpage{71}
   \item Genworks Gendl Console, \hyperpage{7}
-  \item geometry
-    \subitem generating, \hyperpage{43}
+  \item GEOMETRY-VIEW-MIXIN, \hyperpage{76}
+  \item GET-U, \hyperpage{73}
+  \item GET-V, \hyperpage{73}
+  \item GET-W, \hyperpage{73}
+  \item GET-X, \hyperpage{73}
+  \item GET-Y, \hyperpage{73}
+  \item GET-Z, \hyperpage{73}
+  \item GLOBAL-FILLETED-POLYGON-PROJECTION, \hyperpage{72}
+  \item GLOBAL-FILLETED-POLYLINE, \hyperpage{72}
+  \item GLOBAL-FILLETED-POLYLINE-MIXIN, \hyperpage{72}
+  \item GLOBAL-POLYGON-PROJECTION, \hyperpage{72}
+  \item GLOBAL-POLYLINE, \hyperpage{72}
+  \item GLOBAL-POLYLINE-MIXIN, \hyperpage{72}
+  \item GRID-FORM-CONTROL, \hyperpage{76}
+  \item GWL-MAKE-OBJECT, \hyperpage{76}
+  \item GWL-RULE-OBJECT, \hyperpage{76}
+
+  \indexspace
+
+  \item HALF, \hyperpage{68}
+  \item HORIZONTAL-DIMENSION, \hyperpage{72}
 
   \indexspace
 
   \item Ignorance-based Engineering, \hyperpage{1}
+  \item IGNORE-ERRORS-WITH-BACKTRACE, \hyperpage{68}
+  \item INDEX-FILTER, \hyperpage{68}
   \item input-slots, \hyperpage{30}
+  \item INTER-CIRCLE-SPHERE, \hyperpage{74}
+  \item INTER-LINE-PLANE, \hyperpage{74}
+  \item INTER-LINE-SPHERE, \hyperpage{74}
+  \item ISO-8601-DATE, \hyperpage{68}
 
   \indexspace
 
@@ -50,16 +193,53 @@
 
   \indexspace
 
-  \item LLPs, \hyperpage{43}
-  \item low-level primitives, \hyperpage{43}
+  \item LABEL, \hyperpage{72}
+  \item LASTCAR, \hyperpage{68}
+  \item LAYOUT-MIXIN, \hyperpage{76}
+  \item LEADER-LINE, \hyperpage{72}
+  \item LEAST, \hyperpage{68}
+  \item LENGTH-VECTOR, \hyperpage{74}
+  \item LINE, \hyperpage{72}
+  \item LINEAR-DIMENSION, \hyperpage{72}
+  \item LIST-ELEMENTS, \hyperpage{68}
+  \item LIST-OF-NUMBERS, \hyperpage{68}
 
   \indexspace
 
   \item macros
     \subitem code-expanding, \hyperpage{2}
   \item make-instance, \hyperpage{31}
+  \item MAKE-KEYWORD, \hyperpage{68}
+  \item MAKE-OBJECT, \hyperpage{68}
   \item make-object, \hyperpage{31}
+  \item MAKE-POINT, \hyperpage{74}
+  \item MAKE-TRANSFORM, \hyperpage{74}
+  \item MAKE-VECTOR, \hyperpage{74}
+  \item MAPSEND, \hyperpage{68}
+  \item MAPTREE, \hyperpage{68}
+  \item MASTER-INDEX, \hyperpage{78}
+  \item MATRIX*VECTOR, \hyperpage{74}
+  \item MATRIX-SEQUENCE, \hyperpage{67}
+  \item MATRIX-TO-QUATERNION, \hyperpage{74}
+  \item MAX-OF-ELEMENTS, \hyperpage{68}
+  \item MENU-FORM-CONTROL, \hyperpage{76}
+  \item MERGE-DISPLAY-CONTROLS, \hyperpage{74}
+  \item MIDPOINT, \hyperpage{74}
+  \item MIN-OF-ELEMENTS, \hyperpage{68}
   \item mixin-list, \hyperpage{30}
+  \item MOST, \hyperpage{68}
+  \item MULTIPLY-MATRICES, \hyperpage{74}
+
+  \indexspace
+
+  \item NEAR-TO?, \hyperpage{68}
+  \item NEAR-ZERO?, \hyperpage{69}
+  \item NEVER, \hyperpage{69}
+  \item NEWERTREE, \hyperpage{77}
+  \item NODE-MIXIN, \hyperpage{76}
+  \item NULL-OBJECT, \hyperpage{67}
+  \item NUMBER-FORMAT, \hyperpage{69}
+  \item NUMBER-ROUND, \hyperpage{69}
 
   \indexspace
 
@@ -73,21 +253,133 @@
     \subitem child, \hyperpage{32}
     \subitem contained, \hyperpage{32}
     \subitem defining, \hyperpage{30}
+  \item ORTHOGONAL-COMPONENT, \hyperpage{74}
 
   \indexspace
 
+  \item PACKAGE-DOKUMENTATION, \hyperpage{78}
+  \item PACKAGE-FORM, \hyperpage{78}
+  \item PARALLEL-DIMENSION, \hyperpage{72}
+  \item PARALLEL-VECTORS?, \hyperpage{74}
+  \item PI/2, \hyperpage{71}
+  \item PIE-CHART, \hyperpage{72}
+  \item PLIST-KEYS, \hyperpage{69}
+  \item PLIST-VALUES, \hyperpage{69}
+  \item POINT, \hyperpage{72}
+  \item PRINT-MESSAGES, \hyperpage{69}
+  \item PRINT-VARIABLES, \hyperpage{69}
+  \item PROJ-POINT-ON-LINE, \hyperpage{74}
+  \item PROJECTED-VECTOR, \hyperpage{74}
+  \item PUBLISH-GWL-APP, \hyperpage{76}
+  \item PUBLISH-SHARED, \hyperpage{76}
+  \item PUBLISH-STRING-CONTENT, \hyperpage{76}
+  \item PYTHAGORIZE, \hyperpage{74}
+
+  \indexspace
+
+  \item QUANTIFICATION, \hyperpage{67}
+  \item QUATERNION-TO-MATRIX, \hyperpage{74}
+  \item QUATERNION-TO-ROTATION, \hyperpage{74}
+
+  \indexspace
+
+  \item RADIAL-SEQUENCE, \hyperpage{67}
+  \item RADIANS-TO-DEGREES, \hyperpage{74}
+  \item RADIANS-TO-GRADS, \hyperpage{74}
+  \item RADIO-FORM-CONTROL, \hyperpage{76}
+  \item READ-SAFE-STRING, \hyperpage{69}
+  \item READ-SNAPSHOT, \hyperpage{69}
   \item reference chains, \hyperpage{32}
   \item regression tests, \hyperpage{11}
+  \item RELATIVIZE-PATHNAME, \hyperpage{76}
+  \item REMOVE-PLIST-ENTRY, \hyperpage{69}
+  \item RENDERER-MIXIN, \hyperpage{72}
+  \item REVERSE-VECTOR, \hyperpage{74}
+  \item ROLL, \hyperpage{74}
+  \item ROTATE-POINT, \hyperpage{74}
+  \item ROTATE-POINT-D, \hyperpage{74}
+  \item ROTATE-VECTOR, \hyperpage{74}
+  \item ROTATE-VECTOR-D, \hyperpage{74}
+  \item ROTATION, \hyperpage{74}
+  \item ROUND-TO-NEAREST, \hyperpage{69}
+  \item ROUTE-PIPE, \hyperpage{72}
 
   \indexspace
 
+  \item SAFE-FLOAT, \hyperpage{69}
+  \item SAFE-SORT, \hyperpage{69}
+  \item SAME-DIRECTION-VECTORS?, \hyperpage{75}
+  \item SAMPLE-DRAWING, \hyperpage{72}
+  \item SCALAR*MATRIX, \hyperpage{75}
+  \item SCALAR*VECTOR, \hyperpage{75}
   \item self, \hyperpage{31}
   \item sequences, \hyperpage{33}
+  \item SESSION-CONTROL-AUTO-REFRESH, \hyperpage{77}
+  \item SESSION-CONTROL-MIXIN, \hyperpage{76}
+  \item SESSION-REPORT, \hyperpage{77}
+  \item SET-FORMAT-SLOT, \hyperpage{69}
+  \item SHEET-SECTION, \hyperpage{76}
+  \item SKELETON-FORM-CONTROL, \hyperpage{76}
+  \item SKELETON-UI-ELEMENT, \hyperpage{76}
+  \item SORT-POINTS-ALONG-VECTOR, \hyperpage{75}
   \item specification-plist, \hyperpage{30}
+  \item SPHERE, \hyperpage{72}
+  \item SPHERICAL-CAP, \hyperpage{72}
+  \item SPLIT, \hyperpage{69}
+  \item STANDARD-SEQUENCE, \hyperpage{67}
+  \item STATUS-MESSAGE, \hyperpage{69}
+  \item STRING-APPEND, \hyperpage{69}
+  \item SUBTRACT-VECTORS, \hyperpage{75}
+  \item SUM-ELEMENTS, \hyperpage{69}
 
   \indexspace
 
+  \item TEXT-FORM-CONTROL, \hyperpage{76}
+  \item TEXT-LINE, \hyperpage{72}
+  \item THE, \hyperpage{69}
   \item the, \hyperpage{31}
+  \item THE-CHILD, \hyperpage{69}
+  \item THE-ELEMENT, \hyperpage{69}
+  \item THE-OBJECT, \hyperpage{69}
   \item the-object, \hyperpage{31}
+  \item TORUS, \hyperpage{72}
+  \item TRANSFORM-AND-TRANSLATE-POINT, \hyperpage{75}
+  \item TRANSFORM-NUMERIC-POINT, \hyperpage{75}
+  \item TRANSLATE, \hyperpage{75}
+  \item TRANSLATE-ALONG-VECTOR, \hyperpage{75}
+  \item TRANSPOSE-MATRIX, \hyperpage{75}
+  \item TREE, \hyperpage{77}
+  \item TWICE, \hyperpage{69}
+  \item TYPESET-BLOCK, \hyperpage{72}
+
+  \indexspace
+
+  \item UNDEFINE-OBJECT, \hyperpage{69}
+  \item UNITIZE-VECTOR, \hyperpage{75}
+  \item UNIVERSAL-TIME-FROM-ISO-8601, \hyperpage{69}
+
+  \indexspace
+
+  \item VANILLA-MIXIN*, \hyperpage{67}
+  \item VARIABLE-SEQUENCE, \hyperpage{67}
+  \item VERTICAL-DIMENSION, \hyperpage{72}
+
+  \indexspace
+
+  \item WEB-DRAWING, \hyperpage{76}
+  \item WITH-CL-WHO, \hyperpage{77}
+  \item WITH-CL-WHO-STRING, \hyperpage{77}
+  \item WITH-ERROR-HANDLING, \hyperpage{69}
+  \item WITH-FORMAT, \hyperpage{69}
+  \item WITH-FORMAT-SLOTS, \hyperpage{70}
+  \item WITH-HTML-FORM, \hyperpage{77}
+  \item WRITE-ENV, \hyperpage{70}
+  \item WRITE-PLIST, \hyperpage{70}
+  \item WRITE-THE, \hyperpage{70}
+  \item WRITE-THE-OBJECT, \hyperpage{70}
+
+  \indexspace
+
+  \item ZERO-VECTOR?, \hyperpage{75}
 
 \end{theindex}

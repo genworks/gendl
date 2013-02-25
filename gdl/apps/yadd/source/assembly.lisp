@@ -110,7 +110,7 @@ This list defaults to standard internal and test packages"
    (dom-chapter `((:chapter :title "Gendl Reference")
 		  ,@(mapcar #'(lambda(package)
 				`((:section :title ,(the-object package strings-for-display-verbose))
-				  (:p "Here we go...")))
+				  (:p ,@(remove nil (the-object package dom-section)))))
 			    (list-elements (the package-dokumentations))))))
 
 
@@ -312,6 +312,35 @@ loaderImg: '/static/gwl/tasty-unpix/loader.gif',loaderText: 'Narrowing Down...'}
 
   :functions
   (("Void. Prints to *html-stream* a bulleted list for each of the three categories of docs in the package."
+    dom-section
+    nil
+    (mapcar #'(lambda(child)
+		(the-object child dom-subsections))
+	  (the children))
+
+    #+nil
+    (html (:html
+	    (:head
+	     (the default-header-content)
+	     (:title "The " (:princ (the strings-for-display-verbose)) " Package"))
+	    (:body
+	     (when *developing?* (html (:p (the (write-development-links)))))
+	     (:p (the (:write-back-link :display-string "Documentation Home")))
+	     (:p
+	      (:center (:h2 (:princ (the :title)))
+		       (when (package-nicknames (the :package-key))
+			 (html (:i
+				(format *html-stream* "a.k.a. ~{~:(~a~)~^, ~}"
+					(package-nicknames (the :package-key)))))))
+	      (mapc #'(lambda (child)
+			(the-object child (:write-documentation-links)))
+		    (the :children)))
+	     (:p (the (:write-back-link :display-string "Documentation Home")))
+	     (:p (the :write-footer))))))
+
+
+
+   ("Void. Prints to *html-stream* a bulleted list for each of the three categories of docs in the package."
     write-html-sheet
     nil
     (if (the :package)

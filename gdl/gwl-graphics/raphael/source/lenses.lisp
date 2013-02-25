@@ -306,23 +306,32 @@
     (let* ((object self)
            (display-controls (or (geom-base::find-in-hash object *display-controls*)
                                  (the-object object display-controls))))
+
       (with-format-slots (view)
         (let* ((view-scale (if view (the-object view view-scale-total) 1))
-               (center (translate (the center) :front (half (the height)))))
+               (center (translate (the center) :front (half (half (* 0.7 (the length))))))
 
-        
-          (setq center (if view (the-object view (view-point center)) center))
+	       )
+
+	  (print-variables (the center) view view-scale center )
+
+	  (setq center (if view (the-object view (view-point center)) center))
+
+	  (print-variables center)
+	  
           (let ((font-size (* 0.9 (* (the character-size) view-scale)))
                 (rotation 
                  (angle-between-vectors-d 
                   geom-base::+rear-vector+ (the (face-normal-vector :rear)) 
                   geom-base::+top-vector+)))
           
-            (setq center (let ((point 
+	    (setq center (let ((point 
                                 (add-vectors (subseq center 0 2) 
                                              geom-base:*raphael-translation*)))
                            (make-point (get-x point)
                                        (- (the-object view length) (get-y point)))))
+
+	    (print-variables center)
           
             (unless (zerop rotation) ;; FLAG -- rotate in raphael(pdf:rotate rotation)
               )
