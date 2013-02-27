@@ -297,7 +297,10 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
              ;;(typep obj 'outline-specialization-mixin)
              ))
      (let ((leaves
-            (apply #'append (mapcar #'(lambda(object) (the-object object leaves))
+            (apply #'append (mapcar #'(lambda(object) 
+					(if (typep object 'gdl::gdl-basis)
+					    (the-object object leaves)
+					    (list object)))
                                     (the object-roots)))))
        (append leaves
                (apply #'append
@@ -324,18 +327,17 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
    (object-array 
     (remove-duplicates
      (coerce 
-       (append (the objects) 
-               (remove-if #'(lambda(obj) (or (typep obj 'null-part)
-                                             (typep obj 'outline-specialization-mixin)
-                                             ))
-                          (apply #'append
+      (append (the objects) 
+	      (remove-if #'(lambda(obj) (or (typep obj 'null-part)
+					    (typep obj 'outline-specialization-mixin)
+					    ))
+			 (apply #'append
                                                     
-                                 (mapcar #'(lambda(object)
-                                             (when (typep object 'outline-specialization-mixin)
-                                               (the-object object outline-leaves)))
-                                         (the objects))))
-               (the leaf-objects-from-roots))
-      'vector))))
+				(mapcar #'(lambda(object)
+					    (when (typep object 'outline-specialization-mixin)
+					      (the-object object outline-leaves)))
+					(the objects))))
+	      (the leaf-objects-from-roots)) 'vector))))
   
   :hidden-objects
   ((border-box :type 'box)
@@ -441,33 +443,35 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
    
    
    (vertex-array-2d 
-    (let ((raw-points (or (the object %corners%) (the object %vertex-array%))))
+    (when (typep (the object) 'gdl::gdl-basis)
+      (let ((raw-points (or (the object %corners%) (the object %vertex-array%))))
 
-      ;;(the touched-geometry)
+	;;(the touched-geometry)
 
-      ;;(print-messages object)
-      ;;(print-variables raw-points)
+	;;(print-messages object)
+	;;(print-variables raw-points)
 
       
-      (map 'vector 
-           #'(lambda(point)
-               ;;
-               ;; FLAG this case basically repeats code from (defun keyed-transform*vector ...)
-               ;;
-               (if (and (keywordp (the view-transform)) (the snap-to-y?))
-                   (case (the view-transform)
-                     (:top (subseq point 0 2)) ;;(make-vector (get-x point) (get-y point)))
-                     (:bottom (make-vector (get-x point) (- (get-y point))))
-                     (:rear (make-vector (- (get-x point)) (get-z point)))
-                     (:front (make-vector (get-x point) (get-z point)))
-                     (:right (make-vector (get-y point) (get-z point)))
-                     (:left  (make-vector (- (get-y point)) (get-z point)))))
-               (project-to-plane point 1 (the projection-vector) (the view-transform)
-                                 :snap-to (the snap-to)))
-           raw-points)))
+	(map 'vector 
+	     #'(lambda(point)
+		 ;;
+		 ;; FLAG this case basically repeats code from (defun keyed-transform*vector ...)
+		 ;;
+		 (if (and (keywordp (the view-transform)) (the snap-to-y?))
+		     (case (the view-transform)
+		       (:top (subseq point 0 2)) ;;(make-vector (get-x point) (get-y point)))
+		       (:bottom (make-vector (get-x point) (- (get-y point))))
+		       (:rear (make-vector (- (get-x point)) (get-z point)))
+		       (:front (make-vector (get-x point) (get-z point)))
+		       (:right (make-vector (get-y point) (get-z point)))
+		       (:left  (make-vector (- (get-y point)) (get-z point)))))
+		 (project-to-plane point 1 (the projection-vector) (the view-transform)
+				   :snap-to (the snap-to)))
+	     raw-points))))
    
    (2d-bounding-box
-    (unless (the immune?)
+    (unless (or (not (typep (the object) 'gdl::gdl-basis))
+		(the immune?))
       (let* ((vertex-array-2d (the vertex-array-2d))
              (xs (map 'list #'get-x vertex-array-2d))
              (ys (map 'list #'get-y vertex-array-2d)))

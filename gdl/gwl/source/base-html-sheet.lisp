@@ -31,6 +31,9 @@
     (cons (encode-for-ajax (first item))
           (encode-for-ajax (rest item)))))
 
+(defmethod encode-for-ajax ((self gdl::root-path-container))
+  (list :%container-rp% (the root-path)))
+
 (defmethod encode-for-ajax ((self gdl::gdl-basis))
   (list :%rp% (the root-path)))
 
@@ -42,6 +45,8 @@
   (when item
     (cond ((eql (first item) :%rp%)
            (the (follow-root-path (getf item :%rp%))))
+	  ((eql (first item) :%container-rp%)
+           (make-object 'gdl::root-path-container :root-path (getf item :%container-rp%)))
           (t (cons (decode-from-ajax (first item) self)
                    (decode-from-ajax (rest item) self))))))
         

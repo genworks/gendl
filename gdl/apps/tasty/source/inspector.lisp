@@ -241,6 +241,7 @@
 
 
 
+
 (define-object value-inspector (inspector)
   
   :input-slots ((message nil)
@@ -252,7 +253,10 @@
                          (the parent-node (evaluate (the message))))))
   
   :computed-slots 
-  ((value-type (if (the 3d-vector?)
+  ((value-root-path (cons (the message) (the parent-node root-path)))
+
+
+   (value-type (if (the 3d-vector?)
                    :gdl-3d-point
                  (typecase (the value)
                    (list (when (consp (the value)) :list))
@@ -293,6 +297,7 @@
      (let* ((value (the value))
             (gdl-object? (eql (class-of (class-of value))
                               (find-class 'gdl-class))))
+
        (with-cl-who-string ()
          ((:span :style (format nil "color: ~a; ~a" 
                                 (if (the clickable?) "blue" "black")
@@ -307,7 +312,10 @@
                              (when (the clickable?)
                                (the (gdl-ajax-call
                                      :function-key :perform-action!
-                                     :arguments (list (the point))))))
+                                     ;;:arguments (list (the point))
+				     :arguments (let ((object (make-object 'gdl::root-path-container
+									   :root-path (the value-root-path))))
+						  (list object))))))
 
                             ((:list :gdl-sequence)
                              (unless (the expanded?)
@@ -336,12 +344,20 @@
                                          (:td (str (the-object row value-display)))))))))
                    (htm (:pre (esc (the truncated-sequence))))))
                 (gdl-object? (htm (esc (format nil "~s" value))))
+
+		#+nil
                 ((eql (the value-type) :gdl-3d-point)
                  (htm (esc (the point strings-for-display))))
+
+		((eql (the value-type) :gdl-3d-point)
+                 (htm (esc (format nil "~s" value))))
+
                 (t (htm (fmt "~s" value))))))))))
     
 
-  :objects ((point :type (if (the 3d-vector?) 'point 'null-object)
+  :objects (
+	    #+nil
+	    (point :type (if (the 3d-vector?) 'point 'null-object)
                    :center (when (the 3d-vector?) (the value))
                    :strings-for-display (format nil "~s" (the value)))
 

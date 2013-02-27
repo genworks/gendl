@@ -86,6 +86,9 @@ meaning the crosshairs will remain the same size regardless of zoom state."
                                                    (make-point (+ x 1) (+ y 1) (+ z 1))))))))
 
 
+
+
+
 (define-lens (pdf point)()
   :output-functions
   ((cad-output
@@ -111,3 +114,24 @@ meaning the crosshairs will remain the same size regardless of zoom state."
           
           
 
+(define-lens (pdf simple-vector)()
+  :output-functions
+  ((cad-output
+    ()
+    (with-format-slots (view)
+      (let ((center (if view (the-object view (view-point self)) self))
+	    (crosshair-length 3) ;; FLAG -- figure out better way to specify this
+            ;;(view-scale (if view (the-object view view-scale) 1))
+	    (view-scale 1)
+	    )
+        (let ((start-x (- (get-x center) (* crosshair-length view-scale)))
+              (start-y (- (get-y center) (* crosshair-length view-scale))))
+          (pdf:with-saved-state
+            (pdf:move-to (to-single-float start-x) (to-single-float (get-y center)))
+            (pdf:line-to (to-single-float (+ start-x  (* (twice crosshair-length) view-scale))) 
+                         (to-single-float (get-y center)))
+            (pdf:move-to (to-single-float (get-x center)) 
+                         (to-single-float start-y))
+            (pdf:line-to (to-single-float (get-x center)) 
+                         (to-single-float (+ start-y (* (twice crosshair-length) view-scale))))
+            (pdf:stroke))))))))

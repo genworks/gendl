@@ -44,7 +44,9 @@
 		;;(the recompute?)
 		(maphash #'(lambda(root-path value)
 			     (declare (ignore value))
-			     (push (the root-object (follow-root-path root-path)) result))
+			     (push (if (listp root-path)
+				       (the root-object (follow-root-path root-path))
+				       root-path) result))
 			 (the view-object-roots-root-paths-hash)) (nreverse result)))
 	     
 	     
@@ -126,17 +128,18 @@
    ;;
    (add-leaves!
     (object) 
+    
     (the (add-display-controls! object))
     (let ((hash (the view-object-roots-root-paths-hash))
-          (root-path (the-object object root-path)))
+	  (root-path (the-object object root-path)))
       
       (the (set-slot! :view-object-roots-root-paths-hash
-                      (progn (unless (second (multiple-value-list (gethash root-path hash)))
-                               (setf (gethash root-path hash) t)) hash))))
+		      (progn (unless (second (multiple-value-list (gethash root-path hash)))
+			       (setf (gethash root-path hash) t)) hash))))
     
     (the (set-slot! :operations-list 
-                    (append (the operations-list)
-                            (list (list :operation :add-leaves :object object))))))
+		    (append (the operations-list)
+			    (list (list :operation :add-leaves :object object))))))
    
    
    (enter-debugger!

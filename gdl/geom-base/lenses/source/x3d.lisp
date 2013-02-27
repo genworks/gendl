@@ -93,6 +93,24 @@
 
         )))))
 
+
+;;
+;; FLAG -- add output functions for point and simple-vector.
+;;
+
+(define-lens (x3d t) ()
+  :output-functions
+  ((cad-output 
+    (&key (header? nil))
+    (declare (ignore header?)))
+   (cad-output-tree
+    (&key (header? nil))
+    (declare (ignore header?)))))
+
+
+
+
+
 (define-lens (x3d base-object)()
   :output-functions
   (

@@ -154,7 +154,7 @@ if you are making a web-drawing on your own. Defaults (in the standalone case) t
    (center (make-point 0 0 0))
    
    (image-file (dolist (object (the objects))
-                 (when (the-object object image-file)
+                 (when (and (typep object 'gdl::gdl-basis) (the-object object image-file))
                    (return (the-object object image-file))))))
 
   

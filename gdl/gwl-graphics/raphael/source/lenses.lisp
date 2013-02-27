@@ -483,5 +483,49 @@
                 (the color-hex)))))))))))
 
 
+(define-lens (raphael simple-vector)()
+  :output-functions
+  ((cad-output
+    ()
+    (with-format-slots (view)
+      
+      (let ((center (if view (the-object view (view-point self)) self))
+	    (crosshair-length 3)
+            (view-scale 1))
+        
+        (setq center (let ((point 
+                            (add-vectors geom-base:*raphael-translation* (subseq center 0 2))))
+                       (make-point (get-x point) (- (the-object view length) (get-y point)))))
+        
+        (let ((start-x (to-single-float (- (get-x center) (* crosshair-length view-scale))))
+              (start-y (to-single-float (- (get-y center) (* crosshair-length view-scale))))
+              (end-x (to-single-float (+ (get-x center) (* crosshair-length view-scale))))
+              (end-y (to-single-float (+ (get-y center) (* crosshair-length view-scale))))
+              (center-x (to-single-float (get-x center)))
+              (center-y (to-single-float (get-y center)))
+              (name "pt"))
+          (with-cl-who ()
+            (let ((*read-default-float-format* 'single-float))
+              (str
+               (format
+                nil
+                "var ~a_lines = paper.path('M ~a ~a L ~a ~a M ~a ~a L ~a ~a').attr({stroke: '#000'});~%"
+                name 
 
+                start-x 
+                center-y
+                end-x 
+                center-y
+                center-x 
+                start-y
+                center-x 
+                end-y
+                ))))))))))
+
+
+
+(define-lens (raphael t)()
+
+  :output-functions
+  ((cad-output ())))
 

@@ -958,8 +958,8 @@ a separate object hierarchy." object self)))
 
 
 
-
-
+(define-object root-path-container ()
+  :input-slots (root-path))
 
 
 
