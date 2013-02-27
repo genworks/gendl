@@ -21,14 +21,15 @@
 
 (in-package :common-lisp-user)
 
-#-(or allegro lispworks sbcl ccl abcl)   (error "
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  #-(or allegro lispworks sbcl ccl abcl)   (error "
 
 D'oh! GenDL is not yet supported on ~a. If you would like to try porting it, start with this file,
 gdl/base/common/genworks.lisp. 
 Also, PortableAllegroserve is needed for the web framework. 
 If you are interested in this effort we would love to hear from you at open-source@genworks.com.
 
-" (lisp-implementation-type))
+" (lisp-implementation-type)))
 
 
 (defpackage :gdl
@@ -251,12 +252,12 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:*onclick-function*))
 
 
-#-(or allegro lispworks sbcl ccl abcl ecl) (error "Need package for mop:validate-superclass for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
 (defpackage :com.genworks.lisp 
     (:use :common-lisp)
     (:shadow #:intern)
     (:nicknames :glisp) 
-    (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+ecl :clos
+    (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+(or ecl clisp) :clos
 		  #:validate-superclass)
     (:export #:*external-text-format*
 	     #:*gdl-home*
