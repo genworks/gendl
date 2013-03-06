@@ -483,7 +483,7 @@
                 (the color-hex)))))))))))
 
 
-(define-lens (raphael simple-vector)()
+(define-lens (raphael vector)()
   :output-functions
   ((cad-output
     ()

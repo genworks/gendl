@@ -49,32 +49,33 @@
                          (gdl::*notify-cons* (decode-from-http (getf args-list :notify-cons)))
                          (part-name (getf args-list :part-name))
                          (args (getf args-list :args)))
-                     (with-http-response (req ent)
-                       (with-http-body (req ent)
-                         (let ((value (if object (multiple-value-bind (value error)
-                                                     (ignore-errors 
-                                                       (apply (symbol-function (glisp:intern message :gdl-inputs))
-                                                              object (glisp:intern part-name :gdl-acc) child args))
-						   (if (typep error 'error) 
-						       (let ((error-string 
-							      (glisp:replace-regexp 
-							       (format nil "~a" error) "\\n" " ")))
-							 (cond ((or (search "could not handle"
-									    error-string)
-								    #+nil
-								    (search "which is the root"
-									    error-string)
-								    (search "instances could handle"
-									    error-string))
-								'gdl-rule:%not-handled%)
-							       (t (when *debug?* 
-								    (format t "Throwing error on fetch-input server because gwl::*debug?* is set to non-nil~%")
-								    (error error))
-								  (list :error (format nil "~a" error)))))
-                                                       value))
-                                          (list :error :no-such-object (getf args-list :remote-id)))))
-                           (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-                             (html (format *html-stream* encoded-value))))))))))))
+		     (glisp:with-heuristic-case-mode ()
+		       (with-http-response (req ent)
+			 (with-http-body (req ent)
+			   (let ((value (if object (multiple-value-bind (value error)
+						       (ignore-errors 
+							 (apply (symbol-function (glisp:intern message :gdl-inputs))
+								object (glisp:intern part-name :gdl-acc) child args))
+						     (if (typep error 'error) 
+							 (let ((error-string 
+								(glisp:replace-regexp 
+								 (format nil "~a" error) "\\n" " ")))
+							   (cond ((or (search "could not handle"
+									      error-string)
+								      #+nil
+								      (search "which is the root"
+									      error-string)
+								      (search "instances could handle"
+									      error-string))
+								  'gdl-rule:%not-handled%)
+								 (t (when *debug?* 
+								      (format t "Throwing error on fetch-input server because gwl::*debug?* is set to non-nil~%")
+								      (error error))
+								    (list :error (format nil "~a" error)))))
+							 value))
+					    (list :error :no-such-object (getf args-list :remote-id)))))
+			     (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
+			       (html (format *html-stream* encoded-value)))))))))))))
 
 
 (publish :path "/unbind-slots"
@@ -208,8 +209,8 @@
                      (the-object object (set-slot! :%name% name :warn-on-non-toplevel? nil))
                      (the-object object (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
                      (the-object object (set-slot! :%index% index :warn-on-non-toplevel? nil))
-                     (setf (slot-value object 'gdl-acc::%parent%) 
-                       (list (evaluate-object (first parent-form) (rest parent-form)) nil t))
+                     (setf (slot-value object 'gdl-acc::%parent%)
+			   (list (evaluate-object (first parent-form) (rest parent-form)) nil t))
                      (setf (gethash new-id *remote-objects-hash*) object)
                      (format t "~&~%Created new remote object with ID ~s and arglist:
 ~s~%~%"

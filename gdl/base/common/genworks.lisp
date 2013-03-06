@@ -36,7 +36,8 @@
                                  (butlast (pathname-directory gdl-base-home)))
                      :defaults gdl-base-home)))
 
-#-(or allegro lispworks sbcl ccl abcl ecl) (error "Need implementation for command-line-arguments in currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
+(error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
   #+lispworks system:*line-arguments-list*
@@ -44,29 +45,34 @@
   #+ccl (ccl::command-line-arguments)
   #+abcl extensions:*command-line-argument-list*
   #+ecl (loop for n from 0 below (si:argc) collect (si:argv n))
+  #+clisp (coerce (ext:argv) 'list)
   )
 
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
 (error "Need implementation for executable-homedir-pathname for currently running lisp.~%")
 (defun executable-homedir-pathname ()
   #+allegro (translate-logical-pathname "sys:")
   #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
-  #+(or lispworks ccl ecl) (make-pathname :name nil :type nil :defaults (first (glisp:basic-command-line-arguments)))
-  #+abcl (warn "Don't know how to get executable-homedir-pathname on ABCL! Please find out.~%"))
+  #+(or lispworks ccl ecl clisp) (make-pathname :name nil :type nil :defaults (first (glisp:basic-command-line-arguments)))
+  #+abcl
+  (warn "Don't know how to get executable-homedir-pathname on ~a! Please find out.~%"
+	(lisp-implementation-type)))
 
 
 (defparameter *gdl-program-home* #-abcl (glisp:executable-homedir-pathname)
-	      #+abcl (progn (warn "Don't know how to get executable-homedir-pathname on ABCL! Please find out.~%")
-			    nil))
+	      #+abcl
+	      (progn (warn "Don't know how to get executable-homedir-pathname on ~a! Please find out.~%"
+			   (lisp-implementation-type)) nil))
 
 (defparameter *gdl-home* #-abcl 
   (make-pathname :name nil
-		 :type nil
+ 		 :type nil
 		 :directory (butlast (pathname-directory *gdl-program-home*))
 		 :defaults *gdl-program-home*)
-  #+abcl (progn (warn "Don't know how to get *gdl-home* on ABCL! Please find out.~%")
-			    nil))
+  #+abcl
+  (progn (warn "Don't know how to get *gdl-home* on ABCL! Please find out.~%")
+	 nil))
 
 
 ;;
@@ -75,33 +81,36 @@
 ;;         redefinition warnings until we get a better handle on
 ;;         things.
 ;;
-#-(or allegro lispworks sbcl) 
+#-(or allegro lispworks sbcl clisp) 
 (warn "Need parameter for redefinition warnings for currently running lisp.~%")
 
-(let (#+(or allegro lispworks)
+(let (#+(or allegro lispworks clisp)
 	(original-redefinition-warnings 
 	 #+allegro excl:*redefinition-warnings*
-	 #+lispworks lw:*redefinition-action*))
+	 #+lispworks lw:*redefinition-action*
+	 #+clisp custom:*suppress-check-redefinition*))
   
   (defun begin-redefinitions-ok () 
     #+sbcl (declare (sb-ext:muffle-conditions sb-ext:compiler-note))
-    #+(or allegro lispworks)
-    (setq #+allegro excl:*redefinition-warnings* 
-          #+lispworks lw:*redefinition-action* nil))
-  (defun end-redefinitions-ok () 
-    #+sbcl (declare (sb-ext:unmuffle-conditions sb-ext:compiler-note))
-    #+(or allegro lispworks)
+    #+(or allegro lispworks clisp)
     (setq #+allegro excl:*redefinition-warnings* 
           #+lispworks lw:*redefinition-action* 
+	  #+clisp custom:*suppress-check-redefinition* nil))
+  (defun end-redefinitions-ok () 
+    #+sbcl (declare (sb-ext:unmuffle-conditions sb-ext:compiler-note))
+    #+(or allegro lispworks clisp)
+    (setq #+allegro excl:*redefinition-warnings* 
+          #+lispworks lw:*redefinition-action* 
+	  #+clisp custom:*suppress-check-redefinition*
 	  original-redefinition-warnings)))
 
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
 (error "Need implementation for current-directory for currently running lisp.~%")
 (defun current-directory ()
   #+allegro (excl:current-directory)
   #+lispworks (sys:current-directory)
-  #+(or sbcl abcl ecl)  *default-pathname-defaults*
+  #+(or sbcl abcl ecl clisp)  *default-pathname-defaults*
   #+cmu (second (multiple-value-list (unix:unix-current-directory)))
   #+ccl (ccl:current-directory)
   
@@ -115,7 +124,7 @@
      ,@(when doc (list doc))))
 
 
-#-(or allegro lispworks sbcl ccl abcl ecl) 
+#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation for class-direct-superclasses for currently running lisp.~%")
 (defun direct-superclasses (class)
   "Return a list of the direct superclasses."
@@ -123,7 +132,7 @@
    #+lispworks hcl:class-direct-superclasses 
    #+sbcl sb-mop:class-direct-superclasses 
    #+ccl ccl:class-direct-superclasses 
-   #+ecl clos:class-direct-superclasses class))
+   #+(or ecl clisp) clos:class-direct-superclasses class))
 
 
 (defun direct-superclass-names (class)
@@ -135,32 +144,33 @@
   (declare (ignore edition))
   (format t banner))
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
 (error "Need implementation for eql-specializer for currently running lisp.~%")
 (defun eql-specializer (attr-sym)
   #+(or allegro abcl) (mop:intern-eql-specializer attr-sym)
   #+(or lispworks cmu) (list 'eql attr-sym)
   #+sbcl (sb-mop:intern-eql-specializer attr-sym)
   #+ccl (ccl:intern-eql-specializer attr-sym)
-  #+ecl (clos:intern-eql-specializer attr-sym)
+  #+(or ecl clisp) (clos:intern-eql-specializer attr-sym)
   )
 
 
 (defun find-feature (feature) (find feature *features*))
 
-#-(or allegro lispworks sbcl ccl abcl ecl) (error "Need implementation of featurep for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
+(error "Need implementation of featurep for currently running lisp.~%")
 (defun featurep (x)
   (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep 
 	     #+ccl asdf::featurep #+abcl extensions:featurep 
-	     #+ecl find-feature x))
-
+	     #+ecl find-feature 
+	     #+clisp ext:featurep x))
 
 (defun gl-class-name (class)
   "Return the class name."
   (#-cmu class-name #+cmu mop:class-name class))
 
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
 (error "Need implementation for method-specializers for currently running lisp.~%")
 (defun gl-method-specializers (method)
   "Return a list of method specializers for the given method."
@@ -169,7 +179,7 @@
    #+cmu pcl:method-specializers 
    #+sbcl sb-mop:method-specializers 
    #+ccl ccl:method-specializers 
-   #+ecl clos:method-specializers
+   #+(or ecl clisp) clos:method-specializers
    method))
 
 
@@ -203,7 +213,7 @@
     #-allegro (make-hash-table)))
 
 
-#-(or allegro lispworks sbcl ccl abcl ecl) 
+#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 #+ecl (warn "Need weak-hash-tables for ECL, or we will be running out of memory in web apps.~%")
 (defun make-weak-hash-table (&rest args)
@@ -212,6 +222,8 @@
          #+allegro :values #+allegro :weak
          #+lispworks :weak-kind #+lispworks t
 	 #+(or sbcl abcl) :weakness #+(or sbcl abcl) :key-and-value
+	 #+clisp :weak #+clisp :key-and-value
+	 #+ccl :weak #+ccl :key #+ccl :test #+ccl #'eq
          args))
 
 (defun set-default-float-format ()
@@ -246,6 +258,7 @@
   #+lispworks dspec:*source-pathname*
   #+sbcl (error "need source-pathname in sbcl~%")
   #+ccl (error "need source-pathname in ccl~%")
+  #+clisp (error "need source-pathname in ccl~%")
   #+abcl (extensions:source-pathname)
   )
 
@@ -272,13 +285,11 @@
               (:case-sensitive-lower string)))
 
 (defmacro w-o-interrupts (&body body)
-  (format t  "~&NOTE: Without-interrupts is deprecated in multiprocessing Lisp - replace usage with something else in glisp:w-o-interrupts.~%")
-  #-(or allegro lispworks cmu sbcl ccl abcl) (error "Need implementation for without-interrupts for currently running lisp.~%")
-  `(#+allegro  excl:without-interrupts
-    #+lispworks progn
-    #+ccl progn
-    #+abcl progn
-    #+ecl progn
+  (format t  "~&NOTE: from glisp:w-o-interrupts: without-interrupts is deprecated in multiprocessing Lisp - using progn - replace usage with something else e.g. process-locks.~%")
+  #-(or allegro lispworks cmu sbcl ccl abcl clisp) 
+  (error "Need implementation for without-interrupts for currently running lisp.~%")
+  `(#+allegro  progn ;; excl:without-interrupts
+    #+(or lispworks ccl abcl ecl clisp)  progn
     #+cmu system:without-interrupts 
     #+sbcl sb-sys:without-interrupts
     ,@body))
@@ -328,11 +339,6 @@
         #+lispworks compiler:*produce-xref-info*
         t))
 
-#-(or allegro lispworks sbcl ccl abcl ecl) (error "need with-definition-unit for currently running lisp.~%")
-(defmacro with-definition-unit (&body body)
-  #+(or allegro abcl ecl)  `(with-compilation-unit () ,@body)
-  #+(or lispworks sbcl ccl) `(progn ,@body))
-  
 
 (defmacro without-package-variance-warnings (&body body)
   `(eval-when (:compile-toplevel :load-toplevel :execute)

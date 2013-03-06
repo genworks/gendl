@@ -244,9 +244,9 @@
         :type (format nil "~s" (the-object item type))
         :root-path (the-object item root-path) 
         :host :unknown
-        :port (slot-value (slot-value (symbol-value (read-from-string "net.aserve:*wserver*"))
-                                      (read-from-string "net.aserve::socket")) #+allegro 'socket:local-port
-				      #-allegro 'acl-compat.socket::port)))
+        :port (glisp:local-port 
+	       (slot-value (symbol-value (read-from-string "net.aserve:*wserver*"))
+			   (read-from-string "net.aserve::socket")))))
 
 
 (defmethod print-object ((object remote-object) stream)

@@ -65,6 +65,11 @@ the \"current\" error."
   )
 
 
+(defun local-port (socket)
+  (#+allegro 
+   socket:local-port 
+   #-allegro acl-compat.socket:local-port socket))
+
 (defun match-regexp (string-or-regexp string-to-match
                      &key newlines-special case-fold return
                           (start 0) end shortest)
@@ -256,6 +261,11 @@ please find implementation for the currently running lisp.~%")
 
 (defun split-regexp (regexp string)
   (cl-ppcre:split regexp string))
+
+(defmacro with-heuristic-case-mode ((&rest args) &body body)
+  (declare (ignore args))
+  #-allegro `(let ((*print-case* :downcase)) ,@body)
+  #+allegro `(progn ,@body))
 
 (defun with-timeout-sym ()
   "Returns the appropriate symbol for with-timeout, for substitution within macros."

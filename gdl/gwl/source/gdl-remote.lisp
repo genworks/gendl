@@ -21,7 +21,10 @@
 
 (in-package :gwl)
 
-
+;;
+;; This is now defined up-front in gdl/base/prereqs/source/utilities.lisp.
+;;
+#+nil
 (defclass gdl-remote () () 
   (:metaclass gdl-class))
 

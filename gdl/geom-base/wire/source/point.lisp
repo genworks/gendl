@@ -114,7 +114,7 @@ meaning the crosshairs will remain the same size regardless of zoom state."
           
           
 
-(define-lens (pdf simple-vector)()
+(define-lens (pdf vector)()
   :output-functions
   ((cad-output
     ()

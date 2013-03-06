@@ -4,11 +4,14 @@
                 :author
                 "Genworks and Dave Cooper unless otherwise indicated"
                 :license "AGPL unless otherwise indicated" :serial t
-                :version "2012101100" :depends-on
+                :version "2012101100" 
+
+		:depends-on
                 (:gdl-base :gdl-cl-lite :aserve :cl-pdf :cl-who
                  :cl-ppcre #-allegro :cl-base64 #-allegro :babel 
 		 :trivial-backtrace
                  :cl-html-parse)
+
                 :components
                 ((:file "source/genworks")
                  (:file "source/defparameters")

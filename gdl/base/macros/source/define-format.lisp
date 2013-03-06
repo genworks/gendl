@@ -40,7 +40,7 @@ a symbol, this is the name of the slot and there will be no default value.\"
                                                     `(,(glisp:intern (symbol-name slot) :gdl-acc) :initarg ,(make-keyword slot))
                                                   `(,(glisp:intern (symbol-name (first slot)) :gdl-acc) :initform ,(second slot) 
                                                                                                   :initarg ,(make-keyword (first slot))
-                                                                                                  :documentation ,(third slot))))
+                                                                                                  :documentation ,(or (third slot) ""))))
                                             slots) (:metaclass gdl-format-class))
        (let ((,class (find-class ',name)))
          (let ((,old-format-functions (format-functions ,class))
@@ -174,6 +174,10 @@ Removing output function: ~a for view of format: ~a on object definition: ~s wit
                                       (the (send-output (:apply (cons ,(make-keyword attr-sym)
                                                                       (cons *%format%* ,args-arg))))))))))
                  (eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
+		 ;;
+		 ;; FLAG -- implement this documentation properly and according to ANSI stanards. 
+		 ;;
+		 #-clisp
                  ,(when (and *compile-documentation-database?* attr-remarks)
                     `(when *load-documentation-database?* (setf (documentation ,method nil) ,attr-remarks))))))))
 

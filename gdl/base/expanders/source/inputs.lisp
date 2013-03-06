@@ -90,10 +90,12 @@
            
            
            (when (and *compile-for-dgdl?* (not (eql attr-sym 'gdl-acc::type)))
-             `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-remote) 
-                                                                             ,part-arg 
-                                                                             (,self-arg gdl-basis))
-                (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg))))
+             `(unless (find-method (symbol-function ',(glisp:intern attr-sym :gdl-inputs))
+				   nil (list (find-class 'gdl-remote) t (find-class 'gdl-basis)) nil)
+		(defmethod ,(glisp:intern attr-sym :gdl-inputs) ((,parent-arg gdl-remote) 
+									       ,part-arg 
+									       (,self-arg gdl-basis))
+		  (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg)))))
 
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
               (declare (ignore ,args-arg))

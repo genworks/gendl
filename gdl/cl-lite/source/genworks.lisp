@@ -21,15 +21,14 @@
 
 (in-package :com.genworks.lisp)
 
-
-
 (defparameter *fasl-extension*
     #+allegro excl:*fasl-default-type*
     #+lispworks compiler:*fasl-extension-string*
     #+sbcl sb-fasl:*fasl-file-type*
     #+ccl (namestring ccl:*.fasl-pathname*)
     #+abcl "abcl"
-    #-(or allegro lispworks sbcl ccl abcl) (error "Need fasl extension string for the currently running lisp.~%"))
+    #+clisp "fas"
+    #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))
 
 
 #-(or allegro lispworks sbcl ccl) 
@@ -101,7 +100,14 @@ and \"..\" entries."
                 :directories t)
   #+abcl
   (directory (merge-pathnames *wild-entry* pathspec)
-                :resolve-symlinks  nil))
+                :resolve-symlinks  nil)
+  
+  #+clisp
+  (mapcar 'first
+            (nconc (directory (merge-pathnames *wild-entry* directory)
+                               :full  t)
+                   (directory (merge-pathnames *wild-relative* directory)
+                               :full  t))))
 
 
 (defun file-directory-p (file)

@@ -22,7 +22,7 @@
 (in-package :common-lisp-user)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  #-(or allegro lispworks sbcl ccl abcl)   (error "
+  #-(or allegro lispworks sbcl ccl abcl clisp)   (error "
 
 D'oh! GenDL is not yet supported on ~a. If you would like to try porting it, start with this file,
 gdl/base/common/genworks.lisp. 
@@ -324,6 +324,7 @@ If you are interested in this effort we would love to hear from you at open-sour
              #:gc-full
 	     #:get-backtrace
 	     #:initialize-multiprocessing
+	     #:local-port
              #:match-regexp
              #:patches-dir
              #:process-run-function
@@ -333,6 +334,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	     #:slot-definition-name
              #:socket-bytes-written
 	     #:split-regexp
+	     #:with-heuristic-case-mode
              #:with-timeout-sym
 
 	     ;;

@@ -1,7 +1,7 @@
 (in-package :com.genworks.lisp)
 
 
-#-(or allegro lispworks sbcl ccl abcl) (error "Need implementation for get-pid for currently running lisp~%")
+#-(or allegro lispworks sbcl ccl abcl clisp) (error "Need implementation for get-pid for currently running lisp~%")
 (defun get-pid ()
   #+allegro (excl.osi:getpid) 
   #+lispworks (multiple-value-bind (status pid) 
@@ -48,9 +48,24 @@
 	    :collecting (code-char b) :into result
 	    :finally (return 
 		       (parse-integer (coerce result 'string)))))
-    (t () 0))
+    (t () 0)))
 
-  )
+;;
+;; FLAG Lifted from swank-clisp.lisp:
+;;
+#+clisp
+(let ((getpid (or (find-symbol "PROCESS-ID" :system)
+		  ;; old name prior to 2005-03-01, clisp <= 2.33.2
+		  (find-symbol "PROGRAM-ID" :system)
+		  #+win32 ; integrated into the above since 2005-02-24
+		  (and (find-package :win32) ; optional modules/win32
+		       (find-symbol "GetCurrentProcessId" :win32)))))
+  (defun getpid ()			; a required interface
+    (cond
+      (getpid (funcall getpid))
+      #+win32 ((ext:getenv "PID"))	; where does that come from?
+      (t -1))))
+
 
 
 (defun run-gs (command)

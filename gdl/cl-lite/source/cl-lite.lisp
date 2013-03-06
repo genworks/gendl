@@ -254,41 +254,41 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    (asdf-system-list 
     (let ((binaries (the compile-and-load)))
       (append `(asdf:defsystem ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
-                   :description "Auto-generated asdf defsys from Genworks GDL cl-lite."
-                   :author "Genworks and Dave Cooper unless otherwise indicated"
-                   :license "AGPL unless otherwise indicated"
-                   :serial t
-                   :version ,(string-append 
-                              (replace-substring (iso-8601-date (get-universal-time)) "-" "") "00")
-                   :depends-on ,(the asdf-depends-on)
-		   ;;
-		   ;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
-		   ;;
-                   :components ,(mapcar #'(lambda(binary source) 
-                                            (let ((binary (make-pathname :directory (remove "bin" 
-                                                                                            (pathname-directory binary)
-                                                                                            :test #'string-equal)
-                                                                         :defaults binary)))
-					      (let ((namestring (replace-substring 
-						      (namestring 
-						       (make-pathname :name (pathname-name binary)
-								      :type nil ;;(pathname-type source)
-								      :defaults
-								      (enough-namestring binary (the ppathname)))) 
-						      "\\" "/")))
+		:description "Auto-generated asdf defsys from Genworks GDL cl-lite."
+		:author "Genworks and Dave Cooper unless otherwise indicated"
+		:license "AGPL unless otherwise indicated"
+		:serial t
+		:version ,(string-append 
+			   (replace-substring (iso-8601-date (get-universal-time)) "-" "") "00")
+		:depends-on ,(the asdf-depends-on)
+		;;
+		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
+		;;
+		:components ,(mapcar #'(lambda(binary source) 
+					 (let ((binary (make-pathname :directory (remove "bin" 
+											 (pathname-directory binary)
+											 :test #'string-equal)
+								      :defaults binary)))
+					   (let ((namestring (replace-substring 
+							      (namestring 
+							       (make-pathname :name (pathname-name binary)
+									      :type nil ;;(pathname-type source)
+									      :defaults
+									      (enough-namestring binary (the ppathname)))) 
+							      "\\" "/")))
 						
 
-						(list (if (string-equal (pathname-type source) "lisp")
-							  :file 
-							  (make-keyword (pathname-type source)))
-						      namestring)
+					     (list (if (string-equal (pathname-type source) "lisp")
+						       :file 
+						       (make-keyword (pathname-type source)))
+						   namestring)
 
-						#+nil
-						(list :file namestring
-						      :pathname
-						      (merge-pathnames namestring "")))))
+					     #+nil
+					     (list :file namestring
+						   :pathname
+						   (merge-pathnames namestring "")))))
 
-                                        binaries (the source-file-list)))))
+				     binaries (the source-file-list)))))
     :uncached)
    
 
@@ -331,7 +331,8 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                      :if-exists :supersede
                      :if-does-not-exist :create)
       (let ((*print-right-margin* 70)
-	    (*print-case* :downcase))
+	    (*print-case* :downcase)
+	    (*package* (or (find-package :asdf-user) (find-package :asdf))))
         (pprint (the asdf-system-list) out)
 	(when (the additional-asd-code)
 	  (format out "~%~%")
