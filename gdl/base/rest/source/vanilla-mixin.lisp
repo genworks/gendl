@@ -684,6 +684,8 @@ by the update."
    (active-inputs
     ()
     (let ((inputs (append (the (message-list :category :optional-input-slots))
+			  (the (message-list :category :settable-optional-input-slots))
+			  (the (message-list :category :settable-defaulted-input-slots))
                           (the (message-list :category :required-input-slots))
                           (the (message-list :category :defaulted-input-slots)))) result)
       (mapc #'(lambda (slot)
