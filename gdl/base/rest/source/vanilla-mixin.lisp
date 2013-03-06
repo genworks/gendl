@@ -677,10 +677,6 @@ by the update."
                   (plist-keys value-plist) (plist-values value-plist)))))))
 
    
-
-   ;;
-   ;; Causing mismatched emacs parens.
-   ;;
    (active-inputs
     ()
     (let ((inputs (append (the (message-list :category :optional-input-slots))
