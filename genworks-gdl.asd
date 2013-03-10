@@ -5,19 +5,11 @@
   :author "Dave Cooper <david.cooper@genworks.com>"
   :license "AGPL"
   :serial t
-  :version "2012040100"
+  :version "2013031000"
   :depends-on (:gdl-gwl-graphics
-               ;;:gdl-ta2
                :gdl-tasty
 	       :gdl-robot
-               ;;:gdl-demos
-               :gdl-yadd
-               ;;:gdl-lift-utils
-               ;;:gdl-geom-base-tests
-               ;;:gdl-gwl-tests
-               ;;:gdl-gwl-client-utilities
-               ;;:gdl-gwl-graphics-tests
-               ))
+               :gdl-yadd))
                
                
 
