@@ -20,7 +20,8 @@ To use:
 
 |#
 
-
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (setq *compile-for-dgdl?* t))
 
 (define-object container ()
   :objects ((remote-1 :type 'remote-object
@@ -32,3 +33,6 @@ To use:
 (define-object remote-1 ()
   :computed-slots 
   ((slot-1 "one")))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (setq *compile-for-dgdl?* nil))

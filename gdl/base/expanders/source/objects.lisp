@@ -113,7 +113,7 @@
 	     (eql part-type-symbol 'remote-object)
 	     (not *compile-for-dgdl?*))
     
-    (warn "You are compiling an object of type 'remote-oject, 
+    (warn "You are compiling an object of type 'remote-object, 
 and you have *compile-for-dgdl?* set to nil.
 
 You probably want to do 

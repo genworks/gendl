@@ -19,5 +19,5 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("package" "genworks")
+("package" "genworks" "parameters")
 

@@ -1,11 +1,15 @@
 (in-package :gdl-lift-tests)
 
+#+allegro
 (defparameter *box-solid-lock* (mp:make-process-lock :name "box-solid-lock"))
 
+#+allegro
 (defparameter *collected-breps* nil)
 
+#+allegro
 (defparameter *collected-breps-old* nil)
 
+#+allegro
 (defun make-and-check-box-solid (&key (value 20) (n nil))
 
     (let (self)
@@ -18,13 +22,14 @@
 		 (expt value 3) (the volume)
 		 (if n (format nil " and n is ~a." n) ""))))))
 
+#+allegro
 (defun delete-collected-breps ()
   (mp:process-run-function "delete-breps" #'(lambda()
 					      (dolist (brep *collected-breps*)
 						(mp:with-process-lock (smlib::*smlib-lock*)
 						  (smlib::delete-iwbrep brep))))))
 
-
+#+allegro
 (defun start-box-threads (&key (times 2000))
   
   

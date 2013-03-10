@@ -15,8 +15,8 @@
            :components
            ((:file "utils/source/package")
             (:file "utils/source/genworks")
+	    (:file "utils/source/parameters")
             (:file "utils/source/functions")
-            (:file "utils/source/parameters")
             (:file "assembly-output/source/package")
             (:file "assembly-output/source/bracket-test")
             (:file "assembly-output/source/bracket")
