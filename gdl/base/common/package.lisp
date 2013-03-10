@@ -288,6 +288,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	     #:set-window-titles
 	     #:source-pathname
 	     #:system-home
+	     #:set-genworks-source-home-if-known
 	     #:upcase
 	     #:validate-superclass
 	     #:with-definition-unit
@@ -311,9 +312,9 @@ If you are interested in this effort we would love to hear from you at open-sour
 	     ;;
 	     #:get-pid
              #:run-gs
-             #:run-shell-command
              #:set-gs-path
-	     
+             #:run-program	     
+	     #:run-shell-command	     
 	     ;;
 	     ;; Implemented in gdl/gwl/source/genworks.lisp
 	     ;;

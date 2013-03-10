@@ -67,28 +67,21 @@
       (t -1))))
 
 
-
 (defun run-gs (command)
   "Shell out a ghostscript command and handle errors."
-  #-allegro
-  (let ((result (asdf:run-shell-command command)))
-    (unless (zerop result) (error "Ghostscript threw error")))
-  #+allegro
-  (multiple-value-bind (output error return)
-      (excl.osi:command-output command)
-    (unless (zerop return) (error "Ghostscript command threw error. Result was:
-output: ~a
- error: ~a
-return: ~a" 
-                                          output error return))))
+  (let ((result (run-program command)))
+    (unless (zerop result) (error "Ghostscript threw error"))))
 
+(defun run-program (command &key output ignore-error-status force-shell
+			  (element-type uiop:*default-stream-element-type*)
+			  (external-format :default)
+			  &allow-other-keys)
+  (funcall #'uiop:run-program command :output output :ignore-error-status ignore-error-status
+	   :force-shell force-shell :element-type element-type :external-format external-format))
 
-(defun run-shell-command (command &rest args)
-;;
-;; FLAG -- add specific keyword args e.g. for hide-window? 
-;;
-  (apply #'asdf:run-shell-command command args))
-
+(defun run-shell-command (&rest args)
+  (warn "~&run-shell-command is deprecated, please use run-program.~%")
+  (apply #'run-program args))
 
 (defun set-gs-path (&optional gs-path)
   (setq gdl:*gs-path* 

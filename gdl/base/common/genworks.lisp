@@ -26,15 +26,27 @@
     #-(and mswindows allegro) :default)
 
 (defun system-home (system-designator)
-  (asdf:system-source-directory system-designator))
+  (if (find-package :asdf)
+      (funcall (read-from-string "asdf:system-source-directory") system-designator)
+      (error "~&glisp:system-home was called, but cannot function because asdf is not loaded.~%")))
 
-(defparameter *genworks-source-home* 
-    (let ((gdl-base-home (system-home "gdl-base")))
-      (make-pathname :name nil
-                     :type nil
-                     :directory (butlast 
-                                 (butlast (pathname-directory gdl-base-home)))
-                     :defaults gdl-base-home)))
+(defparameter *genworks-source-home* nil)
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun set-genworks-source-home-if-known ()
+      (when (find-package :asdf)
+	(multiple-value-bind (gdl-base-home error)
+	    (ignore-errors (funcall (read-from-string "asdf:system-source-directory") "gdl-base"))
+	  (if (typep error 'error)
+	      (warn "~&ASDF is loaded, but :gdl-base is not registered. glisp:*genworks-source-home* remains unknown and set to nil.~%")
+	      (setq *genworks-source-home*
+		    (make-pathname :name nil
+				   :type nil
+				   :directory (butlast 
+					       (butlast (pathname-directory gdl-base-home)))
+				   :defaults gdl-base-home)))))))
+
+(set-genworks-source-home-if-known)
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation for command-line-arguments in currently running lisp.~%")
@@ -159,11 +171,10 @@
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation of featurep for currently running lisp.~%")
-(defun featurep (x)
-  (#+allegro excl:featurep #+lispworks system:featurep #+sbcl sb-int:featurep 
-	     #+ccl asdf::featurep #+abcl extensions:featurep 
-	     #+ecl find-feature 
-	     #+clisp ext:featurep x))
+;;
+;; FLAG -- for full-featured featurep, use uiop:featurep
+;;
+(defun featurep (x) (find x *features*))
 
 (defun gl-class-name (class)
   "Return the class name."
@@ -350,7 +361,12 @@
 ;; ASDF extensions -- depends on asdf being there, have to swap this
 ;; out if moving to new system definition system.
 ;;
-
+;; FLAG have to initialize these if loading asdf into a pre-built image
+;; which started out sans asdf.
+;;
+#+nil
 (defclass asdf::gdl (asdf::cl-source-file) ((type :initform "gdl")))
+#+nil
 (defclass asdf::gendl (asdf::cl-source-file) ((type :initform "gendl")))
+#+nil
 (defclass asdf::lisp (asdf::cl-source-file) ())

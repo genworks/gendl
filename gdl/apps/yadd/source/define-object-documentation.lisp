@@ -455,7 +455,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                                                             pdf-file)))
                                        
                                        (let ((return-value
-                                              (glisp:run-shell-command command :show-window? nil)))
+                                              (glisp:run-program command :show-window? nil)))
                                          (with-http-response (req ent)
                                            (setf (reply-header-slot-value req :cache-control) "no-cache")
                                            (setf (reply-header-slot-value req :pragma) "no-cache")

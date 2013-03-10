@@ -79,6 +79,36 @@
 (defvar *wild-entry*
   (make-pathname :name :wild :type :wild :version :wild))
 
+
+;;
+;; FLAG -- replace with cl-fad version.
+;;
+#-(or allegro lispworks clozure)
+(warn "please find a copy-directory from cl-fad or elsewhere for ~a~%" (lisp-implementation-type))
+(defun copy-directory (from-dir to-dir &rest args)
+  (declare (ignore args))
+  #+allegro (excl:copy-directory from-dir to-dir)
+  #+lispworks (cl-copy-directory to-dir from-dir)
+  #+clozure (ccl::recursive-copy-directory from-dir to-dir )
+  #-(or allegro lispworks clozure) 
+  (error "~&copy-directory needed for ~a. Consider cl-fad.~%" (lisp-implementation-type)))
+
+
+(defun delete-directory-and-files (target &key force quiet (if-does-not-exist :error))
+  #-allegro (declare (ignore force quiet))
+  (cond ((probe-file target)
+	 #+lispworks (system:run-shell-command (format nil "rm -rf ~a" target))
+	 #+allegro (excl.osi:delete-directory-and-files 
+		    target :force force :quiet quiet)
+	 #-(or allegro (and unix lispworks))
+	 (cl-fad:delete-directory-and-files target :if-does-not-exist if-does-not-exist))
+	((null if-does-not-exist) nil)
+	(t (ecase if-does-not-exist
+	     (:ignore nil)
+	     (:warn (warn "Target ~s does not exist.~%" target))
+	     (:error (error "Target ~s does not exist.~%" target))))))
+
+
 (defun directory-list (pathspec)
   "(derived from quicklisp ql-impl-util:directory-entries): 
 Return all directory entries of DIRECTORY as a

@@ -253,7 +253,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 
    (asdf-system-list 
     (let ((binaries (the compile-and-load)))
-      (append `(asdf:defsystem ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
+      (append `(,(read-from-string "asdf:defsystem") ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
 		:description "Auto-generated asdf defsys from Genworks GDL cl-lite."
 		:author "Genworks and Dave Cooper unless otherwise indicated"
 		:license "AGPL unless otherwise indicated"
@@ -332,7 +332,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                      :if-does-not-exist :create)
       (let ((*print-right-margin* 70)
 	    (*print-case* :downcase)
-	    (*package* (or (find-package :asdf-user) (find-package :asdf))))
+	    (*package* (find-package :asdf)))
         (pprint (the asdf-system-list) out)
 	(when (the additional-asd-code)
 	  (format out "~%~%")
