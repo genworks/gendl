@@ -1,7 +1,0 @@
-#!/bin/bash
-
-while [ 1 ]
-do
-  ~dcooper8/kitchen/start 
-done
-

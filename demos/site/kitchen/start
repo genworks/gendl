@@ -1,5 +1,0 @@
-#!/bin/sh
-
-cd ~dcooper8/kitchen
-mkdir -p logs
-./genworks-site/genworks-site -q -batch >> logs/server.log
