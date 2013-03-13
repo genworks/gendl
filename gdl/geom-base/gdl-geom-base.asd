@@ -1,22 +1,15 @@
 
-(defsystem #:gdl-geom-base
-           :description
-           "Auto-generated asdf defsys from Genworks GDL cl-lite."
-           :author
-           "Genworks and Dave Cooper unless otherwise indicated"
-           :license
-           "AGPL unless otherwise indicated"
-           :serial
-           t
-           :version
-           "2013031000"
-           :depends-on
-           (:uiop :cl-who :gdl-cl-lite :cl-typesetting)
-           :components
+(defsystem #:gdl-geom-base :description
+           "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
+           :author "Dave Cooper and Genworks International" :license
+           "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
+           :serial t :version "20130312" :depends-on
+           (:uiop :cl-who :gdl-cl-lite :cl-typesetting) :components
            ((:file "prereqs/source/cl-pdf-patches")
             (:file "prereqs/source/matrix")
             (:file "prereqs/source/genworks")
             (:file "prereqs/source/parameters")
+            (:file "prereqs/source/initialize")
             (:file "prereqs/source/utilities")
             (:file "formats/source/2d-output")
             (:file "formats/source/dxf")

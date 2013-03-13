@@ -131,10 +131,6 @@ this will be included and documented in a future version of the GDL PDF output f
   "Boolean. Controls whether the transformations of points from three-dimensional world coordinates
 to two-dimensional display coordinates are cached in memory. Set this to NIL to save memory at the
 expense of some execution speed. <i>Note: in the current GDL release, transform caching is temporarily
-disabled, so this parameter will have no effect.</i> Defaults to T.")(defparameter *hash-transforms?* t
-  "Boolean. Controls whether the transformations of points from three-dimensional world coordinates
-to two-dimensional display coordinates are cached in memory. Set this to NIL to save memory at the
-expense of some execution speed. <i>Note: in the current GDL release, transform caching is temporarily
 disabled, so this parameter will have no effect.</i> Defaults to T.")
 
 
@@ -169,16 +165,5 @@ the value of this parameter at your own risk.")
 (glisp:define-constant +rear-vector+ (make-vector 0 1 0))
 (glisp:define-constant +top-vector+ (make-vector 0 0 1))
 
-
 (defparameter +lh-identity-matrix+ #2A((1.0 0.0 0.0)(0.0 -1.0 0.0)(0.0 0.0 1.0)))
 
-
-(defun initialize-geom-base (&key edition) 
-  (declare (ignore edition))
-  (glisp:set-gs-path))
-
-(push #'initialize-geom-base *gdl-init-functions*)
-
-(setq cl-who:*prologue* "<!doctype HTML>")
-(setq cl-who:*attribute-quote-char* #\")
-(setq cl-who:*downcase-tokens-p* nil)

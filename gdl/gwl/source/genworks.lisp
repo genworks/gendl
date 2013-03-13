@@ -272,6 +272,12 @@ please find implementation for the currently running lisp.~%")
   #+allegro 'sys:with-timeout
   #-allegro 'acl-compat.mp:with-timeout)
 
+(defmacro with-timeout ((seconds &body timeout-body) &body body)
+  #+allegro `(mp:with-timeout (,seconds ,@timeout-body)
+	       ,@body)
+  #-allegro `(acl-compat.mp:with-timeout 
+		 ((seconds &body timeout-body) &body body)
+	       ,@body))
 
 ;;
 ;; FLAG -- clean out symbol dependencies of (:net.aserve :net.aserve.client :net.uri :net.html.generator :cl-who)

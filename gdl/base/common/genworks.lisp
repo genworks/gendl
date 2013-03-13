@@ -25,10 +25,10 @@
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
     #-(and mswindows allegro) :default)
 
-(defun system-home (system-designator)
+(defun system-home (system-designator &optional (errorp t))
   (if (find-package :asdf)
       (funcall (read-from-string "asdf:system-source-directory") system-designator)
-      (error "~&glisp:system-home was called, but cannot function because asdf is not loaded.~%")))
+      (when errorp (error "~&glisp:system-home was called, but cannot function because asdf is not loaded.~%"))))
 
 (defparameter *genworks-source-home* nil)
 
@@ -166,6 +166,8 @@
   #+(or ecl clisp) (clos:intern-eql-specializer attr-sym)
   )
 
+(defun ensure-string (string-designator)
+  (string string-designator))
 
 (defun find-feature (feature) (find feature *features*))
 
@@ -175,6 +177,13 @@
 ;; FLAG -- for full-featured featurep, use uiop:featurep
 ;;
 (defun featurep (x) (find x *features*))
+
+(defun find-feature-version (feature &optional (errorp t))
+  (when (find-package :asdf)
+    (let ((system (funcall (read-from-string "asdf:find-system")
+			   (intern feature :keyword) errorp)))
+      (when system (funcall (read-from-string "asdf:component-version") system)))))
+
 
 (defun gl-class-name (class)
   "Return the class name."
@@ -223,6 +232,29 @@
     #+allegro (make-hash-table :values nil)
     #-allegro (make-hash-table)))
 
+(defvar *known-system-prefixes* (list "gdl" "gendl" "genworks"))
+
+(defun other-feature (feature)
+  (let ((prefixes *known-system-prefixes*))
+    (setq feature (ensure-string feature))
+    (if (every #'(lambda(prefix) (not (search prefix feature))) prefixes)
+	(intern (concatenate 'string "gdl-" feature) :keyword)
+	(mapc #'(lambda(prefix)
+		  (when (string-equal (subseq feature 0 (length prefix)) prefix)
+		    (subseq feature (length prefix)))) prefixes))))
+  
+(defun make-versioned-features (feature)
+  (let ((other-feature (other-feature feature)))
+    (mapcar #'(lambda(sym) (intern sym :keyword))
+	    (remove 
+	     nil
+	     (list
+	      feature other-feature
+	      (let ((version (find-feature-version feature nil)))
+		(when version (format nil "~a-~a" feature version)))
+	      (let ((version (find-feature-version other-feature nil)))
+		(when version (format nil "~a-~a" other-feature version))))))))
+		    
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
@@ -256,6 +288,26 @@
   #+lispworks (setq hcl:*handle-existing-defpackage* (list :add))
   #-lispworks nil ;; No action needed for non-lispworks platform currently.
   )
+
+(defun set-settings (settings)
+  (let (anything-changed?)
+    (dolist (setting settings)
+      (destructuring-bind (symbol default new-value) setting
+	(unless (equalp (symbol-value symbol) new-value)
+	  (setq anything-changed? t)
+	  (format t "Setting ~s from default value ~s to non-default value.~%" 
+		  symbol default)
+	  (setf (symbol-value symbol) new-value)))) anything-changed?))
+
+(defun set-features (features)
+  (let (anything-changed?)
+    (dolist (feature features)
+      (dolist (feature (make-versioned-features feature))
+	(unless (or (null feature) (glisp:featurep feature))
+	  (format t "Pushing ~s onto *features* list.~%" feature)
+	  (push feature *features*)
+	  (setq anything-changed? t)))) anything-changed?))
+
 
 #-allegro(warn "Find out how to retitle relevant windows in currently running lisp.~%")
 (defun set-window-titles ()

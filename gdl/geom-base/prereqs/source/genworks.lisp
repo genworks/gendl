@@ -83,20 +83,25 @@
   (warn "~&run-shell-command is deprecated, please use run-program.~%")
   (apply #'run-program args))
 
-(defun set-gs-path (&optional gs-path)
-  (setq gdl:*gs-path* 
-	(or (and gs-path (probe-file gs-path))
-	    (if (featurep :mswindows)
-		(or (probe-file (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
-		    (probe-file (merge-pathnames "c:/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
-		    (probe-file (merge-pathnames "../gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*)))
-		(or (probe-file #p"~/bin/gs")
-		    (probe-file #p"/usr/local/bin/gs")
-		    (probe-file #p"/sw/bin/gs")
-		    (probe-file #p"/opt/local/bin/gs")
-		    (probe-file #p"/usr/bin/gs") "gs"))))
-  (if gdl:*gs-path*
-      (format t "~%~%Gnu GhostScript was detected at ~a and registered with GDL.~%~%" (probe-file gdl:*gs-path*))
-      (warn "Gnu Ghostscript was not found. PNG and JPEG output will not function. 
+(defun find-gs-path (&optional gs-path)
+  (let ((gs-path
+	 (or (and gs-path (probe-file gs-path))
+	     (if (featurep :mswindows)
+		 (or (probe-file (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
+		     (probe-file (merge-pathnames "c:/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
+		     (probe-file (merge-pathnames "../gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*)))
+		 (or (probe-file #p"~/bin/gs")
+		     (probe-file #p"/usr/local/bin/gs")
+		     (probe-file #p"/sw/bin/gs")
+		     (probe-file #p"/opt/local/bin/gs")
+		     (probe-file #p"/usr/bin/gs") "gs")))))
+    (if gs-path
+	(format t "~%~%Gnu GhostScript was detected at ~a.~%~%" (probe-file gs-path))
+	(warn "Gnu Ghostscript was not found. PNG and JPEG output will not function.
 
-You can set it manually with (glisp:set-gs-path <path-to-gs-executable>).~%")))
+You can set it manually with (glisp:set-gs-path <path-to-gs-executable>).~%"))
+    gs-path))
+
+(defun set-gs-path (&optional gs-path)
+  (setq gdl:*gs-path* (find-gs-path gs-path))
+  (format t "gdl:*gs-path* has been set to ~a.~%" gdl:*gs-path*)) 

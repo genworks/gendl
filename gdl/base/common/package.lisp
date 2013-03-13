@@ -271,9 +271,11 @@ If you are interested in this effort we would love to hear from you at open-sour
 	     #:direct-superclass-names
 	     #:display-startup-banner
 	     #:end-redefinitions-ok
+	     #:ensure-string
 	     #:eql-specializer
 	     #:executable-homedir-pathname
 	     #:featurep
+	     #:find-feature-version
 	     #:gl-class-name
 	     #:gl-method-specializers
 	     #:hex-string-to-integer
@@ -281,10 +283,13 @@ If you are interested in this effort we would love to hear from you at open-sour
 	     #:make-sans-value-equalp-hash-table
 	     #:make-sans-value-hash-table
 	     #:make-weak-hash-table
+	     #:make-versioned-features
 	     #:set-default-float-format
 	     #:set-default-package
 	     #:set-defpackage-behavior
 	     #:set-local-compiler-tweaks
+	     #:set-features
+	     #:set-settings
 	     #:set-window-titles
 	     #:source-pathname
 	     #:system-home
@@ -310,6 +315,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	     ;;
 	     ;; Implemented in gdl/geom-base/prereqs/source/genworks.lisp
 	     ;;
+	     #:find-gs-path
 	     #:get-pid
              #:run-gs
              #:set-gs-path

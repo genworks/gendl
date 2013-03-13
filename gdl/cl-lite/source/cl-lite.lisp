@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International and Genworks BV 
+;; Copyright 2002-2011 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -31,11 +31,37 @@
    created, as a sibling to each source/ subdirectory, to contain the
    compiled fasl files.
 
-   If the :create-fasl? keyword argument is specified as non-NIL, a
+   If the :create-fasl? keyword argument is specified as non-nil, a
    concatenated fasl file, named after the last directory component of
-   pathname, will be created in. 
+   pathname, will be created in the (glisp:temporary-directory). 
 
-   Please see codebase-directory-node object for additional inputs (which can be 
+   [Note: this new documentation still needs proper formatting]
+
+   If the :create-asd-file? keyword argument is specified as non-nil,
+   a .asd file suitable for use with ASDF will be emitted into the
+   directory indicated by the pathname argument. Note that
+   ASDF (Another System Definition Utility), possibly with help of
+   Quicklisp, is (as of 2013-03-12) the recommended way for handling
+   Common Lisp system modules. As of version 2.31.9, ASDF is also
+   capable of generating fasl \"bundle\" files as with
+   the :create-fasl? argument to cl-lite.
+
+   For the :author, :version, and :license arguments in the generated
+   .asd file, the files author.isc, version.isc, and license.isc,
+   respectively, are consulted, if they exist. They are searched for
+   first in the codebase toplevel directory (the pathname argument to
+   this function), then in the (user-homedir-pathname). The version
+   defaults to the current ISO-8601 date without dashes,
+   e.g. \"20130312\".
+
+   Please see the Genworks Documentation for an overview of Quicklisp
+   and ASDF, and see the Quicklisp and ASDF project documentation for
+   detailed information. The source code for Quicklisp and ASDF should
+   also be included with your Gendl distribution, and these are
+   typically loaded by default into the development environment.
+
+   For additional inputs to the cl-lite function, please see
+codebase-directory-node object for additional inputs (which can be
 given as keyword args to this function)."
   (glisp:begin-redefinitions-ok)
   (let ((result
@@ -123,12 +149,27 @@ given as keyword args to this function)."
 
 (define-object codebase-directory-node (directory-node)
 
-  :documentation (:description "Models a filesystem directory for use by the cl-lite program."
-                  )
+  :documentation (:description "Models a filesystem directory for use by the cl-lite program.")
 
+  :functions ((read-isc-file 
+	       (name)
+	       (let ((files-to-check 
+		      (mapcar #'(lambda(path)
+				  (merge-pathnames (make-pathname :type "isc") 
+						   (merge-pathnames name path)))
+			      (list (the pathname) (user-homedir-pathname)))))
+		 (dolist (file files-to-check)
+		   (when (probe-file file)
+		     (return (with-open-file (in file) (read in))))))))
 
   :input-slots
-  (("Plist of keywords and lists of strings. Maps directory names to their default type classifications."
+  ((author (or (the (read-isc-file "author")) "John McCarthy"))
+   (version (or (the (read-isc-file "version"))
+		(replace-substring (iso-8601-date (get-universal-time)) "-" "")))
+   (license (or (the (read-isc-file "license"))
+		"Affero Gnu Public License (http://www.gnu.org/licenses/)"))
+
+   ("Plist of keywords and lists of strings. Maps directory names to their default type classifications."
     type-mapping (list :tables '(("tables") ("table")) :source
                        '(("source" "icons") ("lisp" "cl" "gdl" "gendl")) :qa '(("qa") ("lisp"))
                        :exercises '(("exercises"))))
@@ -254,12 +295,11 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    (asdf-system-list 
     (let ((binaries (the compile-and-load)))
       (append `(,(read-from-string "asdf:defsystem") ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
-		:description "Auto-generated asdf defsys from Genworks GDL cl-lite."
-		:author "Genworks and Dave Cooper unless otherwise indicated"
-		:license "AGPL unless otherwise indicated"
+		:description "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
+		:author ,(the author)
+		:license ,(the license)
 		:serial t
-		:version ,(string-append 
-			   (replace-substring (iso-8601-date (get-universal-time)) "-" "") "00")
+		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
@@ -442,6 +482,9 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    ;;
    ;; FLAG -- read this info once in the parent directory object, not here for each file!
    ;;
+   ;; FLAG -- convert to use read-isc-file function
+   ;;
+   ;;
    (ignore-list (let ((ignore-list-file
                        (make-pathname
                         :directory (pathname-directory (the :pathname))
@@ -545,7 +588,11 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    parent-dir)
 
   :computed-slots
-  ((ordering-bias (let ((ordering-info-file
+  (
+   ;;
+   ;; FLAG -- convert to use read-isc-file function. 
+   ;;
+   (ordering-bias (let ((ordering-info-file
                          (make-pathname
                           :directory (pathname-directory (the :pathname))
                           :device (the :device)

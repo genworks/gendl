@@ -21,48 +21,52 @@
 
 (in-package :gwl)
 
+(defvar *static-home* nil)
+
+(defun ensure-static-relative-pathname (relative)
+  (let ((pathname (merge-pathnames relative *static-home*)))
+    (or (probe-file pathname)
+	(error "Required static subdirectory ~a does not appear to exist.~%" pathname))))
+
 (defun publish-images ()
   (with-all-servers (server)
     (publish-directory
      :prefix "/images/gwl/"
      :server server
-     :destination (cond (glisp:*genworks-source-home*
-			 (format nil "~a" (merge-pathnames "gdl/gwl/static/gwl/images/" 
-							   glisp:*genworks-source-home*)))
-			(t (format nil "~a" (merge-pathnames "static/gwl/images/" glisp:*gdl-home*)))))))
+     :destination (namestring (ensure-static-relative-pathname "gwl/images/")))))
 		      
 (defun publish-statics ()
   (with-all-servers (server)
     (publish-directory
      :prefix "/static/"
      :server server
-     :destination (cond (glisp:*genworks-source-home*
-			 (format nil "~a" (merge-pathnames "gdl/gwl/static/" 
-							   glisp:*genworks-source-home*)))
-			(t (format nil "~a" (merge-pathnames "static/" glisp:*gdl-home*)))))))
+     :destination (namestring (ensure-static-relative-pathname "")))))
 
 (defun publish-style ()
   (with-all-servers (server)
     (publish-directory
      :prefix "/style/"
      :server server
-     :destination (cond (glisp:*genworks-source-home*
-			 (format nil "~a" (merge-pathnames "gdl/gwl/static/style/" 
-							   glisp:*genworks-source-home*)))
-			(t (format nil "~a" (merge-pathnames "static/style/" glisp:*gdl-home*)))))))
+     :destination (namestring (ensure-static-relative-pathname "gwl/style/")))))
+
 
 (defvar *aserve-listeners* 25)
+(defvar *aserve-port* 9000)
 
 (defun client-test (port)
   (multiple-value-bind (result error)
       (ignore-errors  
-	(net.aserve.client:do-http-request   
-           (format nil "http://localhost:~a" port)))
+	(mp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
+Perhaps a zombie process is holding port ~a?~%" port port))
+	  (net.aserve.client:do-http-request   
+	      (format nil "http://localhost:~a" port))))
     (declare (ignore result))
     (when (typep error 'error)
       port)))
 
-(defun start-gwl (&key (port 9000) (listeners *aserve-listeners*) (external-format :utf8-base))
+
+(defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
+		  (external-format :utf8-base))
   (net.aserve:shutdown)
   (let ((port port))
     (do ((error (client-test port) (client-test port)))
@@ -71,14 +75,33 @@
          port)
       (incf port))))
 
+(defvar *settings* (list (list '*static-home* *static-home* 
+			       (when glisp:*genworks-source-home*
+				 (or (probe-file (merge-pathnames "gdl/gwl/static/" 
+								  glisp:*genworks-source-home*))
+				     (error "Static home not found"))))))
 
-(defun initialize-gwl (&key edition) (declare (ignore edition)) 
-       ;;(glisp:initialize-multiprocessing)
-       (publish-images) 
-       (publish-statics) 
-       (publish-style)
-       (start-gwl))
+(defvar *new-features* (list :gwl))
+			       
+;;
+;; FLAG -- move publishes into global param with the basic publishing data and 
+;;         call general-purpose publish function. 
+;;    also detect changes in the publishing to include in return value.
+;;
+(defun initialize-gwl (&key edition) 
+  (declare (ignore edition)) 
+  
+  (format t "~&Initializing base geometry subsystem...~%~%")
 
+  ;;
+  ;; FLAG -- investigate if this is still needed, currently LW-only.
+  ;;
+  (glisp:initialize-multiprocessing)
+  (let (anything-changed?)
+    (setq anything-changed? (glisp:set-settings *settings*)
+	  anything-changed? (glisp:set-features *new-features*))
+    (publish-images) (publish-statics) (publish-style)
+    (start-gwl) anything-changed?))
 
-(push #'initialize-gwl *gdl-init-functions*)
+(pushnew 'initialize-gwl *gdl-init-functions*)
 
