@@ -1,8 +1,0 @@
-#!/bin/bash
-
-cd `dirname "$0"`/program/
-
-emacs --no-init-file --no-splash -l ../emacs/gdl.el
-
-
-

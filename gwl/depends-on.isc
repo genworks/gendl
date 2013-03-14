@@ -1,0 +1,3 @@
+#.(warn "This has to be put in manually -- conditional includes here.")
+(:gendl-base :gendl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre 
+	     #-allegro :cl-base64 #-allegro :babel :trivial-backtrace :cl-html-parse)

@@ -153,9 +153,13 @@ and this is defaulted to t, except for merged-solid where we default this to nil
                                            )))
                           
             ((:merge)
+	     
+	     (print-variables count length)
+	     
 	     (let ((try-manifold? (= count (1- length))))
-	       (format t "Merging ~s into merge object~a~%" 
-		       (the-object other-brep root-path)
+	       (format t "Merging ~s into merge object ~s, ~a~%" 
+		       (cons 'the (reverse (the-object other-brep root-path)))
+		       (cons 'the (reverse (the root-path)))
 		       (if try-manifold? ", trying to make manifold..." ""))
 	       (setq current-brep (do-boolean-merge-operation  *geometry-kernel* merge-container
 							      (the operation) try-manifold?

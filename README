@@ -1,5 +1,5 @@
 ;;;
-;; Copyright 2012 Genworks International
+;; Copyright 2013 Genworks International
 ;;
 ;; This file is part of the General-purpose Declarative
 ;; Language project (Gendl).
@@ -20,21 +20,27 @@
 ;; 
 
 
-Welcome to the General-purpose Declarative Language ("Gendl")
-Open-Source Distribution.
+Welcome to the General-purpose Declarative Language ("Gendl").
+
 
 What is this? 
 =============
 
-Gendl is a Generative Knowledge Based Engineering framework. It allows
+Gendl is a Generative Programming and Knowledge Based Engineering
+framework, building on concepts dating back to the 1980s. It allows
 for high-level declarative, object-oriented problem solving and
 application development, including but not limited to the ability to
 generate and manipulate 3D geometry. To solve a problem in Gendl, you
 formulate it using the "define-object" operator, which allows you to
-specify inputs, outputs (computed slots), and child objects (which
-gives the ability to generate a "tree" of objects, useful for
-decomposing complexity). A graphical web-based interface, tasty, is
-available for interacting with your system as you develop it.
+specify inputs, outputs (computed slots), and child objects, which
+then gives the ability to generate a "tree" of objects, useful for
+decomposing complexity.
+
+A graphical web-based interface, tasty, is available for interacting
+with your system as you develop it.
+
+The web-based GUI framework used to make tasty (GWL) is also available
+for creating your own custom web-based user interfaces. 
 
 Gendl provides the fundamental KBE features of:
 
@@ -54,8 +60,9 @@ under the AGPL with the Gendl project. These primitives provide a
 protocol for what the objects should be able to do (i.e. what messages
 they should answer), but without the SMLib library and associated
 middleware available, they will not be able to return any results.
-The SMLib kernel and associated middleware are available as commercial
-products from http://genworks.com.
+The SMLib kernel and associated middleware are available as part of
+the commercial Genworks GDL product Genworks International
+(http://genworks.com).
 
 If you have a different favorite solid modeling kernel
 (e.g. OpenCascade, Parasolid, Geometros sgCore), then it may be
@@ -64,26 +71,24 @@ implementing the methods in surf/source/methods.lisp.
 
 Gendl is distributed under AGPL, which has the requirement that you
 release your updates and any applications compiled with Gendl under
-AGPL-compatible license (if distributed at all).
+AGPL-compatible license (if distributed at all). 
 
-Proprietary (closed-source) licenses, support, fully functional
-commercial builds, surface/solid modeling kernel, and training are
-available from Genworks as well. These are described in the
-Configurator section on http://genworks.com.
+For Proprietary (closed-source) development and distribution, the
+commercial Genworks GDL system is available from http://genworks.com.
 
 
 Current Requirements:
 
  1. Common Lisp: Allegro CL 9.0, LispWorks 6.x, SBCL, or CCL (Clozure
-    CL).
+    CL). Without web interface, initial ports to ECL, ABCL, and CLISP
+    have also been completed. 
 
  2. Quicklisp (available from http://www.quicklisp.org)
 
-
  To load the entire system, you can do it with:
 
-  (ql:quickload :genworks-gdl)
-  (gdl:start-gdl :edition :open-source)
+  (ql:quickload :gendl)
+  (gdl:initialize)
 
 
 Now you can do a quick sanity test by visiting:
@@ -94,7 +99,7 @@ in your browser and trying to instantiate the default assembly tree
 (robot).
 
 Slime (Emacs Editor integration) is recommended for editing GDL
-applications with Emacs.  Slime is available with
+applications with Emacs.  Slime is available with:
 
    (ql:quickload :quicklisp-slime-helper)
 
@@ -104,14 +109,14 @@ are also in progress and in their current state are available in the
 Documentation section on http://genworks.com.
 
 
-To help in understanding the role of each module, the overall GDL
+To help in understanding the role of each module, the overall Gendl
 source architecture is partially described below.
 
 
-GDL source code Architecture:
+Gendl source code Architecture:
 =============================
 
-GDL is separated into layered components, some of which depend on
+Gendl is separated into layered components, some of which depend on
 others. Some components also depend on third-party external libraries,
 which are currently handled with the Quicklisp system.
 
@@ -120,9 +125,7 @@ the folder gdl/base/. This includes the compiler/expanders for
 "define-object" and related macros as well as core primitives such as
 vanilla-mixin.
 
-Including gdl-base, there are approximately 12 modules supported with
-GDL. One is proprietary and closed-source, the others are open-source
-under AGPL.
+Including gdl-base, there are eight modules supported with Gendl:
 
 
  :gdl-base - (gdl/base/) Gendl language kernel.
@@ -152,14 +155,8 @@ under AGPL.
       geometry kernel middleware or implementation.
 
 
- :gdl-smlib - (proprietary) add-on to implement :surf primitives with
-        middleware and SMLib geometry kernel
-
-
  :gdl-yadd - (gdl/apps/yadd/) self auto-documentation.
 
 
- :gdl-build - (gdl/build/) Utilities for building development and
-      runtime images with various GDL modules built-in.
 
 

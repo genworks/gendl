@@ -21,7 +21,7 @@
 
 (in-package :surf)
 
-(defmacro define-smlib-wrapper (name (&rest args))
+(defmacro define-vanilla-wrapper (name (&rest args))
   `(defmethod ,name ((geometry-kernel vanilla-geometry-kernel) ,@args)
      (declare (ignore ,@(remove '&key args)))
      (error "Don't know how to do ~a using ~s.~%" ',name geometry-kernel)))
@@ -148,7 +148,7 @@
   (error "Don't know how to make b-spline-curve using ~s.~%" geometry-kernel))
 
 
-(define-smlib-wrapper make-offset-curve (&key curve plane-normal offset-distance tolerance))
+(define-vanilla-wrapper make-offset-curve (&key curve plane-normal offset-distance tolerance))
 
 
 (defmethod get-curve-b-spline-data ((geometry-kernel vanilla-geometry-kernel) curve)
@@ -334,7 +334,7 @@
   (declare (ignore curve-in surface))
   (error "Don't know how to drop curve using ~s.~%" geometry-kernel))
 
-(define-smlib-wrapper project-curve (curve-in surface projection-vector approximation-tolerance angle-tolerance))
+(define-vanilla-wrapper project-curve (curve-in surface projection-vector approximation-tolerance angle-tolerance))
 
 (defmethod curve-convert-uv-to-3d ((geometry-kernel vanilla-geometry-kernel) curve-uv surface)
   (declare (ignore curve-uv surface))
@@ -566,7 +566,7 @@
   (declare (ignore brep tolerance))
   (error "Don't know how to compute precise properties from brep  with ~s.~%" geometry-kernel))
 
-(define-smlib-wrapper brep-compute-properties (brep &key edge-tess-tolerance face-tess-tolerance))
+(define-vanilla-wrapper brep-compute-properties (brep &key edge-tess-tolerance face-tess-tolerance))
 
 (defmethod make-blended-brep ((geometry-kernel vanilla-geometry-kernel) brep &key default-radius specs)
   (declare (ignore  brep default-radius specs))
@@ -597,72 +597,72 @@
 
 
 
-(define-smlib-wrapper brep-assert-valid (native-brep &key warn?))
+(define-vanilla-wrapper brep-assert-valid (native-brep &key warn?))
 
-(define-smlib-wrapper approximate-surface (points normals &key u-start v-start u-required v-required tolerance))
-(define-smlib-wrapper loft-surface* (curves &key rail-1 rail-2 v-degree tolerance))
+(define-vanilla-wrapper approximate-surface (points normals &key u-start v-start u-required v-required tolerance))
+(define-vanilla-wrapper loft-surface* (curves &key rail-1 rail-2 v-degree tolerance))
 
-(define-smlib-wrapper interpolate-c11-surface (points  &key tangent-method))
-(define-smlib-wrapper return-compatible-surfaces (surfaces &key length))
-(define-smlib-wrapper return-compatible-curves (curves &key length))
+(define-vanilla-wrapper interpolate-c11-surface (points  &key tangent-method))
+(define-vanilla-wrapper return-compatible-surfaces (surfaces &key length))
+(define-vanilla-wrapper return-compatible-curves (curves &key length))
 
-(define-smlib-wrapper join-surfaces (surface1 surface2 &key tolerance direction))
+(define-vanilla-wrapper join-surfaces (surface1 surface2 &key tolerance direction))
 
-(define-smlib-wrapper brep-intersect (brep other-brep &key tolerance angle-tolerance))
-(define-smlib-wrapper brep-intersect? (brep other-brep &key tolerance angle-tolerance))
+(define-vanilla-wrapper brep-intersect (brep other-brep &key tolerance angle-tolerance))
+(define-vanilla-wrapper brep-intersect? (brep other-brep &key tolerance angle-tolerance))
 
-(define-smlib-wrapper is-surface-rational (surface))
+(define-vanilla-wrapper is-surface-rational (surface))
 
-(define-smlib-wrapper max-second-deriv (curve))
+(define-vanilla-wrapper max-second-deriv (curve))
 
-(define-smlib-wrapper curve-extent (curve))
+(define-vanilla-wrapper curve-extent (curve))
 
-(define-smlib-wrapper reduce-curve-degree (native-curve tolerance))
+(define-vanilla-wrapper reduce-curve-degree (native-curve tolerance))
 
-(define-smlib-wrapper gprcap (curve &key tolerance))
+(define-vanilla-wrapper gprcap (curve &key tolerance))
 
-(define-smlib-wrapper poly-brep-get-brep-mesh (native-poly-brep))
+(define-vanilla-wrapper poly-brep-get-brep-mesh (native-poly-brep))
 
-(define-smlib-wrapper brep-calculate-tight-bounding-box (brep))
+(define-vanilla-wrapper brep-calculate-tight-bounding-box (brep))
   
-(define-smlib-wrapper get-filled-regions (brep))
+(define-vanilla-wrapper get-filled-regions (brep))
 
-(define-smlib-wrapper make-brep-from-regions (brep-in regions))
+(define-vanilla-wrapper make-brep-from-regions (brep-in regions))
 
-(define-smlib-wrapper brep-validate-and-update-tolerances (native-brep))
+(define-vanilla-wrapper brep-validate-and-update-tolerances (native-brep))
 
-(define-smlib-wrapper brep-planar-section-curves (native-brep
+(define-vanilla-wrapper brep-planar-section-curves (native-brep
                                                   plane-point
                                                   plane-normal
                                                   &key tolerance angle-tolerance-radians))
 
-(define-smlib-wrapper make-offset-surface (&key
+(define-vanilla-wrapper make-offset-surface (&key
                                            surface offset-distance u-degree v-degree
                                            parameterization tolerance))
 
-(define-smlib-wrapper make-offset-brep (brep &key distance tolerance))
+(define-vanilla-wrapper make-offset-brep (brep &key distance tolerance))
 
-(define-smlib-wrapper make-shelled-brep (brep &key distance tolerance))
-
-
-
-(define-smlib-wrapper read-brep-from-file (file-name &key finalize-on))
-
-(define-smlib-wrapper make-brep-manifold (brep &key finalize-on regions-to-keep keep-internal-faces?))
-
-(define-smlib-wrapper brep-get-tolerance (brep))
-(define-smlib-wrapper brep-reset-tolerance (brep))
-
-(define-smlib-wrapper copy-face-to-new-brep (brep face))
+(define-vanilla-wrapper make-shelled-brep (brep &key distance tolerance))
 
 
-(define-smlib-wrapper make-extended-surface (&key surface curve direction which-end continuity))
 
-(define-smlib-wrapper make-approximated-curve (&key curve tolerance pinned-parameters))
+(define-vanilla-wrapper read-brep-from-file (file-name &key finalize-on))
 
-(define-smlib-wrapper split-surface-at-param (&key native-surface u-or-v parameter))
+(define-vanilla-wrapper make-brep-manifold (brep &key finalize-on regions-to-keep keep-internal-faces?))
 
-(define-smlib-wrapper skin-with-spine (&key profile-curves  
+(define-vanilla-wrapper brep-get-tolerance (brep))
+(define-vanilla-wrapper brep-reset-tolerance (brep))
+
+(define-vanilla-wrapper copy-face-to-new-brep (brep face))
+
+
+(define-vanilla-wrapper make-extended-surface (&key surface curve direction which-end continuity))
+
+(define-vanilla-wrapper make-approximated-curve (&key curve tolerance pinned-parameters))
+
+(define-vanilla-wrapper split-surface-at-param (&key native-surface u-or-v parameter))
+
+(define-vanilla-wrapper skin-with-spine (&key profile-curves  
                                             synchronized?
                                             spine-curve
                                             spine-parameters
@@ -672,13 +672,13 @@
                                             derivative-selection
                                             skinning-degree
                                             u-or-v))
-(define-smlib-wrapper interpolate-conic (&key 
+(define-vanilla-wrapper interpolate-conic (&key 
                                          points 
                                          parameterization
                                          tangency
                                          smooth-corners?))
 
-(define-smlib-wrapper make-coons-patch (&key curve-left
+(define-vanilla-wrapper make-coons-patch (&key curve-left
                                              curve-right
                                              curve-bottom
                                              curve-top
@@ -687,7 +687,7 @@
                                              derivative-bottom
                                              derivative-top))
 
-(define-smlib-wrapper make-approximated-subsurface (&key surface
+(define-vanilla-wrapper make-approximated-subsurface (&key surface
                                                          curve-top
                                                          curve-bottom
                                                          curve-left
@@ -697,28 +697,28 @@
                                                          curve-left-uv
                                                          curve-right-uv))
 
-(define-smlib-wrapper curve-subdivide-at-discontinuities (&key curve
+(define-vanilla-wrapper curve-subdivide-at-discontinuities (&key curve
                                                                continuity-type
                                                                continuity-angle))
 
 
-(define-smlib-wrapper merge-brep (&key brep 
+(define-vanilla-wrapper merge-brep (&key brep 
                                        brep-to-merge 
                                        copy-brep-map))
 
 
-(define-smlib-wrapper merge-breps (&key breps operation))
+(define-vanilla-wrapper merge-breps (&key breps operation))
 
-(define-smlib-wrapper sew-brep (&key brep tolerances))
+(define-vanilla-wrapper sew-brep (&key brep tolerances))
 
-(define-smlib-wrapper surface-create-silhouette-curves (&key surface eye-point-or-vector 
+(define-vanilla-wrapper surface-create-silhouette-curves (&key surface eye-point-or-vector 
                                                              perspective? tolerance angle-tolerance))
 
-(define-smlib-wrapper tooccl (curve &key tolerance))
-(define-smlib-wrapper  curve-knot-scale (curve &key u-min u-max)) 
-(define-smlib-wrapper  surf-grid-points (surface &key  u-parameters  v-parameters u-direction  v-direction))
+(define-vanilla-wrapper tooccl (curve &key tolerance))
+(define-vanilla-wrapper  curve-knot-scale (curve &key u-min u-max)) 
+(define-vanilla-wrapper  surf-grid-points (surface &key  u-parameters  v-parameters u-direction  v-direction))
 
-(define-smlib-wrapper closed-boolean-operation (&key first-brep
+(define-vanilla-wrapper closed-boolean-operation (&key first-brep
                                                      rest-breps
                                                      operation
                                                      approximation-tolerance
@@ -726,54 +726,54 @@
                                                      sew-and-orient?
                                                      manifold?))
 
-(define-smlib-wrapper closed-boolean-separate-operation (&key first-brep
+(define-vanilla-wrapper closed-boolean-separate-operation (&key first-brep
                                                               other-brep
                                                               approximation-tolerance
                                                               angle-tolerance
                                                               sew-and-orient?
                                                               manifold?))
 
-(define-smlib-wrapper global-brep-brep-solve (brep 
+(define-vanilla-wrapper global-brep-brep-solve (brep 
                                               &key other-brep operation-type distance-tolerance))
 
 
-(define-smlib-wrapper get-faces-from-edge (edge))
+(define-vanilla-wrapper get-faces-from-edge (edge))
 
 
-(define-smlib-wrapper reduce-surface-knot (surface &key tolerance direction))
+(define-vanilla-wrapper reduce-surface-knot (surface &key tolerance direction))
 
-(define-smlib-wrapper make-extend-curve (curve &key distance distance-type extending-from continuity)) 
+(define-vanilla-wrapper make-extend-curve (curve &key distance distance-type extending-from continuity)) 
 
-(define-smlib-wrapper approximated-compatible-curves (curve-list &key length tolerance))
+(define-vanilla-wrapper approximated-compatible-curves (curve-list &key length tolerance))
 
-(define-smlib-wrapper make-tx-assembly-instance (&key name))
+(define-vanilla-wrapper make-tx-assembly-instance (&key name))
 
-(define-smlib-wrapper tx-assembly-add-subassembly (parent-assembly-instance-pointer
+(define-vanilla-wrapper tx-assembly-add-subassembly (parent-assembly-instance-pointer
 						   child-assembly-instance-pointer))
 
-(define-smlib-wrapper tx-assembly-add-brep (assembly-instance-pointer
+(define-vanilla-wrapper tx-assembly-add-brep (assembly-instance-pointer
 					    native-brep
 					    &key name red green blue))
 
-(define-smlib-wrapper tx-assembly-add-curve (assembly-instance-pointer
+(define-vanilla-wrapper tx-assembly-add-curve (assembly-instance-pointer
 					    native-curve
 					    &key name red green blue))
 
-(define-smlib-wrapper tx-assembly-add-point (assembly-instance-pointer
+(define-vanilla-wrapper tx-assembly-add-point (assembly-instance-pointer
 					     point
 					     &key name red green blue))
 
-(define-smlib-wrapper rational-to-nonrational   (curve &key tolerance
+(define-vanilla-wrapper rational-to-nonrational   (curve &key tolerance
 						       maintain-end-tangents?
 						       nonrational-degree
 						       parameterization))
 
-(define-smlib-wrapper make-spiral (height
+(define-vanilla-wrapper make-spiral (height
 				   radius-1
 				   radius-2
 				   pitch
 				   right-or-left
 				   tolerance))
 
-(define-smlib-wrapper make-cardinal-spline (&key control-points tension-params periodic?))
+(define-vanilla-wrapper make-cardinal-spline (&key control-points tension-params periodic?))
   
