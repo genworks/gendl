@@ -21,6 +21,12 @@
 
 (in-package :gdl)
 
+;;
+;; FLAG GLOBALS catalog these settings which affect compiling.
+;;
+(glisp:set-default-float-format)
+(glisp:set-defpackage-behavior)
+
 
 (defparameter *init-functions* nil)
 
@@ -42,7 +48,7 @@
 ;; on its local anything-changed?. Consider collecting and reporting
 ;; those results here.
 ;;
-(defun start-gendl ()
+(defun start-gendl! ()
   (dolist (package (list :gdl :geom-base :gwl))
     (when (find-package package) 
       (let ((function-sym (read-from-string (format nil "~a::initialize" package))))
@@ -104,7 +110,6 @@
 ;; defer until end of loading everything.
 ;;
 (defun initialize ()
-
   
   (declare (ignore edition))
   (setq glisp:*gdl-program-home* (glisp:executable-homedir-pathname))
@@ -119,5 +124,3 @@
   (glisp:xref-off)
   (glisp:set-window-titles))
 
-(glisp:set-default-float-format)
-(glisp:set-defpackage-behavior)

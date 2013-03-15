@@ -67,9 +67,14 @@
       (t -1))))
 
 
+;;
+;; FLAG -- figure out how to use uiop:run-program to hide the popup console window. 
+;;
 (defun run-gs (command)
   "Shell out a ghostscript command and handle errors."
-  (let ((result (run-program command)))
+  (let ((result 
+	 #+(and mswindows allegro) (excl:run-shell-command command :show-window :hide)
+	 #-(and mswindows allegro) (run-program command :output (make-broadcast-stream))))
     (unless (zerop result) (error "Ghostscript threw error"))))
 
 (defun run-program (command &key output ignore-error-status force-shell

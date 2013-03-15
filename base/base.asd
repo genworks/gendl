@@ -1,10 +1,10 @@
 
 (asdf:defsystem #:base :description
-                "Auto-generated asdf defsys from Genworks GDL cl-lite."
+                "Base GenDL Kernel Supplying define-object, define-format, define-view macros and Associated Referencing Operators and KBE Runtime Engine."
                 :author
-                "Genworks and Dave Cooper unless otherwise indicated"
-                :license "AGPL unless otherwise indicated" :serial t
-                :version "2013031000"
+                "Dave Cooper and Genworks International"
+                :license "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)" :serial t
+                :version "2013031400"
                 :components
                 ((:file "common/package")
 		 (:file "common/genworks")
@@ -32,4 +32,5 @@
                  (:file "rest/source/init")
                  (:file "rest/source/make-part")
                  (:file "rest/source/null-part")
-                 (:file "rest/source/sequence")))
+                 (:file "rest/source/sequence")
+		 (:file "rest/source/zzinit")))

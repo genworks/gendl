@@ -237,28 +237,15 @@
     #+allegro (make-hash-table :values nil)
     #-allegro (make-hash-table)))
 
-(defvar *known-system-prefixes* (list "gdl" "gendl" "genworks"))
 
-(defun other-feature (feature)
-  (let ((prefixes *known-system-prefixes*))
-    (setq feature (ensure-string feature))
-    (if (every #'(lambda(prefix) (not (search prefix feature))) prefixes)
-	(intern (concatenate 'string "gdl-" feature) :keyword)
-	(mapc #'(lambda(prefix)
-		  (when (string-equal (subseq feature 0 (length prefix)) prefix)
-		    (subseq feature (length prefix)))) prefixes))))
-  
 (defun make-versioned-features (feature)
-  (let ((other-feature (other-feature feature)))
-    (mapcar #'(lambda(sym) (intern sym :keyword))
-	    (remove 
-	     nil
-	     (list
-	      feature other-feature
-	      (let ((version (find-feature-version feature nil)))
-		(when version (format nil "~a-~a" feature version)))
-	      (let ((version (find-feature-version other-feature nil)))
-		(when version (format nil "~a-~a" other-feature version))))))))
+  (mapcar #'(lambda(string)
+	      (intern string :keyword))
+	  (remove 
+	   nil
+	   (list feature (let ((version (find-feature-version feature nil)))
+			   (when version (format nil "~a-~a" feature version)))))))
+
 		    
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 

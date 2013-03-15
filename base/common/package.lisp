@@ -216,8 +216,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:set-self
            #:split
            #:standard-query
-           #:start-gdl
-	   #:start-gendl
+           #:start-gdl!
+	   #:start-gendl!
            #:start-gdl-runtime
 	   #:start-gendl-runtime
            #:status-message
@@ -355,6 +355,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:split-regexp
      #:with-heuristic-case-mode
      #:with-timeout-sym
+     #:with-timeout
 
      ;;
      ;; Implemented in regression/utils/source/genworks.lisp

@@ -3,8 +3,8 @@
            "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
            :author "Dave Cooper and Genworks International" :license
            "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
-           :serial t :version "20130314" :depends-on (:gendl-base :gendl-cl-lite :aserve :cl-pdf :cl-who :cl-ppcre 
-	     #-allegro :cl-base64 #-allegro :babel :trivial-backtrace :cl-html-parse)
+           :serial t :version "20130315" :depends-on (:base :cl-lite :aserve :cl-pdf :cl-who :cl-ppcre 
+       	     #-allegro :cl-base64 #-allegro :babel :trivial-backtrace :cl-html-parse) 
 	   :components
            ((:file "source/genworks") (:file "source/defparameters")
             (:file "source/base-html-sheet")
@@ -20,7 +20,7 @@
             (:file "source/log-utils") (:file "source/new-urls")
             (:file "source/publish") (:file "source/remote-object")
             (:file "source/security-check-failed")
-            (:file "ajax/source/parameters")
+            (:file "source/zzinit") (:file "ajax/source/parameters")
             (:file "ajax/source/ajax")
             (:file "ajax/source/base-ajax-sheet")
             (:file "ajax/source/skeleton-ui-element")

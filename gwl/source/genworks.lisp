@@ -275,8 +275,7 @@ please find implementation for the currently running lisp.~%")
 (defmacro with-timeout ((seconds &body timeout-body) &body body)
   #+allegro `(mp:with-timeout (,seconds ,@timeout-body)
 	       ,@body)
-  #-allegro `(acl-compat.mp:with-timeout 
-		 ((seconds &body timeout-body) &body body)
+  #-allegro `(acl-compat.mp:with-timeout (,seconds ,@timeout-body)
 	       ,@body))
 
 ;;

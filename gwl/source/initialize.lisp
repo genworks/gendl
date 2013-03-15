@@ -56,7 +56,7 @@
 (defun client-test (port)
   (multiple-value-bind (result error)
       (ignore-errors  
-	(mp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
+	(glisp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
 Perhaps a zombie process is holding port ~a?~%" port port))
 	  (net.aserve.client:do-http-request   
 	      (format nil "http://localhost:~a" port))))
@@ -77,7 +77,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 (defvar *settings* (list (list '*static-home* *static-home* 
 			       (when glisp:*genworks-source-home*
-				 (or (probe-file (merge-pathnames "gdl/gwl/static/" 
+				 (or (probe-file (merge-pathnames "gendl/gwl/static/" 
 								  glisp:*genworks-source-home*))
 				     (error "Static home not found"))))))
 

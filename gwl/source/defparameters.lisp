@@ -22,6 +22,14 @@
 
 (in-package :gwl)
 
+;;
+;; FLAG GLOBALS catalog these and handle them sanely
+;;
+(setq cl-who:*prologue* "<!doctype HTML>")
+(setq cl-who:*attribute-quote-char* #\")
+(setq cl-who:*downcase-tokens-p* nil)
+
+
 ;;(glisp:set-compile-settings)
 
 (defclass gwl-gdl-ui ()())
@@ -133,9 +141,3 @@ Defaults to t.")
 
 (defparameter *recovery-url-default* "/" "The url that the session-control-mixin will use for the recovery url")
 
-;;
-;; FLAG --- cl-who customizations -- should be in own file
-;;
-(setq cl-who:*prologue* "<!doctype HTML>")
-(setq cl-who:*attribute-quote-char* #\")
-(setq cl-who:*downcase-tokens-p* nil)
