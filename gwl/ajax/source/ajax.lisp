@@ -21,7 +21,6 @@
 
 (in-package :gwl)
 
-
 ;;
 ;; FLAG -- Undocumented. This will change.
 ;;
