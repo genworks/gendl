@@ -9,7 +9,9 @@
   :depends-on (:gwl-graphics
                :tasty
 	       :robot
-               :yadd))
+               :yadd)
+  
+  :components ((:file "source/try")))
 
                
                
