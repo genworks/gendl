@@ -47,7 +47,6 @@
   (declare (ignore in-memory host login password))
   (setq *geometry-kernel* (make-instance 'vanilla-geometry-kernel)))
 
-(unless *geometry-kernel* (make-geometry-kernel :vanilla))
 
 (defmethod decomposed-curves ((geometry-kernel vanilla-geometry-kernel) native-curve)
   (declare (ignore native-curve))

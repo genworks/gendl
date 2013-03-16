@@ -21,12 +21,7 @@
 
 (in-package :gwl)
 
-;;
-;; FLAG -- Undocumented. This will change.
-;;
-(defvar *snap-folder* 
-  (or (probe-file (merge-pathnames "snaps/" "sys:"))
-      (ensure-directories-exist (merge-pathnames "snaps/" (glisp:temporary-folder)))))
+(defvar *snap-folder*  (glisp:snap-folder))
 
 (defun restore-from-snap (iid)
   (let ((new-self

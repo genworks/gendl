@@ -27,29 +27,11 @@
 (glisp:set-default-float-format)
 (glisp:set-defpackage-behavior)
 
-
-(defparameter *init-functions* nil)
-
-(defun register-init-function (function-symbol)
-  (unless (symbolp function-symbol)
-    (error "~&register-init-function only accepts a symbol which names a function (i.e. is fboundp).~%"))
-  (unless (fboundp function-symbol)
-    (warn "~&register-init-function was called with unbound function ~s.~%" function-symbol))
-
-  (format t "Registering ~s. Init functions now contain ~s.~%" function-symbol *init-functions*)
-
-  (setq *init-functions* (append *init-functions* (list function-symbol)))
-  *init-functions*)
+(defparameter *packages-to-initialize* (list :gdl :geom-base :gwl))
 
 
-
-;;
-;; FLAG -- each initialize function should return nil or non-nil based
-;; on its local anything-changed?. Consider collecting and reporting
-;; those results here.
-;;
-(defun start-gendl! ()
-  (dolist (package (list :gdl :geom-base :gwl))
+(defun start-gendl! (&key packages *packages-to-initialize*)
+  (dolist (package packages)
     (when (find-package package) 
       (let ((function-sym (read-from-string (format nil "~a::initialize" package))))
 	(when (fboundp function-sym) 

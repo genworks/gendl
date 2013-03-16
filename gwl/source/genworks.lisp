@@ -251,6 +251,10 @@ the \"current\" error."
    #+sbcl sb-mop:slot-definition-name 
    #+ccl ccl:slot-definition-name slot-definition))
 
+(defun snap-folder ()
+  (or #+allegro (probe-file (merge-pathnames "snaps/" "sys:"))
+      (ensure-directories-exist (merge-pathnames "snaps/" (glisp:temporary-folder)))))
+
 (defun socket-bytes-written (socket)
   #-allegro (declare (ignore socket))
   #+allegro (excl::socket-bytes-written socket)

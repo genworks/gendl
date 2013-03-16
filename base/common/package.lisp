@@ -351,6 +351,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:replace-regexp
      #:room-report
      #:slot-definition-name
+     #:snap-folder
      #:socket-bytes-written
      #:split-regexp
      #:with-heuristic-case-mode
