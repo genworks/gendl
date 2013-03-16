@@ -279,7 +279,7 @@
         
         
         (let ((command 
-               (format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
+		(format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
                        *gs-path* "jpeg"  temp-jpeg *gs-text-alpha-bits* 
                        *gs-graphics-alpha-bits* temp-pdf)))
           (glisp:run-gs command))
