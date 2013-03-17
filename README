@@ -88,23 +88,28 @@ Current Requirements:
  To load the entire system, you can do it with:
 
   (ql:quickload :gendl)
-  (gdl:initialize)
+  (gendl:start-gendl!)
 
 
-Now you can do a quick sanity test by visiting:
+Now you can do a quick sanity check by visiting:
 
   localhost:9000/tasty 
 
 in your browser and trying to instantiate the default assembly tree
 (robot).
 
-Slime (Emacs Editor integration) is recommended for editing GDL
-applications with Emacs.  Slime is available with:
+Slime (Superior Lisp Interaction Mode for Emacs) is recommended 
+for developing Gendl applications with Emacs.  
+
+Slime is available with:
 
    (ql:quickload :quicklisp-slime-helper)
 
-Documentation is in documentation/tutorial/pdf/tutorial.pdf and this
-very much an active work in progress. Training tutorials and videos
+Documentation is in documentation/tutorial/pdf/tutorial.pdf 
+
+ [!! Edit: the tutorial.pdf is temporarily removed for maintenance !!]
+
+and this very much an active work in progress. Training tutorials and videos
 are also in progress and in their current state are available in the
 Documentation section on http://genworks.com.
 
@@ -114,7 +119,7 @@ source architecture is partially described below.
 
 
 Gendl source code Architecture:
-=============================
+===============================
 
 Gendl is separated into layered components, some of which depend on
 others. Some components also depend on third-party external libraries,
@@ -125,37 +130,37 @@ the folder gdl/base/. This includes the compiler/expanders for
 "define-object" and related macros as well as core primitives such as
 vanilla-mixin.
 
-Including gdl-base, there are eight modules supported with Gendl:
+Including the base, there are eight modules supported with Gendl:
 
 
- :gdl-base - (gdl/base/) Gendl language kernel.
+ :base - (gendl/base/) Gendl language kernel.
 
 
- :gdl-cl-lite - (gdl/cl-lite/) Gendl system definitions and loading
+ :cl-lite - (gdl/cl-lite/) Gendl system definitions and loading
       facility. Supplements our use of asdf and quicklisp.
 
 
- :gdl-regression - (gdl/regression) regression test utilities.
+ :regression - (gdl/regression) regression test utilities.
 
 
- :gdl-geom-base - (gdl/geom-base/) Built-in Gendl wireframe primtives
+ :geom-base - (gdl/geom-base/) Built-in Gendl wireframe primtives
       and basic geometry/vector manipulation functions.
 
 
- :gdl-gwl - (gdl/gwl/) Generative Web Language, represent web pages
+ :gwl - (gdl/gwl/) Generative Web Language, represent web pages
        using GDL objects, includes Ajax-based web interaction with
        your model.
 
 
- :gdl-gwl-graphics - (gdl/gwl-graphics/) include graphics rendered
+ :gwl-graphics - (gdl/gwl-graphics/) include graphics rendered
       from geometry object in GWL web pages.
 
 
- :gdl-surf - (gdl/surf/) surface primitives without underlying
+ :surf - (gdl/surf/) surface primitives without underlying
       geometry kernel middleware or implementation.
 
 
- :gdl-yadd - (gdl/apps/yadd/) self auto-documentation.
+ :yadd - (gdl/apps/yadd/) self auto-documentation.
 
 
 
