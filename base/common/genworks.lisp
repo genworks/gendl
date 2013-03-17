@@ -292,19 +292,21 @@
 (defun set-settings (settings)
   (let (anything-changed?)
     (dolist (setting settings)
-      (destructuring-bind (symbol default new-value) setting
-	(unless (equalp (symbol-value symbol) new-value)
-	  (setq anything-changed? t)
-	  (format t "Setting ~s from default value ~s to non-default value.~%" 
-		  symbol default)
-	  (setf (symbol-value symbol) new-value)))) anything-changed?))
+      (destructuring-bind (symbol default new-value-or-func) setting
+	(let ((new-value (if (functionp new-value-or-func)
+			     (funcall new-value-or-func) new-value-or-func)))
+	  (unless (equalp (symbol-value symbol) new-value)
+	    (setf (symbol-value symbol) new-value)
+	    (setq anything-changed? t)
+	    (format t "~&Set ~s from default value ~s to non-default value ~s.~%" 
+		    symbol default new-value))))) anything-changed?))
 
 (defun set-features (features)
   (let (anything-changed?)
     (dolist (feature features)
       (dolist (feature (make-versioned-features feature))
 	(unless (or (null feature) (glisp:featurep feature))
-	  (format t "Pushing ~s onto *features* list.~%" feature)
+	  (format t "~&Pushing ~s onto *features* list.~%" feature)
 	  (push feature *features*)
 	  (setq anything-changed? t)))) anything-changed?))
 

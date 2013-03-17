@@ -6,7 +6,7 @@
 (defvar *settings* (list (list 'cl-who:*prologue* cl-who:*prologue* "<!doctype HTML>")
 			 (list 'cl-who:*attribute-quote-char* cl-who:*attribute-quote-char* #\")
 			 (list 'cl-who:*downcase-tokens-p* cl-who:*downcase-tokens-p* nil)
-			 (list 'gdl:*gs-path* gdl:*gs-path* (glisp:find-gs-path))))
+			 (list 'gdl:*gs-path* gdl:*gs-path* #'(lambda() (glisp:find-gs-path)))))
 
 (defvar *new-features* (list :geom-base))
 

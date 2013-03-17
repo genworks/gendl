@@ -2,6 +2,7 @@ gendl.asd
 gwl/gwl.asd
 base/base.asd
 surf/surf.asd
+glisp/glisp.asd
 apps/ta2/ta2.asd
 demos/bus/bus.asd
 apps/tree/tree.asd

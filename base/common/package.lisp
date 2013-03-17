@@ -200,7 +200,6 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:remove-plist-key
 	   #:remove-plist-entry
            #:remove-plist-keys
-           #:replace-regexp*
            #:replace-substring
            #:restore-ui-object
            #:retitle-emacs
@@ -303,6 +302,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:set-features
      #:set-settings
      #:set-window-titles
+     #:sexpr-from-file
      #:source-pathname
      #:system-home
      #:set-genworks-source-home-if-known
@@ -314,9 +314,6 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:xref-off
      #:xref-on
 	     
-     ;;
-     ;; Implemented in gdl/cl-lite/source/genworks.lisp.
-     ;;
      #:*fasl-extension*
      #:concatenate-fasls
      #:directory-list
@@ -324,18 +321,13 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:temporary-folder
      #:temporary-file
 
-     ;;
-     ;; Implemented in gdl/geom-base/prereqs/source/genworks.lisp
-     ;;
      #:find-gs-path
      #:get-pid
      #:run-gs
      #:set-gs-path
      #:run-program	     
      #:run-shell-command	     
-     ;;
-     ;; Implemented in gdl/gwl/source/genworks.lisp
-     ;;
+
      #:*enable-utf8?*
      #:*base64-encode-func*
      #:*base64-decode-func*
@@ -358,17 +350,13 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:with-timeout-sym
      #:with-timeout
 
-     ;;
-     ;; Implemented in regression/utils/source/genworks.lisp
-     ;;
+
      #:close-old-areas
      #:open-old-areas
      #:get-mem-info
      #:gc-scavenge
 
-     ;;
-     ;; Implemented in build/source/genworks.lisp
-     ;;
+
      #:copy-directory
      #:copy-file
      #:delete-directory-and-files
@@ -378,17 +366,12 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:make-gendl-app
      #:next-datestamp
 
-     ;;
-     ;; Implemented in gdl/apps/yadd/source/genworks.lisp
-     ;;
      #:autoloaded-packages
      #:package-documentation
      #:function-documentation
      #:variable-documentation
 	     
-     ;;
-     ;; Implemented in gdl/apps/translators/xml/source/genworks.lisp
-     ;;
+
      #:parse-xml
      ))
 
@@ -804,6 +787,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:*break-on-set-self?*
      #:*jump-to-toplevel-on-set-self?*
      #:*process-cookies?*
+     #:*static-home*
      #:encode-root-path
      #:base-html-sheet
      #:skeleton-ui-element

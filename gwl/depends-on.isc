@@ -1,3 +1,1 @@
-#.(warn "This has to be put in manually -- conditional includes here.")
-(:base :cl-lite :aserve :cl-pdf :cl-who :cl-ppcre 
-       	     #-allegro :cl-base64 #-allegro :babel :trivial-backtrace :cl-html-parse)
+"(:glisp :aserve #-allegro :cl-base64 #-allegro :babel)"

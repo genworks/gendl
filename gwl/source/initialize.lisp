@@ -75,11 +75,17 @@ Perhaps a zombie process is holding port ~a?~%" port port))
          port)
       (incf port))))
 
-(defvar *settings* (list (list '*static-home* *static-home* 
-			       (when glisp:*genworks-source-home*
-				 (or (probe-file (merge-pathnames "gendl/gwl/static/" 
-								  glisp:*genworks-source-home*))
-				     (error "Static home not found"))))))
+(defvar *settings* 
+  (list (list '*static-home* *static-home* 
+	      #'(lambda()
+		  (or (and glisp:*genworks-source-home*
+			   (probe-file (merge-pathnames "gendl/gwl/static/" 
+							glisp:*genworks-source-home*)))
+		      (and glisp:*gdl-home*
+			   (probe-file (merge-pathnames "static/"
+							glisp:*gdl-home*)))
+		      (warn "~%Static home not found in source directory or parent of program directory.~%"))))))
+
 
 (defvar *new-features* (list :gwl))
 			       

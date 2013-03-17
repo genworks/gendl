@@ -30,7 +30,7 @@
 (defparameter *packages-to-initialize* (list :gdl :geom-base :gwl))
 
 
-(defun start-gendl! (&key packages *packages-to-initialize*)
+w(defun start-gendl! (&key (packages *packages-to-initialize*))
   (dolist (package packages)
     (when (find-package package) 
       (let ((function-sym (read-from-string (format nil "~a::initialize" package))))

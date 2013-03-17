@@ -20,7 +20,7 @@
 ;; 
 
 ;;
-;; FLAG -- put this back for SBCL and others when we switch to cl-html-parse from Quicklisp. 
+;; FLAG -- put this back for SBCL and others when we make it work with cl-html-parse from Quicklisp. 
 ;;
 
 #+allegro

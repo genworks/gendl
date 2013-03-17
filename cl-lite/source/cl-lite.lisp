@@ -94,11 +94,10 @@ given as keyword args to this function)."
          (base-device (pathname-device 
                        (translate-logical-pathname pathname-host)))
          
-         (config-spec (with-open-file (in (make-pathname :directory (append base-dir (list "configs"))
-                                                         :device base-device
-                                                         :name config-name
-                                                         :type "config"))
-                        (read in)))
+         (config-spec (glisp:sexpr-from-file (make-pathname :directory (append base-dir (list "configs"))
+						      :device base-device
+						      :name config-name
+						      :type "config")))
          (bin-files
           (apply #'append
                  (mapcar #'cl-lite 
@@ -160,7 +159,7 @@ given as keyword args to this function)."
 			      (list (the pathname) (user-homedir-pathname)))))
 		 (dolist (file files-to-check)
 		   (when (probe-file file)
-		     (return (with-open-file (in file) (read in))))))))
+		     (return (glisp:sexpr-from-file file)))))))
 
   :input-slots
   (
@@ -275,13 +274,17 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		   (error "Could not create ~a in ~a.~%Directory does not exist.~%"
 			  asd-file-name (the pathname)))))
    
-   (asdf-depends-on (let ((depends-on-file 
-                           (merge-pathnames (make-pathname :name "depends-on"
-                                                           :type "isc")
-                                            (the ppathname))))
-                      (when (probe-file depends-on-file)
-                        (with-open-file (in depends-on-file)
-                          (read in)))))
+   ;;
+   ;; This has to be able to be a string in case it has e.g. #-allegro
+   ;; conditionals in it.
+   ;;
+   (asdf-depends-on (let ((sexpr (glisp:sexpr-from-file 
+				  (merge-pathnames (make-pathname :name "depends-on"
+								  :type "isc")
+						   (the ppathname)))))
+		      (if (stringp sexpr)
+			  (format nil "%%remove%%~a%%remove%%" sexpr) sexpr)))
+
    
    (additional-asd-code (let ((asd-code-file 
 			       (merge-pathnames (make-pathname :name "additional-asd-code"
@@ -294,16 +297,34 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 				  (do ((form (read in nil nil) (read in nil nil)))
 				      ((null form) (nreverse result))
 				    (push form result))))))))
+   
+   ;;
+   ;; sanitize any strings for the depends-on
+   ;;
+   (asdf-system-lines  (let ((temp-file (glisp:temporary-file)))
+			 (with-open-file (out temp-file :direction :output
+					      :if-exists :supersede
+					      :if-does-not-exist :create)
+			   (pprint (the %asdf-system-list) out))
+			 (with-open-file (in temp-file)
+			   (let (result)
+			     (do ((line (read-line in nil) (read-line in nil)))
+				 ((null line) (nreverse result))
+			       (push (glisp:replace-regexp 
+				      (glisp:replace-regexp line "%%remove%%\"" "")
+				      "\"%%remove%%" "") result))))))
 
-   (asdf-system-list 
+   (%asdf-system-list 
     (let ((binaries (the compile-and-load)))
-      (append `(,(read-from-string "asdf:defsystem") ,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
+      (append `("%%remove%%asdf:defsystem%%remove%%" 
+		,(read-from-string (format nil "#:~a" (pathname-name (the asd-file))))
 		:description ,(the description) 
 		:author ,(the author)
 		:license ,(the license)
 		:serial t
 		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
+				 
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
 		;;
@@ -374,9 +395,12 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                      :if-exists :supersede
                      :if-does-not-exist :create)
       (let ((*print-right-margin* 70)
-	    (*print-case* :downcase)
-	    (*package* (find-package :asdf)))
-        (pprint (the asdf-system-list) out)
+	    (*print-case* :downcase))
+	
+	(dolist (line (the asdf-system-lines))
+	  (write-string line out)
+	  (format out "~%"))
+
 	(when (the additional-asd-code)
 	  (format out "~%~%")
 	  (pprint (the additional-asd-code) out))))
@@ -473,14 +497,11 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    source-files-to-ignore)
 
   :computed-slots
-  ((ordering-bias (let ((ordering-info-file
-                         (make-pathname
-                          :directory (pathname-directory (the :pathname))
-                          :device (the :device)
-                          :name "file-ordering"
-                          :type "isc")))
-                    (when (probe-file ordering-info-file)
-                      (with-open-file (in ordering-info-file) (read in)))))
+  ((ordering-bias (glisp:sexpr-from-file (make-pathname
+				    :directory (pathname-directory (the :pathname))
+				    :device (the :device)
+				    :name "file-ordering"
+				    :type "isc")))
 
    ;;
    ;; FLAG -- read this info once in the parent directory object, not here for each file!
@@ -488,14 +509,12 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    ;; FLAG -- convert to use read-isc-file function
    ;;
    ;;
-   (ignore-list (let ((ignore-list-file
-                       (make-pathname
-                        :directory (pathname-directory (the :pathname))
-                        :device (the :device)
-                        :name "ignore-list"
-                        :type "isc")))
-                  (when (probe-file ignore-list-file)
-                    (with-open-file (in ignore-list-file) (read in)))))
+   (ignore-list (glisp:sexpr-from-file (make-pathname
+				  :directory (pathname-directory (the :pathname))
+				  :device (the :device)
+				  :name "ignore-list"
+				  :type "isc")))
+
    (relevant-files (let (key)
                      (mapcar #'(lambda (thing)
                                  (if (not (listp thing))
@@ -595,22 +614,20 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    ;;
    ;; FLAG -- convert to use read-isc-file function. 
    ;;
-   (ordering-bias (let ((ordering-info-file
-                         (make-pathname
-                          :directory (pathname-directory (the :pathname))
-                          :device (the :device)
-                          :name "system-ordering"
-                          :type "isc")))
-                    (when (probe-file ordering-info-file)
-                      (with-open-file (in ordering-info-file) (read in)))))
-   (ignore-list (let ((ignore-list-file
-                       (make-pathname
-                        :directory (pathname-directory (the :pathname))
-                        :device (the :device)
-                        :name "ignore-list"
-                        :type "isc")))
-                  (when (probe-file ignore-list-file)
-                    (with-open-file (in ignore-list-file) (read in)))))
+   (ordering-bias (glisp:sexpr-from-file
+		   (make-pathname
+		    :directory (pathname-directory (the :pathname))
+		    :device (the :device)
+		    :name "system-ordering"
+		    :type "isc")))
+
+   (ignore-list (glisp:sexpr-from-file 
+		 (make-pathname
+		  :directory (pathname-directory (the :pathname))
+		  :device (the :device)
+		  :name "ignore-list"
+		  :type "isc")))
+
    (subdir-pathnames-unordered (sort
                                 (set-difference
                                  (mapcar #'pathname-directory

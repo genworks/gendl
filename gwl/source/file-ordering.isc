@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("genworks" "defparameters" 
+("package" "defparameters" 
 	    "base-html-sheet" "base-html-utils" 
 	    "macros" "ignore-errors-with-backtrace"  "initialize" "utilities"  "answer" 
             "accessories"  "layout-mixin" 
