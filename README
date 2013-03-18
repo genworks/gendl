@@ -1,40 +1,17 @@
-;;;
-;; Copyright 2013 Genworks International
-;;
-;; This file is part of the General-purpose Declarative
-;; Language project (Gendl).
-;;
-;; Gendl is free software: you can redistribute it and/or modify it 
-;; under the terms of the GNU Affero General Public License as 
-;; published by the Free Software Foundation, either version 3 of 
-;; the License, or (at your option) any later version.
-;; 
-;; This source file is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-;; Affero General Public License for more details.
-;; 
-;; You should have received a copy of the GNU Affero General Public
-;; License along with this source file.  If not, see
-;; <http://www.gnu.org/licenses/>.
-;; 
+Gendl
 
-
-Welcome to the General-purpose Declarative Language ("Gendl").
-
-
-What is this? 
+What is Gendl? 
 =============
 
-Gendl is a Generative Programming and Knowledge Based Engineering
-framework, building on concepts dating back to the 1980s. It allows
-for high-level declarative, object-oriented problem solving and
-application development, including but not limited to the ability to
-generate and manipulate 3D geometry. To solve a problem in Gendl, you
-formulate it using the "define-object" operator, which allows you to
-specify inputs, outputs (computed slots), and child objects, which
-then gives the ability to generate a "tree" of objects, useful for
-decomposing complexity.
+Gendl is an AGPL-licensed Generative Programming and Knowledge Based
+Engineering framework, building on concepts dating back to the
+1980s. It allows for high-level declarative, object-oriented problem
+solving and application development, including but not limited to the
+ability to generate and manipulate 3D geometry. To solve a problem in
+Gendl, you formulate it using the "define-object" operator, which
+allows you to specify inputs, outputs (computed slots), and child
+objects, which then gives the ability to generate a "tree" of objects,
+useful for decomposing complexity.
 
 A graphical web-based interface, tasty, is available for interacting
 with your system as you develop it.
@@ -162,6 +139,11 @@ Including the base, there are eight modules supported with Gendl:
 
  :yadd - (gdl/apps/yadd/) self auto-documentation.
 
+
+License
+=======
+
+Affero Gnu General Public License (http://www.gnu.org/licenses/agpl.txt)
 
 
 
