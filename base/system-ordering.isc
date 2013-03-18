@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("prereqs" "expanders" "macros" "writers" "rest" "compiler" "geometry" "drawing" "text" "peruser")
+("source" "expanders" "macros")

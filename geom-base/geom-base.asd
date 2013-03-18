@@ -3,10 +3,10 @@
  "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
  :author "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130316" :depends-on (:glisp) :components
- ((:file "prereqs/source/cl-pdf-patches")
+ :serial t :version "20130317" :depends-on (:glisp) :components
+ ((:file "prereqs/source/presets")
+  (:file "prereqs/source/cl-pdf-patches")
   (:file "prereqs/source/matrix") (:file "prereqs/source/parameters")
-  (:file "prereqs/source/initialize")
   (:file "prereqs/source/utilities")
   (:file "formats/source/2d-output") (:file "formats/source/dxf")
   (:file "formats/source/macro-redefs") (:file "formats/source/obj")
@@ -53,4 +53,5 @@
   (:file "text/source/typeset-block") (:file "graphs/source/graph")
   (:file "graphs/source/legend") (:file "graphs/source/pie-chart")
   (:file "lenses/source/vrml") (:file "lenses/source/x3d")
-  (:file "math/source/polynomial") (:file "zzinit/source/zzinit")))
+  (:file "math/source/polynomial") (:file "zzinit/source/initialize")
+  (:file "zzinit/source/zzinit")))

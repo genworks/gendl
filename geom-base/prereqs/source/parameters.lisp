@@ -22,12 +22,6 @@
 (in-package :geom-base)
 
 
-;;
-;; FLAG GLOBALS catalog these and handle them sanely
-;;
-(setq cl-who:*prologue*  "<!doctype HTML>")
-(setq cl-who:*attribute-quote-char*  #\")
-(setq  cl-who:*downcase-tokens-p* nil)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defmacro make-vector (&rest args)

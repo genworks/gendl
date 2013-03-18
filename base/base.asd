@@ -1,17 +1,18 @@
 
 (asdf:defsystem #:base :description
-                "Base GenDL Kernel Supplying define-object, define-format, define-view macros and Associated Referencing Operators and KBE Runtime Engine."
+                "Base Gendl Subsystem supplying define-object, define-format, define-view macros and Associated Referencing Operators and KBE Runtime Engine."
                 :author
                 "Dave Cooper and Genworks International"
                 :license "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)" :serial t
                 :version "2013031400"
                 :components
-                ((:file "common/package")
-		 (:file "common/genworks")
-		 (:file "common/start-gendl")
-		 (:file "prereqs/source/parameters")
-                 (:file "prereqs/source/metaclasses")
-                 (:file "prereqs/source/utilities")
+                ((:file "source/package")
+		 (:file "source/genworks")
+		 (:file "source/presets")
+		 (:file "source/parameters")
+                 (:file "source/metaclasses")
+		 (:file "source/start")
+                 (:file "source/utilities")
                  (:file "expanders/source/inputs")
                  (:file "expanders/source/computed-slots")
                  (:file "expanders/source/functions")
@@ -33,4 +34,6 @@
                  (:file "rest/source/make-part")
                  (:file "rest/source/null-part")
                  (:file "rest/source/sequence")
-		 (:file "rest/source/zzinit")))
+		 (:file "zzinit/source/initialize")
+		 (:file "zzinit/source/zzinit")))
+

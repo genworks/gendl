@@ -1,5 +1,3 @@
-(in-package :com.genworks.lisp)
-
 ;;
 ;; Copyright 2002-2011, 2012 Genworks International
 ;;

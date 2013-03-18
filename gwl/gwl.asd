@@ -3,21 +3,21 @@
  "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
  :author "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130316" :depends-on
+ :serial t :version "20130317" :depends-on
  (:glisp :aserve #-allegro :cl-base64 #-allegro :babel)
  :components
  ((:file "source/package") (:file "source/defparameters")
-  (:file "source/base-html-sheet") (:file "source/base-html-utils")
-  (:file "source/macros")
+  (:file "source/presets") (:file "source/base-html-sheet")
+  (:file "source/base-html-utils") (:file "source/macros")
   (:file "source/ignore-errors-with-backtrace")
-  (:file "source/initialize") (:file "source/utilities")
-  (:file "source/answer") (:file "source/accessories")
-  (:file "source/gdl-remote") (:file "source/vanilla-remote")
-  (:file "source/base64-utils") (:file "source/cl-pdf-patches")
-  (:file "source/color-palette") (:file "source/crawler")
-  (:file "source/log-utils") (:file "source/new-urls")
-  (:file "source/publish") (:file "source/remote-object")
-  (:file "source/security-check-failed") (:file "source/zzinit")
+  (:file "source/utilities") (:file "source/answer")
+  (:file "source/accessories") (:file "source/gdl-remote")
+  (:file "source/vanilla-remote") (:file "source/base64-utils")
+  (:file "source/cl-pdf-patches") (:file "source/color-palette")
+  (:file "source/crawler") (:file "source/log-utils")
+  (:file "source/new-urls") (:file "source/publish")
+  (:file "source/remote-object")
+  (:file "source/security-check-failed")
   (:file "ajax/source/parameters") (:file "ajax/source/ajax")
   (:file "ajax/source/base-ajax-sheet")
   (:file "ajax/source/skeleton-ui-element")
@@ -35,4 +35,5 @@
   (:file "gwl-session/source/session-recovery")
   (:file "gwl-session/source/session-report")
   (:file "js-libs/jquery/source/package")
-  (:file "js-libs/jquery/source/slider-form-control")))
+  (:file "js-libs/jquery/source/slider-form-control")
+  (:file "zzinit/source/initialize") (:file "zzinit/source/zzinit")))

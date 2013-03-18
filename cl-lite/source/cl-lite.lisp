@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :gdl)
+(in-package :cl-lite)
 
 (defun cl-lite (pathname &rest args)
   "

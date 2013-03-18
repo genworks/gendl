@@ -29,3 +29,7 @@
 (defparameter *tasty-developing?* nil)
 
 (defparameter *use-bsplines-for-vrml?* nil)
+
+(defparameter *these-features* (list :tasty))
+
+(defparameter *settings* nil)
