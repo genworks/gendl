@@ -34,6 +34,9 @@
 #-(or allegro lispworks sbcl ccl) 
 (warn "~&Please implement concatenate-fasls for the currently running lisp.~%")
 
+;;
+;; FLAG -- OBSOLETED by asdf/bundle:fasl-op and asdf/bundle:monolithic-fasl-op
+;;
 (defun concatenate-fasls (files dest)
   #-(or allegro lispworks sbcl ccl) (declare (ignore files dest))
   #-(or allegro lispworks sbcl ccl) (error "~&Please implement concatenate-fasls for the currently running lisp.~%")
@@ -80,14 +83,14 @@
   (make-pathname :name :wild :type :wild :version :wild))
 
 
-#+nil
+
 (defun copy-directory (from-dir to-dir &rest args)
   (declare (ignore args))
   #+allegro (excl:copy-directory from-dir to-dir)
   #+lispworks (cl-copy-directory to-dir from-dir)
   #+clozure (ccl::recursive-copy-directory from-dir to-dir )
   #-(or allegro lispworks clozure) 
-  (error "~&copy-directory needed for ~a. Consider cl-fad.~%" (lisp-implementation-type)))
+  (error "~&copy-directory needed for ~a. Does uiop/filesystem have one yet?~%" (lisp-implementation-type)))
 
 
 #+nil
@@ -231,14 +234,10 @@ and \"..\" entries."
       (t -1))))
 
 
-;;
-;; FLAG -- figure out how to use uiop:run-program to hide the popup console window. 
-;;
 (defun run-gs (command)
   "Shell out a ghostscript command and handle errors."
   (let ((result 
-	 #+(and mswindows allegro) (excl:run-shell-command command :show-window :hide)
-	 #-(and mswindows allegro) (run-program command)))
+	 (run-program command)))
     (unless (zerop result) (error "Ghostscript threw error"))))
 
 (defun run-program (command &key output ignore-error-status force-shell

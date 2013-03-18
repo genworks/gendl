@@ -21,39 +21,7 @@
 
 (in-package :gwl)
 
-(defvar *snap-folder*  (glisp:snap-folder))
 
-(defun restore-from-snap (iid)
-  (let ((new-self
-	 (let ((snap-file 
-		(merge-pathnames 
-		 (make-pathname :name (format nil "~a" iid) 
-				:type "snap") *snap-folder*)))
-	   (when (probe-file snap-file)
-             (with-error-handling ()
-	       (read-snapshot :filename snap-file
-			      :keys-to-ignore (list :time-last-touched 
-						    :time-instantiated 
-						    :expires-at)))))))
-        
-    (when new-self
-          (setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
-            (list new-self nil))
-          (when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
-          (the-object new-self set-instantiation-time!)
-          (the-object new-self set-time-last-touched!)
-          
-          ;;(evaluate-relevant-slots new-self)
-          (format t "~%~%*************** Session ~a Restarted! ***************~%~%" (the-object new-self instance-id))
-          (the-object new-self tree-manager restore-design-state!))
-    
-    ;;
-    ;; FLAG for testing only. 
-    ;; return error object instead of just throwing an error here. 
-    ;;
-    (unless new-self (error "Restoring of session ~a was not possible.~%" iid))
-
-    new-self))
 
 
 
@@ -82,14 +50,6 @@
          (iid (getf plist :|iid|))
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
 	 
-	 ;;
-	 ;; Restore from snapshot if exists.
-	 ;;
-	 (self (or self (restore-from-snap iid)))
-	 ;;
-	 ;; FLAG If not exists, we don't handle that yet. 
-	 ;;
-
          (plist (decode-from-ajax plist self))
          (bashee (getf plist :|bashee|))
          (respondent (progn (when *debug?* (print-variables plist))
@@ -132,19 +92,10 @@
       (when (and respondent (the-object respondent root) 
                  (the-object respondent root (set-remote-host! req))))
       
-      (quick-save self)
-      
       (respond-with-new-html-sections req ent respondent))))
 
 
 (publish :path "/gdlAjax" :function 'gdlAjax)
-
-(defun quick-save (self &key (snap-folder *snap-folder*))
-  (let ((snap-file 
-	 (merge-pathnames 
-	  (make-pathname :name (format nil "~a" (the instance-id))
-			 :type "snap") snap-folder)))
-    (the (write-snapshot :filename snap-file))))
 
 
 (defun wrap-cdata (string)
