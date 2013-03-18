@@ -6,7 +6,10 @@
   :license "Affero Gnu General Public License (please see http://www.gnu.org/licenses/"
   :serial t
   :version "2013031600"
-  :depends-on (:cl-lite :gwl-graphics :tasty :robot :yadd))
+  :depends-on (:cl-lite :gwl-graphics :tasty :robot :yadd)
+  :components ((:file "source/try"))
+)
+
 
 
                

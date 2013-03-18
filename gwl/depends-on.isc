@@ -1,1 +1,1 @@
-"(:glisp :aserve #-allegro :cl-base64 #-allegro :babel)"
+(:glisp :aserve)

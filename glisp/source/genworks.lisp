@@ -80,11 +80,7 @@
   (make-pathname :name :wild :type :wild :version :wild))
 
 
-;;
-;; FLAG -- replace with cl-fad version.
-;;
-#-(or allegro lispworks clozure)
-(warn "please find a copy-directory from cl-fad or elsewhere for ~a~%" (lisp-implementation-type))
+#+nil
 (defun copy-directory (from-dir to-dir &rest args)
   (declare (ignore args))
   #+allegro (excl:copy-directory from-dir to-dir)
@@ -94,6 +90,7 @@
   (error "~&copy-directory needed for ~a. Consider cl-fad.~%" (lisp-implementation-type)))
 
 
+#+nil
 (defun delete-directory-and-files (target &key force quiet (if-does-not-exist :error))
   #-allegro (declare (ignore force quiet))
   (cond ((probe-file target)
@@ -142,9 +139,7 @@ and \"..\" entries."
 
 (defun file-directory-p (file)
   "Returns non-nil if the path is a directory."
-  (#-(or allegro lispworks) cl-fad:directory-pathname-p 
-     #+allegro excl:file-directory-p 
-     #+lispworks lw:file-directory-p file))
+  (uiop/filesystem:directory-exists-p file))
 
 ;;
 ;; temporary-folder is potentially platform-specific so it is defined here. 
