@@ -34,6 +34,5 @@
   (glisp:set-default-float-format)
   (glisp:set-defpackage-behavior)
   (glisp:set-default-package)
-  (glisp:xref-off)
   (glisp:set-window-titles))
 

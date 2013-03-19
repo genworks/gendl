@@ -163,8 +163,10 @@ given as keyword args to this function)."
 
   :input-slots
   (
-   (description (or (the (read-isc-file "description"))
-		    "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."))
+   (description (concatenate 'string
+			     "The Gendl™ "
+			     (or (the (read-isc-file "description"))
+				 (format nil "~a Subsystem" (the local-name)))))
    (author (or (the (read-isc-file "author")) "John McCarthy"))
    (version (or (the (read-isc-file "version"))
 		(replace-substring (iso-8601-date (get-universal-time)) "-" "")))
@@ -324,6 +326,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		:serial t
 		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
+		"%%remove%%#+asdf-encoding :encoding #+asdf-encoding :utf-8%%remove%%"
 				 
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)

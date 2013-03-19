@@ -21,4 +21,9 @@
 
 (in-package :robot)
 
+
+;;
+;; Uncomment and fill in if initialize action is required. 
+;;
+#+nil
 (defun initialize ())

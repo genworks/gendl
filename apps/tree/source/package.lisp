@@ -21,4 +21,6 @@
 
 (in-package :gdl-user)
 
-(gwl:define-package :tree (:export #:tree #:newtree #:newertree))
+(gwl:define-package :tree 
+    (:documentation #.(glisp:system-description :tree))
+    (:export #:tree #:newtree #:newertree))

@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;; Copyright 2002, 2009 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -20,4 +20,5 @@
 ;; 
 (in-package :gdl-user)
 
-(gwl:define-package :robot (:export #:assembly))
+(gwl:define-package :robot (:export #:assembly)
+  (:documentation #.(glisp:system-description :robot)))

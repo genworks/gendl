@@ -1,9 +1,10 @@
 
 (asdf:defsystem #:gwl :description
- "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
- :author "Dave Cooper and Genworks International" :license
+ "The Gendl™ Generative Web Language (GWL)" :author
+ "Genworks International and Gendl™ Project Contributors" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130318" :depends-on (:glisp :aserve)
+ :serial t :version "20130319" :depends-on (:glisp :aserve)
+ #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/defparameters")
   (:file "source/presets") (:file "source/base-html-sheet")

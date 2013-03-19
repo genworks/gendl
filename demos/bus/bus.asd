@@ -1,9 +1,11 @@
 
 (asdf:defsystem #:bus :description
- "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
- :author "Dave Cooper and Genworks International" :license
+ "The Gendl™ Wireframe School Bus Demo" :author
+ "Genworks International and Gendl™ Project Contributors" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130318" :depends-on nil :components
+ :serial t :version "20130319" :depends-on nil
+ #+asdf-encoding :encoding #+asdf-encoding :utf-8
+ :components
  ((:file "source/package") (:file "source/assembly")
   (:file "source/body") (:file "source/chassis")
   (:file "source/interior") (:file "source/rule-ackermann")

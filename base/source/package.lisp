@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002, 2007, 2013 Genworks International and Genworks BV 
+;; Copyright 2002, 2007, 2013 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -21,6 +21,9 @@
 
 (in-package :common-lisp-user)
 
+
+(defpackage :gendl-boot (:export #:system-description #:system-home))
+
 (eval-when (:compile-toplevel :load-toplevel :execute)
   #-(or allegro lispworks sbcl ccl abcl clisp)   (error "
 
@@ -29,7 +32,27 @@ gdl/base/common/genworks.lisp.
 Also, PortableAllegroserve is needed for the web framework. 
 If you are interested in this effort we would love to hear from you at open-source@genworks.com.
 
-" (lisp-implementation-type)))
+" (lisp-implementation-type))
+
+  
+  ;;
+  ;; Copied here from ./genworks.lisp for bootstrapping purposes. 
+  ;;
+  (defun gendl-boot:system-description (system-designator &optional (errorp t))
+    (let (description (home (gendl-boot:system-home system-designator errorp)))
+      (when home 
+	(let ((description-file (merge-pathnames "description.isc" home)))
+	  (when (probe-file description-file)
+	    (setq description
+		  (with-open-file (in description-file) (read in))))))
+      (or description (format nil "~a Subsystem" system-designator))))
+
+
+  (defun gendl-boot:system-home (system-designator &optional (errorp t))
+    (if (find-package :asdf)
+	(funcall (read-from-string "asdf:system-source-directory") system-designator)
+	(when errorp (error "~&glisp:system-home was called, but cannot function because asdf is not loaded.~%")))))
+
 
 
 (defpackage :gendl
@@ -38,7 +61,7 @@ If you are interested in this effort we would love to hear from you at open-sour
   ;; "gendl" is name of overall system.
   ;;
   (:nicknames :gdl :genworks :base)
-  (:documentation "Base Gendl")
+  (:documentation #.(gendl-boot:system-description :base))
   (:use :common-lisp)
   (:shadow #:the)
   (:export #:%bottom-margin%
@@ -260,130 +283,132 @@ If you are interested in this effort we would love to hear from you at open-sour
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
-(defpackage :com.genworks.lisp 
-    (:use :common-lisp)
-    (:shadow #:intern)
-    (:nicknames :glisp) 
-    (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+(or ecl clisp) :clos
-		  #:validate-superclass)
-    (:export 
-     ;;
-     ;; Implemented in gdl/base/common/genworks.lisp.
-     ;;
-     #:*external-text-format*
-     #:*gdl-home*
-     #:*gendl-home*
-     #:*gdl-program-home*
-     #:*gendl-program-home*
-     #:*genworks-source-home*
-     #:*gendl-source-home*
-     #:*gdl-source-home*
-     #:basic-command-line-arguments
-     #:begin-redefinitions-ok
-     #:current-directory
-     #:define-constant
-     #:direct-superclasses
-     #:direct-superclass-names
-     #:display-startup-banner
-     #:end-redefinitions-ok
-     #:ensure-string
-     #:eql-specializer
-     #:executable-homedir-pathname
-     #:featurep
-     #:find-feature-version
-     #:gl-class-name
-     #:gl-method-specializers
-     #:hex-string-to-integer
-     #:intern
-     #:make-sans-value-equalp-hash-table
-     #:make-sans-value-hash-table
-     #:make-weak-hash-table
-     #:make-versioned-features
-     #:set-default-float-format
-     #:set-default-package
-     #:set-defpackage-behavior
-     #:set-local-compiler-tweaks
-     #:set-features
-     #:set-settings
-     #:set-window-titles
-     #:sexpr-from-file
-     #:source-pathname
-     #:system-home
-     #:set-genworks-source-home-if-known
-     #:upcase
-     #:validate-superclass
-     #:with-definition-unit
-     #:without-package-variance-warnings
-     #:w-o-interrupts
-     #:xref-off
-     #:xref-on
+(defpackage :glisp
+  (:documentation #.(gendl-boot:system-description :glisp))
+  (:use :common-lisp)
+  (:shadow #:intern)
+  (:nicknames :com.genworks.lisp)
+  (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+(or ecl clisp) :clos
+		#:validate-superclass)
+  (:export 
+   ;;
+   ;; Implemented in gdl/base/common/genworks.lisp.
+   ;;
+   #:*external-text-format*
+   #:*gdl-home*
+   #:*gendl-home*
+   #:*gdl-program-home*
+   #:*gendl-program-home*
+   #:*genworks-source-home*
+   #:*gendl-source-home*
+   #:*gdl-source-home*
+   #:basic-command-line-arguments
+   #:begin-redefinitions-ok
+   #:current-directory
+   #:define-constant
+   #:direct-superclasses
+   #:direct-superclass-names
+   #:display-startup-banner
+   #:end-redefinitions-ok
+   #:ensure-string
+   #:eql-specializer
+   #:executable-homedir-pathname
+   #:featurep
+   #:find-feature-version
+   #:gl-class-name
+   #:gl-method-specializers
+   #:hex-string-to-integer
+   #:intern
+   #:make-sans-value-equalp-hash-table
+   #:make-sans-value-hash-table
+   #:make-weak-hash-table
+   #:make-versioned-features
+   #:set-default-float-format
+   #:set-default-package
+   #:set-defpackage-behavior
+   #:set-local-compiler-tweaks
+   #:set-features
+   #:set-settings
+   #:set-window-titles
+   #:sexpr-from-file
+   #:source-pathname
+   #:system-description
+   #:system-home
+   #:set-genworks-source-home-if-known
+   #:upcase
+   #:validate-superclass
+   #:with-definition-unit
+   #:without-package-variance-warnings
+   #:w-o-interrupts
+   #:xref-off
+   #:xref-on
 	     
-     #:*fasl-extension*
-     #:concatenate-fasls
-     #:directory-list
-     #:file-directory-p
-     #:temporary-folder
-     #:temporary-file
+   #:*fasl-extension*
+   #:concatenate-fasls
+   #:directory-list
+   #:file-directory-p
+   #:temporary-folder
+   #:temporary-file
 
-     #:find-gs-path
-     #:get-pid
-     #:run-gs
-     #:set-gs-path
-     #:run-program	     
-     #:run-shell-command	     
+   #:find-gs-path
+   #:get-pid
+   #:run-gs
+   #:set-gs-path
+   #:run-program	     
+   #:run-shell-command	     
 
-     #:*enable-utf8?*
-     #:*base64-encode-func*
-     #:*base64-decode-func*
-     #:class-slots
-     #:gc-full
-     #:get-backtrace
-     #:initialize-multiprocessing
-     #:local-port
-     #:match-regexp
-     #:patches-dir
-     #:process-run-function
-     #:remote-host
-     #:replace-regexp
-     #:room-report
-     #:slot-definition-name
-     #:snap-folder
-     #:socket-bytes-written
-     #:split-regexp
-     #:with-heuristic-case-mode
-     #:with-timeout-sym
-     #:with-timeout
-     #:without-redefinition-warnings
-
-
-     #:close-old-areas
-     #:open-old-areas
-     #:get-mem-info
-     #:gc-scavenge
+   #:*enable-utf8?*
+   #:*base64-encode-func*
+   #:*base64-decode-func*
+   #:class-slots
+   #:gc-full
+   #:get-backtrace
+   #:initialize-multiprocessing
+   #:local-port
+   #:match-regexp
+   #:patches-dir
+   #:process-run-function
+   #:remote-host
+   #:replace-regexp
+   #:room-report
+   #:slot-definition-name
+   #:snap-folder
+   #:socket-bytes-written
+   #:split-regexp
+   #:with-heuristic-case-mode
+   #:with-timeout-sym
+   #:with-timeout
+   #:without-redefinition-warnings
 
 
-     #:copy-directory
-     #:copy-file
-     #:delete-directory-and-files
-     #:dump-memory
-     #:implementation-identifier
-     #:make-gdl-app
-     #:make-gendl-app
-     #:next-datestamp
+   #:close-old-areas
+   #:open-old-areas
+   #:get-mem-info
+   #:gc-scavenge
 
-     #:autoloaded-packages
-     #:package-documentation
-     #:function-documentation
-     #:variable-documentation
+
+   #:copy-directory
+   #:copy-file
+   #:delete-directory-and-files
+   #:dump-memory
+   #:implementation-identifier
+   #:make-gdl-app
+   #:make-gendl-app
+   #:next-datestamp
+
+   #:autoloaded-packages
+   #:package-documentation
+   #:function-documentation
+   #:variable-documentation
 	     
 
-     #:parse-xml
-     ))
+   #:parse-xml
+   ))
 
 (defpackage :geom-base
   (:use :common-lisp :gdl)
   (:shadowing-import-from :gdl #:the)
-  (:documentation "GDL Base Geometry Module")
+  (:documentation #.(gendl-boot:system-description :geom-base))
   (:export #:keyed-transform*vector
 	   #:with-translated-state
 	   #:raphael
@@ -587,7 +612,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 (defpackage :surf
   (:shadowing-import-from :gdl #:the)
   (:use :common-lisp :gdl :geom-base)
-  (:documentation "GDL NURBS Surface and Solids Facility")
+  (:documentation #.(gendl-boot:system-description :surf))
   (:shadow #:step)
   (:export #:make-geometry-kernel 
            #:*geometry-kernel* 
@@ -771,7 +796,7 @@ If you are interested in this effort we would love to hear from you at open-sour
       ;; entirely)
       ;; 
       ;;(:use :net.aserve :net.aserve.client :net.uri :net.html.generator :cl-who)
-      (:documentation "Generative Web Language")
+      (:documentation #.(gendl-boot:system-description :gwl))
     (:shadow #:define-package)
     (:export
      #:define-package
@@ -914,4 +939,5 @@ If you are interested in this effort we would love to hear from you at open-sour
 
 
 
-(defpackage :gwl-graphics)
+(defpackage :gwl-graphics 
+  (:documentation #.(gendl-boot:system-description :gwl-graphics)))

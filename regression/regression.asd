@@ -1,9 +1,10 @@
 
 (asdf:defsystem #:regression :description
- "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
- :author "Dave Cooper and Genworks International" :license
+ "The Gendl™ regression Subsystem" :author
+ "Genworks International and Gendl™ Project Contributors" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130318" :depends-on (:lift :surf :tasty)
+ :serial t :version "20130319" :depends-on (:lift :surf :tasty)
+ #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "utils/source/package") (:file "utils/source/genworks")
   (:file "utils/source/parameters") (:file "utils/source/functions")

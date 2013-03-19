@@ -35,15 +35,13 @@
     (let ((package feature))
       (if (and (find-package package) (glisp:featurep feature))
 	  (let ((function-sym (read-from-string (format nil "~a::initialize" package))))
-	    (if (fboundp function-sym) 
-		(let ((description (glisp:package-documentation package)))
-		  (format t "~&Initializing ~a subsystem...~%" description)
-		  (let ((anything-changed? (funcall function-sym)))
-		    (format t "~&...Done~a~%"
-			    (if anything-changed? "." 
-				(format nil " (no new global settings).")))))
-		(format t "~&Note: Feature ~s appears to be loaded, but has no initialize! function.~%" 
-			feature)))
+	    (when (fboundp function-sym) 
+	      (let ((description (glisp:package-documentation package)))
+		(format t "~&Initializing ~a subsystem...~%" description)
+		(let ((anything-changed? (funcall function-sym)))
+		  (format t "~&...Done~a~%"
+			  (if anything-changed? "." 
+			      (format nil " (no new global settings).")))))))
 	  (format t "~&Note: Feature ~s does not appear to be loaded at this time.~%" feature))))
   (startup-banner) (load-gdl-init-files) (values))
 

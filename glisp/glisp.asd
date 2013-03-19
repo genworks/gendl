@@ -1,10 +1,11 @@
 
 (asdf:defsystem #:glisp :description
- "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
- :author "Dave Cooper and Genworks International" :license
+ "The Gendl™  Common Lisp Portability" :author
+ "Genworks International and Gendl™ Project Contributors" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130318" :depends-on
+ :serial t :version "20130319" :depends-on
  (:base :uiop :cl-typesetting :cl-ppcre :cl-who #-allegro :cl-base64 #-allegro :babel #-allegro :acl-compat)
+ #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/presets") (:file "source/genworks")
   (:file "source/initialize") (:file "source/parameters")

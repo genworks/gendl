@@ -22,7 +22,7 @@
 (in-package :gdl-user)
 
 (gdl:define-package :cl-lite
-    (:documentation "Compile & Load Lite")
+    (:documentation #.(glisp:system-description :cl-lite))
   (:export #:cl-lite #:codebase-directory-node))
 
 
