@@ -3,7 +3,7 @@
  "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
  :author "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130317" :depends-on (:geom-base) :components
+ :serial t :version "20130318" :depends-on (:geom-base) :components
  ((:file "source/parameters") (:file "source/classes")
   (:file "source/methods") (:file "source/curve")
   (:file "source/surface") (:file "source/approximated-curve")
@@ -59,4 +59,4 @@
   (:file "source/trimmed-surface") (:file "source/utilities")
   (:file "source/validated-solid") (:file "source/vertex")
   (:file "source/views") (:file "lenses/source/vrml")
-  (:file "lenses/source/x3d")))
+  (:file "lenses/source/x3d") (:file "zzinit/source/zzinit")))

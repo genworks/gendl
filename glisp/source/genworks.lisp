@@ -561,3 +561,11 @@ please find implementation for the currently running lisp.~%")
   #-allegro `(acl-compat.mp:with-timeout (,seconds ,@timeout-body)
 	       ,@body))
 
+
+(defmacro without-redefinition-warnings (&rest body)
+  #+allegro
+  `(excl:without-redefinition-warnings ,@body)
+  #-allegro
+  (progn
+    (warn "Need an implementation for without-redefinition-warnings for ~a~%." (lisp-implementation-type))
+    `(progn ,@body)))

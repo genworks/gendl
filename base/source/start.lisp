@@ -48,8 +48,7 @@
   (startup-banner) (load-gdl-init-files) (values))
 
 
-(defun load-gdl-init-files (&key edition)
-  (declare (ignore edition))
+(defun load-gdl-init-files ()
   (let* ((user-homedir (user-homedir-pathname))
          (current-directory (glisp:current-directory))
          (homedir-init-file (or (probe-file (merge-pathnames ".gdlinit.cl" user-homedir))
@@ -66,27 +65,29 @@
 
 
 
-(defun startup-banner (&key edition)       
-  (glisp:display-startup-banner edition
+(defun startup-banner ()
+  (format t
 "
- Copyright 2013 Genworks International
 
- Welcome to Gendl(TM).
+Welcome to Gendl™
 
- This program contains free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public
- License as published by the Free Software Foundation, either
- version 3 of the License, or (at your option) any later version.
+Copyright© 2002-2013, Genworks International, Birmingham MI, USA. 
+All Rights Reserved.
+
+This program contains free software: you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
  
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- Affero General Public License for more details.
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Affero General Public License for more details.
  
- You should have received a copy of the GNU Affero General Public
- License along with the source code for this program. If not, see:
+You should have received a copy of the GNU Affero General Public
+License along with the source code for this program. If not, see:
 
- http://www.gnu.org/licenses/
+http://www.gnu.org/licenses/
  
 "))
 

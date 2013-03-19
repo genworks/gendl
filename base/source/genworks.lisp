@@ -157,9 +157,6 @@
   (mapcar #'gl-class-name
           (direct-superclasses class)))
 
-(defun display-startup-banner (edition banner)
-  (declare (ignore edition))
-  (format t banner))
 
 #-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
 (error "Need implementation for eql-specializer for currently running lisp.~%")

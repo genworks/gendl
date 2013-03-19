@@ -45,6 +45,7 @@
 
 (defmethod make-geometry-kernel ((type (eql :vanilla)) &key (in-memory t) (host nil) (login nil) (password nil))
   (declare (ignore in-memory host login password))
+  (format t "~&Setting surf:*geometry-kernel* to the Vanilla (i.e. skeleton) geometry kernel.~%")
   (setq *geometry-kernel* (make-instance 'vanilla-geometry-kernel)))
 
 

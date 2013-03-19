@@ -353,6 +353,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:with-heuristic-case-mode
      #:with-timeout-sym
      #:with-timeout
+     #:without-redefinition-warnings
 
 
      #:close-old-areas
