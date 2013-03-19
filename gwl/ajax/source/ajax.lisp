@@ -22,7 +22,58 @@
 (in-package :gwl)
 
 
+;;
+;; FLAG -- remove and replace with glisp:snap-folder after merge into development trunk.
+;;
+(defun tmp-snap-folder ()
+  (or #+allegro (probe-file (merge-pathnames "snaps/" "sys:"))
+      (ensure-directories-exist (merge-pathnames "snaps/" (glisp:temporary-folder)))))
+(defvar *snap-folder*  (tmp-snap-folder))
 
+
+(defun quick-save (self &key (snap-folder *snap-folder*))
+  (let ((snap-file 
+	 (merge-pathnames 
+	  (make-pathname :name (format nil "~a" (the instance-id))
+			 :type "snap") snap-folder)))
+    (the (write-snapshot :filename snap-file))))
+
+
+(defun restore-from-snap (iid)
+  (let ((new-self
+	 (let ((snap-file 
+		(merge-pathnames 
+		 (make-pathname :name (format nil "~a" iid) 
+				:type "snap") *snap-folder*)))
+	   (when (probe-file snap-file)
+             (with-error-handling ()
+	       (read-snapshot :filename snap-file
+			      :keys-to-ignore (list :time-last-touched 
+						    :time-instantiated 
+						    :expires-at)))))))
+        
+    (when new-self
+          (setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
+            (list new-self nil))
+          (when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
+          (the-object new-self set-instantiation-time!)
+          (the-object new-self set-time-last-touched!)
+          
+	  ;;
+	  ;;(defaulting (the-object self custom-restore-function))
+	  ;;
+
+          (format t "~%~%*************** Session ~a Restarted! ***************~%~%" (the-object new-self instance-id))
+          (the-object new-self tree-manager restore-design-state!)
+	  )
+    
+    ;;
+    ;; FLAG for testing only. 
+    ;; return error object instead of just throwing an error here. 
+    ;;
+    (unless new-self (error "Restoring of session ~a was not possible.~%" iid))
+
+    new-self))
 
 
 (defun gdlAjax (req ent)
@@ -49,7 +100,9 @@
          (raw-fields (getf query-plist :|raw-fields|))
          (iid (getf plist :|iid|))
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
-	 
+
+	 (self (or self (restore-from-snap iid)))
+
          (plist (decode-from-ajax plist self))
          (bashee (getf plist :|bashee|))
          (respondent (progn (when *debug?* (print-variables plist))
@@ -92,6 +145,8 @@
       (when (and respondent (the-object respondent root) 
                  (the-object respondent root (set-remote-host! req))))
       
+      (quick-save self)
+
       (respond-with-new-html-sections req ent respondent))))
 
 
