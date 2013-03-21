@@ -1,9 +1,9 @@
 
 (asdf:defsystem #:robot :description
  "The Gendl™ Simplified Android Robot example " :author
- "Genworks International and Gendl™ Project Contributors" :license
+ "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130319" :depends-on (:gwl-graphics)
+ :serial t :version "20130320" :depends-on (:gwl-graphics)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/assembly")

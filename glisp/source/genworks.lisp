@@ -316,7 +316,7 @@ You can set it manually with (glisp:set-gs-path <path-to-gs-executable>).~%"))
   "Returns a string with a backtrace of what the Lisp system thinks is
 the \"current\" error."
   (handler-case
-      (with-output-to-string (s) (uiop:print-backtrace s))
+      (with-output-to-string (s) (uiop:print-backtrace :stream s))
     (error (condition)
       (format nil "Could not generate backtrace: ~A." condition))))
 

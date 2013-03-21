@@ -242,10 +242,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:set-self
            #:split
            #:standard-query
-           #:start-gdl!
 	   #:start-gendl!
-           #:start-gdl-runtime
-	   #:start-gendl-runtime
            #:status-message
            #:string-append
            #:sum-elements
