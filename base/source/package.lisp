@@ -186,7 +186,6 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:list-of-numbers
            #:lookup-color
            #:make-canonical-part
-           #:make-gdl-app
            #:make-keyword
 	   #:ensure-keyword
            #:make-keyword-sensitive
@@ -389,8 +388,6 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:delete-directory-and-files
    #:dump-memory
    #:implementation-identifier
-   #:make-gdl-app
-   #:make-gendl-app
    #:next-datestamp
 
    #:autoloaded-packages

@@ -3,7 +3,7 @@
  "The Gendl™ NURBS Surface and Solids Geometry Primitives" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130320" :depends-on (:geom-base)
+ :serial t :version "20130324" :depends-on (:geom-base)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/parameters") (:file "source/classes")

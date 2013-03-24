@@ -25,7 +25,8 @@
 (defparameter *features-to-initialize* (list :base :glisp :geom-base :gwl 
 					     :gwl-graphics :tasty :yadd :robot :cl-lite))
 
-(defun start-gendl! (&key (features *features-to-initialize*))
+(defun start-gendl! (&key (features *features-to-initialize*) 
+		     (banner? t) (init-files? t))
   (dolist (feature features)
     ;;
     ;; This assumes feature name = package name of its initialize!
@@ -43,7 +44,9 @@
 			  (if anything-changed? "." 
 			      (format nil " (no new global settings).")))))))
 	  (format t "~&Note: Feature ~s does not appear to be loaded at this time.~%" feature))))
-  (startup-banner) (load-gdl-init-files) (values))
+  (when banner? (startup-banner))
+  (when init-files? (load-gdl-init-files) )
+  (values))
 
 
 (defun load-gdl-init-files ()

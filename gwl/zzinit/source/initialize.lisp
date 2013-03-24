@@ -84,6 +84,11 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		      (and glisp:*gdl-home*
 			   (probe-file (merge-pathnames "static/"
 							glisp:*gdl-home*)))
+
+		      (and glisp:*gdl-program-home*
+			   (probe-file (merge-pathnames "static/"
+							glisp:*gdl-program-home*)))
+		      
 		      (warn "~%Static home not found in source directory or parent of program directory.~%"))))))
 
 

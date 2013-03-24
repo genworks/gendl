@@ -251,19 +251,33 @@ and \"..\" entries."
   (warn "~&run-shell-command is deprecated, please use run-program.~%")
   (apply #'run-program args))
 
+
+(defun find-windows-gs ()
+  (let ((gs-dirs (list "gs8.63/" "gs9.10/"))
+	(parent-dirs (remove 
+		      nil
+		      (list (and glisp:*gdl-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-home*)))
+			    (and glisp:*gdl-home* (probe-file (merge-pathnames "../gpl/gs/" glisp:*gdl-home*)))
+			    (and glisp:*gdl-program-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-program-home*)))
+			    "c:/gs/"))))
+    (dolist (gs-dir gs-dirs)
+      (block :daddy
+	(dolist (parent-dir parent-dirs)
+	  (let ((candidate (merge-pathnames "bin/gswin32c.exe" 
+					    (merge-pathnames gs-dir parent-dir))))
+	    (when (probe-file candidate) (return-from :daddy candidate))))))))
+
 (defun find-gs-path (&optional gs-path)
   (let ((gs-path
-	 (or (and gs-path (probe-file gs-path))
+	 (or gs-path
 	     (if (featurep :mswindows)
-		 (or (probe-file (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
-		     (probe-file (merge-pathnames "c:/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
-		     (probe-file (merge-pathnames "../gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*)))
+		 (find-windows-gs)
 		 (or (probe-file #p"~/bin/gs")
 		     (probe-file #p"/usr/local/bin/gs")
 		     (probe-file #p"/sw/bin/gs")
 		     (probe-file #p"/opt/local/bin/gs")
 		     (probe-file #p"/usr/bin/gs") "gs")))))
-    (unless  gs-path
+    (unless  (and gs-path (probe-file gs-path))
       (warn "Gnu Ghostscript was not found. PNG and JPEG output will not function.
 
 You can set it manually with (glisp:set-gs-path <path-to-gs-executable>).~%"))
