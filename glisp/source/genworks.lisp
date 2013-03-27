@@ -83,14 +83,12 @@
   (make-pathname :name :wild :type :wild :version :wild))
 
 
-
+#+(or allegro clozure)
 (defun copy-directory (from-dir to-dir &rest args)
   (declare (ignore args))
   #+allegro (excl:copy-directory from-dir to-dir)
-  #+lispworks (cl-copy-directory to-dir from-dir)
-  #+clozure (ccl::recursive-copy-directory from-dir to-dir )
-  #-(or allegro lispworks clozure) 
-  (error "~&copy-directory needed for ~a. Does uiop/filesystem have one yet?~%" (lisp-implementation-type)))
+  #+clozure (ccl::recursive-copy-directory from-dir to-dir ))
+
 
 
 #+nil
@@ -260,12 +258,12 @@ and \"..\" entries."
 			    (and glisp:*gdl-home* (probe-file (merge-pathnames "../gpl/gs/" glisp:*gdl-home*)))
 			    (and glisp:*gdl-program-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-program-home*)))
 			    "c:/gs/"))))
+    (block :daddy
     (dolist (gs-dir gs-dirs)
-      (block :daddy
-	(dolist (parent-dir parent-dirs)
-	  (let ((candidate (merge-pathnames "bin/gswin32c.exe" 
-					    (merge-pathnames gs-dir parent-dir))))
-	    (when (probe-file candidate) (return-from :daddy candidate))))))))
+      (dolist (parent-dir parent-dirs)
+	(let ((candidate (merge-pathnames "bin/gswin32c.exe" 
+					  (merge-pathnames gs-dir parent-dir))))
+	  (when (probe-file candidate) (return-from :daddy candidate))))))))
 
 (defun find-gs-path (&optional gs-path)
   (let ((gs-path

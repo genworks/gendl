@@ -19,7 +19,9 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :twenty-four)
+;;(in-package :twenty-four)
+
+(in-package :www.genworks.com)
 
 (defparameter *operators* '(+ - * /))
 

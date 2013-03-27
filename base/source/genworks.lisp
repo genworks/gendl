@@ -343,7 +343,7 @@
       (let ((description-file (merge-pathnames "description.isc" home)))
 	(when (probe-file description-file)
 	  (setq description
-		(with-open-file (in description-file) (read in))))))
+		(with-open-file (in description-file :external-format #-lispworks :utf-8 #+lispworks :unicode) (read in))))))
     (or description (format nil "~a Subsystem" system-designator))))
 
 

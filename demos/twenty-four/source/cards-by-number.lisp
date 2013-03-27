@@ -18,8 +18,8 @@
 ;; License along with this source file.  If not, see
 ;; <http://www.gnu.org/licenses/>.
 ;; 
-(in-package :twenty-four)
-
+;;(in-package :twenty-four)
+(in-package :www.genworks.com)
 
 (defparameter *cards-by-number* 
   (let ((array (make-array 13))
