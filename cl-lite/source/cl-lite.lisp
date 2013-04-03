@@ -513,10 +513,10 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    ;;
    ;;
    (ignore-list (glisp:sexpr-from-file (make-pathname
-				  :directory (pathname-directory (the :pathname))
-				  :device (the :device)
-				  :name "ignore-list"
-				  :type "isc")))
+					:directory (pathname-directory (the :pathname))
+					:device (the :device)
+					:name "ignore-list"
+					:type "isc")))
 
    (relevant-files (let (key)
                      (mapcar #'(lambda (thing)

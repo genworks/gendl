@@ -1,9 +1,8 @@
 
 (asdf:defsystem #:regression :description
- "The Gendlâ„¢ regression Subsystem" :author
- "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130324" :depends-on (:lift :surf :tasty)
+ "The Gendl™ regression Subsystem" :author "John McCarthy" :license
+ "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
+ :version "20130402" :depends-on (:lift :surf :tasty)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "utils/source/package") (:file "utils/source/genworks")

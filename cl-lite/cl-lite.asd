@@ -1,9 +1,8 @@
 
 (asdf:defsystem #:cl-lite :description
- "The Gendlâ„¢ Compile-and-Load Lite Utility" :author
- "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130324" :depends-on (:glisp)
+ "The Gendl™ Compile-and-Load Lite Utility" :author "John McCarthy"
+ :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
+ :serial t :version "20130402" :depends-on (:glisp)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/parameters")

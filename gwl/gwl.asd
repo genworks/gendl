@@ -1,9 +1,8 @@
 
 (asdf:defsystem #:gwl :description
- "The Gendlâ„¢ Generative Web Language (GWL)" :author
- "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130324" :depends-on (:glisp :aserve)
+ "The Gendl™ Generative Web Language (GWL)" :author "John McCarthy"
+ :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
+ :serial t :version "20130402" :depends-on (:glisp :aserve)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/defparameters")

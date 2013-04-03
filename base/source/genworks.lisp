@@ -257,10 +257,10 @@
          args))
 
 
-#-(or allegro lispworks sbcl ccl) 
+#-(or allegro lispworks sbcl ccl clisp) 
 (error "Need implementation for package-documentation for the currently running Lisp.~%")
 (defun package-documentation (package)
-  #+(or allegro lispworks ccl) (documentation (find-package package) t)
+  #+(or allegro lispworks ccl clisp) (documentation (find-package package) t)
   #+sbcl (sb-kernel:package-doc-string (find-package package)))
 
 
