@@ -1,8 +1,9 @@
+;;;; -*- encoding: utf-8; -*-
 
 (asdf:defsystem #:bus :description
- "The Gendl™ Wireframe School Bus Demo" :author "John McCarthy"
+ "The Gendlâ„¢ Wireframe School Bus Demo" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20130402" :depends-on nil
+ :serial t :version "20130406" :depends-on nil
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/assembly")

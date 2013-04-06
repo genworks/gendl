@@ -1,3 +1,4 @@
+;; -*- coding: utf-8 -*-
 ;;
 ;; Copyright 2002-2011 Genworks International
 ;;
@@ -223,7 +224,11 @@ NOTE: this is not currently supported in cl-lite.
    
    ("Boolean. Determines whether to load the individual compiled fasls even if the source has not changed.
 Defaults to nil (i.e. we assume we are loading into a clean system and need all the initial definitions.)."
-    load-always? t))
+    load-always? t)
+
+   (encoding-line ";;;; -*- encoding: utf-8; -*-")
+
+   )
 
   :computed-slots
   (
@@ -400,6 +405,10 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
       (let ((*print-right-margin* 70)
 	    (*print-case* :downcase))
 	
+	(write-string (the encoding-line) out)
+	(format out "~%")
+
+
 	(dolist (line (the asdf-system-lines))
 	  (write-string line out)
 	  (format out "~%"))

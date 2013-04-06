@@ -1,8 +1,9 @@
+;;;; -*- encoding: utf-8; -*-
 
 (asdf:defsystem #:regression :description
- "The Gendl™ regression Subsystem" :author "John McCarthy" :license
+ "The Gendlâ„¢ regression Subsystem" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130402" :depends-on (:lift :surf :tasty)
+ :version "20130406" :depends-on (:lift :surf :tasty)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "utils/source/package") (:file "utils/source/genworks")
