@@ -23,7 +23,7 @@
 
 
 (gwl:define-package :yadd
-    (:documentation "GDL/GWL Documentation Facility")
+    (:documentation #.(glisp:system-description :yadd))
   (:export #:assembly 
            #:ass
            #:assy

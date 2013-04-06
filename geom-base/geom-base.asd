@@ -1,9 +1,11 @@
+;;;; -*- encoding: utf-8; -*-
 
 (asdf:defsystem #:geom-base :description
- "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
- :author "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130318" :depends-on (:glisp) :components
+ "The Gendl™ Wireframe Geometry" :author "John McCarthy" :license
+ "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
+ :version "20130406" :depends-on (:glisp)
+ #+asdf-encoding :encoding #+asdf-encoding :utf-8
+ :components
  ((:file "prereqs/source/presets")
   (:file "prereqs/source/cl-pdf-patches")
   (:file "prereqs/source/matrix") (:file "prereqs/source/parameters")

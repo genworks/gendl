@@ -20,4 +20,7 @@
 ;; 
 
 
-(gwl:define-package :gdlxml (:export #:definition-tree #:xml2gdl #:gdl2xml #:object-definition))
+(gwl:define-package :gendlxml 
+    (:documentation #.(glisp:system-description :translators))
+    (:nicknames :gdlxml)
+    (:export #:definition-tree #:xml2gdl #:xml2gendl #:gdl2xml #:gendl2xml #:object-definition))

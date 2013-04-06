@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("presets")
+("presets" "parameters")

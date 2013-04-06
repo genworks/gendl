@@ -6,6 +6,12 @@ bin
 *~
 .DS_Store
 
+*.aux
+*.idx
+*.log
+*.toc
+
+
 
 # Ignore (generated) html files,
 # *.html

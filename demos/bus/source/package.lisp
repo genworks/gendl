@@ -22,6 +22,7 @@
 (in-package :gdl-user)
 
 (gwl:define-package :genworks.demos.bus
+    (:documentation #.(glisp:system-description :bus))
     (:nicknames :bus) (:export #:assembly #:fleet))
 
 

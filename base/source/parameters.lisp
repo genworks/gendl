@@ -24,12 +24,6 @@
 (eval-when (compile load eval)
   (when (not (boundp '*production-build?*)) (defvar *production-build?* nil)))
 
-(defparameter *compiling-changes* nil)
-
-(defparameter *load-source-code-database?* nil ;;(not *production-build?*)
-  "Boolean. Determines whether pre-compiled source code 
-information will be loaded from compiled files. Defaults to T.")
-
 ;;
 ;; FLAG this belongs in :geom-base.
 ;;
@@ -37,15 +31,23 @@ information will be loaded from compiled files. Defaults to T.")
   "Integer. The number of chords to use per Bezier curve when rendering 
 curves as a sequence of straight chords (e.g. in VRML).")
 
-(defparameter *load-documentation-database?* nil ;;t ;;(not *production-build?*)
+
+(defparameter *compiling-changes* nil)
+
+(defvar *load-source-code-database?* t ;;(not *production-build?*)
+  "Boolean. Determines whether pre-compiled source code 
+information will be loaded from compiled files. Defaults to T.")
+
+
+(defvar *load-documentation-database?* t ;;t ;;(not *production-build?*)
   "Boolean. Determines whether pre-compiled documentation strings
 information will be loaded from compiled files. Defaults to T.")
 
-(defparameter *compile-source-code-database?* nil ;;(not *production-build?*)
+(defvar *compile-source-code-database?* t ;;(not *production-build?*)
   "Boolean. Determines whether source code information
 information will be compiled into compiled files. Defaults to T.")
 
-(defparameter *compile-documentation-database?*  nil ;;t ;;(not *production-build?*)
+(defvar *compile-documentation-database?* t ;;t ;;(not *production-build?*)
   "Boolean. Determines whether documentation strings 
 information will be compiled into compiled files. Defaults to T.")
 

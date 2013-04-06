@@ -19,13 +19,10 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-
 (in-package :gdl-user)
 
-(gwl:define-package :tasty
-    (:documentation "Testing and Tracking Second Edition, Styled Dutch Mix")
-  (:export #:assembly #:viewport #:inspector #:status-object #:menu-section #:*use-bsplines-for-vrml?*))
 
-;; For the moment we force development in the package to 'true'.  
-(setq gwl:*developing?* t)
+(gwl:define-package :tasty
+    (:documentation #.(glisp:system-description :tasty))
+  (:export #:assembly #:viewport #:inspector #:status-object #:menu-section #:*use-bsplines-for-vrml?*))
 

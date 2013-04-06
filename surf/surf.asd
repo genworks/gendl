@@ -1,9 +1,12 @@
+;;;; -*- encoding: utf-8; -*-
 
 (asdf:defsystem #:surf :description
- "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
- :author "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130318" :depends-on (:geom-base) :components
+ "The Gendl™ NURBS Surface and Solids Geometry Primitives" :author
+ "John McCarthy" :license
+ "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
+ :version "20130406" :depends-on (:geom-base)
+ #+asdf-encoding :encoding #+asdf-encoding :utf-8
+ :components
  ((:file "source/parameters") (:file "source/classes")
   (:file "source/methods") (:file "source/curve")
   (:file "source/surface") (:file "source/approximated-curve")

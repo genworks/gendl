@@ -1,9 +1,10 @@
+;;;; -*- encoding: utf-8; -*-
 
 (asdf:defsystem #:gwl-graphics :description
- "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."
- :author "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130318" :depends-on (:geom-base :gwl)
+ "The Gendl™ GWL embedded graphics support" :author "John McCarthy"
+ :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
+ :serial t :version "20130406" :depends-on (:geom-base :gwl)
+ #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "gwl/source/application-mixin")
   (:file "gwl/source/base-ajax-graphics-sheet")

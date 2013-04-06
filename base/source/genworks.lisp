@@ -25,10 +25,8 @@
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
     #-(and mswindows allegro) :default)
 
-(defun system-home (system-designator &optional (errorp t))
-  (if (find-package :asdf)
-      (funcall (read-from-string "asdf:system-source-directory") system-designator)
-      (when errorp (error "~&glisp:system-home was called, but cannot function because asdf is not loaded.~%"))))
+
+
 
 (defparameter *genworks-source-home* nil)
 
@@ -259,10 +257,10 @@
          args))
 
 
-#-(or allegro lispworks sbcl ccl) 
+#-(or allegro lispworks sbcl ccl clisp) 
 (error "Need implementation for package-documentation for the currently running Lisp.~%")
 (defun package-documentation (package)
-  #+(or allegro lispworks ccl) (documentation (find-package package) t)
+  #+(or allegro lispworks ccl clisp) (documentation (find-package package) t)
   #+sbcl (sb-kernel:package-doc-string (find-package package)))
 
 
@@ -303,7 +301,7 @@
     (dolist (feature features)
       (dolist (feature (make-versioned-features feature))
 	(unless (or (null feature) (glisp:featurep feature))
-	  (format t "~&Pushing ~s onto *features* list.~%" feature)
+	  (format t "~&Pushing ~s onto *features*.~%" feature)
 	  (push feature *features*)
 	  (setq anything-changed? t)))) anything-changed?))
 
@@ -311,7 +309,7 @@
 #-allegro(warn "Find out how to retitle relevant windows in currently running lisp.~%")
 (defun set-window-titles ()
   #+(and allegro mswindows)
-  (excl:console-control :title "Genworks GenDL Console")
+  (excl:console-control :title "Genworks Gendl™ Console")
   (retitle-emacs))
 
 #-(or allegro lispworks abcl) (warn "Find out how to get the source-pathname  in current lisp.")
@@ -327,7 +325,7 @@
 
 
 
-(defun retitle-emacs (&key (title "Genworks GenDL Interactive Authoring Environment"))
+(defun retitle-emacs (&key (title "Genworks Gendl™ Interactive Authoring Environment"))
   "Retitles the associated GDL emacs window with the specified title.
 
 :arguments (title \"The title to be placed on emacs title bar.\")"
@@ -339,6 +337,22 @@
     (lep::eval-in-emacs (concatenate 'string "(frame-retitle \"" title "\")"))))
 
 
+(defun system-description (system-designator &optional (errorp t))
+  (let (description (home (system-home system-designator errorp)))
+    (when home 
+      (let ((description-file (merge-pathnames "description.isc" home)))
+	(when (probe-file description-file)
+	  (setq description
+		(with-open-file (in description-file :external-format #+lispworks :default #-lispworks :utf-8) (read in))))))
+    (or description (format nil "~a Subsystem" system-designator))))
+
+
+(defun system-home (system-designator &optional (errorp t))
+  (if (find-package :asdf)
+      (funcall (read-from-string "asdf:system-source-directory") system-designator)
+      (when errorp (error "~&glisp:system-home was called, but cannot function because asdf is not loaded.~%"))))
+
+
 (defun upcase (string)
   "Upcases the string, except in Allegro-CL's case-sensitive-lower mode, in which case the string is not modified."
   #-allegro (string-upcase string) 
@@ -347,59 +361,10 @@
               (:case-sensitive-lower string)))
 
 (defmacro w-o-interrupts (&body body)
-  (format t  "~&NOTE: from glisp:w-o-interrupts: without-interrupts is deprecated in multiprocessing Lisp - using progn - replace usage with something else e.g. process-locks.~%")
-  #-(or allegro lispworks cmu sbcl ccl abcl clisp) 
-  (error "Need implementation for without-interrupts for currently running lisp.~%")
-  `(#+allegro  progn ;; excl:without-interrupts
-    #+(or lispworks ccl abcl ecl clisp)  progn
-    #+cmu system:without-interrupts 
-    #+sbcl sb-sys:without-interrupts
-    ,@body))
-
-#-(or allegro lispworks)  
-(warn "Need implementation for xref-off for the currently running lisp.~%")
-#-(or allegro lispworks)
-(defun xref-off (&optional include-source-info?)
-  (declare (ignore include-source-info?))
-  (warn "Need implementation for xref-off for the currently running lisp.~%"))
-#+(or allegro lispworks)
-(defun xref-off (&optional include-source-info?)
-  (when include-source-info?
-    (setq #+allegro excl:*load-source-file-info* 
-          #+lispworks lw:*record-source-files*
-          nil)
-    (setq #+allegro excl:*record-source-file-info* 
-          #+lispworks compiler:*source-file-recording*
-          nil))
-  (setq #+allegro excl:*load-xref-info* 
-        #+lispworks compiler:*load-xref-info*
-        nil)
-  (setq #+allegro excl:*record-xref-info* 
-        #+lispworks compiler:*produce-xref-info*
-        nil))
-
-#-(or allegro lispworks) 
-(warn "Need implementation for xref-off for the currently running lisp.~%")  
-#-(or allegro lispworks)
-(defun xref-on (&optional include-source-info?)
-  (declare (ignore include-source-info?))
-  (warn "Need implementation for xref-off for the currently running lisp.~%"))
-#+(or allegro lispworks)
-(defun xref-on (&optional include-source-info?)
-
-  (when include-source-info?
-    (setq #+allegro excl:*load-source-file-info* 
-          #+lispworks lw:*record-source-files*
-          t)
-    (setq #+allegro excl:*record-source-file-info* 
-          #+lispworks compiler:*source-file-recording*
-          t))
-  (setq #+allegro excl:*load-xref-info* 
-        #+lispworks compiler:*load-xref-info*
-        t)
-  (setq #+allegro excl:*record-xref-info* 
-        #+lispworks compiler:*produce-xref-info*
-        t))
+  (format t  "~&NOTE: w-o-interrupts is deprecated and ineffective in an SMP Lisp. 
+glisp:w-o-interrupts becomes a simple progn currently.
+This must be replaced with e.g. appropriate process-locks.~%")
+  `(progn ,@body))
 
 
 (defmacro without-package-variance-warnings (&body body)

@@ -1,3 +1,4 @@
+;; -*- coding: utf-8 -*-
 ;;
 ;; Copyright 2002-2011 Genworks International
 ;;
@@ -163,8 +164,10 @@ given as keyword args to this function)."
 
   :input-slots
   (
-   (description (or (the (read-isc-file "description"))
-		    "Auto-generated asdf defsys from Genworks GenDL cl-lite. Please avoid hand-editing."))
+   (description (concatenate 'string
+			     "The Gendl™ "
+			     (or (the (read-isc-file "description"))
+				 (format nil "~a Subsystem" (the local-name)))))
    (author (or (the (read-isc-file "author")) "John McCarthy"))
    (version (or (the (read-isc-file "version"))
 		(replace-substring (iso-8601-date (get-universal-time)) "-" "")))
@@ -221,7 +224,11 @@ NOTE: this is not currently supported in cl-lite.
    
    ("Boolean. Determines whether to load the individual compiled fasls even if the source has not changed.
 Defaults to nil (i.e. we assume we are loading into a clean system and need all the initial definitions.)."
-    load-always? t))
+    load-always? t)
+
+   (encoding-line ";;;; -*- encoding: utf-8; -*-")
+
+   )
 
   :computed-slots
   (
@@ -324,6 +331,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		:serial t
 		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
+		"%%remove%%#+asdf-encoding :encoding #+asdf-encoding :utf-8%%remove%%"
 				 
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
@@ -397,6 +405,10 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
       (let ((*print-right-margin* 70)
 	    (*print-case* :downcase))
 	
+	(write-string (the encoding-line) out)
+	(format out "~%")
+
+
 	(dolist (line (the asdf-system-lines))
 	  (write-string line out)
 	  (format out "~%"))
@@ -510,10 +522,10 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    ;;
    ;;
    (ignore-list (glisp:sexpr-from-file (make-pathname
-				  :directory (pathname-directory (the :pathname))
-				  :device (the :device)
-				  :name "ignore-list"
-				  :type "isc")))
+					:directory (pathname-directory (the :pathname))
+					:device (the :device)
+					:name "ignore-list"
+					:type "isc")))
 
    (relevant-files (let (key)
                      (mapcar #'(lambda (thing)

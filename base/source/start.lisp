@@ -25,7 +25,8 @@
 (defparameter *features-to-initialize* (list :base :glisp :geom-base :gwl 
 					     :gwl-graphics :tasty :yadd :robot :cl-lite))
 
-(defun start-gendl! (&key (features *features-to-initialize*))
+(defun start-gendl! (&key (features *features-to-initialize*) 
+		     (banner? t) (init-files? t))
   (dolist (feature features)
     ;;
     ;; This assumes feature name = package name of its initialize!
@@ -35,17 +36,17 @@
     (let ((package feature))
       (if (and (find-package package) (glisp:featurep feature))
 	  (let ((function-sym (read-from-string (format nil "~a::initialize" package))))
-	    (if (fboundp function-sym) 
-		(let ((description (glisp:package-documentation package)))
-		  (format t "~&Initializing ~a subsystem...~%" description)
-		  (let ((anything-changed? (funcall function-sym)))
-		    (format t "~&...Done~a~%"
-			    (if anything-changed? "." 
-				(format nil " (no new global settings).")))))
-		(format t "~&Note: Feature ~s appears to be loaded, but has no initialize! function.~%" 
-			feature)))
+	    (when (fboundp function-sym) 
+	      (let ((description (glisp:package-documentation package)))
+		(format t "~&Initializing ~a subsystem...~%" description)
+		(let ((anything-changed? (funcall function-sym)))
+		  (format t "~&...Done~a~%"
+			  (if anything-changed? "." 
+			      (format nil " (no new global settings).")))))))
 	  (format t "~&Note: Feature ~s does not appear to be loaded at this time.~%" feature))))
-  (startup-banner) (load-gdl-init-files) (values))
+  (when banner? (startup-banner))
+  (when init-files? (load-gdl-init-files) )
+  (values))
 
 
 (defun load-gdl-init-files ()

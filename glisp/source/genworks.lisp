@@ -83,14 +83,12 @@
   (make-pathname :name :wild :type :wild :version :wild))
 
 
-
+#+(or allegro clozure)
 (defun copy-directory (from-dir to-dir &rest args)
   (declare (ignore args))
   #+allegro (excl:copy-directory from-dir to-dir)
-  #+lispworks (cl-copy-directory to-dir from-dir)
-  #+clozure (ccl::recursive-copy-directory from-dir to-dir )
-  #-(or allegro lispworks clozure) 
-  (error "~&copy-directory needed for ~a. Does uiop/filesystem have one yet?~%" (lisp-implementation-type)))
+  #+clozure (ccl::recursive-copy-directory from-dir to-dir ))
+
 
 
 #+nil
@@ -251,19 +249,33 @@ and \"..\" entries."
   (warn "~&run-shell-command is deprecated, please use run-program.~%")
   (apply #'run-program args))
 
+
+(defun find-windows-gs ()
+  (let ((gs-dirs (list "gs8.63/" "gs9.10/"))
+	(parent-dirs (remove 
+		      nil
+		      (list (and glisp:*gdl-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-home*)))
+			    (and glisp:*gdl-home* (probe-file (merge-pathnames "../gpl/gs/" glisp:*gdl-home*)))
+			    (and glisp:*gdl-program-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-program-home*)))
+			    "c:/gs/"))))
+    (block :daddy
+    (dolist (gs-dir gs-dirs)
+      (dolist (parent-dir parent-dirs)
+	(let ((candidate (merge-pathnames "bin/gswin32c.exe" 
+					  (merge-pathnames gs-dir parent-dir))))
+	  (when (probe-file candidate) (return-from :daddy candidate))))))))
+
 (defun find-gs-path (&optional gs-path)
   (let ((gs-path
-	 (or (and gs-path (probe-file gs-path))
+	 (or gs-path
 	     (if (featurep :mswindows)
-		 (or (probe-file (merge-pathnames "gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
-		     (probe-file (merge-pathnames "c:/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*))
-		     (probe-file (merge-pathnames "../gpl/gs/gs8.63/bin/gswin32c.exe" glisp:*gdl-home*)))
+		 (find-windows-gs)
 		 (or (probe-file #p"~/bin/gs")
 		     (probe-file #p"/usr/local/bin/gs")
 		     (probe-file #p"/sw/bin/gs")
 		     (probe-file #p"/opt/local/bin/gs")
 		     (probe-file #p"/usr/bin/gs") "gs")))))
-    (unless  gs-path
+    (unless  (and gs-path (probe-file gs-path))
       (warn "Gnu Ghostscript was not found. PNG and JPEG output will not function.
 
 You can set it manually with (glisp:set-gs-path <path-to-gs-executable>).~%"))
@@ -316,7 +328,7 @@ You can set it manually with (glisp:set-gs-path <path-to-gs-executable>).~%"))
   "Returns a string with a backtrace of what the Lisp system thinks is
 the \"current\" error."
   (handler-case
-      (with-output-to-string (s) (uiop:print-backtrace s))
+      (with-output-to-string (s) (uiop:print-backtrace :stream s))
     (error (condition)
       (format nil "Could not generate backtrace: ~A." condition))))
 

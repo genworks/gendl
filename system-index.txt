@@ -16,5 +16,4 @@ regression/regression.asd
 gwl-graphics/gwl-graphics.asd
 demos/wire-world/wire-world.asd
 apps/translators/translators.asd
-demos/twenty-four/twenty-four.asd
 documentation/training/g102-tud/examples/examples.asd

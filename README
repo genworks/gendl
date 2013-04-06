@@ -1,7 +1,5 @@
-Gendl
 
-What is Gendl? 
-=============
+#Gendl
 
 Gendl is an AGPL-licensed Generative Programming and Knowledge Based
 Engineering framework, building on concepts dating back to the
@@ -13,19 +11,17 @@ allows you to specify inputs, outputs (computed slots), and child
 objects, which then gives the ability to generate a "tree" of objects,
 useful for decomposing complexity.
 
-A graphical web-based interface, tasty, is available for interacting
-with your system as you develop it.
+A graphical web-based interface, /tasty/, is available for interacting
+with your system as it is developed.
 
 The web-based GUI framework used to make tasty (GWL) is also available
 for creating your own custom web-based user interfaces. 
 
-Gendl provides the fundamental KBE features of:
+### Fundamental KBE Features Provided
 
-  o Declarative (non-procedural) Syntax
-
-  o Object and value caching (i.e. runtime memorization)
-
-  o Dependency-tracking (cached values get recomputed when needed)
+- Declarative (non-procedural) Syntax
+- Object and value caching (i.e. runtime memorization)
+- Dependency-tracking (cached values get recomputed when needed)
 
 Optionally there is available a set of surface- and solid-modeling
 primitives which currently depend on SMLib, a commercial geometry
