@@ -59,12 +59,11 @@
           (the-object new-self set-instantiation-time!)
           (the-object new-self set-time-last-touched!)
           
-	  ;;
-	  ;;(defaulting (the-object self custom-restore-function))
-	  ;;
-
-          (format t "~%~%*************** Session ~a Restarted! ***************~%~%" (the-object new-self instance-id))
-          (the-object new-self tree-manager restore-design-state!)
+          (format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
+		  (the-object new-self instance-id))
+	  
+	  (the-object new-self custom-snap-restore!)
+	  
 	  )
     
     ;;

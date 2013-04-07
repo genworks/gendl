@@ -297,7 +297,16 @@ interface. Defaults to nil."
                             (progn (set-self self)
                                    (let ((*package* (symbol-package (the type)))) (break)))
                           (progn
-                            (set-self self))))))
+                            (set-self self))))
+
+	      ("Void. This is a hook function which applications can use to restore automatically 
+from a saved snapshot file."
+	       custom-snap-restore!
+	       ()
+
+	       )
+
+	      ))
 
 
 (define-lens (html-format base-ajax-sheet)()

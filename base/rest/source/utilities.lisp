@@ -505,15 +505,18 @@ CL \"fround\" function.
 
 
 (defmethod readable-expression ((object hash-table) &optional self) 
-  (declare (ignore self))
-  (warn "Hash Tables cannot currently be written out and read back into GDL reliably.
-Please do not use hash tables as the value for toplevel inputs or settable slots.")
-  
-  :%unreadable%)
+  (let (keys vals)
+    (maphash #'(lambda(key val) (push key keys) (push val vals)) object)
+    `(let ((ht (make-hash-table)))
+       (mapc #'(lambda(key val)
+		 (setf (gethash key ht) val))
+	     ,(readable-expression (nreverse keys) self)
+	     ,(readable-expression (nreverse vals) self)) ht)))
 
-
-(defmethod readable-expression ((object cons) &optional self) (declare (ignore self)) 
-           (with-error-handling (:timeout nil) `(list ,@(mapcar #'readable-expression object))))
+(defmethod readable-expression ((object cons) &optional self)  
+           (with-error-handling (:timeout nil) `(list ,@(mapcar #'(lambda(expr)
+								    (readable-expression expr self))
+								object))))
 
 (defmethod readable-expression ((object number) &optional self) (declare (ignore self)) object)
 (defmethod readable-expression ((object string) &optional self) (declare (ignore self)) object)

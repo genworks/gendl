@@ -212,6 +212,10 @@ You have a dependency on caffeine. Your children are your dependants.
 (let ((value (gensym)) (need? (gensym)))
   (defmacro with-dependency-tracking ((message-symbol &optional (self-sym 'self)) &rest body)
     `(let ((,value (,message-symbol ,self-sym))
+	   ;;
+	   ;; FLAG - this gets invoked far too often - must analyze this. Also, *root-checking-enabled*
+	   ;  should result in need defaulting to t, not nil, and the same-tree check being skipped. 
+	   ;;
 	   (,need? (and *run-with-dependency-tracking?* *notify-cons* *root-checking-enabled?*
 			;;
 			;; FLAG -- check that remotes are effectively from same tree as well
