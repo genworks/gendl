@@ -1,5 +1,5 @@
 
-#Gendl
+##Gendl
 
 Gendl is an AGPL-licensed Generative Programming and Knowledge Based
 Engineering framework, building on concepts dating back to the
@@ -50,7 +50,7 @@ For Proprietary (closed-source) development and distribution, the
 commercial Genworks GDL system is available from http://genworks.com.
 
 
-Current Requirements:
+### Current Requirements:
 
  1. Common Lisp: Allegro CL 9.0, LispWorks 6.x, SBCL, or CCL (Clozure
     CL). Without web interface, initial ports to ECL, ABCL, and CLISP
@@ -80,8 +80,6 @@ Slime is available with:
 
 Documentation is in documentation/tutorial/pdf/tutorial.pdf 
 
- [!! Edit: the tutorial.pdf is temporarily removed for maintenance !!]
-
 and this very much an active work in progress. Training tutorials and videos
 are also in progress and in their current state are available in the
 Documentation section on http://genworks.com.
@@ -91,8 +89,7 @@ To help in understanding the role of each module, the overall Gendl
 source architecture is partially described below.
 
 
-Gendl source code Architecture:
-===============================
+### Gendl source code Architecture:
 
 Gendl is separated into layered components, some of which depend on
 others. Some components also depend on third-party external libraries,
@@ -106,38 +103,37 @@ vanilla-mixin.
 Including the base, there are eight modules supported with Gendl:
 
 
- :base - (gendl/base/) Gendl language kernel.
+* :base - (gendl/base/) Gendl language kernel.
 
 
- :cl-lite - (gdl/cl-lite/) Gendl system definitions and loading
+* :cl-lite - (gdl/cl-lite/) Gendl system definitions and loading
       facility. Supplements our use of asdf and quicklisp.
 
 
- :regression - (gdl/regression) regression test utilities.
+* :regression - (gdl/regression) regression test utilities.
 
 
- :geom-base - (gdl/geom-base/) Built-in Gendl wireframe primtives
+* :geom-base - (gdl/geom-base/) Built-in Gendl wireframe primtives
       and basic geometry/vector manipulation functions.
 
 
- :gwl - (gdl/gwl/) Generative Web Language, represent web pages
+* :gwl - (gdl/gwl/) Generative Web Language, represent web pages
        using GDL objects, includes Ajax-based web interaction with
        your model.
 
 
- :gwl-graphics - (gdl/gwl-graphics/) include graphics rendered
+* :gwl-graphics - (gdl/gwl-graphics/) include graphics rendered
       from geometry object in GWL web pages.
 
 
- :surf - (gdl/surf/) surface primitives without underlying
+* :surf - (gdl/surf/) surface primitives without underlying
       geometry kernel middleware or implementation.
 
 
- :yadd - (gdl/apps/yadd/) self auto-documentation.
+* :yadd - (gdl/apps/yadd/) self auto-documentation.
 
 
-License
-=======
+### License
 
 Affero Gnu General Public License (http://www.gnu.org/licenses/agpl.txt)
 
