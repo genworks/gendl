@@ -21,6 +21,8 @@
 
 (in-package :gwl-user)
 
+
+
 (defparameter *locale-hash*
   (let ((strings 
 	 `(:hey-now
@@ -29,6 +31,10 @@
     (let ((ht (make-hash-table :size (length strings))))
       (mapc #'(lambda(key value) (setf (gethash key ht) value))
 	    (plist-keys strings) (plist-values strings)) ht)))
+
+
+(defun locale-string (key)
+  (gethash key *locale-hash*))
   
 (define-object hey-now (base-ajax-sheet)
  

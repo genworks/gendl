@@ -964,6 +964,9 @@ a separate object hierarchy." object self)))
 (define-object root-path-container ()
   :input-slots (root-path))
 
-
+;;
+;; FLAG -- stub -- to be redefined in gwl.
+;;
+(define-object remote-object ())
 
 

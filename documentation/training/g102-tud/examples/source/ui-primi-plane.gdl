@@ -16,7 +16,10 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :gwl-user)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (gwl:define-package :examples-ui))
+
+(in-package :examples-ui)
 
 (define-object primi-plane-ui (base-ajax-sheet)
 

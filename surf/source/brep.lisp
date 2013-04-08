@@ -372,6 +372,7 @@ of this brep. Exact supported format will be documented here when ready."
     :sequence (:size (length (the %native-faces%)))
     :brep self
     :layer (the-child index)
+    :pseudo-inputs (layer)
     :%native-brep% (the %native-brep%)
     :%native-face% (nth (the-child index) (the %native-faces%)))
    

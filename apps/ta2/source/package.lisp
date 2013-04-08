@@ -2,7 +2,7 @@
 
 
 (gwl:define-package :ta2
-    (:documentation #.(with-open-file (in "~/gendl/apps/ta2/description.isc") (read in)))
+    (:documentation #.(glisp:system-description :ta2))
   (:export #:assembly))
 
 #+nil

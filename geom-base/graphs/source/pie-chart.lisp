@@ -109,6 +109,7 @@ Color of the outline of the pie. Defaults to :black."
            :pass-down (labels&colors))
    
    (pie-pieces :type 'pie-piece
+	       :pseudo-inputs (fraction line-color)
                :sequence (:size (length (the data)))
                :datum (nth (the-child index) (the data))
                :label (first (nth (the-child :index) (the labels&colors)))

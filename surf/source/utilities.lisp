@@ -46,7 +46,6 @@
              (error "start matches both start and end of curve in chain-curves"))
             ((and (null start-match) (null end-match))
              (print-variables start start-match end-match)
-             (setq gdl-user::*curves* curves)
              (error "curves did not chain in chain-curves"))
             (start-match
              (cons (nth start-match curves) 

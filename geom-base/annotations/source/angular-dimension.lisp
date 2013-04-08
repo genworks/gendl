@@ -150,7 +150,8 @@ Defaults to nil."
    
    (dimension-text :type 'general-note
                    
-                   
+                   :pseudo-inputs (start-center)
+
                    :start-center (let ((point (add-vectors (the dim-text-start) (the dim-text-start-offset))))
 
                                     (translate-along-vector point 

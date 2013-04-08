@@ -97,7 +97,13 @@
                       (cross-vectors surface-normal curve-tangent))))))
 
 
-
+;;
+;; FLAG -- move to example and/or regression tests. 
+;;
+;;  Some lisps don't recognize the above dual-blend-surface definition while still
+;;  in this file. 
+;;
+#+nil
 (define-object test-d-b-s (base-object)
   
   

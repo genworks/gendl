@@ -35,19 +35,21 @@ a symbol, this is the name of the slot and there will be no default value.\"
         (new-format-functions (gensym))
         (class (gensym)))
     `(progn 
-       (defclass ,name ,mixin-list ,(mapcar #'(lambda(slot)
-                                                (if (atom slot)
-                                                    `(,(glisp:intern (symbol-name slot) :gdl-acc) :initarg ,(make-keyword slot))
-                                                  `(,(glisp:intern (symbol-name (first slot)) :gdl-acc) :initform ,(second slot) 
-                                                                                                  :initarg ,(make-keyword (first slot))
-                                                                                                  :documentation ,(or (third slot) ""))))
-                                            slots) (:metaclass gdl-format-class))
+       (defclass ,name ,mixin-list 
+	 ,(mapcar #'(lambda(slot)
+		      (if (atom slot)
+			  `(,(glisp:intern (symbol-name slot) :gdl-acc) :initarg ,(make-keyword slot))
+			  `(,(glisp:intern (symbol-name (first slot)) :gdl-acc) :initform ,(second slot) 
+			     :initarg ,(make-keyword (first slot))
+			     :documentation ,(or (third slot) ""))))
+		  slots) (:metaclass gdl-format-class))
        (let ((,class (find-class ',name)))
          (let ((,old-format-functions (format-functions ,class))
                (,new-format-functions ',(mapcar #'first-symbol (remove nil functions))))
            (dolist (key (set-difference ,old-format-functions ,new-format-functions))
-             (let ((method (ignore-errors (find-method (symbol-function (glisp:intern (symbol-name key) :gdl-format)) nil
-                                                       (list (find-class ',name)) nil))))
+             (let ((method (ignore-errors 
+			     (find-method (symbol-function (glisp:intern (symbol-name key) :gdl-format)) nil
+					  (list (find-class ',name)) nil))))
                (when method 
                  (format t "~%Removing format function: ~a for format definition: ~s~%" key ',name)
                  (remove-method (symbol-function (glisp:intern (symbol-name key) :gdl-format)) method))))
