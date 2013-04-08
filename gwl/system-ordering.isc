@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("source"  "ajax")
+("source"  "form-elements" "ajax")

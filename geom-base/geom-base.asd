@@ -1,9 +1,10 @@
 ;;;; -*- encoding: utf-8; -*-
 
 (asdf:defsystem #:geom-base :description
- "The Gendl™ Wireframe Geometry" :author "John McCarthy" :license
- "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130406" :depends-on (:glisp)
+ "The Gendl™ Wireframe Geometry" :author
+ "Dave Cooper and Genworks International" :license
+ "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
+ :serial t :version "20130408" :depends-on (:glisp)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "prereqs/source/presets")
@@ -17,13 +18,12 @@
   (:file "formats/source/raster")
   (:file "formats/source/vector-graphics")
   (:file "wire/source/base-object") (:file "wire/source/arc")
-  (:file "wire/source/cylinder")
+  (:file "wire/source/l-line") (:file "wire/source/circle")
+  (:file "wire/source/bezier-curve") (:file "wire/source/cylinder")
   (:file "wire/source/global-polyline")
   (:file "wire/source/global-filleted-polyline")
   (:file "wire/source/global-polygon-projection")
-  (:file "wire/source/sphere") (:file "wire/source/l-line")
-  (:file "wire/source/circle") (:file "wire/source/arcoid-mixin")
-  (:file "wire/source/bezier-curve")
+  (:file "wire/source/sphere") (:file "wire/source/arcoid-mixin")
   (:file "wire/source/bounding-box") (:file "wire/source/box")
   (:file "wire/source/c-cylinder") (:file "wire/source/cone")
   (:file "wire/source/directional-light")
@@ -36,7 +36,7 @@
   (:file "wire/source/primitives") (:file "wire/source/route-pipe")
   (:file "wire/source/spherical-cap")
   (:file "wire/source/spot-light") (:file "wire/source/torus")
-  (:file "wire/source/views")
+  (:file "wire/source/utilities") (:file "wire/source/views")
   (:file "annotations/source/angular-dimension")
   (:file "annotations/source/arrowhead")
   (:file "annotations/source/center-line")

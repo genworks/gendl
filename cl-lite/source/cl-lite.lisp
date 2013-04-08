@@ -122,7 +122,8 @@ given as keyword args to this function)."
      (pathname-root (the pathname))
      (strings-for-display (format nil "~a" (the :local-name)))
      (subdir-type 'directory-node)
-     (additional-parameters nil))
+     (additional-parameters nil)
+     (dry-run? nil))
 
     :computed-slots
     ((device (pathname-device (the ppathname)))
@@ -144,6 +145,7 @@ given as keyword args to this function)."
               :pathname (make-pathname
                          :device (the :device)
                          :directory (nth (the-child :index) (the :subdir-pathnames)))
+	      :pass-down (dry-run?)
               :parameters (the :additional-parameters)))))
 
 
@@ -253,7 +255,9 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
                                :directory (append
                                            (butlast base-dir)
                                            (list "bin" (lastcar base-dir))))))
-                         (ensure-directories-exist binary-directory)
+                         (unless (the dry-run?)
+			   (format t "~&*** Creating ~s~%" binary-directory)
+			   (ensure-directories-exist binary-directory))
                          (pathname-directory binary-directory))))
    (local-package-files (remove-if-not
                          #'(lambda (file)

@@ -1,0 +1,5 @@
+
+
+** cl-lite
+*** Stop creating bin/ subdirectories if create-asd-file? or dry-run? is non-nil.
+

@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;;
 
-("base-object" "arc" "cylinder" "global-polyline" "global-filleted-polyline" "global-polygon-projection" "sphere" "l-line" "circle")
+("base-object" "arc" "l-line" "circle" "bezier-curve" "cylinder" "global-polyline" "global-filleted-polyline" "global-polygon-projection" "sphere" "l-line" "circle")
