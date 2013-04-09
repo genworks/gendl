@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;; Copyright 2002, 2009 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language (GDL) project (GDL).
@@ -21,14 +21,13 @@
 
 (in-package :ledger)
 
-(defparameter *source-dir*  (make-pathname :directory (butlast (butlast (pathname-directory *load-truename*)))
-					   :device (pathname-device *load-truename*)))
+(defparameter *source-dir*  (glisp:system-home :ledger))
 
 (define-object assembly (base-object)
   
   :input-slots
-  ((account-data-file (merge-pathnames "../data/accounts.lisp" *source-dir*))
-   (transaction-data-file (merge-pathnames "../data/transactions.lisp" *source-dir*)))
+  ((account-data-file (merge-pathnames "data/accounts.lisp" *source-dir*))
+   (transaction-data-file (merge-pathnames "data/transactions.lisp" *source-dir*)))
   
   :computed-slots 
   ((account-data (let (result)

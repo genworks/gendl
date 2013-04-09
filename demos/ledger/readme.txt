@@ -20,20 +20,27 @@ the more modern and preferred form-control objects
 To compile the app
 ==================
 
-Use cl-lite on the ledger/ directory. See bootstrap.txt in the
-<gdl-home>/gdl-doc/ directory for more details on cl-lite.
+1. Set yourself up with quicklisp and asdf, possibly with 
+
+ (load (merge-pathnames "quicklisp/setup.lisp" glisp:*gdl-home*))
+
+2. (ql:quickload :ledger)
+
 
 Once the application is compiled:
 
  1. Make sure allegroserve is started with 
 
-       (net.aserve:start :port 9000)  ;; or whatever number you choose
+       (gendl:start-gendl!)   ;; or 
+       (gwl:start-gwl :port 9000)  ;; or whatever port number you choose
 
  2. Visit:
 
       http://<your host>:<port number>/ledger
 
       e.g. http://localhost:9000/ledger
+
+
 
 
 

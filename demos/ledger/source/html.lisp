@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;; Copyright 2002, 2009 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language (GDL) project (GDL).
@@ -49,9 +49,7 @@
    (password :type 'password-form-control
 	     :size 15 
 	     :ajax-submit-on-change? t
-	     :default "")
-   
-   )
+	     :default ""))
 		
   :functions
   (
