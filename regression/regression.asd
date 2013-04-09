@@ -4,7 +4,7 @@
  "The Gendl™ regression Subsystem" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130408" :depends-on (:lift :surf :tasty)
+ :serial t :version "20130409" :depends-on (:lift :surf :tasty)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "utils/source/package") (:file "utils/source/genworks")

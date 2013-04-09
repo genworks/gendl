@@ -58,10 +58,30 @@ commercial Genworks GDL system is available from http://genworks.com.
 
  2. Quicklisp (available from http://www.quicklisp.org)
 
+
+**Note** 
+
+The name `:gendl` is new and will be used in Quicklisp starting with the
+April release, which is due out the week of April 8 (this week!).
+Prior to the April 2013 Quicklisp, the system is known as
+`:genworks-gdl`, and so would be loaded and started with:
+
+```common-lisp
+ (ql:quickload :genworks-gdl)
+ (gdl:start-gdl)
+```
+
+We recommend you to switch to the latest system under its new name
+`:gendl` as soon as it is available, which should be by the end of
+this week.
+
+
  To load the entire system, you can do it with:
 
+```common-lisp
   (ql:quickload :gendl)
   (gendl:start-gendl!)
+```
 
 
 Now you can do a quick sanity check by visiting:
