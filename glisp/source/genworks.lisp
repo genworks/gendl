@@ -577,7 +577,12 @@ please find implementation for the currently running lisp.~%")
 (defmacro without-redefinition-warnings (&rest body)
   #+allegro
   `(excl:without-redefinition-warnings ,@body)
-  #-allegro
+  #+sbcl
+  `(locally 
+       (declare (sb-ext:muffle-conditions sb-kernel:redefinition-warning))
+     (handler-bind
+	 ((sb-kernel:redefinition-warning #'muffle-warning)) ,@body))
+  #-(or allegro sbcl)
   (progn
     (warn "Need an implementation for without-redefinition-warnings for ~a~%." (lisp-implementation-type))
     `(progn ,@body)))

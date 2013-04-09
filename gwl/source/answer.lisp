@@ -201,7 +201,7 @@ instance at what time should the recovery instance expire?"
                  
                  (when 
                      (and (fboundp 'process-graphics-fields)
-                          (typep (the-object requestor) (read-from-string "base-html-graphics-sheet"))
+                          (typep (the-object requestor) (read-from-string "gwl:base-html-graphics-sheet"))
                           (the-object requestor (evaluate :view-object)))
                    (setq query-plist (funcall (read-from-string "gwl::process-graphics-fields")
                                               query query-plist root-object requestor)))
