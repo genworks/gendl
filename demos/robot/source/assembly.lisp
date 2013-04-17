@@ -206,8 +206,8 @@ to the src/ directory distributed with GDL.
   ((base :type 'robot-base
          :display-controls (merge-display-controls (list :color :blue-sky))
          :height (* (the height) 0.4)
-         :width (* (the :width) 0.2)
-         :length (* (the :length) 0.2)
+         :width (* (the width) 0.2)
+         :length (* (the length) 0.2)
          :center (translate (the :center) :down (* (the :height) 0.3)))
    (body :type 'robot-body
          :height (* (the :height) 0.6)

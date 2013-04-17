@@ -573,7 +573,6 @@ please find implementation for the currently running lisp.~%")
   #-allegro `(acl-compat.mp:with-timeout (,seconds ,@timeout-body)
 	       ,@body))
 
-
 (defmacro without-redefinition-warnings (&rest body)
   #+allegro
   `(excl:without-redefinition-warnings ,@body)
@@ -586,3 +585,25 @@ please find implementation for the currently running lisp.~%")
   (progn
     (warn "Need an implementation for without-redefinition-warnings for ~a~%." (lisp-implementation-type))
     `(progn ,@body)))
+
+
+(defun rsync (source dest &key directory 
+			    print-command?
+			    dry-run?
+			    (options (list "a"))
+			    long-form-options)
+  #+mswindows (error "~&Sorry, glisp:rsync is not yet implemented for MS Windows.~%")
+  #-mswindows
+  (labels ((expanded-pathname-string (pathname)
+	     (replace-regexp (namestring (translate-logical-pathname pathname)) "~/"
+			     (namestring (user-homedir-pathname)))))
+  (let ((command-list 
+	 (remove nil
+		 (list "rsync" 
+		       (when options (format nil "-~{~a~}" options) )
+		       (when long-form-options (format nil "~{--~a~}" long-form-options))
+		       (expanded-pathname-string (namestring source))
+		       (expanded-pathname-string (namestring dest))))))
+    (when (or print-command? dry-run?) (format t "~s~%" command-list))
+    (unless dry-run?
+      (uiop:with-current-directory (directory) (run-program command-list))))))

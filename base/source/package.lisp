@@ -288,7 +288,10 @@ If you are interested in this effort we would love to hear from you at open-sour
 		#:validate-superclass)
   (:export 
    ;;
-   ;; Implemented in gdl/base/common/genworks.lisp.
+   ;; Some implemented in gendl/base/source/genworks.lisp, the rest 
+   ;; in gendl/glisp/source/genworks.lisp.
+   ;;
+   ;; FLAG -- alphabetize all these here in this package export list.
    ;;
    #:*external-text-format*
    #:*gdl-home*
@@ -394,9 +397,10 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:package-documentation
    #:function-documentation
    #:variable-documentation
-	     
 
    #:parse-xml
+
+   #:rsync
    ))
 
 (defpackage :geom-base
