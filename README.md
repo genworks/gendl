@@ -49,6 +49,14 @@ AGPL-compatible license (if distributed at all).
 For Proprietary (closed-source) development and distribution, the
 commercial Genworks GDL system is available from http://genworks.com.
 
+### Support
+
+* #gendl on freenode.irc.net (irc://irc.freenode.net/gendl)
+* @gendl on Twitter
+* (common-lisp.net mailing list hopefully/possibly coming soon)
+* http://groups.google.com/group/genworks
+* #lisp, #quicklisp, #emacs channels on irc.freenode.net
+
 
 ### Current Requirements:
 
