@@ -1,6 +1,28 @@
 (in-package :gdl-user)
 
 
+(define-object cyl-fields (base-object)
+
+  :input-slots ((number-of-layers 3)
+		
+		(height 20)
+
+		(datum (the (face-center :bottom)))
+		
+		(pitch (/ (the height) (1- (the number-of-layers))))
+
+		
+		(colors (list :red :orange :yellow :green :blue :indigo :violet)))
+
+
+
+  :objects ((fields :type 'cyl-field
+		    :display-controls (list :color (cyclic-nth (the-child index) (the colors)))
+		    :sequence (:size (the number-of-layers))
+		    :center (translate (the datum) :up (* (the-child index) (the pitch))))))
+
+
+
 (define-object cyl-field (base-object)
 
   :input-slots ((number-of-rows 10)
@@ -14,7 +36,6 @@
   :objects
   ((cylinders :type 'cylinder
 	      :sequence (:matrix :lateral (the number-of-rows) :longitudinal (the number-of-columns))
-	      :display-controls (list :color "#9999FF")
 	      :radius (the cylinder-radius)
 	      :length (the cylinder-length)
 	      :orientation (alignment :rear (the (face-normal-vector :top)))
@@ -36,7 +57,6 @@
   :objects
   ((cyls :type 'cylinder
 	      :sequence (:matrix :lateral (the number-of-rows) :longitudinal (the number-of-columns))
-	      :display-controls (list :color "#9999FF")
 	      :radius (the cylinder-radius)
 	      :length (the cylinder-length)
 	      :center (translate (the center) 
