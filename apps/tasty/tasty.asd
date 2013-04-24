@@ -2,9 +2,9 @@
 
 (asdf:defsystem #:tasty :description
  "The Gendl™ Web-based Development Environment (tasty)" :author
- "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130409" :depends-on (:tree :gwl-graphics)
+ "John McCarthy" :license
+ "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
+ :version "20130422" :depends-on (:tree :gwl-graphics)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/parameters")
