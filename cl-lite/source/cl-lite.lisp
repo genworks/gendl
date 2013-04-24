@@ -302,7 +302,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 							       :type "isc")
 						(the ppathname))))
 			  (when (probe-file asd-code-file)
-			    (with-open-file (in asd-code-file)
+			    (with-open-file (in asd-code-file :external-format :utf-8)
 			      (let (result)
 				(let (*read-eval*)
 				  (do ((form (read in nil nil) (read in nil nil)))
@@ -315,9 +315,10 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
    (asdf-system-lines  (let ((temp-file (glisp:temporary-file)))
 			 (with-open-file (out temp-file :direction :output
 					      :if-exists :supersede
-					      :if-does-not-exist :create)
+					      :if-does-not-exist :create
+					      :external-format :utf-8)
 			   (pprint (the %asdf-system-list) out))
-			 (with-open-file (in temp-file)
+			 (with-open-file (in temp-file :external-format :utf-8)
 			   (let (result)
 			     (do ((line (read-line in nil) (read-line in nil)))
 				 ((null line) (nreverse result))
@@ -405,7 +406,8 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
     ()
     (with-open-file (out (the asd-file) :direction :output 
                      :if-exists :supersede
-                     :if-does-not-exist :create)
+                     :if-does-not-exist :create
+		     :external-format :utf-8)
       (let ((*print-right-margin* 70)
 	    (*print-case* :downcase))
 	
