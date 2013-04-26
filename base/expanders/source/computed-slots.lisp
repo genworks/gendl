@@ -21,6 +21,7 @@
 
 (in-package :gdl)
 
+(defparameter *trickle-down-basis-method-hash* (make-hash-table))
 
 (defun message-generics (messages)
   `((eval-when (:compile-toplevel :load-toplevel :execute)
@@ -141,15 +142,24 @@
 	 ;; FLAG -- we need to redefine the standard gdl-basis method here for trickle-down-slots, 
 	 ;;         figure out how to do it without the crude off/on of redefinition warnings.
 	 ;;
-	 `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
+	 ;;`(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
+	 
+	 `(unless (gethash ',(glisp:intern (symbol-name slot) :gdl-slots) *trickle-down-basis-method-hash*)
+	    (defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
+	      (chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg))
+	    (setf (gethash ',(glisp:intern (symbol-name slot) :gdl-slots) *trickle-down-basis-method-hash*) t))
+	 
+	 #+nil
 	 `(defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 	    (chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg))
+
+
 	 #+nil
 	 `(unless (find-method (symbol-function ',(glisp:intern (symbol-name slot) :gdl-slots))
 			       nil (list (find-class 'gdl-basis)) nil)
 	    (defmethod ,(glisp:intern (symbol-name slot) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 	      (chase-up-trickle-down ',(glisp:intern (symbol-name slot) :gdl-slots) ,self-arg ,args-arg)))
-	 `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
+	 ;;`(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
            
 	 )))
    slots))
