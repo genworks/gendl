@@ -55,7 +55,7 @@
 		)
 
   :objects
-  ((cyls :type 'cylinder
+  ((cylinders :type 'cylinder
 	      :sequence (:matrix :lateral (the number-of-rows) :longitudinal (the number-of-columns))
 	      :radius (the cylinder-radius)
 	      :length (the cylinder-length)
