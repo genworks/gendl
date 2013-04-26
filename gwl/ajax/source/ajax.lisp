@@ -22,16 +22,7 @@
 (in-package :gwl)
 
 
-;;
-;; FLAG -- remove and replace with glisp:snap-folder after merge into development trunk.
-;;
-(defun tmp-snap-folder ()
-  (or #+allegro (probe-file (merge-pathnames "snaps/" "sys:"))
-      (ensure-directories-exist (merge-pathnames "snaps/" (glisp:temporary-folder)))))
-(defvar *snap-folder*  (tmp-snap-folder))
-
-
-(defun quick-save (self &key (snap-folder *snap-folder*))
+(defun quick-save (self &key (snap-folder (glisp:snap-folder)))
   (let ((snap-file 
 	 (merge-pathnames 
 	  (make-pathname :name (format nil "~a" (the instance-id))
@@ -44,7 +35,7 @@
 	 (let ((snap-file 
 		(merge-pathnames 
 		 (make-pathname :name (format nil "~a" iid) 
-				:type "snap") *snap-folder*)))
+				:type "snap") (glisp:snap-folder))))
 	   (when (probe-file snap-file)
              (with-error-handling ()
 	       (read-snapshot :filename snap-file

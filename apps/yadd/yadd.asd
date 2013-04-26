@@ -4,7 +4,7 @@
  "The Gendl™ Yet Another Definition Documenter (yadd)" :author
  "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130422" :depends-on (:gwl-graphics)
+ :version "20130426" :depends-on (:gwl-graphics)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/genworks")
