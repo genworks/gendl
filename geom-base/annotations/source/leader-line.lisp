@@ -108,9 +108,7 @@ Currently only :wedge is supported. Default is :none."
   :output-functions
   ((cad-output
     ()
-    
     (unless (typep (the polyline) 'null-part) (write-the polyline (cad-output)))
-    
     (mapc #'(lambda(polyline) 
               (unless (typep polyline 'null-part)
                 (write-the-object polyline cad-output)))

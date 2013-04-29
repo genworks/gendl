@@ -232,6 +232,17 @@ and end-point."
                                                (the end-base-distance))))
                             (if (the flip-leaders?)
                                 (if (plusp difference) 
+                                    (list :1 difference  :2 0) 
+                                  (list :1 0  :2 (- difference)))
+                              (if (minusp difference) (list :1 (- difference) :2 0) 
+                                (list :1 0 :2 difference)))))
+
+
+   #+nil
+   (witness-line-overages (let ((difference (- (the start-base-distance)
+                                               (the end-base-distance))))
+                            (if (the flip-leaders?)
+                                (if (plusp difference) 
                                     (list :1 0  :2 (- difference)) 
                                   (list :1 (- difference) :2 0))
                               (if (minusp difference) (list :1 (- difference) :2 0) 
