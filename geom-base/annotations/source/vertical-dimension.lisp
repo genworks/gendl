@@ -73,7 +73,11 @@ horizontal-dimension."
                                   ((and (not (the outside-leaders?)) 
                                         (the text-above-leader?)
                                         (not (the text-along-axis?)))
-                                   (translate mid-point :left (half (the dimension-text width))))
+                                   ;;(translate mid-point :left (half (the dimension-text width)))
+				   mid-point
+
+				   )
+
                                   ((and (not (the outside-leaders?)) 
                                         (not (the text-above-leader?))
                                         (not (the text-along-axis?)))

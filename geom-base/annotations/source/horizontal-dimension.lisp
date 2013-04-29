@@ -51,6 +51,8 @@
   :input-slots
   (
    
+   (base-plane-normal (the (face-normal-vector :rear)))
+
    ("3D Point. Determines where the text will start. Defaults to reasonable location for 
 horizontal-dimension."
     dim-text-start (let ((mid-point (translate-along-vector 
@@ -72,7 +74,7 @@ horizontal-dimension."
                                                           (+ (the leader-line-length)
                                                              (half (the dimension-text width)))))
                                        (:end (translate (the leader-end) 
-                                                        (if (the start-end-swapped?) :right :left)
+                                                        (if (the start-end-swapped?) :left :right)
                                                         (+ (half (the dimension-text width))
                                                            (the leader-line-length-2)))))))))
                        (translate center :left (half (the dimension-text width))
@@ -96,7 +98,7 @@ horizontal-dimension."
    (leader-direction-2-vector (the (face-normal-vector
                                     (if (the start-end-swapped?) :left :right))))
    
-   (base-plane-normal (the (face-normal-vector :rear)))))
+   ))
 
 
 

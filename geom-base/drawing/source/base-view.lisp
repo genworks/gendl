@@ -345,10 +345,11 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
    (annotation-caches :type 'view-object-cache
                       :sequence (:size (length (the annotation-array)))
                       :projection-vector (getf *standard-views* :top)
-                      ;;:view-transform :top
-                      :view-transform (view-transform :top :snap-to (the snap-to))
-                      :snap-to (the snap-to)
-                      :snap-to-y? (coincident-point? (the snap-to) *nominal-y-vector*)
+                      :view-transform (view-transform :top) 
+                      ;;:view-transform (view-transform :top :snap-to (the snap-to))
+                      ;;:snap-to (the snap-to)
+                      ;;:snap-to-y? (coincident-point? (the snap-to) *nominal-y-vector*)
+		      :snap-to-y? nil
                       :scale? nil
                       :object (svref (the annotation-array) (the-child index)))
    

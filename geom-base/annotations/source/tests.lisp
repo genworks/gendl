@@ -29,6 +29,7 @@ NOTE: before compiling/loading this file, do:
 
 |#
 
+#+nil
 (defun run-tests ()
   "Initiate all test in file"
   (ang)
@@ -45,7 +46,7 @@ NOTE: before compiling/loading this file, do:
   ;;(draw3 'png)
   )
   
-
+#+nil
 (define-object vertical-0 (base-object)
   :input-slots ((length 1)(width 3)(height 0)
                 (character-size 0.125))
@@ -70,7 +71,7 @@ NOTE: before compiling/loading this file, do:
        :leader-line-length 0.5
        :arrowhead-style :triangle)))
 
-
+#+nil
 (define-object vertical-1-drawing (base-drawing)
   :objects
   ((vert :type 'vertical-dimension
@@ -94,7 +95,7 @@ NOTE: before compiling/loading this file, do:
                         (the vert)
                    ))))
 
-
+#+nil
 (define-object vertical-1 (base-object)
   
   :computed-slots
@@ -108,7 +109,7 @@ NOTE: before compiling/loading this file, do:
              :pass-down (start-point end-point))))
 
 
-
+#+nil
 (define-object  vertical-2 (base-object)
   
    :objects
@@ -124,6 +125,7 @@ NOTE: before compiling/loading this file, do:
                       :end-point (the box (vertex :top :left :rear)))))
 
 
+#+nil
 (define-object horizontal-1 (base-object)
   
   :objects
@@ -137,7 +139,7 @@ NOTE: before compiling/loading this file, do:
                     :start-point (the box (vertex :top :left :rear))
                     :end-point (the box (vertex :top :right :rear)))))
 
-
+#+nil
 (define-object par-1-draw (base-drawing)
   :objects 
   ((par :type 'parallel-1)
@@ -147,7 +149,7 @@ NOTE: before compiling/loading this file, do:
                              (the par length-dimension)
                              ))))
 
-
+#+nil
 (define-object parallel-1 (base-object)
   
   :objects
@@ -164,7 +166,7 @@ NOTE: before compiling/loading this file, do:
                      :end-point (the box (vertex :top :right :rear)))))
 
 
-
+#+nil
 (define-object angular-1 (base-drawing)
 
   :input-slots 
@@ -231,16 +233,18 @@ NOTE: before compiling/loading this file, do:
               :dim-angle-style :degrees-minutes-seconds
               :leader-radius 1.5)))
 
-
+#+nil
 (defun ang ()
   (with-format (pdf "/tmp/ang-try.pdf")
     (write-the-object (make-object 'angular-1) cad-output)))
 
+#+nil
 (defun ang-dxf ()
   (with-format (dxf "/tmp/ang-try.dxf")
     (write-the-object (make-object 'angular-1) cad-output)))
 
 
+#+nil
 (define-object test-matrix (base-object)
   
   :input-slots ((length (half 792)) (width 612)
@@ -429,20 +433,22 @@ NOTE: before compiling/loading this file, do:
 
 
 
-
+#+nil
 (defmethod draw ((format (eql 'dxf)))
   (with-format (dxf "/tmp/draw-try.dxf")
     (write-the-object (make-object 'busy-drawing) cad-output)))
 
+#+nil
 (defmethod draw ((format (eql 'pdf)))
   (with-format (pdf "/tmp/draw-try.pdf")
     (write-the-object (make-object 'busy-drawing) cad-output)))
 
+#+nil
 (defmethod draw ((format (eql 'png)))
   (with-format (png "/tmp/draw-try.png")
     (write-the-object (make-object 'busy-drawing) cad-output)))
 
-
+#+nil
 (define-object busy-drawing (base-drawing)
   
   :input-slots
@@ -466,7 +472,7 @@ NOTE: before compiling/loading this file, do:
     (with-format (dxf "/tmp/try.dxf")
       (write-the-object self cad-output)))))
 
-
+#+nil
 (define-object container (gwl:web-drawing)
   
   :computed-slots
@@ -477,16 +483,17 @@ NOTE: before compiling/loading this file, do:
   :objects
   ((annotated-drawing :type 'annotated-drawing)))
 
-
+#+nil
 (defun cont ()
   (with-format (pdf "/tmp/cont-try.pdf")
     (write-the-object (make-object 'container) cad-output)))
 
-
+#+nil
 (defun contp ()
   (with-format (png "/tmp/cont-try.png")
     (write-the-object (make-object 'container) cad-output)))
 
+#+nil
 (define-object annotated-drawing (base-drawing)
   :input-slots
   ((page-length 700) (page-width 800))
@@ -566,7 +573,7 @@ NOTE: before compiling/loading this file, do:
                  :outside-leaders? t
                  :character-size 15)))
 
-
+#+nil
 (define-object box-matrix (base-object)
   :objects
   ((boxes :type 'box
@@ -580,21 +587,23 @@ NOTE: before compiling/loading this file, do:
    
    (boxes-quantify-box :type 'box :height 0)))
 
-
+#+nil
 (defmethod draw2 ((format (eql 'dxf)))
   (with-format (dxf "/tmp/draw2-try.dxf")
     (write-the-object (make-object 'annotated-drawing) cad-output)))
 
+#+nil
 (defmethod draw2 ((format (eql 'pdf)))
   (with-format (pdf "/tmp/draw2-try.pdf" :page-length 700 :page-width 800)
     (write-the-object (make-object 'annotated-drawing) cad-output)))
 
+#+nil
 (defmethod draw2 ((format (eql 'png)))
   (with-format (png "/tmp/draw2-try.png" :page-length 700 :page-width 800)
     (write-the-object (make-object 'annotated-drawing) cad-output)))
 
 
-
+#+nil
 (define-object robot-web (gwl:web-drawing)
   :input-slots
   ((page-length 700) (page-width 900))
@@ -608,7 +617,7 @@ NOTE: before compiling/loading this file, do:
   ((robot :type 'robot:assembly)))
 
 
-
+#+nil
 (define-object robot-drawing (base-drawing)
   :input-slots
   ((page-length 792) (page-width 612))
@@ -625,25 +634,25 @@ NOTE: before compiling/loading this file, do:
    (robot :type 'robot:assembly)))
 
 
-
+#+nil
 (defmethod draw3 ((format (eql 'dxf)))
   (with-format (dxf "/tmp/draw3-try.dxf")
     (write-the-object (make-object 'robot-drawing) cad-output)))
 
-
+#+nil
 (defmethod draw3 ((format (eql 'pdf)))
   (let ((self (make-object 'robot-drawing)))
     (with-format (pdf "/tmp/draw3-try.pdf" :page-length (the page-length) :page-width (the page-width))
       (write-the cad-output))))
 
-
+#+nil
 (defmethod draw3 ((format (eql 'png)))
   (let ((self (make-object 'robot-drawing)))
     (with-format (png "/tmp/draw3-try.png")
       (write-the cad-output))))
 
 
-
+#+nil
 (define-object box-with-drawing (base-object)
 
   :objects      
@@ -657,6 +666,7 @@ NOTE: before compiling/loading this file, do:
    (box :type 'box 
         :length 10 :width 20 :height 30)))
 
+#+nil
 (define-object dimensioned-drawing (base-drawing)
   :input-slots (objects)
     
@@ -666,7 +676,7 @@ NOTE: before compiling/loading this file, do:
               :objects (the objects))))
 
 
-
+#+nil
 (define-object box-with-two-viewed-drawing (base-object)
 
   :objects      
@@ -680,6 +690,7 @@ NOTE: before compiling/loading this file, do:
    (box :type 'box 
         :length 10 :width 20 :height 30)))
 
+#+nil
 (define-object two-viewed-drawing (base-drawing)
   :input-slots (objects)
     
@@ -707,6 +718,7 @@ NOTE: before compiling/loading this file, do:
    (box :type 'box 
         :length 10 :width 20 :height 30)))
 
+
 (define-object box-annotated-drawing (base-drawing)
   :input-slots (objects (character-size 15)
                 (witness-line-gap 10)
@@ -714,7 +726,7 @@ NOTE: before compiling/loading this file, do:
                 (witness-line-ext 5))
     
   :objects
-  ((main-view :type 'base-view 
+  ((tri-view :type 'base-view 
               :projection-vector (getf *standard-views* :trimetric)
               :length (half (the length))
               :center (translate (the center) :rear (half (the-child length)))
@@ -724,31 +736,31 @@ NOTE: before compiling/loading this file, do:
    
    (main-length-dim :type 'vertical-dimension
                     :pass-down (character-size witness-line-gap witness-line-length witness-line-ext)
-                    :start-point (the main-view (view-point (the box (vertex :rear :top :right))))
-                    :end-point (the main-view (view-point (the box (vertex :rear :bottom :right))))
+                    :start-point (the tri-view (view-point (the box (vertex :rear :top :right))))
+                    :end-point (the tri-view (view-point (the box (vertex :rear :bottom :right))))
                     :dim-value (3d-distance (the box (vertex :rear :top :right))
                                             (the box (vertex :rear :bottom :right)))
                     :text-above-leader? nil)
                     
    
-   (top-view :type 'base-view 
-             :projection-vector (getf *standard-views* :front)
-             :length (half (the length))
-             :center (translate (the center) :front (half (the-child length)))
-             :objects (the objects)
-             :annotation-objects (list (the top-length-dim)))
+   (front-view :type 'base-view 
+	       :projection-vector (getf *standard-views* :front)
+	       :length (half (the length))
+	       :center (translate (the center) :front (half (the-child length)))
+	       :objects (the objects)
+	       :annotation-objects (list (the top-length-dim)))
    
    (top-length-dim :type 'vertical-dimension
                    :pass-down (character-size witness-line-gap witness-line-length witness-line-ext)
-                   :start-point (the top-view (view-point (the box (vertex :rear :top :right))))
-                   :dim-scale (/ (the top-view view-scale))
+                   :start-point (the front-view (view-point (the box (vertex :rear :top :right))))
+                   :dim-scale (/ (the front-view view-scale))
                    :text-above-leader? nil
-                   :end-point (the top-view (view-point (the box (vertex :rear :bottom :right)))))))
+                   :end-point (the front-view (view-point (the box (vertex :rear :bottom :right)))))))
 
 
 
 
-
+#+nil
 (define-object box-with-immune-dimension (base-object)
 
   :objects      
@@ -758,6 +770,7 @@ NOTE: before compiling/loading this file, do:
    (box :type 'box 
         :length 10 :width 20 :height 30)))
 
+#+nil
 (define-object immune-dimension-drawing (base-drawing)
   
   :input-slots (objects (character-size 20) (witness-line-gap 10)
