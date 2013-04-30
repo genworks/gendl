@@ -3,7 +3,7 @@
 (asdf:defsystem #:regression :description
  "The Gendl™ regression Subsystem" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130426" :depends-on (:lift :surf :tasty)
+ :version "20130428" :depends-on (:lift :surf :tasty)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "utils/source/package") (:file "utils/source/genworks")
@@ -12,6 +12,7 @@
   (:file "assembly-output/source/bracket-test")
   (:file "assembly-output/source/bracket")
   (:file "dgdl/source/remote") (:file "geom-base/source/box-matrix")
+  (:file "geom-base/source/drawing")
   (:file "geom-base/source/general-note")
   (:file "gwl/source/package") (:file "gwl/source/ajax-json")
   (:file "gwl/source/hey-now") (:file "gwl/source/large-data")

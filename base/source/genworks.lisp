@@ -1,3 +1,4 @@
+;;;; -*- encoding: utf-8; -*-
 ;;
 ;; Copyright 2002-2011, 2012 Genworks International
 ;;
@@ -25,9 +26,6 @@
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
     #-(and mswindows allegro) :default)
 
-
-
-
 (defparameter *genworks-source-home* nil)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -40,11 +38,22 @@
 	      (setq *genworks-source-home*
 		    (make-pathname :name nil
 				   :type nil
-				   :directory (butlast 
-					       (butlast (pathname-directory base-home)))
+				   :directory (butlast (butlast (pathname-directory base-home)))
 				   :defaults base-home)))))))
 
 (set-genworks-source-home-if-known)
+
+(defparameter *gendl-source-home* nil)
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun set-genworks-source-home-if-known ()
+      (when (find-package :asdf)
+	(multiple-value-bind (gendl-home error)
+	    (ignore-errors (funcall (read-from-string "asdf:system-source-directory") "gendl"))
+	  (if (typep error 'error)
+	      (warn "~&ASDF is loaded, but :base is not registered. glisp:*genworks-source-home* remains unknown and set to nil.~%")
+	      (setq *gendl-source-home* gendl-home))))))
+
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation for command-line-arguments in currently running lisp.~%")
@@ -278,11 +287,11 @@
                  tpl:*default-lisp-listener-bindings*) (find-package :gdl-user))
   #+allegro (top-level:do-command "package" "gdl-user"))
 
-
 (defun set-defpackage-behavior ()
   #+lispworks (setq hcl:*handle-existing-defpackage* (list :add))
   #-lispworks nil ;; No action needed for non-lispworks platform currently.
   )
+
 
 (defun set-settings (settings)
   (let (anything-changed?)
@@ -296,6 +305,7 @@
 	    (format t "~&Set ~s from default value ~s to non-default value ~s.~%" 
 		    symbol default new-value))))) anything-changed?))
 
+
 (defun set-features (features)
   (let (anything-changed?)
     (dolist (feature features)
@@ -306,11 +316,14 @@
 	  (setq anything-changed? t)))) anything-changed?))
 
 
+
 #-allegro(warn "Find out how to retitle relevant windows in currently running lisp.~%")
+#+(and allegro mswindows)
 (defun set-window-titles ()
-  #+(and allegro mswindows)
-  (excl:console-control :title "Genworks Gendl™ Console")
-  (retitle-emacs))
+  ;;a(excl:console-control :title "Genworks Gendl™ Console")
+ (retitle-emacs))
+#-(and allegro mswindows)
+(defun set-window-titles ())
 
 #-(or allegro lispworks abcl) (warn "Find out how to get the source-pathname  in current lisp.")
 (defun source-pathname ()
@@ -324,7 +337,7 @@
 
 
 
-
+#+nil
 (defun retitle-emacs (&key (title "Genworks Gendl™ Interactive Authoring Environment"))
   "Retitles the associated GDL emacs window with the specified title.
 
