@@ -78,9 +78,9 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 (defvar *settings* 
   (list (list '*static-home* *static-home* 
 	      #'(lambda()
-		  (or (and glisp:*genworks-source-home*
-			   (probe-file (merge-pathnames "gendl/gwl/static/" 
-							glisp:*genworks-source-home*)))
+		  (or (and glisp:*gendl-source-home*
+			   (probe-file (merge-pathnames "gwl/static/" 
+							glisp:*gendl-source-home*)))
 		      (and glisp:*gdl-home*
 			   (probe-file (merge-pathnames "static/"
 							glisp:*gdl-home*)))
