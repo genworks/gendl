@@ -46,13 +46,15 @@
 (defparameter *gendl-source-home* nil)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun set-genworks-source-home-if-known ()
+  (defun set-gendl-source-home-if-known ()
       (when (find-package :asdf)
 	(multiple-value-bind (gendl-home error)
 	    (ignore-errors (funcall (read-from-string "asdf:system-source-directory") "gendl"))
 	  (if (typep error 'error)
 	      (warn "~&ASDF is loaded, but :base is not registered. glisp:*genworks-source-home* remains unknown and set to nil.~%")
 	      (setq *gendl-source-home* gendl-home))))))
+
+(set-gendl-source-home-if-known)
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
