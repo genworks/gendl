@@ -275,6 +275,11 @@
   #+sbcl (sb-kernel:package-doc-string (find-package package)))
 
 
+(defun set-default-character-width ()
+  #+lispworks (lispworks:set-default-character-element-type 'lispworks:simple-char)
+
+  )
+
 (defun set-default-float-format ()
   #+allegro (tpl:setq-default *read-default-float-format* 'double-float)
   #+ccl (ccl::def-standard-initial-binding *read-default-float-format* 'double-float)

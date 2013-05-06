@@ -68,6 +68,11 @@
 
 
 (defun startup-banner ()
+  
+  #+lispworks 
+  (format t "Welcome to Gendl on LispWorks where we can't print wide chars at the moment.")
+
+  #-lispworks
   (format t
 "
 

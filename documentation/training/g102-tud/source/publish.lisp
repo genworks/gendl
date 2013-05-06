@@ -6,8 +6,7 @@
 
 (print-variables *load-truename*)
 
-(defparameter *images-path* (merge-pathnames "g102-tud/images/" (glisp:system-home :gdl-training)))
-
+(defparameter *images-path* (merge-pathnames "documentation/training/g102-tud/images/" glisp:*gendl-source-home*))
 
 (publish-directory :prefix "/g102-tud/images/"
 		   :destination (format nil "~a" *images-path*))
