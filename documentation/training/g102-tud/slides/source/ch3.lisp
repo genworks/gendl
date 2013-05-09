@@ -2,7 +2,7 @@
 ;; Copyright 2002, 2009 Genworks International and Genworks BV 
 ;;
 ;; This source file is part of the General-purpose Declarative
-;; Language project (Gendl).
+;; Language project (GDL).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -41,7 +41,7 @@
 		    ((:span :class "gdl-message-name") "height") ", "
 		    ((:span :class "gdl-message-name") "center") ", and "
 		    ((:span :class "gdl-message-name") "orientation") ", "
-		    "and Gendl functions for each "
+		    "and GDL functions for each "
 		    ((:span :class "gdl-message-name") "vertex") ", "
 		    ((:span :class "gdl-message-name") "face-center") ", "
 		    ((:span :class "gdl-message-name") "edge-center") ", "
@@ -51,7 +51,7 @@
        ,(with-htm ((:span :class "gdl-object-def" :style "font-size: 1em;") "box"))
        :bullet-points
        ((:description
-	 ,(with-htm "All Gendl geometry primitives mix in (inherit from) " 
+	 ,(with-htm "All GDL geometry primitives mix in (inherit from) " 
 		    ((:span :class "gdl-object-def") "base-object")
 		    " Perhaps the simplest geometry primitive is "
 		    ((:span :class "gdl-object-def") "box") ".")
@@ -92,7 +92,7 @@ difficult to trace where values are coming from."))))
        :bullet-points
        (
         
-        (:description "3D points are represented in Gendl as a <i>vector</i> of three numbers")
+        (:description "3D points are represented in GDL as a <i>vector</i> of three numbers")
         (:description 
          "You can make a point from three numbers with the
 <span class=gdl-operator>make-point</span> operator:"
@@ -235,7 +235,7 @@ means the curve (surface) is controlled by a list (grid) of 3D control-points.")
 and written as 4D  points.")))
       
       (:title
-       "Curve data structure in Gendl"        
+       "Curve data structure in GDL"        
        :bullet-points
        ((:description "NURBS curves data structure contains four pieces of data:
 <ol>
@@ -312,7 +312,7 @@ increasing degree?
       
       
       (:title
-       "Surface data structure in Gendl"        
+       "Surface data structure in GDL"        
        :bullet-points
        ((:description "NURBS surface data structure contains six pieces of data:
 <ol>
@@ -396,7 +396,7 @@ its control points at its corners.")))
        "<i>Exercise</i> 7"
        :bullet-points
        ((:description "Change the <span class=gdl-object-def>simple-surface</span>
- definition from Slide 3.15 to contain a sequence of four (4) child surfaces 
+ definition from Slide 3.15 to contain a sequence of four (4) child surfaces.
  Each child should receive a <span class=gdl-message-name>:u-degree</span> passed in which 
 is one greater than its index number (i.e. the 
 <span class=gdl-message-name>u-degree</span> will start with 1 and work up
@@ -487,7 +487,7 @@ get one or more breps out")
        :bullet-points
        ((:description "In <i>manifold</i> Breps, all edges are shared 
 by exactly two faces")
-        (:description "Gendl can handle <i>non-manifold</i> Breps, which can be
+        (:description "GDL can handle <i>non-manifold</i> Breps, which can be
  useful as construction geometry")
         (:description 
          "The <i>merge</i> operation can join together surfaces and 

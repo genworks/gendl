@@ -3,7 +3,7 @@
 ;; Technology
 ;;
 ;; This source file is part of the General-purpose Declarative
-;; Language project (GenDL).
+;; Language project (GDL).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -29,7 +29,7 @@
 
 (define-object assembly (slide-show-node)
   :input-slots
-  ((title "G102: GenDL Quickstart (customized for TU Delft)")
+  ((title "G102: GDL Quickstart (customized for TU Delft)")
    (slide-package (find-package :training-g102-tud))
    (image-base-url "/g102-tud/images/")
    (images-path *images-path*)
@@ -54,12 +54,14 @@
    (slide-data `((:title "Goals" :bullet-points
                          ((:description "Spark an interest in the Generative KBE approach for solving Engineering and other problems")
                           (:description "Provide Theoretical Knowledge combined with Hands-on Experience")
-                          (:description "Help you develop the Judgement to know when Generative KBE will be Appropriate for a given problem")))
+                          (:description ,(with-htm "Help you develop the Judgement to know when Generative KBE (and Genworks"
+						   ((:font :size "-2") (:sup "&reg;"))
+						   " GDL in particular) will be Appropriate for a given problem"))))
 
                  (:title "Topics Covered in G102" :bullet-points
 			 ((:description ,(with-cl-who-string 
 					  ()
-					  "Objects in GenDL and the " ((:span :class "gdl-operator") "define-object") " operator"
+					  "Objects in GDL and the " ((:span :class "gdl-operator") "define-object") " operator"
 					  (:ul (:li "Debugging (basic)")
 					       (:li "Inspection & Visualization (tasty)"))))
 
@@ -87,7 +89,7 @@
 			  (:description "Available in several Commercial and Open-Source implementations")))
 
 
-                 (:title "What is GenDL?" :bullet-points
+                 (:title "What is GDL?" :bullet-points
 			 ((:description "A Declarative language environment embedded in Common Lisp")
 			  (:description "A technology enabling you to define 
 problems and their solutions using an intuitive, straightforward structure")
@@ -96,12 +98,21 @@ problems and their solutions using an intuitive, straightforward structure")
 						   ((:a :href "http://en.wikipedia.org/wiki/Web_application_framework")
 						    "web application framework")
 						   " seamlessly embedded in the core language"))
-			  (:description "Available under Free/Open-source and Proprietary packages")))
-                                  
-                 (:title "A Path of Discovery: GenDL as a Learning Tool"
+			  (:description 
+			   ,(with-htm "Kernel and basic geometry freely available through the "
+				      ((:a :href "http://www.gnu.org/licenses/agpl-3.0.html" :target "_fresh_") "AGPL")
+				      "-licensed "
+				      ((:a :href "http://github.com/genworks/gendl" :target "_fresh_") 
+				       "Gendl" ((:font :size "-2") (:sup "&#0153;")))
+				       " Project. Proprietary (closed-source) application distribution, Geometry Kernel, etc, available 
+through commercial Genworks"
+				       ((:font :size "-2") (:sup "&reg;"))
+				       " GDL package."))))
+			  
+                 (:title "A Path of Discovery: GDL as a Learning Tool"
                          :bullet-points 
                          ((:description "Humans learn best through Action and Discovery")
-                          (:description "Applies to learning GenDL itself")
+                          (:description "Applies to learning GDL itself")
                           (:description "Applies to learning about your own engineering domain")))))))
 
 
@@ -143,7 +154,7 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 	(:description 
 	 ,(with-htm "The multiply function ("
 		    ((:span :class :lisp-code) "*")
-		    " applied to "
+		    ") applied to "
 		    ((:span :class :lisp-code) "3")
 		    " and "
 		    ((:span :class :lisp-code) "3"))
@@ -188,7 +199,7 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 			((:th :width 0.5 ) 
 			 "Function (Common Lisp)")
 			((:th :width 0.5 ) 
-			 "Object (GenDL)"))
+			 "Object (GDL)"))
 		   (:tr
 		    (:td (:b "Typical Purpose"))
 		    ((:td :bgcolor (lookup-color :aquamarine :format :hex)
@@ -244,7 +255,7 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 
 	       
 	       (:description ,(with-htm
-			       ((:span :class "gdl-operator") "define-object") " - main operator used in GenDL to create definitions."))
+			       ((:span :class "gdl-operator") "define-object") " - main operator used in GDL to create definitions."))
 
 	       (:description ,(with-htm
 			       ((:span :class "gdl-object-def") "empty-surface") " - Name of our new definition."))
@@ -266,11 +277,13 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 			       ((:span :class "gdl-section-keyword") ":computed-slots") " - constant and computed values which can be 
 \"answered\" by instances of this definition."))
 
-	       (:description ,(with-htm (:small 
-					 (:i "Example code is "
-					     ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
-					      "here")
-					     ". Press \"Raw\" for raw downloadable form."))))))
+	       (:description 
+		,(with-htm (:small 
+			    (:i "Example code is "
+				((:a :href "https://github.com/genworks/gendl/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp"
+				     :target "_fresh")
+				 "here")
+				". Press \"Raw\" for raw downloadable form."))))))
 
       
       (:title ,(with-cl-who-string
@@ -324,16 +337,21 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 					" is set automatically within scope of "
 					((:span :class "define-object") "self") "."))
 
-	       (:description "So there is heavy use of \"the\" inside most object definitions:"
+	       (:description ,(with-htm "So there is heavy use of "
+					((:span :class "gdl-operator") "the")
+					" inside most object definitions:")
 			     :examples
 			     ((:define-object gdl-user::wing)))
 
-	       (:description ,(with-htm (:small
-					 (:i
-					  "Example code is "
-					  ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
-					   "here")
-					  ". Press \"Raw\" for raw downloadable form."))))))
+	       (:description 
+		,(with-htm 
+		  (:small
+		   (:i
+		    "Example code is "
+		    ((:a :href "https://github.com/genworks/gendl/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp"
+			 :target "_fresh")
+		     "here")
+		    ". Press \"Raw\" for raw downloadable form."))))))
 
 
       (:title "Making and Using Objects in \"tasty\""
@@ -390,12 +408,15 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 			     :image-url "uml-2-8.png"
 			     :examples ((:define-object gdl-user::wing-with-input)))
 
-	       (:description ,(with-htm (:small 
-					 (:i
-					  "Example code is "
-					  ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
-					   "here")
-					  ". Press \"Raw\" for raw downloadable form."))))))
+	       (:description 
+		,(with-htm 
+		  (:small 
+		   (:i
+		    "Example code is "
+		    ((:a :href "https://github.com/genworks/gendl/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp"
+			 :target "_fresh")
+		     "here")
+		    ". Press \"Raw\" for raw downloadable form."))))))
 
       (:title ,(with-htm "Providing Values for " ((:span :class "gdl-section-keyword") ":input-slots")
 			 " when an Instance is Born")
@@ -459,11 +480,14 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 			     :image-url "uml-2-9c.png"
 			     :examples ((:define-object gdl-user::wing-more-inputs)))
 
-	       (:description ,(with-htm (:small 
-					 "Example code is "
-					 ((:a :href "https://github.com/genworks/Genworks-GDL/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp")
-					  "here")
-					 ". Press \"Raw\" for raw downloadable form.")))))
+	       (:description 
+		,(with-htm 
+		  (:small 
+		   "Example code is "
+		   ((:a :href "https://github.com/genworks/gendl/blob/master/documentation/training/g102-tud/examples/source/ch2-examples.lisp"
+			:target "_fresh")
+		    "here")
+		   ". Press \"Raw\" for raw downloadable form.")))))
       
       (:title "Exercise 1: make a Fuselage object"
 	      :bullet-points 
@@ -589,15 +613,15 @@ expression (a.k.a. \"Symbolic EXPression\" or \"S-exp\")")
 					    :image-url "wing-tanks-tasty.png")))
 
       
-      (:title "GenDL Functions"
+      (:title "GDL Functions"
 	      :bullet-points 
-	      ((:description "All the fun of Lisp Functions and GenDL Objects, rolled up into one!")
+	      ((:description "All the fun of Lisp Functions and GDL Objects, rolled up into one!")
 	       (:description "Aircraft assembly with friction force function:"
 			     :image-url "uml-2-15.png"
 			     :examples
 			     ((:define-object gdl-user::aircraft)))))
       
-      (:title "Calling GenDL Functions"
+      (:title "Calling GDL Functions"
 	      :bullet-points 
 	      ((:description "With make-object on command repl:"
 			     :examples

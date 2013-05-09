@@ -4,7 +4,7 @@
  "The Gendl™ training Subsystem" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130506" :depends-on (:smlib)
+ :serial t :version "20130508" :depends-on (:smlib)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "slide-show/source/package")
@@ -69,6 +69,10 @@
   (:file "g102/solutions/city/source/building")
   (:file "g102/solutions/city/source/grid-section")
   (:file "g102-tud/source/package") (:file "g102-tud/source/publish")
+  (:file "g102-tud/examples/source/ch2-examples")
+  (:file "g102-tud/examples/source/ch3-examples")
+  (:gdl "g102-tud/examples/source/primi-plane")
+  (:gdl "g102-tud/examples/source/ui-primi-plane")
   (:file "g102-tud/slides/source/ch2")
   (:file "g102-tud/slides/source/ch3") (:file "g105/source/package")
   (:file "g105/source/publish")
