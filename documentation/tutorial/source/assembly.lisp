@@ -75,15 +75,19 @@ written consent from Genworks International.")
 	(with-format (com.genworks.dom-writers:latex out)
 	  (write-the-object object (:base)))))
   
-    (glisp:run-shell-command 
-     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path))
+    ;;
+    ;; FLAG - replace this asdf:run-shell-command with glisp:run-shell-command or uiop:run-program. 
+    ;;
+
+    (asdf:run-shell-command 
+     (format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path))
   
-  (glisp:run-shell-command 
-   (format nil "cd ~a; makeindex tutorial" pdf-path))
+  (asdf:run-shell-command 
+   (format nil "cd ~a; /opt/local/bin/makeindex tutorial" pdf-path))
   
   (dotimes (n level)
-    (glisp:run-shell-command 
-     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
+    (asdf:run-shell-command 
+     (format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
 
 
 (define-object assembly (com.genworks.dom:assembly)

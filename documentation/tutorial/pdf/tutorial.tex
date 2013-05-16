@@ -340,6 +340,8 @@ Gendl is currently tested to build on the following Common Lisp engines:
 
 \item LispWorks (commercial product from LispWorks Ltd, free Personal Edition available)
 
+\item Clozure CL (free CL engine from Clozure Associates, free for all use)
+
 \item Steel Bank Common Lisp (SBCL) (free open-source project with permissive license)
 
 \end{itemize}
@@ -379,20 +381,20 @@ As of this writing, Quicklisp is rapidly becoming the defacto standard library m
 
 
 
-\subsubsection{Startup of prepackaged Gendl distribution}
+\subsubsection{Startup of prepackaged Gendl or GDL distribution}
 
-\label{subsubsec:startupofprepackagedgendldistribution}
+\label{subsubsec:startupofprepackagedgendlorgdldistribution}
 
 To start a prepackaged system, follow these steps:
 
 \begin{enumerate}
 
-\item Invoke the \texttt{run-gdl.bat} (Windows), or \texttt{run-gdl} (Linux, MacOS) startup script. This should launch Gnu Emacs with a 
-README file displayed by default. Take the time to look through this README file. 
+\item Invoke the \texttt{run-gdl.bat} (Windows), or \texttt{run-gdl} (Linux, MacOS) startup script, or launch the bundle executable if you installed a self-extracting application bundle. 
+This should launch Gnu Emacs with a README file displayed by default. Take the time to look through this README file. 
 Especially the later part of the file contains information about Emacs keyboard
 shortcuts available.
 
-\item In emacs, enter: \texttt{M-x glime}. That is, hold down the ``Meta'' (or ``Alt'') key, and press the ``X'' key, then type ``glime.''
+\item In emacs, enter: \texttt{M-x gendl} or \texttt{M-x gdl}. That is, hold down the ``Meta'' (or ``Alt'') key, and press the ``X'' key, then type ``gendl'' or ``gdl''
 You will see this command shown in the \emph{mini-buffer} at the bottom of the Emacs window, as shown in Figure 
 \ref{fig:mini-buffer}
 
@@ -420,7 +422,7 @@ You will see this command shown in the \emph{mini-buffer} at the bottom of the E
 
 \end{figure}
 
-\item On Windows, you will get a new window, named the the \index{Genworks Gendl Console}Genworks Gendl Console, as shown in Figure 
+\item On Windows, you will get a new window, named the the \index{Genworks Gendl Console}Genworks Gendl Console or \index{Genworks GDL Console}Genworks GDL Console, as shown in Figure 
 \ref{fig:genworks-gendl-console}. This window might start out in minimized form (as an icon at the bottom of your screen). Click on it 
 to open it. Watch this console for any errors or warnings. 
 
@@ -437,7 +439,7 @@ for Gendl. After these messages have finished, you should see the following comm
 
 \texttt{\index{gdl-user(1): }gdl-user(1): }
 
-The Genworks GenDL console contains a command prompt, but mostly you will use the \index{*slime-repl...*}*slime-repl...* buffer in Emacs to type commands. The Genworks GenDL console is mainly used for 
+The Genworks Gendl or GDL console contains a command prompt, but mostly you will use the \index{*slime-repl...*}*slime-repl...* buffer in Emacs to type commands. The Genworks GDL console is mainly used for 
 displaying output text from the Gendl system and from your application.
 
 \end{enumerate}
@@ -3564,19 +3566,101 @@ from files containing raw Common Lisp code.
 
 
 
-\section{ENT }
+\section{CL-LITE (Compile-and-Load Lite Utility)}
 
-\label{sec:ent}
-
-
+\label{sec:cl-lite(compile-and-loadliteutility)}
 
 
 
 
 
-\section{GDL (General-purpose Declarative Language)}
+\subsection{Object Definitions}
 
-\label{sec:gdl(general-purposedeclarativelanguage)}
+\label{subsec:objectdefinitions}
+
+
+
+\begin{itemize}
+
+\item \index{CODEBASE-DIRECTORY-NODE}CODEBASE-DIRECTORY-NODE
+
+Mixins: DIRECTORY-NODE
+
+
+
+\end{itemize}
+
+
+
+\subsection{Function and Macro Definitions}
+
+\label{subsec:functionandmacrodefinitions}
+
+
+
+\begin{itemize}
+
+\item \index{CL-PATCH}CL-PATCH
+
+\end{itemize}
+
+
+
+
+
+\section{COM.GENWORKS.DOM }
+
+\label{sec:com.genworks.dom}
+
+
+
+
+
+
+
+\section{COM.GENWORKS.DOM-HTML }
+
+\label{sec:com.genworks.dom-html}
+
+
+
+
+
+
+
+\section{COM.GENWORKS.DOM-LATEX }
+
+\label{sec:com.genworks.dom-latex}
+
+
+
+
+
+
+
+\section{COM.GENWORKS.DOM-WRITERS }
+
+\label{sec:com.genworks.dom-writers}
+
+
+
+
+
+
+
+\section{COM.YOYODYNE.BOOSTER-ROCKET }
+
+\label{sec:com.yoyodyne.booster-rocket}
+
+
+
+
+
+
+
+\section{GENDL (Base Core Kernel Engine) Nicknames: Gdl, Genworks, Base}
+
+\label{sec:gendl(basecorekernelengine)nicknames:gdl,genworks,base}
 
 
 
@@ -3592,21 +3676,51 @@ from files containing raw Common Lisp code.
 
 \item \index{BASE-RULE-OBJECT}BASE-RULE-OBJECT
 
-\item \index{CODEBASE-DIRECTORY-NODE}CODEBASE-DIRECTORY-NODE
+Mixins: VANILLA-MIXIN
+
+
 
 \item \index{MATRIX-SEQUENCE}MATRIX-SEQUENCE
 
+Mixins: STANDARD-SEQUENCEVANILLA-MIXIN
+
+
+
 \item \index{NULL-OBJECT}NULL-OBJECT
+
+Mixins: VANILLA-MIXIN
+
+
 
 \item \index{QUANTIFICATION}QUANTIFICATION
 
+Mixins: VANILLA-MIXIN
+
+
+
 \item \index{RADIAL-SEQUENCE}RADIAL-SEQUENCE
+
+Mixins: STANDARD-SEQUENCEVANILLA-MIXIN
+
+
 
 \item \index{STANDARD-SEQUENCE}STANDARD-SEQUENCE
 
+Mixins: QUANTIFICATION
+
+
+
 \item \index{VANILLA-MIXIN*}VANILLA-MIXIN*
 
+Mixins: STANDARD-OBJECT
+
+
+
 \item \index{VARIABLE-SEQUENCE}VARIABLE-SEQUENCE
+
+Mixins: QUANTIFICATION
+
+
 
 \end{itemize}
 
@@ -3627,8 +3741,6 @@ from files containing raw Common Lisp code.
 \item \index{APPEND-ELEMENTS}APPEND-ELEMENTS [Macro]
 
 \item \index{CL-LITE}CL-LITE
-
-\item \index{CL-PATCH}CL-PATCH
 
 \item \index{CYCLIC-NTH}CYCLIC-NTH
 
@@ -3736,7 +3848,7 @@ from files containing raw Common Lisp code.
 
 \item \index{TWICE}TWICE
 
-\item \index{DEFINE-OBJECT}UNDEFINE-OBJECT
+\item \index{UNDEFINE-OBJECT}UNDEFINE-OBJECT
 
 \item \index{UNIVERSAL-TIME-FROM-ISO-8601}UNIVERSAL-TIME-FROM-ISO-8601
 
@@ -3753,6 +3865,8 @@ from files containing raw Common Lisp code.
 \item \index{WRITE-THE}WRITE-THE [Macro]
 
 \item \index{WRITE-THE-OBJECT}WRITE-THE-OBJECT [Macro]
+
+\item \index{^2}^2
 
 \end{itemize}
 
@@ -3798,6 +3912,12 @@ from files containing raw Common Lisp code.
 
 \item \index{*ROOT-CHECKING-ENABLED?*}*ROOT-CHECKING-ENABLED?*
 
+\item \index{*RUN-WITH-CIRCULAR-REFERENCE-DETECTION?*}*RUN-WITH-CIRCULAR-REFERENCE-DETECTION?*
+
+\item \index{*RUN-WITH-DEPENDENCY-TRACKING?*}*RUN-WITH-DEPENDENCY-TRACKING?*
+
+\item \index{*UNDECLARED-PARAMETERS-ENABLED?*}*UNDECLARED-PARAMETERS-ENABLED?*
+
 \item \index{*ZERO-EPSILON*}*ZERO-EPSILON*
 
 \item \index{+PHI+}+PHI+
@@ -3805,30 +3925,6 @@ from files containing raw Common Lisp code.
 \item \index{2PI}2PI
 
 \item \index{PI/2}PI/2
-
-\end{itemize}
-
-
-
-
-
-\section{GDL-BUILD }
-
-\label{sec:gdl-build}
-
-
-
-
-
-\subsection{Object Definitions}
-
-\label{subsec:objectdefinitions}
-
-
-
-\begin{itemize}
-
-\item \index{APP}APP
 
 \end{itemize}
 
@@ -3856,9 +3952,9 @@ from files containing raw Common Lisp code.
 
 
 
-\section{GEOM-BASE (GDL Base Geometry Module)}
+\section{GEOM-BASE (Wireframe Geometry)}
 
-\label{sec:geom-base(gdlbasegeometrymodule)}
+\label{sec:geom-base(wireframegeometry)}
 
 
 
@@ -3874,81 +3970,237 @@ from files containing raw Common Lisp code.
 
 \item \index{ANGULAR-DIMENSION}ANGULAR-DIMENSION
 
+Mixins: LINEAR-DIMENSIONVANILLA-MIXIN
+
+
+
 \item \index{ARC}ARC
+
+Mixins: ARCOID-MIXINBASE-OBJECT
+
+
 
 \item \index{ARCOID-MIXIN}ARCOID-MIXIN
 
+Mixins: VANILLA-MIXIN
+
+
+
 \item \index{BASE-COORDINATE-SYSTEM}BASE-COORDINATE-SYSTEM
+
+Mixins: BASE-OBJECTVANILLA-MIXIN
+
+
 
 \item \index{BASE-DRAWING}BASE-DRAWING
 
+Mixins: BASE-OBJECT
+
+
+
 \item \index{BASE-OBJECT}BASE-OBJECT
+
+Mixins: VANILLA-MIXIN
+
+
 
 \item \index{BASE-VIEW}BASE-VIEW
 
+Mixins: BASE-OBJECT
+
+
+
 \item \index{BEZIER-CURVE}BEZIER-CURVE
+
+Mixins: BASE-OBJECT
+
+
 
 \item \index{BOX}BOX
 
+Mixins: BASE-OBJECT
+
+
+
 \item \index{C-CYLINDER}C-CYLINDER
+
+Mixins: CYLINDER
+
+
 
 \item \index{CENTER-LINE}CENTER-LINE
 
+Mixins: OUTLINE-SPECIALIZATION-MIXINBASE-OBJECT
+
+
+
 \item \index{CIRCLE}CIRCLE
+
+Mixins: ARC
+
+
 
 \item \index{CONE}CONE
 
+Mixins: CYLINDER
+
+
+
 \item \index{CYLINDER}CYLINDER
+
+Mixins: IFS-OUTPUT-MIXINARCOID-MIXINBASE-OBJECT
+
+
 
 \item \index{ELLIPSE}ELLIPSE
 
+Mixins: ARCOID-MIXINBASE-OBJECT
+
+
+
 \item \index{GENERAL-NOTE}GENERAL-NOTE
+
+Mixins: OUTLINE-SPECIALIZATION-MIXINBASE-OBJECT
+
+
 
 \item \index{GLOBAL-FILLETED-POLYGON-PROJECTION}GLOBAL-FILLETED-POLYGON-PROJECTION
 
+Mixins: GLOBAL-POLYGON-PROJECTION
+
+
+
 \item \index{GLOBAL-FILLETED-POLYLINE}GLOBAL-FILLETED-POLYLINE
+
+Mixins: GLOBAL-FILLETED-POLYLINE-MIXINVANILLA-MIXIN
+
+
 
 \item \index{GLOBAL-FILLETED-POLYLINE-MIXIN}GLOBAL-FILLETED-POLYLINE-MIXIN
 
+Mixins: GLOBAL-POLYLINE-MIXIN
+
+
+
 \item \index{GLOBAL-POLYGON-PROJECTION}GLOBAL-POLYGON-PROJECTION
+
+Mixins: BASE-OBJECTIFS-OUTPUT-MIXIN
+
+
 
 \item \index{GLOBAL-POLYLINE}GLOBAL-POLYLINE
 
+Mixins: GLOBAL-POLYLINE-MIXINVANILLA-MIXIN
+
+
+
 \item \index{GLOBAL-POLYLINE-MIXIN}GLOBAL-POLYLINE-MIXIN
+
+Mixins: BASE-OBJECT
+
+
 
 \item \index{HORIZONTAL-DIMENSION}HORIZONTAL-DIMENSION
 
+Mixins: LINEAR-DIMENSIONVANILLA-MIXIN
+
+
+
 \item \index{LABEL}LABEL
+
+Mixins: OUTLINE-SPECIALIZATION-MIXINBASE-OBJECT
+
+
 
 \item \index{LEADER-LINE}LEADER-LINE
 
+Mixins: BASE-OBJECT
+
+
+
 \item \index{LINE}LINE
+
+Mixins: BASE-OBJECT
+
+
 
 \item \index{LINEAR-DIMENSION}LINEAR-DIMENSION
 
+Mixins: OUTLINE-SPECIALIZATION-MIXINBASE-OBJECT
+
+
+
 \item \index{PARALLEL-DIMENSION}PARALLEL-DIMENSION
+
+Mixins: LINEAR-DIMENSION
+
+
 
 \item \index{PIE-CHART}PIE-CHART
 
+Mixins: BASE-OBJECT
+
+
+
 \item \index{POINT}POINT
+
+Mixins: SPHERE
+
+
 
 \item \index{RENDERER-MIXIN}RENDERER-MIXIN
 
+Mixins: VANILLA-MIXIN
+
+
+
 \item \index{ROUTE-PIPE}ROUTE-PIPE
+
+Mixins: GLOBAL-FILLETED-POLYLINE-MIXINOUTLINE-SPECIALIZATION-MIXIN
+
+
 
 \item \index{SAMPLE-DRAWING}SAMPLE-DRAWING
 
+Mixins: BASE-DRAWINGVANILLA-MIXIN
+
+
+
 \item \index{SPHERE}SPHERE
+
+Mixins: IFS-OUTPUT-MIXINARCOID-MIXINBASE-OBJECT
+
+
 
 \item \index{SPHERICAL-CAP}SPHERICAL-CAP
 
+Mixins: IFS-OUTPUT-MIXINARCOID-MIXINBASE-OBJECT
+
+
+
 \item \index{TEXT-LINE}TEXT-LINE
+
+Mixins: BASE-OBJECT
+
+
 
 \item \index{TORUS}TORUS
 
+Mixins: IFS-OUTPUT-MIXINARCOID-MIXINBASE-OBJECT
+
+
+
 \item \index{TYPESET-BLOCK}TYPESET-BLOCK
 
+Mixins: BASE-OBJECT
+
+
+
 \item \index{VERTICAL-DIMENSION}VERTICAL-DIMENSION
+
+Mixins: LINEAR-DIMENSION
+
+
 
 \end{itemize}
 
@@ -4126,9 +4378,9 @@ from files containing raw Common Lisp code.
 
 
 
-\section{GWL (Generative Web Language)}
+\section{GWL (Generative Web Language (GWL))}
 
-\label{sec:gwl(generativeweblanguage)}
+\label{sec:gwl(generativeweblanguage(gwl))}
 
 
 
@@ -4144,43 +4396,123 @@ from files containing raw Common Lisp code.
 
 \item \index{APPLICATION-MIXIN}APPLICATION-MIXIN
 
+Mixins: LAYOUT-MIXINVANILLA-MIXIN
+
+
+
 \item \index{BASE-AJAX-GRAPHICS-SHEET}BASE-AJAX-GRAPHICS-SHEET
+
+Mixins: BASE-AJAX-SHEETBASE-HTML-GRAPHICS-SHEET
+
+
 
 \item \index{BASE-AJAX-SHEET}BASE-AJAX-SHEET
 
+Mixins: BASE-HTML-SHEET
+
+
+
 \item \index{BASE-FORM-CONTROL}BASE-FORM-CONTROL
+
+Mixins: SKELETON-FORM-CONTROLVANILLA-MIXIN
+
+
 
 \item \index{BASE-HTML-GRAPHICS-SHEET}BASE-HTML-GRAPHICS-SHEET
 
+Mixins: BASE-HTML-SHEETGEOMETRY-VIEW-MIXINBASE-OBJECT
+
+
+
 \item \index{BASE-HTML-SHEET}BASE-HTML-SHEET
+
+Mixins: SHEET-SECTIONVANILLA-MIXIN
+
+
 
 \item \index{CHECKBOX-FORM-CONTROL}CHECKBOX-FORM-CONTROL
 
+Mixins: BASE-FORM-CONTROLVANILLA-MIXIN
+
+
+
 \item \index{GEOMETRY-VIEW-MIXIN}GEOMETRY-VIEW-MIXIN
+
+Mixins: VANILLA-MIXIN
+
+
 
 \item \index{GRID-FORM-CONTROL}GRID-FORM-CONTROL
 
+Mixins: SKELETON-FORM-CONTROLVANILLA-MIXIN
+
+
+
 \item \index{GWL-RULE-OBJECT}GWL-RULE-OBJECT
+
+Mixins: BASE-HTML-GRAPHICS-SHEETBASE-RULE-OBJECT
+
+
 
 \item \index{LAYOUT-MIXIN}LAYOUT-MIXIN
 
+Mixins: BASE-HTML-GRAPHICS-SHEET
+
+
+
 \item \index{MENU-FORM-CONTROL}MENU-FORM-CONTROL
+
+Mixins: BASE-FORM-CONTROLVANILLA-MIXIN
+
+
 
 \item \index{NODE-MIXIN}NODE-MIXIN
 
+Mixins: LAYOUT-MIXINVANILLA-MIXIN
+
+
+
 \item \index{RADIO-FORM-CONTROL}RADIO-FORM-CONTROL
+
+Mixins: MENU-FORM-CONTROLVANILLA-MIXIN
+
+
 
 \item \index{SESSION-CONTROL-MIXIN}SESSION-CONTROL-MIXIN
 
+Mixins: VANILLA-MIXIN
+
+
+
 \item \index{SHEET-SECTION}SHEET-SECTION
+
+Mixins: SKELETON-UI-ELEMENTVANILLA-MIXIN
+
+
 
 \item \index{SKELETON-FORM-CONTROL}SKELETON-FORM-CONTROL
 
+Mixins: SKELETON-UI-ELEMENTVANILLA-MIXIN
+
+
+
 \item \index{SKELETON-UI-ELEMENT}SKELETON-UI-ELEMENT
+
+Mixins: VANILLA-MIXIN
+
+
 
 \item \index{TEXT-FORM-CONTROL}TEXT-FORM-CONTROL
 
+Mixins: BASE-FORM-CONTROLVANILLA-MIXIN
+
+
+
 \item \index{WEB-DRAWING}WEB-DRAWING
+
+Mixins: RENDERER-MIXINBASE-DRAWING
+
+
 
 \end{itemize}
 
@@ -4280,19 +4612,9 @@ from files containing raw Common Lisp code.
 
 
 
-\section{ROBOT }
+\section{ROBOT (Simplified Android Robot example )}
 
-\label{sec:robot}
-
-
-
-
-
-
-
-\section{SURF (GDL NURBS Surface and Solids Facility)}
-
-\label{sec:surf(gdlnurbssurfaceandsolidsfacility)}
+\label{sec:robot(simplifiedandroidrobotexample)}
 
 
 
@@ -4300,9 +4622,29 @@ from files containing raw Common Lisp code.
 
 
 
-\section{TREE }
+\section{SURF (NURBS Surface and Solids Geometry Primitives)}
 
-\label{sec:tree}
+\label{sec:surf(nurbssurfaceandsolidsgeometryprimitives)}
+
+
+
+
+
+
+
+\section{TASTY (Web-based Development Environment (tasty))}
+
+\label{sec:tasty(web-baseddevelopmentenvironment(tasty))}
+
+
+
+
+
+
+
+\section{TREE (Tree component used by Tasty and potentially as a UI component on its own)}
+
+\label{sec:tree(treecomponentusedbytastyandpotentiallyasauicomponentonitsown)}
 
 
 
@@ -4318,7 +4660,15 @@ from files containing raw Common Lisp code.
 
 \item \index{NEWERTREE}NEWERTREE
 
+Mixins: SHEET-SECTION
+
+
+
 \item \index{TREE}TREE
+
+Mixins: SHEET-SECTIONTREE-NODE-MIXIN
+
+
 
 \end{itemize}
 
@@ -4326,9 +4676,9 @@ from files containing raw Common Lisp code.
 
 
 
-\section{YADD (GDL/GWL Documentation Facility)}
+\section{YADD (Yet Another Definition Documenter (yadd))}
 
-\label{sec:yadd(gdl/gwldocumentationfacility)}
+\label{sec:yadd(yetanotherdefinitiondocumenter(yadd))}
 
 
 
@@ -4344,13 +4694,33 @@ from files containing raw Common Lisp code.
 
 \item \index{ASSEMBLY}ASSEMBLY
 
+Mixins: BASE-YADD-SHEET
+
+
+
 \item \index{BASE-YADD-SHEET}BASE-YADD-SHEET
+
+Mixins: BASE-AJAX-SHEET
+
+
 
 \item \index{MASTER-INDEX}MASTER-INDEX
 
+Mixins: BASE-YADD-SHEET
+
+
+
 \item \index{PACKAGE-DOKUMENTATION}PACKAGE-DOKUMENTATION
 
+Mixins: BASE-YADD-SHEET
+
+
+
 \item \index{PACKAGE-FORM}PACKAGE-FORM
+
+Mixins: BASE-YADD-SHEET
+
+
 
 \end{itemize}
 

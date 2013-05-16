@@ -40,7 +40,7 @@ to the src/ directory distributed with GDL.
            :sequence (:size 50)
            :center (translate (the center) :right (* 10 (the-child index))))))
 
-(define-object assembly (application-mixin)
+(define-object   assembly (application-mixin)
   
   :input-slots
   ((width 5 :settable)
@@ -76,7 +76,8 @@ to the src/ directory distributed with GDL.
    )
 
   :objects
-  ((robot :type 'robot
+  (
+   (robot :type 'robot
           :pass-down (torso-type 
                       head-angle width length height transparency shininess
                       body-angle arm-angle-right arm-angle-left
