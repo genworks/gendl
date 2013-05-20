@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International 
+;; Copyright 2002-2011 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -8,16 +8,16 @@
 ;; and/or modify it under the terms of the GNU Affero General Public
 ;; License as published by the Free Software Foundation, either
 ;; version 3 of the License, or (at your option) any later version.
-;; 
+;;
 ;; This source file is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;; Affero General Public License for more details.
-;; 
+;;
 ;; You should have received a copy of the GNU Affero General Public
 ;; License along with this source file.  If not, see
 ;; <http://www.gnu.org/licenses/>.
-;; 
+;;
 
 
 
@@ -29,10 +29,10 @@
   (publish-file :path "/favicon.ico"
                 :server server
                 :file (format nil "~a"
-			      (if glisp:*genworks-source-home* 
-				  (merge-pathnames "gdl/gwl/static/gwl/images/favicon.ico" glisp:*genworks-source-home*)
+			      (if glisp:*genworks-source-home*
+				  (merge-pathnames "gwl/static/gwl/images/favicon.ico" glisp:*gendl-source-home*)
 				  (merge-pathnames "static/gwl/images/favicon.ico" glisp:*gdl-home*)))))
-			  
+
 
 
 (publish :path "/fetch-remote-input"
@@ -57,12 +57,12 @@
 		       (with-http-response (req ent)
 			 (with-http-body (req ent)
 			   (let ((value (if object (multiple-value-bind (value error)
-						       (ignore-errors 
+						       (ignore-errors
 							 (apply (symbol-function (glisp:intern message :gdl-inputs))
 								object (glisp:intern part-name :gdl-acc) child args))
-						     (if (typep error 'error) 
-							 (let ((error-string 
-								(glisp:replace-regexp 
+						     (if (typep error 'error)
+							 (let ((error-string
+								(glisp:replace-regexp
 								 (format nil "~a" error) "\\n" " ")))
 							   (cond ((or (search "could not handle"
 									      error-string)
@@ -72,7 +72,7 @@
 								      (search "instances could handle"
 									      error-string))
 								  'gdl-rule:%not-handled%)
-								 (t (when *debug?* 
+								 (t (when *debug?*
 								      (format t "Throwing error on fetch-input server because gwl::*debug?* is set to non-nil~%")
 								      (error error))
 								    (list :error (format nil "~a" error)))))
@@ -96,7 +96,7 @@
                        (slot (getf args-list :slot)))
 
                    (when object (gdl::unbind-dependent-slots object slot))
-                             
+
                    (with-http-response (req ent)
                      (with-http-body (req ent)
                        (let ((value nil))
@@ -109,7 +109,7 @@
          (args (rest (assoc "args" query :test #'string-equal)))
          (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
     (let ((args-list (base64-decode-list args)))
-      
+
       (when *debug?*
 	(format t "~%In send-remote-message-object response func:~%")
 	(print-variables args-list))
@@ -121,23 +121,23 @@
               (message (getf args-list :message))
               (gdl::*notify-cons* (decode-from-http (getf args-list :notify-cons)))
               (args (getf args-list :args)))
-          
+
           (with-http-response (req ent)
             (with-http-body (req ent)
               (let ((value (if object (multiple-value-bind (value error)
-                                          (glisp:w-o-interrupts 
+                                          (glisp:w-o-interrupts
                                             (ignore-errors (if args
                                                                (the-object object ((evaluate message)
                                                                                    (:apply args)))
                                                              (the-object object (evaluate message)))))
-					
+
                                         (if (typep error 'error)
                                             (progn
                                               (when *debug?* (error error))
                                               (list :error (format nil "~a" error)))
                                           value))
                              (list :error :no-such-object (getf args-list :remote-id)))))
-		
+
                 (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
                   (html (format *html-stream* encoded-value)))))))))))
 
@@ -145,7 +145,7 @@
 (publish :path "/send-remote-message"
          :function 'send-remote-message)
 
-         
+
 
 (publish :path "/send-remote-output"
          :function #'(lambda(req ent)
@@ -185,7 +185,7 @@
                     (args (rest (assoc "args" query :test #'string-equal))))
 
                (let ((args-list (base64-decode-list args)))
-		 
+
 		 (when *debug?*
 		   (format t "~%In make-remote-object response func:~%")
 		   (print-variables args-list))
@@ -206,10 +206,10 @@
                        (when removed?
                          (format t "~&~%Removed stale remote object with ID ~s.~%~%" current-id))))
                    (let ((object (make-object (read-safe-string (getf args-list :type))
-                                                        
+
                                               :type (read-safe-string (getf args-list :type))))
                          (new-id (make-keyword (make-new-instance-id))))
-                               
+
                      (the-object object (set-slot! :%name% name :warn-on-non-toplevel? nil))
                      (the-object object (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
                      (the-object object (set-slot! :%index% index :warn-on-non-toplevel? nil))
@@ -221,7 +221,7 @@
                              new-id rest-args)
                      (with-http-response(req ent)
                        (with-http-body (req ent) (html (format *html-stream* "~s" new-id))))))))))
-                       
+
 
 
 (defmethod evaluate-object ((category (eql :remote-gdl-instance)) args)
@@ -230,7 +230,7 @@
         (progn
           (format t "~%~%~s Not found in hash - creating fresh ~%~%" (getf args :id))
           (setf (gethash hash-key *remote-proxies-hash*)
-            (gdl::make-object-internal 'remote-object 
+            (gdl::make-object-internal 'remote-object
                                        :%parent% (list nil nil t)
                                        :%index% (list (getf args :index) nil t)
                                        :remote-id (list (getf args :id) nil t)
@@ -240,7 +240,7 @@
                                        :remote-type (list (multiple-value-bind (result error)
                                                               (ignore-errors (read-from-string (getf args :type)))
                                                             (if (typep error 'error) :unknown result)) nil t)))))))
-  
+
 
 
 (defun clear-dgdl ()
