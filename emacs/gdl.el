@@ -108,7 +108,7 @@
 (defun gendl-quit () (interactive) (gdl-quit))
 
 
-;; 4.2. Configure slime
+;; 4.2. Locate Common Lisp / Locate SLIME
 ;;
 ;; Where is our Common Lisp implementation? Where is slime-helper.el?
 ;; Loading the latter means we can load slime-autoloads.el (which
@@ -136,6 +136,7 @@
     (slime-setup '(slime-fancy slime-banner))
     (add-hook 'slime-connected-hook 'load-gendl t)
     (add-hook 'slime-connected-hook 'set-slime-shortcuts)
+    (add-hook 'slime-connected-hook 'customise-slime)
     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
     (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
     (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
@@ -153,6 +154,9 @@
   (interactive)
   (global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer (slime-repl-buffer))))
   (global-set-key "\C-x*" '(lambda()(interactive) (switch-to-buffer "*inferior-lisp*"))))
+
+(defun customise-slime ()
+  (setq slime-autodoc-use-multiline-p t))
 
 (defun remove-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."

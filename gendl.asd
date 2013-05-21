@@ -22,7 +22,7 @@
             (configure-gendl config-file)))
       (warn "ASDF cannot locate the GENDL which it just loaded. Further configuration not possible."))))
 
-(defparameter *setup-gendl-template* "
+(defparameter *setup-gendl-template* "~
 ;;                        CONFIGURE.EL
 ;;
 ;; The purpose of this document is to configure (a) the lisp

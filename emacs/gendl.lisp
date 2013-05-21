@@ -24,7 +24,7 @@
 ;; This document is not confidential. See end for copyright
 ;; information.
 
-(defparameter *gendl-slime-release* "0.1.0")
+(defparameter *gendl-slime-release* "0.1.1")
 
 
 ;; 2.  TESTS
