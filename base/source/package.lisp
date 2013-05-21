@@ -322,6 +322,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:make-sans-value-hash-table
    #:make-weak-hash-table
    #:make-versioned-features
+   #:set-default-character-width
    #:set-default-float-format
    #:set-default-package
    #:set-defpackage-behavior

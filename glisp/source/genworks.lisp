@@ -231,12 +231,38 @@ and \"..\" entries."
       #+win32 ((ext:getenv "PID"))	; where does that come from?
       (t -1))))
 
-
+#-(and mswindows lispworks)
 (defun run-gs (command)
   "Shell out a ghostscript command and handle errors."
   (let ((result 
 	 (run-program command)))
     (unless (zerop result) (error "Ghostscript threw error"))))
+
+#+(and mswindows lispworks)
+(defun run-gs (command)
+  "Shell out a ghostscript command and handle errors."
+  (let ((result 
+	 (system:run-shell-command command)))
+    (unless (zerop result) (error "Ghostscript threw error"))))
+
+
+#+nil
+(defun run-gs (command)
+  "Shell out a ghostscript command and handle errors."
+  
+  (format t "~a" command)
+  
+  (let ((result (#+allegro 
+		 excl:run-shell-command 
+		 #-allegro 
+		 acl-compat.excl:run-shell-command
+		 command 
+		 ;;:show-window :hide
+		 )))
+    (when result 
+      (unless (zerop result) (error "Ghostscript threw error")))))
+			   
+
 
 (defun run-program (command &key output ignore-error-status force-shell
 			  (element-type uiop:*default-stream-element-type*)
@@ -592,6 +618,7 @@ please find implementation for the currently running lisp.~%")
 			    dry-run?
 			    (options (list "a"))
 			    long-form-options)
+  #+mswindows (declare (ignore source dest directory  print-command? dry-run? options long-form-options))
   #+mswindows (error "~&Sorry, glisp:rsync is not yet implemented for MS Windows.~%")
   #-mswindows
   (labels ((expanded-pathname-string (pathname)

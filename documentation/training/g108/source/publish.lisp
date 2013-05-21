@@ -4,11 +4,9 @@
 	 :function #'(lambda(req ent)
 		       (gwl-make-object req ent "training-g108:assembly")))
 
-(defparameter *images-path* (merge-pathnames "g108/images/" 
-					     (glisp:system-home "gdl-training")))
+(defparameter *images-path* (merge-pathnames "documentation/training/g108/images/" glisp:*gendl-source-home*))
 
 
-(publish-directory :prefix "/g108/images/"
-		   :destination (format nil "~a" *images-path*))
+(publish-directory :prefix "/g108/images/" :destination (format nil "~a" *images-path*))
 
 
