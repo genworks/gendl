@@ -1,0 +1,58 @@
+
+1. On define-object, the arglist in the mini-buffer does not need to
+   contain the "&rest spec-plist"
+
+2. On define-object, the &key args should be in reverse order
+   (starting with input-slots computed-slots ...)
+
+3. There's no real need to display "&allow-other-keys"
+
+4. The completion help for the keywords accepted inside an :objects or
+   :hidden-objects specification looks really nice and I think just
+   this one feature will help the users a lot!
+
+5. Is there a convenient way temporarily to expand the mini-buffer to
+   more than one line, to be able to see more info in case it doesn't
+   fit in one line of mini-buffer?
+
+
+;;
+;; Allegro crinkles
+;; 
+
+6. 
+
+Allegro modern-mode doesn't like:
+
+   (in-package "SWANK") 
+
+changed to 
+
+   (in-package :swank)  ;; should it be #:swank ? 
+
+
+7. First time compiling gives:
+
+ Warning: While compiling these undefined functions were referenced:
+         wrap-test-original from character position 2825 in
+           /home/dcooper8/genworks/gendl/emacs/swank/gendl.lisp
+
+
+   do we need an "eval-when" incantation somewhere? 
+
+
+
+8. In :objects specification, after NAME but before :type is ascertained, we see 
+
+  
+   (define-object name mixin-list &key (objects ((NAME &key type &allow-other-keys) &rest MORE-OBJECTS)) &allow-other-keys)
+
+  
+   a. The "NAME" and "MORE-OBJECTS" in uppercase appears a bit shocking in modern-mode. Do they need to be in uppercase? 
+
+   b. Do we need the "&allow-other-keys" in this situation? 
+
+
+
+
+
