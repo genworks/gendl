@@ -67,27 +67,33 @@
 \BOOKMARK [0][-]{chapter.9}{More Common Lisp for Gendl}{}% 67
 \BOOKMARK [0][-]{chapter.10}{Advanced Gendl}{}% 68
 \BOOKMARK [0][-]{chapter.11}{Gendl Reference}{}% 69
-\BOOKMARK [1][-]{section.11.1}{ENT }{chapter.11}% 70
-\BOOKMARK [1][-]{section.11.2}{GDL \(General-purpose Declarative Language\)}{chapter.11}% 71
-\BOOKMARK [2][-]{subsection.11.2.1}{Object Definitions}{section.11.2}% 72
-\BOOKMARK [2][-]{subsection.11.2.2}{Function and Macro Definitions}{section.11.2}% 73
-\BOOKMARK [2][-]{subsection.11.2.3}{Variables and Constants}{section.11.2}% 74
-\BOOKMARK [1][-]{section.11.3}{GDL-BUILD }{chapter.11}% 75
-\BOOKMARK [2][-]{subsection.11.3.1}{Object Definitions}{section.11.3}% 76
-\BOOKMARK [1][-]{section.11.4}{GDL-USER }{chapter.11}% 77
-\BOOKMARK [1][-]{section.11.5}{GENDL-DOC }{chapter.11}% 78
-\BOOKMARK [1][-]{section.11.6}{GEOM-BASE \(GDL Base Geometry Module\)}{chapter.11}% 79
-\BOOKMARK [2][-]{subsection.11.6.1}{Object Definitions}{section.11.6}% 80
-\BOOKMARK [2][-]{subsection.11.6.2}{Function and Macro Definitions}{section.11.6}% 81
-\BOOKMARK [2][-]{subsection.11.6.3}{Variables and Constants}{section.11.6}% 82
-\BOOKMARK [1][-]{section.11.7}{GWL \(Generative Web Language\)}{chapter.11}% 83
-\BOOKMARK [2][-]{subsection.11.7.1}{Object Definitions}{section.11.7}% 84
-\BOOKMARK [2][-]{subsection.11.7.2}{Function and Macro Definitions}{section.11.7}% 85
-\BOOKMARK [2][-]{subsection.11.7.3}{Variables and Constants}{section.11.7}% 86
-\BOOKMARK [1][-]{section.11.8}{RAPHAEL }{chapter.11}% 87
-\BOOKMARK [1][-]{section.11.9}{ROBOT }{chapter.11}% 88
-\BOOKMARK [1][-]{section.11.10}{SURF \(GDL NURBS Surface and Solids Facility\)}{chapter.11}% 89
-\BOOKMARK [1][-]{section.11.11}{TREE }{chapter.11}% 90
-\BOOKMARK [2][-]{subsection.11.11.1}{Object Definitions}{section.11.11}% 91
-\BOOKMARK [1][-]{section.11.12}{YADD \(GDL/GWL Documentation Facility\)}{chapter.11}% 92
-\BOOKMARK [2][-]{subsection.11.12.1}{Object Definitions}{section.11.12}% 93
+\BOOKMARK [1][-]{section.11.1}{CL-LITE \(Compile-and-Load Lite Utility\)}{chapter.11}% 70
+\BOOKMARK [2][-]{subsection.11.1.1}{Object Definitions}{section.11.1}% 71
+\BOOKMARK [2][-]{subsection.11.1.2}{Function and Macro Definitions}{section.11.1}% 72
+\BOOKMARK [1][-]{section.11.2}{COM.GENWORKS.DOM }{chapter.11}% 73
+\BOOKMARK [1][-]{section.11.3}{COM.GENWORKS.DOM-HTML }{chapter.11}% 74
+\BOOKMARK [1][-]{section.11.4}{COM.GENWORKS.DOM-LATEX }{chapter.11}% 75
+\BOOKMARK [1][-]{section.11.5}{COM.GENWORKS.DOM-WRITERS }{chapter.11}% 76
+\BOOKMARK [1][-]{section.11.6}{COM.YOYODYNE.BOOSTER-ROCKET }{chapter.11}% 77
+\BOOKMARK [1][-]{section.11.7}{GENDL \(Base Core Kernel Engine\) Nicknames: Gdl, Genworks, Base}{chapter.11}% 78
+\BOOKMARK [2][-]{subsection.11.7.1}{Object Definitions}{section.11.7}% 79
+\BOOKMARK [2][-]{subsection.11.7.2}{Function and Macro Definitions}{section.11.7}% 80
+\BOOKMARK [2][-]{subsection.11.7.3}{Variables and Constants}{section.11.7}% 81
+\BOOKMARK [1][-]{section.11.8}{GDL-USER }{chapter.11}% 82
+\BOOKMARK [1][-]{section.11.9}{GENDL-DOC }{chapter.11}% 83
+\BOOKMARK [1][-]{section.11.10}{GEOM-BASE \(Wireframe Geometry\)}{chapter.11}% 84
+\BOOKMARK [2][-]{subsection.11.10.1}{Object Definitions}{section.11.10}% 85
+\BOOKMARK [2][-]{subsection.11.10.2}{Function and Macro Definitions}{section.11.10}% 86
+\BOOKMARK [2][-]{subsection.11.10.3}{Variables and Constants}{section.11.10}% 87
+\BOOKMARK [1][-]{section.11.11}{GWL \(Generative Web Language \(GWL\)\)}{chapter.11}% 88
+\BOOKMARK [2][-]{subsection.11.11.1}{Object Definitions}{section.11.11}% 89
+\BOOKMARK [2][-]{subsection.11.11.2}{Function and Macro Definitions}{section.11.11}% 90
+\BOOKMARK [2][-]{subsection.11.11.3}{Variables and Constants}{section.11.11}% 91
+\BOOKMARK [1][-]{section.11.12}{RAPHAEL }{chapter.11}% 92
+\BOOKMARK [1][-]{section.11.13}{ROBOT \(Simplified Android Robot example \)}{chapter.11}% 93
+\BOOKMARK [1][-]{section.11.14}{SURF \(NURBS Surface and Solids Geometry Primitives\)}{chapter.11}% 94
+\BOOKMARK [1][-]{section.11.15}{TASTY \(Web-based Development Environment \(tasty\)\)}{chapter.11}% 95
+\BOOKMARK [1][-]{section.11.16}{TREE \(Tree component used by Tasty and potentially as a UI component on its own\)}{chapter.11}% 96
+\BOOKMARK [2][-]{subsection.11.16.1}{Object Definitions}{section.11.16}% 97
+\BOOKMARK [1][-]{section.11.17}{YADD \(Yet Another Definition Documenter \(yadd\)\)}{chapter.11}% 98
+\BOOKMARK [2][-]{subsection.11.17.1}{Object Definitions}{section.11.17}% 99

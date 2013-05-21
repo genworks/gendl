@@ -112,6 +112,7 @@ called "
 	((:list :style :itemize)
 	 (:item "Allegro CL (commercial product from Franz Inc, free Express Edition available)")
 	 (:item "LispWorks (commercial product from LispWorks Ltd, free Personal Edition available)")
+	 (:item "Clozure CL (free CL engine from Clozure Associates, free for all use)")
 	 (:item "Steel Bank Common Lisp (SBCL) (free open-source project with permissive license)"))
 	"Please refer to the documentation for each of these systems for full information on installing 
 and configuring the environment. Typically this will include a text editor, either Gnu Emacs with Superior
@@ -133,21 +134,23 @@ As of this writing, a convenient way to set up Emacs with Slime is to use the "
       ((:section :title "System Startup and Testing")
        
        ((:subsection :title "System Startup")
-	((:subsubsection :title "Startup of prepackaged Gendl distribution")
+	((:subsubsection :title "Startup of prepackaged Gendl or GDL distribution")
 	 "To start a prepackaged system, follow these steps:"
 	 ((:list :style :enumerate)
 	  (:item "Invoke the "
 	    (:texttt "run-gdl.bat")
 	    " (Windows), or "
 	    (:texttt "run-gdl")
-	    " (Linux, MacOS) startup script. This should launch Gnu Emacs with a 
-README file displayed by default. Take the time to look through this README file. 
+	    " (Linux, MacOS) startup script, or launch the bundle executable if you installed a self-extracting application bundle. 
+This should launch Gnu Emacs with a README file displayed by default. Take the time to look through this README file. 
 Especially the later part of the file contains information about Emacs keyboard
 shortcuts available.")
 	 
 	  (:item  "In emacs, enter: "
-	    (:texttt "M-x glime")
-	    ". That is, hold down the ``Meta'' (or ``Alt'') key, and press the ``X'' key, then type ``glime.''
+	    (:texttt "M-x gendl")
+	    " or "
+	    (:texttt "M-x gdl")
+	    ". That is, hold down the ``Meta'' (or ``Alt'') key, and press the ``X'' key, then type ``gendl'' or ``gdl''
 You will see this command shown in the "
 	    (:emph "mini-buffer")
 	    " at the bottom of the Emacs window, as shown in Figure "
@@ -166,7 +169,9 @@ You will see this command shown in the "
 			:label "fig:genworks-gendl-console"))
 
 	  (:item "On Windows, you will get a new window, named the the "
-	    (:indexed "Genworks Gendl Console")
+	    (:indexed "Genworks Gendl Console") 
+	    " or " 
+	    (:indexed "Genworks GDL Console")
 	    ", as shown in Figure "
 	    (:ref "fig:genworks-gendl-console")
 	    ". This window might start out in minimized form (as an icon at the bottom of your screen). Click on it 
@@ -184,9 +189,9 @@ The messages will consist of compiling and loading information, followed by copy
 for Gendl. After these messages have finished, you should see the following command prompt:"
 	    (:p (:texttt (:indexed "gdl-user(1): ")))
 
-	    "The Genworks GenDL console contains a command prompt, but mostly you will use the "
+	    "The Genworks Gendl or GDL console contains a command prompt, but mostly you will use the "
 	    (:indexed "*slime-repl...*") 
-	    " buffer in Emacs to type commands. The Genworks GenDL console is mainly used for 
+	    " buffer in Emacs to type commands. The Genworks GDL console is mainly used for 
 displaying output text from the Gendl system and from your application."
 	    )))
 

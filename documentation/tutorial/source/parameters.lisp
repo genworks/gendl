@@ -21,4 +21,7 @@
 
 (in-package :gendl-doc)
 
-(defparameter *system-home* (glisp:system-home "gdl-tutorial"))
+(defparameter *system-home* 
+  (translate-logical-pathname 
+   (merge-pathnames "../" (make-pathname :name nil :type nil :defaults #.(or *compile-file-pathname* *load-pathname*)))))
+
