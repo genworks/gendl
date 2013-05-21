@@ -74,6 +74,18 @@
     (warn "No NURBS representation for ~s, apparently of type ~s" self (the type)))))
 
 
+(define-lens (nurbs surface) ()
+  :output-functions
+  ((cad-output-assembly (assembly-instance)
+			(let ((color (lookup-color (getf (the display-controls) :color))))
+			  (tx-assembly-add-brep *geometry-kernel*
+						assembly-instance
+						(the brep %native-brep%)
+						:name (the strings-for-display)
+						:red (get-x color)
+						:green (get-y color)
+						:blue (get-z color))))))
+
 (define-lens (nurbs brep) ()
   :output-functions
   ((cad-output-assembly (assembly-instance)
