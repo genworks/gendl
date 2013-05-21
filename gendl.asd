@@ -3,7 +3,7 @@
 (defsystem #:gendl
   :description "The Gendl Project"
   :author "Dave Cooper <david.cooper@genworks.com>"
-  :license "Affero Gnu General Public License (please see http://www.gnu.org/licenses/"
+  :license "Affero Gnu General Public License (please see http://www.gnu.org/licenses/)"
   :serial t
   #+asdf-encoding :encoding #+asdf-encoding :utf-8
   :version "2013031600"
@@ -22,7 +22,7 @@
             (configure-gendl config-file)))
       (warn "ASDF cannot locate the GENDL which it just loaded. Further configuration not possible."))))
 
-(defparameter *setup-gendl-template* "~
+(defparameter *setup-gendl-template* "
 ;;                        CONFIGURE.EL
 ;;
 ;; The purpose of this document is to configure (a) the lisp
@@ -34,7 +34,7 @@
 ;; care: the file is loaded by both EMACS and Common Lisp. We suggest
 ;; you don't add any other forms to the file.~@{~2%~s~}")
 
-(defparameter *setup-emacs-template* "~
+(defparameter *setup-emacs-template* "
 
 *********************************************************************
 
@@ -49,7 +49,7 @@ To configure your EMACS to work with GENDL, add the following to your
 
 (defun configure-gendl (config-file)
   (unless (probe-file config-file)
-    (let ((lisp-invocation (funcall (find-symbol "BASIC-COMMAND-LINE-ARGUMENTS" "GLISP")))
+    (let ((lisp-invocation (funcall (find-symbol (string 'basic-command-line-arguments) :glisp)))
           (path-to-quicklisp-helper (ql-setup:qmerge "slime-helper.el")))
       ;; This is unfortunate. Clozure won't give you the heap name
       ;; unless you chase after it specifically.
