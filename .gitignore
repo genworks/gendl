@@ -11,7 +11,7 @@ bin
 *.log
 *.toc
 
-
+configure.el
 
 # Ignore (generated) html files,
 # *.html
