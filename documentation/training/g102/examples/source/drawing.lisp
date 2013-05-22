@@ -2,14 +2,31 @@
 
 (define-object robot-drawing (base-drawing)
 
-  :hidden-objects ((robot-assembly :type 'robot:assembly))
+  :hidden-objects ((robot-assembly :type 'robot:assembly)
+
+		   (text-block :type 'robot-text-block
+			       :robot-width (the robot-assembly height)
+			       :robot-length (the robot-assembly length)
+			       :arm-angle-left (the robot-assembly arm-angle-left)
+			       :head-angle (the robot-assembly head-angle)
+			       :body-angle (the robot-assembly body-angle)))
 
   :objects
-  ((tri-view :type 'base-view
+  ((text-view :type 'base-view
+	      :border-box? t
+	      :objects (list (the text-block))
+	      :length (half (the length))
+	      :width (half (the width))
+	      :center (translate (the center) :rear (half (the-child length))
+				 :right (half (the-child width))))
+
+   (tri-view :type 'base-view
 	     :border-box? t
 	     :object-roots (list (the robot-assembly robot))
 	     :length (half (the length))
-	     :center (translate (the center) :rear (half (the-child length)))
+	     :width (half (the width))
+	     :center (translate (the center) :rear (half (the-child length))
+				:left (half (the-child width)))
 	     :projection-vector (getf *standard-views* :trimetric))
 
    (top-view :type 'base-view
@@ -60,7 +77,25 @@
 
    ))
 
-   
+
+
+
+(define-object robot-text-block (typeset-block)
+  
+  :input-slots
+  (robot-width robot-length body-angle arm-angle-left head-angle)
+
+  :functions
+  ((content
+    ()
+    (tt:compile-text (:font "Helvetica" :font-size 12.0)
+      (tt:paragraph () "Robot Data")
+      (tt:table (:col-widths '(220 200))
+	(dolist (slot (list :robot-width :robot-length :body-angle :arm-angle-left :head-angle))
+	  (tt:row ()
+	    (tt:cell (:background-color "#00FF00") (tt:put-string (format nil "~a" (string-capitalize slot))))
+	    (tt:cell () 
+	      (tt:paragraph (:h-align :center) (tt:put-string (format nil "~a" (the (evaluate slot)))))))))))))
 
 
 
