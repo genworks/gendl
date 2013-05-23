@@ -38,18 +38,29 @@
 
 7. Functions-in-this-form (which are not compiled into object yet) are
    not being picked up.
-     
-8. Things to start thinking about for future: What are some good
-   places/contexts to start pulling up and presenting the
-   docstrings (i.e. the message-remarks) for
-   input-slots/computed-slots/functions etc?  (so far we haven't done
-   anything with message-remarks). And how about best ways to
-   specify/interrogate/present documentation for individual arguments
-   to GDL Functions? (currently they are documented using a tortured
-   convention within the doc-string, which has to be kept manually in
-   sync with the actual lambda list --- it would be nice to be able to
-   have the documentation embedded right there in the lambda list
-   along with the args --- borrowing some meta-data ideas from Clojure
-   perhaps?)
+
+8. a. "(the-object foo (evaluate ... "  should work identically to 
+      "(the-object foo ..." except symbols should show up as keywords. 
+
+   b. "(the-object foo ((evaluate ... "  should work identically to 
+      "(the-object foo (..." except symbols should show up as keywords. 
+
+
+
+ Thinking ahead to v 0.3:
+ ========================
+
+ Things to start thinking about for future: What are some good
+ places/contexts to start pulling up and presenting the
+ docstrings (i.e. the message-remarks) for
+ input-slots/computed-slots/functions etc?  (so far we haven't done
+ anything with message-remarks). And how about best ways to
+ specify/interrogate/present documentation for individual arguments to
+ GDL Functions? (currently they are documented using a tortured
+ convention within the doc-string, which has to be kept manually in
+ sync with the actual lambda list --- it would be nice to be able to
+ have the documentation embedded right there in the lambda list along
+ with the args --- borrowing some meta-data ideas from Clojure
+ perhaps?)
 
 
