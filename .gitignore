@@ -12,6 +12,7 @@ bin
 *.toc
 
 configure.el
+systems.txt
 
 # Ignore (generated) html files,
 # *.html

@@ -5,6 +5,8 @@
   :hidden-objects ((robot-assembly :type 'robot:assembly)
 
 		   (text-block :type 'robot-text-block
+			       :width (the text-view width)
+			       :length (the text-view length)
 			       :robot-width (the robot-assembly height)
 			       :robot-length (the robot-assembly length)
 			       :arm-angle-left (the robot-assembly arm-angle-left)
@@ -13,10 +15,13 @@
 
   :objects
   ((text-view :type 'base-view
+	      :left-margin 0
+	      :front-margin 0
 	      :border-box? t
 	      :objects (list (the text-block))
 	      :length (half (the length))
 	      :width (half (the width))
+	      :projection-vector (getf *standard-views* :top)
 	      :center (translate (the center) :rear (half (the-child length))
 				 :right (half (the-child width))))
 
@@ -89,8 +94,9 @@
   ((content
     ()
     (tt:compile-text (:font "Helvetica" :font-size 12.0)
+      (tt:vspace 100)
       (tt:paragraph () "Robot Data")
-      (tt:table (:col-widths '(220 200))
+      (tt:table (:col-widths (list 220 (- (the width) 220)))
 	(dolist (slot (list :robot-width :robot-length :body-angle :arm-angle-left :head-angle))
 	  (tt:row ()
 	    (tt:cell (:background-color "#00FF00") (tt:put-string (format nil "~a" (string-capitalize slot))))

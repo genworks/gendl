@@ -390,7 +390,14 @@ can. Otherwise, fall back on make-self."
 
 ;; 9.  HELP ON MESSAGES FOR THE
 
+(defparameter *message-locators*
+  '(messages-in-this-form
+    messages-from-classes)
+  "A list of functions, each taking a (gendl:define-object ...) form,
+each returning a list of proposed messages.")
+
 (defmethod compute-enriched-decoded-arglist ((operator (eql 'gendl:the)) arguments)
+  (declare (ignorable arguments))
   (let* ((whole-form *form-with-arglist*)
          (messages (when (and (consp whole-form)
                               (eq (car whole-form) 'gendl:define-object))
@@ -405,12 +412,6 @@ can. Otherwise, fall back on make-self."
                               :rest 'reference-chain)
                 nil t)
     (call-next-method))))
-
-(defparameter *message-locators*
-  '(messages-in-this-form
-    messages-from-classes)
-  "A list of functions, each taking a (gendl:define-object ...) form,
-each returning a list of proposed messages.")
 
 (defun messages-in-this-form (form)
   "Do what define-object itself does, to figure out the messages being
