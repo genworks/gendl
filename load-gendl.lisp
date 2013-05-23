@@ -62,7 +62,7 @@
   ;; (conditionally) by the quickload above.
 
   #+:swank
-  (load (compile-file (merge-pathnames "emacs/gendl.lisp" gendl)))
+  (load (compile-file (merge-pathnames "emacs/glime.lisp" gendl)))
 
   ;; 4a. This is a workaround for https://bugs.launchpad.net/slime/+bug/1175550
   ;; "#+lispworks Gray slime-output-stream doesn't handle non base-chars"
