@@ -390,7 +390,7 @@ doesn't matter. For others it does. So we'll make an object and cache it."
 ;; 9.  HELP ON MESSAGES FOR GENDL:THE AND FRIENDS
 
 ;; We're only looking at the top of the reference-chain. See
-;; http://paste.lisp.org/display/137274 
+;; http://paste.lisp.org/display/137274
 ;; Note that (the (slot-source :bar)) gives you info about the
 ;; specified :type of bar.  "You also have to establish the fact that
 ;; bar is indeed a GDL object and not some leaf-level value as with a
@@ -423,19 +423,20 @@ each returning a list of proposed messages.")
                      (remove-duplicates (loop for locator in *message-locators* append
                                               (funcall locator whole-form))
                                         :from-end t))))
-    (values (make-arglist :key-p t
-                          :keyword-args (loop for message in messages collect
-                                              (make-keyword-arg message message nil))
-                          :provided-args nil
-                          :allow-other-keys-p t
-                          :rest 'reference-chain)
-            nil t)))
+    (when messages
+      (values (make-arglist :key-p t
+			    :keyword-args (loop for message in messages collect
+						(make-keyword-arg message message nil))
+			    :provided-args nil
+			    :allow-other-keys-p t
+			    :rest 'reference-chain)
+	      nil t))))
 
 ;; 9.1. Analyse the current gendl:the form
 
 (defstruct (this-the
             (:constructor make-this-the (section slot-form the-form
-                                                 &aux 
+                                                 &aux
                                                  (functionp (and (consp the-form)
                                                                  ;; Selects "(the (..."
                                                                  (consp (second the-form))))
@@ -455,7 +456,7 @@ each returning a list of proposed messages.")
          (case operator
            ((gendl:the-child)
             ;; It's a the-child inside an :object or :hidden-object.
-            ;; Look graciously for a :sequence key. 
+            ;; Look graciously for a :sequence key.
             (loop for key in (cdr slot-form) by 'cddr
                   thereis (eq key :sequence)))))))
 
