@@ -26,7 +26,7 @@
 	      :width (half (the width))
 	      :projection-vector (getf *standard-views* :top)
 	      :center (translate (the center) :rear (half (the-child length))
-				 :right (half (the-child width))))
+ 				 :right (half (the-child width))))
 
    (tri-view :type 'base-view
 	     :border-box? t

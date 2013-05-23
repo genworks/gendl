@@ -465,23 +465,33 @@ each returning a list of proposed messages.")
 
 
 ;; Try repeating the name of this function, many times, fast, and in a darkened room.
+
 (defun this-the-from-form (form)
   ;; A bit like messages-in-this-form below, best done as a separate cycle.
-  (destructuring-bind (classname &optional mixins
-                                 &key input-slots computed-slots objects hidden-objects functions methods
-                                 &allow-other-keys)
-      (cdr form)
-    (declare (ignore classname mixins))
-    (loop for section in (list input-slots computed-slots objects hidden-objects functions methods)
-          as section-name in '(input-slots computed-slots objects hidden-objects functions methods)
-          do
-          (loop for item in section
-                when (consp item)
-                do
-                (let ((form-with-cursor-marker (form-with-cursor-marker item)))
-                  (when form-with-cursor-marker
-                    (return-from this-the-from-form
-                      (make-this-the section-name item form-with-cursor-marker))))))))
+  ;;
+  ;;
+  ;; FLAG DJC -- this ignore-errors MUST BE REMOVED (or at least catch
+  ;;             the error)!  Put as a band-aid by DJC in order to get
+  ;;             some work done without quitting & restarting the
+  ;;             system.
+  ;;
+  (ignore-errors 
+    (destructuring-bind (classname &optional mixins
+				   &key input-slots computed-slots objects hidden-objects functions methods
+				   &allow-other-keys)
+	(cdr form)
+      (declare (ignore classname mixins))
+      (loop for section in (list input-slots computed-slots objects hidden-objects functions methods)
+	 as section-name in '(input-slots computed-slots objects hidden-objects functions methods)
+	 do
+	 (loop for item in section
+	    when (consp item)
+	    do
+	    (let ((form-with-cursor-marker (form-with-cursor-marker item)))
+	      (when form-with-cursor-marker
+		(return-from this-the-from-form
+		  (make-this-the section-name item form-with-cursor-marker)))))))))
+
 
 (defun form-with-cursor-marker (form)
   ;; Return, if any, the innermost (the ...) form containing the
