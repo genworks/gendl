@@ -13,6 +13,8 @@
 			       :arm-angle-left (the robot-assembly arm-angle-left)
 			       :head-angle (the robot-assembly head-angle)
 			       :body-angle (the robot-assembly body-angle)))
+
+
  
   :objects
   ((text-view :type 'base-view
@@ -53,7 +55,7 @@
 		  :dim-scale (/ (the top-view view-scale))
 		  :witness-line-length 20
 		  :witness-line-gap 70
-		  :witness-line-ext 5
+		  :witness-line-ext 5 
 		  :start-point (the top-view (view-point (the robot-assembly robot body (arms 0) (vertex :rear :left :top))))
 		  :end-point (the top-view (view-point (the robot-assembly robot body (arms 1) (vertex :rear :right :top)))))
 

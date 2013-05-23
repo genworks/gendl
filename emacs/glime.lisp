@@ -2,13 +2,13 @@
 
 (in-package :swank)
 
-;;                            GENDL.LISP
+;;                            glime.lisp
 ;;           Nick Levine, Ravenbrook Limited, 2013-05-02
 ;;
 ;; 1.  INTRODUCTION
 ;;
-;; The purpose of this document is to implement GENDL customisations
-;; for SLIME.
+;; The purpose of this document is to implement GENDL customizations
+;; for SLIME (collectively known as "Glime(TM)")
 ;;
 ;; The following features have been implemented so far:
 ;;
