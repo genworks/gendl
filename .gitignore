@@ -15,6 +15,7 @@ bin
 
 configure.el
 systems.txt
+system-index.txt
 
 # Ignore (generated) html files,
 # *.html

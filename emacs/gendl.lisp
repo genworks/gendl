@@ -415,6 +415,8 @@ each returning a list of proposed messages.")
   (declare (ignorable arguments))
   (or (embedded-the-arglist) (call-next-method)))
 
+(defvar *this-the*)
+
 (defun embedded-the-arglist ()
   (let* ((whole-form *form-with-arglist*)
          (*this-the* (this-the-from-form whole-form))
@@ -457,10 +459,10 @@ each returning a list of proposed messages.")
            ((gendl:the-child)
             ;; It's a the-child inside an :object or :hidden-object.
             ;; Look graciously for a :sequence key.
-            (loop for key in (cdr slot-form) by 'cddr
+            (loop for key in (cdr slot-form) by #'cddr
                   thereis (eq key :sequence)))))))
 
-(defvar *this-the*)
+
 
 ;; Try repeating the name of this function, many times, fast, and in a darkened room.
 (defun this-the-from-form (form)
@@ -564,7 +566,7 @@ gendl:the (etc) form under construction."
 
 (defmethod safe-find-class ((self symbol)) (find-class self nil))
 (defmethod safe-find-class ((self class))  self)
-(defmethod safe-find-class (self)          nil)
+(defmethod safe-find-class ((self t))          nil)
 
 ;; [gendl] make your own defparameter for now, but flag it that it
 ;; might be redundant with something we already have defined
