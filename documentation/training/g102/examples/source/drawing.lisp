@@ -5,6 +5,7 @@
   :hidden-objects ((robot-assembly :type 'robot:assembly)
 
 		   (text-block :type 'robot-text-block
+			       :margins (twice (twice (the text-view left-margin)))
 			       :width (the text-view width)
 			       :length (the text-view length)
 			       :robot-width (the robot-assembly height)
@@ -12,11 +13,11 @@
 			       :arm-angle-left (the robot-assembly arm-angle-left)
 			       :head-angle (the robot-assembly head-angle)
 			       :body-angle (the robot-assembly body-angle)))
-
+ 
   :objects
   ((text-view :type 'base-view
-	      :left-margin 0
-	      :front-margin 0
+	      ;;:left-margin 0
+	      ;;:front-margin 0
 	      :border-box? t
 	      :objects (list (the text-block))
 	      :length (half (the length))
@@ -83,25 +84,25 @@
    ))
 
 
-
-
 (define-object robot-text-block (typeset-block)
   
   :input-slots
-  (robot-width robot-length body-angle arm-angle-left head-angle)
+  (robot-width robot-length body-angle arm-angle-left head-angle margins)
 
   :functions
   ((content
     ()
     (tt:compile-text (:font "Helvetica" :font-size 12.0)
       (tt:vspace 100)
+
       (tt:paragraph () "Robot Data")
-      (tt:table (:col-widths (list 220 (- (the width) 220)))
-	(dolist (slot (list :robot-width :robot-length :body-angle :arm-angle-left :head-angle))
-	  (tt:row ()
-	    (tt:cell (:background-color "#00FF00") (tt:put-string (format nil "~a" (string-capitalize slot))))
-	    (tt:cell () 
-	      (tt:paragraph (:h-align :center) (tt:put-string (format nil "~a" (the (evaluate slot)))))))))))))
+      (let ((width (- (the width) (the margins))))
+	(tt:table (:col-widths (list (* 2/3 width) (* 1/3 width)))
+	  (dolist (slot (list :robot-width :robot-length :body-angle :arm-angle-left :head-angle))
+	    (tt:row ()
+	      (tt:cell (:background-color "#00FF00") (tt:put-string (format nil "~a" (string-capitalize slot))))
+	      (tt:cell () 
+		(tt:paragraph (:h-align :center) (tt:put-string (format nil "~a" (the (evaluate slot))))))))))))))
 
 
 

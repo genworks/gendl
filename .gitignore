@@ -2,8 +2,10 @@
 # Ignore any file named foo.txt.
 *.fasl
 *.xfasl
+*.dx64fsl
 bin
 *~
+#*#
 .DS_Store
 
 *.aux
