@@ -2,8 +2,10 @@
 # Ignore any file named foo.txt.
 *.fasl
 *.xfasl
+*.dx64fsl
 bin
 *~
+#*#
 .DS_Store
 
 *.aux
@@ -13,6 +15,7 @@ bin
 
 configure.el
 systems.txt
+system-index.txt
 
 # Ignore (generated) html files,
 # *.html

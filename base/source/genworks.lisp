@@ -327,8 +327,10 @@
 #-allegro(warn "Find out how to retitle relevant windows in currently running lisp.~%")
 #+(and allegro mswindows)
 (defun set-window-titles ()
-  ;;a(excl:console-control :title "Genworks Gendl™ Console")
- (retitle-emacs))
+  (excl:console-control :title "Genworks Gendl™ Console")
+  ;;(retitle-emacs)
+  )
+
 #-(and allegro mswindows)
 (defun set-window-titles ())
 
