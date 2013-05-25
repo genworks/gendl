@@ -8,7 +8,7 @@
   #+asdf-encoding :encoding #+asdf-encoding :utf-8
   :version "2013031600"
   :depends-on (:cl-lite :gwl-graphics :tasty :robot :yadd)
-  :components ((:file #+:swank  "emacs/glime")))
+  :components (#+:swank (:file "emacs/glime")))
 
 
 (defmethod perform :after ((op load-op) (system (eql (find-system "gendl"))))
