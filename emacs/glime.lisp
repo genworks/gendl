@@ -666,7 +666,9 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
                   ;; Use this to check we don't return the current slot as a potential message.
                   ;; But messages -- as in (the message-list) -- are keywords and this isn't...
                   (when-let (current (car (this-the-slot-form this-the)))
-                    (glisp:intern current :keyword))))
+                    (if (arglist-dummy-p current)
+                        (intern (arglist-dummy.string-representation current) :keyword)
+                      (glisp:intern current :keyword)))))
       (let* ((prototype (gendl-class-prototype class))
              (all-messages (gendl:the-object prototype
                                              (message-list :message-type :local
