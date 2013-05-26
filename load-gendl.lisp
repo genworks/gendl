@@ -54,24 +54,19 @@
 
   #+#:nil (asdf:initialize-source-registry `(:source-registry (:tree ,gendl :inherit-configuration)))
 
-  ;; 3. Load gendl plus dependencies.
+  ;; 3. Load gendl plus dependencies (including glime).
 
   (funcall (find-symbol (string 'quickload) :ql) :gendl)
 
-  ;; 4. Load the slime integration. Ideally this should be done
-  ;; (conditionally) by the quickload above.
-
-  #+:swank
-  (load (compile-file (merge-pathnames "emacs/glime.lisp" gendl)))
-
-  ;; 4a. This is a workaround for https://bugs.launchpad.net/slime/+bug/1175550
+  ;; 3a. This is a workaround for https://bugs.launchpad.net/slime/+bug/1175550
   ;; "#+lispworks Gray slime-output-stream doesn't handle non base-chars"
   #+:lispworks
-  (setf (slot-value *standard-output* 'swank-backend::buffer)
-	(coerce (slot-value *standard-output* 'swank-backend::buffer)
-		'lw:simple-text-string))
+  (let ((swank-backend-buffer (find-symbol "BUFFER" "SWANK-BACKEND")))
+    (setf (slot-value *standard-output* swank-backend-buffer)
+          (coerce (slot-value *standard-output* swank-backend-buffer)
+                  'lw:simple-text-string)))
 
-  ;; 5. Start gendl.
+  ;; 4. Start gendl.
 
   (let ((starter (find-symbol (string 'start-gendl!)  :gendl)))
     (funcall starter)))
