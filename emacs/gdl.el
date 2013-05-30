@@ -16,7 +16,7 @@
 
 ;; 2. WHERE ARE WE?
 
-(defvar *gdl-home* (file-truename (concat (file-name-directory (file-truename load-file-name)) "../")))
+(defvar *gendl-home* (file-truename (concat (file-name-directory (file-truename load-file-name)) "../")))
 
 
 ;; 3. CONFGURGE EMACS
@@ -39,7 +39,7 @@
 
 ;; 3.2. Set up color-theme and solarized color-themes
 
-(add-to-list 'load-path (concat *gdl-home* "emacs/emacs-color-theme"))
+(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-sitaramv-solaris)
@@ -100,8 +100,9 @@
 ;;
 ;; 4.1. Some synonyms
 
-(defun gendl () (interactive) (with-temp-buffer (cd *gdl-home*) (slime)))
+(defun gendl () (interactive) (with-temp-buffer (cd *gendl-home*) (slime)))
 (defun gdl () (interactive) (gendl))
+(defun glime () (interactive) (gendl))
 
 (defun gdl-quit () (interactive) (slime-quit-lisp))
 (defun gq () (interactive) (gdl-quit))
@@ -117,13 +118,15 @@
 (defun configure-slime ()
   (setq lisp-invocation nil)
   (setq path-to-quicklisp-helper nil)
-  (let ((config-file (concat *gdl-home* "configure.el")))
-    (when (file-exists-p config-file)
-      ;; Loading this file sets lisp-invocation and path-to-quicklisp-helper
-      (load-file config-file))
-    (when lisp-invocation
-      (setq slime-lisp-implementations `((gendl ,lisp-invocation))))
-    (load-file path-to-quicklisp-helper)))
+  (let ((config-file (concat *gendl-home* "configure.el")))
+    (if (file-exists-p config-file)
+	(progn
+	  ;; Loading this file sets slime-lisp-implementations and path-to-quicklisp-helper
+	  (load-file config-file)
+	  (load-file path-to-quicklisp-slime-helper))
+      (error "Config File %s was not found. 
+Please create this file, which should set slime-lisp-implementations and path-to-quicklisp-slime-helper."))))
+
 
 (configure-slime)
 (require 'slime-autoloads)
@@ -144,7 +147,7 @@
 
 (defun load-gendl ()
   (slime-repl)
-  (insert (format "(load \"%sload-gendl.lisp\")" *gdl-home*))
+  (insert (format "(load \"%sload-gendl.lisp\")" *gendl-home*))
   (insert "(in-package gdl-user)")
   (slime-repl-return)
   (end-of-buffer))
@@ -168,14 +171,11 @@
 ;; 4.4. Prior to SLIME
 
 (defun prior-to-slime ()
-  (find-file (concat *gdl-home* "emacs/README.txt"))
+  (find-file (concat *gendl-home* "emacs/README.txt"))
   (toggle-read-only)
   (let ((frame-title "Genworks® Gendl™ Interactive Authoring Environment"))
-    (modify-frame-parameters nil
-			     (list (cons 'name frame-title))))
-  (message "Please see the Startup section of this document for starting the Gendl environment.")
-  (when (file-exists-p "~/.emacs-gendl")
-    (load-file "~/.emacs-gendl"))
+    (modify-frame-parameters nil (list (cons 'name frame-title))))
+  (when (file-exists-p "~/.emacs-gendl") (load-file "~/.emacs-gendl"))
   (setq inhibit-splash-screen t)
   (cd "~/")
   (set-frame-parameter nil 'fullscreen 'maximized))
@@ -184,7 +184,7 @@
 ;; 5.  MAKE IT HAPPEN
 
 (prior-to-slime)
-(slime)
+(glime)
 
 
 ;; A.  REFERENCES

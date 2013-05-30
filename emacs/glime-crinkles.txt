@@ -1,45 +1,73 @@
 
 
-1. Reference-chains entered into Slime REPL throw an "error in process
-   filter" e.g.:
+1. Reference-chains (with "the" or "the-object") entered into Slime
+   REPL (or anywhere else outside of a define-object context) should
+   still provide an enriched-decoded-arglist in the mini-buffer, iff
+   the global gdl:self is bound (which it typically will be, if
+   someone is typing reference chains at Slime REPL). 
 
-   GDL-USER> 
-   ;; Error: Odd length keyword list: (SWANK::%CURSOR-MARKER%)
-   ;; Error: Odd length keyword list: (SWANK::%CURSOR-MARKER%)
-   ;; Error: Odd length keyword list: (SWANK::%CURSOR-MARKER%)
-   ; No value
-   GDL-USER> (the foo ...
+   In that case, the global gdl:self should be the starting class for
+   any reference chains.
 
+   example:
+
+
+   GDL-USER> (make-self 'robot-drawing)
+   #<ROBOT-DRAWING #x302004739C4D>
+   GDL-USER> (the 
+
+    Now the mini-buffer should show completions of "(the ..." based
+    on the fact that self is an instance of robot-drawing.
+
+
+    N.B. self is not declared special in Gendl currently. It probably
+    should be, but I am not sure what would be the ramifications of
+    doing this. Needs to be investigated (on my end).  For now it
+    should be left as-is and not declared special with defparameter or
+    defvar.
+
+
+2. Within the-child and the-object, glime was incorrectly picking up
+   the messages-in-this-form as well as the messages from the :type of
+   the current child object. This has been fixed for now by binding
+   *message-locators* to simply '(messages-from-classes) in
+   compute-enriched-decoded-arglist for the-object and the-child. I'm
+   not sure if this is the best way to go about this, because there is
+   another case where messages-in-this-form should not be included
+   (see (3) below).
+
+3. In reference-chains after the first message, i.e. 
+
+     (the foo ...)  
+
+   it is still picking up messages-in-this-form. At that point it
+   should only be picking up messages-from-classes for the class-of
+   (the foo) [if any].
+
+
+4. Sequence (quantified) objects are still showing up for "(the ..."
+   and they should only show up for "(the (..." [i.e. they should
+   behave like Functions]
+
+    example:
+
+   (define-object frob ()
+   
+    :objects ((baz :type 'box
+                   :sequence (:size 10))))
+
+   ;; compile above form. Now do 
  
-   This is fixed temporarily with an ignore-errors around body of
-   this-the-from-form in emacs/glime.lisp genworks' current
-   slime-devel branch. Ignore-errors should probably still be there
-   just to catch any unforeseen situations, but probably with a
-   multiple-value-bind to catch the error and handle it somehow or at
-   least print a warning message about it.
+    (make-self 'frob)
+    (the ... 
 
-2. the-child is not picking up the type of current child -- it still
-   appears to be working based off the enclosing define-object type. 
+   Typing "(the ..." should not include baz
 
-3. When placing the "(" after "(the (" it does toggle to display
-   available GDL Functions, but it should also suppress display of
-   non-Function slots, and it does not appear to be doing this.
+   Typing "(the (..."  _should_ include baz. 
 
-4. slime-autodoc-use-multiline-p does not appear to be activated.
 
-5. Sequence (quantified) objects are not behaving like GDL Functions
-   for "(the (" as they should. 
 
-6. Reference-chains do not appear to pick up the inferred type of each
-   element along the chain, as theoretically should (at least
-   sometimes) be possible, using e.g. (the (slot-source ...))  and
-   pulling out the :type for messages which name :objects
-   or :hidden-objects.
-
-7. Functions-in-this-form (which are not compiled into object yet) are
-   not being picked up.
-
-8. a. "(the-object foo (evaluate ... "  should work identically to 
+5. a. "(the-object foo (evaluate ... "  should work identically to 
       "(the-object foo ..." except symbols should show up as keywords. 
 
    b. "(the-object foo ((evaluate ... "  should work identically to 

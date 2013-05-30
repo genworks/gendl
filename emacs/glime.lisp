@@ -432,11 +432,13 @@ each returning a list of proposed messages.")
 
 (defmethod compute-enriched-decoded-arglist ((operator (eql 'gendl:the-object)) arguments)
   (declare (ignorable arguments))
-  (or (embedded-the-arglist) (call-next-method)))
+  (let ((*message-locators* '(messages-from-classes)))
+    (or (embedded-the-arglist) (call-next-method))))
 
 (defmethod compute-enriched-decoded-arglist ((operator (eql 'gendl:the-child)) arguments)
   (declare (ignorable arguments))
-  (or (embedded-the-arglist) (call-next-method)))
+  (let ((*message-locators* '(messages-from-classes)))
+    (or (embedded-the-arglist) (call-next-method))))
 
 (defvar *this-the*)
 
@@ -446,6 +448,7 @@ each returning a list of proposed messages.")
                          ;; The gend:the form isn't embedded inside a define-object. Bail out.
                          (return-from embedded-the-arglist
                            nil))))
+    
     (when-let (messages (when (and (consp whole-form)
                                    (eq (car whole-form) 'gendl:define-object))
                           (remove-duplicates (loop for locator in *message-locators* append
@@ -463,11 +466,11 @@ each returning a list of proposed messages.")
 ;; 9.1. Analyse the current gendl:the form
 
 (defstruct (this-the
-            (:constructor make-this-the (section slot-form the-form
-                                                 &aux
-                                                 (functionp (when (consp the-form)
-                                                              (the-form-functionp (cdr the-form))))
-                                                 (quantifiedp (quantified-objects-p section slot-form the-form)))))
+	     (:constructor make-this-the (section slot-form the-form
+						  &aux
+						  (functionp (when (consp the-form)
+							       (the-form-functionp (cdr the-form))))
+						  (quantifiedp (quantified-objects-p section slot-form the-form)))))
   section
   slot-form
   the-form
@@ -571,18 +574,25 @@ gendl:the (etc) form under construction."
 ;; 9.3. Messages which we can deduce from mixin classes.
 
 (defparameter *messages-to-suppress*
-  (list :aggregate :all-mixins :children-uncached :direct-mixins :documentation
-	:hidden? :leaves-uncached :message-documentation :message-list :mixins :name-for-display
-	:restore-all-defaults! :restore-tree! :root :root-path-local :root? :safe-children
-	:safe-hidden-children :slot-documentation :slot-source :slot-status :update! :visible-children
-	:write-snapshot))
+  (list 
+   ;; from vanilla-mixin*:
+   :aggregate :all-mixins :children-uncached :direct-mixins :documentation
+   :hidden? :leaves-uncached :message-documentation :message-list :mixins :name-for-display
+   :restore-all-defaults! :restore-tree! :root :root-path-local :root? :safe-children
+   :safe-hidden-children :slot-documentation :slot-source :slot-status :update! :visible-children
+   :write-snapshot
+   ;; from base-object:
+   :image-file :local-bbox :local-box :local-center :local-center* 
+   :local-orientation :obliqueness 
+   ))
 
 (defparameter *messages-to-suppress-when-not-sequence-member*
-  (list :first? :index :last?))
+  (list :first? :index :last? :next :previous))
 
-(defun messages-from-classes (form)
+
+(defun messages-from-classes* (classes)
   "Use message-list to find out what the messages might be."
-  (let* ((starting-classes (starting-classes form))
+  (let* ((starting-classes classes)
          (mixins (remove-duplicates (append (mapcar 'class-name starting-classes)
                                             (loop for class in starting-classes append
                                                   (gendl:the-object (gendl-class-prototype class) all-mixins)))
@@ -591,6 +601,12 @@ gendl:the (etc) form under construction."
                                             append (sort (messages-from-class class)
                                                          'string<)))))
     (filter-sequence-messages messages)))
+
+(defun messages-from-classes (form)
+  "Use message-list to find out what the messages might be."
+  (let ((starting-classes (starting-classes form)))
+    (messages-from-classes* starting-classes)))
+
 
 (defun starting-classes (form)
   (destructuring-bind (classname &optional mixins &rest keywords)
@@ -602,10 +618,10 @@ gendl:the (etc) form under construction."
           ;; It's a either a (the-child ...) class , or a redefinition
           ;; (which includes: clicking on an existing defintion).
           (the-reference-chain this-class)
-        ;; New definition. Hit the superclasses.
-        (loop for classname in mixins
-              for class = (safe-find-class classname)
-              when class collect class)))))
+	  ;; New definition. Hit the superclasses.
+	  (loop for classname in mixins
+	     for class = (safe-find-class classname)
+	     when class collect class)))))
 
 ;; If we're in a the-child inside an :objects or :hidden-objects clause and can find
 ;; a class for the :type, return that.
@@ -699,6 +715,7 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
               collect message)))))
 
 (defun filter-sequence-messages (messages)
+  
   (if (and (boundp '*this-the*)
            (this-the-quantifiedp *this-the*))
       messages
