@@ -8,7 +8,16 @@
   #+asdf-utf-8 :encoding #+asdf-utf-8 :utf-8
   :version "2013031600"
   :depends-on (:cl-lite :gwl-graphics :tasty :robot :yadd)
-  :components (#+:swank (:file "emacs/glime")))
+  ;;
+  ;; Leaving this out because we can't deal with swank package in the
+  ;; monofasl which is to be loaded without swank. When/if we figure
+  ;; out how to have swank already loaded into pre-built images, we
+  ;; can have swank as one of the first dependencies, and put this
+  ;; back.
+  ;;
+  ;;:components (#+:swank (:file "emacs/glime"))
+  
+  )
 
 
 

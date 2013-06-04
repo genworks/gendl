@@ -1,8 +1,10 @@
 # Lines starting with '#' are considered comments.
 # Ignore any file named foo.txt.
 *.fasl
+*.fas
 *.xfasl
 *.dx64fsl
+*.lib
 bin
 *~
 #*#

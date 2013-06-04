@@ -42,7 +42,8 @@
 (add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-sitaramv-solaris)
+;;(color-theme-sitaramv-solaris)
+(color-theme-feng-shui)
 
 ;; 3.3. Indents
 
@@ -100,7 +101,12 @@
 ;;
 ;; 4.1. Some synonyms
 
-(defun gendl () (interactive) (with-temp-buffer (cd *gendl-home*) (slime)))
+(defun gendl () (interactive) 
+  (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
+  (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
+  (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+  (with-temp-buffer (cd *gendl-home*) (slime)))
 (defun gdl () (interactive) (gendl))
 (defun glime () (interactive) (gendl))
 
@@ -112,20 +118,29 @@
 ;; 4.2. Locate Common Lisp / Locate SLIME
 ;;
 ;; Where is our Common Lisp implementation? Where is slime-helper.el?
+;;
+;; If you don't have slime loaded yet, and/or you don't have 
+;; slime-lisp-implementations set, then please make a file
+;; .configure-glime.el in your home directory which sets
+;; correct slime-lisp-implementations and path-to-quicklisp-helper
+;;
 ;; Loading the latter means we can load slime-autoloads.el (which
 ;; enables SLIME itself).
+;;
+;;
 
 (defun configure-slime ()
-  (setq lisp-invocation nil)
   (setq path-to-quicklisp-helper nil)
-  (let ((config-file (concat *gendl-home* "configure.el")))
-    (if (file-exists-p config-file)
-	(progn
-	  ;; Loading this file sets slime-lisp-implementations and path-to-quicklisp-helper
-	  (load-file config-file)
-	  (load-file path-to-quicklisp-slime-helper))
-      (error "Config File %s was not found. 
-Please create this file, which should set slime-lisp-implementations and path-to-quicklisp-slime-helper."))))
+  (let ((built-in-config (concat *gendl-home* "emacs/configure-glime.el"))
+	(home-config "~/.configure-glime.el"))
+    (let ((config-file (if (file-exists-p built-in-config) built-in-config home-config)))
+      (when (file-exists-p config-file) (load-file config-file))
+      ;;
+      ;; path-to-quicklisp-helper should have been set by config-file,
+      ;; or slime must already be set up.
+      ;;
+      (when (file-exists-p quicklisp-slime-helper) 
+	(load-file quicklisp-slime-helper)))))
 
 
 (configure-slime)
@@ -137,17 +152,23 @@ Please create this file, which should set slime-lisp-implementations and path-to
 (eval-after-load "slime"
   '(progn
     (slime-setup '(slime-fancy slime-banner))
-    (add-hook 'slime-connected-hook 'load-gendl t)
     (add-hook 'slime-connected-hook 'set-slime-shortcuts)
     (add-hook 'slime-connected-hook 'customise-slime)
     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
-    (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-    (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
-    (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))))
+    (add-hook 'slime-connected-hook 'load-user-emacs-glime)))
 
-(defun load-gendl ()
+(defun load-and-or-start-gendl ()
   (slime-repl)
-  (insert (format "(load \"%sload-gendl.lisp\")" *gendl-home*))
+  (insert "(unless (find-package :gendl) (load (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname))))")
+  (slime-repl-return)
+  (insert (format "(load (compile-file \"%s/emacs/glime.lisp\"))" *gendl-home*))
+  (slime-repl-return)
+  (insert "(gendl:start-gendl!)")
+  (slime-repl-return)
+  (insert (format "(format nil \"Also contains ~a, and Quicklisp libraries from: 
+%s.
+Thank You to their respective authors and maintainers.\" (lisp-implementation-type))" (concat *gendl-home* "quicklisp/")))
+  (slime-repl-return)
   (insert "(in-package gdl-user)")
   (slime-repl-return)
   (end-of-buffer))
@@ -170,20 +191,24 @@ Please create this file, which should set slime-lisp-implementations and path-to
 
 ;; 4.4. Prior to SLIME
 
-(defun prior-to-slime ()
+(defun prior-to-glime ()
   (find-file (concat *gendl-home* "emacs/README.txt"))
   (toggle-read-only)
   (let ((frame-title "Genworks® Gendl™ Interactive Authoring Environment"))
     (modify-frame-parameters nil (list (cons 'name frame-title))))
-  (when (file-exists-p "~/.emacs-gendl") (load-file "~/.emacs-gendl"))
+  
   (setq inhibit-splash-screen t)
   (cd "~/")
   (set-frame-parameter nil 'fullscreen 'maximized))
 
+(defun load-user-emacs-glime ()
+  (when (file-exists-p "~/.emacs-glime") (load-file "~/.emacs-glime"))
+  (when (file-exists-p "~/.emacs-glime.el") (load-file "~/.emacs-glime.el")))
+
 
 ;; 5.  MAKE IT HAPPEN
 
-(prior-to-slime)
+(prior-to-glime)
 (glime)
 
 

@@ -234,7 +234,7 @@ Cumulative memory change from ~a/~a to
   (let ((out *trace-output*))
     (dolist (symbol symbols)
       (format out "Running Stresstests for ~a...~%~%" symbol)
-      (with-error-handling () ;;(:timeout 20000)
+      (with-error-handling (:error? t :timeout 300)
 	(stress-test symbol 
 		     :times times 
 		     :report-interval report-interval
