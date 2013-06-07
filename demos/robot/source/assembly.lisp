@@ -25,7 +25,7 @@ NOTE:
 
 This is the original Robot example and uses the old-style user
 interface approach. It is not recommended to continue with this
-approach; the preferred approach is to use form-control objects for
+approach; the preferred approach is to use form-control objects for             
 the form fields, as will be in other newer examples soon to be added
 to the src/ directory distributed with GDL.  
 
