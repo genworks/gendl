@@ -13,7 +13,7 @@
   #-allegro (warn "Learn how to open old areas in currently running Lisp.~%"))
 
 (defun get-mem-info ()
-  #+allegro-v82 (excl.osi:get-mem-info)
+  #+allegro (excl.osi:get-mem-info)
   #-allegro (progn (warn "Learn how to get mem info in currently running Lisp.~%") (values 0 0)))
 
 (defun gc-scavenge ()

@@ -1,7 +1,7 @@
 (in-package :gdl-user)
 
 (define-object robot-drawing (base-drawing)
-
+  
   :hidden-objects ((robot-assembly :type 'robot:assembly)
 
 		   (text-block :type 'robot-text-block
@@ -17,7 +17,7 @@
 
  
   :objects
-  ((text-view :type 'base-view
+  ((text-view :type 'base-view 
 	      ;;:left-margin 0
 	      ;;:front-margin 0
 	      :border-box? t
@@ -26,7 +26,7 @@
 	      :width (half (the width))
 	      :projection-vector (getf *standard-views* :top)
 	      :center (translate (the center) :rear (half (the-child length))
- 				 :right (half (the-child width))))
+ 				 :right (half (the-child  width))))
 
    (tri-view :type 'base-view
 	     :border-box? t
@@ -98,6 +98,7 @@
       (tt:vspace 100)
 
       (tt:paragraph () "Robot Data")
+
       (let ((width (- (the width) (the margins))))
 	(tt:table (:col-widths (list (* 2/3 width) (* 1/3 width)))
 	  (dolist (slot (list :robot-width :robot-length :body-angle :arm-angle-left :head-angle))
