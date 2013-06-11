@@ -180,10 +180,11 @@ You have a dependency on caffeine. Your children are your dependants.
     (when message-hash (reverse (gethash message-key message-hash)))))
 
 (defun find-dependants (instance message-key)
-  (find-messages-which-use instance message-key))
+  "List of pairs of instance/keyword. Synonymous with find-messages-used-by."
+  (find-messages-used-by instance message-key))
 
 (defun find-messages-which-use (instance message-key)
-  "List of pairs of instance/keyword. This returns the list of direct dependants of a given 
+  "List of pairs of instance/keyword. This returns the list of direct dependencies of a given 
 message in a given instance. Note that this is not recursive; if you want to generate a tree, 
 then you have to call this recursively yourself.
 
@@ -204,7 +205,8 @@ You have a dependency on caffeine. Your children are your dependants.
             (push (list instance (make-keyword (string message))) result)))))))
 
 (defun find-dependencies (instance message-key)
-  (find-messages-used-by instance message-key))
+  "List of pairs of instance/keyword. Synonymous with find-messages-which-use."
+  (find-messages-which-use instance message-key))
 
 
 

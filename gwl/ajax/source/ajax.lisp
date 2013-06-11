@@ -27,7 +27,8 @@
 	 (merge-pathnames 
 	  (make-pathname :name (format nil "~a" (the instance-id))
 			 :type "snap") snap-folder)))
-    (the (write-snapshot :filename snap-file))))
+    (with-error-handling ()
+      (the (write-snapshot :filename snap-file)))))
 
 
 (defun restore-from-snap (iid)
