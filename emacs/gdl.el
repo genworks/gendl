@@ -122,7 +122,7 @@
 ;; If you don't have slime loaded yet, and/or you don't have 
 ;; slime-lisp-implementations set, then please make a file
 ;; .configure-glime.el in your home directory which sets
-;; correct slime-lisp-implementations and path-to-quicklisp-helper
+;; correct slime-lisp-implementations and quicklisp-slime-helper
 ;;
 ;; Loading the latter means we can load slime-autoloads.el (which
 ;; enables SLIME itself).
@@ -130,7 +130,7 @@
 ;;
 
 (defun configure-slime ()
-  (setq path-to-quicklisp-helper nil)
+  (setq quicklisp-slime-helper nil)
   (let ((built-in-config (concat *gendl-home* "emacs/configure-glime.el"))
 	(home-config "~/.configure-glime.el"))
     (let ((config-file (if (file-exists-p built-in-config) built-in-config home-config)))
@@ -139,7 +139,7 @@
       ;; path-to-quicklisp-helper should have been set by config-file,
       ;; or slime must already be set up.
       ;;
-      (when (file-exists-p quicklisp-slime-helper) 
+      (when (file-exists-p quicklisp-slime-helper)
 	(load-file quicklisp-slime-helper)))))
 
 
