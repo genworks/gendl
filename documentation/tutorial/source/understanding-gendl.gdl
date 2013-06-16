@@ -22,47 +22,49 @@
 (in-package :gendl-doc)
 
 (defparameter *understanding-gendl*
-    `((:chapter :title "Understanding Gendl --- Core GDL Syntax")
+    `((:chapter :title "Understanding GDL --- Core GDL Syntax")
       (:p "Now that you have a basic grasp of Common Lisp syntax (or, more accurately, "
-	  (:emph "lack")
-	  " of syntax), we will jump directly into the Gendl framework. By using Gendl you can formulate most of 
-your engineering and computing problems in a natural way, without becoming bogged down in the complexity of
-the Common Lisp Object System (CLOS).")
+	  (:emph "absence")
+	  " of syntax), we will move directly into the GDL
+framework. By using GDL you can formulate most of your engineering and
+computing problems in a natural way, without becoming entangled in the
+complexity of the Common Lisp Object System (CLOS).")
 
       
-      (:p "The Gendl product is a commercially available KBE system
-dual-licensed under the Affero Gnu Public License and a Proprietary
-license. The core GDL language is a proposed standard for a
-vendor-neutral KBE language.")
+      (:p "The GDL product is a commercially available KBE system with
+Proprietary licensing.  The Gendl Project is an open-source Common
+Lisp library which contains the core language kernel of GDL, and is
+licensed under the terms of the Affero Gnu Public License. The core
+GDL language is a proposed standard for a vendor-neutral KBE
+language.")
 
-      (:p "As we mentioned in the previous chapter, Gendl is based on
-and is a superset of ANSI Common Lisp. Because ANSI CL is an
-unencumbered, open standard with several commercial and free
-implementations, it is a good bet that applications written in it will
-continue to function 50, 100, or even hundreds of years from now.")
+      (:p "As discussed in the previous chapter, GDL is based on and
+is a superset of ANSI Common Lisp. Because ANSI CL is unencumbered and
+an open standard, with several commercial and free implementations, it
+is a good wager that applications written in it will continue to be
+usable 50, 100, or even hundreds of years from now.")
 
-      (:p "Note that the historical name of Gendl was ``GDL,'' and this name persists throughout the product
-for example appearing occasionally in documentation for naming Common Lisp packages.")
+      
 
       ((:section :title "Defining a Working Package")
        
        (:p "In Common Lisp, "
 	   (:emph "packages")
 	   " are a mechanism to separate symbols into
-namespaces. Using packages it is possible to avoid naming collisions
-in large projects. Consider this analogy: in the United States,
-telephone numbers consist of a three-digit area code and a seven-digit
+namespaces. Using packages it is possible to avoid naming conflicts in
+large projects. Consider this analogy: in the United States, telephone
+numbers consist of a three-digit area code and a seven-digit
 number. The same seven-digit number can occur in two or more separate
 area codes, without causing a conflict.")
 
        (:p "The macro "
 	   (:texttt "gdl:define-package")
-	   "is used to set up a new working package in Gendl.")
+	   "is used to set up a new working package in GDL.")
        (:p "Example:"
 	   (:verbatim "(gdl:define-package :yoyodyne)")
 	   " will establish a new package called "
 	   (:texttt ":yoyodyne")
-	   " which has all the Gendl operators available.")
+	   " which has all the GDL operators available.")
 
        (:p "The "
 	   (:texttt ":gdl-user")
@@ -70,7 +72,7 @@ area codes, without causing a conflict.")
 you do not wish to make a new package just for scratch work.")
 
        (:p "For real projects it is recommended that you make and work in your own
-Gendl package, defined as above with "
+GDL package, defined as above with "
 	   (:texttt "gdl:define-package")
 	   ".")
 
@@ -169,8 +171,9 @@ GDL functions can also take other non-specialized arguments, just like a normal 
 "))
         "As you can see, a GDL Object is analogous in some ways to a "
         (:texttt "defun")
-        ", where the input-slots are like arguments to the function, and the computed-slots
-are like return-values. But seen another way, each attribute in a GDL object is like a function in its own right.
+        ", where the input-slots are like arguments to the function,
+and the computed-slots are like return-values. But seen another way,
+each slot in a GDL object serves as function in its own right.
 
 The referencing macro "
         (:texttt (:indexed "the"))
@@ -196,7 +199,7 @@ symbols (i.e.\\ preceded by a colon), and the "
 	(:texttt "the")
 	" macro will process them appropriately.")
       ((:section :title "Making Instances and Sending Messages")
-        "Once we have defined an object such as the example above, we can use
+        "Once we have defined an object, such as the example above, we can use
 the constructor function "
         (:texttt (:indexed "make-object"))
         " in order to create an "
@@ -388,7 +391,7 @@ A passed-in value will override the default expression.")))
 
       ((:section :title "Summary")
        "This chapter has provided a minimal introduction to the core
-Gendl syntax. In subsequent chapters we will cover more specialized
-aspects of the Gendl language, introducing new Common Lisp concepts as
+GDL syntax. In subsequent chapters we will cover more specialized
+aspects of the GDL language, introducing new Common Lisp concepts as
 they are required along the way.")))
 

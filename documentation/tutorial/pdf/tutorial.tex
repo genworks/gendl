@@ -65,84 +65,240 @@ written consent from Genworks International.}
 
 \label{sec:welcome}
 
-Congratulations on your purchase or download of Genworks Gendl. By investing some of your 
-valuable time into learning this system, you are investing in your future productivity and you are becoming
-part of a quiet revolution. Although you may have come to Genworks Gendl because of an interest in 3D modeling
-or mechanical engineering, you will find that a whole new world, and a whole new approach to computing, will 
-now be at your fingertips.
+Congratulations on your decision to work with Genworks GDL\footnote{From time to time, you will also see references to
+``Gendl.'' This refers to ``The Gendl Project'' which is the name of
+an open-source software project from which Genworks GDL draws for its
+core technology. ``The Gendl Project'' code is free to use for any
+purpose, but it is released under the Gnu Affero General Public
+License, which stipulates that applications code compiled with The
+Gendl Project compiler must be distributed as open-source under a
+compatible license (if distributed at all). Commercial Genworks GDL,
+properly licensed for development and/or runtime distribution, does
+not have this ``copyleft'' open-sourcing requirement.}. By first investing some of your valuable time into learning
+this system, you will be investing in your future productivity, and in
+the process you are becoming part of a quiet revolution. Although you
+may have come to Genworks GDL because of an interest in 3D modeling or
+mechanical engineering, you will find that a whole new world, and a
+unique approach to computing, will now be at your fingertips.
 
 \section{Knowledge Base Concepts According to Genworks}
 
 \label{sec:knowledgebaseconceptsaccordingtogenworks}
 
 You may have an idea about Knowledge Base Systems,
-or Knowledge \emph{Based} Systems, from college textbooks or corporate marketing propaganda, and found the 
-concept too broad to be of practical use. Or you may have heard jabs at the 
-pretentious-sounding name, ``Knowledge-based Engineering,'' as in: ``you mean as opposed to \index{Ignorance-based Engineering}Ignorance-based Engineering?'' 
+or Knowledge \emph{Based} Systems, from college textbooks or corporate marketing
+literature, and concluded that the concepts were too broad to be of
+practical use. Or you may have heard criticisms of the
+pretentious-sounding name, ``Knowledge-based Engineering,'' as in:
+``you mean as opposed to \index{Ignorance-based Engineering}Ignorance-based Engineering?'' 
 
 To provide a clearer picture, we hope you will agree that our concept
-of a KB system is simple and practical, and in this tutorial our goal
-is to make you comfortable and excited about the ideas we have
-implemented in our flagship system, GenDL (or ``Gendl'' 
+of a KB system is straightforward, relatively uncomplicated, and
+practical. In this manual  our goal is to make you comfortable
+and motivated to explore the ideas we have implemented in our flagship
+system, Genworks GDL.
 
-
-Our definition of a \emph{\index{Knowledge Base System}Knowledge Base System} is an object-oriented programming environment which implements the features of \emph{\index{Caching}Caching} and \emph{\index{Dependency tracking}Dependency tracking}. Caching means that once the KB has computed something, it might not need to repeat 
+Our informal definition of a \emph{\index{Knowledge Base System}Knowledge Base System} is an object-oriented programming environment which implements the features of \emph{\index{Caching}Caching} and \emph{\index{Dependency tracking}Dependency tracking}. Caching means that once the KB has computed something, it might not need to repeat 
 that computation if the same question is asked again. Dependency tracking is the flip side
 of that coin --- it ensures that if a cached result is \emph{stale}, the result will be recomputed the next time it is \emph{demanded}, so as to give a fresh result.
 
-\section{Goals for this Tutorial}
+\section{Classic Definition of Knowledge Based Engineering (KBE)}
 
-\label{sec:goalsforthistutorial}
+\label{sec:classicdefinitionofknowledgebasedengineering(kbe)}
 
-This manual is designed as a companion to a live two-hour GDL/GWL tutorial, but you may
-also be reading it on your own. In either case, the basic goals are:
+\footnote{Sections 
+\ref{sec:classicdefinitionofknowledgebasedengineering(kbe)} through 
+\ref{sec:objectorienteddesign} are derived from [cite LaRocca20120306]}Knowlege based engineering (KBE) is a technology based on the
+use of dedicated software tools called KBE systems, which are able to
+capture and systematically re-use product and process engineering
+knowledge, with the final goal of reducing time and costs of product
+development by means of the following:
+\ul{
+\li{Automation of repetitive and non-creative design tasks}
+\li{Support of multidisciplinary design optimization in all the 
+phases of the design process}}
+
+\section{Classic Caching Feature}
+
+\label{sec:classiccachingfeature}
+
+
+
+Caching refers to the ability of the KBE system to memorize at
+runtime the results of computed values (e.g. computed slots and
+instantiated objects), so that they can be reused when required,
+without the need to re-compute them again and again, unless necessary.
+The dependency tracking mechanism serves to keep track of the current
+validity of the cached values.  As soon as these values are no longer
+valid (stale), they are set to unbound and recomputed if and only at
+the very moment they are again demanded.
+
+
+\p{This dependency tracking mechanism is at the base of associative
+modeling, which is of extreme interest for engineering design
+applications. For example, the shape of a wing rib can be defined
+accordingly to the shape of the wing aerodynamic surface. In case the
+latter is modified, the dependency tracking mechanism will notify the
+system that teh given rib instance is no longer valid and will be
+eliminated from the product tree, together with all the
+information (objects and attributes) depending on it. The new rib
+object, including its attributes and the rest of the affected
+information, will not be re-instantiated/updated/re-evaluated
+automatically, but only when and if needed (see demand driven
+instantiation in the next section)}
+
+\section{Demand-Driven Evaluation}
+
+\label{sec:demand-drivenevaluation}
+
+KBE systems use the \emph{demand-driven}approach. That is, they evaluate just those chains of
+expressions required to satisfy a direct request of the user (i.e. the
+evaluation of certain attributes ofor the instantiation of an object),
+or the indirect requests of another object, which is trying to satisfy
+a user demand. For example, the system will create an instance of the
+rib object only when the weight of the abovementioned wing rib is
+required. The reference wing surface will be generated only when the
+generation of the rib object is required, and so on, until all the
+information required to respond to the user request will be made
+available.
+
+It should be recognized that a typical object tree can be structured
+in hundreds of branches and include thousands of attributes. Hence,
+the ability to evaluate specific attributes and product model branches
+at demand, without the need to evaluate the whole model from its root,
+prevents waste of computational resources and in many cases brings
+seemingly intractible problems into the realm of the tractible.
+
+\section{The Object-Oriented Paradigm meets the Functional paradigm}
+
+\label{sec:theobject-orientedparadigmmeetsthefunctionalparadigm}
+
+In order to model very complex products and manage efficiently
+large bodies of knowledge, KBE systems tap the potential of the object
+oriented nature of their underlying language (e.g. Common
+Lisp). ``Object'' in this context refers to an instantiated data
+structure of a particular assigned data type. As is well-known in
+computing community, unrestricted state modification of objects leads
+to unmaintainable systems which are difficult to debug. KBE systems
+manage this drawback by strictly controlling and constraining
+any ability to modify or ``change state'' of objects. 
+
+In essence, a KBE system generates a tree of inspectable objects which
+is analogous to the function call tree of pure functional-language
+systems.
+
+\section{Object-oriented Systems}
+
+\label{sec:object-orientedsystems}
+
+An object-oriented system is composed of
+       objects (i.e. concrete instantiations of named classes), and
+       the behavior of the system results from the collaboration of
+       those objects. Collaboration between objects involves them
+       sending messages to each other. Sending a message differs from
+       calling a function in that when a target object receives a
+       message, it decides on its own what function to carry out to
+       service that message. The same message may be implemented by
+       many different functions, the one selected depending on the
+       current state of the target object.
+
+\section{Object-oriented Analysis}
+
+\label{sec:object-orientedanalysis}
+
+
+
+Object-oriented analysis (OOA) is the process of analyzing
+       a task (also known as a problem domain) to develop a conceptual
+       model that can then be used to complete the task. A typical OOA
+       model would describe computer software that could be used to
+       satisfy a set of customer-defined requirements. During the
+       analysis phase of problem-solving, the analyst might consider a
+       written requirements statement, a formal vision document, or
+       interviews with stakeholders or other interested parties. The
+       task to be addressed might be divided into several subtasks (or
+       domains), each representing a different business,
+       technological, or other area of business. Each subtask would be
+       analyzed separately. Implementation
+       constraints (e.g. concurrency, distribution, persistence, or
+       how the system is to be built) are not considered during the
+       analysis phase; rather, they are addressed during
+       object-oriented design (OOD).
+
+
+
+The conceptual model that results from OOA will typically consist of a
+set of use cases, one or more UML class diagrams, and a number of
+interaction diagrams. It may also include some kind of user interface.
+
+
+
+\section{Object-oriented Design}
+
+\label{sec:object-orienteddesign}
+
+During object-oriented design (OOD), a developer applies implementation constraints
+to the conceptual model produced in object-oriented analysis. Such constraints could include
+not only constraints imposed by the chosen architecture but also any non-functional --- 
+technological or environmental --- constraints, such as transaction throughput, response time,
+run-time platform, development environment, or those inherent in the programming language. Concepts
+in the analysis model are mapped onto implementation classes and interfaces resulting in
+a model of the solution domain, i.e., a detailed description of \emph{how} the system is to be built.
+
+\section{Goals for this Manual}
+
+\label{sec:goalsforthismanual}
+
+This manual is designed as a companion to a live two-hour
+GDL/GWL tutorial, but you may also be relying on it independent of the
+video tutorial. In either case, the basic goals are:
 
 \begin{itemize}
 
-\item Get you excited about using GDL/GWL
+\item Get you motivated about using Genworks GDL
 
-\item Enable you to judge whether GDL/GWL is an appropriate tool for a given job
+\item Enable you to ascertain whether Genworks GDL is an appropriate tool for a given job
 
-\item Arm you with the ability to argue the case for using GDL/GWL when appropriate
+\item Equip you with the ability to state the case for using GDL/GWL when appropriate
 
-\item Prepare you to begin maintaining and authoring GDL/GWL applications, or porting apps
-from similar KB systems into GDL/GWL.
+\item Prepare you to begin authoring and maintaining GDL
+applications, or porting apps from similar KB systems into GDL.
 
 \end{itemize}
 
-This manual will begin with an introduction to the \index{Common Lisp}Common Lisp programming language. If you are new to Common Lisp:
-congratulations! You have just discovered a powerful tool backed by a
-powerful standard specification, which will protect your development
-investment for decades to come. In addition to the brief overview in
-this manual, many resources are available to get you started in CL ---
-for starters, we recommend 
+This manual will begins with an introduction to the \index{Common Lisp}Common Lisp programming language. If you are new to Common Lisp:
+congratulations! You have just been introduced to a powerful tool
+backed by a rock-solid standard specification, which will protect your
+development investment for decades to come. In addition to the
+overview in this manual, many resources are available to get you
+started in CL --- for starters, we recommend 
 \underline{\index{Basic Lisp Techniques}Basic Lisp Techniques}\footnote{
-\underline{BLT} is available at \texttt{http://www.franz.com/resources/educational\_resources/cooper.book.pdf}}, which was prepared by the author of this tutorial. 
+\underline{BLT} is available at \texttt{http://www.franz.com/resources/educational\_resources/cooper.book.pdf}}, which was prepared by the author. 
 
-\section{What is GenDL?}
+\section{What is GDL?}
 
-\label{sec:whatisgendl?}
+\label{sec:whatisgdl?}
 
-GenDL (or Gendl to be a bit more relaxed) is an acronym for
+GDL is an acronym for
 ``General-purpose Declarative Language.'' 
 
-GenDL is a superset of ANSI Common Lisp, and consists mainly of
+GDL is a superset of ANSI Common Lisp, and consists largely of
 automatic code-expanding extensions to Common Lisp implemented in the
-form of macros. When you write, let's say, 20 lines in GenDL, you
+form of macros. When you write, for example, 20 lines in GDL, you
 might be writing the equivalent of 200 lines of Common Lisp. Of
-course, since GenDL is a superset of Common Lisp, you still have the
-full power of the CL language at your fingertips whenever you are
-working in GenDL.
+course, since GDL is a superset of Common Lisp, you still have the
+full power of the CL language at your disposal whenever you are
+working in GDL.
 
 \index{compiled language!benefits of}\index{macros!code-expanding}Since GDL expands into CL, everything you write in GDL will be
 compiled ``down to the metal'' to machine code with all the
-optimizations and safety that the tested-and-true CL compiler
-provides. This is an important distinction as contrasted to some other
-so-called KB systems on the market, which are really nothing more than
-interpreted scripting languages which often impose arbitrary limits on
-the size and complexity of your application.
+optimizations and safety that the tested-and-true CL compiler provides
+[this is an important distinction as contrasted to some other
+so-called KB systems on the market, which are essentially nothing more
+than interpreted \emph{scripting languages} which often impose arbitrary limits on
+the size and complexity of the application.
 
-GenDL is also a true \emph{\index{declarative}declarative} language. When you put together a GDL application, you write and think mainly
+GDL is also a \emph{\index{declarative}declarative} language in the fullest sense. When you put together a GDL application, you write and think mainly
 in terms of objects and their properties, and how they depend on one another in a direct
 sense. You do not have to track in your mind explicitly how one object or property will ``call''
 another object or propery, in what order this will happen, etc. Those details are
@@ -159,14 +315,17 @@ from an object-oriented language, such as
 
 \item The ability for one object to ``inherit'' from others
 
-\item The ability to ``use'' an object without concern for its ``under-the-hood'' implementation
+\item The ability to ``use'' an object without concern for
+	its ``under-the-hood'' complexities
 
 \end{itemize}
 
-\index{object-orientation!message-passing}\index{object-orientation!generic-function}GDL supports the ``message-passing'' paradigm of object orientation, with some extensions. Since
-full-blown ANSI CLOS (Common Lisp Object System) is always available as well, the Generic Function paradigm 
-is supported as well. Do not be concerned at this point if you are not fully aware of the differences 
-between these two paradigms\footnote{See Paul Graham's 
+\index{object-orientation!message-passing}\index{object-orientation!generic-function}GDL supports the ``message-passing'' paradigm of object
+orientation, with some extensions. Since full-blown ANSI CLOS (Common
+Lisp Object System) is always available as well, the Generic Function
+paradigm is supported as well. Do not be concerned at this point if
+you are not fully aware of the differences between these two
+paradigms\footnote{See Paul Graham's 
 \underline{ANSI Common Lisp}, page 192, for an excellent discussion of the Two Models 
 of Object-oriented Programming.}.
 
@@ -209,8 +368,9 @@ and solid geometric objects.
 
 \item A drawing program (although it may operate on and/or generate geometric entities);
 
-\item An Artificial Intelligence system (although it is an excellent environment for developing 
-capabilities which could be considered as such);
+\item An Artificial Intelligence system (although it is an
+excellent environment for developing capabilities which could be
+considered as such);
 
 \item An Expert System Shell (although one could be easily embedded within it).
 
@@ -223,19 +383,20 @@ Without further ado, then, let's turn the page and get started with some hands-o
 \label{chap:installation}
 
 Follow Section 
-\ref{sec:installationofpre-packagedgendl} if your email address is registered with Genworks and you will
-install a pre-packaged Gendl distribution including its own Common
-Lisp engine.  Gendl is also available as open-source software\footnote{http://github.com/genworks/Genworks-GDL}; if you
-want to use that version, then please refer to Section 
+\ref{sec:installationofpre-packagedgdl} if your email address is registered with Genworks and you will
+install a pre-packaged Genworks GDL distribution including its own
+Common Lisp engine.  The foundation of Genworks GDL is also available
+as open-source software through The Gendl Project\footnote{http://github.com/genworks/gendl}; if you want to use that version, then please refer to Section 
 \ref{sec:installationofopen-sourcegendl}.
 
-\section{Installation of pre-packaged Gendl}
+\section{Installation of pre-packaged GDL}
 
-\label{sec:installationofpre-packagedgendl}
+\label{sec:installationofpre-packagedgdl}
 
-This section will take you through the installation of Gendl
-from a prepackaged distribution with the Allegro CL Common Lisp engine
-and the Slime IDE (based on Gnu Emacs).
+This section will take you through the installation of
+Genworks GDL from a prepackaged distribution with the Allegro CL or
+LispWorks commercial Common Lisp engine and the Slime IDE (based on
+Gnu Emacs).
 
 \subsection{Download the Software and retrieve a license key}
 
@@ -245,11 +406,13 @@ and the Slime IDE (based on Gnu Emacs).
 
 \begin{enumerate}
 
-\item Visit the Downloads section of the \href{http://genworks.com/newsite}{Genworks Newsite}
+\item Visit the Downloads section of the \href{http://genworks.com}{Genworks Website}
 
 \item Enter your email address\footnote{if your address is not on file, send mail to licensing@genworks.com}.
 
-\item Download the latest Payload and gpl.zip for Windows\footnote{If you already have a gpl.zip from a previous Gendl installation, it is not necessary to download a new one.}
+\item Download the latest Payload for Windows, Linux, or Mac\footnote{Gnu Emacs is included with the download. The source code for this 
+is available at http://downloads.genworks.com/emacs-windows-24.3.zip. Gnu Ghostscript
+is also included; please contact Genworks if you need the source code for this.}
 
 \item Click to receive license key file by email.
 
@@ -261,60 +424,17 @@ and the Slime IDE (based on Gnu Emacs).
 
 \label{subsec:unpackthedistribution}
 
-GenDL is currently distributed for all the platforms as a
-self-contained ``zip'' file which does not require official
-administrator installation.  What follows are general instructions; more up-to-date details
-may be found in the email which accompanies the license key file. A five-minute installation video
-is also available in the Documentation section of the \href{http://genworks.com/newsite}{Genworks Newsite}.
-
-\begin{enumerate}
-
-\item Unzip the gdl1581... zipfile into a location where you have write permissions
-
-\item Unzip the gpl.zip file at the same level as the gdl payload
+Genworks GDL is currently distributed as an setup executable for Windows,
+a ``dmg'' application bundle for Mac, and a self-contained zip file for Linux.
+\ul{
+\item Run the installation executable. Accept the defaults when prompted.\footnote{For Linux, you have to install emacs and ghostscript yourself. Please use your distribution's package manager to complete this installation.}
 
 \item Copy the license key file as gdl.lic (for Trial,
-	 Student, Professional editions), or devel.lic (for Enterprise edition) into the \texttt{program/} directory within the gdl1581.../ directory.
+	 Student, Professional editions), or devel.lic (for Enterprise edition) into the \texttt{program/} directory within the 
+\textt{gdl/gdl/program/} directory.
 
-\end{enumerate}
-
-
-\begin{figure}
-\begin{center}
-\includegraphics{../images/gendl-installation.png}
-\end{center}
-
-\caption{Several Gendl versions and one GPL }
-
-\label{fig:gendl-installation}
-
-\end{figure}
-So you now should have two directories at the same level: one named \texttt{gdl1581.../}(the rest of the name will contain the specific dated build stamp), and a \texttt{gdl/}directory at the same level. Note that as seen in Figure 
-\ref{fig:gendl-installation}, it is possible to have several Gendl versions installed, but just a single common \texttt{gpl/} folder.
-
-\subsection{Make a Desktop Shortcut}
-
-\label{subsec:makeadesktopshortcut}
-
-
-
-\begin{enumerate}
-
-\item Using the ``My Computer'' or ``Computer'' Windows file manager, right-mouse on the \texttt{run-gdl.bat} file.
-
-\item Select ``Create Shortcut.''
-
-\item Now drag the new ``Run-gdl-shortcut'' icon to your desktop.
-
-\end{enumerate}
-
-
-
-\subsection{Populate your Initialization File}
-
-\label{subsec:populateyourinitializationfile}
-
-The default initialization file for Gendl is called \texttt{gdlinit.cl}, 
+\item Launch the application by finding the Genworks program group in the Start menu (Windows), or by double-clicking the application icon (Mac), or by running the \texttt{run-gdl} script (Linux).
+}
 
 \section{Installation of open-source Gendl}
 
@@ -322,9 +442,9 @@ The default initialization file for Gendl is called \texttt{gdlinit.cl},
 
 This section is only relevant if you have not received a
 pre-packaged Gendl distribution with its own Common Lisp engine.  If
-you have received a pre-packaged Gendl distribution, then please skip
+you have received a pre-packaged Gendl distribution, then you may skip
 this section. In case you want to use the open-source Gendl, you will
-use your own Common Lisp installation and fetch Gendl (Genworks-GDL)
+use your own Common Lisp installation and obtain Gendl (Genworks-GDL)
 using a very powerful and convenient CL package/library manager
 called \emph{Quicklisp}.
 
@@ -346,18 +466,21 @@ Gendl is currently tested to build on the following Common Lisp engines:
 
 \end{itemize}
 
-Please refer to the documentation for each of these systems for full information on installing 
-and configuring the environment. Typically this will include a text editor, either Gnu Emacs with Superior
-Lisp Interaction Mode for Emacs (Slime), or a built-in text editing and development environment which 
-comes with the Common Lisp system.
+Please refer to the documentation for each of these systems
+for full information on installing and configuring the
+environment. Typically this will include a text editor, either Gnu
+Emacs with Superior Lisp Interaction Mode for Emacs (Slime), or a
+built-in text editing and development environment which comes with the
+Common Lisp system.
 
-As of this writing, a convenient way to set up Emacs with Slime is to use the \href{http://github.com/quicklisp/quicklisp-slime-helper}{Quicklisp-slime-helper}.
+A convenient way to set up Emacs with Slime is to use the \href{http://github.com/quicklisp/quicklisp-slime-helper}{Quicklisp-slime-helper}.
 
 \subsection{Load and Configure Quicklisp}
 
 \label{subsec:loadandconfigurequicklisp}
 
-As of this writing, Quicklisp is rapidly becoming the defacto standard library manager for Common Lisp.
+Quicklisp is the defacto standard library manager for Common
+Lisp.
 
 \begin{itemize}
 
@@ -369,108 +492,24 @@ As of this writing, Quicklisp is rapidly becoming the defacto standard library m
 
 
 
-\section{System Startup and Testing}
+\subsection{Load and Start Gendl}
 
-\label{sec:systemstartupandtesting}
+\label{subsec:loadandstartgendl}
 
+invoke the following commands at the Common Lisp toplevel ``repl'' prompt:
+\ol{
+\li{\texttt{(ql:quickload :gendl)}}
+\li{\texttt{(gendl:start-gendl!)}}}
 
+\section{System Testing}
 
-\subsection{System Startup}
-
-\label{subsec:systemstartup}
-
-
-
-\subsubsection{Startup of prepackaged Gendl or GDL distribution}
-
-\label{subsubsec:startupofprepackagedgendlorgdldistribution}
-
-To start a prepackaged system, follow these steps:
-
-\begin{enumerate}
-
-\item Invoke the \texttt{run-gdl.bat} (Windows), or \texttt{run-gdl} (Linux, MacOS) startup script, or launch the bundle executable if you installed a self-extracting application bundle. 
-This should launch Gnu Emacs with a README file displayed by default. Take the time to look through this README file. 
-Especially the later part of the file contains information about Emacs keyboard
-shortcuts available.
-
-\item In emacs, enter: \texttt{M-x gendl} or \texttt{M-x gdl}. That is, hold down the ``Meta'' (or ``Alt'') key, and press the ``X'' key, then type ``gendl'' or ``gdl''
-You will see this command shown in the \emph{mini-buffer} at the bottom of the Emacs window, as shown in Figure 
-\ref{fig:mini-buffer}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=3in,height=3in]{../images/mini-buffer.png}
-\end{center}
-
-\caption{The mini-buffer in Emacs}
-
-\label{fig:mini-buffer}
-
-\end{figure}
-
-\item press the ``Enter'' key
-
-\begin{figure}
-\begin{center}
-\includegraphics{../images/genworks-gendl-console.png}
-\end{center}
-
-\caption{Genworks Gendl Console}
-
-\label{fig:genworks-gendl-console}
-
-\end{figure}
-
-\item On Windows, you will get a new window, named the the \index{Genworks Gendl Console}Genworks Gendl Console or \index{Genworks GDL Console}Genworks GDL Console, as shown in Figure 
-\ref{fig:genworks-gendl-console}. This window might start out in minimized form (as an icon at the bottom of your screen). Click on it 
-to open it. Watch this console for any errors or warnings. 
-
-The first time you start up, you may see messages in this console for
-several minutes while the system is being built (or if you received a
-completely pre-built system, the messages may last only a few
-seconds).
-
-On Linux or MacOS, there will be a separate Emacs buffer (available
-through Emacs' ``Buffers'' menu) where you will see these messages.
-
-The messages will consist of compiling and loading information, followed by copyright and welcome information
-for Gendl. After these messages have finished, you should see the following command prompt:
-
-\texttt{\index{gdl-user(1): }gdl-user(1): }
-
-The Genworks Gendl or GDL console contains a command prompt, but mostly you will use the \index{*slime-repl...*}*slime-repl...* buffer in Emacs to type commands. The Genworks GDL console is mainly used for 
-displaying output text from the Gendl system and from your application.
-
-\end{enumerate}
+\label{sec:systemtesting}
 
 
 
-\subsubsection{Startup of open-source Gendl distribution}
+\subsection{Basic Sanity Test}
 
-\label{subsubsec:startupofopen-sourcegendldistribution}
-
-To start an Open-source distribution, follow these steps:
-
-\begin{enumerate}
-
-\item Start your Common Lisp engine and development environment (e.g. SBCL with Emacs and Superior Lisp Interaction Mode for Emacs).
-
-\item After Quicklisp is installed and initialized in your system, type: \texttt{(ql:quickload :genworks-gdl)} to get Genworks Gendl installed and loaded in your environment.
-
-\item Type the following to initialize the Gendl environment:
-
-\texttt{(gdl:start-gdl :edition :open-source)}
-
-
-
-\end{enumerate}
-
-
-
-\subsection{Basic System Test}
-
-\label{subsec:basicsystemtest}
+\label{subsec:basicsanitytest}
 
 You may test your installation using the following
 checklist. These tests are optional. You may perform some or all of
@@ -526,10 +565,12 @@ Safari, Opera, Internet Explorer), perform the following steps:
 \item If your browser supports WebGL, you will see the robot in shaded dynamic view as shown in Figure
 \ref{fig:tasty-robot-x3dom}.
 
-\item Select ``PNG'' from the View menu. You will see the wireframe view of the robot as a PNG image.
+\item Select ``PNG'' from the View menu. You will see the
+	 wireframe view of the robot as a PNG image.
 
-\item Select ``X3D'' from the View menu. If your browser has an X3D plugin installed (e.g. BS Contact), 
-you will see the robot in a shaded dynamic view.
+\item Select ``X3D'' from the View menu. If your browser
+has an X3D plugin installed (e.g. BS Contact), you will see the robot
+in a shaded dynamic view.
 
 \end{enumerate}
 
@@ -539,16 +580,18 @@ you will see the robot in a shaded dynamic view.
 
 \label{subsec:fullregressiontest}
 
-\index{regression tests}The following commands will invoke a full regression test, including a test of the Surface and Solids
-primitives provided by the SMLib geometry kernel. Note that the SMLib geometry kernel is only available with
-proprietary Gendl licenses --- therefore if you have an open-source or Trial version, you these regression
-tests will not all function.
+\index{regression tests}The following commands will invoke a full regression test,
+including a test of the Surface and Solids primitives provided by the
+SMLib geometry kernel. Note that the SMLib geometry kernel is only
+available with proprietary Genworks GDL licenses --- therefore if you
+have open-source Gendl or a lite Trial version of Genworks GDL, 
+these regression tests will not all function.
 
 In Emacs at the \texttt{gdl-user>} prompt in the \texttt{*slime-repl...*} buffer, type the following commands:
 
 \begin{enumerate}
 
-\item \texttt{(ql:quickload :gdl-regression)}
+\item \texttt{(ql:quickload :regression)}
 
 \item \texttt{(gdl-lift-utils::define-regression-tests)}
 
@@ -564,54 +607,68 @@ In Emacs at the \texttt{gdl-user>} prompt in the \texttt{*slime-repl...*} buffer
 
 \label{sec:gettinghelpandsupport}
 
-If you run into unexplained errors in the installation and startup process, please contact the following resources:
+If you encounter unexplained errors in the installation and
+startup process, please contact the following resources:
 
 \begin{enumerate}
 
 \item Make a posting to the \href{http://groups.google.com/group/genworks}{Genworks Google Group}
 
-\item For pure Common Lisp issues, join the \#lisp IRC (Internet Relay Chat) channel and discuss issues there.
+\item Join the \#gendl IRC (Internet Relay Chat) channel on
+	irc.freenode.net and discuss issues there.
 
-\item Also for Common Lisp issues, follow the comp.lang.lisp Usenet group.
+\item For exclusively Common Lisp issues, join the \#lisp
+	IRC (Internet Relay Chat) channel on irc.freenode.net and
+	discuss issues there.
+
+\item Also for Common Lisp issues, follow the comp.lang.lisp
+	Usenet group.
 
 \item If you are a supported Genworks customer, send email to \href{mailto:support@genworks.com}{support@genworks.com}
 
-\item If you are not a supported Genworks customer but you want to report an apparent bug or have other suggestions or inquiries, you may also send email to \href{mailto:support@genworks.com}{support@genworks.com}, but please understand that Genworks cannot guarantee any response or a particular timeframe for any response.
+\item If you are not a supported Genworks customer but you want to report an apparent bug or have other suggestions or inquiries, you may also send email to \href{mailto:support@genworks.com}{support@genworks.com}, but as a non-customer please understand that Genworks
+	  cannot guarantee a response or a particular timeframe for a
+	  response. Also note that we are not able to offer guaranteed
+	  support for Trial and Student licenses 
 
 \end{enumerate}
 
 
 
-\chapter{Basic Operation of the Gendl Environment}
+\chapter{Basic Operation of the GDL Environment}
 
-\label{chap:basicoperationofthegendlenvironment}
+\label{chap:basicoperationofthegdlenvironment}
 
-This chapter will step you through all the basic steps of
-operating a typical Gendl environment. We will not go into any depth
-about the additional features of the environment or language syntax in
-this section --- this is just for getting familiar and practicing with
-the mechanics of operating the environment with a keyboard.
+This chapter will lead you through all the basic steps of
+operating a typical GDL-based development environment. We will not go
+into any depth about the additional features of the environment or
+language syntax in this section --- this is just for getting familiar
+and practicing with the mechanics of operating the environment with a
+keyboard.
 
-\section{What is Different about Gendl?}
+\section{What is Different about GDL?}
 
-\label{sec:whatisdifferentaboutgendl?}
+\label{sec:whatisdifferentaboutgdl?}
 
-Gendl is  a dynamic language environment with incremental compiling and in-memory 
-definitions. That means that as long as the system is running, you can \emph{compile} new \emph{definitions} of functions, objects, etc, and they will immediately become available as part of the running system,
-and you can begin testing them immediately or update an existing set of objects to observe their new behavior.
+GDL is a dynamic language environment with incremental
+compiling and in-memory definitions. That means that as long as the
+system is running you can \emph{compile} new \emph{definitions} of functions, objects, etc, and they will immediately become
+available as part of the running system, and you can begin testing
+them immediately or update an existing set of objects to observe their
+new behavior.
 
-In many other programming language systems, you have to start the
-system from the beginning and reload all the files in order to test
-new functionality. 
+In many other programming language systems, to introduce a new
+function or object, one has to start the system from the beginning and
+reload all the files in order to test new functionality.
  
-In Gendl, if you simply shut down the system after having compiled and
-loaded a set of files with new definitions, then when you restart the
-system you will have to recompile and/or reload those definitions in
-order to bring the system back into the same state. This is typically
-done automatically, using commands placed into the \texttt{gdlinit.cl} initialization file, as introduced in Section 
-\ref{sec:customizingyourenvironment}. Alternatively, you can compile and load definitions into your Gendl
-session, then save the ``world'' in that state. That way, it is
-possible to start a new Gendl ``world'' which already has all your
+In GDL, if you shut down the system after having compiled and loaded a
+set of files with new definitions, then when you restart the system
+you will have to recompile and/or reload those definitions in order to
+bring the system back into the same state. This is typically done
+automatically, using commands placed into the \texttt{gdlinit.cl} initialization file, as introduced in Section 
+\ref{sec:customizingyourenvironment}. Alternatively, you can compile and load definitions into
+your session, then save the ``world'' in that state. That way it is
+possible to start a new GDL ``world'' which already has all your
 application's definitions loaded and ready for use, without having to
 procedurally reload any files. You can then begin to make and test new
 definitions (and re-definitions) starting from this new ``world.''
@@ -622,19 +679,21 @@ definitions (and re-definitions) starting from this new ``world.''
 
 
 
-The typical Gendl environment consists of three programs: Gnu
-Emacs (the editor), a Common Lisp engine with Gendl system loaded or built into it (e.g. the \texttt{gdl.exe} executable in your \texttt{program/} directory), and (optionally) a web browser
+The typical GDL environment consists of three programs: Gnu
+Emacs (the editor), a Common Lisp engine with GDL system loaded or built into it (e.g. the \texttt{gdl.exe} executable in your \texttt{program/} directory), and (optionally) a web browser
 such as Firefox, Google Chrome, Safari, Opera, or Internet
-Explorer. Emacs runs as the main \emph{process}, and this in turn starts the CL engine with Gendl as a \emph{sub-process}. The CL engine typically runs an embedded \emph{webserver}, enabling you to access your application through a standard web browser.
+Explorer. Emacs runs as the main \emph{process}, and this in turn starts the CL engine with GDL as a \emph{sub-process}. The CL engine typically runs an embedded \emph{webserver}, enabling you to access your application through a standard web browser.
 
 
 
 As introduced in Chapter 
-\ref{chap:installation}, the typical way to start a pre-packaged Gendl environment is with the \texttt{run-gdl.bat} (Windows), or \texttt{run-gdl} (MacOS, Linux) script files. Invoke this script file
-from your computer's file manager, or from a desktop shortcut if you
-have created one as outlined in section 
+\ref{chap:installation}, the typical way to start a pre-packaged GDL environment is with the \texttt{run-gdl.bat} (Windows), or \texttt{run-gdl} (MacOS, Linux) script files, or with the installed Start
+program item (Windows) or application bundle (MacOS). Invoke this
+script file from the Start menu (Windows), your computer's file
+manager, or from a desktop shortcut if you have created one as
+outlined in section 
 \ref{subsec:makeadesktopshortcut}. Your installation executable may also have created a
-Windows ``Start'' menu item for Genworks Gendl. Of course you can also 
+Windows ``Start'' menu item for Genworks GDL. Of course you can also 
 invoke \texttt{run-gdl.bat} from the Windows ``cmd'' command-line, or from another command shell such as Cygwin.\footnote{Cygwin is also useful as a command-line tool on Windows
 for interacting with a version control system like Subversion (svn).}
 
@@ -644,41 +703,40 @@ for interacting with a version control system like Subversion (svn).}
 
 \label{subsec:startup}
 
- Startup of a typical Gendl development session consists of
+ Startup of a typical GDL development session consists of
 two fundamental steps: (1) starting the Emacs editing environment,
-and (2) starting the actual Gendl process as a ``sub-process'' or ``inferior'' process 
-within Emacs. The Gendl process should automatically establish a network connection
-back to Emacs, allowing you to interact directly with the Gendl process from within Emacs.
+and (2) starting the actual GDL process as a ``sub-process'' or ``inferior'' process 
+within Emacs. The GDL process should automatically establish a network connection
+back to Emacs, allowing you to interact directly with the GDL process from within Emacs.
 
 \begin{enumerate}
 
-\item Invoke the \texttt{run-gdl.bat} or \texttt{run-gdl.bat} startup script.
+\item Invoke the \texttt{run-gdl.bat}, \texttt{run-gdl.bat}
+startup script, or the provided executable from the Start
+menu (windows) or application bundle (Mac).
 
 \item You should see a blue emacs window as in Figure 
 \ref{fig:emacs-startup}. (alternative colors are also possible).
 
-\item Press M-x (Alt-x), and type \texttt{gendl} in the mini-buffer, as seen in Figure 
-\ref{fig:mini-buffer}.
-
-\item (MS Windows): Look for the Genworks Gendl Console
+\item (MS Windows): Look for the Genworks GDL Console
 window, or (Linux, Mac) use the Emacs ``Buffer'' menu to visit the
-``*inferior-lisp*'' buffer. Note that the Genworks Gendl Console
+``*inferior-lisp*'' buffer. Note that the Genworks GDL Console
 window might start as a minimized icon; click or double-click it to
 un-minimize.
 
 \item Watch the Genworks GDL Console window for any
 errors. Depending on your specific installation, it may take from a
-few seconds to several minutes for the Genworks Gendl Console (or
+few seconds to several minutes for the Genworks GDL Console (or
 *inferior-lisp* buffer) to settle down and give you a \texttt{gdl-user(): } prompt. This window is where you will see most of your program's textual output, any 
 error messages, warnings, etc.
 
 \item In Emacs, type: \texttt{C-x \&} (or select Emacs menu item Buffers$\rightarrow$*slime-repl...*) to visit the ``*slime-repl ...*'' buffer. The full name
-of this buffer depends on the specific CL/Gendl platform which you are
-running. This buffer contains an interactive prompt, labeled \texttt{gdl-user>}, where you will enter most of your commands to interact with your running Gendl session
-for testing, debugging, etc. There is also a web-based graphical interactive environment called \emph{tasty} which will will cover in Chapter 
+of this buffer depends on the specific CL/GDL platform which you are
+running. This buffer contains an interactive prompt, labeled \texttt{gdl-user>}, where you will enter most of your commands to interact with your running GDL session
+for testing, debugging, etc. There is also a web-based graphical interactive environment called \emph{tasty} which will be discussed in Chapter 
 \ref{chapter:tasty}
 
-\item To ensure that the Gendl interpreter is up and running, type: \texttt{(+ 2 3)} and press [Enter].
+\item To ensure that the GDL command prompt is up and running, type: \texttt{(+ 2 3)} and press [Enter].
 
 \item You should see the result \texttt{5} echoed back to you below the prompt.
 
@@ -686,9 +744,9 @@ for testing, debugging, etc. There is also a web-based graphical interactive env
 
 
 
-\subsection{Developing and Testing a Gendl ``Hello World'' application}
+\subsection{Developing and Testing a  ``Hello World'' application}
 
-\label{subsec:developingandtestingagendlhelloworldapplication}
+\label{subsec:developingandtestingahelloworldapplication}
 
  
 
@@ -713,7 +771,7 @@ mini-buffer.
 
 \item Type \texttt{\textasciitilde/hello.gdl} and press [Enter]
 
-\item You are now editing a (presumably new) file of Gendl
+\item You are now editing a (presumably new) file of GDL
 	 code, located in your HOME directory, called \texttt{hello.gdl}
 
 \item Enter the text from Figure 
@@ -754,7 +812,7 @@ to the file in your HOME directory.
 
 \item type \texttt{C-c o} (or move and click the mouse)  to switch to the bottom window.
 
-\item In the bottom window, type \texttt{C-x \&} (or choose Emacs menu item \emph{Buffers$\rightarrow$*slime-repl...*}) to get the \texttt{*slime-repl ...*} buffer, which should contain a \texttt{gdl-user>} prompt. This is where you normally type interactive Gendl commands.
+\item In the bottom window, type \texttt{C-x \&} (or choose Emacs menu item \emph{Buffers$\rightarrow$*slime-repl...*}) to get the \texttt{*slime-repl ...*} buffer, which should contain a \texttt{gdl-user>} prompt. This is where you normally type interactive GDL commands.
 
 \item If necessary, type \texttt{M \textgreater} (that is, hold down Meta (Alt), Shift, and the ``\textgreater'' key) to
 move the insertion point to the end of this buffer.
@@ -779,14 +837,19 @@ move the insertion point to the end of this buffer.
 
 \label{subsec:shutdown}
 
- To shut down a development session gracefully, you should first shut down the Gendl process,
+ To shut down a development session gracefully, you should first shut down the GDL process,
 then shut down your Emacs.
 
 \begin{itemize}
 
-\item Type \texttt{M-x quit-gendl} (that is, hold Alt and press X, then release both while you type \texttt{quit-gendl} in the mini-buffer), then press [Enter]
+\item Type \texttt{M-x quit-gdl} (that is, hold Alt and press X, then release both while you type \texttt{quit-gdl} in the mini-buffer), then press [Enter]
 
-\item Type \texttt{C-x C-c} to quit from Emacs. Emacs will prompt you to save any modified buffers before exiting.
+\item alternatively, you can type \texttt{C-x &} (that is, hold Control and press X, then release both while you type &. 
+This will visit the *slime-repl* buffer. Now type: 
+\textt{, q} to quit the GDL session.
+
+\item Finally, type \texttt{C-x C-c} to quit from Emacs. Emacs will prompt you to save any
+	   modified buffers before exiting.
 
 \end{itemize}
 
@@ -868,9 +931,8 @@ above application:
 
 
 
-\texttt{("package" "parameters")}
-
-
+\begin{verbatim}("package" "parameters")
+\end{verbatim}
 
 This will force package.lisp to be compiled/loaded first, and
 parameters.lisp to be compiled/loaded next. The ordering on the rest
@@ -880,7 +942,7 @@ lexigraphical ordering).
 
 
 Now our sample application directory looks like Figure 
-\ref{fig:yoyodyne-with-file-ordering-isc} is an example application directory, with four source files.
+\ref{fig:yoyodyne-with-file-ordering-isc}.
 
 
 \begin{figure}
@@ -954,11 +1016,15 @@ the full path prefix for the directory containing the ASDF system file.
 \item 
 
 \begin{verbatim}(ql:quickload :gdl-yoyodyne)
-\end{verbatim} this will compile and load the actual system. Quicklisp uses ASDF at the low level to compile and 
-load the systems, and Quicklisp will fetch any depended-upon third-party libraries from the Internet on-demand. 
-Source files will be compiled only if the corresponding binary (fasl) file does not exist or is older than the
-source file. By default, ASDF keeps its binary files in a\emph{cache} directory, separated according to CL platform and operating system. The location of this cache
-is system-dependent, but you can see where it is by observing the compile and load process.
+\end{verbatim} this will compile and load the actual system. Quicklisp
+uses ASDF at the low level to compile and load the systems, and
+Quicklisp will retrieve any depended-upon third-party libraries from
+the Internet on-demand.  Source files will be compiled only if the
+corresponding binary (fasl) file does not exist or is older than the
+source file. By default, ASDF keeps its binary files in a  \emph{cache} directory, separated according to CL platform and
+operating system. The location of this cache is system-dependent, but
+you can see where it is by observing the compile and load
+process.
 
 \end{enumerate}
 
@@ -1055,9 +1121,9 @@ to stop it from loading redundant code which is already in the saved image.
 
 
 
-Gendl is a superset of Common Lisp, and is embedded in Common
-Lisp. This means that when working with Gendl, you have the full power
-of CL available to you. The lowest-level expressions in a Gendl
+GDL is a superset of Common Lisp, and is embedded in Common
+Lisp. This means that when working with GDL, you have the full power
+of CL available to you. The lowest-level expressions in a GDL
 definition are CL ``symbolic expressions,'' or ``s-expressions.''
 This chapter will familiarize you with CL s-expressions.
 
@@ -1070,8 +1136,9 @@ This chapter will familiarize you with CL s-expressions.
 
 
 S-expressions can be used in your definitions to establish
-the value of a particular \emph{slot} in an object, which will be computed on-demand. You can also
-evaluate S-expressions at the toplevel \texttt{gdl-user\textgreater} prompt, and see the result immediately. In fact, this toplevel prompt is called a \emph{read-eval-print} loop, because its purpose is to \emph{read} each s-expression  entered, \emph{evaluate} the expression to yield a result (or \emph{return-value}), and finally to \emph{print} that result.
+the value of a particular \emph{slot} (i.e. named data value) in an object, which will be
+computed on-demand. You can also evaluate S-expressions at the
+toplevel \texttt{gdl-user\textgreater} prompt, and see the result immediately. In fact, this toplevel prompt is called a \emph{read-eval-print} loop, because its purpose is to \emph{read} each s-expression  entered, \emph{evaluate} the expression to yield a result (or \emph{return-value}), and finally to \emph{print} that result.
 
 
 
@@ -1092,7 +1159,8 @@ processes the expression according to the following rules:
 \begin{itemize}
 
 \item If the expression is an \emph{atom} (e.g. a non-list datatype such as a number, text
-string, or literal symbol), it simply evaluates to itself. Examples: 
+string, or literal symbol), it simply returns itself as its evaluated
+value. Examples: 
 
 \begin{itemize}
 
@@ -1141,11 +1209,11 @@ single-quote. Symbols are allowed to have dashes (``-'') and most
 other special characters. By convention, the dash is used as a word
 separator in CL symbols.
 
-\item If the expression is a list (i.e. is surrounded by
-parentheses), CL processes the \emph{first} element in this list as an \emph{operator name}, and the \emph{rest} of the elements in the list represent the \emph{arguments} to the operator. An operator can take zero or more
+\item If the expression is a \emph{list} (i.e. is surrounded by parentheses), CL processes
+the \emph{first} element in this list as an \emph{operator name}, and the \emph{rest} of the elements in the list represent the \emph{arguments} to the operator. An operator can take zero or more
 arguments, and can return zero or more return-values. Some operators
 evaluate their arguments immediately and work directly on those
-values (these are called \emph{functions}. Other operators expand into other code. These are called \emph{special operators} or \emph{macros}. Macros are what give Lisp (and CL in particular) its
+values (these are called \emph{functions}). Other operators expand into other code. These are called \emph{special operators} or \emph{macros}. Macros are what give Lisp (and CL in particular) its
 special power. Here are some examples of functional s-expressions: 
 
 \begin{itemize}
@@ -1197,7 +1265,7 @@ arrays, and hash tables. CL contains \emph{symbols} as well, which typically are
 
 
 
-Regarding data types, CL follows a paradigm called dynamic
+Regarding data types, CL follows a system called dynamic
 typing. Basically this means that values have type, but variables do
 not necessarily have type, and typically variables are not
 ``pre-declared'' to be of a particular type.
@@ -1262,14 +1330,14 @@ A common way to produce a string in CL is with the \texttt{format} function. Alt
 
 
 As you can see from the above example, \texttt{format} takes a \emph{stream designator} or \texttt{nil} as its first argument, then a \emph{format-string}, then enough arguments to match the \emph{format directives} in the format-string. Format directives begin with the
-tilde character (~).  The format-directive \texttt{~a} indicates that the printed representation of the corresonding argument should simpy be 
+tilde character (\~).  The format-directive \texttt{~a} indicates that the printed representation of the corresonding argument should simpy be 
 substituted into the format-string at the point where it occurs.
 
 
 
 We will cover more details on \texttt{format} in Section 
 \ref{sec:input-output} on Input/Output, but for now, a familiarity with the simple use of \texttt{(format nil ...} will be helpful for Chapter 
-\ref{chapter:understandinggendlcoregdlsyntax}.
+\ref{chapter:understandinggdlcoregdlsyntax}.
 
 
 
@@ -1279,10 +1347,10 @@ We will cover more details on \texttt{format} in Section
 
 
 
-Symbols are such an important data structure in CL, that people
+Symbols are such an important data structure in CL that people
 sometimes refer to CL as a ``Symbolic Computing Language.'' Symbols
 are a type of CL object which provides your program with a built-in
-mechanism to store and retrieve values and functions, as well as being
+capacity to store and retrieve values and functions, as well as being
 useful in their own right. A symbol is most often known by its name
  (actually a string), but in fact there is much more to a symbol than
 its name. In addition to the name, symbols also contain a \emph{function} slot, a \emph{value} slot, and an open-ended \emph{property-list} slot in which you can store an arbitrary number of named properties.
@@ -1296,7 +1364,7 @@ contain any value, allowing the symbol to act as a global variable, or \emph{par
 
 
 This separation of the symbol data structure into function, value, and
-plist slots is one obvious distinction between Common Lisp and most
+plist slots is one fundamental distinction between Common Lisp and most
 other Lisp dialects. Most other dialects allow only one (1) ``thing''
 to be stored in the symbol data structure, other than its name
  (e.g. either a function or a value, but not both at the same
@@ -1310,9 +1378,8 @@ contrive arbitrary abbreviations such as \texttt{lst}.
 
 
 How symbols are evaluated depends on where they occur in an
-expression. As we have seen, if a symbol appears first in a list
-expression, as with the \texttt{+} in \texttt{(+ 2 2)}, the symbol is evaluated for its function slot. If the first 
-element of an expression indeed has a function in its function slot, then any 
+expression. As we have seen, if a \emph{symbol} appears first in a list expression, as with the \texttt{+} in \texttt{(+ 2 2)}, the symbol is evaluated for its function slot. If the first 
+element of an expression indeed has a \emph{function} in its function slot, then any 
 subsequent symbol in the expression is taken as a variable, and it is evaluated 
 for its global or local value, depending on its scope (more on variables and 
 scope later).
@@ -1362,8 +1429,8 @@ characteristics of Lisp as a language.
 
 
 
-Textually, a list is defined as zero or more elements surrounded by
-parentheses. The elements can be objects of any valid CL data types,
+Textually, a list is defined as zero or more items surrounded by
+parentheses. The items can be objects of any valid CL data types,
 such as numbers, strings, symbols, lists, or other kinds of
 objects. As we have seen, you must quote a literal list to evaluate it
 or CL will assume you are calling a function. Now look at the
@@ -1371,7 +1438,7 @@ following list:
 
 \begin{verbatim}(defun hello () (write-string "Hello, World!"))
 \end{verbatim}This list also happens to be a valid CL program (function definition,
-in this case). Don't worry about analyzing the function definition
+in this case). Don't concern yourself about analyzing the function definition
 right now, but do take a few moments to convince yourself that it
 meets the requirements for a list.
 
@@ -1470,7 +1537,7 @@ c
 Lists can also be used to store and retrieve named values. When a list is used in this way, 
 it is called a \emph{plist}. Plists contain pairs of elements, where each pair consists of a \emph{key} and some \emph{value}. The key is typically an actual keyword symbol --- that is,
 a symbol preceded by a colon (:). The value can be any value, such as
-a number, a string, or even a Gendl object representing something
+a number, a string, or even a GDL object representing something
 complex such as an aircraft.
 
 A plist can be constructed in the same manner as any list, e.g. with the \texttt{list} operator:
@@ -1496,45 +1563,43 @@ appending them together. Like many CL functions, append does not \emph{side-effe
 arguments in any way:
 
 \begin{verbatim}
- gdl-user> (defparameter my-slides ’(introduction welcome lists functions))
+ gdl-user> (defparameter my-slides '(introduction welcome lists functions))
  (introduction welcome lists functions)
 
- gdl-user> (append my-slides ’(numbers))
+ gdl-user> (append my-slides '(numbers))
  (introduction welcome lists functions numbers)
 
  gdl-user> my-slides
  (introduction welcome lists functions)
 \end{verbatim}Note that the simple call to \texttt{append} does not affect the variable \texttt{my-slides}. Later we will see how one may alter the value of a variable such as \texttt{my-slides}.
 
-\chapter{Understanding Gendl --- Core GDL Syntax}
+\chapter{Understanding GDL --- Core GDL Syntax}
 
-\label{chap:understandinggendl---coregdlsyntax}
-
-
-
-Now that you have a basic grasp of Common Lisp syntax (or, more accurately, \emph{lack} of syntax), we will jump directly into the Gendl framework. By using Gendl you can formulate most of 
-your engineering and computing problems in a natural way, without becoming bogged down in the complexity of
-the Common Lisp Object System (CLOS).
+\label{chap:understandinggdl---coregdlsyntax}
 
 
 
-The Gendl product is a commercially available KBE system
-dual-licensed under the Affero Gnu Public License and a Proprietary
-license. The core GDL language is a proposed standard for a
-vendor-neutral KBE language.
+Now that you have a basic grasp of Common Lisp syntax (or, more accurately, \emph{absence} of syntax), we will move directly into the GDL
+framework. By using GDL you can formulate most of your engineering and
+computing problems in a natural way, without becoming entangled in the
+complexity of the Common Lisp Object System (CLOS).
 
 
 
-As we mentioned in the previous chapter, Gendl is based on
-and is a superset of ANSI Common Lisp. Because ANSI CL is an
-unencumbered, open standard with several commercial and free
-implementations, it is a good bet that applications written in it will
-continue to function 50, 100, or even hundreds of years from now.
+The GDL product is a commercially available KBE system with
+Proprietary licensing.  The Gendl Project is an open-source Common
+Lisp library which contains the core language kernel of GDL, and is
+licensed under the terms of the Affero Gnu Public License. The core
+GDL language is a proposed standard for a vendor-neutral KBE
+language.
 
 
 
-Note that the historical name of Gendl was ``GDL,'' and this name persists throughout the product
-for example appearing occasionally in documentation for naming Common Lisp packages.
+As discussed in the previous chapter, GDL is based on and
+is a superset of ANSI Common Lisp. Because ANSI CL is unencumbered and
+an open standard, with several commercial and free implementations, it
+is a good wager that applications written in it will continue to be
+usable 50, 100, or even hundreds of years from now.
 
 
 
@@ -1545,22 +1610,22 @@ for example appearing occasionally in documentation for naming Common Lisp packa
 
 
 In Common Lisp, \emph{packages} are a mechanism to separate symbols into
-namespaces. Using packages it is possible to avoid naming collisions
-in large projects. Consider this analogy: in the United States,
-telephone numbers consist of a three-digit area code and a seven-digit
+namespaces. Using packages it is possible to avoid naming conflicts in
+large projects. Consider this analogy: in the United States, telephone
+numbers consist of a three-digit area code and a seven-digit
 number. The same seven-digit number can occur in two or more separate
 area codes, without causing a conflict.
 
 
 
-The macro \texttt{gdl:define-package}is used to set up a new working package in Gendl.
+The macro \texttt{gdl:define-package}is used to set up a new working package in GDL.
 
 
 
 Example:
 
 \begin{verbatim}(gdl:define-package :yoyodyne)
-\end{verbatim} will establish a new package called \texttt{:yoyodyne} which has all the Gendl operators available.
+\end{verbatim} will establish a new package called \texttt{:yoyodyne} which has all the GDL operators available.
 
 
 
@@ -1570,7 +1635,7 @@ you do not wish to make a new package just for scratch work.
 
 
 For real projects it is recommended that you make and work in your own
-Gendl package, defined as above with \texttt{gdl:define-package}.
+GDL package, defined as above with \texttt{gdl:define-package}.
 
 
 
@@ -1660,8 +1725,9 @@ Figure
 \label{fig:object-hello}
 
 \end{figure}
-As you can see, a GDL Object is analogous in some ways to a \texttt{defun}, where the input-slots are like arguments to the function, and the computed-slots
-are like return-values. But seen another way, each attribute in a GDL object is like a function in its own right.
+As you can see, a GDL Object is analogous in some ways to a \texttt{defun}, where the input-slots are like arguments to the function,
+and the computed-slots are like return-values. But seen another way,
+each slot in a GDL object serves as function in its own right.
 
 The referencing macro \texttt{\index{the}the} shadows CL's \texttt{the} (which is a seldom-used type declaration operator). \texttt{The} in GDL is a macro which is used to reference the value of other messages 
 within the same object or within contained objects. In the above example, we are using \texttt{the} to refer to the values of the messages (input-slots) named \texttt{first-name} and \texttt{last-name}. 
@@ -1673,7 +1739,7 @@ symbols (i.e.\ preceded by a colon), and the \texttt{the} macro will process the
 
 \label{sec:makinginstancesandsendingmessages}
 
-Once we have defined an object such as the example above, we can use
+Once we have defined an object, such as the example above, we can use
 the constructor function \texttt{\index{make-object}make-object} in order to create an \emph{instance} of it. This function is very similar to the CLOS \texttt{\index{make-instance}make-instance} function. Here we create an instance of \texttt{hello} with specified values for \texttt{first-name} and \texttt{last-name} (the required input-slots), and assign this instance as the value of the symbol \texttt{my-instance}:
 
 \begin{verbatim}
@@ -1829,8 +1895,8 @@ A passed-in value will override the default expression.
 \label{sec:summary}
 
 This chapter has provided a minimal introduction to the core
-Gendl syntax. In subsequent chapters we will cover more specialized
-aspects of the Gendl language, introducing new Common Lisp concepts as
+GDL syntax. In subsequent chapters we will cover more specialized
+aspects of the GDL language, introducing new Common Lisp concepts as
 they are required along the way.
 
 \chapter{The Tasty Development Environment}
@@ -3648,16 +3714,6 @@ Mixins: DIRECTORY-NODE
 
 
 
-\section{COM.YOYODYNE.BOOSTER-ROCKET }
-
-\label{sec:com.yoyodyne.booster-rocket}
-
-
-
-
-
-
-
 \section{GENDL (Base Core Kernel Engine) Nicknames: Gdl, Genworks, Base}
 
 \label{sec:gendl(basecorekernelengine)nicknames:gdl,genworks,base}
@@ -3757,6 +3813,10 @@ Mixins: QUANTIFICATION
 \item \index{DIV}DIV
 
 \item \index{ENSURE-LIST}ENSURE-LIST
+
+\item \index{FIND-DEPENDANTS}FIND-DEPENDANTS
+
+\item \index{FIND-DEPENDENCIES}FIND-DEPENDENCIES
 
 \item \index{FIND-MESSAGES-USED-BY}FIND-MESSAGES-USED-BY
 
@@ -4597,6 +4657,16 @@ Mixins: RENDERER-MIXINBASE-DRAWING
 \item \index{*REQ*}*REQ*
 
 \end{itemize}
+
+
+
+
+
+\section{JQUERY }
+
+\label{sec:jquery}
+
+
 
 
 

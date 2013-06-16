@@ -80,14 +80,16 @@ written consent from Genworks International.")
     ;;
 
     (asdf:run-shell-command 
-     (format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path))
+     ;;(format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
+     (format nil "cd ~a; /usr/texbin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
+     )
   
   (asdf:run-shell-command 
-   (format nil "cd ~a; /opt/local/bin/makeindex tutorial" pdf-path))
+   (format nil "cd ~a; /usr/texbin/makeindex tutorial" pdf-path))
   
   (dotimes (n level)
     (asdf:run-shell-command 
-     (format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
+     (format nil "cd ~a; /usr/texbin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
 
 
 (define-object assembly (com.genworks.dom:assembly)
