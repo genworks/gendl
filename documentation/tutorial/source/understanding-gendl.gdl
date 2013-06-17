@@ -323,7 +323,7 @@ which each answer the "
 
 These child objects become instantiated "
        (:emph "on demand")
-       ", meaning that the first time these instances or any of their messages
+       ", which means that the first time these instances, or any of their messages,
 are referenced, the actual instance will be created "
        (:emph "and")
        " cached for future reference.")
@@ -367,10 +367,10 @@ common type of sequence is called a "
         (:emph "fixed size")
         " sequence. See Figure "
         (:ref "fig:object-presidents-container")
-        " for an example of an object which contains a sequenced set of 
-instances representing U.S. presidents. Each member of the sequenced set 
-is fed inputs from a list of plists, which simulates a relational database 
-table (essentially a ``list of rows'').
+        " for an example of an object which contains a sequenced set
+of instances representing successive U.S. presidents. Each member of
+the sequenced set is fed inputs from a list of plists, which simulates
+a relational database table (essentially a ``list of rows'').
         
 Note the following from this example:"
         
@@ -390,8 +390,8 @@ instantiation or from the parent, as with an input-slot which has no default exp
 A passed-in value will override the default expression.")))
 
       ((:section :title "Summary")
-       "This chapter has provided a minimal introduction to the core
-GDL syntax. In subsequent chapters we will cover more specialized
-aspects of the GDL language, introducing new Common Lisp concepts as
-they are required along the way.")))
+       "This chapter has provided an introduction to the core GDL
+syntax. Following chapters will cover more specialized aspects
+of the GDL language, introducing new Common Lisp concepts as they are
+required along the way.")))
 

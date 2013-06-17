@@ -1821,7 +1821,7 @@ which each answer the \texttt{water-usage} message. The \emph{\index{reference c
 \begin{verbatim}(the bank water-usage)
 \end{verbatim} provide the mechanism to access messages within the child object instances.
 
-These child objects become instantiated \emph{on demand}, meaning that the first time these instances or any of their messages
+These child objects become instantiated \emph{on demand}, which means that the first time these instances, or any of their messages,
 are referenced, the actual instance will be created \emph{and} cached for future reference.
 \begin{figure}
 \begin{lrbox}{\boxedverb}
@@ -1870,10 +1870,10 @@ are referenced, the actual instance will be created \emph{and} cached for future
 
 Objects may be \emph{sequenced}\index{Objects!sequenced}\index{sequences}\index{object sequences}, to specify, in effect, an array or list of object instances. The most
 common type of sequence is called a \emph{fixed size} sequence. See Figure 
-\ref{fig:object-presidents-container} for an example of an object which contains a sequenced set of 
-instances representing U.S. presidents. Each member of the sequenced set 
-is fed inputs from a list of plists, which simulates a relational database 
-table (essentially a ``list of rows'').
+\ref{fig:object-presidents-container} for an example of an object which contains a sequenced set
+of instances representing successive U.S. presidents. Each member of
+the sequenced set is fed inputs from a list of plists, which simulates
+a relational database table (essentially a ``list of rows'').
         
 Note the following from this example:
 
@@ -1894,10 +1894,10 @@ A passed-in value will override the default expression.
 
 \label{sec:summary}
 
-This chapter has provided a minimal introduction to the core
-GDL syntax. In subsequent chapters we will cover more specialized
-aspects of the GDL language, introducing new Common Lisp concepts as
-they are required along the way.
+This chapter has provided an introduction to the core GDL
+syntax. Following chapters will cover more specialized aspects
+of the GDL language, introducing new Common Lisp concepts as they are
+required along the way.
 
 \chapter{The Tasty Development Environment}
 
@@ -1915,12 +1915,12 @@ as an end-user application interface (see the
 
 
 Tasty allows you to visualize and inspect any object defined in GenDL,
-which mixes at least \texttt{base-object} into the definition of its root\footnote{base-object is the core mixin for all geometric objects
-and gives them a coordinate system, length, width, and height. This
-restriction in tasty will be removed in a future GenDL release so you
-will be able to instantiate non-geometric root-level objects in tasty
-as well, for example to inspect objects which generate a web page but
-no geometry.}
+which mixes at least \texttt{base-object} into the definition of its root\footnote{base-object is the core mixin for all geometric
+objects and gives them a coordinate system, length, width, and
+height. This restriction in tasty will be eliminated in a future GenDL
+release so the user will be able to instantiate non-geometric
+root-level objects in tasty as well, for example to inspect objects
+which generate a web page but no geometry.}
 
 
 
@@ -1929,8 +1929,8 @@ the Chapter 5 examples, contained in
 
 \begin{verbatim}.../src/documentation/tutorial/examples/chapter-5/
 \end{verbatim} in your Gendl distribution. If you are not sure how to do this,
-please stop reading this section now, review Section 
-\ref{compiling-and-loading-files-and-systems}, then return here...
+temporarily leave this section and review Section 
+\ref{compiling-and-loading-files-and-systems}, and then return.
 
 
 
@@ -1945,7 +1945,7 @@ browser to the URL in figure
 \begin{verbatim}
  http://<host>:<port>/tasty
 
-   emph{by default, this URL is:}
+ ;; for example:
 
  http://localhost:9000/tasty
 \end{verbatim}
@@ -1958,14 +1958,14 @@ browser to the URL in figure
 \label{fig:tasty-toplevel-url}
 
 \end{figure}
-This will bring up the start-up page, as seen in Figure 
+This will produce the start-up page, as seen in Figure 
 \ref{fig:tasty-startup}\footnote{This page may look slightly different, e.g. different
 icon images, depending on your specific Gendl version.}. To access an instance of a specific object definition,
 you specify the class package and the object type, separated by a
-colon (``:'') (or a double-colon (``::'') in case the symbol naming
-the type is not exported from the package). For example, consider the
-simple \texttt{tower1} definition in Figure 
-\ref{fig:tower1-code}This definition is in the \texttt{:chapter-5} package. So the specification will be \texttt{shock-absorber:assembly}
+colon (``:'') (or a double-colon (``::'') in the event the symbol
+naming the type is not exported from the package). For example,
+consider the simple \texttt{tower1} definition in Figure 
+\ref{fig:tower1-code}. This definition is in the \texttt{:chapter-5} package. Consequently, the specification will be \texttt{chapter-5:tower1}
 
 
 \begin{figure}
@@ -1988,7 +1988,7 @@ the intent of that other package's designer.}
 
 
 After you specify the class package and the object type and press the
-``browse'' button, the browser will bring up the utility interface
+``browse'' button, the browser will produce the utility interface
 with an instance of the specified type (see figure 
 \ref{fig:tastyshockabsorberpre}.
 
@@ -2001,7 +2001,7 @@ three view frames (tree frame, inspector frame and viewport frame
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=4in,height=4in]{../images/tasty-shock-absorber-pre.pdf}
+\includegraphics[width=5in,height=5in]{../images/tasty-shock-absorber-pre.pdf}
 \end{center}
 
 \caption{Tasty Interface}
@@ -2034,7 +2034,7 @@ present, this can be done programmatically.}.
 
 The \emph{tree menu} allows the user to customize the ``click mode'' of the
 mouse (or ``tap mode'' for other pointing device) for objects in the
-tree, inspector, or viewport frames. The behavior follows the \emph{select-and-match} paradigm -- you first \emph{select} a mode of operation with one of the buttons or menu items, 
+tree, inspector, or viewport frames. The behavior follows the \emph{select-and-match} behavior -- you first \emph{select} a mode of operation with one of the buttons or menu items, 
 then \emph{match} that mode to any object in the tree frame or inspector frame by
 left-clicking (or tapping). These modes are as follows:
 
@@ -2042,7 +2042,8 @@ left-clicking (or tapping). These modes are as follows:
 
 \begin{itemize}
 
-\item Tree: Graphical modes
+\item 
+\underline{Tree: Graphical modes}
 
 \begin{description}
 

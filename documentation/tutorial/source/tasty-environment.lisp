@@ -38,12 +38,12 @@ as an end-user application interface (see the "
 which mixes at least "
 	(:texttt "base-object")
 	" into the definition of its root"
-	(:footnote "base-object is the core mixin for all geometric objects
-and gives them a coordinate system, length, width, and height. This
-restriction in tasty will be removed in a future GenDL release so you
-will be able to instantiate non-geometric root-level objects in tasty
-as well, for example to inspect objects which generate a web page but
-no geometry."))
+	(:footnote "base-object is the core mixin for all geometric
+objects and gives them a coordinate system, length, width, and
+height. This restriction in tasty will be eliminated in a future GenDL
+release so the user will be able to instantiate non-geometric
+root-level objects in tasty as well, for example to inspect objects
+which generate a web page but no geometry."))
      
     (:p "First, make sure you have compiled and loaded the code for
 the Chapter 5 examples, contained in "
@@ -51,9 +51,9 @@ the Chapter 5 examples, contained in "
 	(:verbatim ".../src/documentation/tutorial/examples/chapter-5/")
 
 	" in your Gendl distribution. If you are not sure how to do this,
-please stop reading this section now, review Section "
+temporarily leave this section and review Section "
 	(:ref "compiling-and-loading-files-and-systems")
-	", then return here...")
+	", and then return.")
      
     (:p "Now you should have the Chapter 5 example definitions
 compiled and loaded into the system. To access Tasty, point your web
@@ -65,26 +65,26 @@ browser to the URL in figure"
 	 (:verbatim "
  http://<host>:<port>/tasty
 
-   \emph{by default, this URL is:}
+ ;; for example:
 
  http://localhost:9000/tasty"))
 
-	"This will bring up the start-up page, as seen in Figure "
+	"This will produce the start-up page, as seen in Figure "
 	(:ref "fig:tasty-startup")
 	(:footnote "This page may look slightly different, e.g. different
 icon images, depending on your specific Gendl version.")
 	". To access an instance of a specific object definition,
 you specify the class package and the object type, separated by a
-colon (``:'') (or a double-colon (``::'') in case the symbol naming
-the type is not exported from the package). For example, consider the
-simple "
+colon (``:'') (or a double-colon (``::'') in the event the symbol
+naming the type is not exported from the package). For example,
+consider the simple "
 	(:texttt "tower1")
 	" definition in Figure "
 	(:ref "fig:tower1-code")
-	"This definition is in the "
+	". This definition is in the "
 	(:texttt ":chapter-5")
-	" package. So the specification will be "
-	(:texttt "shock-absorber:assembly"))
+	" package. Consequently, the specification will be "
+	(:texttt "chapter-5:tower1"))
 
     ((:image-figure :image-file "tasty-start.png"
 		    :caption "Tasty start-up"
@@ -102,7 +102,7 @@ practice, because it means that the code in quesion is accessing the
 the intent of that other package's designer."))
 
     (:p "After you specify the class package and the object type and press the
-``browse'' button, the browser will bring up the utility interface
+``browse'' button, the browser will produce the utility interface
 with an instance of the specified type (see figure "
 	(:ref "fig:tastyshockabsorberpre") ".")
 
@@ -112,7 +112,7 @@ three view frames (tree frame, inspector frame and viewport frame
 
 
     ((:image-figure :image-file "tasty-shock-absorber-pre.pdf"
-		    :width "4in" :height "4in"
+		    :width "5in" :height "5in"
 		    :caption "Tasty Interface"
 		    :label "fig:tastyshockabsorberpre"))
 
@@ -137,7 +137,7 @@ present, this can be done programmatically.") ".")
 mouse (or ``tap mode'' for other pointing device) for objects in the
 tree, inspector, or viewport frames. The behavior follows the "
 	 (:emph "select-and-match")
-	 " paradigm -- you first "
+	 " behavior -- you first "
 	 (:emph "select")
 	 " a mode of operation with one of the buttons or menu items, 
 then "
@@ -146,7 +146,7 @@ then "
 left-clicking (or tapping). These modes are as follows:")
 
      ((:list :style :itemize)
-      (:item "Tree: Graphical modes"
+      (:item (:underline "Tree: Graphical modes")
 	((:list :style :description)
 	 ((:item :word "Add Node (AN)")
 	  "Node in graphics viewport")
@@ -161,7 +161,7 @@ left-clicking (or tapping). These modes are as follows:")
 	 ((:item :word "Clear Leaves (DL)")
 	  "Delete Leaves")))
 
-      (:item "Tree: Inspect \\& debug modes"
+      (:item (:underline "Tree: Inspect \\& debug modes")
 	((:list :style :description)
 	 ((:item :word "Inspect object (I)")
 	  "Inspect (make the inspector frame to show the selected object).")
@@ -180,19 +180,19 @@ left-clicking (or tapping). These modes are as follows:")
 	 ((:item :word "Reset Root (RR!)")
 	  "Reset displayed root in Tasty to to the true root of the tree (this is grayed out if already on root).")))
 
-      (:item "Tree: frame navigation modes"
+      (:item (:underline "Tree: frame navigation modes")
 	((:list :style :description)
 	 ((:item :word "Expand to Leaves (L)") "Nodes expand to their deepest leaves when clicked. ")
 	 ((:item :word "Expand to Children (C)") "Nodes expand to their direct children when clicked.")
 	 ((:item :word "Auto Close (A)") "When any node is clicked to expand, all other nodes close automatically.")
 	 ((:item :word "Remember State (R)") "Nodes expand to their previously expanded state when clicked.")))
 
-      (:item "View: Viewport Actions"
+      (:item (:underline "View: Viewport Actions")
 	((:list :style :description)
 	 ((:item :word "Fit to Window!") "Fits to the graphics viewport size the displayed objects (use after a Zoom)")
 	 ((:item :word "Clear View! (CL!)") "Clear all the objects displayed in the graphics viewport.")))
       
-      (:item "View: Image Format"
+      (:item (:underline "View: Image Format")
 	((:list :style :description)
 	 ((:item :word "PNG")
 	  "Sets the displayed format in the graphics viewport to PNG (raster image with 
@@ -220,7 +220,7 @@ browsers such as a recent version of Google Chrome"
 	  ", which is a vector graphics image format displaying 
             isoparametric curves for surfaces and brep faces.")))
 
-      (:item "View: Click Modes"
+      (:item (:underline "View: Click Modes")
 	((:list :style :description)
 	 ((:item :word "Zoom in")
 	  "Sets the mouse left-click in the graphics viewport to zoom in.")
@@ -235,7 +235,7 @@ browsers such as a recent version of Google Chrome"
                   viewport (currently works for displayed curves and
                   in SVG/VML mode only).")))
 
-      (:item "View: Perspective"
+      (:item (:underline "View: Perspective")
 	((:list :style :description)
 	 ((:item :word "Trimetric")
 	  "Sets the displayed perspective in the graphics viewport to trimetric.")
@@ -252,14 +252,14 @@ browsers such as a recent version of Google Chrome"
 	 ((:item :word "Bottom")
 	  "Sets the displayed perspective in the graphics viewport to Bottom (negative Z axis)."))))
 
-     (:p "The third toolbar hosts the most frequently used buttons. This
-buttons have tooltips which will pop up when you hover the mouse over
-them. However, these buttons are found in the second toolbar too,
-except line thickness and color buttons. The line thickness and color
-buttons"
+     (:p "The third toolbar hosts the most frequently used
+buttons. These buttons have tooltips which will pop up when you hover
+the mouse over them. However, these buttons are found in the second
+toolbar as well, except for line thickness and color buttons. The line
+thickness and color buttons"
 	 (:footnote "the design of the line thickness and color buttons is
 being refined and may appear different in your installation.")
-	 " expand and contract when clicked on and allows the user to
+	 " expand and contract when clicked, and allows the user to
 select a desired line thickness and color for the objects displayed in
 the graphics viewport."))
 
@@ -267,16 +267,16 @@ the graphics viewport."))
 
      (:p "The " (:emph "tree frame")
 	 " is a hierarchical representation of your defined
-object. For example for the shock-absorber assembly this will be as
+object. For example for the tower assembly this will be as
 depicted in figure "
-	 (:ref "fig:tree-shock-absorber"))
+	 (:ref "fig:tree-twisty-tower"))
 
      (:p "To draw the graphics (geometry) for the shock-absorber
 leaf-level objects, you can select the ``Add Leaves (AL)'' item from
 the Tree menu, then click the desired leaf to be displayed from the
 tree. Alternatively, you can select the ``rapid'' button from third
 toolbar which is symbolized by a pencil icon. Because this
-operation (draw leaves) is frequently used, this operation is directly
+operation (draw leaves) is frequently used, the operation is directly
 available as a tooltip which will pop up when you hover the mouse over
 any leaf or node in the tree.")
 
@@ -288,91 +288,29 @@ node.")
 some cases modify) the object instance being inspected.")
 
      (:p "For example, let's make the "
-	 (:texttt "piston-radius")
-	 " of the shock-absorber ``settable,'' by adding the keyword "
+	 (:texttt "number-of-blocks")
+	 " of the tower to be ``settable,'' by adding the keyword "
 	 (:texttt ":settable")
-	 "after its default expression (please review Chapter "
+	 " after its default expression (please look ahead to Chapter "
 	 (:ref "chap:advancedgendl")
-	 " if you are not familiar or need a refresher on this GenDL
-syntax). We will also pass the piston-radius down into the child "
-	 (:texttt "piston")
-	 " object, rather than using a hard-coded value of 12 as
+	 " if you are interested in more details on this  GDL
+syntax). We will also pass the number-of-blocks as the :size of the  "
+	 (:texttt "blocks")
+	 " sequence, rather than using a hard-coded value as
 previously. The new assembly definition is now:"
+	 
+	 ;;
+	 ;; FLAG -- insert verbatim or ref to new tower code
+	 ;; 
 
-	 ((:boxed-figure :caption "Shock Absorber Assembly V0.1"
-			 :label "fig:shockabsorberassemblyv01")
-	  (:small
-	   (:verbatim "
- (in-package :shock-absorber)
+	 )
 
- (define-object  assembly (base-object)
-   :input-slots ((piston-radius 12 :settable)) ;;;----modification ;
-   :computed-slots ()
-   :objects 
-   ((pressure-tube :type 'cone
-		   :center (make-point 0 70 0)
-		   :length 120
-		   :radius-1 13
-		   :inner-radius-1 12
-		   :radius-2 13
-		   :inner-radius-2 12)
-   
-    (tube-cap :type 'cone
-	      :center (make-point 0 5 0)
-	      :length 10
-	      :radius-1 5
-	      :inner-radius-1 0
-	      :radius-2 13
-	      :inner-radius-2 0)
-
-    (seal-cap :type 'cone
-	      :center (make-point 0 135 0)
-	      :length 10
-	      :radius-1 13
-	      :inner-radius-1 2.5
-	      :radius-2 5
-	      :inner-radius-2 2.5)
-   
-    (floating-piston :type 'cylinder
-		     :center (make-point 0 35 0)
-		     :radius 12
-		     :length 10)
-
-    (blocking-ring :type 'cone
-		   :center (make-point 0 42.5 0)
-		   :length 5
-		   :radius-1 12
-		   :inner-radius-1 10
-		   :radius-2 12
-		   :inner-radius-2 10)
-   
-    (piston :type 'cylinder
-	    :center (make-point 0 125 0)
-	    :radius (the piston-radius) ;;;----modification ;
-	    :length 10)
-   
-    (rod :type 'cylinder
-	 :center (make-point 0 175 0)
-	 :radius 2.5
-	 :length 90))"))))
-
-
-     (:p "In this new version ``V0.1'' of the assembly, the piston radius is a
+     (:p "In this new version of the tower, the number-of-blocks is a
 settable slot, and its value can be modified (i.e. ``bashed'') as
 desired, either programmatically from the command-line, in an end-user
 application, or from the Tasty environment.")
 
-     ((:image-figure :image-file "tasty-inspector.png"
-		     :width "4in" :height "3in"
-		     :caption "Tasty Inspector"
-		     :label "fig:tasty-inspector"))
      
-     ((:image-figure :image-file "tasty-s-slots.png"
-		     :width "4in" :height "3in"
-		     :caption "Settable Slots in Tasty"
-		     :label "fig:tasty-s-slots"))
-
-
      (:p "To modify the value in Tasty: select ``Inspect'' mode from the Tree
 menu, then select the root of the "
 	 (:texttt "assembly")
