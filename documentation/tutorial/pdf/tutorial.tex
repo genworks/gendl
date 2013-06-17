@@ -2069,7 +2069,8 @@ Delete Leaves
 
 
 
-\item Tree: Inspect \& debug modes
+\item 
+\underline{Tree: Inspect \& debug modes}
 
 \begin{description}
 
@@ -2092,7 +2093,8 @@ Reset displayed root in Tasty to to the true root of the tree (this is grayed ou
 
 
 
-\item Tree: frame navigation modes
+\item 
+\underline{Tree: frame navigation modes}
 
 \begin{description}
 
@@ -2112,7 +2114,8 @@ Nodes expand to their previously expanded state when clicked.
 
 
 
-\item View: Viewport Actions
+\item 
+\underline{View: Viewport Actions}
 
 \begin{description}
 
@@ -2126,7 +2129,8 @@ Clear all the objects displayed in the graphics viewport.
 
 
 
-\item View: Image Format
+\item 
+\underline{View: Image Format}
 
 \begin{description}
 
@@ -2160,7 +2164,8 @@ Sets the displayed format in the graphics viewport to SVG/VML\footnote{For compl
 
 
 
-\item View: Click Modes
+\item 
+\underline{View: Click Modes}
 
 \begin{description}
 
@@ -2185,7 +2190,8 @@ Allows the user to select an object from the graphics
 
 
 
-\item View: Perspective
+\item 
+\underline{View: Perspective}
 
 \begin{description}
 
@@ -2218,12 +2224,12 @@ Sets the displayed perspective in the graphics viewport to Bottom (negative Z ax
 
 
 
-The third toolbar hosts the most frequently used buttons. This
-buttons have tooltips which will pop up when you hover the mouse over
-them. However, these buttons are found in the second toolbar too,
-except line thickness and color buttons. The line thickness and color
-buttons\footnote{the design of the line thickness and color buttons is
-being refined and may appear different in your installation.} expand and contract when clicked on and allows the user to
+The third toolbar hosts the most frequently used
+buttons. These buttons have tooltips which will pop up when you hover
+the mouse over them. However, these buttons are found in the second
+toolbar as well, except for line thickness and color buttons. The line
+thickness and color buttons\footnote{the design of the line thickness and color buttons is
+being refined and may appear different in your installation.} expand and contract when clicked, and allows the user to
 select a desired line thickness and color for the objects displayed in
 the graphics viewport.
 
@@ -2236,9 +2242,9 @@ the graphics viewport.
 
 
 The \emph{tree frame} is a hierarchical representation of your defined
-object. For example for the shock-absorber assembly this will be as
+object. For example for the tower assembly this will be as
 depicted in figure 
-\ref{fig:tree-shock-absorber}
+\ref{fig:tree-twisty-tower}
 
 
 
@@ -2247,7 +2253,7 @@ leaf-level objects, you can select the ``Add Leaves (AL)'' item from
 the Tree menu, then click the desired leaf to be displayed from the
 tree. Alternatively, you can select the ``rapid'' button from third
 toolbar which is symbolized by a pencil icon. Because this
-operation (draw leaves) is frequently used, this operation is directly
+operation (draw leaves) is frequently used, the operation is directly
 available as a tooltip which will pop up when you hover the mouse over
 any leaf or node in the tree.
 
@@ -2264,109 +2270,18 @@ some cases modify) the object instance being inspected.
 
 
 
-For example, let's make the \texttt{piston-radius} of the shock-absorber ``settable,'' by adding the keyword \texttt{:settable}after its default expression (please review Chapter 
-\ref{chap:advancedgendl} if you are not familiar or need a refresher on this GenDL
-syntax). We will also pass the piston-radius down into the child \texttt{piston} object, rather than using a hard-coded value of 12 as
+For example, let's make the \texttt{number-of-blocks} of the tower to be ``settable,'' by adding the keyword \texttt{:settable} after its default expression (please look ahead to Chapter 
+\ref{chap:advancedgendl} if you are interested in more details on this  GDL
+syntax). We will also pass the number-of-blocks as the :size of the  \texttt{blocks} sequence, rather than using a hard-coded value as
 previously. The new assembly definition is now:
-\begin{figure}
-\begin{lrbox}{\boxedverb}
-\begin{minipage}{\linewidth}
-{\small
-
-\begin{verbatim}
- (in-package :shock-absorber)
-
- (define-object  assembly (base-object)
-   :input-slots ((piston-radius 12 :settable)) ;;;----modification ;
-   :computed-slots ()
-   :objects 
-   ((pressure-tube :type 'cone
-		   :center (make-point 0 70 0)
-		   :length 120
-		   :radius-1 13
-		   :inner-radius-1 12
-		   :radius-2 13
-		   :inner-radius-2 12)
-   
-    (tube-cap :type 'cone
-	      :center (make-point 0 5 0)
-	      :length 10
-	      :radius-1 5
-	      :inner-radius-1 0
-	      :radius-2 13
-	      :inner-radius-2 0)
-
-    (seal-cap :type 'cone
-	      :center (make-point 0 135 0)
-	      :length 10
-	      :radius-1 13
-	      :inner-radius-1 2.5
-	      :radius-2 5
-	      :inner-radius-2 2.5)
-   
-    (floating-piston :type 'cylinder
-		     :center (make-point 0 35 0)
-		     :radius 12
-		     :length 10)
-
-    (blocking-ring :type 'cone
-		   :center (make-point 0 42.5 0)
-		   :length 5
-		   :radius-1 12
-		   :inner-radius-1 10
-		   :radius-2 12
-		   :inner-radius-2 10)
-   
-    (piston :type 'cylinder
-	    :center (make-point 0 125 0)
-	    :radius (the piston-radius) ;;;----modification ;
-	    :length 10)
-   
-    (rod :type 'cylinder
-	 :center (make-point 0 175 0)
-	 :radius 2.5
-	 :length 90))
-\end{verbatim}}
-\end{minipage}
-\end{lrbox}
-\fbox{\usebox{\boxedverb}}
-
-\caption{Shock Absorber Assembly V0.1}
-
-\label{fig:shockabsorberassemblyv01}
-
-\end{figure}
 
 
 
-
-In this new version ``V0.1'' of the assembly, the piston radius is a
+In this new version of the tower, the number-of-blocks is a
 settable slot, and its value can be modified (i.e. ``bashed'') as
 desired, either programmatically from the command-line, in an end-user
 application, or from the Tasty environment.
 
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=4in,height=3in]{../images/tasty-inspector.png}
-\end{center}
-
-\caption{Tasty Inspector}
-
-\label{fig:tasty-inspector}
-
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=4in,height=3in]{../images/tasty-s-slots.png}
-\end{center}
-
-\caption{Settable Slots in Tasty}
-
-\label{fig:tasty-s-slots}
-
-\end{figure}
 
 
 To modify the value in Tasty: select ``Inspect'' mode from the Tree
@@ -2381,16 +2296,16 @@ button (see Figure
 
 
 
-\chapter{Working with Geometry in Gendl}
+\chapter{Working with Geometry in GDL}
 
-\label{chap:workingwithgeometryingendl}
+\label{chap:workingwithgeometryingdl}
 
 
 
-Although Gendl is intended for general-purpose computing, one
-  of its particular strong points is generating geometry and
-  processing geometric entities in various ways. Geometric
-  capabilities are provided by a library of \emph{low-level primitives}, or LLPs. LLPs are pre-defined GenDL objects which you can
+Although GDL's uses include general-purpose computing, one of
+  its particular strong points is generating geometry and processing
+  geometric entities in various ways. Geometric capabilities are
+  provided by a library of \emph{low-level primitives}, or LLPs. LLPs are pre-defined GenDL objects which you can
 	extend by ``mixing in'' with your own definitions, and/or
 	instantiate as child objects in your definitions.
 
@@ -2400,7 +2315,7 @@ The names of the geometric LLPs are in the \texttt{:geom-base} package, and here
 
 \begin{itemize}
 
-\item \texttt{base-coordinate-system} provides an empty 3D Cartesian coordinate system\footnote{\texttt{base-coordinate-system} is also known by its legacy name \texttt{base-object}. If your Gendl version does not yet have \texttt{base-coordinate-system} defined, you can use \texttt{base-object} to identical effect.}
+\item \texttt{base-coordinate-system} provides an empty 3D Cartesian coordinate system\footnote{\texttt{base-coordinate-system} is also known by its legacy name \texttt{base-object}.}
 
 \item Simple 2-dimensional primitives include \texttt{line}, \texttt{arc}, and \texttt{ellipse}.
 
@@ -2415,13 +2330,14 @@ This chapter will cover the default coordinate system of GenDL as well as the bu
 
 
 
-\section{The Default Coordinate System in Gendl}
+\section{The Default Coordinate System in GDL}
 
-\label{sec:thedefaultcoordinatesystemingendl}
+\label{sec:thedefaultcoordinatesystemingdl}
 
 
 
-Gendl's default coordinate system comes with the standard mixin \texttt{base-coordinate-system} and represents a standard three-dimensional Cartesian Coordinate system with X, Y, and Z dimensions.
+GDL's default coordinate system comes with the standard mixin \texttt{base-coordinate-system} and represents a standard three-dimensional Cartesian
+	 Coordinate system with X, Y, and Z dimensions.
 
 
 \begin{figure}
@@ -2513,11 +2429,11 @@ Figure
 
 
 
-\section{Building a Geometric Gendl Model from LLPs}
+\section{Building a Geometric GDL Model from LLPs}
 
-\label{sec:buildingageometricgendlmodelfromllps}
+\label{sec:buildingageometricgdlmodelfromllps}
 
-The simplest geometric entity in Gendl is a \texttt{box}, and in fact all entities are associated with an imaginary \emph{reference box}which shares the same slots as a normal box. The \texttt{box} primitive type in Gendl inherits its inputs from \texttt{base-coordinate-system}, and the fundamental inputs are:
+The simplest geometric entity in GDL is a \texttt{box}, and in fact all entities are associated with an imaginary \emph{reference box} which shares the same slots as a normal box. The \texttt{box} primitive type in GDL inherits its inputs from \texttt{base-coordinate-system}, and the fundamental inputs are:
 
 \begin{itemize}
 

@@ -24,24 +24,24 @@
 (defparameter *custom-user-interfaces*
   `((:chapter :title "Custom User Interfaces in Gendl")
 
-    (:p "One of the strengths of Gendl is the ability to create custom
-web-based user interfaces. Gendl contains a built-in web server and
+    (:p "Another of the strengths of GDL is the ability to create custom
+web-based user interfaces. GDL contains a built-in web server and
 supports the creation of generative "
 	(:emph "web-based")
 	" user interfaces"
-	(:footnote "Gendl does not contain support for native desktop
+	(:footnote "GDL does not contain support for native desktop
 GUI applications. Although the host Common Lisp
 environment (e.g. Allegro CL or LispWorks) may contain a GUI builder
 and Integrated Development Environment, and you are free to use these,
-Gendl does not provide specific support for them.")
+GDL does not provide specific support for them.")
 	". Using the same "
 	(:texttt "define-object")
-	" syntax which you have already learned, you can define web
-pages, sections of web pages, and "
+	" syntax which you have already encountered, you can define
+web pages, sections of web pages, and "
 	(:emph "form control")
 	" elements such as type-in fields, checkboxes, and choice
-lists. Using this capability does require a basic working knowledge of
-the HTML language"
+lists [using this capability does require a basic working knowledge of
+the HTML language]."
 	(:footnote "We will not cover HTML in this manual, but
 plentiful resources are available online and in print.")
 	".")
@@ -51,7 +51,7 @@ can also be used, as with any standard web application.")
 
     (:p "With the primitive objects and functions in its "
 	(:texttt ":gwl")
-	" package, Gendl supports both the traditional ``Web 1.0''
+	" package, GDL supports both the traditional ``Web 1.0''
 interfaces (with fillout forms, page submittal, and complete page
 refresh) as well as so-called ``Web 2.0'' interaction with AJAX.")
 
@@ -60,39 +60,39 @@ refresh) as well as so-called ``Web 2.0'' interaction with AJAX.")
      (:p "Similarly to " (:texttt "gdl:define-package") ", you can use "
 	 (:texttt "gwl:define-package") " in order to create a working package which has
 access to the symbols you will need for building a web application (in
-addition to all the other Gendl symbols).")
+addition to all the other GDL symbols).")
      
      (:p "The " (:texttt ":gwl-user") " package is pre-defined and may be used for practice
 work. For real projects, you should define your own package using "
 	 (:texttt "gwl:define-package") ".")
 
-     (:p "The acronym ``GWL'' stands for Generative Web Language, which is not
-actually a separate language from Gendl itself, but rather a set of
-primitive objects and functions available with Gendl for building web
-applications. The YADD reference documentation for package
-``Generative Web Language'' provides detailed specifications for all
-the primitive objects and functions."))
+     (:p "The acronym ``GWL'' stands for Generative Web Language,
+which is not actually a separate language from GDL itself, but rather
+is a set of primitive objects and functions available with GDL for
+building web applications. The YADD reference documentation for
+package ``Generative Web Language'' provides detailed specifications
+for all the primitive objects and functions."))
 
     ((:section :title "Traditional Web Pages and Applications")
-     (:p "To make a Gendl object presentable as a web page, the following two
+     (:p "To make a GDL object presentable as a web page, the following two
 steps are needed:"
 
 	 ((:list :style :enumerate)
 	  (:item "Mix " (:texttt "base-html-sheet") " into the object definition.")
-	  (:item "define a Gendl function called " (:texttt "main-sheet") " within the object definition."))
+	  (:item "define a GDL function called " (:texttt "main-sheet") " within the object definition."))
 
 	 "The " (:texttt "main-sheet") " function should return valid
 HTML for the page. The easiest way to produce HTML is with the use of
 an HTML generating library, such as "
 	 (:href "http://weitz.de/cl-who" "CL-WHO") " or "
 	 (:href "http://www.franz.com/support/documentation/current/doc/aserve/htmlgen.html" "HTMLGen")
-	 ", both of which are built into Gendl.")
+	 ", both of which are built into GDL.")
 
      (:p "For our examples we will use cl-who, which is currently the
 standard default HTML generating library used internally by
-Gendl. Here we will make note of the major features of cl-who while
+GDL. Here we will make note of the major features of cl-who while
 introducing the examples; for complete documentation on cl-who, please
-visit the page at Edi Weitz' website listed above.")
+visit the page at Edi Weitz' website linked above.")
 
 
 
@@ -105,8 +105,8 @@ visit the page at Edi Weitz' website listed above.")
 within a GWL application."
 	  
 	  ((:boxed-figure :caption "Simple Static Page Example" :label "fig:gwl-1")
-	   (:tiny (:verbatim
-		   (:include "~/gendl/documentation/tutorial/examples/gwl-1.gdl")))))
+	   (:small (:verbatim
+		    (:include "~/gendl/documentation/tutorial/examples/gwl-1.gdl")))))
 
 
       (:p "The code in Figure "
@@ -118,7 +118,7 @@ within a GWL application."
 	  " in a web browser."
 
 	  ((:boxed-figure :caption "Simple Static Page Example" :label "fig:gwl-1-html")
-	   (:tiny (:verbatim
+	   (:small (:verbatim
 		   (:include "~/gendl/documentation/tutorial/examples/gwl-1.html"))))
 	  
 	  ((:image-figure :image-file "gwl-1.png" :caption "Simple Static Page Example" 
@@ -145,7 +145,7 @@ within a GWL application."
 
 	   (:item "The " (:texttt "fmt") " symbol has special meaning
       within the cl-who environment and works the same as a Common
-      Lisp " (:texttt "format nil") "in order to evaluate a format
+      Lisp " (:texttt "(format nil ...)") ", in order to evaluate a format
       string together with matching arguments, and produce a string at
       runtime.")
 
@@ -210,9 +210,9 @@ within a GWL application."
 
 
 
-     ((:subsection :title "A Simple Dynamic Page which Mixes HTML and Common Lisp/Gendl")
+     ((:subsection :title "A Simple Dynamic Page which Mixes HTML and Common Lisp/GDL")
 
-      (:p "Within the cl-who environment, it is possible to include any standard
+      (:p "Within the cl-who environment it is possible to include any standard
 Common Lisp structures such as "
 	  (:texttt "let")
 	  ", "
@@ -227,7 +227,7 @@ Common Lisp structures such as "
 	  ", which has meaning to cl-who. ")
       
       ((:boxed-figure :caption "Mixing Static HTML and Dynamic Content" :label "fig:gwl-2")
-       (:tiny (:verbatim
+       (:small (:verbatim
 	       (:include "~/gendl/documentation/tutorial/examples/gwl-2.gdl"))))
 
       ((:image-figure :image-file "gwl-2.png" :caption "Mixing Static HTML and Dynamic Content" 
@@ -266,8 +266,8 @@ The output looks similar to Figure "
 	  (:texttt "self-link")
 	  " message for the purpose of generating a hyperlink to that
 page. Typically you will have a ``parent'' page object which links to
-its ``child'' pages, but Gendl pages can link to other pages anywhere
-in the Gendl tree"
+its ``child'' pages, but GDL pages can link to other pages anywhere
+in the GDL tree"
 	  (:footnote "In order for dependency-tracking to work
 properly, the pages must all belong to the same tree, i.e. they must
 share a common root object.")
@@ -275,11 +275,11 @@ share a common root object.")
 
 	  ((:boxed-figure :caption "Linking to Multiple Pages"
 			  :label "fig:gwl-3")
-	   (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3.gdl"))))
+	   (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3.gdl"))))
 
 	  ((:boxed-figure :caption "Linking to Multiple Pages"
 			  :label "fig:gwl-3a")
-	   (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3a.gdl"))))
+	   (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3a.gdl"))))
 
 	  " In Figures "
 	  (:ref "fig:gwl-3")
@@ -316,20 +316,20 @@ to Figure "
      ((:subsection :title "Form Controls and Fillout-Forms")
       ((:subsubsection :title "Form Controls")
       
-       (:p "Gendl provides a set of primitives useful for generating
-            the standard HTML
-            form-controls@footnote{http://www.w3.org/TR/html401/interact/forms.html}
-            such as text, checkbox, radio, submit, menu, etc. These
+       (:p "GDL provides a set of primitives useful for generating the
+       standard HTML form-controls"
+	   (:footnote "http://www.w3.org/TR/html401/interact/forms.html")}
+	   " such as text, checkbox, radio, submit, menu, etc. These
             should be instantiated as child objects in the page, then
             included in the HTML for the page
             using " (:texttt "str") " within an
             HTML " (:texttt "form")
-	    " tag (see next section).")
+	   " tag (see next section).")
 
 
-       (:p "The form-controls provided by Gendl are documented in YADD accessible with "
+       (:p "The form-controls provided by GDL are documented in YADD accessible with "
 	   (:verbatim "http://localhost:9000/yadd")
-	   " and in Appendix " (:ref "appendix:reference") " of this Manual. Examples of 
+	   " and in Chapter " (:ref "chapter:gdlreference") " of this Manual. Examples of 
 available form-controls are:"
 	   ((:list :style :itemize)
 	    (:item (:texttt "text-form-control"))
@@ -343,7 +343,7 @@ available form-controls are:"
        (:p "These form-controls are customizable by mixing them into
 	   your own specific form-controls (although this is often not
 	   necessary). New form-controls such as for numbers, dates,
-	   etc are being added to correspond to latest HTML
+	   etc will soon be added to correspond to latest HTML
 	   standards."))
 
       ((:subsubsection :title "Fillout Forms")
@@ -352,12 +352,12 @@ available form-controls are:"
 	   (:texttt "form")
 	   " tag and specify an " (:texttt "action") " (a web URL) to receive and respond to the 
 form submission. The response will cause the entire page to refresh with
-a new page. In Gendl, such a form can be generated by wrapping the layout
+a new page. In GDL, such a form can be generated by wrapping the layout
 of the form controls within the " (:texttt "with-html-form") " macro.")
 
        ((:boxed-figure :caption "Form Controls and Fillout Forms"
 			  :label "fig:gwl-3b")
-	   (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3b.gdl"))))
+	   (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3b.gdl"))))
 
        ((:image-figure :image-file "gwl-3b.png" :caption "Form Controls and Fillout Forms" 
 		       :width "4in" :height "3in"
@@ -381,28 +381,29 @@ XML "
 	 (:footnote "http://en.wikipedia.org/wiki/Ajax_(programming)")
 	 ", and allows for more interactive web applications which
 respond to user events by updating only part of the web page. The
-``Asynchronous'' in Ajax refers to the ability for a web page to
-continue interacting while one part of the page is being updated by a
-server response. Requests need not be Asynchronous, they can also be
+``Asynchronous'' in Ajax refers to a web page's ability to continue
+interacting while one part of the page is being updated by a server
+response. Requests need not be Asynchronous, they can also be
 Synchronous (``SJAX''), which would cause the web browser to block
 execution of any other tasks while the request is being carried
 out. The ``XML'' refers to the format of the data that is typically
 returned from an AJAX request.")
 
-     (:p "Gendl contains a simple framework referred to as "
+     (:p "GDL contains a simple framework referred to as "
 	 (:emph "gdlAjax")
 	 " which supports a uniquely convenient and generative
-approach to AJAX (and SJAX). With gdlAjax, you use standard Gendl
+approach to AJAX (and SJAX). With gdlAjax, you use standard GDL
 object definitions and child objects in order to model the web page
 and the sections of the page, and the dependency tracking engine which
-is built into Gendl automatically keeps track of which sections of the
+is built into GDL automatically keeps track of which sections of the
 page need to be updated after a request.")
 
-     (:p "Moreover, the state of the internal Gendl model which represents the
-page and the page sections is kept identical to the displayed state of
-the page. This means that if the user hits the ``Refresh'' button in
-the browser, the state of the page will remain unchanged. This is not
-true of some other Ajax frameworks.")
+     (:p "Moreover, the state of the internal GDL model which
+represents the page and the page sections is kept identical to the
+displayed state of the page. This means that if the user hits the
+``Refresh'' button in the browser, the state of the page will remain
+unchanged. This ability is not present in some other Ajax
+frameworks.")
 
      ((:subsection :title "Steps to Create a gdlAjax Application")
       (:p "First, it is important to understand that the fundamentals from the
@@ -425,7 +426,7 @@ a standard web application:"
 	   (:item "Instead of a "
 	     (:texttt "write-html-sheet")
 	     " message, you specify a " (:texttt "main-sheet-body")
-	     " message. The " (:texttt "main-sheet-body") "  can be a computed-slot or Gendl function,
+	     " message. The " (:texttt "main-sheet-body") "  can be a computed-slot or GDL function,
     and unlike the " (:texttt "write-html-sheet") " message, it should
     simply return a string, not send output to a stream. Also, it only
     fills in the body of the page --- everything between the <body>
@@ -440,7 +441,7 @@ a standard web application:"
 
 	  ((:boxed-figure :caption "Partial Page Updates with GdlAjax"
 			  :label "fig:gwl-4")
-	   (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-4.gdl")))))
+	   (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-4.gdl")))))
 
       (:p "Note the following from the example in Figure "
 	  (:ref "fig:gwl-4") ":"
@@ -478,7 +479,7 @@ a standard web application:"
 	     " is simply the " (:texttt "inner-html") ", wrapped with
                an HTML DIV (i.e. ``division'') tag which contains a unique
                identifier for this section, derived from the root-path
-               to the Gendl object in the in tree which represents the
+               to the GDL object in the in tree which represents the
                sheet section.")
 
 	   (:item "We introduce the CL function " (:texttt "gwl:publish-gwl-app")
@@ -501,10 +502,10 @@ they are changed in the browser. No ``Submit'' button press is
 necessary.")
 
       (:p "It is also possible programmatically to send form-control
-      values, and/or call a Gendl Function, on the server, by
+      values, and/or call a GDL Function, on the server, by
       using the "
 	  (:texttt (:indexed "gdl-ajax-call"))
-	  " Gendl function. This function will emit the necessary
+	  " GDL function. This function will emit the necessary
 	  JavaScript code to use as an event handler, e.g. for an
 	  ``onclick'' event. For example, you could have the following snippet somewhere in your page:"
 	  (:verbatim "((:span :onclick (the (gdl-ajax-call :function-key :restore-defaults!))) \"Press Me\" )")
@@ -515,12 +516,12 @@ necessary.")
 	  (:texttt "restore-defaults!")
 	  " is not defined, an error will result. The "
 	  (:texttt "gdl-ajax-call")
-	  " Gendl function cal also send arbitrary form-control values
+	  " GDL function can also send arbitrary form-control values
 	  to the server by using the "
 	  (:texttt ":form-controls")
 	  " keyword argument, and listing the relevant form-control objects. The "
 	  (:texttt "gdl-ajax-call")
-	  " Gendl function is fully documented in YADD and the reference appendix.")
+	  " GDL function is fully documented in YADD and the reference appendix.")
 
       
       (:p "If for some reason you want to do more than one "
@@ -537,12 +538,13 @@ necessary.")
 
 	  "With that said, it is rarely necessary to do these calls
 	  sequentially like this, because you can use :form-controls
-	  and :function-key simultaneously. As long your logic works
-	  normally with the form-controls being set first, then the
-	  function being called, you can group the functions together
-	  into a ``wrapper-function,'' and do the whole processing
-	  with a single Ajax call. Normally this would be be the
-	  recommended approach whenever it it possible."))
+	  and :function-key simultaneously. As long as your logic
+	  works correctly when the form-controls are set before the
+	  function is called, then you can group the functions
+	  together into a ``wrapper-function,'' and do the whole
+	  processing with a single Ajax (or Sjax) call. Normally this
+	  would be be the recommended approach whenever it it
+	  possible."))
 
 
      ((:subsection :title "Including Graphics")
@@ -564,11 +566,11 @@ can be controlled with other optional input-slots.")
 
       ((:boxed-figure :caption "Including Graphics in a Web Page"
 		      :label "fig:gwl-5")
-       (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-5.gdl"))))
+       (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-5.gdl"))))
 
 
       ((:image-figure :image-file "gwl-5.png" :caption "Including Graphics" 
-		       :width "4in" :height "3in"
+		       :width "5in" :height "4in"
 		       :label "fig:gwl-5-image"))
 
       (:p "The example in Figure " (:ref "fig:gwl-5")

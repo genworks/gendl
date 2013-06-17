@@ -107,7 +107,7 @@ This list defaults to standard internal and test packages"
    (title "GDL Reference Documentation")
    
    
-   (dom-chapter `((:chapter :title "Gendl Reference")
+   (dom-chapter `((:chapter :title "GDL Reference")
 		  ,@(mapcar #'(lambda(package)
 				`((:section :title ,(the-object package strings-for-display-verbose))
 				  (:p ,@(remove nil (the-object package dom-section)))))

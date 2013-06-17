@@ -56,9 +56,9 @@
 \BOOKMARK [0][-]{chapter.6}{The Tasty Development Environment}{}% 56
 \BOOKMARK [1][-]{subsection.6.0.1}{The Toolbars}{chapter.6}% 57
 \BOOKMARK [2][-]{subsection.6.0.2}{View Frames}{subsection.6.0.1}% 58
-\BOOKMARK [0][-]{chapter.7}{Working with Geometry in Gendl}{}% 59
-\BOOKMARK [1][-]{section.7.1}{The Default Coordinate System in Gendl}{chapter.7}% 60
-\BOOKMARK [1][-]{section.7.2}{Building a Geometric Gendl Model from LLPs}{chapter.7}% 61
+\BOOKMARK [0][-]{chapter.7}{Working with Geometry in GDL}{}% 59
+\BOOKMARK [1][-]{section.7.1}{The Default Coordinate System in GDL}{chapter.7}% 60
+\BOOKMARK [1][-]{section.7.2}{Building a Geometric GDL Model from LLPs}{chapter.7}% 61
 \BOOKMARK [0][-]{chapter.8}{Custom User Interfaces in Gendl}{}% 62
 \BOOKMARK [1][-]{section.8.1}{Package and Environment for Web Development}{chapter.8}% 63
 \BOOKMARK [1][-]{section.8.2}{Traditional Web Pages and Applications}{chapter.8}% 64

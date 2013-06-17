@@ -22,11 +22,11 @@
 (in-package :gendl-doc)
 
 (defparameter *gendl-geometry*
-  `((:chapter :title "Working with Geometry in Gendl")
-    (:p "Although Gendl is intended for general-purpose computing, one
-  of its particular strong points is generating geometry and
-  processing geometric entities in various ways. Geometric
-  capabilities are provided by a library of "
+  `((:chapter :title "Working with Geometry in GDL")
+    (:p "Although GDL's uses include general-purpose computing, one of
+  its particular strong points is generating geometry and processing
+  geometric entities in various ways. Geometric capabilities are
+  provided by a library of "
 	(:emph "low-level primitives")
 	", or LLPs. LLPs are pre-defined GenDL objects which you can
 	extend by ``mixing in'' with your own definitions, and/or
@@ -38,9 +38,7 @@
 	((:list :style :itemize)
 	 (:item (:texttt "base-coordinate-system") " provides an empty 3D Cartesian coordinate system"
 		(:footnote (:texttt "base-coordinate-system") " is also known by its legacy name "
-			   (:texttt "base-object") ". If your Gendl version does not yet have "
-			   (:texttt "base-coordinate-system") " defined, you can use "
-			   (:texttt "base-object") " to identical effect."))
+			   (:texttt "base-object") "."))
 
 	 (:item "Simple 2-dimensional primitives include "
 	   (:texttt "line")
@@ -68,10 +66,11 @@
 	" will cover the advanced Surfaces and Solids primitives.")
 
 
-    ((:section :title "The Default Coordinate System in Gendl")
-     (:p "Gendl's default coordinate system comes with the standard mixin "
+    ((:section :title "The Default Coordinate System in GDL")
+     (:p "GDL's default coordinate system comes with the standard mixin "
 	 (:texttt "base-coordinate-system")
-	 " and represents a standard three-dimensional Cartesian Coordinate system with X, Y, and Z dimensions.")
+	 " and represents a standard three-dimensional Cartesian
+	 Coordinate system with X, Y, and Z dimensions.")
 
 
      ((:image-figure :image-file "coord-sys-tri.png" :caption "Coordinate System in Trimetric View" 
@@ -113,15 +112,15 @@
 	  (:item (:texttt "Bottom") " for the " (:textbf "negative Z") " direction"))))
 
 
-    ((:section :title "Building a Geometric Gendl Model from LLPs")
+    ((:section :title "Building a Geometric GDL Model from LLPs")
 
-     "The simplest geometric entity in Gendl is a "
+     "The simplest geometric entity in GDL is a "
      (:texttt "box")
      ", and in fact all entities are associated with an imaginary "
      (:emph "reference box")
-     "which shares the same slots as a normal box. The "
+     " which shares the same slots as a normal box. The "
      (:texttt "box")
-     " primitive type in Gendl inherits its inputs from "
+     " primitive type in GDL inherits its inputs from "
      (:texttt "base-coordinate-system")
      ", and the fundamental inputs are:"
      ((:list :style :itemize)
