@@ -53,7 +53,7 @@ is also included; please contact Genworks if you need the source code for this."
 	 (:item "Click to receive license key file by email.")))
        
        ((:subsection :title "Unpack the Distribution")
-	"Genworks GDL is currently distributed as an setup executable for Windows,
+	"Genworks GDL is currently distributed as a setup executable for Windows,
 a ``dmg'' application bundle for Mac, and a self-contained zip file for Linux."
 	(:ul
 	 (:item "Run the installation executable. Accept the defaults when prompted."

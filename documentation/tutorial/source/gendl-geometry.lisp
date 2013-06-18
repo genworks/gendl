@@ -28,7 +28,7 @@
   geometric entities in various ways. Geometric capabilities are
   provided by a library of "
 	(:emph "low-level primitives")
-	", or LLPs. LLPs are pre-defined GenDL objects which you can
+	", or LLPs. LLPs are pre-defined GDL objects which you can
 	extend by ``mixing in'' with your own definitions, and/or
 	instantiate as child objects in your definitions.")
 
@@ -61,7 +61,7 @@
 	   ", and "
 	   (:texttt "merged-solid") "."))
 
-	"This chapter will cover the default coordinate system of GenDL as well as the built-in simple 2D and 3D LLPs. Chapter "
+	"This chapter will cover the default coordinate system of GDL as well as the built-in simple 2D and 3D LLPs. Chapter "
 	(:ref "chap:workingwithsurfacesandsolids")
 	" will cover the advanced Surfaces and Solids primitives.")
 

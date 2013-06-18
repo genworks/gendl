@@ -29,18 +29,18 @@
 for TAtu with STYle (sheets), where tatu comes from Testing And
 Tracking Utility.")
 	" is a web based testing and tracking utility. Note that Tasty is
-designed for developers of GenDL applications --- it is not intended
-as an end-user application interface (see the "
-	(:ref "chap:userinterfacesingendl")
-	" section for the recommended steps to create end-user interfaces).")
+designed for developers of GDL applications --- it is not intended
+as an end-user application interface (see Chapter "
+	(:ref "chap:customuserinterfacesingdl")
+	" for the recommended steps to create end-user interfaces).")
 
-    (:p "Tasty allows you to visualize and inspect any object defined in GenDL,
-which mixes at least "
+    (:p "Tasty allows you to visualize and inspect any object defined
+in GDL, which mixes at least "
 	(:texttt "base-object")
 	" into the definition of its root"
 	(:footnote "base-object is the core mixin for all geometric
 objects and gives them a coordinate system, length, width, and
-height. This restriction in tasty will be eliminated in a future GenDL
+height. This restriction in tasty will be eliminated in a future GDL
 release so the user will be able to instantiate non-geometric
 root-level objects in tasty as well, for example to inspect objects
 which generate a web page but no geometry."))
@@ -50,9 +50,9 @@ the Chapter 5 examples, contained in "
 
 	(:verbatim ".../src/documentation/tutorial/examples/chapter-5/")
 
-	" in your Gendl distribution. If you are not sure how to do this,
-temporarily leave this section and review Section "
-	(:ref "compiling-and-loading-files-and-systems")
+	" in your GDL distribution. If you are not sure how to do this,
+temporarily leave this section and review Chapter "
+	(:ref "chap:basicoperationofthegdlenvironment")
 	", and then return.")
      
     (:p "Now you should have the Chapter 5 example definitions
@@ -72,7 +72,7 @@ browser to the URL in figure"
 	"This will produce the start-up page, as seen in Figure "
 	(:ref "fig:tasty-startup")
 	(:footnote "This page may look slightly different, e.g. different
-icon images, depending on your specific Gendl version.")
+icon images, depending on your specific GDL version.")
 	". To access an instance of a specific object definition,
 you specify the class package and the object type, separated by a
 colon (``:'') (or a double-colon (``::'') in the event the symbol
@@ -93,9 +93,9 @@ consider the simple "
     (:p "Note that if the "
 	(:texttt "assembly")
 	" symbol had not been exported from the "
-	(:texttt ":shock-absorber")
+	(:texttt ":chapter-5")
 	" package, then a double-colon would have been needed: "
-	(:texttt "shock-absorber::assembly")
+	(:texttt "chapter-5::tower1")
 	(:footnote"use of a double-colon indicates dubious coding
 practice, because it means that the code in quesion is accessing the
 ``internals'' or ``guts'' of another package, which may not have been
@@ -121,7 +121,7 @@ three view frames (tree frame, inspector frame and viewport frame
 
      (:p "The first toolbar consists of two ``tabs'' which allow the
 user to select between the display of the application itself or the
-GenDL reference documentation.")
+GDL reference documentation.")
 
      (:p "The second toolbar is designed to select various ``click modes'' for
 objects and graphical viewing, and to customize the interface in other
@@ -266,9 +266,9 @@ the graphics viewport."))
     ((:subsection :title "View Frames")
 
      (:p "The " (:emph "tree frame")
-	 " is a hierarchical representation of your defined
-object. For example for the tower assembly this will be as
-depicted in figure "
+	 " contains a hierarchical representation of your defined
+object. For example for the tower assembly this will be as depicted in
+figure "
 	 (:ref "fig:tree-twisty-tower"))
 
      (:p "To draw the graphics (geometry) for the shock-absorber
@@ -287,7 +287,7 @@ node.")
      (:p "The ``inspector'' frame allows the user to inspect (and in
 some cases modify) the object instance being inspected.")
 
-     (:p "For example, let's make the "
+     (:p "For example, we can make the "
 	 (:texttt "number-of-blocks")
 	 " of the tower to be ``settable,'' by adding the keyword "
 	 (:texttt ":settable")

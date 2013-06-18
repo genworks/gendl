@@ -22,7 +22,7 @@
 (in-package :gendl-doc)
 
 (defparameter *custom-user-interfaces*
-  `((:chapter :title "Custom User Interfaces in Gendl")
+  `((:chapter :title "Custom User Interfaces in GDL")
 
     (:p "Another of the strengths of GDL is the ability to create custom
 web-based user interfaces. GDL contains a built-in web server and
@@ -67,7 +67,7 @@ work. For real projects, you should define your own package using "
 	 (:texttt "gwl:define-package") ".")
 
      (:p "The acronym ``GWL'' stands for Generative Web Language,
-which is not actually a separate language from GDL itself, but rather
+which is not in fact a separate language from GDL itself, but rather
 is a set of primitive objects and functions available with GDL for
 building web applications. The YADD reference documentation for
 package ``Generative Web Language'' provides detailed specifications
@@ -84,8 +84,11 @@ steps are needed:"
 	 "The " (:texttt "main-sheet") " function should return valid
 HTML for the page. The easiest way to produce HTML is with the use of
 an HTML generating library, such as "
-	 (:href "http://weitz.de/cl-who" "CL-WHO") " or "
+	 (:href "http://weitz.de/cl-who" "CL-WHO")
+	 (:footnote "http://weitz.de/cl-who")
+	 " or "
 	 (:href "http://www.franz.com/support/documentation/current/doc/aserve/htmlgen.html" "HTMLGen")
+	 (:footnote "http://www.franz.com/support/documentation/current/doc/aserve/htmlgen.html")
 	 ", both of which are built into GDL.")
 
      (:p "For our examples we will use cl-who, which is currently the
@@ -105,8 +108,8 @@ visit the page at Edi Weitz' website linked above.")
 within a GWL application."
 	  
 	  ((:boxed-figure :caption "Simple Static Page Example" :label "fig:gwl-1")
-	   (:small (:verbatim
-		    (:include "~/gendl/documentation/tutorial/examples/gwl-1.gdl")))))
+	   (:verbatim
+	    (:include "~/gendl/documentation/tutorial/examples/gwl-1.gdl"))))
 
 
       (:p "The code in Figure "
@@ -118,8 +121,8 @@ within a GWL application."
 	  " in a web browser."
 
 	  ((:boxed-figure :caption "Simple Static Page Example" :label "fig:gwl-1-html")
-	   (:small (:verbatim
-		   (:include "~/gendl/documentation/tutorial/examples/gwl-1.html"))))
+	   (:verbatim
+	    (:include "~/gendl/documentation/tutorial/examples/gwl-1.html")))
 	  
 	  ((:image-figure :image-file "gwl-1.png" :caption "Simple Static Page Example" 
 			  :width "4in" :height "3in"
@@ -329,7 +332,7 @@ to Figure "
 
        (:p "The form-controls provided by GDL are documented in YADD accessible with "
 	   (:verbatim "http://localhost:9000/yadd")
-	   " and in Chapter " (:ref "chapter:gdlreference") " of this Manual. Examples of 
+	   " and in Chapter " (:ref "chap:gdlreference") " of this Manual. Examples of 
 available form-controls are:"
 	   ((:list :style :itemize)
 	    (:item (:texttt "text-form-control"))

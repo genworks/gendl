@@ -26,9 +26,9 @@
       "This chapter will lead you through all the basic steps of
 operating a typical GDL-based development environment. We will not go
 into any depth about the additional features of the environment or
-language syntax in this section --- this is just for getting familiar
-and practicing with the mechanics of operating the environment with a
-keyboard."
+language syntax in this section --- this is merely for getting
+familiar and practicing with the mechanics of operating the
+environment with a keyboard."
 
       ((:section :title "What is Different about GDL?")
        "GDL is a dynamic language environment with incremental
@@ -43,23 +43,33 @@ them immediately or update an existing set of objects to observe their
 new behavior.
 
 In many other programming language systems, to introduce a new
-function or object, one has to start the system from the beginning and
-reload all the files in order to test new functionality.
+function or object, one has "
+       (:emph "to start the system from the beginning")
+       " and reload all the files in order to test new functionality.
  
-In GDL, if you shut down the system after having compiled and loaded a
-set of files with new definitions, then when you restart the system
-you will have to recompile and/or reload those definitions in order to
-bring the system back into the same state. This is typically done
-automatically, using commands placed into the "
-       (:texttt "gdlinit.cl")
-       " initialization file, as introduced in Section "
-       (:ref "sec:customizingyourenvironment")
-       ". Alternatively, you can compile and load definitions into
+In GDL, it is typical to keep the same development session up and
+running for an entire day or longer, making it unnecessary to
+constantly recompile and reload your definitions from scratch. Note,
+however, that if you do shut down and restart the system for some
+reason, then you will have to recompile and/or reload your
+application's definitions in order to bring the system back into a
+state where it can instantiate (or ``run'') your application.
+
+While this can be done manually at the command-line, it is typically
+done automatically in one of two ways:"
+       (:ol 
+	(:li "using commands placed into
+the "
+	     (:texttt "gdlinit.cl")
+	     " initialization file, as introduced in Section "
+	     (:ref "sec:customizingyourenvironment") ".")
+
+	(:li "alternatively, you can compile and load definitions into
 your session, then save the ``world'' in that state. That way it is
 possible to start a new GDL ``world'' which already has all your
 application's definitions loaded and ready for use, without having to
 procedurally reload any files. You can then begin to make and test new
-definitions (and re-definitions) starting from this new ``world.''")
+definitions (and re-definitions) starting from this new ``world.''")))
        
       ((:section :title "Startup, ``Hello, World!'' and Shutdown")
        (:p
@@ -86,17 +96,19 @@ Explorer. Emacs runs as the main "
 	   " (MacOS, Linux) script files, or with the installed Start
 program item (Windows) or application bundle (MacOS). Invoke this
 script file from the Start menu (Windows), your computer's file
-manager, or from a desktop shortcut if you have created one as
-outlined in section "
-	   (:ref "subsec:makeadesktopshortcut")
-	   ". Your installation executable may also have created a
-Windows ``Start'' menu item for Genworks GDL. Of course you can also 
-invoke "
+manager, or from a desktop shortcut if you have created one.  Your
+installation executable may also have created a Windows ``Start'' menu
+item for Genworks GDL. You can of course also invoke "
 	   (:texttt "run-gdl.bat")
 	   " from the Windows ``cmd'' command-line, or from another command shell such as Cygwin."
 	   (:footnote "Cygwin is also useful as a command-line tool on Windows
 for interacting with a version control system like Subversion (svn)."))
 
+
+       ((:image-figure :caption "Startup of Emacs with GDL"
+		       :image-file "emacs-startup.png"
+		       :width "6in" :height "4in"
+		       :label "fig:emacs-startup"))
 
        ((:subsection :title "Startup")
 	" Startup of a typical GDL development session consists of
@@ -109,7 +121,7 @@ back to Emacs, allowing you to interact directly with the GDL process from withi
 	   (:texttt "run-gdl.bat") ", " (:texttt "run-gdl.bat") "
 startup script, or the provided executable from the Start
 menu (windows) or application bundle (Mac).")
-	 (:item "You should see a blue emacs window as in Figure "
+	 (:item "You should see an emacs window similar to that shown in Figure "
 	   (:ref "fig:emacs-startup")
 	   ". (alternative colors are also possible).")
 	 
@@ -138,7 +150,7 @@ running. This buffer contains an interactive prompt, labeled "
 for testing, debugging, etc. There is also a web-based graphical interactive environment called "
 	   (:emph "tasty") 
 	   " which will be discussed in Chapter "
-	   (:ref "chapter:tasty"))
+	   (:ref "chap:thetastydevelopmentenvironment") ".")
 
 	 (:item "To ensure that the GDL command prompt is up and running, type: "
 	   (:texttt "(+ 2 3)")
@@ -260,7 +272,7 @@ This will visit the *slime-repl* buffer. Now type: "
 	   modified buffers before exiting."))))
 
       ((:section :title "Working with Projects")
-	"Gendl contains utilities which allow you to treat your
+	"GDL contains utilities which allow you to treat your
 application as a ``project,'' with the ability to compile,
 incrementally compile, and load a ``project'' from a directory tree of
 source files representing your project. In this section we give an
@@ -332,7 +344,7 @@ lexigraphical ordering).")
        ((:subsection :title "Generating an ASDF System")
 	(:p "ASDF stands for Another System Definition Facility, which
 	is the predominant system in use for Common Lisp third-party
-	libraries. With Gendl, you can use the "
+	libraries. With GDL, you can use the "
 	    (:texttt ":create-asd-file?")
 	    " keyword argument to make cl-lite generate an ASDF system
 file instead of actually compiling and loading the system. For example: "
@@ -379,7 +391,7 @@ process."))))
 
       ((:section :title "Customizing your Environment")
 	" You may customize your environment in several different ways,
-for example by loading definitions and settings into your Gendl
+for example by loading definitions and settings into your GDL
 ``world'' automatically when the system starts, and by specifying
 fonts, colors, and default buffers (to name a few) for your emacs
 editing environment."
@@ -388,8 +400,8 @@ editing environment."
 
 
       ((:section :title "Saving the World")
-	" Saving the world refers to a technique of saving a complete
-binary image of your Gendl ``world'' which contains all the currently
+	"``Saving the world'' refers to a technique of saving a complete
+binary image of your GDL ``world'' which contains all the currently
 compiled and loaded definitions and settings.  This allows you to
 start up a saved world almost instantly, without being required to
 reload all the definitions. You can then incrementally compile and
@@ -399,7 +411,7 @@ development session.
 To save a world, follow these steps:"
 
        ((:list :style :enumerate)
-	(:item "Load the base Gendl code and (optionally) code for Gendl
+	(:item "Load the base GDL code and (optionally) code for GDL
 modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For example:"
 	  (:verbatim "
  (ql:quickload :gdl-yadd) 
@@ -419,9 +431,9 @@ modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For examp
 
 
       ((:section :title "Starting up a Saved World")
-       "In order to start up Gendl using a custom saved image, or ``world,'' follow these steps"
+       "In order to start up GDL using a custom saved image, or ``world,'' follow these steps"
        ((:list :style :enumerate)
-	(:item "Exit Gendl")
+	(:item "Exit GDL")
 	(:item "Copy the supplied "
 	  (:texttt "gdl.dxl")
 	  " to "
@@ -429,10 +441,10 @@ modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For examp
 	  ".")
 	(:item "Move the custom saved dxl image to "
 	  (:texttt "gdl.dxl")
-	  " in the Gendl application "
+	  " in the GDL application "
 	  (:texttt "\"program/\"")
 	  " directory.")
-	(:item "Start Gendl as usual. Note: you may have to edit the system gdlinit.cl or your home gdlinit.cl
+	(:item "Start GDL as usual. Note: you may have to edit the system gdlinit.cl or your home gdlinit.cl
 to stop it from loading redundant code which is already in the saved image.")))))
 
 

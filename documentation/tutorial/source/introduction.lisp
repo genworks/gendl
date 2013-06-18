@@ -36,12 +36,14 @@ Gendl Project compiler must be distributed as open-source under a
 compatible license (if distributed at all). Commercial Genworks GDL,
 properly licensed for development and/or runtime distribution, does
 not have this ``copyleft'' open-sourcing requirement.")
-       ". By first investing some of your valuable time into learning
-this system, you will be investing in your future productivity, and in
-the process you are becoming part of a quiet revolution. Although you
-may have come to Genworks GDL because of an interest in 3D modeling or
+       ". By investing some of your valuable time into learning this
+system you will be investing in your future productivity and, in the
+process, you will become part of a quiet revolution. Although you may
+have come to Genworks GDL because of an interest in 3D modeling or
 mechanical engineering, you will find that a whole new world, and a
-unique approach to computing, will now be at your fingertips.")
+unique approach to "
+       (:emph "computing")
+       ", will now be at your fingertips as well.")
       
       ((:section :title "Knowledge Base Concepts According to Genworks")
        "You may have an idea about Knowledge Base Systems,
@@ -63,7 +65,16 @@ system, Genworks GDL.
 
 Our informal definition of a "
        (:emph (:indexed "Knowledge Base System"))
-       " is an object-oriented programming environment which implements the features of "
+       " is a hybrid " 
+       (:emph "Object-Oriented") 
+       (:footnote "An " (:emph "Object-Oriented")
+		  " programming environment supports named collections of data values and procedures to operate on that data.")
+       " and "
+       (:emph "Functional")
+       (:footnote "A pure " (:emph "Functional")
+		  " programming environment supports only the definition and execution of Functions which work by returning
+computed values, but do not modify the in-memory state of any data values.")
+       " programming environment, which implements the features of "
        (:emph (:indexed "Caching"))
        " and "
        (:emph (:indexed "Dependency tracking"))
@@ -75,25 +86,28 @@ of that coin --- it ensures that if a cached result is "
        (:emph "demanded")
        ", so as to give a fresh result.")
 
-
       ((:section :title "Classic Definition of Knowledge Based Engineering (KBE)")
-       (:footnote "Sections " 
-		  (:ref "sec:classicdefinitionofknowledgebasedengineering(kbe)")
-		  " through "
-		  (:ref "sec:objectorienteddesign")
-		  " are derived from [cite LaRocca20120306]")
+       "Sections "
+       (:ref "sec:classicdefinitionofknowledgebasedengineering(kbe)")
+       " through "
+       (:ref "sec:object-orienteddesign")
+       " are sourced from "
+       (:cite "LaRocca")
+       "."
+       (:quote
        "Knowlege based engineering (KBE) is a technology based on the
 use of dedicated software tools called KBE systems, which are able to
 capture and systematically re-use product and process engineering
 knowledge, with the final goal of reducing time and costs of product
 development by means of the following:"
-       (:ul (:li "Automation of repetitive and non-creative design tasks")
+       (:ul (:li "Automation of repetitive and non-creative design tasks;")
 	    (:li "Support of multidisciplinary design optimization in all the 
-phases of the design process")))
+phases of the design process"))))
 
 
-      ((:section :title "Classic Caching Feature")
-       (:p "Caching refers to the ability of the KBE system to memorize at
+      ((:section :title "Runtime Value Caching and Dependency Tracking")
+       (:quote
+	(:p "Caching refers to the ability of the KBE system to memorize at
 runtime the results of computed values (e.g. computed slots and
 instantiated objects), so that they can be reused when required,
 without the need to re-compute them again and again, unless necessary.
@@ -102,25 +116,26 @@ validity of the cached values.  As soon as these values are no longer
 valid (stale), they are set to unbound and recomputed if and only at
 the very moment they are again demanded.")
 
-       (p "This dependency tracking mechanism is at the base of associative
+	(:p "This dependency tracking mechanism is at the base of associative
 modeling, which is of extreme interest for engineering design
 applications. For example, the shape of a wing rib can be defined
 accordingly to the shape of the wing aerodynamic surface. In case the
 latter is modified, the dependency tracking mechanism will notify the
-system that teh given rib instance is no longer valid and will be
+system that the given rib instance is no longer valid and will be
 eliminated from the product tree, together with all the
 information (objects and attributes) depending on it. The new rib
 object, including its attributes and the rest of the affected
 information, will not be re-instantiated/updated/re-evaluated
 automatically, but only when and if needed (see demand driven
-instantiation in the next section)"))
+instantiation in the next section)")))
 
       ((:section :title "Demand-Driven Evaluation")
-       "KBE systems use the "
-       (:emph "demand-driven")
-       "approach. That is, they evaluate just those chains of
+       (:quote
+	"KBE systems use the "
+	(:emph "demand-driven")
+	" approach. That is, they evaluate just those chains of
 expressions required to satisfy a direct request of the user (i.e. the
-evaluation of certain attributes ofor the instantiation of an object),
+evaluation of certain attributes for the instantiation of an object),
 or the indirect requests of another object, which is trying to satisfy
 a user demand. For example, the system will create an instance of the
 rib object only when the weight of the abovementioned wing rib is
@@ -134,37 +149,25 @@ in hundreds of branches and include thousands of attributes. Hence,
 the ability to evaluate specific attributes and product model branches
 at demand, without the need to evaluate the whole model from its root,
 prevents waste of computational resources and in many cases brings
-seemingly intractible problems into the realm of the tractible.")
+seemingly intractible problems into the realm of the tractible."))
 
-      ((:section :title "The Object-Oriented Paradigm meets the Functional paradigm")
-       "In order to model very complex products and manage efficiently
-large bodies of knowledge, KBE systems tap the potential of the object
-oriented nature of their underlying language (e.g. Common
-Lisp). ``Object'' in this context refers to an instantiated data
-structure of a particular assigned data type. As is well-known in
-computing community, unrestricted state modification of objects leads
-to unmaintainable systems which are difficult to debug. KBE systems
-manage this drawback by strictly controlling and constraining
-any ability to modify or ``change state'' of objects. 
-
-In essence, a KBE system generates a tree of inspectable objects which
-is analogous to the function call tree of pure functional-language
-systems.")
+      
 
       ((:section :title "Object-oriented Systems")
-       "An object-oriented system is composed of
+       (:quote "An object-oriented system is composed of
        objects (i.e. concrete instantiations of named classes), and
        the behavior of the system results from the collaboration of
        those objects. Collaboration between objects involves them
        sending messages to each other. Sending a message differs from
-       calling a function in that when a target object receives a
-       message, it decides on its own what function to carry out to
-       service that message. The same message may be implemented by
-       many different functions, the one selected depending on the
-       current state of the target object.")
+       calling a function in the sense that when a target object
+       receives a message, it decides on its own what function to
+       carry out to service that message. The same message may be
+       implemented by many different functions, the one selected
+       depending on the current state of the target object."))
       
       ((:section :title "Object-oriented Analysis")
-       (:p "Object-oriented analysis (OOA) is the process of analyzing
+       (:quote
+	(:p "Object-oriented analysis (OOA) is the process of analyzing
        a task (also known as a problem domain) to develop a conceptual
        model that can then be used to complete the task. A typical OOA
        model would describe computer software that could be used to
@@ -179,38 +182,59 @@ systems.")
        constraints (e.g. concurrency, distribution, persistence, or
        how the system is to be built) are not considered during the
        analysis phase; rather, they are addressed during
-       object-oriented design (OOD).")
+       object-oriented design (OOD) phase.")
 
-       (:p "The conceptual model that results from OOA will typically consist of a
+	(:p "The conceptual model that results from OOA will typically consist of a
 set of use cases, one or more UML class diagrams, and a number of
-interaction diagrams. It may also include some kind of user interface."))
+interaction diagrams. It may also include some kind of user interface.")))
 
       ((:section :title "Object-oriented Design")
-       "During object-oriented design (OOD), a developer applies implementation constraints
-to the conceptual model produced in object-oriented analysis. Such constraints could include
-not only constraints imposed by the chosen architecture but also any non-functional --- 
-technological or environmental --- constraints, such as transaction throughput, response time,
-run-time platform, development environment, or those inherent in the programming language. Concepts
-in the analysis model are mapped onto implementation classes and interfaces resulting in
-a model of the solution domain, i.e., a detailed description of "
-       (:emph "how") 
-       " the system is to be built.")
+       (:quote 
+	"During the object-oriented design (OOD) phase, a developer
+applies implementation constraints to the conceptual model produced in
+object-oriented analysis. Such constraints could include not only
+constraints imposed by the chosen architecture but also any
+non-functional --- technological or environmental --- constraints,
+such as transaction throughput, response time, run-time platform,
+development environment, or those inherent in the programming
+language. Concepts in the analysis model are mapped onto
+implementation classes and interfaces resulting in a model of the
+solution domain, i.e., a detailed description of "
+	(:emph "how") 
+	" the system is to be built."))
+
+      ((:section :title "The Object-Oriented Paradigm meets the Functional paradigm")
+       "In order to model very complex products and efficiently manage
+large bodies of knowledge, KBE systems tap the potential of the object
+oriented nature of their underlying language (e.g. Common
+Lisp). ``Object'' in this context refers to an instantiated data
+structure "
+       (:emph "of a particular assigned data type")
+       ". As is well-known in the computing community, unrestricted state
+modification of objects leads to unmaintainable systems which are
+difficult to debug. KBE systems manage this drawback by strictly
+controlling and constraining any ability to modify or ``change state''
+of objects.
+
+In essence, a KBE system generates a tree of inspectable objects which
+is analogous to the function call tree of pure functional-language
+systems.")
 
       ((:section :title "Goals for this Manual")
        "This manual is designed as a companion to a live two-hour
-GDL/GWL tutorial, but you may also be relying on it independent of the
-video tutorial. In either case, the basic goals are:"
+GDL/GWL tutorial, but you may also be relying on it independently of the
+video tutorial. In either case, the fundamental goals are:"
        ((:list :style :itemize)
-	(:item "Get you motivated about using Genworks GDL")
+	(:item "To get you motivated about using Genworks GDL")
 	(:item "Enable you to ascertain whether Genworks GDL is an appropriate tool for a given job")
 	(:item "Equip you with the ability to state the case for using GDL/GWL when appropriate")
 	(:item "Prepare you to begin authoring and maintaining GDL
 applications, or porting apps from similar KB systems into GDL."))
        
-       "This manual will begins with an introduction to the "
+       "The manual will begin with an introduction to the "
        (:indexed "Common Lisp")
        " programming language. If you are new to Common Lisp:
-congratulations! You have just been introduced to a powerful tool
+congratulations! You are about to be introduced to a powerful tool
 backed by a rock-solid standard specification, which will protect your
 development investment for decades to come. In addition to the
 overview in this manual, many resources are available to get you
@@ -219,43 +243,44 @@ started in CL --- for starters, we recommend "
        (:footnote (:underline "BLT")
 		  " is available at "
 		  (:texttt "http://www.franz.com/resources/educational_resources/cooper.book.pdf"))
-       ", which was prepared by the author. ")
+       ", which was written by the author. ")
       
       ((:section :title "What is GDL?")
        "GDL is an acronym for
-``General-purpose Declarative Language.'' 
-
-GDL is a superset of ANSI Common Lisp, and consists largely of
+``General-purpose Declarative Language.''"
+       (:ul
+	(:li
+	 "GDL is a superset of ANSI Common Lisp, and consists largely of
 automatic code-expanding extensions to Common Lisp implemented in the
 form of macros. When you write, for example, 20 lines in GDL, you
-might be writing the equivalent of 200 lines of Common Lisp. Of
-course, since GDL is a superset of Common Lisp, you still have the
+might be writing the equivalent of 200 lines of Common Lisp. Given
+that GDL is a superset of Common Lisp, you of course still have the
 full power of the CL language at your disposal whenever you are
-working in GDL.
+working in GDL.")
 
-"
        (:index "compiled language!benefits of")
        (:index "macros!code-expanding")
        
-       "Since GDL expands into CL, everything you write in GDL will be
+       (:li
+	"Since GDL expands into CL, everything you write in GDL will be
 compiled ``down to the metal'' to machine code with all the
 optimizations and safety that the tested-and-true CL compiler provides
 [this is an important distinction as contrasted to some other
 so-called KB systems on the market, which are essentially nothing more
 than interpreted "
-       (:emph "scripting languages") 
-       " which often impose arbitrary limits on
-the size and complexity of the application.
+	(:emph "scripting languages") 
+	" which often impose arbitrary limits on
+the size and complexity of the application.")
 
-GDL is also a "
-       (:emph (:indexed "declarative"))
-       " language in the fullest sense. When you put together a GDL application, you write and think mainly
+       (:li "GDL is also a "
+	    (:emph (:indexed "declarative"))
+	    " language in the fullest sense. When you put together a GDL application, you write and think mainly
 in terms of objects and their properties, and how they depend on one another in a direct
 sense. You do not have to track in your mind explicitly how one object or property will ``call''
 another object or propery, in what order this will happen, etc. Those details are
-taken care of for you automatically by the language. 
+taken care of for you automatically by the language.")
 
-Because GDL is object-oriented, you have all the features you would normally expect
+       (:li "Because GDL is object-oriented, you have all the features you would normally expect
 from an object-oriented language, such as "
        ((:list :style :itemize)
 	(:item "Separation between the " (:emph "definition")
@@ -266,9 +291,9 @@ from an object-oriented language, such as "
 	its ``under-the-hood'' complexities"))
        
        (:index "object-orientation!message-passing")
-       (:index "object-orientation!generic-function")
-       
-       "GDL supports the ``message-passing'' paradigm of object
+       (:index "object-orientation!generic-function"))
+
+       (:li "GDL supports the ``message-passing'' paradigm of object
 orientation, with some extensions. Since full-blown ANSI CLOS (Common
 Lisp Object System) is always available as well, the Generic Function
 paradigm is supported as well. Do not be concerned at this point if
@@ -278,7 +303,7 @@ and Generic Function models of object-orientation."
 		  (:underline "ANSI Common Lisp")
 		  ", page 192, for an excellent discussion of the Two Models 
 of Object-oriented Programming.")
-       ".")
+       ".")))
       
       ((:section :title "Why GDL (what is GDL good for?)")
        ((:list :style :itemize)
@@ -297,7 +322,6 @@ to solve repetitive tasks in engineering and other fields;")
 and final outputs, which may include virtual models of wireframe,
 surface, and solid geometric objects.")))
       
-      
       ((:section :title "What GDL is not")
        ((:list :style :itemize)
 	(:item "A CAD system (although it may operate on and/or generate geometric entities);")
@@ -307,6 +331,6 @@ excellent environment for developing capabilities which could be
 considered as such);")
 	(:item "An Expert System Shell (although one could be easily embedded within it).")))
       
-      "Without further discussion, then, let's turn the page and get
+      "Without further definitions, let's turn the page and get
       started with hands-on GDL..."))
       

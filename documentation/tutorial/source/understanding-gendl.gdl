@@ -27,7 +27,7 @@
 	  (:emph "absence")
 	  " of syntax), we will move directly into the GDL
 framework. By using GDL you can formulate most of your engineering and
-computing problems in a natural way, without becoming entangled in the
+computing problems in a natural way, without becoming involved in the
 complexity of the Common Lisp Object System (CLOS).")
 
       
@@ -40,10 +40,11 @@ language.")
 
       (:p "As discussed in the previous chapter, GDL is based on and
 is a superset of ANSI Common Lisp. Because ANSI CL is unencumbered and
-an open standard, with several commercial and free implementations, it
+is an open standard, with several commercial and free implementations, it
 is a good wager that applications written in it will continue to be
-usable 50, 100, or even hundreds of years from now.")
-
+usable for the balance of this century, and beyond. Many commercial 
+products have a shelf life only until a new product comes along. Being
+based in ANSI Common Lisp ensures GDL's permanence.")
       
 
       ((:section :title "Defining a Working Package")
@@ -143,9 +144,12 @@ Here are descriptions of the most common keywords making up the specification-pl
          ((:item :word (:indexed "objects"))
           "specify other instances to be ``contained'' within this instance.")
          ((:item :word (:indexed "functions"))
-          "are (uncached) functions ``of'' the object, i.e.\\ they are actually methods which
-discriminate on their first argument, which is the object instance upon which they are operating. 
-GDL functions can also take other non-specialized arguments, just like a normal CL function."))
+          "are (uncached) functions ``of'' the object, i.e.\\ they
+operate just as normal CL functions, and accept arguments just like
+normal CL functions, with the added feature that you can also use "
+	  (:emph "the")
+	  " referencing, to refer to messages or reference chains
+	  which are available to the current object."))
 
 	"Figure "
         (:ref "fig:object-hello")
@@ -220,9 +224,11 @@ the constructor function "
                  (make-object 'hello :first-name \"John\" 
                                      :last-name \"Doe\"))
  #<HELLO @ #x218f39c2>")
-        "As you can see, keyword symbols are used to ``tag'' the input values, and the return value is an instance of class "
+        "Note that keyword symbols are used to ``tag'' the input values. And the return-value of "
+       (:emph "make-object")
+       " is an instance of class "
         (:texttt "hello")
-        ". Now that we have an instance, we can use the macro "
+        ". Now that we have an instance, we can use the operator "
         (:texttt (:indexed "the-object"))
         " to send messages to this instance:"
         (:verbatim "
@@ -392,6 +398,6 @@ A passed-in value will override the default expression.")))
       ((:section :title "Summary")
        "This chapter has provided an introduction to the core GDL
 syntax. Following chapters will cover more specialized aspects
-of the GDL language, introducing new Common Lisp concepts as they are
+of the GDL language, introducing additional Common Lisp concepts as they are
 required along the way.")))
 

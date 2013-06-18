@@ -24,7 +24,7 @@
 (defparameter *understanding-common-lisp*
     `((:chapter :title "Understanding Common Lisp")
       (:p "GDL is a superset of Common Lisp, and is embedded in Common
-Lisp. This means that when working with GDL, you have the full power
+Lisp. This means that when working with GDL you have the full power
 of CL available to you. The lowest-level expressions in a GDL
 definition are CL ``symbolic expressions,'' or ``s-expressions.''
 This chapter will familiarize you with CL s-expressions.")
@@ -216,9 +216,9 @@ substituted into the format-string at the point where it occurs.")
 	    " in Section "
 	    (:ref "sec:input-output")
 	    " on Input/Output, but for now, a familiarity with the simple use of "
-	    (:texttt "(format nil ...")
+	    (:texttt "(format nil ...)")
 	    " will be helpful for Chapter "
-	    (:ref "chapter:understandinggdlcoregdlsyntax")
+	    (:ref "chap:understandinggdlcoregdlsyntax")
 	    "."))
 
 
@@ -301,12 +301,12 @@ and generate other CL programs. Likewise, CL programs can read and
 manipulate other CL programs in a natural manner. This cannot be said
 of most other languages, and is one of the primary distinguishing
 characteristics of Lisp as a language.")
-	(:p "Textually, a list is defined as zero or more items surrounded by
-parentheses. The items can be objects of any valid CL data types,
-such as numbers, strings, symbols, lists, or other kinds of
-objects. As we have seen, you must quote a literal list to evaluate it
-or CL will assume you are calling a function. Now look at the
-following list:"
+	(:p "Textually, a list is defined as zero or more items
+surrounded by parentheses. The items can be objects of any valid CL
+data types, such as numbers, strings, symbols, lists, or other kinds
+of objects. According to standard evaluation rules, you must quote a
+literal list to evaluate it as such, or CL will assume you are calling
+a function. Now look at the following list:"
 	    (:verbatim "(defun hello () (write-string \"Hello, World!\"))")
 	    "This list also happens to be a valid CL program (function definition,
 in this case). Don't concern yourself about analyzing the function definition

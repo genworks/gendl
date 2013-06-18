@@ -26,6 +26,8 @@
 
 \usepackage [colorlinks=true, urlcolor=cyan]{hyperref}
 
+\usepackage [nottoc, numbib]{tocbibind}
+
 \newsavebox {\boxedverb}
 
 \makeindex 
@@ -74,12 +76,12 @@ License, which stipulates that applications code compiled with The
 Gendl Project compiler must be distributed as open-source under a
 compatible license (if distributed at all). Commercial Genworks GDL,
 properly licensed for development and/or runtime distribution, does
-not have this ``copyleft'' open-sourcing requirement.}. By first investing some of your valuable time into learning
-this system, you will be investing in your future productivity, and in
-the process you are becoming part of a quiet revolution. Although you
-may have come to Genworks GDL because of an interest in 3D modeling or
+not have this ``copyleft'' open-sourcing requirement.}. By investing some of your valuable time into learning this
+system you will be investing in your future productivity and, in the
+process, you will become part of a quiet revolution. Although you may
+have come to Genworks GDL because of an interest in 3D modeling or
 mechanical engineering, you will find that a whole new world, and a
-unique approach to computing, will now be at your fingertips.
+unique approach to \emph{computing}, will now be at your fingertips as well.
 
 \section{Knowledge Base Concepts According to Genworks}
 
@@ -98,7 +100,8 @@ practical. In this manual  our goal is to make you comfortable
 and motivated to explore the ideas we have implemented in our flagship
 system, Genworks GDL.
 
-Our informal definition of a \emph{\index{Knowledge Base System}Knowledge Base System} is an object-oriented programming environment which implements the features of \emph{\index{Caching}Caching} and \emph{\index{Dependency tracking}Dependency tracking}. Caching means that once the KB has computed something, it might not need to repeat 
+Our informal definition of a \emph{\index{Knowledge Base System}Knowledge Base System} is a hybrid \emph{Object-Oriented}\footnote{An \emph{Object-Oriented} programming environment supports named collections of data values and procedures to operate on that data.} and \emph{Functional}\footnote{A pure \emph{Functional} programming environment supports only the definition and execution of Functions which work by returning
+computed values, but do not modify the in-memory state of any data values.} programming environment, which implements the features of \emph{\index{Caching}Caching} and \emph{\index{Dependency tracking}Dependency tracking}. Caching means that once the KB has computed something, it might not need to repeat 
 that computation if the same question is asked again. Dependency tracking is the flip side
 of that coin --- it ensures that if a cached result is \emph{stale}, the result will be recomputed the next time it is \emph{demanded}, so as to give a fresh result.
 
@@ -106,9 +109,13 @@ of that coin --- it ensures that if a cached result is \emph{stale}, the result 
 
 \label{sec:classicdefinitionofknowledgebasedengineering(kbe)}
 
-\footnote{Sections 
+Sections 
 \ref{sec:classicdefinitionofknowledgebasedengineering(kbe)} through 
-\ref{sec:objectorienteddesign} are derived from [cite LaRocca20120306]}Knowlege based engineering (KBE) is a technology based on the
+\ref{sec:object-orienteddesign} are sourced from 
+\cite{LaRocca}.
+
+\begin{quote}
+Knowlege based engineering (KBE) is a technology based on the
 use of dedicated software tools called KBE systems, which are able to
 capture and systematically re-use product and process engineering
 knowledge, with the final goal of reducing time and costs of product
@@ -116,7 +123,7 @@ development by means of the following:
 
 \begin{itemize}
 
-\item Automation of repetitive and non-creative design tasks
+\item Automation of repetitive and non-creative design tasks;
 
 \item Support of multidisciplinary design optimization in all the 
 phases of the design process
@@ -125,10 +132,16 @@ phases of the design process
 
 
 
-\section{Classic Caching Feature}
+\end{quote}
 
-\label{sec:classiccachingfeature}
 
+\section{Runtime Value Caching and Dependency Tracking}
+
+\label{sec:runtimevaluecachinganddependencytracking}
+
+
+
+\begin{quote}
 
 
 Caching refers to the ability of the KBE system to memorize at
@@ -141,26 +154,35 @@ valid (stale), they are set to unbound and recomputed if and only at
 the very moment they are again demanded.
 
 
-\p{This dependency tracking mechanism is at the base of associative
+
+This dependency tracking mechanism is at the base of associative
 modeling, which is of extreme interest for engineering design
 applications. For example, the shape of a wing rib can be defined
 accordingly to the shape of the wing aerodynamic surface. In case the
 latter is modified, the dependency tracking mechanism will notify the
-system that teh given rib instance is no longer valid and will be
+system that the given rib instance is no longer valid and will be
 eliminated from the product tree, together with all the
 information (objects and attributes) depending on it. The new rib
 object, including its attributes and the rest of the affected
 information, will not be re-instantiated/updated/re-evaluated
 automatically, but only when and if needed (see demand driven
-instantiation in the next section)}
+instantiation in the next section)
+
+
+
+\end{quote}
+
 
 \section{Demand-Driven Evaluation}
 
 \label{sec:demand-drivenevaluation}
 
-KBE systems use the \emph{demand-driven}approach. That is, they evaluate just those chains of
+
+
+\begin{quote}
+KBE systems use the \emph{demand-driven} approach. That is, they evaluate just those chains of
 expressions required to satisfy a direct request of the user (i.e. the
-evaluation of certain attributes ofor the instantiation of an object),
+evaluation of certain attributes for the instantiation of an object),
 or the indirect requests of another object, which is trying to satisfy
 a user demand. For example, the system will create an instance of the
 rib object only when the weight of the abovementioned wing rib is
@@ -176,43 +198,37 @@ at demand, without the need to evaluate the whole model from its root,
 prevents waste of computational resources and in many cases brings
 seemingly intractible problems into the realm of the tractible.
 
-\section{The Object-Oriented Paradigm meets the Functional paradigm}
+\end{quote}
 
-\label{sec:theobject-orientedparadigmmeetsthefunctionalparadigm}
-
-In order to model very complex products and manage efficiently
-large bodies of knowledge, KBE systems tap the potential of the object
-oriented nature of their underlying language (e.g. Common
-Lisp). ``Object'' in this context refers to an instantiated data
-structure of a particular assigned data type. As is well-known in
-computing community, unrestricted state modification of objects leads
-to unmaintainable systems which are difficult to debug. KBE systems
-manage this drawback by strictly controlling and constraining
-any ability to modify or ``change state'' of objects. 
-
-In essence, a KBE system generates a tree of inspectable objects which
-is analogous to the function call tree of pure functional-language
-systems.
 
 \section{Object-oriented Systems}
 
 \label{sec:object-orientedsystems}
 
+
+
+\begin{quote}
 An object-oriented system is composed of
        objects (i.e. concrete instantiations of named classes), and
        the behavior of the system results from the collaboration of
        those objects. Collaboration between objects involves them
        sending messages to each other. Sending a message differs from
-       calling a function in that when a target object receives a
-       message, it decides on its own what function to carry out to
-       service that message. The same message may be implemented by
-       many different functions, the one selected depending on the
-       current state of the target object.
+       calling a function in the sense that when a target object
+       receives a message, it decides on its own what function to
+       carry out to service that message. The same message may be
+       implemented by many different functions, the one selected
+       depending on the current state of the target object.
+
+\end{quote}
+
 
 \section{Object-oriented Analysis}
 
 \label{sec:object-orientedanalysis}
 
+
+
+\begin{quote}
 
 
 Object-oriented analysis (OOA) is the process of analyzing
@@ -230,7 +246,7 @@ Object-oriented analysis (OOA) is the process of analyzing
        constraints (e.g. concurrency, distribution, persistence, or
        how the system is to be built) are not considered during the
        analysis phase; rather, they are addressed during
-       object-oriented design (OOD).
+       object-oriented design (OOD) phase.
 
 
 
@@ -240,29 +256,59 @@ interaction diagrams. It may also include some kind of user interface.
 
 
 
+\end{quote}
+
+
 \section{Object-oriented Design}
 
 \label{sec:object-orienteddesign}
 
-During object-oriented design (OOD), a developer applies implementation constraints
-to the conceptual model produced in object-oriented analysis. Such constraints could include
-not only constraints imposed by the chosen architecture but also any non-functional --- 
-technological or environmental --- constraints, such as transaction throughput, response time,
-run-time platform, development environment, or those inherent in the programming language. Concepts
-in the analysis model are mapped onto implementation classes and interfaces resulting in
-a model of the solution domain, i.e., a detailed description of \emph{how} the system is to be built.
+
+
+\begin{quote}
+During the object-oriented design (OOD) phase, a developer
+applies implementation constraints to the conceptual model produced in
+object-oriented analysis. Such constraints could include not only
+constraints imposed by the chosen architecture but also any
+non-functional --- technological or environmental --- constraints,
+such as transaction throughput, response time, run-time platform,
+development environment, or those inherent in the programming
+language. Concepts in the analysis model are mapped onto
+implementation classes and interfaces resulting in a model of the
+solution domain, i.e., a detailed description of \emph{how} the system is to be built.
+
+\end{quote}
+
+
+\section{The Object-Oriented Paradigm meets the Functional paradigm}
+
+\label{sec:theobject-orientedparadigmmeetsthefunctionalparadigm}
+
+In order to model very complex products and efficiently manage
+large bodies of knowledge, KBE systems tap the potential of the object
+oriented nature of their underlying language (e.g. Common
+Lisp). ``Object'' in this context refers to an instantiated data
+structure \emph{of a particular assigned data type}. As is well-known in the computing community, unrestricted state
+modification of objects leads to unmaintainable systems which are
+difficult to debug. KBE systems manage this drawback by strictly
+controlling and constraining any ability to modify or ``change state''
+of objects.
+
+In essence, a KBE system generates a tree of inspectable objects which
+is analogous to the function call tree of pure functional-language
+systems.
 
 \section{Goals for this Manual}
 
 \label{sec:goalsforthismanual}
 
 This manual is designed as a companion to a live two-hour
-GDL/GWL tutorial, but you may also be relying on it independent of the
-video tutorial. In either case, the basic goals are:
+GDL/GWL tutorial, but you may also be relying on it independently of the
+video tutorial. In either case, the fundamental goals are:
 
 \begin{itemize}
 
-\item Get you motivated about using Genworks GDL
+\item To get you motivated about using Genworks GDL
 
 \item Enable you to ascertain whether Genworks GDL is an appropriate tool for a given job
 
@@ -273,31 +319,33 @@ applications, or porting apps from similar KB systems into GDL.
 
 \end{itemize}
 
-This manual will begins with an introduction to the \index{Common Lisp}Common Lisp programming language. If you are new to Common Lisp:
-congratulations! You have just been introduced to a powerful tool
+The manual will begin with an introduction to the \index{Common Lisp}Common Lisp programming language. If you are new to Common Lisp:
+congratulations! You are about to be introduced to a powerful tool
 backed by a rock-solid standard specification, which will protect your
 development investment for decades to come. In addition to the
 overview in this manual, many resources are available to get you
 started in CL --- for starters, we recommend 
 \underline{\index{Basic Lisp Techniques}Basic Lisp Techniques}\footnote{
-\underline{BLT} is available at \texttt{http://www.franz.com/resources/educational\_resources/cooper.book.pdf}}, which was prepared by the author. 
+\underline{BLT} is available at \texttt{http://www.franz.com/resources/educational\_resources/cooper.book.pdf}}, which was written by the author. 
 
 \section{What is GDL?}
 
 \label{sec:whatisgdl?}
 
 GDL is an acronym for
-``General-purpose Declarative Language.'' 
+``General-purpose Declarative Language.''
 
-GDL is a superset of ANSI Common Lisp, and consists largely of
+\begin{itemize}
+
+\item GDL is a superset of ANSI Common Lisp, and consists largely of
 automatic code-expanding extensions to Common Lisp implemented in the
 form of macros. When you write, for example, 20 lines in GDL, you
-might be writing the equivalent of 200 lines of Common Lisp. Of
-course, since GDL is a superset of Common Lisp, you still have the
+might be writing the equivalent of 200 lines of Common Lisp. Given
+that GDL is a superset of Common Lisp, you of course still have the
 full power of the CL language at your disposal whenever you are
 working in GDL.
-
-\index{compiled language!benefits of}\index{macros!code-expanding}Since GDL expands into CL, everything you write in GDL will be
+\index{compiled language!benefits of}\index{macros!code-expanding}
+\item Since GDL expands into CL, everything you write in GDL will be
 compiled ``down to the metal'' to machine code with all the
 optimizations and safety that the tested-and-true CL compiler provides
 [this is an important distinction as contrasted to some other
@@ -305,13 +353,13 @@ so-called KB systems on the market, which are essentially nothing more
 than interpreted \emph{scripting languages} which often impose arbitrary limits on
 the size and complexity of the application.
 
-GDL is also a \emph{\index{declarative}declarative} language in the fullest sense. When you put together a GDL application, you write and think mainly
+\item GDL is also a \emph{\index{declarative}declarative} language in the fullest sense. When you put together a GDL application, you write and think mainly
 in terms of objects and their properties, and how they depend on one another in a direct
 sense. You do not have to track in your mind explicitly how one object or property will ``call''
 another object or propery, in what order this will happen, etc. Those details are
-taken care of for you automatically by the language. 
+taken care of for you automatically by the language.
 
-Because GDL is object-oriented, you have all the features you would normally expect
+\item Because GDL is object-oriented, you have all the features you would normally expect
 from an object-oriented language, such as 
 
 \begin{itemize}
@@ -327,7 +375,9 @@ from an object-oriented language, such as
 
 \end{itemize}
 
-\index{object-orientation!message-passing}\index{object-orientation!generic-function}GDL supports the ``message-passing'' paradigm of object
+\index{object-orientation!message-passing}\index{object-orientation!generic-function}
+
+\item GDL supports the ``message-passing'' paradigm of object
 orientation, with some extensions. Since full-blown ANSI CLOS (Common
 Lisp Object System) is always available as well, the Generic Function
 paradigm is supported as well. Do not be concerned at this point if
@@ -335,6 +385,10 @@ you are not fully aware of the differences between Message Passing
 and Generic Function models of object-orientation.\footnote{See Paul Graham's 
 \underline{ANSI Common Lisp}, page 192, for an excellent discussion of the Two Models 
 of Object-oriented Programming.}.
+
+\end{itemize}
+
+
 
 \section{Why GDL (what is GDL good for?)}
 
@@ -383,7 +437,7 @@ considered as such);
 
 \end{itemize}
 
-Without further discussion, then, let's turn the page and get
+Without further definitions, let's turn the page and get
       started with hands-on GDL...
 
 \chapter{Installation}
@@ -432,7 +486,7 @@ is also included; please contact Genworks if you need the source code for this.}
 
 \label{subsec:unpackthedistribution}
 
-Genworks GDL is currently distributed as an setup executable for Windows,
+Genworks GDL is currently distributed as a setup executable for Windows,
 a ``dmg'' application bundle for Mac, and a self-contained zip file for Linux.
 
 \begin{itemize}
@@ -662,9 +716,9 @@ startup process, please contact the following resources:
 This chapter will lead you through all the basic steps of
 operating a typical GDL-based development environment. We will not go
 into any depth about the additional features of the environment or
-language syntax in this section --- this is just for getting familiar
-and practicing with the mechanics of operating the environment with a
-keyboard.
+language syntax in this section --- this is merely for getting
+familiar and practicing with the mechanics of operating the
+environment with a keyboard.
 
 \section{What is Different about GDL?}
 
@@ -678,20 +732,35 @@ them immediately or update an existing set of objects to observe their
 new behavior.
 
 In many other programming language systems, to introduce a new
-function or object, one has to start the system from the beginning and
-reload all the files in order to test new functionality.
+function or object, one has \emph{to start the system from the beginning} and reload all the files in order to test new functionality.
  
-In GDL, if you shut down the system after having compiled and loaded a
-set of files with new definitions, then when you restart the system
-you will have to recompile and/or reload those definitions in order to
-bring the system back into the same state. This is typically done
-automatically, using commands placed into the \texttt{gdlinit.cl} initialization file, as introduced in Section 
-\ref{sec:customizingyourenvironment}. Alternatively, you can compile and load definitions into
+In GDL, it is typical to keep the same development session up and
+running for an entire day or longer, making it unnecessary to
+constantly recompile and reload your definitions from scratch. Note,
+however, that if you do shut down and restart the system for some
+reason, then you will have to recompile and/or reload your
+application's definitions in order to bring the system back into a
+state where it can instantiate (or ``run'') your application.
+
+While this can be done manually at the command-line, it is typically
+done automatically in one of two ways:
+
+\begin{enumerate}
+
+\item using commands placed into
+the \texttt{gdlinit.cl} initialization file, as introduced in Section 
+\ref{sec:customizingyourenvironment}.
+
+\item alternatively, you can compile and load definitions into
 your session, then save the ``world'' in that state. That way it is
 possible to start a new GDL ``world'' which already has all your
 application's definitions loaded and ready for use, without having to
 procedurally reload any files. You can then begin to make and test new
 definitions (and re-definitions) starting from this new ``world.''
+
+\end{enumerate}
+
+
 
 \section{Startup, ``Hello, World!'' and Shutdown}
 
@@ -710,13 +779,22 @@ As introduced in Chapter
 \ref{chap:installation}, the typical way to start a pre-packaged GDL environment is with the \texttt{run-gdl.bat} (Windows), or \texttt{run-gdl} (MacOS, Linux) script files, or with the installed Start
 program item (Windows) or application bundle (MacOS). Invoke this
 script file from the Start menu (Windows), your computer's file
-manager, or from a desktop shortcut if you have created one as
-outlined in section 
-\ref{subsec:makeadesktopshortcut}. Your installation executable may also have created a
-Windows ``Start'' menu item for Genworks GDL. Of course you can also 
-invoke \texttt{run-gdl.bat} from the Windows ``cmd'' command-line, or from another command shell such as Cygwin.\footnote{Cygwin is also useful as a command-line tool on Windows
+manager, or from a desktop shortcut if you have created one.  Your
+installation executable may also have created a Windows ``Start'' menu
+item for Genworks GDL. You can of course also invoke \texttt{run-gdl.bat} from the Windows ``cmd'' command-line, or from another command shell such as Cygwin.\footnote{Cygwin is also useful as a command-line tool on Windows
 for interacting with a version control system like Subversion (svn).}
 
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=6in,height=4in]{../images/emacs-startup.png}
+\end{center}
+
+\caption{Startup of Emacs with GDL}
+
+\label{fig:emacs-startup}
+
+\end{figure}
 
 
 \subsection{Startup}
@@ -735,7 +813,7 @@ back to Emacs, allowing you to interact directly with the GDL process from withi
 startup script, or the provided executable from the Start
 menu (windows) or application bundle (Mac).
 
-\item You should see a blue emacs window as in Figure 
+\item You should see an emacs window similar to that shown in Figure 
 \ref{fig:emacs-startup}. (alternative colors are also possible).
 
 \item (MS Windows): Look for the Genworks GDL Console
@@ -754,7 +832,7 @@ error messages, warnings, etc.
 of this buffer depends on the specific CL/GDL platform which you are
 running. This buffer contains an interactive prompt, labeled \texttt{gdl-user>}, where you will enter most of your commands to interact with your running GDL session
 for testing, debugging, etc. There is also a web-based graphical interactive environment called \emph{tasty} which will be discussed in Chapter 
-\ref{chapter:tasty}
+\ref{chap:thetastydevelopmentenvironment}.
 
 \item To ensure that the GDL command prompt is up and running, type: \texttt{(+ 2 3)} and press [Enter].
 
@@ -879,7 +957,7 @@ This will visit the *slime-repl* buffer. Now type:
 
 \label{sec:workingwithprojects}
 
-Gendl contains utilities which allow you to treat your
+GDL contains utilities which allow you to treat your
 application as a ``project,'' with the ability to compile,
 incrementally compile, and load a ``project'' from a directory tree of
 source files representing your project. In this section we give an
@@ -995,7 +1073,7 @@ Now our sample application directory looks like Figure
 
 ASDF stands for Another System Definition Facility, which
 	is the predominant system in use for Common Lisp third-party
-	libraries. With Gendl, you can use the \texttt{:create-asd-file?} keyword argument to make cl-lite generate an ASDF system
+	libraries. With GDL, you can use the \texttt{:create-asd-file?} keyword argument to make cl-lite generate an ASDF system
 file instead of actually compiling and loading the system. For example: 
 
 \begin{verbatim}(cl-lite "apps/yoyodyne/" :create-asd-file? t)
@@ -1055,7 +1133,7 @@ process.
 \label{sec:customizingyourenvironment}
 
  You may customize your environment in several different ways,
-for example by loading definitions and settings into your Gendl
+for example by loading definitions and settings into your GDL
 ``world'' automatically when the system starts, and by specifying
 fonts, colors, and default buffers (to name a few) for your emacs
 editing environment.
@@ -1064,8 +1142,8 @@ editing environment.
 
 \label{sec:savingtheworld}
 
- Saving the world refers to a technique of saving a complete
-binary image of your Gendl ``world'' which contains all the currently
+``Saving the world'' refers to a technique of saving a complete
+binary image of your GDL ``world'' which contains all the currently
 compiled and loaded definitions and settings.  This allows you to
 start up a saved world almost instantly, without being required to
 reload all the definitions. You can then incrementally compile and
@@ -1076,7 +1154,7 @@ To save a world, follow these steps:
 
 \begin{enumerate}
 
-\item Load the base Gendl code and (optionally) code for Gendl
+\item Load the base GDL code and (optionally) code for GDL
 modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For example:
 
 \begin{verbatim}
@@ -1118,17 +1196,17 @@ modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For examp
 
 \label{sec:startingupasavedworld}
 
-In order to start up Gendl using a custom saved image, or ``world,'' follow these steps
+In order to start up GDL using a custom saved image, or ``world,'' follow these steps
 
 \begin{enumerate}
 
-\item Exit Gendl
+\item Exit GDL
 
 \item Copy the supplied \texttt{gdl.dxl} to \texttt{gdl-orig.dxl}.
 
-\item Move the custom saved dxl image to \texttt{gdl.dxl} in the Gendl application \texttt{"program/"} directory.
+\item Move the custom saved dxl image to \texttt{gdl.dxl} in the GDL application \texttt{"program/"} directory.
 
-\item Start Gendl as usual. Note: you may have to edit the system gdlinit.cl or your home gdlinit.cl
+\item Start GDL as usual. Note: you may have to edit the system gdlinit.cl or your home gdlinit.cl
 to stop it from loading redundant code which is already in the saved image.
 
 \end{enumerate}
@@ -1142,7 +1220,7 @@ to stop it from loading redundant code which is already in the saved image.
 
 
 GDL is a superset of Common Lisp, and is embedded in Common
-Lisp. This means that when working with GDL, you have the full power
+Lisp. This means that when working with GDL you have the full power
 of CL available to you. The lowest-level expressions in a GDL
 definition are CL ``symbolic expressions,'' or ``s-expressions.''
 This chapter will familiarize you with CL s-expressions.
@@ -1356,8 +1434,8 @@ substituted into the format-string at the point where it occurs.
 
 
 We will cover more details on \texttt{format} in Section 
-\ref{sec:input-output} on Input/Output, but for now, a familiarity with the simple use of \texttt{(format nil ...} will be helpful for Chapter 
-\ref{chapter:understandinggdlcoregdlsyntax}.
+\ref{sec:input-output} on Input/Output, but for now, a familiarity with the simple use of \texttt{(format nil ...)} will be helpful for Chapter 
+\ref{chap:understandinggdlcoregdlsyntax}.
 
 
 
@@ -1449,12 +1527,12 @@ characteristics of Lisp as a language.
 
 
 
-Textually, a list is defined as zero or more items surrounded by
-parentheses. The items can be objects of any valid CL data types,
-such as numbers, strings, symbols, lists, or other kinds of
-objects. As we have seen, you must quote a literal list to evaluate it
-or CL will assume you are calling a function. Now look at the
-following list:
+Textually, a list is defined as zero or more items
+surrounded by parentheses. The items can be objects of any valid CL
+data types, such as numbers, strings, symbols, lists, or other kinds
+of objects. According to standard evaluation rules, you must quote a
+literal list to evaluate it as such, or CL will assume you are calling
+a function. Now look at the following list:
 
 \begin{verbatim}(defun hello () (write-string "Hello, World!"))
 \end{verbatim}This list also happens to be a valid CL program (function definition,
@@ -1601,7 +1679,7 @@ arguments in any way:
 
 Now that you have a basic grasp of Common Lisp syntax (or, more accurately, \emph{absence} of syntax), we will move directly into the GDL
 framework. By using GDL you can formulate most of your engineering and
-computing problems in a natural way, without becoming entangled in the
+computing problems in a natural way, without becoming involved in the
 complexity of the Common Lisp Object System (CLOS).
 
 
@@ -1617,9 +1695,11 @@ language.
 
 As discussed in the previous chapter, GDL is based on and
 is a superset of ANSI Common Lisp. Because ANSI CL is unencumbered and
-an open standard, with several commercial and free implementations, it
+is an open standard, with several commercial and free implementations, it
 is a good wager that applications written in it will continue to be
-usable 50, 100, or even hundreds of years from now.
+usable for the balance of this century, and beyond. Many commercial 
+products have a shelf life only until a new product comes along. Being
+based in ANSI Common Lisp ensures GDL's permanence.
 
 
 
@@ -1712,9 +1792,10 @@ are really cached methods, with expressions to compute and return a value.
 specify other instances to be ``contained'' within this instance.
 
 \item [\index{functions}functions]
-are (uncached) functions ``of'' the object, i.e.\ they are actually methods which
-discriminate on their first argument, which is the object instance upon which they are operating. 
-GDL functions can also take other non-specialized arguments, just like a normal CL function.
+are (uncached) functions ``of'' the object, i.e.\ they
+operate just as normal CL functions, and accept arguments just like
+normal CL functions, with the added feature that you can also use \emph{the} referencing, to refer to messages or reference chains
+	  which are available to the current object.
 
 \end{description}
 
@@ -1767,7 +1848,7 @@ the constructor function \texttt{\index{make-object}make-object} in order to cre
                  (make-object 'hello :first-name "John" 
                                      :last-name "Doe"))
  #<HELLO @ #x218f39c2>
-\end{verbatim}As you can see, keyword symbols are used to ``tag'' the input values, and the return value is an instance of class \texttt{hello}. Now that we have an instance, we can use the macro \texttt{\index{the-object}the-object} to send messages to this instance:
+\end{verbatim}Note that keyword symbols are used to ``tag'' the input values. And the return-value of \emph{make-object} is an instance of class \texttt{hello}. Now that we have an instance, we can use the operator \texttt{\index{the-object}the-object} to send messages to this instance:
 
 \begin{verbatim}
  GDL-USER(17): (the-object my-instance greeting)
@@ -1916,7 +1997,7 @@ A passed-in value will override the default expression.
 
 This chapter has provided an introduction to the core GDL
 syntax. Following chapters will cover more specialized aspects
-of the GDL language, introducing new Common Lisp concepts as they are
+of the GDL language, introducing additional Common Lisp concepts as they are
 required along the way.
 
 \chapter{The Tasty Development Environment}
@@ -1928,16 +2009,16 @@ required along the way.
 \emph{Tasty}\footnote{``Tasty'' is an acronym of acronyms - it stands
 for TAtu with STYle (sheets), where tatu comes from Testing And
 Tracking Utility.} is a web based testing and tracking utility. Note that Tasty is
-designed for developers of GenDL applications --- it is not intended
-as an end-user application interface (see the 
-\ref{chap:userinterfacesingendl} section for the recommended steps to create end-user interfaces).
+designed for developers of GDL applications --- it is not intended
+as an end-user application interface (see Chapter 
+\ref{chap:customuserinterfacesingdl} for the recommended steps to create end-user interfaces).
 
 
 
-Tasty allows you to visualize and inspect any object defined in GenDL,
-which mixes at least \texttt{base-object} into the definition of its root\footnote{base-object is the core mixin for all geometric
+Tasty allows you to visualize and inspect any object defined
+in GDL, which mixes at least \texttt{base-object} into the definition of its root\footnote{base-object is the core mixin for all geometric
 objects and gives them a coordinate system, length, width, and
-height. This restriction in tasty will be eliminated in a future GenDL
+height. This restriction in tasty will be eliminated in a future GDL
 release so the user will be able to instantiate non-geometric
 root-level objects in tasty as well, for example to inspect objects
 which generate a web page but no geometry.}
@@ -1948,9 +2029,9 @@ First, make sure you have compiled and loaded the code for
 the Chapter 5 examples, contained in 
 
 \begin{verbatim}.../src/documentation/tutorial/examples/chapter-5/
-\end{verbatim} in your Gendl distribution. If you are not sure how to do this,
-temporarily leave this section and review Section 
-\ref{compiling-and-loading-files-and-systems}, and then return.
+\end{verbatim} in your GDL distribution. If you are not sure how to do this,
+temporarily leave this section and review Chapter 
+\ref{chap:basicoperationofthegdlenvironment}, and then return.
 
 
 
@@ -1980,7 +2061,7 @@ browser to the URL in figure
 \end{figure}
 This will produce the start-up page, as seen in Figure 
 \ref{fig:tasty-startup}\footnote{This page may look slightly different, e.g. different
-icon images, depending on your specific Gendl version.}. To access an instance of a specific object definition,
+icon images, depending on your specific GDL version.}. To access an instance of a specific object definition,
 you specify the class package and the object type, separated by a
 colon (``:'') (or a double-colon (``::'') in the event the symbol
 naming the type is not exported from the package). For example,
@@ -2000,7 +2081,7 @@ consider the simple \texttt{tower1} definition in Figure
 \end{figure}
 
 
-Note that if the \texttt{assembly} symbol had not been exported from the \texttt{:shock-absorber} package, then a double-colon would have been needed: \texttt{shock-absorber::assembly}\footnote{use of a double-colon indicates dubious coding
+Note that if the \texttt{assembly} symbol had not been exported from the \texttt{:chapter-5} package, then a double-colon would have been needed: \texttt{chapter-5::tower1}\footnote{use of a double-colon indicates dubious coding
 practice, because it means that the code in quesion is accessing the
 ``internals'' or ``guts'' of another package, which may not have been
 the intent of that other package's designer.}
@@ -2039,7 +2120,7 @@ three view frames (tree frame, inspector frame and viewport frame
 
 The first toolbar consists of two ``tabs'' which allow the
 user to select between the display of the application itself or the
-GenDL reference documentation.
+GDL reference documentation.
 
 
 
@@ -2261,9 +2342,9 @@ the graphics viewport.
 
 
 
-The \emph{tree frame} is a hierarchical representation of your defined
-object. For example for the tower assembly this will be as
-depicted in figure 
+The \emph{tree frame} contains a hierarchical representation of your defined
+object. For example for the tower assembly this will be as depicted in
+figure 
 \ref{fig:tree-twisty-tower}
 
 
@@ -2290,7 +2371,7 @@ some cases modify) the object instance being inspected.
 
 
 
-For example, let's make the \texttt{number-of-blocks} of the tower to be ``settable,'' by adding the keyword \texttt{:settable} after its default expression (please look ahead to Chapter 
+For example, we can make the \texttt{number-of-blocks} of the tower to be ``settable,'' by adding the keyword \texttt{:settable} after its default expression (please look ahead to Chapter 
 \ref{chap:advancedgendl} if you are interested in more details on this  GDL
 syntax). We will also pass the number-of-blocks as the :size of the  \texttt{blocks} sequence, rather than using a hard-coded value as
 previously. The new assembly definition is now:
@@ -2325,7 +2406,7 @@ button (see Figure
 Although GDL's uses include general-purpose computing, one of
   its particular strong points is generating geometry and processing
   geometric entities in various ways. Geometric capabilities are
-  provided by a library of \emph{low-level primitives}, or LLPs. LLPs are pre-defined GenDL objects which you can
+  provided by a library of \emph{low-level primitives}, or LLPs. LLPs are pre-defined GDL objects which you can
 	extend by ``mixing in'' with your own definitions, and/or
 	instantiate as child objects in your definitions.
 
@@ -2345,7 +2426,7 @@ The names of the geometric LLPs are in the \texttt{:geom-base} package, and here
 
 \end{itemize}
 
-This chapter will cover the default coordinate system of GenDL as well as the built-in simple 2D and 3D LLPs. Chapter 
+This chapter will cover the default coordinate system of GDL as well as the built-in simple 2D and 3D LLPs. Chapter 
 \ref{chap:workingwithsurfacesandsolids} will cover the advanced Surfaces and Solids primitives.
 
 
@@ -2471,9 +2552,9 @@ The simplest geometric entity in GDL is a \texttt{box}, and in fact all entities
 
 
 
-\chapter{Custom User Interfaces in Gendl}
+\chapter{Custom User Interfaces in GDL}
 
-\label{chap:customuserinterfacesingendl}
+\label{chap:customuserinterfacesingdl}
 
 
 
@@ -2520,7 +2601,7 @@ work. For real projects, you should define your own package using \texttt{gwl:de
 
 
 The acronym ``GWL'' stands for Generative Web Language,
-which is not actually a separate language from GDL itself, but rather
+which is not in fact a separate language from GDL itself, but rather
 is a set of primitive objects and functions available with GDL for
 building web applications. The YADD reference documentation for
 package ``Generative Web Language'' provides detailed specifications
@@ -2547,7 +2628,7 @@ steps are needed:
 
 The \texttt{main-sheet} function should return valid
 HTML for the page. The easiest way to produce HTML is with the use of
-an HTML generating library, such as \href{http://weitz.de/cl-who}{CL-WHO} or \href{http://www.franz.com/support/documentation/current/doc/aserve/htmlgen.html}{HTMLGen}, both of which are built into GDL.
+an HTML generating library, such as \href{http://weitz.de/cl-who}{CL-WHO}\footnote{http://weitz.de/cl-who} or \href{http://www.franz.com/support/documentation/current/doc/aserve/htmlgen.html}{HTMLGen}\footnote{http://www.franz.com/support/documentation/current/doc/aserve/htmlgen.html}, both of which are built into GDL.
 
 
 
@@ -2571,7 +2652,6 @@ within a GWL application.
 \begin{figure}
 \begin{lrbox}{\boxedverb}
 \begin{minipage}{\linewidth}
-{\small
 
 \begin{verbatim}(in-package :gwl-user)
 
@@ -2593,7 +2673,7 @@ within a GWL application.
 ;; http://localhost:9000/make?object=gwl-user::president
 ;;
 
-\end{verbatim}}
+\end{verbatim}
 \end{minipage}
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
@@ -2614,7 +2694,6 @@ The code in Figure
 \begin{figure}
 \begin{lrbox}{\boxedverb}
 \begin{minipage}{\linewidth}
-{\small
 
 \begin{verbatim}
 <html>
@@ -2633,7 +2712,7 @@ The code in Figure
     </table>
   </body></html>
 
-\end{verbatim}}
+\end{verbatim}
 \end{minipage}
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
@@ -2981,7 +3060,7 @@ The form-controls provided by GDL are documented in YADD accessible with
 
 \begin{verbatim}http://localhost:9000/yadd
 \end{verbatim} and in Chapter 
-\ref{chapter:gdlreference} of this Manual. Examples of 
+\ref{chap:gdlreference} of this Manual. Examples of 
 available form-controls are:
 
 \begin{itemize}
@@ -3487,9 +3566,9 @@ Note the following from this example:
 
 
 
-\chapter{More Common Lisp for Gendl}
+\chapter{More Common Lisp for GDL}
 
-\label{chap:morecommonlispforgendl}
+\label{chap:morecommonlispforgdl}
 
 
 
@@ -3504,50 +3583,41 @@ Note the following from this example:
 \label{chap:upgradenotes}
 
 GDL 1580 marked the end of a major branch of GDL development,
-and 1581 was actually a major new version. With 1581, an open-source
-version was released, and eventually the name was changed to
-Gendl. 
+and 1581 was actually a major new version. Together with 1581, an
+open-source version was released under the name ``The Gendl Project.''
 
-This chapter lists the typical modifications you will want to consider
-for upgrading from GDL 1580 to Gendl 1582.
+This addendum lists the typical modifications you will want to
+consider for upgrading from GDL 1580 to GDL 1582 or later.
 
 \begin{itemize}
 
-\item (update-gdl ..) is not yet available for 1582. Instead
-of updating incrementally with patches, Gendl 1582 is released on a
-monthly basis in conjunction with Quicklisp releases.  Updating
-quicklisp involves downloading a full Genworks source code tree and
-running a build script. Information on this procedure is provided in
-Section 
-\ref{subsec:usingquicklisp}.
-
-\item (make-gdl-app ..) not yet available for 1582. We are
-preparing the Enterprise Edition of 1582 which will include the
+\item (make-gdl-app ..) is now available for 1582. We have
+made available an Enterprise Edition of 1582 which includes the
 make-gdl-app function, which creates Runtime applications without the
-compiler or Gendl development facilities.  If you are an Enterprise
+compiler or GDL development facilities.  If you are an Enterprise
 licensee, are ready to release Runtime applications on 1582, and you
 have not received information on the Enterprise Edition, please
 contact support@genworks.com
 
 \item (register-asdf-systems) and the \texttt{"3rdpty/"} directory are no longer needed or available. Instead, we depend on the Quicklisp
 system. Details of Quicklisp are available at \href{http://www.quicklisp.org}. See Section 
-\ref{subsec:usingquicklisp} for information about how to use Quicklisp with Gendl.
+\ref{subsec:compilingandloadingasystem} for information about how to use Quicklisp with GDL.
 
-\item There is a system-wide gdlinit.cl in the application
-       directory, and this may have some default information which
-       ships with Gendl. There is a personal one in home directory,
-       which you should modify if you want to customize anything.
+\item There is a system-wide \texttt{gdlinit.cl} in the application directory, and depending on the
+       particular release you have, this may have some default
+       information which ships with GDL. There is a personal \texttt{gdlinit.cl} in home directory, which you should modify if you want to
+       customize anything.
 
 \item Slime debugging is different from the ELI emacs debugger. The main thing to know is 
 to press ``a'' or ``q'' to pop out of the current error. Full documentation for the Slime debug mode
 is available with the \href{http://common-lisp.net/project/slime/doc/html/Debugger.html}{Slime documentation}.
 
-\item color-themes -- Gendl now ships with the Emacs
+\item color-themes -- GDL now ships with the Emacs
        color-theme package. You can select a different color theme with \texttt{M-x color-theme-select}. Press [Enter] or middle-mouse on a color theme to apply it.
 
-\item Gendl files can now end with \texttt{.lisp} or \texttt{.gdl}. The new \texttt{.gdl} extension will work for emacs Lisp mode and will work with
+\item GDL files can now end with \texttt{.lisp} or \texttt{.gdl}. The new \texttt{.gdl} extension will work for emacs Lisp mode and will work with
 	 cl-lite, ASDF, and Quicklisp for including source files in application systems. We recommend migrating
-to the new \texttt{.gdl} extension for files containing \texttt{define-object}, \texttt{define-format}, and \texttt{define-lens} forms, and any other future toplevel defining forms introduced by Gendl, in order to distinguish 
+to the new \texttt{.gdl} extension for files containing \texttt{define-object}, \texttt{define-format}, and \texttt{define-lens} forms, and any other future toplevel defining forms introduced by GDL, in order to distinguish 
 from files containing raw Common Lisp code.
 
 \item in gdlAjax, HTML for a sheet-section is given in the slot called \texttt{inner-html} instead of \texttt{main-view}. This name change was made to clarify what exactly is
@@ -3559,13 +3629,20 @@ from files containing raw Common Lisp code.
 \begin{verbatim}... #+allegro-v8.1 main-view #-allegro-v8.1 inner-html ...
 \end{verbatim}
 
+\item (update-gdl ..) is not yet available for 1582. Instead
+of updating incrementally with patches, the intention starting with
+GDL 1582 is for full GDL releases to be made available approximately
+monthly. Less frequent Long Term Maintenance (``LTS'') releases will
+also be made available along with a new simpler maintenance patch
+system.
+
 \end{itemize}
 
 
 
-\chapter{GDL Reference}
+\chapter{Reference for GDL Objects and Operators}
 
-\label{chap:gdlreference}
+\label{chap:referenceforgdlobjectsandoperators}
 
 
 
@@ -13091,7 +13168,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Dom-section]
 \index{Dom-section
-[package-dokumentation]}\emph{Void} Prints to *html-stream* a bulleted list for each of the three categories of docs in the package.
+[package-dokumentation]}\emph{List in GDL dom authoring format} Suitable for filling in a section of output document.
 
 
 \item [Write-html-sheet]
@@ -13174,6 +13251,13 @@ function defined in the lens. Typically a <tt>write-html-sheet</tt> function wou
 
 \backmatter
 
+\begin{thebibliography}{1}
+
+\bibitem{LaRocca} G. LaRocca \emph{Knowledge based engineering: Between AI
+and CAD. Review of a language based technology to support engineering design} 
+Advanced Engineering Informatics 26 (2012) 159-179, Elsevier.
+
+\end{thebibliography}
 
 
 \printindex

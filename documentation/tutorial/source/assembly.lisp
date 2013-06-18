@@ -36,6 +36,7 @@
 		 :usepackage ("makeidx")
 		 :usepackage ("textcomp")
 		 :usepackage ("colorlinks=true, urlcolor=cyan" "hyperref")
+		 :usepackage ("nottoc, numbib" "tocbibind")
 		 :newsavebox ("\\boxedverb")
 		 :makeindex nil)
       :frontmatter
@@ -59,6 +60,7 @@ written consent from Genworks International.")
       ,*upgrade-notes*
       ,(the-object (make-self 'yadd::assy) dom-chapter)
       :backmatter
+      ,*bibliography*      
       :printindex
       ))
 
