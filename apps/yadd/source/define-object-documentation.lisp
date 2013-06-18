@@ -298,8 +298,48 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
   (   
    (dom-body
     ()
-    `(:p "Mixins: " ,@(mapcar #'(lambda (sym) (string sym)) (the mixins-list))))
+    `((:p (:textbf (:underline "Mixins:")) " " 
+	  ,(format nil "~{~a~^, ~}" (mapcar #'(lambda (sym) (string sym)) (the mixins-list))))
+      (:p ((:list :style :description)
+	   ,@(mapcar #'(lambda(keyword)
+			 `((:item :word (:underline ,(format nil "~@(~a~)" keyword)))
+			   (:p ,@(net.html.parser:parse-html (getf (the :part-documentation-plist) keyword)))))
+		     (remove-if-not #'(lambda(keyword)
+					(getf (the part-documentation-plist) keyword))
+				    (remove :examples (safe-sort *allowed-part-documentation-keywords* #'string<))))))
+      (:p ,@(or 
+	     (remove 
+	      nil
+	      (mapcar #'(lambda (section)
+			  (let ((values (the-object section message-and-remarks)))
+			    (when values
+			      `(:p 
+				(:textbf (:underline ,(format nil "~@(~a~):" (the-object section heading))))
+				((:list :style :description)
+				 ,@(mapcar #'(lambda(value)
+					       `((:item :word ,(format nil "~@(~a~)" 
+								       (first value)
+								       #+nil ;; reformat inheritance note
+								       (if (sixth value)
+									   (format nil "[~a]" (sixth value))
+									   "")))
 
+						 (:index ,(format nil "~@(~a~)~%[~(~a~)]" 
+								  (first value)
+								  (the symbol)))
+
+						 ,(if (getf (fourth value) :type)
+						      `(:emph ,(replace-substring
+								(getf (fourth value) :type)
+								"-dot-" ".")) "")
+
+						 ,(getf (fourth value) :intro)
+
+						 )) 
+					   values))))))
+
+		      (list-elements (the sections))))
+	     `("")))))
 
    (write-documentation
     nil

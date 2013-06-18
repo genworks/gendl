@@ -311,9 +311,8 @@ loaderImg: '/static/gwl/tasty-unpix/loader.gif',loaderText: 'Narrowing Down...'}
     package-form :type 'package-form))
 
   :functions
-  (("Void. Prints to *html-stream* a bulleted list for each of the three categories of docs in the package."
-    dom-section
-    nil
+  (("List in GDL dom authoring format. Suitable for filling in a section of output document."  dom-section
+    ()
     (mapcar #'(lambda(child)
 		(the-object child dom-subsections))
 	  (the children))

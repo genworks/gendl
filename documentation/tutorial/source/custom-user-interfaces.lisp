@@ -318,7 +318,7 @@ to Figure "
       
        (:p "GDL provides a set of primitives useful for generating the
        standard HTML form-controls"
-	   (:footnote "http://www.w3.org/TR/html401/interact/forms.html")}
+	   (:footnote "http://www.w3.org/TR/html401/interact/forms.html")
 	   " such as text, checkbox, radio, submit, menu, etc. These
             should be instantiated as child objects in the page, then
             included in the HTML for the page

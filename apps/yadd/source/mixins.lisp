@@ -76,7 +76,7 @@ The javascript loaded is jquery."
                 (:i "User Code Packages copyright &copy; their respective authors"))))))
   
   :functions
-  ((dom-body () "")
+  ((dom-body () `((:p "")))
 
    (compute-url
     ()
@@ -266,7 +266,7 @@ The javascript loaded is jquery."
 					     (if (the-object documentation :macro?)
 						 " [Macro]" ""))
 
-				    ,(the-object documentation dom-body))))
+				    ,@(the-object documentation dom-body))))
 		     documentations))))))
 
 
