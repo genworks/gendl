@@ -62,7 +62,7 @@ a ``dmg'' application bundle for Mac, and a self-contained zip file for Linux."
 	 Student, Professional editions), or devel.lic (for Enterprise edition) into the "
 	   (:texttt "program/")
 	   " directory within the "
-	   (:textt "gdl/gdl/program/")
+	   (:texttt "gdl/gdl/program/")
 	   " directory.")
 
 	 (:item "Launch the application by finding the Genworks program group in the Start menu (Windows), or by double-clicking the application icon (Mac), or by running the "

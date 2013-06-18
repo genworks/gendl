@@ -260,10 +260,10 @@ then shut down your Emacs."
 	   " in the mini-buffer), then press [Enter]")
 
 	 (:item "alternatively, you can type "
-	   (:texttt "C-x &")
-	   " (that is, hold Control and press X, then release both while you type &. 
+	   (:texttt "C-x \\&")
+	   " (that is, hold Control and press X, then release both while you type \\&. 
 This will visit the *slime-repl* buffer. Now type: "
-	   (:textt ", q")
+	   (:texttt ", q")
 	   " to quit the GDL session.")
 
 	 (:item "Finally, type "
