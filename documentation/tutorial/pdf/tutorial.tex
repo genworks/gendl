@@ -5226,6 +5226,62 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (define-object angular-dimension-test (base-object) 
+   
+   :objects 
+   ((arc :type 'arc
+         :display-controls (list :color :green )
+         :radius 30
+         :end-angle (degrees-to-radians 90))
+    
+    
+    (dimension :type 'angular-dimension
+               :display-controls (list :color :blue )
+               :leader-radius (+ (* 0.1 (the arc radius))(the arc radius))
+               :arc-object (the arc))
+    
+    (explicit-dimension :type 'angular-dimension
+                        :center-point (the arc center)
+                        :start-point (the arc (point-on-arc (degrees-to-radians 10)))
+                        :end-point (the arc (point-on-arc (degrees-to-radians 60))))))
+ (generate-sample-drawing 
+  :objects (list 
+            (the-object (make-object 'angular-dimension-test) arc) 
+            (the-object (make-object 'angular-dimension-test) dimension)
+            (the-object (make-object 'angular-dimension-test) explicit-dimension))
+  :projection-direction (getf *standard-views* :top))
+ 
+  
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for ANGULAR-DIMENSION}
+
+\label{fig:example-code-ANGULAR-DIMENSION}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-ANGULAR-DIMENSION.pdf}
+\end{center}
+
+\caption{ANGULAR-DIMENSION example}
+
+\label{fig:ANGULAR-DIMENSION}
+
+\end{figure}
+
 
 
 
@@ -5346,6 +5402,43 @@ angles are measured anti-clockwise.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gdl-user)
+
+ (define-object arc-sample (arc) 
+   :computed-slots ((radius 30) (end-angle (half pi/2))))
+
+ (generate-sample-drawing :objects (make-object 'arc-sample))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for ARC}
+
+\label{fig:example-code-ARC}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-ARC.pdf}
+\end{center}
+
+\caption{ARC example}
+
+\label{fig:ARC}
+
+\end{figure}
 
 
 
@@ -5595,6 +5688,56 @@ makes sense for viewing it.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (define-object cylinder-sample (cylinder)
+   :computed-slots
+   ((display-controls (list :color :pink-spicy))
+    (length 10)
+    (radius 3)
+    (number-of-sections 25)))
+
+ (define-object base-drawing-sample (base-drawing)
+  
+   :objects
+   ((main-view :type 'base-view
+               :projection-vector (getf *standard-views* :trimetric)
+               :object-roots (list (the surf)))
+ 
+    (surf :type 'cylinder-sample
+          :hidden? t))) 
+
+ (generate-sample-drawing :objects (make-object 'base-drawing-sample))                
+
+ 
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for BASE-DRAWING}
+
+\label{fig:example-code-BASE-DRAWING}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-BASE-DRAWING.pdf}
+\end{center}
+
+\caption{BASE-DRAWING example}
+
+\label{fig:BASE-DRAWING}
+
+\end{figure}
+
 
 
 
@@ -5666,6 +5809,79 @@ and orientation.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gdl-user)
+
+ (define-object tower (base-object)
+  
+  :input-slots 
+   ((number-of-blocks 50) (twist-per-block 1)
+    (block-height 1) (block-width 5) (block-length 7))
+  
+  :objects
+   ((blocks :type 'box
+            :sequence (:size (the number-of-blocks))
+            :center (translate (the center) 
+                               :up (* (the-child index) 
+                                      (the-child height)))
+            :width (the block-width) 
+            :height (the block-height) 
+            :length (the block-length)
+            :orientation (alignment 
+                          :rear (if (the-child first?)
+                                    (rotate-vector-d (the (face-normal-vector  :rear))
+                                                     (the twist-per-block)
+                                                     (the (face-normal-vector :top)))
+                                    (rotate-vector-d (the-child previous 
+                                                     (face-normal-vector :rear))
+                                                     (the twist-per-block)
+                                                     (the (face-normal-vector :top))))
+                          :top (the (face-normal-vector :top))))))
+;;
+;;Test run
+;;
+#|
+gdl-user(46): (setq self (make-object 'tower))
+#&lt;tower @ #x750666f2&gt;
+gdl-user(47): (setq test-center (the (blocks 10) center))
+#(0.0 0.0 10.0)
+gdl-user(48): (the (blocks 10) (global-to-local test-center))
+#(0.0 0.0 0.0)
+gdl-user(49): (the (blocks 10) (local-to-global (the (blocks 10) 
+                                                (global-to-local test-center))))
+#(0.0 0.0 10.0)
+gdl-user(50): 
+gdl-user(50): (setq test-vertex (the (blocks 10) (vertex :top :right :rear)))
+#(1.7862364748012536 3.9127176305081863 10.5)
+gdl-user(51): (the (blocks 10) (global-to-local test-vertex))
+#(2.500000000000001 3.500000000000001 0.5)
+gdl-user(52): (the (blocks 10) (local-to-global (the (blocks 10) 
+                                                (global-to-local test-vertex))))
+#(1.786236474801254 3.9127176305081877 10.5)
+gdl-user(53): 
+|#
+;;
+;;
+;;
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for BASE-OBJECT}
+
+\label{fig:example-code-BASE-OBJECT}
+
+\end{figure}
 
 
 
@@ -5927,6 +6143,74 @@ makes sense for viewing it.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+                 
+ (in-package :gdl-user)
+
+ (define-object box-with-two-viewed-drawing (base-object)
+  
+   :objects
+   ((drawing :type 'two-viewed-drawing
+             :objects (list (the box) (the length-dim)))
+    
+    (length-dim :type 'horizontal-dimension
+                :hidden? t
+                :start-point (the box (vertex :rear :top :left))
+                :end-point (the box (vertex :rear :top :right)))
+   
+    (box :type 'box
+         :hidden? t
+         :length 5 :width 10 :height 15)))
+
+ (define-object two-viewed-drawing (base-drawing)
+   
+   :input-slots (objects)
+   
+   :objects
+  
+   ((main-view :type 'base-view
+               :projection-vector (getf *standard-views* :trimetric)
+               :length (half (the length))
+               :center (translate (the center)
+                                  :rear (half (the-child length)))
+               :objects (the objects))
+   
+    (top-view :type 'base-view
+              :projection-vector (getf *standard-views* :top)
+              :length (* 0.30 (the length))
+              :objects (the objects))))
+
+   (generate-sample-drawing :objects 
+    (the-object (make-object 'box-with-two-viewed-drawing) drawing top-view))
+ 
+ 
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for BASE-VIEW}
+
+\label{fig:example-code-BASE-VIEW}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-BASE-VIEW.pdf}
+\end{center}
+
+\caption{BASE-VIEW example}
+
+\label{fig:BASE-VIEW}
+
+\end{figure}
+
 
 
 
@@ -6072,6 +6356,49 @@ vector pointing from the end point to the third control point.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (define-object bezier-sample (bezier-curve)
+  :computed-slots
+  ((control-points (list (make-point 0 0 0)
+                         (make-point 1 1 0)
+                         (make-point 2 1 0)
+                         (make-point 3 0 0))))
+  :objects
+  ((points-display :type 'points-display
+                   :points (the control-points))))
+
+ (generate-sample-drawing :objects (let ((self (make-object 'bezier-sample)))
+                                     (list self (the points-display))))
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for BEZIER-CURVE}
+
+\label{fig:example-code-BEZIER-CURVE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-BEZIER-CURVE.pdf}
+\end{center}
+
+\caption{BEZIER-CURVE example}
+
+\label{fig:BEZIER-CURVE}
+
+\end{figure}
+
 
 
 
@@ -6170,6 +6497,46 @@ messages as base-object, which knows how to output itself in various formats.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (define-object box-sample (box)
+   :computed-slots ((display-controls (list :color :blue-neon))
+                    (length 10)
+                    (width (* (the length) +phi+))
+                    (height (* (the width) +phi+))))
+
+ (generate-sample-drawing :objects (make-object 'box-sample)
+                          :projection-direction (getf *standard-views* :trimetric))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for BOX}
+
+\label{fig:example-code-BOX}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-BOX.pdf}
+\end{center}
+
+\caption{BOX example}
+
+\label{fig:BOX}
+
+\end{figure}
+
 
 
 
@@ -6216,6 +6583,50 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gdl-user)
+
+ (define-object c-cylinder-sample (c-cylinder)
+   :computed-slots
+   ((display-controls (list :color :plum :transparency 0.2))
+    (start (make-point 0 0 0))
+    (end (make-point 0 0 10))
+    (number-of-sections 7)
+    (radius 3)))
+
+   (generate-sample-drawing :objects (make-object 'c-cylinder-sample)
+                            :projection-direction (getf *standard-views* :trimetric))
+   
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for C-CYLINDER}
+
+\label{fig:example-code-C-CYLINDER}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-C-CYLINDER.pdf}
+\end{center}
+
+\caption{C-CYLINDER example}
+
+\label{fig:C-CYLINDER}
+
+\end{figure}
 
 
 
@@ -6300,6 +6711,58 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (define-object center-line-test (base-object)
+ 
+  :objects 
+  ((circle-sample :type 'circle
+                  :display-controls (list :color :green)
+                  :center (make-point 10 10 10 )
+                  :radius 10)
+   
+   (center-line-sample :type 'center-line
+                       :circle? t
+                       :center (the circle-sample center)
+                       :size (* 2.1 (the circle-sample radius)))))
+
+  (generate-sample-drawing 
+  :objects (list 
+            (the-object (make-object 'center-line-test) 
+                        circle-sample) 
+            (the-object (make-object 'center-line-test) 
+                        center-line-sample))
+  :projection-direction (getf *standard-views* :top))
+ 
+ 
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for CENTER-LINE}
+
+\label{fig:example-code-CENTER-LINE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-CENTER-LINE.pdf}
+\end{center}
+
+\caption{CENTER-LINE example}
+
+\label{fig:CENTER-LINE}
+
+\end{figure}
 
 
 
@@ -6422,6 +6885,45 @@ angles are measured anti-clockwise.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+  (in-package :gdl-user)
+                  
+  (define-object circle-sample (circle)
+    :computed-slots
+    ((radius 10)))
+
+  (generate-sample-drawing :objects (make-object 'circle-sample))
+
+                  
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for CIRCLE}
+
+\label{fig:example-code-CIRCLE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-CIRCLE.pdf}
+\end{center}
+
+\caption{CIRCLE example}
+
+\label{fig:CIRCLE}
+
+\end{figure}
+
 
 
 
@@ -6484,6 +6986,49 @@ the center of its base. Partial cones and hollow cones are supported.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+  (in-package :gdl-user)
+
+   (define-object cone-sample (cone)
+     :computed-slots
+     ((display-controls (list :color :blue-neon 
+                              :transparency 0.5 
+                              :shininess 0.8 
+                              :specular-color :white))
+      (length 10) (radius-1 2)(inner-radius-1 1)
+      (radius-2 5) (number-of-sections 5)
+      (inner-radius-2 3)))
+  
+ (generate-sample-drawing :objects (make-object 'cone-sample) 
+                          :projection-direction :trimetric) 
+  
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for CONE}
+
+\label{fig:example-code-CONE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-CONE.pdf}
+\end{center}
+
+\caption{CONE example}
+
+\label{fig:CONE}
+
+\end{figure}
 
 
 
@@ -6570,6 +7115,50 @@ Partial cylinders and hollow cylinders are supported.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gdl-user)
+
+ (define-object cylinder-sample (cylinder)
+   :computed-slots
+   ((display-controls (list :color :pink-spicy))
+    (length 10)
+    (radius 3)
+    (number-of-sections 25)))
+
+
+ (generate-sample-drawing :objects (make-object 'cylinder-sample)
+                          :projection-direction (getf *standard-views* :trimetric))
+   
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for CYLINDER}
+
+\label{fig:example-code-CYLINDER}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-CYLINDER.pdf}
+\end{center}
+
+\caption{CYLINDER example}
+
+\label{fig:CYLINDER}
+
+\end{figure}
 
 
 
@@ -6705,6 +7294,47 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+  
+  (in-package :gdl-user)
+
+  (define-object ellipse-sample (ellipse)
+    :computed-slots
+    ((minor-axis-length 10)
+     (major-axis-length (* (the minor-axis-length) +phi+))
+     (start-angle 0)
+     (end-angle pi)))
+
+  (generate-sample-drawing :objects (make-object 'ellipse-sample))
+  
+  
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for ELLIPSE}
+
+\label{fig:example-code-ELLIPSE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-ELLIPSE.pdf}
+\end{center}
+
+\caption{ELLIPSE example}
+
+\label{fig:ELLIPSE}
+
+\end{figure}
+
 
 
 
@@ -6805,6 +7435,72 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim} 
+ (define-object general-note-test (base-object)
+  
+  :computed-slots
+  
+  ((blocks-note 
+   (list
+    "David Brown" "Created by" "ABC 2"
+    "Jane Smith" "Approved by" "CCD 2"))
+   (blocks-center 
+    (list '(-15  5 0) '(-40  5 0) '(-55  5 0)
+          '(-15 15 0) '(-40 15 0) '(-55 15 0)))
+   (blocks-width (list 30 20 10 30 20 10)))
+  
+  :objects 
+  
+  ((title-block :type 'box
+                :sequence (:size (length (the blocks-center)))
+                :display-controls (list :color :red)
+                :center (apply-make-point 
+                         (nth (the-child index ) 
+                              (the blocks-center)))
+                :length 10
+                :width (nth (the-child index ) 
+                            (the blocks-width))
+                :height 0)
+
+   (general-note-sample :type 'general-note
+                        :sequence (:size (length (the blocks-note)))
+                        :center (the (title-block 
+                                      (the-child index)) center)
+                        :character-size 2.5
+                        :strings (nth (the-child index) 
+                                      (the blocks-note)))))
+  (generate-sample-drawing 
+  :objects (list-elements (make-object 'general-note-test)) 
+  :projection-direction (getf *standard-views* :top))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for GENERAL-NOTE}
+
+\label{fig:example-code-GENERAL-NOTE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-GENERAL-NOTE.pdf}
+\end{center}
+
+\caption{GENERAL-NOTE example}
+
+\label{fig:GENERAL-NOTE}
+
+\end{figure}
 
 
 
@@ -6968,6 +7664,62 @@ as with global-filleted-polygon.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (define-object global-filleted-polygon-projection-sample 
+     (global-filleted-polygon-projection)
+     :computed-slots
+     ((display-controls (list :color :blue-steel 
+                              :transparency 0.3 
+                              :shininess 0.7 
+                              :spectral-color :white))
+      (default-radius 5)
+      (projection-depth 5)
+      (vertex-list (list (make-point 0 0 0)
+                         (make-point 10 10 0)
+                         (make-point 30 10 0)
+                         (make-point 40 0 0)
+                         (make-point 30 -10 0)
+                         (make-point 10 -10 0)
+                         (make-point 0 0 0)))))
+
+ (generate-sample-drawing :objects 
+                          (make-object 'global-filleted-polygon-projection-sample)
+                          :projection-direction :trimetric)
+
+
+
+
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for GLOBAL-FILLETED-POLYGON-PROJECTION}
+
+\label{fig:example-code-GLOBAL-FILLETED-POLYGON-PROJECTION}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-GLOBAL-FILLETED-POLYGON-PROJECTION.pdf}
+\end{center}
+
+\caption{GLOBAL-FILLETED-POLYGON-PROJECTION example}
+
+\label{fig:GLOBAL-FILLETED-POLYGON-PROJECTION}
+
+\end{figure}
+
 
 
 
@@ -7021,6 +7773,51 @@ for documentation on the messages.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+  (in-package :gdl-user)
+
+  (define-object global-filleted-polyline-sample (global-filleted-polyline)
+    :computed-slots
+    ((default-radius 5)
+      (vertex-list (list (make-point 0 0 0)
+                        (make-point 10 10 0)
+                        (make-point 30 10 0)
+                        (make-point 40 0 0)
+                        (make-point 30 -10 0)
+                        (make-point 10 -10 0)
+                        (make-point 0 0 0)))))
+
+  (generate-sample-drawing :objects (make-object 'global-filleted-polyline-sample))
+
+  
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for GLOBAL-FILLETED-POLYLINE}
+
+\label{fig:example-code-GLOBAL-FILLETED-POLYLINE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-GLOBAL-FILLETED-POLYLINE.pdf}
+\end{center}
+
+\caption{GLOBAL-FILLETED-POLYLINE example}
+
+\label{fig:GLOBAL-FILLETED-POLYLINE}
+
+\end{figure}
 
 
 
@@ -7157,6 +7954,53 @@ the local center and orientation do not affect the positioning or orientation of
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+  (in-package :gdl-user)
+
+  (define-object global-polygon-projection-sample (global-polygon-projection)
+    :computed-slots
+    ((display-controls (list :color :gold-old :transparency 0.3))
+     (projection-depth 5)
+     (vertex-list (list (make-point 0 0 0)
+                        (make-point 10 10 0)
+                        (make-point 30 10 0)
+                        (make-point 40 0 0)
+                        (make-point 30 -10 0)
+                        (make-point 10 -10 0)
+                        (make-point 0 0 0)))))
+
+  (generate-sample-drawing :objects (make-object 'global-polygon-projection-sample)
+                           :projection-direction (getf *standard-views* :trimetric))  
+
+  
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for GLOBAL-POLYGON-PROJECTION}
+
+\label{fig:example-code-GLOBAL-POLYGON-PROJECTION}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-GLOBAL-POLYGON-PROJECTION.pdf}
+\end{center}
+
+\caption{GLOBAL-POLYGON-PROJECTION example}
+
+\label{fig:GLOBAL-POLYGON-PROJECTION}
+
+\end{figure}
+
 
 
 
@@ -7259,6 +8103,49 @@ global-polyline-mixin for documentation on the messages.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+  (in-package :gdl-user)
+
+  (define-object global-polyline-sample (global-polyline)
+    :computed-slots
+    ((vertex-list (list (make-point 0 0 0)
+                        (make-point 10 10 0)
+                        (make-point 30 10 0)
+                        (make-point 40 0 0)
+                        (make-point 30 -10 0)
+                        (make-point 10 -10 0)
+                        (make-point 0 0 0)))))
+  
+  (generate-sample-drawing :objects (make-object 'global-polyline-sample))
+
+  
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for GLOBAL-POLYLINE}
+
+\label{fig:example-code-GLOBAL-POLYLINE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-GLOBAL-POLYLINE.pdf}
+\end{center}
+
+\caption{GLOBAL-POLYLINE example}
+
+\label{fig:GLOBAL-POLYLINE}
+
+\end{figure}
+
 
 
 
@@ -7351,6 +8238,50 @@ Creates a dimension annotation along the horizontal axis.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}          
+ (in-package :gdl-user)
+
+ (define-object  box-view (base-object)
+   
+   :objects
+   ((box :type 'box
+         :length 10 :width (* (the-child length) +phi+)
+         :height (* (the-child :width) +phi+))
+   
+    (width-dimension :type 'horizontal-dimension
+                     :character-size (/ (the box length) 20)
+                     :arrowhead-width (/ (the-child character-size) 3)
+                     :start-point (the box (vertex :top :left :rear))
+                     :end-point (the box (vertex :top :right :rear)))))
+
+ (generate-sample-drawing :object-roots (make-object 'box-view)) 
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for HORIZONTAL-DIMENSION}
+
+\label{fig:example-code-HORIZONTAL-DIMENSION}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-HORIZONTAL-DIMENSION.pdf}
+\end{center}
+
+\caption{HORIZONTAL-DIMENSION example}
+
+\label{fig:HORIZONTAL-DIMENSION}
+
+\end{figure}
+
 
 
 
@@ -7422,6 +8353,58 @@ horizontal-dimension.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}        
+
+ (in-package :gdl-user)
+                   
+ (define-object  label-sample (base-object)
+  
+   :objects
+   ((box :type 'box
+         :length 10 :width (* (the-child length) +phi+)
+         :height (* (the-child :width) +phi+))
+   
+    (corner-label :type 'label
+                  :leader-path (let ((start (the box (vertex :top :right :rear))))
+                                (list start
+                                      (translate start :right (/ (the box width) 10)
+                                                       :rear (/ (the box width) 10))
+                                      (translate start :right (/ (the box width) 7)
+                                                       :rear (/ (the box width) 10))))
+                  :text "The Corner"
+                  :character-size (/ (the box width) 15))))
+
+
+ (generate-sample-drawing :object-roots (make-object 'label-sample))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for LABEL}
+
+\label{fig:example-code-LABEL}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-LABEL.pdf}
+\end{center}
+
+\caption{LABEL example}
+
+\label{fig:LABEL}
+
+\end{figure}
 
 
 
@@ -7676,6 +8659,45 @@ by specifying a start point and an end point.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+  (in-package :gdl-user)  
+  
+  (define-object line-sample (line)
+    :computed-slots
+    ((start (make-point -10 -10 0))
+     (end (make-point 10 10 0))))
+
+  (generate-sample-drawing :objects (make-object 'line-sample))
+  
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for LINE}
+
+\label{fig:example-code-LINE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-LINE.pdf}
+\end{center}
+
+\caption{LINE example}
+
+\label{fig:LINE}
+
+\end{figure}
 
 
 
@@ -8048,6 +9070,53 @@ Creates a dimension annotation along an axis from a start point to an end point.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}        
+
+ (in-package :gdl-user)
+                   
+ (define-object  parallel-dimension-sample (base-object)
+  
+  
+   :objects
+   ((box :type 'box
+         :length 10 :width (* (the-child length) +phi+)
+         :height (* (the-child :width) +phi+))
+   
+    (length-dimension :type 'parallel-dimension
+                      :character-size (/ (the box length) 20)
+                      :start-point (the box (vertex :top :left :front))
+                      :end-point (the box (vertex :top :right :rear)))))
+
+  (generate-sample-drawing :object-roots (make-object 'parallel-dimension-sample))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for PARALLEL-DIMENSION}
+
+\label{fig:example-code-PARALLEL-DIMENSION}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-PARALLEL-DIMENSION.pdf}
+\end{center}
+
+\caption{PARALLEL-DIMENSION example}
+
+\label{fig:PARALLEL-DIMENSION}
+
+\end{figure}
+
 
 
 
@@ -8118,6 +9187,50 @@ cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch).
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gdl-user)
+ 
+ (define-object pie-sample (pie-chart)
+   :computed-slots
+   ((data (list 30 70))
+   
+    (labels&colors '(("Expenses" :red) ("Revenue" :green)))
+   
+    (width 200) 
+   
+    (title "Cash Flow")))
+
+ (generate-sample-drawing :objects (make-object 'pie-sample))
+
+ 
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for PIE-CHART}
+
+\label{fig:example-code-PIE-CHART}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-PIE-CHART.pdf}
+\end{center}
+
+\caption{PIE-CHART example}
+
+\label{fig:PIE-CHART}
+
+\end{figure}
 
 
 
@@ -8213,6 +9326,55 @@ color for the crosshairs is a light grey (:grey-light-very in the *color-table*)
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gdl-user)
+
+ (define-object point-sample (base-object)
+   
+   :objects
+   ((bezier :type 'bezier-curve
+            :control-points (list (make-point 0 0 0)
+                                  (make-point 1 1 0)
+                                  (make-point 2 1 0)
+                                  (make-point 3 0 0)))
+    (points-to-show :type 'point
+                    :sequence (:size (length (the bezier control-points)))
+                    :center (nth (the-child :index) 
+                                 (the bezier control-points))
+                    :radius 0.08
+                    :display-controls (list :color :blue))))
+
+ (generate-sample-drawing :object-roots (make-object 'point-sample))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for POINT}
+
+\label{fig:example-code-POINT}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-POINT.pdf}
+\end{center}
+
+\caption{POINT example}
+
+\label{fig:POINT}
+
+\end{figure}
 
 
 
@@ -8399,6 +9561,63 @@ Defines an alternating set of cylinders and torus sections for the elbows
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gdl-user)  
+
+ (define-object route-pipe-sample (base-object)
+
+  :objects
+
+  ((pipe :type 'route-pipe
+         :vertex-list (list #(410.36 436.12 664.68) 
+                            #(404.21 436.12 734.97) 
+                            #(402.22 397.48 757.72) 
+                            #(407.24 397.48 801.12) 
+                            #(407.24 448.0 837.0)
+                            #(346.76 448.0 837.0))
+         :default-radius 19
+         :outer-pipe-radius 7
+         :inner-pipe-radius nil
+         :display-controls (list :color :blue-steel 
+                                 :transparency 0.0 
+                                 :shininess 0.7 
+                                 :spectral-color :white))))
+
+ 
+ (generate-sample-drawing :objects (the-object (make-object 'route-pipe-sample) pipe)
+                          :projection-direction (getf *standard-views* :trimetric))
+  
+
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for ROUTE-PIPE}
+
+\label{fig:example-code-ROUTE-PIPE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-ROUTE-PIPE.pdf}
+\end{center}
+
+\caption{ROUTE-PIPE example}
+
+\label{fig:ROUTE-PIPE}
+
+\end{figure}
+
 
 
 
@@ -8565,6 +9784,55 @@ The set of points equidistant from a given center point.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+  
+  (in-package :gdl-user)
+  
+  (define-object sphere-sample (sphere)
+    
+   :computed-slots
+
+    ((radius 150)
+     (number-of-vertical-sections 10)
+     (number-of-horizontal-sections 10)
+     (display-controls (list :color :green-forest-medium))))
+
+  (generate-sample-drawing :objects (make-object 'sphere-sample) 
+                           :projection-direction :trimetric)
+
+
+
+
+
+                  
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for SPHERE}
+
+\label{fig:example-code-SPHERE}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-SPHERE.pdf}
+\end{center}
+
+\caption{SPHERE example}
+
+\label{fig:SPHERE}
+
+\end{figure}
+
 
 
 
@@ -8687,6 +9955,53 @@ construction and positioning since the actual center of the spherical cap is the
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+  
+ (in-package :gdl-user)
+
+ (define-object spherical-cap-sample (spherical-cap)
+   
+  :computed-slots
+
+   ((base-radius 150)
+    (cap-thickness 7)
+    (axis-length (* (the base-radius) +phi+))
+    (number-of-vertical-sections 10)
+    (number-of-horizontal-sections 10)
+    (display-controls (list :color :orchid-medium :transparency 0.5))))
+  
+
+ (generate-sample-drawing :objects (make-object 'spherical-cap-sample) 
+                          :projection-direction :trimetric)
+                  
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for SPHERICAL-CAP}
+
+\label{fig:example-code-SPHERICAL-CAP}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-SPHERICAL-CAP.pdf}
+\end{center}
+
+\caption{SPHERICAL-CAP example}
+
+\label{fig:SPHERICAL-CAP}
+
+\end{figure}
 
 
 
@@ -8888,6 +10203,56 @@ Partial ``bent'' cylinders are not currently supported.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+  
+  (in-package :gdl-user)
+  
+  (define-object torus-sample (torus)
+    :computed-slots
+    ((major-radius 150)
+     (minor-radius 42)
+     (draw-centerline-arc? t)
+     (number-of-longitudinal-sections 10)
+     (number-of-transverse-sections 10)
+     (display-controls (list :color :green-forest-medium)))
+
+    :hidden-objects ((view :type 'base-view
+                           :projection-vector (getf *standard-views* :trimetric)
+                           :page-width (* 5 72) :page-length (* 5 72)
+                           :objects (list self))))
+  
+
+  (generate-sample-drawing :objects (make-object 'torus-sample) 
+                           :projection-direction :trimetric)
+                  
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for TORUS}
+
+\label{fig:example-code-TORUS}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-TORUS.pdf}
+\end{center}
+
+\caption{TORUS example}
+
+\label{fig:TORUS}
+
+\end{figure}
 
 
 
@@ -9120,6 +10485,54 @@ Creates a dimension annotation along the vertical axis.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}        
+
+ (in-package :gdl-user)
+                   
+ (define-object  vertical-dimension-sample (base-object)
+  
+  
+   :objects
+   ((box :type 'box
+         :length 10 :width (* (the-child length) +phi+)
+         :height (* (the-child :width) +phi+))
+   
+    (length-dimension :type 'vertical-dimension
+                      :character-size (/ (the box length) 20)
+                      :flip-leaders? t
+                      :start-point (the box (vertex :top :left :front))
+                      :end-point (the box (vertex :top :left :rear)))))
+
+ (generate-sample-drawing :object-roots (make-object 'vertical-dimension-sample))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for VERTICAL-DIMENSION}
+
+\label{fig:example-code-VERTICAL-DIMENSION}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-VERTICAL-DIMENSION.pdf}
+\end{center}
+
+\caption{VERTICAL-DIMENSION example}
+
+\label{fig:VERTICAL-DIMENSION}
+
+\end{figure}
 
 
 
@@ -9978,6 +11391,129 @@ but which you can fill in your own specific lens to do something useful for the 
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (gwl:define-package :ajax-test (:export #:assembly))
+
+ (in-package :ajax-test)
+
+ (define-object assembly (base-ajax-sheet)
+
+   :objects
+   ((inputs-section :type 'inputs-section)
+   
+    (outputs-section :type 'outputs-section
+                     :box (the viewport box)
+                     :color (the inputs-section color))
+   
+    (viewport :type 'viewport
+              :box-color (the inputs-section color))))
+
+ (define-lens (html-format assembly)()
+   :output-functions
+   ((main-sheet-body
+     ()
+     (with-cl-who ()
+       (:table 
+        (:tr
+         (:td (str (the inputs-section main-div)))
+         (:td (str (the outputs-section main-div)))
+         (:td (str (the viewport main-div)))))))))
+
+ (define-object inputs-section (sheet-section)
+
+   :computed-slots ((color (the menu-control value)))
+  
+   :objects
+   ((menu-control :type 'menu-form-control
+                  :choice-list (list :red :green :blue)
+                  :default :red
+                  :onchange (the (gdl-ajax-call 
+                                  :form-controls (list (the-child)))))
+   
+    (little-grid :type 'grid-form-control
+                 :form-control-types '(text-form-control 
+                                       text-form-control 
+                                       button-form-control)
+                 :form-control-attributes '((:ajax-submit-on-change? t)
+                                            (:ajax-submit-on-change? t))
+                 :form-control-inputs 
+                 (mapcar #'(lambda(row)
+                             (list nil nil 
+                                   (list :onclick 
+                                         (the (gdl-ajax-call 
+                                               :function-key :do-something!
+                                               :arguments 
+                                               (list (the-object row index)))))))
+                         (list-elements (the-child rows)))
+                 :default '((:color :number :press-me)
+                            (:red 42 "OK")
+                            (:blue 50 "OK"))))
+   
+   :computed-slots 
+   ((inner-html (with-cl-who-string ()
+                 (str (the little-grid form-control-string))
+                 (str (the menu-control html-string)))))
+   
+   :functions
+   ((do-something! (index)
+      (format t "Processing row ~a...~%" index))))
+
+
+
+
+ (define-object outputs-section (sheet-section)
+   
+   :input-slots (color box)
+  
+   :computed-slots 
+   ((inner-html (with-cl-who-string ()
+                 (:p "The box volume is: " (fmt "~a" (the box volume)))
+                 (:p "The box color is: " 
+                     ((:span :style (format nil "color: ~a" (the color)))
+                      (str (the color))))))))
+
+
+
+ (define-object viewport (base-ajax-graphics-sheet)
+  
+   :input-slots (box-color)
+
+   :computed-slots ((length 300)
+                    (width 300)
+                    (display-list-objects (list (the box)))
+                    (projection-vector (getf *standard-views* 
+                                             (the view-selector value)))
+                    (inner-html
+                     (with-cl-who-string ()
+                       (str (the view-selector html-string))
+                       (str (the reset-zoom-button form-control-string))
+                       (str (the raster-graphics)))))
+  
+   :objects ((box :type 'box 
+                  :length 20 :width 25 :height 30
+                  :display-controls (list :color (the box-color)))))
+   
+ (publish-gwl-app "/ajax-test" "ajax-test:assembly")
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for BASE-AJAX-SHEET}
+
+\label{fig:example-code-BASE-AJAX-SHEET}
+
+\end{figure}
+
 
 
 
@@ -10197,6 +11733,116 @@ Note that checkbox-form-control and menu-form-control currently get automaticall
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gwl-user)
+
+ (define-object test-form (base-html-sheet)
+  
+   :objects
+   ((username :type 'text-form-control
+              :size 35
+              :maxlength 30
+              :allow-nil? t
+              :default "Ron Paul")
+   
+    (age :type 'text-form-control
+         :size 5
+         :validation-function #'(lambda(input) (or (null input) (> 80 input 70)))
+         :domain :number
+         ;;:default 72
+         :default nil )
+   
+    (bio :type 'text-form-control
+         :rows 8
+         :size 120
+         :default "
+Congressman Ron Paul is the leading advocate for freedom in our nation's capital. 
+As a member of the U.S. House of Representatives, Dr. Paul tirelessly works for 
+limited constitutional government, low taxes, free markets, and a return to sound 
+monetary policies. He is known among his congressional colleagues and his constituents 
+for his consistent voting record. Dr. Paul never votes for legislation unless the 
+proposed measure is expressly authorized by the Constitution. In the words of former 
+Treasury Secretary William Simon, Dr. Paul is the one exception to the Gang of 535 on 
+Capitol Hill.")
+   
+    (issues :type 'menu-form-control
+            :choice-list (list "Taxes" "Health Care" "Foreign Policy")
+            :default "Taxes"
+            :multiple? t)
+   
+    (color :type 'menu-form-control
+           :size 7
+           :choice-plist (list :red "red" 
+                               :green "green" 
+                               :blue "blue" 
+                               :magenta "magenta" 
+                               :cyan "cyan" 
+                               :yellow "yellow" 
+                               :orange "orange")
+           :validation-function #'(lambda(color)
+                                    (if (intersection (ensure-list color) 
+                                                      (list :yellow :magenta))
+                                        (list :error :disallowed-color-choice)
+                                      t))
+           ;;:append-error-string? nil
+           :multiple? t
+           :default :red
+           ;;:onchange "alert('hey now');" 
+           )
+   
+    (early-riser? :type 'checkbox-form-control
+                  :default nil)
+   
+    (favorite-links :type 'text-form-control
+                    :sequence (:size 3)
+                    :size 70
+                    :default "http://")))
+
+ (define-lens (html-format test-form)()
+   :output-functions
+   ((main-sheet
+     ()
+     (with-html-output (*html-stream* nil :indent t)
+       (:html (:head (:title "Test Form"))
+              (:body (:h2 (:center "Test Form"))
+                     (the write-development-links)
+                     (with-html-form (:cl-who? t)
+                       (:p (str (the username html-string)))
+                       (:p "(internal value is: " (fmt "~s" (the username value)) ")")
+                       (:p (str (the age html-string)))
+                       (:p "(internal value is: " (fmt "~s" (the age value)) ")")
+                       (:p (str (the bio html-string)))
+                       (:p (:table 
+                            (:tr (:td (str (the issues html-string))))
+                            (:tr (:td (str (the color html-string))))))
+                       (:p (str (the early-riser? html-string)))
+                      
+                       (dolist (link (list-elements (the favorite-links)))
+                         (htm (str (the-object link html-string))))
+                      
+                       (:p ((:input :type :submit :value " OK "))))))))))
+ 
+ (publish :path "/fe"
+          :function #'(lambda(req ent)
+                        (gwl-make-object req ent "gwl-user::test-form")))
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for BASE-FORM-CONTROL}
+
+\label{fig:example-code-BASE-FORM-CONTROL}
+
+\end{figure}
 
 
 
@@ -11431,6 +13077,33 @@ OPTIONGROUP is not yet implemented, but will be.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ ...
+ 
+ :objects
+ ((menu-1 :type 'menu-form-control
+          :choice-plist (list 1 "one" 2 "two")))
+
+ ...
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for MENU-FORM-CONTROL}
+
+\label{fig:example-code-MENU-FORM-CONTROL}
+
+\end{figure}
+
 
 
 
@@ -11807,6 +13480,28 @@ are the child of a base-ajax-sheet.
 
 
 
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ FLAG -- fill in!!!
+
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for SHEET-SECTION}
+
+\label{fig:example-code-SHEET-SECTION}
+
+\end{figure}
+
 
 
 
@@ -11959,6 +13654,27 @@ server.
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ FLAG -- Fill in!!!
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for SKELETON-UI-ELEMENT}
+
+\label{fig:example-code-SKELETON-UI-ELEMENT}
+
+\end{figure}
 
 
 
@@ -12218,6 +13934,115 @@ application-mixin, you can include one object of this type in the ui-display-lis
 
 
 
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+ (in-package :gwl-user)
+
+ (define-object test-html-graphics-sheet (base-html-graphics-sheet)
+    
+   :objects 
+
+   ((b-splines :type 'test-b-spline-curves)
+   
+    (boxed-spline :type 'surf:boxed-curve
+                  :curve-in (the b-splines (curves 0))
+                  :orientation (alignment :top (the (face-normal-vector :rear)))
+                  :show-box? t)
+
+    (view-object :type 'web-drawing
+                 :page-length (the graphics-height value)
+                 :page-width (the graphics-width value)
+                 :projection-vector (getf *standard-views* (the view))
+                 :object-roots (the ui-display-roots))
+   
+    (graphics-height :type 'text-form-control
+                     :default 350)
+   
+    (graphics-width :type 'text-form-control
+                    :default 500)
+   
+    (bg-color :type 'text-form-control
+              :default :black)
+   
+    (fg-color :type 'text-form-control
+              :default :white))
+     
+   :computed-slots
+   ((background-color (lookup-color (the :bg-color value) :format :decimal))
+    (foreground-color (lookup-color (the :fg-color value) :format :decimal))
+     
+    (view :trimetric :settable)
+   
+    ("list of gdl objects. Objects to be displayed in the graphics window."
+     ui-display-roots (list (the b-splines) (the boxed-spline)))))
+
+ (define-lens (html-format test-html-graphics-sheet)()
+   
+   :output-functions
+
+   ((main-sheet
+     ()
+     (with-html-output (*html-stream* nil :indent t)
+       (:html (:head (:title "Test HTML Graphics Sheet"))
+              (:body (when gwl:*developing?* (the write-development-links))
+                     (:h2 (:center "Test HTML Graphics Sheet"))
+                     (with-html-form (:cl-who? t)
+                       (:table (:tr (:td (:ul 
+                                         (:li (str (the graphics-height html-string)))
+                                         (:li (str (the graphics-width html-string)))
+                                              (:li (str (the bg-color html-string)))
+                                              (:li (str (the fg-color html-string))))
+                                         (:p (:input :type :submit :value " OK ")))
+                                    (:td (write-the geometry)))))))))))
+
+ (publish :path "/t-h-g-s"
+          :function #'(lambda(req ent)
+                        (gwl-make-object req ent "gwl-user::test-html-graphics-sheet")))
+
+ (define-object test-b-spline-curves (base-object)
+
+   :input-slots
+
+   ((control-points (list (make-point 0 0 0)
+                          (make-point 2 3.0 0.0) 
+                          (make-point 4 2.0 0.0) 
+                          (make-point 5 0.0 0.0) 
+                          (make-point 4 -2.0 0.0) 
+                          (make-point 2 -3.0 0.0) 
+                          (make-point 0 0 0))))
+  
+   :objects
+
+   ((curves :type 'surf:b-spline-curve
+            :sequence (:size 6)
+            :control-points (the control-points)
+            :degree (1+ (the-child :index))
+            :display-controls (list :line-thickness (* 0.3 (the-child index))
+                                    :color (ecase (the-child index)
+                                             (0 :red) (1 :orange) (2 :yellow) (3 :green)
+                                             (4 :blue) (5 :red-violet))))
+
+    (points :type 'point 
+            :sequence (:size (length (rest (the control-points))))
+            :center (nth (the-child index) (rest (the control-points)))
+            :display-controls (list :color :green))))
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for WEB-DRAWING}
+
+\label{fig:example-code-WEB-DRAWING}
+
+\end{figure}
 
 
 

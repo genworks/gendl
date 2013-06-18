@@ -1,0 +1,98 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog
+/Pages 2 0 R
+ >>
+ endobj
+2 0 obj
+<< /Type /Pages
+/Count 1
+/Kids [ 5 0 R ]
+ >>
+ endobj
+3 0 obj
+ endobj
+4 0 obj
+<< /Creator (cl-pdf 2.03 - )
+/CreationDate (D:20130618180318)
+ >>
+ endobj
+5 0 obj
+<< /Type /Page
+/Parent 2 0 R 
+/MediaBox [ 0 0 360 360 ]
+/Resources << /XObject <<  >>
+
+/ProcSet [ /PDF /Text ]
+/ExtGState <<  >>
+
+/Font <<  >>
+
+ >>
+
+/Annots [ ] 
+/Rotate 0
+/Contents 6 0 R
+ >>
+ endobj
+6 0 obj
+<< /Length 633
+ >>
+stream
+q
+  1.0   1.0   1.0 RG
+  1.0   1.0   1.0 rg
+     0.0      0.0 m
+   360.0      0.0 l
+   360.0    360.0 l
+     0.0    360.0 l
+     0.0      0.0 l
+ B
+Q
+1.0 0.0 0.0 1.0    180.0    180.0 cm
+q
+q
+       1.0        0.0        -0.0        1.0 0.0 0.0 cm
+  -180.0   -180.0    360.0    360.0 re
+ W
+ n
+q
+1.0 0.0 0.0 1.0      -0.0      -0.0 cm
+q
+1.0 0.0 0.0 1.0      0.0      0.0 cm
+q
+1.0 0.0 0.0 1.0      -0.0 -51.0798 cm
+q
+     0.5 w
+  0.0   0.0   0.0 RG
+  0.0   0.0   0.0 rg
+     0.0 102.1595 m
+91.28942 102.1595 165.2941 56.42115 165.2941      0.0 c
+-165.294      0.0 m
+-165.294 56.42115 -91.2894 102.1595      0.0 102.1595 c
+ S
+Q
+Q
+Q
+Q
+Q
+Q
+
+endstream
+ endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000060 00000 n 
+0000000121 00000 n 
+0000000137 00000 n 
+0000000219 00000 n 
+0000000427 00000 n 
+trailer
+<< /Size 7
+/Root 1 0 R /Info 4 0 R
+>>
+startxref
+1113
+%%EOF

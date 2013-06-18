@@ -44,6 +44,13 @@ makes sense for viewing it."
                   :examples "<pre>
  (in-package :gdl-user)
 
+ (define-object cylinder-sample (cylinder)
+   :computed-slots
+   ((display-controls (list :color :pink-spicy))
+    (length 10)
+    (radius 3)
+    (number-of-sections 25)))
+
  (define-object base-drawing-sample (base-drawing)
   
    :objects
