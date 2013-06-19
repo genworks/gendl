@@ -25,8 +25,8 @@
     `((:chapter* :title "Upgrade Notes")
 
       "GDL 1580 marked the end of a major branch of GDL development,
-and 1581 was actually a major new version. Together with 1581, an
-open-source version was released under the name ``The Gendl Project.''
+and 1581 was actually a major new version, which now has been
+supplanted by 1582. 
 
 This addendum lists the typical modifications you will want to
 consider for upgrading from GDL 1580 to GDL 1582 or later."
@@ -38,8 +38,8 @@ consider for upgrading from GDL 1580 to GDL 1582 or later."
 made available an Enterprise Edition of 1582 which includes the
 make-gdl-app function, which creates Runtime applications without the
 compiler or GDL development facilities.  If you are an Enterprise
-licensee, are ready to release Runtime applications on 1582, and you
-have not received information on the Enterprise Edition, please
+licensee, and are ready to release Runtime applications on 1582, and
+you have not received information on the Enterprise Edition, please
 contact support@genworks.com")
        
        (:item "(register-asdf-systems) and the "

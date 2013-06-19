@@ -25,7 +25,7 @@
     `((:chapter :title "Introduction")
 
       ((:section :title "Welcome")
-       "Congratulations on your decision to work with Genworks GDL"
+       "Congratulations on your decision to work with Genworks\\textsuperscript{\\textregistered} GDL\\texttrademark"
        (:footnote "From time to time, you will also see references to
 ``Gendl.'' This refers to ``The Gendl Project'' which is the name of
 an open-source software project from which Genworks GDL draws for its
@@ -36,12 +36,11 @@ Gendl Project compiler must be distributed as open-source under a
 compatible license (if distributed at all). Commercial Genworks GDL,
 properly licensed for development and/or runtime distribution, does
 not have this ``copyleft'' open-sourcing requirement.")
-       ". By investing some of your valuable time into learning this
-system you will be investing in your future productivity and, in the
-process, you will become part of a quiet revolution. Although you may
-have come to Genworks GDL because of an interest in 3D modeling or
-mechanical engineering, you will find that a whole new world, and a
-unique approach to "
+       ". By investing time to learn this system you will be investing
+in your future productivity and, in the process, you will be joining a
+quiet revolution. Although you may have come to Genworks GDL because
+of an interest in 3D modeling or mechanical engineering, you will find
+that a whole new world, and a unique approach to "
        (:emph "computing")
        ", will now be at your fingertips as well.")
       
@@ -51,16 +50,16 @@ or Knowledge "
        (:emph "Based")
        " Systems, from college textbooks or corporate marketing
 literature, and concluded that the concepts were too broad to be of
-practical use. Or you may have heard criticisms of the
+practical use. Or you may have heard criticisms implicit in the
 pretentious-sounding name, ``Knowledge-based Engineering,'' as in:
 ``you mean as opposed to "
        (:indexed "Ignorance-based Engineering")
        "?'' 
 
-To provide a clearer picture, we hope you will agree that our concept
-of a KB system is straightforward, relatively uncomplicated, and
-practical. In this manual  our goal is to make you comfortable
-and motivated to explore the ideas we have implemented in our flagship
+To provide a clearer picture, we hope you will concur that Genworks'
+concept of a KB system is straightforward, relatively uncomplicated,
+and practical. In this manual our goal is to make you both comfortable
+and motivated to explore the ideas we have built into our flagship
 system, Genworks GDL.
 
 Our informal definition of a "
@@ -78,9 +77,10 @@ computed values, but do not modify the in-memory state of any data values.")
        (:emph (:indexed "Caching"))
        " and "
        (:emph (:indexed "Dependency tracking"))
-       ". Caching means that once the KB has computed something, it might not need to repeat 
-that computation if the same question is asked again. Dependency tracking is the flip side
-of that coin --- it ensures that if a cached result is "
+       ". Caching means that once the KB has computed something, it
+generally will not need to repeat that computation if the same
+question is asked again. Dependency tracking is the flip side of that
+coin --- it ensures that if a cached result is "
        (:emph "stale")
        ", the result will be recomputed the next time it is "
        (:emph "demanded")
@@ -95,13 +95,13 @@ of that coin --- it ensures that if a cached result is "
        (:cite "LaRocca")
        "."
        (:quote
-       "Knowlege based engineering (KBE) is a technology based on the
-use of dedicated software tools called KBE systems, which are able to
-capture and systematically re-use product and process engineering
-knowledge, with the final goal of reducing time and costs of product
-development by means of the following:"
+       "Knowlege based engineering (KBE) is a technology predicated on
+the use of dedicated software tools called KBE systems, which are able
+to capture and systematically re-use product and process engineering
+knowledge, with the final goal of reducing the time and costs of
+product development by means of the following:"
        (:ul (:li "Automation of repetitive and non-creative design tasks;")
-	    (:li "Support of multidisciplinary design optimization in all the 
+	    (:li "Support of multidisciplinary design optimization in all  
 phases of the design process"))))
 
 
@@ -149,9 +149,7 @@ in hundreds of branches and include thousands of attributes. Hence,
 the ability to evaluate specific attributes and product model branches
 at demand, without the need to evaluate the whole model from its root,
 prevents waste of computational resources and in many cases brings
-seemingly intractible problems into the realm of the tractible."))
-
-      
+seemingly intractible problems to a rapid and solution."))
 
       ((:section :title "Object-oriented Systems")
        (:quote "An object-oriented system is composed of
@@ -177,7 +175,7 @@ seemingly intractible problems into the realm of the tractible."))
        interviews with stakeholders or other interested parties. The
        task to be addressed might be divided into several subtasks (or
        domains), each representing a different business,
-       technological, or other area of business. Each subtask would be
+       technological, or other area of interest. Each subtask would be
        analyzed separately. Implementation
        constraints (e.g. concurrency, distribution, persistence, or
        how the system is to be built) are not considered during the
@@ -186,14 +184,14 @@ seemingly intractible problems into the realm of the tractible."))
 
 	(:p "The conceptual model that results from OOA will typically consist of a
 set of use cases, one or more UML class diagrams, and a number of
-interaction diagrams. It may also include some kind of user interface.")))
+interaction diagrams. It may also include some form of user interface.")))
 
       ((:section :title "Object-oriented Design")
        (:quote 
 	"During the object-oriented design (OOD) phase, a developer
 applies implementation constraints to the conceptual model produced in
 object-oriented analysis. Such constraints could include not only
-constraints imposed by the chosen architecture but also any
+those imposed by the chosen architecture but also any
 non-functional --- technological or environmental --- constraints,
 such as transaction throughput, response time, run-time platform,
 development environment, or those inherent in the programming
@@ -274,11 +272,13 @@ the size and complexity of the application.")
 
        (:li "GDL is also a "
 	    (:emph (:indexed "declarative"))
-	    " language in the fullest sense. When you put together a GDL application, you write and think mainly
-in terms of objects and their properties, and how they depend on one another in a direct
-sense. You do not have to track in your mind explicitly how one object or property will ``call''
-another object or propery, in what order this will happen, etc. Those details are
-taken care of for you automatically by the language.")
+	    " language in the fullest sense. When you put together a
+GDL application, you write and think mainly in terms of objects and
+their properties, and how they depend on one another in a direct
+sense. You do not have to track in your mind explicitly how one object
+or property will ``call'' another object or propery, in what order
+this will happen, etc. Those details are taken care of for you
+automatically by the embedded language.")
 
        (:li "Because GDL is object-oriented, you have all the features you would normally expect
 from an object-oriented language, such as "
@@ -305,11 +305,11 @@ and Generic Function models of object-orientation."
 of Object-oriented Programming.")
        ".")))
       
-      ((:section :title "Why GDL (what is GDL good for?)")
+      ((:section :title "Why GDL (i.e., what is GDL good for?)")
        ((:list :style :itemize)
-	(:item "Organizing and integrating large amounts of information
-in ways not possible or not practical using conventional languages or 
-conventional relational database technology alone;")
+	(:item "Organizing and integrating large amounts of
+information in ways not possible, or not practical, using conventional
+languages or conventional relational database technology alone;")
 	(:item "Evaluating many design or engineering alternatives and 
 performing various kinds of optimizations within specified design
 spaces, and doing so very rapidly;")
@@ -327,8 +327,8 @@ surface, and solid geometric objects.")))
 	(:item "A CAD system (although it may operate on and/or generate geometric entities);")
 	(:item "A drawing program (although it may operate on and/or generate geometric entities);")
 	(:item "An Artificial Intelligence system (although it is an
-excellent environment for developing capabilities which could be
-considered as such);")
+excellent environment for developing capabilities which could qualify
+as such);")
 	(:item "An Expert System Shell (although one could be easily embedded within it).")))
       
       "Without further definitions, let's turn the page and get

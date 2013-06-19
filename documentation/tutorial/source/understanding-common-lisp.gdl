@@ -23,9 +23,9 @@
 
 (defparameter *understanding-common-lisp*
     `((:chapter :title "Understanding Common Lisp")
-      (:p "GDL is a superset of Common Lisp, and is embedded in Common
-Lisp. This means that when working with GDL you have the full power
-of CL available to you. The lowest-level expressions in a GDL
+      (:p "GDL is a superset of Common Lisp, and is ``embedded'' in
+Common Lisp. This means that when working with GDL you have the full
+power of CL available to you. The lowest-level expressions in a GDL
 definition are CL ``symbolic expressions,'' or ``s-expressions.''
 This chapter will familiarize you with CL s-expressions.")
       ((:section :title "S-expression Fundamentals")
@@ -52,9 +52,11 @@ toplevel "
 	  (:emph "prefix")
 	  " notation, which means that they consist of either an "
 	  (:emph "atom")
-	  " (e.g.  number, text string, symbol) or a list (one or more
-	  items enclosed by parentheses, where the first item is
-	  taken as a symbol which names an operator). Here is an example: "
+	  " (e.g.  number, text string, symbol) or a "
+	  (:emph "list")
+	  " (one or more items enclosed by parentheses, where the
+	  first item is taken as a symbol which names an
+	  operator). Here is an example: "
 
 	  (:verbatim "(+ 2 2)")
 
@@ -218,7 +220,7 @@ substituted into the format-string at the point where it occurs.")
 	    " on Input/Output, but for now, a familiarity with the simple use of "
 	    (:texttt "(format nil ...)")
 	    " will be helpful for Chapter "
-	    (:ref "chap:understandinggdlcoregdlsyntax")
+	    (:ref "chap:understandinggdl---coregdlsyntax")
 	    "."))
 
 

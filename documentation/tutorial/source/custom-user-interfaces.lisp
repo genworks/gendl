@@ -360,7 +360,7 @@ of the form controls within the " (:texttt "with-html-form") " macro.")
 
        ((:boxed-figure :caption "Form Controls and Fillout Forms"
 			  :label "fig:gwl-3b")
-	   (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3b.gdl"))))
+	   (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3b.gdl"))))
 
        ((:image-figure :image-file "gwl-3b.png" :caption "Form Controls and Fillout Forms" 
 		       :width "4in" :height "3in"
@@ -409,10 +409,11 @@ unchanged. This ability is not present in some other Ajax
 frameworks.")
 
      ((:subsection :title "Steps to Create a gdlAjax Application")
-      (:p "First, it is important to understand that the fundamentals from the
-previous section on Standard Web Applications still apply for gdlAjax
-applications --- that is, HTML generation, page linking, etc. These
-techniques will all still work in a gdlAjax application.")
+      (:p "Initially, it is important to understand that the
+fundamentals from the previous section on Standard Web Applications
+still apply for gdlAjax applications --- that is, HTML generation,
+page linking, etc. These techniques will all still work in a gdlAjax
+application.")
 
       (:p "To produce a gdlAjax application involves three main differences from
 a standard web application:"
@@ -444,7 +445,7 @@ a standard web application:"
 
 	  ((:boxed-figure :caption "Partial Page Updates with GdlAjax"
 			  :label "fig:gwl-4")
-	   (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-4.gdl")))))
+	   (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-4.gdl")))))
 
       (:p "Note the following from the example in Figure "
 	  (:ref "fig:gwl-4") ":"
@@ -569,7 +570,7 @@ can be controlled with other optional input-slots.")
 
       ((:boxed-figure :caption "Including Graphics in a Web Page"
 		      :label "fig:gwl-5")
-       (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-5.gdl"))))
+       (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-5.gdl"))))
 
 
       ((:image-figure :image-file "gwl-5.png" :caption "Including Graphics" 

@@ -50,7 +50,7 @@ Gnu Emacs)."
 	   (:footnote "Gnu Emacs is included with the download. The source code for this 
 is available at http://downloads.genworks.com/emacs-windows-24.3.zip. Gnu Ghostscript
 is also included; please contact Genworks if you need the source code for this."))
-	 (:item "Click to receive license key file by email.")))
+	 (:item "Click to receive the license key file by email.")))
        
        ((:subsection :title "Unpack the Distribution")
 	"Genworks GDL is currently distributed as a setup executable for Windows,

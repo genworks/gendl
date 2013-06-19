@@ -29,7 +29,9 @@
 		 :oddsidemargin 0
 		 :evensidemargin 0
 		 :pdfimageresolution "135"
-		 :title "GenDL Unified Documentation"
+		 :usepackage ("datetime")
+		 :title "Genworks GDL: A User's Manual"
+		 :date ("\\monthname\\ \\the\\year")
 		 :author "Dave Cooper"
 		 :usepackage ("dvips" "graphicx")
 		 :usepackage ("usenames, dvipsnames" "color")

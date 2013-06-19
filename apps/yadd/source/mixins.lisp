@@ -261,11 +261,10 @@ The javascript loaded is jquery."
 			 (remove nil 
 				 `(:item 
 				      (:index ,(format nil "~a" (the-object documentation symbol)))
-				    ,(format nil "~a~a"
-					     (the-object documentation symbol)
-					     (if (the-object documentation :macro?)
-						 " [Macro]" ""))
-
+				    (:textbf ,(format nil "~a~a"
+						      (the-object documentation symbol)
+						      (if (the-object documentation :macro?)
+							  " [Macro]" "")))
 				    ,@(the-object documentation dom-body))))
 		     documentations))))))
 

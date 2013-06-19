@@ -25,8 +25,8 @@
     `((:chapter :title "Basic Operation of the GDL Environment")
       "This chapter will lead you through all the basic steps of
 operating a typical GDL-based development environment. We will not go
-into any depth about the additional features of the environment or
-language syntax in this section --- this is merely for getting
+into particular depth about the additional features of the environment
+or language syntax in this section --- this is merely for getting
 familiar and practicing with the mechanics of operating the
 environment with a keyboard."
 
@@ -39,8 +39,8 @@ system is running you can "
        (:emph "definitions") 
        " of functions, objects, etc, and they will immediately become
 available as part of the running system, and you can begin testing
-them immediately or update an existing set of objects to observe their
-new behavior.
+them immediately, or update an existing set of objects to observe
+their new behavior.
 
 In many other programming language systems, to introduce a new
 function or object, one has "
@@ -56,7 +56,9 @@ application's definitions in order to bring the system back into a
 state where it can instantiate (or ``run'') your application.
 
 While this can be done manually at the command-line, it is typically
-done automatically in one of two ways:"
+done "
+       (:emph "automatically")
+       " in one of two ways:"
        (:ol 
 	(:li "using commands placed into
 the "
