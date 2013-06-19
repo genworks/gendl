@@ -3704,8 +3704,7 @@ Models a filesystem directory for use by the cl-lite program.
 
 \item [Bin-subdir-names]
 \index{Bin-subdir-names
-[codebase-directory-node]}\emph{
-\list of strings{}}
+[codebase-directory-node]}\emph{List of strings}
 
  Identifies the names of directories considered to hold binaries.
 Default is (list "bin" "patch")
@@ -3715,8 +3714,7 @@ Default is (list "bin" "patch")
 
 \item [Create-fasl?]
 \index{Create-fasl?
-[codebase-directory-node]}\emph{
-\boolean{}}
+[codebase-directory-node]}\emph{Boolean}
 
  Determines whether to write a concatenated fasl for the build. Defaults to nil.
 NOTE: this is not currently supported in cl-lite.
@@ -3726,8 +3724,7 @@ NOTE: this is not currently supported in cl-lite.
 
 \item [Fasl-output-name]
 \index{Fasl-output-name
-[codebase-directory-node]}\emph{
-\string{}}
+[codebase-directory-node]}\emph{String}
 
  Names the built concatenated fasl when \texttt{(the create-fasl?)} is non-nil.
 Defaults to \texttt{(the local-name)}
@@ -3737,8 +3734,7 @@ Defaults to \texttt{(the local-name)}
 
 \item [Fasl-output-path]
 \index{Fasl-output-path
-[codebase-directory-node]}\emph{
-\string or pathname object{}}
+[codebase-directory-node]}\emph{String or pathname object}
 
  Designates the pathname for the filesystem directory in which
 the built concatenated fasls are written. Defaults to \texttt{(glisp:temporary-folder)}
@@ -3748,8 +3744,7 @@ the built concatenated fasls are written. Defaults to \texttt{(glisp:temporary-f
 
 \item [Fasl-output-type]
 \index{Fasl-output-type
-[codebase-directory-node]}\emph{
-\string{}}
+[codebase-directory-node]}\emph{String}
 
  Names the fasl extension used by the compiler. Defaults to the local fasl output type.
 
@@ -3758,8 +3753,7 @@ the built concatenated fasls are written. Defaults to \texttt{(glisp:temporary-f
 
 \item [Load-always?]
 \index{Load-always?
-[codebase-directory-node]}\emph{
-\boolean{}}
+[codebase-directory-node]}\emph{Boolean}
 
  Determines whether to load the individual compiled fasls even if the source has not changed.
 Defaults to nil (i.e. we assume we are loading into a clean system and need all the initial definitions.).
@@ -3769,8 +3763,7 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 
 \item [Source-files-to-ignore]
 \index{Source-files-to-ignore
-[codebase-directory-node]}\emph{
-\list of strings{}}
+[codebase-directory-node]}\emph{List of strings}
 
  Lists directory names which should be ignored as having
 compilable source code for the build.
@@ -3780,8 +3773,7 @@ compilable source code for the build.
 
 \item [Special-subdir-names]
 \index{Special-subdir-names
-[codebase-directory-node]}\emph{
-\list of strings{}}
+[codebase-directory-node]}\emph{List of strings}
 
  Identifies the names of directories which are part of a vc-system control files
 and therefore should be treated as special subdirectories.
@@ -3792,8 +3784,7 @@ Default is (list "CVS")
 
 \item [Type-mapping]
 \index{Type-mapping
-[codebase-directory-node]}\emph{
-\plist of keywords and lists of strings{}}
+[codebase-directory-node]}\emph{Plist of keywords and lists of strings}
 
  Maps directory names to their default type classifications.
 
@@ -3814,8 +3805,7 @@ Default is (list "CVS")
 
 \item [Strings-for-display]
 \index{Strings-for-display
-[codebase-directory-node]}\emph{
-\string or list of strings{}}
+[codebase-directory-node]}\emph{String or List of Strings}
 
  Determines how the name of objects of this type will be printed in most places.
 This defaults to the name-for-display (generally the part's name as specified in its
@@ -3952,8 +3942,7 @@ Typically this would be used as a mixin into a more sophisticated rule-object, b
 
 \item [Rule-description]
 \index{Rule-description
-[base-rule-object]}\emph{
-\string{}}
+[base-rule-object]}\emph{String}
 
  Short description of the rule (generally one line). Defaults to NIL.
 
@@ -3962,8 +3951,7 @@ Typically this would be used as a mixin into a more sophisticated rule-object, b
 
 \item [Rule-description-help]
 \index{Rule-description-help
-[base-rule-object]}\emph{
-\string{}}
+[base-rule-object]}\emph{String}
 
  Verbose description of the purpose of the rule.
 
@@ -3972,8 +3960,7 @@ Typically this would be used as a mixin into a more sophisticated rule-object, b
 
 \item [Rule-result]
 \index{Rule-result
-[base-rule-object]}\emph{
-\string{}}
+[base-rule-object]}\emph{String}
 
  The basic return-value, or result, of evaluating the rule.
 
@@ -3982,8 +3969,7 @@ Typically this would be used as a mixin into a more sophisticated rule-object, b
 
 \item [Rule-result-help]
 \index{Rule-result-help
-[base-rule-object]}\emph{
-\string{}}
+[base-rule-object]}\emph{String}
 
  Verbose description of how the rule result is computed.
 
@@ -3992,8 +3978,7 @@ Typically this would be used as a mixin into a more sophisticated rule-object, b
 
 \item [Rule-title]
 \index{Rule-title
-[base-rule-object]}\emph{
-\string{}}
+[base-rule-object]}\emph{String}
 
  Title to be used with the rule object. Defaults to NIL.
 
@@ -4002,8 +3987,7 @@ Typically this would be used as a mixin into a more sophisticated rule-object, b
 
 \item [Strings-for-display]
 \index{Strings-for-display
-[base-rule-object]}\emph{
-\string{}}
+[base-rule-object]}\emph{String}
 
  Determines the rule's default name in various internal GDL contexts. Defaults to
 the \texttt{rule-title}, or "Unnamed Rule" if \texttt{rule-title} is NIL.
@@ -4013,8 +3997,7 @@ the \texttt{rule-title}, or "Unnamed Rule" if \texttt{rule-title} is NIL.
 
 \item [Suppress-display?]
 \index{Suppress-display?
-[base-rule-object]}\emph{
-\boolean{}}
+[base-rule-object]}\emph{Boolean}
 
  Determines whether the rule is displayed by default in reports etc.
 
@@ -4023,8 +4006,7 @@ the \texttt{rule-title}, or "Unnamed Rule" if \texttt{rule-title} is NIL.
 
 \item [Violated?]
 \index{Violated?
-[base-rule-object]}\emph{
-\boolean{}}
+[base-rule-object]}\emph{Boolean}
 
  Indicates whether this rule violates a standard condition.
 
@@ -4077,8 +4059,7 @@ A matrix sequence quantification is generated as a result of specifying
 
 \item [First]
 \index{First
-[matrix-sequence]}\emph{
-\gdl object{}}
+[matrix-sequence]}\emph{GDL Object}
 
  Returns the first element of the aggregate.
 
@@ -4087,8 +4068,7 @@ A matrix sequence quantification is generated as a result of specifying
 
 \item [Last]
 \index{Last
-[matrix-sequence]}\emph{
-\gdl object{}}
+[matrix-sequence]}\emph{GDL Object}
 
  Returns the last element of the aggregate.
 
@@ -4176,8 +4156,7 @@ internal. It can be used, and returns an integer representing the cardinality of
 
 \item [First]
 \index{First
-[quantification]}\emph{
-\gdl object{}}
+[quantification]}\emph{GDL Object}
 
  Returns the first element of the aggregate.
 
@@ -4186,8 +4165,7 @@ internal. It can be used, and returns an integer representing the cardinality of
 
 \item [Last]
 \index{Last
-[quantification]}\emph{
-\gdl object{}}
+[quantification]}\emph{GDL Object}
 
  Returns the last element of the aggregate.
 
@@ -4275,8 +4253,7 @@ each member of the sequence will be reinstantiated as it is demanded.
 
 \item [First]
 \index{First
-[standard-sequence]}\emph{
-\gdl object{}}
+[standard-sequence]}\emph{GDL Object}
 
  Returns the first element of the aggregate.
 
@@ -4285,8 +4262,7 @@ each member of the sequence will be reinstantiated as it is demanded.
 
 \item [Last]
 \index{Last
-[standard-sequence]}\emph{
-\gdl object{}}
+[standard-sequence]}\emph{GDL Object}
 
  Returns the last element of the aggregate.
 
@@ -4341,8 +4317,7 @@ of the define-object form.
 
 \item [Hidden?]
 \index{Hidden?
-[vanilla-mixin*]}\emph{
-\boolean{}}
+[vanilla-mixin*]}\emph{Boolean}
 
  Indicates whether the object should effectively be a hidden-object even if specified in :objects. Default is nil.
 
@@ -4351,8 +4326,7 @@ of the define-object form.
 
 \item [Root]
 \index{Root
-[vanilla-mixin*]}\emph{
-\gdl instance{}}
+[vanilla-mixin*]}\emph{GDL Instance}
 
  The root-level node in this object's ``tree'' (instance hierarchy).
 
@@ -4361,8 +4335,7 @@ of the define-object form.
 
 \item [Strings-for-display]
 \index{Strings-for-display
-[vanilla-mixin*]}\emph{
-\string or list of strings{}}
+[vanilla-mixin*]}\emph{String or List of Strings}
 
  Determines how the name of objects of this type will be printed in most places.
 This defaults to the name-for-display (generally the part's name as specified in its
@@ -4373,8 +4346,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Visible-children]
 \index{Visible-children
-[vanilla-mixin*]}\emph{
-\list of gdl instances{}}
+[vanilla-mixin*]}\emph{List of GDL Instances}
 
  Additional objects to display in Tatu tree. Typically this would be a subset of hidden-children. Defaults to NIL.
 
@@ -4395,8 +4367,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Aggregate]
 \index{Aggregate
-[vanilla-mixin*]}\emph{
-\gdl instance{}}
+[vanilla-mixin*]}\emph{GDL Instance}
 
  In an element of a sequence, this is the container object which holds all elements.
 
@@ -4405,8 +4376,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [All-mixins]
 \index{All-mixins
-[vanilla-mixin*]}\emph{
-\list of symbols{}}
+[vanilla-mixin*]}\emph{List of Symbols}
 
  Lists all the superclasses of the type of this object.
 
@@ -4415,8 +4385,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Children]
 \index{Children
-[vanilla-mixin*]}\emph{
-\list of gdl instances{}}
+[vanilla-mixin*]}\emph{List of GDL Instances}
 
  All objects from the :objects specification, including elements of sequences
 as flat lists.
@@ -4426,8 +4395,7 @@ as flat lists.
 
 \item [Direct-mixins]
 \index{Direct-mixins
-[vanilla-mixin*]}\emph{
-\list of symbols{}}
+[vanilla-mixin*]}\emph{List of Symbols}
 
  Lists the direct superclasses of the type of this object.
 
@@ -4436,8 +4404,7 @@ as flat lists.
 
 \item [First?]
 \index{First?
-[vanilla-mixin*]}\emph{
-\boolean{}}
+[vanilla-mixin*]}\emph{Boolean}
 
  For elements of sequences, T iff there is no previous element.
 
@@ -4446,8 +4413,7 @@ as flat lists.
 
 \item [Hidden-children]
 \index{Hidden-children
-[vanilla-mixin*]}\emph{
-\list of gdl instances{}}
+[vanilla-mixin*]}\emph{List of GDL Instances}
 
  All objects from the :hidden-objects specification, including elements of sequences
 as flat lists.
@@ -4457,8 +4423,7 @@ as flat lists.
 
 \item [Index]
 \index{Index
-[vanilla-mixin*]}\emph{
-\integer{}}
+[vanilla-mixin*]}\emph{Integer}
 
  Sequential index number for elements of a sequence, NIL for singular objects.
 
@@ -4467,8 +4432,7 @@ as flat lists.
 
 \item [Last?]
 \index{Last?
-[vanilla-mixin*]}\emph{
-\boolean{}}
+[vanilla-mixin*]}\emph{Boolean}
 
  For elements of sequences, T iff there is no next element.
 
@@ -4477,8 +4441,7 @@ as flat lists.
 
 \item [Leaf?]
 \index{Leaf?
-[vanilla-mixin*]}\emph{
-\boolean{}}
+[vanilla-mixin*]}\emph{Boolean}
 
  T if this object has no children, NIL otherwise.
 
@@ -4487,8 +4450,7 @@ as flat lists.
 
 \item [Leaves]
 \index{Leaves
-[vanilla-mixin*]}\emph{
-\list of gdl objects{}}
+[vanilla-mixin*]}\emph{List of GDL Objects}
 
  A Collection of the leaf nodes of the given object.
 
@@ -4497,8 +4459,7 @@ as flat lists.
 
 \item [Name-for-display]
 \index{Name-for-display
-[vanilla-mixin*]}\emph{
-\keyword symbol{}}
+[vanilla-mixin*]}\emph{Keyword symbol}
 
  The part's simple name, derived from its object specification in the parent or from
 the type name if this is the root instance.
@@ -4508,8 +4469,7 @@ the type name if this is the root instance.
 
 \item [Next]
 \index{Next
-[vanilla-mixin*]}\emph{
-\gdl instance{}}
+[vanilla-mixin*]}\emph{GDL Instance}
 
  For elements of sequences, returns the next part in the sequence.
 
@@ -4518,8 +4478,7 @@ the type name if this is the root instance.
 
 \item [Parent]
 \index{Parent
-[vanilla-mixin*]}\emph{
-\gdl instance{}}
+[vanilla-mixin*]}\emph{GDL Instance}
 
  The parent of this object, or NIL if this is the root object.
 
@@ -4528,8 +4487,7 @@ the type name if this is the root instance.
 
 \item [Previous]
 \index{Previous
-[vanilla-mixin*]}\emph{
-\gdl instance{}}
+[vanilla-mixin*]}\emph{GDL Instance}
 
  For elements of sequences, returns the previous part in the sequence.
 
@@ -4538,8 +4496,7 @@ the type name if this is the root instance.
 
 \item [Root-path]
 \index{Root-path
-[vanilla-mixin*]}\emph{
-\list of symbols or of pairs of symbol and integer{}}
+[vanilla-mixin*]}\emph{List of Symbols or of Pairs of Symbol and Integer}
 
  Indicates the path through
 the instance hierarchy from the root to this object. Can be used in conjunction with
@@ -4550,8 +4507,7 @@ the \texttt{follow-root-path} GDL function to return the actual instance.
 
 \item [Root-path-local]
 \index{Root-path-local
-[vanilla-mixin*]}\emph{
-\list of symbols or of pairs of symbol and integer{}}
+[vanilla-mixin*]}\emph{List of Symbols or of Pairs of Symbol and Integer}
 
  Indicates the path through
 the instance hierarchy from the local root to this object. Can be used in conjunction with
@@ -4562,8 +4518,7 @@ the \texttt{follow-root-path} GDL function to return the actual instance.
 
 \item [Root?]
 \index{Root?
-[vanilla-mixin*]}\emph{
-\boolean{}}
+[vanilla-mixin*]}\emph{Boolean}
 
  T iff this part has NIL as its parent and therefore is the root node.
 
@@ -4572,8 +4527,7 @@ the \texttt{follow-root-path} GDL function to return the actual instance.
 
 \item [Safe-children]
 \index{Safe-children
-[vanilla-mixin*]}\emph{
-\list of gdl instances{}}
+[vanilla-mixin*]}\emph{List of GDL Instances}
 
  All objects from the :objects specification, including elements of sequences
 as flat lists. Any children which throw errors come back as a plist with error information
@@ -4583,8 +4537,7 @@ as flat lists. Any children which throw errors come back as a plist with error i
 
 \item [Safe-hidden-children]
 \index{Safe-hidden-children
-[vanilla-mixin*]}\emph{
-\list of gdl instances{}}
+[vanilla-mixin*]}\emph{List of GDL Instances}
 
  All objects from the :hidden-objects specification, including elements of sequences
 as flat lists. Any children which throw errors come back as a plist with error information
@@ -4594,8 +4547,7 @@ as flat lists. Any children which throw errors come back as a plist with error i
 
 \item [Type]
 \index{Type
-[vanilla-mixin*]}\emph{
-\symbol{}}
+[vanilla-mixin*]}\emph{Symbol}
 
  The GDL Type of this object.
 
@@ -4616,8 +4568,7 @@ as flat lists. Any children which throw errors come back as a plist with error i
 
 \item [Documentation]
 \index{Documentation
-[vanilla-mixin*]}\emph{
-\plist{}}
+[vanilla-mixin*]}\emph{Plist}
 
  Returns the \texttt{:documentation} plist which has been specified the
 specific part type of this instance.
@@ -4627,8 +4578,7 @@ specific part type of this instance.
 
 \item [Follow-root-path]
 \index{Follow-root-path
-[vanilla-mixin*]}\emph{
-\gdl instance{}}
+[vanilla-mixin*]}\emph{GDL Instance}
 
  Using this instance as the root, follow the reference chain
 represented by the given path.
@@ -4638,8 +4588,7 @@ represented by the given path.
 
 \item [Message-documentation]
 \index{Message-documentation
-[vanilla-mixin*]}\emph{
-\string{}}
+[vanilla-mixin*]}\emph{String}
 
  This is synonymous with \texttt{slot-documentation}
 
@@ -4648,8 +4597,7 @@ represented by the given path.
 
 \item [Message-list]
 \index{Message-list
-[vanilla-mixin*]}\emph{
-\list of keyword symbols{}}
+[vanilla-mixin*]}\emph{List of Keyword Symbols}
 
  Returns the messages (slots, objects, and functions) of this object, according to the filtering criteria as specified by the arguments.
 
@@ -4658,8 +4606,7 @@ represented by the given path.
 
 \item [Mixins]
 \index{Mixins
-[vanilla-mixin*]}\emph{
-\list of symbols{}}
+[vanilla-mixin*]}\emph{List of Symbols}
 
  Returns the names of the immediate superclasses of this object.
 
@@ -4668,8 +4615,7 @@ represented by the given path.
 
 \item [Restore-all-defaults!]
 \index{Restore-all-defaults!
-[vanilla-mixin*]}\emph{
-\void{}}
+[vanilla-mixin*]}\emph{Void}
 
  Restores all settable-slots in this instance to their default values.
 
@@ -4678,8 +4624,7 @@ represented by the given path.
 
 \item [Restore-slot-default!]
 \index{Restore-slot-default!
-[vanilla-mixin*]}\emph{
-\nil{}}
+[vanilla-mixin*]}\emph{NIL}
 
  Restores the value of the given slot to its default, thus ``undoing'' any forcibly set value
 in the slot. Any dependent slots in the tree will respond accordingly when they are next demanded.
@@ -4691,8 +4636,7 @@ otherwise it will be evaluated as a variable according to normal Lisp functional
 
 \item [Restore-slot-defaults!]
 \index{Restore-slot-defaults!
-[vanilla-mixin*]}\emph{
-\nil{}}
+[vanilla-mixin*]}\emph{nil}
 
  Restores the value of the given slots to their defaults, thus ``undoing'' any forcibly set values
 in the slots. Any dependent slots in the tree will respond accordingly when they are next demanded.
@@ -4704,8 +4648,7 @@ otherwise they will be evaluated as variables according to normal Lisp functiona
 
 \item [Restore-tree!]
 \index{Restore-tree!
-[vanilla-mixin*]}\emph{
-\void{}}
+[vanilla-mixin*]}\emph{Void}
 
  Restores all settable-slots in this instance, and recursively in all descendant instances,
 to their default values.
@@ -4715,8 +4658,7 @@ to their default values.
 
 \item [Set-slot!]
 \index{Set-slot!
-[vanilla-mixin*]}\emph{
-\nil{}}
+[vanilla-mixin*]}\emph{NIL}
 
  Forcibly sets the value of the given slot to the given value. The slot must be defined
 as \texttt{:settable} for this to work properly. Any dependent slots in the tree will
@@ -4739,8 +4681,7 @@ error will be generated.
 
 \item [Set-slots!]
 \index{Set-slots!
-[vanilla-mixin*]}\emph{
-\nil{}}
+[vanilla-mixin*]}\emph{NIL}
 
  Forcibly sets the value of the given slots to the given values. The slots must be defined
 as \texttt{:settable} for this to work properly. Any dependent slots in the tree will
@@ -4753,8 +4694,7 @@ to normal Lisp functional evaluation rules.
 
 \item [Slot-documentation]
 \index{Slot-documentation
-[vanilla-mixin*]}\emph{
-\plist of symbols and strings{}}
+[vanilla-mixin*]}\emph{Plist of Symbols and Strings}
 
  Returns the part types and slot documentation which has been
 specified for the given slot, from most specific to least specific in the CLOS inheritance order.
@@ -4766,8 +4706,7 @@ otherwise it will be evaluated as a variable according to normal Lisp functional
 
 \item [Slot-source]
 \index{Slot-source
-[vanilla-mixin*]}\emph{
-\body of gdl code, in list form{}}
+[vanilla-mixin*]}\emph{Body of GDL code, in list form}
 
 .
 
@@ -4776,8 +4715,7 @@ otherwise it will be evaluated as a variable according to normal Lisp functional
 
 \item [Slot-status]
 \index{Slot-status
-[vanilla-mixin*]}\emph{
-\keyword symbol{}}
+[vanilla-mixin*]}\emph{Keyword symbol}
 
  Describes the current status of the requested slot:
 
@@ -4809,8 +4747,7 @@ object as a toplevel input at the time of object instantiation.
 
 \item [Update!]
 \index{Update!
-[vanilla-mixin*]}\emph{
-\void{}}
+[vanilla-mixin*]}\emph{Void}
 
  Uncaches all cached data in slots and objects throughout the instance
 tree from this node, forcing all code to run again the next time values are
@@ -4824,8 +4761,7 @@ by the update.
 
 \item [Write-snapshot]
 \index{Write-snapshot
-[vanilla-mixin*]}\emph{
-\void{}}
+[vanilla-mixin*]}\emph{Void}
 
  Writes a file containing the toplevel inputs and modified settable-slots starting from the root of the
 current instance. Typically this file can be read back into the system using the \texttt{read-snapshot} function.
@@ -4880,8 +4816,7 @@ with \texttt{:sequence (:size ...))}), elements can be surgically inserted and d
 
 \item [First]
 \index{First
-[variable-sequence]}\emph{
-\gdl object{}}
+[variable-sequence]}\emph{GDL Object}
 
  Returns the first element of the aggregate.
 
@@ -4890,8 +4825,7 @@ with \texttt{:sequence (:size ...))}), elements can be surgically inserted and d
 
 \item [Last]
 \index{Last
-[variable-sequence]}\emph{
-\gdl object{}}
+[variable-sequence]}\emph{GDL Object}
 
  Returns the last element of the aggregate.
 
@@ -4912,8 +4846,7 @@ with \texttt{:sequence (:size ...))}), elements can be surgically inserted and d
 
 \item [Delete!]
 \index{Delete!
-[variable-sequence]}\emph{
-\void{}}
+[variable-sequence]}\emph{Void}
 
  Deletes the element identified with the given index.
 
@@ -4922,8 +4855,7 @@ with \texttt{:sequence (:size ...))}), elements can be surgically inserted and d
 
 \item [Insert!]
 \index{Insert!
-[variable-sequence]}\emph{
-\void{}}
+[variable-sequence]}\emph{Void}
 
  Inserts a new element identified with the given index.
 
@@ -4932,8 +4864,7 @@ with \texttt{:sequence (:size ...))}), elements can be surgically inserted and d
 
 \item [Reset!]
 \index{Reset!
-[variable-sequence]}\emph{
-\void{}}
+[variable-sequence]}\emph{Void}
 
  Resets the variable sequence to its default list of indices (i.e. clears out any inserted or deleted elements and
 re-evaluates the expression to compute the original list of indices)
@@ -5752,8 +5683,7 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 \item [Arc-object]
 \index{Arc-object
-[angular-dimension]}\emph{
-\gdl object{}}
+[angular-dimension]}\emph{GDL object}
 
  The arc being measured.
 
@@ -5774,8 +5704,7 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 \item [Center-point]
 \index{Center-point
-[angular-dimension]}\emph{
-\3d point{}}
+[angular-dimension]}\emph{3D Point}
 
  The center of the arc being measured.
 
@@ -5784,8 +5713,7 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 \item [Dim-text-start]
 \index{Dim-text-start
-[angular-dimension]}\emph{
-\3d point{}}
+[angular-dimension]}\emph{3D Point}
 
  Determines where the text will start. Defaults to halfway along the arc, just beyond the radius.
 
@@ -5794,8 +5722,7 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 \item [End-point]
 \index{End-point
-[angular-dimension]}\emph{
-\3d point{}}
+[angular-dimension]}\emph{3D Point}
 
  The end point of the arc being measured.
 
@@ -5804,8 +5731,7 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 \item [Leader-radius]
 \index{Leader-radius
-[angular-dimension]}\emph{
-\number{}}
+[angular-dimension]}\emph{Number}
 
  The radius for the leader-arc.
 
@@ -5814,8 +5740,7 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 \item [Start-point]
 \index{Start-point
-[angular-dimension]}\emph{
-\3d point{}}
+[angular-dimension]}\emph{3D Point}
 
  The start point  of the arc being measured.
 
@@ -5824,8 +5749,7 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 
 \item [Text-along-leader-padding-factor]
 \index{Text-along-leader-padding-factor
-[angular-dimension]}\emph{
-\number{}}
+[angular-dimension]}\emph{Number}
 
  Amount of padding above leader for text-along-leader? t. This is multiplied by the
 character-size to get the actual padding amount. Defaults to 1/3.
@@ -5835,8 +5759,7 @@ character-size to get the actual padding amount. Defaults to 1/3.
 
 \item [Witness-1-to-center?]
 \index{Witness-1-to-center?
-[angular-dimension]}\emph{
-\boolean{}}
+[angular-dimension]}\emph{Boolean}
 
  Determines whether a witness line extends all the way from the start-point to the center.
 Defaults to nil.
@@ -5846,8 +5769,7 @@ Defaults to nil.
 
 \item [Witness-2-to-center?]
 \index{Witness-2-to-center?
-[angular-dimension]}\emph{
-\boolean{}}
+[angular-dimension]}\emph{Boolean}
 
  Determines whether a witness line extends all the way from the end-point to the center.
 Defaults to nil.
@@ -5869,8 +5791,7 @@ Defaults to nil.
 
 \item [Dim-value]
 \index{Dim-value
-[angular-dimension]}\emph{
-\number{}}
+[angular-dimension]}\emph{Number}
 
  2D distance relative to the base-plane-normal. Can be over-ridden in the subclass
 
@@ -5961,8 +5882,7 @@ angles are measured anti-clockwise.
 
 \item [Radius]
 \index{Radius
-[arc]}\emph{
-\number{}}
+[arc]}\emph{Number}
 
  Distance from center to any point on the arc.
 
@@ -5983,8 +5903,7 @@ angles are measured anti-clockwise.
 
 \item [End-angle]
 \index{End-angle
-[arc]}\emph{
-\angle in radians{}}
+[arc]}\emph{Angle in radians}
 
  End angle of the arc. Defaults to twice pi.
 
@@ -5993,8 +5912,7 @@ angles are measured anti-clockwise.
 
 \item [Start-angle]
 \index{Start-angle
-[arc]}\emph{
-\angle in radians{}}
+[arc]}\emph{Angle in radians}
 
  Start angle of the arc. Defaults to zero.
 
@@ -6015,8 +5933,7 @@ angles are measured anti-clockwise.
 
 \item [End]
 \index{End
-[arc]}\emph{
-\3d point{}}
+[arc]}\emph{3D Point}
 
  The end point of the arc.
 
@@ -6025,8 +5942,7 @@ angles are measured anti-clockwise.
 
 \item [Height]
 \index{Height
-[arc]}\emph{
-\number{}}
+[arc]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -6035,8 +5951,7 @@ angles are measured anti-clockwise.
 
 \item [Length]
 \index{Length
-[arc]}\emph{
-\number{}}
+[arc]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -6045,8 +5960,7 @@ angles are measured anti-clockwise.
 
 \item [Start]
 \index{Start
-[arc]}\emph{
-\3d point{}}
+[arc]}\emph{3D Point}
 
  The start point of the arc.
 
@@ -6055,8 +5969,7 @@ angles are measured anti-clockwise.
 
 \item [Width]
 \index{Width
-[arc]}\emph{
-\number{}}
+[arc]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -6077,8 +5990,7 @@ angles are measured anti-clockwise.
 
 \item [Equi-spaced-points]
 \index{Equi-spaced-points
-[arc]}\emph{
-\list of points{}}
+[arc]}\emph{List of points}
 
  Returns a list of points equally spaced around the arc, including
 the start and end point of the arc.
@@ -6088,8 +6000,7 @@ the start and end point of the arc.
 
 \item [Point-on-arc]
 \index{Point-on-arc
-[arc]}\emph{
-\3d point{}}
+[arc]}\emph{3D Point}
 
  The point on the arc at a certain angle from the start.
 
@@ -6098,8 +6009,7 @@ the start and end point of the arc.
 
 \item [Tangent]
 \index{Tangent
-[arc]}\emph{
-\3d vector{}}
+[arc]}\emph{3D Vector}
 
  Returns the tangent to the arc at the given point (which should be on the arc).
 
@@ -6153,8 +6063,7 @@ For developers it should be used as a mixin.
 
 \item [Radius]
 \index{Radius
-[arcoid-mixin]}\emph{
-\number{}}
+[arcoid-mixin]}\emph{Number}
 
  Distance from center to any point on the arc.
 
@@ -6175,8 +6084,7 @@ For developers it should be used as a mixin.
 
 \item [End-angle]
 \index{End-angle
-[arcoid-mixin]}\emph{
-\angle in radians{}}
+[arcoid-mixin]}\emph{Angle in radians}
 
  End angle of the arc. Defaults to twice pi.
 
@@ -6185,8 +6093,7 @@ For developers it should be used as a mixin.
 
 \item [Start-angle]
 \index{Start-angle
-[arcoid-mixin]}\emph{
-\angle in radians{}}
+[arcoid-mixin]}\emph{Angle in radians}
 
  Start angle of the arc. Defaults to zero.
 
@@ -6332,8 +6239,7 @@ makes sense for viewing it.
 
 \item [Height]
 \index{Height
-[base-drawing]}\emph{
-\number{}}
+[base-drawing]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -6342,8 +6248,7 @@ makes sense for viewing it.
 
 \item [Length]
 \index{Length
-[base-drawing]}\emph{
-\number{}}
+[base-drawing]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -6352,8 +6257,7 @@ makes sense for viewing it.
 
 \item [Page-length]
 \index{Page-length
-[base-drawing]}\emph{
-\number in pdf points{}}
+[base-drawing]}\emph{Number in PDF Points}
 
  Front-to-back (or top-to-bottom) length of the paper being represented
 by this drawing. The default is (* 11 72) points, or 11 inches, corresponding to US standard
@@ -6364,8 +6268,7 @@ letter-size paper.
 
 \item [Page-width]
 \index{Page-width
-[base-drawing]}\emph{
-\number in pdf points{}}
+[base-drawing]}\emph{Number in PDF Points}
 
  Left-to-right width of the paper being represented by this drawing.
 The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard letter-size paper.
@@ -6375,8 +6278,7 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
 
 \item [Width]
 \index{Width
-[base-drawing]}\emph{
-\number{}}
+[base-drawing]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -6503,8 +6405,7 @@ gdl-user(53):
 
 \item [Bounding-box]
 \index{Bounding-box
-[base-object]}\emph{
-\list of two 3d points{}}
+[base-object]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding the tree of geometric objects rooted at this object.
@@ -6514,8 +6415,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Image-file]
 \index{Image-file
-[base-object]}\emph{
-\pathname or string{}}
+[base-object]}\emph{Pathname or string}
 
  Points to a pre-existing image file to be displayed instead of actual geometry for this object. Defaults to nil
 
@@ -6524,8 +6424,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Local-box]
 \index{Local-box
-[base-object]}\emph{
-\list of two 3d points{}}
+[base-object]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding this geometric object.
@@ -6535,8 +6434,7 @@ of the rectangular volume bounding this geometric object.
 
 \item [Obliqueness]
 \index{Obliqueness
-[base-object]}\emph{
-\3x3 orthonormal matrix of double-float numbers{}}
+[base-object]}\emph{3x3 Orthonormal Matrix of Double-Float Numbers}
 
  This is synonymous with the \texttt{orientation}.
 
@@ -6557,8 +6455,7 @@ of the rectangular volume bounding this geometric object.
 
 \item [Center]
 \index{Center
-[base-object]}\emph{
-\3d point{}}
+[base-object]}\emph{3D Point}
 
  Indicates in global coordinates where the center of the reference
 box of this object should be located.
@@ -6568,8 +6465,7 @@ box of this object should be located.
 
 \item [Display-controls]
 \index{Display-controls
-[base-object]}\emph{
-\plist{}}
+[base-object]}\emph{Plist}
 
  May contain keywords and values indicating display characteristics for
 this object. The following keywords are recognized currently:
@@ -6602,8 +6498,7 @@ indicates how far into the line or curve to start the dash pattern.
 
 \item [Height]
 \index{Height
-[base-object]}\emph{
-\number{}}
+[base-object]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -6612,8 +6507,7 @@ indicates how far into the line or curve to start the dash pattern.
 
 \item [Length]
 \index{Length
-[base-object]}\emph{
-\number{}}
+[base-object]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -6622,8 +6516,7 @@ indicates how far into the line or curve to start the dash pattern.
 
 \item [Orientation]
 \index{Orientation
-[base-object]}\emph{
-\3x3 matrix of double-float numbers{}}
+[base-object]}\emph{3x3 Matrix of Double-Float Numbers}
 
  Indicates the absolute Rotation Matrix used to create
 the coordinate system of this object. This matrix is given in absolute terms (i.e. with
@@ -6637,8 +6530,7 @@ of one (1.0).
 
 \item [Width]
 \index{Width
-[base-object]}\emph{
-\number{}}
+[base-object]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -6659,8 +6551,7 @@ of one (1.0).
 
 \item [Color-decimal]
 \index{Color-decimal
-[base-object]}\emph{
-\vector of three real numbers{}}
+[base-object]}\emph{Vector of three real numbers}
 
  The RBG color of this object specified in :display-controls.
 Defaults to the foreground color specified in \texttt{*colors-default*}. This message should not normally be overridden in user application code.
@@ -6670,8 +6561,7 @@ Defaults to the foreground color specified in \texttt{*colors-default*}. This me
 
 \item [Local-center]
 \index{Local-center
-[base-object]}\emph{
-\3d point{}}
+[base-object]}\emph{3D Point}
 
  The center of this object, from the perspective of the parent. Starting
 from the parent's center and using the parent's orientation, this is the relative center
@@ -6682,8 +6572,7 @@ of this object.
 
 \item [Local-center*]
 \index{Local-center*
-[base-object]}\emph{
-\3d point{}}
+[base-object]}\emph{3D Point}
 
  The center of this object, from the perspective of the parent. Starting
 from the parent's center and using the parent's orientation, this is the relative center
@@ -6694,8 +6583,7 @@ of this object.
 
 \item [Local-orientation]
 \index{Local-orientation
-[base-object]}\emph{
-\3x3 matrix of double-float numbers{}}
+[base-object]}\emph{3x3 Matrix of Double-Float Numbers}
 
  Indicates the local Rotation Matrix used
 to create the coordinate system of this object. This is the ``local''
@@ -6719,8 +6607,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Bounding-bbox]
 \index{Bounding-bbox
-[base-object]}\emph{
-\gdl object of type box{}}
+[base-object]}\emph{GDL object of type Box}
 
  A box representing the bounding-box.
 
@@ -6729,8 +6616,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Local-bbox]
 \index{Local-bbox
-[base-object]}\emph{
-\gdl object of type box{}}
+[base-object]}\emph{GDL object of type Box}
 
  A box representing the local-box.
 
@@ -6751,8 +6637,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Axis-vector]
 \index{Axis-vector
-[base-object]}\emph{
-\3d vector{}}
+[base-object]}\emph{3D Vector}
 
  Returns the vector pointing in the positive direction of the specified axis of this object's reference box.
 
@@ -6761,8 +6646,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Edge-center]
 \index{Edge-center
-[base-object]}\emph{
-\3d point{}}
+[base-object]}\emph{3D Point}
 
  Returns the center of the requested edge of this object's reference box.
 
@@ -6771,8 +6655,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Face-center]
 \index{Face-center
-[base-object]}\emph{
-\3d point{}}
+[base-object]}\emph{3D Point}
 
  Returns the center of the requested face of this object's reference box.
 
@@ -6781,8 +6664,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Face-normal-vector]
 \index{Face-normal-vector
-[base-object]}\emph{
-\3d vector{}}
+[base-object]}\emph{3D Vector}
 
  Returns the vector pointing from this object's reference box center to its requested face-center.
 
@@ -6791,8 +6673,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Face-vertices]
 \index{Face-vertices
-[base-object]}\emph{
-\list of four 3d points{}}
+[base-object]}\emph{List of four 3D points}
 
  Returns the vertices of the indicated face.
 
@@ -6801,8 +6682,7 @@ with this matrix will always result in the absolute orientation for this part.
 
 \item [Global-to-local]
 \index{Global-to-local
-[base-object]}\emph{
-\3d-point{}}
+[base-object]}\emph{3D-point}
 
  This function returns the point given in global coordinates, into relative local coordinates,
 based on the orientation and center of the object to which the global-to-local message is sent.
@@ -6812,8 +6692,7 @@ based on the orientation and center of the object to which the global-to-local m
 
 \item [In-face?]
 \index{In-face?
-[base-object]}\emph{
-\boolean{}}
+[base-object]}\emph{Boolean}
 
  Returns non-nil if the given point is in halfspace defined by the plane given a point and direction.
 
@@ -6822,8 +6701,7 @@ based on the orientation and center of the object to which the global-to-local m
 
 \item [Line-intersection-points]
 \index{Line-intersection-points
-[base-object]}\emph{
-\list of 3d points{}}
+[base-object]}\emph{List of 3D points}
 
  Returns the points of intersection between given line and the reference box of this object.
 
@@ -6832,8 +6710,7 @@ based on the orientation and center of the object to which the global-to-local m
 
 \item [Local-to-global]
 \index{Local-to-global
-[base-object]}\emph{
-\3d-point{}}
+[base-object]}\emph{3D-point}
 
  This function returns the point given in relative local coordinates, converted into global coordinates,
 based on the orientation and center of the object to which the local-to-global message is sent.
@@ -6843,8 +6720,7 @@ based on the orientation and center of the object to which the local-to-global m
 
 \item [Vertex]
 \index{Vertex
-[base-object]}\emph{
-\3d point{}}
+[base-object]}\emph{3D Point}
 
  Returns the center of the requested vertex (corner) of this object's reference box.
 
@@ -6973,8 +6849,7 @@ makes sense for viewing it.
 
 \item [Annotation-objects]
 \index{Annotation-objects
-[base-view]}\emph{
-\list of gdl objects{}}
+[base-view]}\emph{List of GDL objects}
 
  These objects will be displayed in each view by default, with no scaling or transform (i.e. they are in Drawing space.
 
@@ -6983,8 +6858,7 @@ makes sense for viewing it.
 
 \item [Border-box?]
 \index{Border-box?
-[base-view]}\emph{
-\boolean{}}
+[base-view]}\emph{Boolean}
 
  Determines whether a rectangular border box is drawn around the view,
 with the view's length and width. Defaults to nil.
@@ -6994,8 +6868,7 @@ with the view's length and width. Defaults to nil.
 
 \item [Center]
 \index{Center
-[base-view]}\emph{
-\3d-point{}}
+[base-view]}\emph{3D-point}
 
  Center of the view box. Specify this or corner, not both.
 
@@ -7004,8 +6877,7 @@ with the view's length and width. Defaults to nil.
 
 \item [Corner]
 \index{Corner
-[base-view]}\emph{
-\3d-point{}}
+[base-view]}\emph{3D-point}
 
  Top left (i.e. rear left from top view) of the view box. Specify this or center, not both.
 
@@ -7014,8 +6886,7 @@ with the view's length and width. Defaults to nil.
 
 \item [Front-margin]
 \index{Front-margin
-[base-view]}\emph{
-\number in drawing scale (e{}}
+[base-view]}\emph{Number in Drawing scale (e}
 
 g. points). Amount of margin on front and rear
 of page when \texttt{view-scale} is to be computed automatically. Defaults to 25.
@@ -7025,8 +6896,7 @@ of page when \texttt{view-scale} is to be computed automatically. Defaults to 25
 
 \item [Immune-objects]
 \index{Immune-objects
-[base-view]}\emph{
-\list of gdl objects{}}
+[base-view]}\emph{List of GDL objects}
 
  These objects are immune from view scaling and transform computations and so can freely refer
 to the view-scale, view-center, and other view information for self-scaling views. Defaults to NIL.
@@ -7036,8 +6906,7 @@ to the view-scale, view-center, and other view information for self-scaling view
 
 \item [Left-margin]
 \index{Left-margin
-[base-view]}\emph{
-\number in drawing scale (e{}}
+[base-view]}\emph{Number in Drawing scale (e}
 
 g. points). Amount of margin on left and right
 of page when \texttt{view-scale} is to be computed automatically. Defaults to 25.
@@ -7047,8 +6916,7 @@ of page when \texttt{view-scale} is to be computed automatically. Defaults to 25
 
 \item [Object-roots]
 \index{Object-roots
-[base-view]}\emph{
-\list of gdl objects{}}
+[base-view]}\emph{List of GDL objects}
 
  The leaves from each of these objects will be displayed in each view by default.
 
@@ -7057,8 +6925,7 @@ of page when \texttt{view-scale} is to be computed automatically. Defaults to 25
 
 \item [Objects]
 \index{Objects
-[base-view]}\emph{
-\list of gdl objects{}}
+[base-view]}\emph{List of GDL objects}
 
  These objects will be displayed in each view by default.
 
@@ -7067,8 +6934,7 @@ of page when \texttt{view-scale} is to be computed automatically. Defaults to 25
 
 \item [Projection-vector]
 \index{Projection-vector
-[base-view]}\emph{
-\3d unitized vector{}}
+[base-view]}\emph{3D Unitized Vector}
 
  Direction of camera pointing to model (the object-roots and/or the objects) to create
 this view. The view is automatically ``twisted''about this vector to result in ``up'' being as close as
@@ -7081,8 +6947,7 @@ parameter. Defaults to \texttt{(getf *standard-views* :top)}, which is the vecto
 
 \item [Snap-to]
 \index{Snap-to
-[base-view]}\emph{
-\3d vector{}}
+[base-view]}\emph{3D Vector}
 
  For a top view, this vector specifies the direction that the rear of
 the box should be facing. Defaults to \texttt{*nominal-y-vector*}.
@@ -7092,8 +6957,7 @@ the box should be facing. Defaults to \texttt{*nominal-y-vector*}.
 
 \item [View-center]
 \index{View-center
-[base-view]}\emph{
-\3d point in model space{}}
+[base-view]}\emph{3D Point in Model space}
 
  Point relative to each object's center to use as center of the view.
 
@@ -7102,8 +6966,7 @@ the box should be facing. Defaults to \texttt{*nominal-y-vector*}.
 
 \item [View-scale]
 \index{View-scale
-[base-view]}\emph{
-\number{}}
+[base-view]}\emph{Number}
 
  Ratio of drawing scale (in points) to model scale for this view. Defaults to being auto-computed.
 
@@ -7124,8 +6987,7 @@ the box should be facing. Defaults to \texttt{*nominal-y-vector*}.
 
 \item [Model-point]
 \index{Model-point
-[base-view]}\emph{
-\3d point{}}
+[base-view]}\emph{3D Point}
 
  Takes point in view coordinates and returns corresponding point in model coordinates.
 
@@ -7134,8 +6996,7 @@ the box should be facing. Defaults to \texttt{*nominal-y-vector*}.
 
 \item [View-point]
 \index{View-point
-[base-view]}\emph{
-\3d point{}}
+[base-view]}\emph{3D Point}
 
  Takes point in model coordinates and returns corresponding point in view coordinates.
 
@@ -7237,8 +7098,7 @@ vector pointing from the end point to the third control point.
 
 \item [Control-points]
 \index{Control-points
-[bezier-curve]}\emph{
-\list of 4 3d points{}}
+[bezier-curve]}\emph{List of 4 3D Points}
 
  Specifies the control points for the Bezier curve.
 
@@ -7259,8 +7119,7 @@ vector pointing from the end point to the third control point.
 
 \item [Bounding-box]
 \index{Bounding-box
-[bezier-curve]}\emph{
-\list of two 3d points{}}
+[bezier-curve]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding the tree of geometric objects rooted at this object.
@@ -7282,8 +7141,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Circle-intersection-2d]
 \index{Circle-intersection-2d
-[bezier-curve]}\emph{
-\list of 3d points{}}
+[bezier-curve]}\emph{List of 3D points}
 
  Returns points of intersection in the Z plane between this Bezier curve and
 the circle in the Z plane with center \texttt{center} and radius \texttt{radius}.
@@ -7293,8 +7151,7 @@ the circle in the Z plane with center \texttt{center} and radius \texttt{radius}
 
 \item [Line-intersection-2d]
 \index{Line-intersection-2d
-[bezier-curve]}\emph{
-\list of 3d points{}}
+[bezier-curve]}\emph{List of 3D points}
 
  Returns points of intersection in the Z plane between this Bezier curve
 and the infinite line containing point \texttt{point} and direction \texttt{vector}. Use the
@@ -7306,8 +7163,7 @@ segment.
 
 \item [Point]
 \index{Point
-[bezier-curve]}\emph{
-\3d point{}}
+[bezier-curve]}\emph{3D Point}
 
  Returns the point on this Bezier curve corresponding to the given \texttt{parameter},
 which should be between 0 and 1.
@@ -7401,8 +7257,7 @@ messages as base-object, which knows how to output itself in various formats.
 
 \item [Volume]
 \index{Volume
-[box]}\emph{
-\number{}}
+[box]}\emph{Number}
 
  Total volume of the box.
 
@@ -7498,8 +7353,7 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 \item [End]
 \index{End
-[c-cylinder]}\emph{
-\3d point{}}
+[c-cylinder]}\emph{3D Point}
 
  Center of the end cap.
 
@@ -7508,8 +7362,7 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 \item [Start]
 \index{Start
-[c-cylinder]}\emph{
-\3d point{}}
+[c-cylinder]}\emph{3D Point}
 
  Center of the start cap.
 
@@ -7530,8 +7383,7 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 \item [Center]
 \index{Center
-[c-cylinder]}\emph{
-\3d point{}}
+[c-cylinder]}\emph{3D Point}
 
  Center point of the center-line.
 
@@ -7540,8 +7392,7 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 \item [Center-line]
 \index{Center-line
-[c-cylinder]}\emph{
-\list of two 3d points{}}
+[c-cylinder]}\emph{List of two 3D Points}
 
  Represents line segment connecting center of end cap to center of start cap.
 
@@ -7550,8 +7401,7 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 \item [Length]
 \index{Length
-[c-cylinder]}\emph{
-\number{}}
+[c-cylinder]}\emph{Number}
 
  Distance between cap centers.
 
@@ -7560,8 +7410,7 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 \item [Orientation]
 \index{Orientation
-[c-cylinder]}\emph{
-\3x3 orthonormal rotation matrix{}}
+[c-cylinder]}\emph{3x3 Orthonormal Rotation Matrix}
 
  Resultant orientation given the specified start and end points.
 
@@ -7665,8 +7514,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Size]
 \index{Size
-[center-line]}\emph{
-\number{}}
+[center-line]}\emph{Number}
 
  The length of the centerline.
 
@@ -7687,8 +7535,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Circle?]
 \index{Circle?
-[center-line]}\emph{
-\boolean{}}
+[center-line]}\emph{Boolean}
 
  Determines whether this will be a circle crosshair. Defaults to nil.
 
@@ -7709,8 +7556,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Gap-length]
 \index{Gap-length
-[center-line]}\emph{
-\number{}}
+[center-line]}\emph{Number}
 
  Distance between dashed line segments. Defaults to 0.1.
 
@@ -7719,8 +7565,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Long-segment-length]
 \index{Long-segment-length
-[center-line]}\emph{
-\number{}}
+[center-line]}\emph{Number}
 
  Length of longer dashed line segments. Defaults to 1.0.
 
@@ -7729,8 +7574,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Short-segment-length]
 \index{Short-segment-length
-[center-line]}\emph{
-\number{}}
+[center-line]}\emph{Number}
 
  Length of shorter dashed line segments. Defaults to 0.25.
 
@@ -7751,8 +7595,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Height]
 \index{Height
-[center-line]}\emph{
-\number{}}
+[center-line]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -7761,8 +7604,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Length]
 \index{Length
-[center-line]}\emph{
-\number{}}
+[center-line]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -7771,8 +7613,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 \item [Width]
 \index{Width
-[center-line]}\emph{
-\number{}}
+[center-line]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -7866,8 +7707,7 @@ angles are measured anti-clockwise.
 
 \item [Area]
 \index{Area
-[circle]}\emph{
-\number{}}
+[circle]}\emph{Number}
 
  The area enclosed by the circle.
 
@@ -7876,8 +7716,7 @@ angles are measured anti-clockwise.
 
 \item [Circumference]
 \index{Circumference
-[circle]}\emph{
-\number{}}
+[circle]}\emph{Number}
 
  The perimeter of the circle.
 
@@ -7886,8 +7725,7 @@ angles are measured anti-clockwise.
 
 \item [End-angle]
 \index{End-angle
-[circle]}\emph{
-\angle in radians{}}
+[circle]}\emph{Angle in radians}
 
  End angle of the arc. Defaults to twice pi.
 
@@ -7896,8 +7734,7 @@ angles are measured anti-clockwise.
 
 \item [Start-angle]
 \index{Start-angle
-[circle]}\emph{
-\angle in radians{}}
+[circle]}\emph{Angle in radians}
 
  Start angle of the arc. Defaults to zero.
 
@@ -7993,8 +7830,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 \item [Inner-radius-1]
 \index{Inner-radius-1
-[cone]}\emph{
-\number{}}
+[cone]}\emph{Number}
 
  The radius of the inner hollow part at the top end for a hollow cone.
 
@@ -8003,8 +7839,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 \item [Inner-radius-2]
 \index{Inner-radius-2
-[cone]}\emph{
-\number{}}
+[cone]}\emph{Number}
 
  The radius of the inner hollow part at the bottom end for a hollow cone.
 
@@ -8013,8 +7848,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 \item [Radius-1]
 \index{Radius-1
-[cone]}\emph{
-\number{}}
+[cone]}\emph{Number}
 
  The radius of the top end of the cone.
 
@@ -8023,8 +7857,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 \item [Radius-2]
 \index{Radius-2
-[cone]}\emph{
-\number{}}
+[cone]}\emph{Number}
 
  The radius of the bottom end of the cone.
 
@@ -8045,8 +7878,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 \item [Height]
 \index{Height
-[cone]}\emph{
-\number{}}
+[cone]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -8055,8 +7887,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 \item [Width]
 \index{Width
-[cone]}\emph{
-\number{}}
+[cone]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -8154,8 +7985,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Length]
 \index{Length
-[cylinder]}\emph{
-\number{}}
+[cylinder]}\emph{Number}
 
  Distance from center of start cap to center of end cap.
 
@@ -8164,8 +7994,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Radius]
 \index{Radius
-[cylinder]}\emph{
-\number{}}
+[cylinder]}\emph{Number}
 
  Radius of the circular cross section of the cylinder.
 
@@ -8186,8 +8015,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Bottom-cap?]
 \index{Bottom-cap?
-[cylinder]}\emph{
-\boolean{}}
+[cylinder]}\emph{Boolean}
 
  Determines whether to include bottom cap in shaded renderings. Defaults to T.
 
@@ -8196,8 +8024,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Closed?]
 \index{Closed?
-[cylinder]}\emph{
-\boolean{}}
+[cylinder]}\emph{Boolean}
 
  Indicates that a partial cylinder (or cone) should have a closed gap.
 
@@ -8206,8 +8033,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Height]
 \index{Height
-[cylinder]}\emph{
-\number{}}
+[cylinder]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -8216,8 +8042,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Inner-radius]
 \index{Inner-radius
-[cylinder]}\emph{
-\number{}}
+[cylinder]}\emph{Number}
 
  Radius of the hollow inner portion for a hollow cylinder.
 
@@ -8226,8 +8051,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Number-of-sections]
 \index{Number-of-sections
-[cylinder]}\emph{
-\integer{}}
+[cylinder]}\emph{Integer}
 
  Number of vertical sections to be drawn in wireframe rendering mode.
 
@@ -8236,8 +8060,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Top-cap?]
 \index{Top-cap?
-[cylinder]}\emph{
-\boolean{}}
+[cylinder]}\emph{Boolean}
 
  Determines whether to include bottom cap in shaded renderings. Defaults to T.
 
@@ -8246,8 +8069,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Width]
 \index{Width
-[cylinder]}\emph{
-\number{}}
+[cylinder]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -8268,8 +8090,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Direction-vector]
 \index{Direction-vector
-[cylinder]}\emph{
-\3d vector{}}
+[cylinder]}\emph{3D Vector}
 
  Points from the start to the end.
 
@@ -8278,8 +8099,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [End]
 \index{End
-[cylinder]}\emph{
-\3d point{}}
+[cylinder]}\emph{3D Point}
 
  The center of the end cap.
 
@@ -8288,8 +8108,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Hollow?]
 \index{Hollow?
-[cylinder]}\emph{
-\boolean{}}
+[cylinder]}\emph{Boolean}
 
  Indicates whether there is an inner-radius and thus the cylinder is hollow.
 
@@ -8298,8 +8117,7 @@ Partial cylinders and hollow cylinders are supported.
 
 \item [Start]
 \index{Start
-[cylinder]}\emph{
-\3d point{}}
+[cylinder]}\emph{3D Point}
 
  The center of the start cap.
 
@@ -8395,8 +8213,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 \item [Major-axis-length]
 \index{Major-axis-length
-[ellipse]}\emph{
-\number{}}
+[ellipse]}\emph{Number}
 
  Length of (generally) the longer ellipse axis
 
@@ -8405,8 +8222,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 \item [Minor-axis-length]
 \index{Minor-axis-length
-[ellipse]}\emph{
-\number{}}
+[ellipse]}\emph{Number}
 
  Length of (generally) the shorter ellipse axis
 
@@ -8427,8 +8243,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 \item [End-angle]
 \index{End-angle
-[ellipse]}\emph{
-\angle in radians{}}
+[ellipse]}\emph{Angle in Radians}
 
  End angle of the ellipse. Defaults to 2pi for full ellipse.
 
@@ -8437,8 +8252,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 \item [Start-angle]
 \index{Start-angle
-[ellipse]}\emph{
-\angle in radians{}}
+[ellipse]}\emph{Angle in Radians}
 
  Start angle of the ellipse. Defaults to 0 for full ellipse.
 
@@ -8459,8 +8273,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 \item [Height]
 \index{Height
-[ellipse]}\emph{
-\number{}}
+[ellipse]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -8469,8 +8282,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 \item [Length]
 \index{Length
-[ellipse]}\emph{
-\number{}}
+[ellipse]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -8479,8 +8291,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 \item [Width]
 \index{Width
-[ellipse]}\emph{
-\number{}}
+[ellipse]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -8598,8 +8409,7 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 \item [Center]
 \index{Center
-[general-note]}\emph{
-\3d-point{}}
+[general-note]}\emph{3D-point}
 
  Center of the text. Specify this or start, not both.
 
@@ -8608,8 +8418,7 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 \item [Character-size]
 \index{Character-size
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  Specifies the character size in drawing units.
 
@@ -8618,8 +8427,7 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 \item [Dxf-font]
 \index{Dxf-font
-[general-note]}\emph{
-\string{}}
+[general-note]}\emph{String}
 
  This names the DXF font for this general-note. Defaults to \texttt{(the font)}.
 
@@ -8628,8 +8436,7 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 \item [Dxf-offset]
 \index{Dxf-offset
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  The start of text will be offset by this amount for DXF output. Default is 0.
 
@@ -8638,8 +8445,7 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 \item [Dxf-size-ratio]
 \index{Dxf-size-ratio
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  The scale factor for DXF character size vs PDF character size. Default is 0.8
 
@@ -8648,8 +8454,7 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 \item [Dxf-text-x-scale]
 \index{Dxf-text-x-scale
-[general-note]}\emph{
-\number in percentage{}}
+[general-note]}\emph{Number in Percentage}
 
  Adjusts the character width for DXF output. Defaults to the text-x-scale.
 
@@ -8658,8 +8463,7 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 
 \item [Font]
 \index{Font
-[general-note]}\emph{
-\string{}}
+[general-note]}\emph{String}
 
  The font for PDF. Possibilities for built-in PDF fonts are:
 
@@ -8704,8 +8508,7 @@ Defaults to "Courier".
 
 \item [Height]
 \index{Height
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -8714,8 +8517,7 @@ Defaults to "Courier".
 
 \item [Justification]
 \index{Justification
-[general-note]}\emph{
-\keyword symbol, :left, :right, or :center{}}
+[general-note]}\emph{Keyword symbol, :left, :right, or :center}
 
  Justifies text with its box. Default is :left.
 
@@ -8724,8 +8526,7 @@ Defaults to "Courier".
 
 \item [Leading]
 \index{Leading
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  Space between lines of text. Default is 1.2 times the character size.
 
@@ -8734,8 +8535,7 @@ Defaults to "Courier".
 
 \item [Length]
 \index{Length
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -8744,8 +8544,7 @@ Defaults to "Courier".
 
 \item [Outline-shape-type]
 \index{Outline-shape-type
-[general-note]}\emph{
-\keyword symbol{}}
+[general-note]}\emph{Keyword symbol}
 
  Currently can be :bubble, :rectangle, or :none. Default is :none.
 
@@ -8754,8 +8553,7 @@ Defaults to "Courier".
 
 \item [Start]
 \index{Start
-[general-note]}\emph{
-\3d-point{}}
+[general-note]}\emph{3D-point}
 
  Start of the text. Specify this or center, not both.
 
@@ -8764,8 +8562,7 @@ Defaults to "Courier".
 
 \item [Strings]
 \index{Strings
-[general-note]}\emph{
-\list of strings{}}
+[general-note]}\emph{List of Strings}
 
  The text to be displayed in the note.
 
@@ -8774,8 +8571,7 @@ Defaults to "Courier".
 
 \item [Text-x-scale]
 \index{Text-x-scale
-[general-note]}\emph{
-\number in percentage{}}
+[general-note]}\emph{Number in Percentage}
 
  Adjusts the character width for PDF output. Defaults to 100.
 
@@ -8784,8 +8580,7 @@ Defaults to "Courier".
 
 \item [Underline?]
 \index{Underline?
-[general-note]}\emph{
-\boolean{}}
+[general-note]}\emph{Boolean}
 
  Determines whether text is underlined.
 
@@ -8794,8 +8589,7 @@ Defaults to "Courier".
 
 \item [Width]
 \index{Width
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  Determines the width of the containing box. Default is the maximum-text-width.
 
@@ -8816,8 +8610,7 @@ Defaults to "Courier".
 
 \item [Maximum-text-width]
 \index{Maximum-text-width
-[general-note]}\emph{
-\number{}}
+[general-note]}\emph{Number}
 
  Convienence computation giving the maximum input width required to keep one line per string
 
@@ -8926,8 +8719,7 @@ as with global-filleted-polygon.
 
 \item [Default-radius]
 \index{Default-radius
-[global-filleted-polygon-projection]}\emph{
-\number{}}
+[global-filleted-polygon-projection]}\emph{Number}
 
  Specifies a radius to use for all vertices. Radius-list will take precedence over this.
 
@@ -8936,8 +8728,7 @@ as with global-filleted-polygon.
 
 \item [Radius-list]
 \index{Radius-list
-[global-filleted-polygon-projection]}\emph{
-\list of numbers{}}
+[global-filleted-polygon-projection]}\emph{List of Numbers}
 
  Specifies the radius for each vertex (``corner'') of the filleted-polyline.
 
@@ -9059,8 +8850,7 @@ for documentation on the messages.
 
 \item [Vertex-list]
 \index{Vertex-list
-[global-filleted-polyline-mixin]}\emph{
-\list of 3d points{}}
+[global-filleted-polyline-mixin]}\emph{List of 3D Points}
 
  The vertices (``corners'') of the polyline.
 
@@ -9081,8 +8871,7 @@ for documentation on the messages.
 
 \item [Closed?]
 \index{Closed?
-[global-filleted-polyline-mixin]}\emph{
-\boolean{}}
+[global-filleted-polyline-mixin]}\emph{Boolean}
 
  Controls whether the filleted-polyline should automatically be closed.
 
@@ -9091,8 +8880,7 @@ for documentation on the messages.
 
 \item [Default-radius]
 \index{Default-radius
-[global-filleted-polyline-mixin]}\emph{
-\number{}}
+[global-filleted-polyline-mixin]}\emph{Number}
 
  Specifies a radius to use for all vertices. Radius-list will take precedence over this.
 
@@ -9101,8 +8889,7 @@ for documentation on the messages.
 
 \item [Radius-list]
 \index{Radius-list
-[global-filleted-polyline-mixin]}\emph{
-\list of numbers{}}
+[global-filleted-polyline-mixin]}\emph{List of Numbers}
 
  Specifies the radius for each vertex (``corner'') of the filleted-polyline.
 
@@ -9123,8 +8910,7 @@ for documentation on the messages.
 
 \item [Straights]
 \index{Straights
-[global-filleted-polyline-mixin]}\emph{
-\list of pairs of 3d points{}}
+[global-filleted-polyline-mixin]}\emph{List of pairs of 3D points}
 
  Each pair represents the start and end of each straight segment of the
 filleted-polyline.
@@ -9146,8 +8932,7 @@ filleted-polyline.
 
 \item [Fillets]
 \index{Fillets
-[global-filleted-polyline-mixin]}\emph{
-\sequence of fillets{}}
+[global-filleted-polyline-mixin]}\emph{Sequence of fillets}
 
  Each fillet is essentially an arc representing the curved elbow
 of the filleted-polyline.
@@ -9250,8 +9035,7 @@ the local center and orientation do not affect the positioning or orientation of
 
 \item [Projection-depth]
 \index{Projection-depth
-[global-polygon-projection]}\emph{
-\number{}}
+[global-polygon-projection]}\emph{Number}
 
  The resultant distance from the two end faces of the extrusion.
 
@@ -9260,8 +9044,7 @@ the local center and orientation do not affect the positioning or orientation of
 
 \item [Vertex-list]
 \index{Vertex-list
-[global-polygon-projection]}\emph{
-\list of 3d points{}}
+[global-polygon-projection]}\emph{List of 3D points}
 
  The vertex list making up the polyline, same as the input for global-polyline.
 
@@ -9282,8 +9065,7 @@ the local center and orientation do not affect the positioning or orientation of
 
 \item [Offset]
 \index{Offset
-[global-polygon-projection]}\emph{
-\keyword symbol{}}
+[global-polygon-projection]}\emph{Keyword symbol}
 
  The direction of extrusion with respect to the vertices in vertex-list and the projection-vector:
 
@@ -9313,8 +9095,7 @@ each direction.
 
 \item [Projection-vector]
 \index{Projection-vector
-[global-polygon-projection]}\emph{
-\3d vector{}}
+[global-polygon-projection]}\emph{3D Vector}
 
  Indicates the straight path along which the extrusion should occur.
 
@@ -9335,8 +9116,7 @@ each direction.
 
 \item [Bounding-box]
 \index{Bounding-box
-[global-polygon-projection]}\emph{
-\list of two 3d points{}}
+[global-polygon-projection]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding the tree of geometric objects rooted at this object.
@@ -9456,8 +9236,7 @@ global-polyline-mixin for documentation on the messages.
 
 \item [Vertex-list]
 \index{Vertex-list
-[global-polyline-mixin]}\emph{
-\list of 3d points{}}
+[global-polyline-mixin]}\emph{List of 3D Points}
 
  The vertices (``corners'') of the polyline.
 
@@ -9478,8 +9257,7 @@ global-polyline-mixin for documentation on the messages.
 
 \item [Bounding-box]
 \index{Bounding-box
-[global-polyline-mixin]}\emph{
-\list of two 3d points{}}
+[global-polyline-mixin]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding the tree of geometric objects rooted at this object.
@@ -9489,8 +9267,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Lines]
 \index{Lines
-[global-polyline-mixin]}\emph{
-\list of pairs of 3d points{}}
+[global-polyline-mixin]}\emph{List of pairs of 3D points}
 
  Each pair represents the start and end of each line segment in the polyline.
 
@@ -9595,8 +9372,7 @@ Must be specified in the subclass except for angular
 
 \item [Dim-text-start]
 \index{Dim-text-start
-[horizontal-dimension]}\emph{
-\3d point{}}
+[horizontal-dimension]}\emph{3D Point}
 
  Determines where the text will start. Defaults to reasonable location for
 horizontal-dimension.
@@ -9732,8 +9508,7 @@ Must be specified in the subclass except for angular
 
 \item [Leader-path]
 \index{Leader-path
-[label]}\emph{
-\list of 3d points{}}
+[label]}\emph{List of 3D Points}
 
  List making up leader line, starting from where the arrowhead normally is.
 
@@ -9754,8 +9529,7 @@ Must be specified in the subclass except for angular
 
 \item [Arrowhead-length]
 \index{Arrowhead-length
-[label]}\emph{
-\length (from tip to tail) of arrowhead glyph{}}
+[label]}\emph{Length (from tip to tail) of arrowhead glyph}
 
  Defaults to twice the \texttt{arrowhead-width}
 
@@ -9764,8 +9538,7 @@ Must be specified in the subclass except for angular
 
 \item [Arrowhead-style]
 \index{Arrowhead-style
-[label]}\emph{
-\keyword symbol{}}
+[label]}\emph{Keyword Symbol}
 
  Style for arrowhead at start of \texttt{leader-path}. Currently supported values
 are \texttt{:none}, \texttt{:wedge}  (the Default), and \texttt{:double-wedge}.
@@ -9775,8 +9548,7 @@ are \texttt{:none}, \texttt{:wedge}  (the Default), and \texttt{:double-wedge}.
 
 \item [Arrowhead-style-2]
 \index{Arrowhead-style-2
-[label]}\emph{
-\keyword symbol{}}
+[label]}\emph{Keyword Symbol}
 
  Style for arrowhead on end of \texttt{leader-path}. Currently supported values
 are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
@@ -9786,8 +9558,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Arrowhead-width]
 \index{Arrowhead-width
-[label]}\emph{
-\width of arrowhead glyph{}}
+[label]}\emph{Width of arrowhead glyph}
 
  Defaults to five times the line thickness (2.5)
 
@@ -9796,8 +9567,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Character-size]
 \index{Character-size
-[label]}\emph{
-\number{}}
+[label]}\emph{Number}
 
  Size (glyph height) of the label text, in model units. Defaults to 10.
 
@@ -9806,8 +9576,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Dxf-font]
 \index{Dxf-font
-[label]}\emph{
-\string{}}
+[label]}\emph{String}
 
  This names the DXF font for this general-note. Defaults to \texttt{(the font)}.
 
@@ -9816,8 +9585,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Dxf-offset]
 \index{Dxf-offset
-[label]}\emph{
-\number{}}
+[label]}\emph{Number}
 
  The start of text will be offset by this amount for DXF output. Default is 2.
 
@@ -9826,8 +9594,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Dxf-size-ratio]
 \index{Dxf-size-ratio
-[label]}\emph{
-\number{}}
+[label]}\emph{Number}
 
  The scale factor for DXF character size vs PDF character size. Default is 0.8
 
@@ -9836,8 +9603,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Dxf-text-x-scale]
 \index{Dxf-text-x-scale
-[label]}\emph{
-\number in percentage{}}
+[label]}\emph{Number in Percentage}
 
  Adjusts the character width for DXF output. Defaults to the text-x-scale.
 
@@ -9846,8 +9612,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Font]
 \index{Font
-[label]}\emph{
-\string naming a standard pdf font{}}
+[label]}\emph{String naming a standard PDF font}
 
  Font for the label text. Defaults to "Helvetica"
 
@@ -9856,8 +9621,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Outline-shape-type]
 \index{Outline-shape-type
-[label]}\emph{
-\keyword symbol{}}
+[label]}\emph{Keyword Symbol}
 
  Indicates shape of outline enclosing the text. Currently \texttt{:none}, \texttt{:bubble}, \texttt{:rectangle},
 and \texttt{nil} are supported. The default is nil
@@ -9867,8 +9631,7 @@ and \texttt{nil} are supported. The default is nil
 
 \item [Strings]
 \index{Strings
-[label]}\emph{
-\list of strings{}}
+[label]}\emph{List of strings}
 
  Text lines to be displayed as the label. Specify this or text, not both.
 
@@ -9877,8 +9640,7 @@ and \texttt{nil} are supported. The default is nil
 
 \item [Text]
 \index{Text
-[label]}\emph{
-\string{}}
+[label]}\emph{String}
 
  Text to be displayed as the label
 
@@ -9887,8 +9649,7 @@ and \texttt{nil} are supported. The default is nil
 
 \item [Text-gap]
 \index{Text-gap
-[label]}\emph{
-\number{}}
+[label]}\emph{Number}
 
  Amount of space between last point in leader-path and beginning of the label text. Defaults to the
 width of the letter "A" in the specified \texttt{font} and \texttt{character-size}.
@@ -9898,8 +9659,7 @@ width of the letter "A" in the specified \texttt{font} and \texttt{character-siz
 
 \item [Text-side]
 \index{Text-side
-[label]}\emph{
-\keyword symbol, either {\texttt{:left} or \texttt{:right}}}
+[label]}\emph{Keyword Symbol, either <tt>:left</tt> or <tt>:right</tt>}
 
  Determines whether the label text sits to
 the right or the left of the last point in the \texttt{leader-path}. The default is computed based on
@@ -9910,8 +9670,7 @@ the direction of the last segment of the leader-path.
 
 \item [View-reference-object]
 \index{View-reference-object
-[label]}\emph{
-\gdl object or nil{}}
+[label]}\emph{GDL object or NIL}
 
  View object which will use this dimension. Defaults to NIL.
 
@@ -9932,8 +9691,7 @@ the direction of the last segment of the leader-path.
 
 \item [Orientation]
 \index{Orientation
-[label]}\emph{
-\3x3 matrix of double-float numbers{}}
+[label]}\emph{3x3 Matrix of Double-Float Numbers}
 
  Indicates the absolute Rotation Matrix used to create
 the coordinate system of this object. This matrix is given in absolute terms (i.e. with
@@ -9990,8 +9748,7 @@ Creates a leader line with arrows on zero, one, or both ends
 
 \item [Path-points]
 \index{Path-points
-[leader-line]}\emph{
-\list of 3d points{}}
+[leader-line]}\emph{List of 3D Points}
 
  Leader-line is rendered as a polyline going through these points.
 
@@ -10012,8 +9769,7 @@ Creates a leader line with arrows on zero, one, or both ends
 
 \item [Arrowhead-length]
 \index{Arrowhead-length
-[leader-line]}\emph{
-\number{}}
+[leader-line]}\emph{Number}
 
  The length of the arrows. Defaults to (* (the arrowhead-width) 2)
 
@@ -10022,8 +9778,7 @@ Creates a leader line with arrows on zero, one, or both ends
 
 \item [Arrowhead-style]
 \index{Arrowhead-style
-[leader-line]}\emph{
-\keyword{}}
+[leader-line]}\emph{Keyword}
 
  Controls the style of first arrowhead. Currently only :wedge is supported. Default is :wedge.
 
@@ -10032,8 +9787,7 @@ Creates a leader line with arrows on zero, one, or both ends
 
 \item [Arrowhead-style-2]
 \index{Arrowhead-style-2
-[leader-line]}\emph{
-\keyword{}}
+[leader-line]}\emph{Keyword}
 
  Controls the style and presence of second arrowhead.
 Currently only :wedge is supported. Default is :none.
@@ -10043,8 +9797,7 @@ Currently only :wedge is supported. Default is :none.
 
 \item [Arrowhead-width]
 \index{Arrowhead-width
-[leader-line]}\emph{
-\number{}}
+[leader-line]}\emph{Number}
 
  The width of the arrows. Defaults to (* (the line-thickness) 5).
 
@@ -10053,8 +9806,7 @@ Currently only :wedge is supported. Default is :none.
 
 \item [Break-points]
 \index{Break-points
-[leader-line]}\emph{
-\list of two points or nil{}}
+[leader-line]}\emph{List of two points or nil}
 
 .
 The start and end of the break in the leader line to accomodate the dimension-text,
@@ -10148,8 +9900,7 @@ by specifying a start point and an end point.
 
 \item [End]
 \index{End
-[line]}\emph{
-\3d point{}}
+[line]}\emph{3D Point}
 
  The end point of the line, in global coordinates.
 
@@ -10158,8 +9909,7 @@ by specifying a start point and an end point.
 
 \item [Start]
 \index{Start
-[line]}\emph{
-\3d point{}}
+[line]}\emph{3D Point}
 
  The start point of the line, in global coordinates.
 
@@ -10180,8 +9930,7 @@ by specifying a start point and an end point.
 
 \item [Bounding-box]
 \index{Bounding-box
-[line]}\emph{
-\list of two 3d points{}}
+[line]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding the tree of geometric objects rooted at this object.
@@ -10191,8 +9940,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Center]
 \index{Center
-[line]}\emph{
-\3d point{}}
+[line]}\emph{3D Point}
 
  The center of the line.
 
@@ -10201,8 +9949,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Direction-vector]
 \index{Direction-vector
-[line]}\emph{
-\3d vector{}}
+[line]}\emph{3D Vector}
 
  Points from start to end of the line.
 
@@ -10211,8 +9958,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Length]
 \index{Length
-[line]}\emph{
-\number{}}
+[line]}\emph{Number}
 
  The distance from start to end of the line.
 
@@ -10274,8 +10020,7 @@ Must be specified in the subclass except for angular
 
 \item [End-point]
 \index{End-point
-[linear-dimension]}\emph{
-\3d point{}}
+[linear-dimension]}\emph{3D Point}
 
  Actual point where the dimension will stop measuring
 
@@ -10302,8 +10047,7 @@ Must be specified in the subclass except for angular
 
 \item [Start-point]
 \index{Start-point
-[linear-dimension]}\emph{
-\3d point{}}
+[linear-dimension]}\emph{3D Point}
 
  Actual point where the dimension will start measuring
 
@@ -10333,8 +10077,7 @@ Must be specified in the subclass except for angular
 
 \item [Arrowhead-length]
 \index{Arrowhead-length
-[linear-dimension]}\emph{
-\length (from tip to tail) of arrowhead glyph{}}
+[linear-dimension]}\emph{Length (from tip to tail) of arrowhead glyph}
 
  Defaults to twice the \texttt{arrowhead-width}
 
@@ -10343,8 +10086,7 @@ Must be specified in the subclass except for angular
 
 \item [Arrowhead-style]
 \index{Arrowhead-style
-[linear-dimension]}\emph{
-\keyword symbol{}}
+[linear-dimension]}\emph{Keyword Symbol}
 
  Style for arrowhead on end of \texttt{leader-line}. Currently supported values
 are \texttt{:none}, \texttt{:wedge}  (the Default), and \texttt{:double-wedge}.
@@ -10354,8 +10096,7 @@ are \texttt{:none}, \texttt{:wedge}  (the Default), and \texttt{:double-wedge}.
 
 \item [Arrowhead-style-2]
 \index{Arrowhead-style-2
-[linear-dimension]}\emph{
-\keyword symbol{}}
+[linear-dimension]}\emph{Keyword Symbol}
 
  Style for arrowhead on end of \texttt{leader-line}. Currently supported values
 are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
@@ -10365,8 +10106,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Arrowhead-width]
 \index{Arrowhead-width
-[linear-dimension]}\emph{
-\width of arrowhead glyph{}}
+[linear-dimension]}\emph{Width of arrowhead glyph}
 
  Defaults to half the character-size.
 
@@ -10375,8 +10115,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Character-size]
 \index{Character-size
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Size (glyph height) of the label text, in model units. Defaults to 1.
 
@@ -10385,8 +10124,7 @@ are \texttt{:none} (the Default), \texttt{:wedge}, and \texttt{:double-wedge}.
 
 \item [Dim-text]
 \index{Dim-text
-[linear-dimension]}\emph{
-\string{}}
+[linear-dimension]}\emph{String}
 
  Determines the text which shows up as the dimension label. Defaults to the dim-value,
 which is computed specially in each specific dimension type.
@@ -10396,8 +10134,7 @@ which is computed specially in each specific dimension type.
 
 \item [Dim-text-bias]
 \index{Dim-text-bias
-[linear-dimension]}\emph{
-\keyword symbol, :start, :end, or :center{}}
+[linear-dimension]}\emph{Keyword symbol, :start, :end, or :center}
 
  Indicates where to position the text in the case when
 
@@ -10408,8 +10145,7 @@ which is computed specially in each specific dimension type.
 
 \item [Dim-text-start]
 \index{Dim-text-start
-[linear-dimension]}\emph{
-\3d point{}}
+[linear-dimension]}\emph{3D Point}
 
  Determines where the text will start. Defaults to halfway between start-point
 and end-point.
@@ -10419,8 +10155,7 @@ and end-point.
 
 \item [Dim-text-start-offset]
 \index{Dim-text-start-offset
-[linear-dimension]}\emph{
-\3d vector (normally only 2d are used){}}
+[linear-dimension]}\emph{3D Vector (normally only 2D are used)}
 
 .
 The dim-text-start is offset by this vector, in model space. Defaults to \#(0.0 0.0 0.0)
@@ -10430,8 +10165,7 @@ The dim-text-start is offset by this vector, in model space. Defaults to \#(0.0 
 
 \item [Dim-value]
 \index{Dim-value
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  2D distance relative to the base-plane-normal. Can be over-ridden in the subclass
 
@@ -10440,8 +10174,7 @@ The dim-text-start is offset by this vector, in model space. Defaults to \#(0.0 
 
 \item [Dxf-font]
 \index{Dxf-font
-[linear-dimension]}\emph{
-\string{}}
+[linear-dimension]}\emph{String}
 
  This names the DXF font for this general-note. Defaults to \texttt{(the font)}.
 
@@ -10450,8 +10183,7 @@ The dim-text-start is offset by this vector, in model space. Defaults to \#(0.0 
 
 \item [Dxf-offset]
 \index{Dxf-offset
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  The start of text will be offset by this amount for DXF output. Default is 2.
 
@@ -10460,8 +10192,7 @@ The dim-text-start is offset by this vector, in model space. Defaults to \#(0.0 
 
 \item [Dxf-size-ratio]
 \index{Dxf-size-ratio
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  The scale factor for DXF character size vs PDF character size. Default is 0.8
 
@@ -10470,8 +10201,7 @@ The dim-text-start is offset by this vector, in model space. Defaults to \#(0.0 
 
 \item [Dxf-text-x-scale]
 \index{Dxf-text-x-scale
-[linear-dimension]}\emph{
-\number in percentage{}}
+[linear-dimension]}\emph{Number in Percentage}
 
  Adjusts the character width for DXF output. Defaults to the text-x-scale.
 
@@ -10480,8 +10210,7 @@ The dim-text-start is offset by this vector, in model space. Defaults to \#(0.0 
 
 \item [Flip-leaders?]
 \index{Flip-leaders?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Indicates which direction the witness lines should take from the start and end points. The Default is NIL,
 which indicates :rear (i.e. ``up'') for \texttt{horizontal-dimensions} and :right for \texttt{vertical-dimensions}
@@ -10491,8 +10220,7 @@ which indicates :rear (i.e. ``up'') for \texttt{horizontal-dimensions} and :righ
 
 \item [Font]
 \index{Font
-[linear-dimension]}\emph{
-\string naming a standard pdf font{}}
+[linear-dimension]}\emph{String naming a standard PDF font}
 
  Font for the label text. Defaults to "Helvetica"
 
@@ -10501,8 +10229,7 @@ which indicates :rear (i.e. ``up'') for \texttt{horizontal-dimensions} and :righ
 
 \item [Full-leader-line-length]
 \index{Full-leader-line-length
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Indicates the length of the full leader when \texttt{outside-leaders?} is nil. This defaults to nil,
 which indicates that the full-leader's length should be auto-computed based on the given start-point and end-point.
@@ -10512,8 +10239,7 @@ which indicates that the full-leader's length should be auto-computed based on t
 
 \item [Justification]
 \index{Justification
-[linear-dimension]}\emph{
-\keyword symbol, :left, :right, or :center{}}
+[linear-dimension]}\emph{Keyword symbol, :left, :right, or :center}
 
 .
 For multi-line dim-text, this justification is applied.
@@ -10523,8 +10249,7 @@ For multi-line dim-text, this justification is applied.
 
 \item [Leader-1?]
 \index{Leader-1?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Indicates whether the first (or only) leader line should be displayed. The Default is T
 
@@ -10533,8 +10258,7 @@ For multi-line dim-text, this justification is applied.
 
 \item [Leader-2?]
 \index{Leader-2?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Indicates whether the second leader line should be displayed. The Default is T
 
@@ -10543,8 +10267,7 @@ For multi-line dim-text, this justification is applied.
 
 \item [Leader-line-length]
 \index{Leader-line-length
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Indicates the length of the first leader for the case when \texttt{outside-leaders?} is non-NIL
 
@@ -10553,8 +10276,7 @@ For multi-line dim-text, this justification is applied.
 
 \item [Leader-line-length-2]
 \index{Leader-line-length-2
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Indicates the length of the second leader for the case when \texttt{outside-leaders?} is non-NIL
 
@@ -10563,8 +10285,7 @@ For multi-line dim-text, this justification is applied.
 
 \item [Leader-text-gap]
 \index{Leader-text-gap
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Amount of gap between leader lines and dimension text, when the dimension text is within the leader.
 Defaults to half the character-size.
@@ -10574,8 +10295,7 @@ Defaults to half the character-size.
 
 \item [Orientation]
 \index{Orientation
-[linear-dimension]}\emph{
-\3x3 matrix of double-float numbers{}}
+[linear-dimension]}\emph{3x3 Matrix of Double-Float Numbers}
 
  Indicates the absolute Rotation Matrix used to create
 the coordinate system of this object. This matrix is given in absolute terms (i.e. with
@@ -10589,8 +10309,7 @@ of one (1.0).
 
 \item [Outline-shape-type]
 \index{Outline-shape-type
-[linear-dimension]}\emph{
-\keyword symbol{}}
+[linear-dimension]}\emph{Keyword symbol}
 
  Currently can be :bubble, :rectangle, or :none. Default is :none.
 
@@ -10599,8 +10318,7 @@ of one (1.0).
 
 \item [Outside-leaders-length-factor]
 \index{Outside-leaders-length-factor
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Indicates the default length of the outside-leaders as a multiple of arrowhead-length.
 Defaults to 3.
@@ -10610,8 +10328,7 @@ Defaults to 3.
 
 \item [Outside-leaders?]
 \index{Outside-leaders?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Indicates whether the leader line(s) should be inside or outside the interval between the start and
 end points. The default is NIL, which indicates that the leader line(s) should be inside the interval
@@ -10621,8 +10338,7 @@ end points. The default is NIL, which indicates that the leader line(s) should b
 
 \item [Text-above-leader?]
 \index{Text-above-leader?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Indicates whether the text is to the right or above the leader line, rather than in-line with it. Default is T.
 
@@ -10631,8 +10347,7 @@ end points. The default is NIL, which indicates that the leader line(s) should b
 
 \item [Text-along-axis?]
 \index{Text-along-axis?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Where applicable, determines whether text direction follows leader-line direction
 
@@ -10641,8 +10356,7 @@ end points. The default is NIL, which indicates that the leader line(s) should b
 
 \item [Text-x-scale]
 \index{Text-x-scale
-[linear-dimension]}\emph{
-\number in percentage{}}
+[linear-dimension]}\emph{Number in Percentage}
 
  Adjusts the character width for the dimension-text and currently only applies only to PDF output
 
@@ -10660,8 +10374,7 @@ GDL
 
 \item [View-reference-object]
 \index{View-reference-object
-[linear-dimension]}\emph{
-\gdl object or nil{}}
+[linear-dimension]}\emph{GDL object or NIL}
 
  View object which will use this dimension. Defaults to NIL.
 
@@ -10670,8 +10383,7 @@ GDL
 
 \item [Witness-line-2?]
 \index{Witness-line-2?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Indicates whether to display a witness line coming off the \texttt{end-point}. Default is T
 
@@ -10680,8 +10392,7 @@ GDL
 
 \item [Witness-line-ext]
 \index{Witness-line-ext
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Distance the witness line(s) extend beyond the leader line. Default is 0.3
 
@@ -10690,8 +10401,7 @@ GDL
 
 \item [Witness-line-gap]
 \index{Witness-line-gap
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Distance from the \texttt{start-point} and \texttt{end-point} to the start of each witness-line. Default is 0.1
 
@@ -10700,8 +10410,7 @@ GDL
 
 \item [Witness-line-length]
 \index{Witness-line-length
-[linear-dimension]}\emph{
-\number{}}
+[linear-dimension]}\emph{Number}
 
  Length of the witness lines (or of the shorter witness line in case they are different lengths)
 
@@ -10710,8 +10419,7 @@ GDL
 
 \item [Witness-line?]
 \index{Witness-line?
-[linear-dimension]}\emph{
-\boolean{}}
+[linear-dimension]}\emph{Boolean}
 
  Indicates whether to display a witness line coming off the \texttt{start-point}. Default is T
 
@@ -10819,8 +10527,7 @@ Must be specified in the subclass except for angular
 
 \item [Dim-text-start]
 \index{Dim-text-start
-[parallel-dimension]}\emph{
-\3d point{}}
+[parallel-dimension]}\emph{3D Point}
 
  Determines where the text will start. Defaults to reasonable location for
 horizontal-dimension.
@@ -10947,8 +10654,7 @@ cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch).
 
 \item [Data]
 \index{Data
-[pie-chart]}\emph{
-\list of numbers{}}
+[pie-chart]}\emph{List of Numbers}
 
  The relative size for each pie piece. These will be normalized to percentages.
 Defaults to NIL, must be specified as non-NIL to get a result.
@@ -10958,8 +10664,7 @@ Defaults to NIL, must be specified as non-NIL to get a result.
 
 \item [Include-legend?]
 \index{Include-legend?
-[pie-chart]}\emph{
-\boolean{}}
+[pie-chart]}\emph{Boolean}
 
  Determines whether the Legend is included in standard output formats. Defaults to \texttt{t}.
 
@@ -10968,8 +10673,7 @@ Defaults to NIL, must be specified as non-NIL to get a result.
 
 \item [Labels&colors]
 \index{Labels&colors
-[pie-chart]}\emph{
-\list of lists, each containing a string and a keyword symbol{}}
+[pie-chart]}\emph{List of lists, each containing a string and a keyword symbol}
 
  This list should be the same
 length as \texttt{data}. These colors and labels will be assigned to each pie piece and to the legend.
@@ -10980,8 +10684,7 @@ Defaults to NIL, must be specified as non-NIL to get a result.
 
 \item [Line-color]
 \index{Line-color
-[pie-chart]}\emph{
-\keyword symbol naming color from {\texttt{*color-table*}}}
+[pie-chart]}\emph{Keyword symbol naming color from <tt>*color-table*</tt>}
 
 .
 Color of the outline of the pie. Defaults to :black.
@@ -10991,8 +10694,7 @@ Color of the outline of the pie. Defaults to :black.
 
 \item [Radius]
 \index{Radius
-[pie-chart]}\emph{
-\number{}}
+[pie-chart]}\emph{Number}
 
  The radius of the pie. Defaults to 0.35 times the \texttt{width}.
 
@@ -11001,8 +10703,7 @@ Color of the outline of the pie. Defaults to :black.
 
 \item [Title]
 \index{Title
-[pie-chart]}\emph{
-\string{}}
+[pie-chart]}\emph{String}
 
  Title for the chart. Defaults to the empty string.
 
@@ -11011,8 +10712,7 @@ Color of the outline of the pie. Defaults to :black.
 
 \item [Title-color]
 \index{Title-color
-[pie-chart]}\emph{
-\keyword symbol naming color from {\texttt{*color-table*}}}
+[pie-chart]}\emph{Keyword symbol naming color from <tt>*color-table*</tt>}
 
 .
 Color of title text. Defaults to :black.
@@ -11022,8 +10722,7 @@ Color of title text. Defaults to :black.
 
 \item [Title-font]
 \index{Title-font
-[pie-chart]}\emph{
-\string{}}
+[pie-chart]}\emph{String}
 
  Currently this must be a PDF font name. Defaults to "Helvetica."
 
@@ -11032,8 +10731,7 @@ Color of title text. Defaults to :black.
 
 \item [Title-font-size]
 \index{Title-font-size
-[pie-chart]}\emph{
-\number{}}
+[pie-chart]}\emph{Number}
 
  Size in points of title font. Defaults to 12.
 
@@ -11137,8 +10835,7 @@ color for the crosshairs is a light grey (:grey-light-very in the *color-table*)
 
 \item [Crosshair-length]
 \index{Crosshair-length
-[point]}\emph{
-\number{}}
+[point]}\emph{Number}
 
  Distance from center to end of crosshairs used to show the point. Default value is 3.
 
@@ -11147,8 +10844,7 @@ color for the crosshairs is a light grey (:grey-light-very in the *color-table*)
 
 \item [Radius]
 \index{Radius
-[point]}\emph{
-\number{}}
+[point]}\emph{Number}
 
  Distance from center to any point on the sphere.
 
@@ -11157,8 +10853,7 @@ color for the crosshairs is a light grey (:grey-light-very in the *color-table*)
 
 \item [Scaled?]
 \index{Scaled?
-[point]}\emph{
-\boolean{}}
+[point]}\emph{Boolean}
 
  Indicates whether the crosshairs drawn to represent the point are scaled along with
 any zoom factor applied to the display, or are fixed with respect to drawing space. The default is NIL,
@@ -11181,8 +10876,7 @@ meaning the crosshairs will remain the same size regardless of zoom state.
 
 \item [Bounding-box]
 \index{Bounding-box
-[point]}\emph{
-\list of two 3d points{}}
+[point]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding the tree of geometric objects rooted at this object.
@@ -11236,8 +10930,7 @@ a rendered perspective view, as in VRML.
 
 \item [Object-roots]
 \index{Object-roots
-[renderer-mixin]}\emph{
-\list of gdl objects{}}
+[renderer-mixin]}\emph{List of GDL Objects}
 
  Roots of the leaf objects to be displayed in this renderer view.
 
@@ -11246,8 +10939,7 @@ a rendered perspective view, as in VRML.
 
 \item [Objects]
 \index{Objects
-[renderer-mixin]}\emph{
-\list of gdl objects{}}
+[renderer-mixin]}\emph{List of GDL Objects}
 
  Leaves of the objects to be displayed in this renderer view.
 
@@ -11268,8 +10960,7 @@ a rendered perspective view, as in VRML.
 
 \item [3D-box]
 \index{3D-box
-[renderer-mixin]}\emph{
-\list of two 3d points{}}
+[renderer-mixin]}\emph{List of two 3D points}
 
  The left-front-lower and right-rear-upper corners of the axis-aligned bounding
 box of the \texttt{object-roots} and \texttt{objects}.
@@ -11279,8 +10970,7 @@ box of the \texttt{object-roots} and \texttt{objects}.
 
 \item [3D-box-center]
 \index{3D-box-center
-[renderer-mixin]}\emph{
-\3d point{}}
+[renderer-mixin]}\emph{3D Point}
 
  The effective view center for the scene contained in this view object. Defaults to the center of the bounding sphere of all
 the objects in the scene, consisting of the \texttt{object-roots} and the \texttt{objects}.
@@ -11290,8 +10980,7 @@ the objects in the scene, consisting of the \texttt{object-roots} and the \textt
 
 \item [Bounding-sphere]
 \index{Bounding-sphere
-[renderer-mixin]}\emph{
-\plist containing keys: {\texttt{:center} and \texttt{:radius}}}
+[renderer-mixin]}\emph{Plist containing keys: <tt>:center</tt> and <tt>:radius</tt>}
 
  This plist represents the tightest-fitting sphere
 around all the objects listed in the \texttt{object-roots} and the \texttt{objects}
@@ -11301,8 +10990,7 @@ around all the objects listed in the \texttt{object-roots} and the \texttt{objec
 
 \item [Field-of-view-default]
 \index{Field-of-view-default
-[renderer-mixin]}\emph{
-\number in angular degrees{}}
+[renderer-mixin]}\emph{Number in angular degrees}
 
  The maximum angle of the view frustrum for perspective views.
 Defaults to 0.1 (which results in a near parallel projection with virtually no perspective effect).
@@ -11312,8 +11000,7 @@ Defaults to 0.1 (which results in a near parallel projection with virtually no p
 
 \item [View-vectors]
 \index{View-vectors
-[renderer-mixin]}\emph{
-\plist{}}
+[renderer-mixin]}\emph{Plist}
 
  Keys indicate view vector names (e.g. \texttt{:trimetric}), and values contain the 3D vectors. Defaults to the
 parameter \texttt{*standard-views*}, but with the key corresponding to current \texttt{(the view)} ordered
@@ -11324,8 +11011,7 @@ first in the plist. This list of view-vectors is used to construct the default \
 
 \item [Viewpoints]
 \index{Viewpoints
-[renderer-mixin]}\emph{
-\list of plists{}}
+[renderer-mixin]}\emph{List of Plists}
 
  Each plist contains, based on each entry in the \texttt{view-vectors}, keys:
 
@@ -11452,8 +11138,7 @@ Defines an alternating set of cylinders and torus sections for the elbows
 
 \item [Outer-pipe-radius]
 \index{Outer-pipe-radius
-[route-pipe]}\emph{
-\number{}}
+[route-pipe]}\emph{Number}
 
  Radius to the outer surface of the piping.
 
@@ -11462,8 +11147,7 @@ Defines an alternating set of cylinders and torus sections for the elbows
 
 \item [Vertex-list]
 \index{Vertex-list
-[route-pipe]}\emph{
-\list of 3d points{}}
+[route-pipe]}\emph{List of 3D Points}
 
  Same as for global-filleted-polyline (which is mixed in to this part)
 
@@ -11484,8 +11168,7 @@ Defines an alternating set of cylinders and torus sections for the elbows
 
 \item [Inner-pipe-radius]
 \index{Inner-pipe-radius
-[route-pipe]}\emph{
-\number{}}
+[route-pipe]}\emph{Number}
 
  Radius of the inner hollow part of the piping. NIL for a solid pipe.
 
@@ -11506,8 +11189,7 @@ Defines an alternating set of cylinders and torus sections for the elbows
 
 \item [Bounding-box]
 \index{Bounding-box
-[route-pipe]}\emph{
-\list of two 3d points{}}
+[route-pipe]}\emph{List of two 3D points}
 
  The left front bottom and right rear top corners, in global coordinates,
 of the rectangular volume bounding the tree of geometric objects rooted at this object.
@@ -11517,8 +11199,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Height]
 \index{Height
-[route-pipe]}\emph{
-\number{}}
+[route-pipe]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -11527,8 +11208,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Length]
 \index{Length
-[route-pipe]}\emph{
-\number{}}
+[route-pipe]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -11537,8 +11217,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 \item [Orientation]
 \index{Orientation
-[route-pipe]}\emph{
-\3x3 matrix of double-float numbers{}}
+[route-pipe]}\emph{3x3 Matrix of Double-Float Numbers}
 
  Indicates the absolute Rotation Matrix used to create
 the coordinate system of this object. This matrix is given in absolute terms (i.e. with
@@ -11552,8 +11231,7 @@ of one (1.0).
 
 \item [Width]
 \index{Width
-[route-pipe]}\emph{
-\number{}}
+[route-pipe]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -11605,8 +11283,7 @@ Defines a simple drawing with a single view for displaying objects or object-roo
 
 \item [Page-length]
 \index{Page-length
-[sample-drawing]}\emph{
-\number in pdf points{}}
+[sample-drawing]}\emph{Number in PDF Points}
 
  Front-to-back (or top-to-bottom) length of the paper being represented
 by this drawing. The default is (* 11 72) points, or 11 inches, corresponding to US standard
@@ -11617,8 +11294,7 @@ letter-size paper.
 
 \item [Page-width]
 \index{Page-width
-[sample-drawing]}\emph{
-\number in pdf points{}}
+[sample-drawing]}\emph{Number in PDF Points}
 
  Left-to-right width of the paper being represented by this drawing.
 The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard letter-size paper.
@@ -11720,8 +11396,7 @@ The set of points equidistant from a given center point.
 
 \item [Radius]
 \index{Radius
-[sphere]}\emph{
-\number{}}
+[sphere]}\emph{Number}
 
  Distance from center to any point on the sphere.
 
@@ -11742,8 +11417,7 @@ The set of points equidistant from a given center point.
 
 \item [End-horizontal-arc]
 \index{End-horizontal-arc
-[sphere]}\emph{
-\angle in radians{}}
+[sphere]}\emph{Angle in radians}
 
  Ending horizontal angle for a partial sphere. Default is twice pi.
 
@@ -11752,8 +11426,7 @@ The set of points equidistant from a given center point.
 
 \item [End-vertical-arc]
 \index{End-vertical-arc
-[sphere]}\emph{
-\angle in radians{}}
+[sphere]}\emph{Angle in radians}
 
  Ending vertical angle for a partial sphere. Default is pi/2.
 
@@ -11762,8 +11435,7 @@ The set of points equidistant from a given center point.
 
 \item [Inner-radius]
 \index{Inner-radius
-[sphere]}\emph{
-\number{}}
+[sphere]}\emph{Number}
 
  Radius of inner hollow for a hollow sphere. Default is NIL, for a non-hollow sphere.
 
@@ -11772,8 +11444,7 @@ The set of points equidistant from a given center point.
 
 \item [Number-of-horizontal-sections]
 \index{Number-of-horizontal-sections
-[sphere]}\emph{
-\number{}}
+[sphere]}\emph{Number}
 
  How many lines of latitude to show on the sphere in some renderings. Default value is 4.
 
@@ -11782,8 +11453,7 @@ The set of points equidistant from a given center point.
 
 \item [Number-of-vertical-sections]
 \index{Number-of-vertical-sections
-[sphere]}\emph{
-\number{}}
+[sphere]}\emph{Number}
 
  How many lines of longitude to show on the sphere in some renderings. Default value is 4.
 
@@ -11792,8 +11462,7 @@ The set of points equidistant from a given center point.
 
 \item [Start-horizontal-arc]
 \index{Start-horizontal-arc
-[sphere]}\emph{
-\angle in radians{}}
+[sphere]}\emph{Angle in radians}
 
  Starting horizontal angle for a partial sphere. Default is 0.
 
@@ -11802,8 +11471,7 @@ The set of points equidistant from a given center point.
 
 \item [Start-vertical-arc]
 \index{Start-vertical-arc
-[sphere]}\emph{
-\angle in radians{}}
+[sphere]}\emph{Angle in radians}
 
  Starting vertical angle for a partial sphere. Default is -pi/2.
 
@@ -11824,8 +11492,7 @@ The set of points equidistant from a given center point.
 
 \item [Height]
 \index{Height
-[sphere]}\emph{
-\number{}}
+[sphere]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -11834,8 +11501,7 @@ The set of points equidistant from a given center point.
 
 \item [Length]
 \index{Length
-[sphere]}\emph{
-\number{}}
+[sphere]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -11844,8 +11510,7 @@ The set of points equidistant from a given center point.
 
 \item [Width]
 \index{Width
-[sphere]}\emph{
-\number{}}
+[sphere]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -11946,8 +11611,7 @@ construction and positioning since the actual center of the spherical cap is the
 
 \item [Axis-length]
 \index{Axis-length
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  The distance from the center of the base to the center of the dome.
 
@@ -11956,8 +11620,7 @@ construction and positioning since the actual center of the spherical cap is the
 
 \item [Base-radius]
 \index{Base-radius
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  Radius of the base.
 
@@ -11978,8 +11641,7 @@ construction and positioning since the actual center of the spherical cap is the
 
 \item [Cap-thickness]
 \index{Cap-thickness
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  Thickness of the shell for a hollow spherical-cap. Specify this
 or inner-base-radius, not both.
@@ -11989,8 +11651,7 @@ or inner-base-radius, not both.
 
 \item [Inner-base-radius]
 \index{Inner-base-radius
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  Radius of base of inner for a hollow spherical-cap. Specify this
 or cap-thickness, not both.
@@ -12000,8 +11661,7 @@ or cap-thickness, not both.
 
 \item [Number-of-horizontal-sections]
 \index{Number-of-horizontal-sections
-[spherical-cap]}\emph{
-\integer{}}
+[spherical-cap]}\emph{Integer}
 
  How many lines of latitude to show on the spherical-cap in some renderings. Default value is 2.
 
@@ -12010,8 +11670,7 @@ or cap-thickness, not both.
 
 \item [Number-of-vertical-sections]
 \index{Number-of-vertical-sections
-[spherical-cap]}\emph{
-\integer{}}
+[spherical-cap]}\emph{Integer}
 
  How many lines of longitude to show on the spherical-cap in some renderings. Default value is 2.
 
@@ -12032,8 +11691,7 @@ or cap-thickness, not both.
 
 \item [End-angle]
 \index{End-angle
-[spherical-cap]}\emph{
-\angle in radians{}}
+[spherical-cap]}\emph{Angle in radians}
 
  End angle of the arc. Defaults to twice pi.
 
@@ -12042,8 +11700,7 @@ or cap-thickness, not both.
 
 \item [Height]
 \index{Height
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -12052,8 +11709,7 @@ or cap-thickness, not both.
 
 \item [Length]
 \index{Length
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -12062,8 +11718,7 @@ or cap-thickness, not both.
 
 \item [Sphere-center]
 \index{Sphere-center
-[spherical-cap]}\emph{
-\3d point{}}
+[spherical-cap]}\emph{3D Point}
 
  Center of the sphere containing the spherical-cap.
 
@@ -12072,8 +11727,7 @@ or cap-thickness, not both.
 
 \item [Sphere-radius]
 \index{Sphere-radius
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  Radius of the sphere containing the spherical-cap.
 
@@ -12082,8 +11736,7 @@ or cap-thickness, not both.
 
 \item [Start-angle]
 \index{Start-angle
-[spherical-cap]}\emph{
-\angle in radians{}}
+[spherical-cap]}\emph{Angle in radians}
 
  Start angle of the arc. Defaults to zero.
 
@@ -12092,8 +11745,7 @@ or cap-thickness, not both.
 
 \item [Width]
 \index{Width
-[spherical-cap]}\emph{
-\number{}}
+[spherical-cap]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -12137,8 +11789,7 @@ or cap-thickness, not both.
 
 \item [Center]
 \index{Center
-[text-line]}\emph{
-\3d-point{}}
+[text-line]}\emph{3D-point}
 
  Center of the text. Specify this or start, not both.
 
@@ -12147,8 +11798,7 @@ or cap-thickness, not both.
 
 \item [Start]
 \index{Start
-[text-line]}\emph{
-\3d-point{}}
+[text-line]}\emph{3D-point}
 
  Start of the text. Specify this or center, not both.
 
@@ -12157,8 +11807,7 @@ or cap-thickness, not both.
 
 \item [Width]
 \index{Width
-[text-line]}\emph{
-\number{}}
+[text-line]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -12179,8 +11828,7 @@ or cap-thickness, not both.
 
 \item [Length]
 \index{Length
-[text-line]}\emph{
-\number{}}
+[text-line]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -12284,8 +11932,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Major-radius]
 \index{Major-radius
-[torus]}\emph{
-\number{}}
+[torus]}\emph{Number}
 
  Distance from center of donut hole to centerline of the torus.
 
@@ -12294,8 +11941,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Minor-radius]
 \index{Minor-radius
-[torus]}\emph{
-\number{}}
+[torus]}\emph{Number}
 
  Radius of the bent cylinder making up the torus.
 
@@ -12316,8 +11962,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Draw-centerline-arc?]
 \index{Draw-centerline-arc?
-[torus]}\emph{
-\boolean{}}
+[torus]}\emph{Boolean}
 
  Indicates whether the bent cylinder's centerline arc should be rendered in some renderings.
 
@@ -12326,8 +11971,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [End-caps?]
 \index{End-caps?
-[torus]}\emph{
-\boolean{}}
+[torus]}\emph{Boolean}
 
  Indicates whether to include end caps for a partial torus in some renderings. Defaults to T.
 
@@ -12336,8 +11980,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Inner-minor-radius]
 \index{Inner-minor-radius
-[torus]}\emph{
-\number{}}
+[torus]}\emph{Number}
 
  Radius of the inner hollow part of the bent cylinder for a hollow torus. Defaults to NIL for a solid cylinder
 
@@ -12346,8 +11989,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Number-of-longitudinal-sections]
 \index{Number-of-longitudinal-sections
-[torus]}\emph{
-\integer{}}
+[torus]}\emph{Integer}
 
  Indicates the number of arcs to be drawn on along ``surface'' of the torus in some wireframe renderings.
 
@@ -12356,8 +11998,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Number-of-transverse-sections]
 \index{Number-of-transverse-sections
-[torus]}\emph{
-\integer{}}
+[torus]}\emph{Integer}
 
  Indicates the number of circular cross-sections of the bent cylinder to show in some wireframe renderings.
 
@@ -12378,8 +12019,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Arc]
 \index{Arc
-[torus]}\emph{
-\angle in radians{}}
+[torus]}\emph{Angle in Radians}
 
  Indicates the end angle for the donut. Defaults to twice pi for a full-circle donut.
 
@@ -12400,8 +12040,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Height]
 \index{Height
-[torus]}\emph{
-\number{}}
+[torus]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -12410,8 +12049,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Length]
 \index{Length
-[torus]}\emph{
-\number{}}
+[torus]}\emph{Number}
 
  Y-axis dimension of the reference box. Defaults to zero.
 
@@ -12420,8 +12058,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 \item [Width]
 \index{Width
-[torus]}\emph{
-\number{}}
+[torus]}\emph{Number}
 
  X-axis dimension of the reference box. Defaults to zero.
 
@@ -12486,8 +12123,7 @@ base-view should also probably have :left-margin 0 and :front-margin 0.
 
 \item [Center]
 \index{Center
-[typeset-block]}\emph{
-\3d-point{}}
+[typeset-block]}\emph{3D-point}
 
  Center of the text. Specify this or start, not both.
 
@@ -12496,8 +12132,7 @@ base-view should also probably have :left-margin 0 and :front-margin 0.
 
 \item [Length]
 \index{Length
-[typeset-block]}\emph{
-\number{}}
+[typeset-block]}\emph{Number}
 
  The length of the box to contain the compiled content. Defaults is (the length-default),
 which will exactly fit the compiled content into the specified width. If you override it to be less
@@ -12508,8 +12143,7 @@ than this default, the content will be cropped.
 
 \item [Start]
 \index{Start
-[typeset-block]}\emph{
-\3d-point{}}
+[typeset-block]}\emph{3D-point}
 
  Start of the text. Specify this or center, not both.
 
@@ -12518,8 +12152,7 @@ than this default, the content will be cropped.
 
 \item [Start-line-index]
 \index{Start-line-index
-[typeset-block]}\emph{
-\number{}}
+[typeset-block]}\emph{Number}
 
  The line number to start
 
@@ -12540,8 +12173,7 @@ than this default, the content will be cropped.
 
 \item [Length-default]
 \index{Length-default
-[typeset-block]}\emph{
-\number{}}
+[typeset-block]}\emph{Number}
 
  The computed length which will exactly fit the content based on (the width).
 
@@ -12550,8 +12182,7 @@ than this default, the content will be cropped.
 
 \item [Lines]
 \index{Lines
-[typeset-block]}\emph{
-\list of typeset line objects{}}
+[typeset-block]}\emph{List of typeset line objects}
 
  The list of lines in the nominal block.
 
@@ -12651,8 +12282,7 @@ Creates a dimension annotation along the vertical axis.
 
 \item [Dim-text-start]
 \index{Dim-text-start
-[vertical-dimension]}\emph{
-\3d point{}}
+[vertical-dimension]}\emph{3D Point}
 
  Determines where the text will start. Defaults to reasonable location for
 horizontal-dimension.
@@ -13346,8 +12976,7 @@ Raphael vector graphics.
 
 \item [Background-color]
 \index{Background-color
-[base-ajax-graphics-sheet]}\emph{
-\array of three numbers between 0 and 1{}}
+[base-ajax-graphics-sheet]}\emph{Array of three numbers between 0 and 1}
 
  RGB Color in decimal
 format. Color to be used for the background of the viewport.
@@ -13359,8 +12988,7 @@ Defaults to the
 
 \item [Display-list-object-roots]
 \index{Display-list-object-roots
-[base-ajax-graphics-sheet]}\emph{
-\list of gdl objects{}}
+[base-ajax-graphics-sheet]}\emph{List of GDL objects}
 
  The leaves of each of these objects will
 be included in the geometry display. Defaults to nil.
@@ -13370,8 +12998,7 @@ be included in the geometry display. Defaults to nil.
 
 \item [Display-list-objects]
 \index{Display-list-objects
-[base-ajax-graphics-sheet]}\emph{
-\list of gdl objects containing geometry{}}
+[base-ajax-graphics-sheet]}\emph{List of GDL objects containing geometry}
 
  These are the
 actual objects themselves, not nodes which have children or
@@ -13385,8 +13012,7 @@ Defaults to nil.
 
 \item [Field-of-view-default]
 \index{Field-of-view-default
-[base-ajax-graphics-sheet]}\emph{
-\number in angular degrees{}}
+[base-ajax-graphics-sheet]}\emph{Number in angular degrees}
 
  The maximum angle of the view frustrum
 for perspective views. Defaults to 45 which is natural human eye field of view.
@@ -13396,8 +13022,7 @@ for perspective views. Defaults to 45 which is natural human eye field of view.
 
 \item [Image-format]
 \index{Image-format
-[base-ajax-graphics-sheet]}\emph{
-\keyword symbol{}}
+[base-ajax-graphics-sheet]}\emph{Keyword symbol}
 
  Determines the default image format. Defaults to the currently selected
 value of the image-format-selector, which itself defaults to :raphael.
@@ -13407,8 +13032,7 @@ value of the image-format-selector, which itself defaults to :raphael.
 
 \item [Image-format-default]
 \index{Image-format-default
-[base-ajax-graphics-sheet]}\emph{
-\keyword symbol, one of the keys from (the image-format-plist){}}
+[base-ajax-graphics-sheet]}\emph{Keyword symbol, one of the keys from (the image-format-plist)}
 
 .
 Default for the image-format-selector. Defaults to :png.
@@ -13418,8 +13042,7 @@ Default for the image-format-selector. Defaults to :png.
 
 \item [Image-format-plist]
 \index{Image-format-plist
-[base-ajax-graphics-sheet]}\emph{
-\plist of keys and strings{}}
+[base-ajax-graphics-sheet]}\emph{Plist of keys and strings}
 
  The default formats for graphics display. Defaults to:
  
@@ -13433,8 +13056,7 @@ Default for the image-format-selector. Defaults to :png.
 
 \item [Immune-objects]
 \index{Immune-objects
-[base-ajax-graphics-sheet]}\emph{
-\list of gdl objects{}}
+[base-ajax-graphics-sheet]}\emph{List of GDL objects}
 
  These objects are not used in
 computing the scale or centering for the display list.
@@ -13445,8 +13067,7 @@ Defaults to nil.
 
 \item [Include-view-controls?]
 \index{Include-view-controls?
-[base-ajax-graphics-sheet]}\emph{
-\boolean{}}
+[base-ajax-graphics-sheet]}\emph{Boolean}
 
  Indicates whether standard view-controls panel should be included with the graphics.
 
@@ -13455,8 +13076,7 @@ Defaults to nil.
 
 \item [Inner-html]
 \index{Inner-html
-[base-ajax-graphics-sheet]}\emph{
-\string{}}
+[base-ajax-graphics-sheet]}\emph{String}
 
  This can be used with (str .) [in cl-who] or (:princ .) [in htmlGen]
 to output this section of the page, without the wrapping :div tag [so if you use this,
@@ -13467,8 +13087,7 @@ your code would be responsible for wrapping the :div tag with :id (the dom-id).]
 
 \item [Projection-vector]
 \index{Projection-vector
-[base-ajax-graphics-sheet]}\emph{
-\3d vector{}}
+[base-ajax-graphics-sheet]}\emph{3D vector}
 
  This is the normal vector of the view plane onto
 which to project the 3D objects. Defaults to
@@ -13480,8 +13099,7 @@ and (the view-selector value) defaults to :top.
 
 \item [Use-raphael-graf?]
 \index{Use-raphael-graf?
-[base-ajax-graphics-sheet]}\emph{
-\boolean{}}
+[base-ajax-graphics-sheet]}\emph{Boolean}
 
  Include raphael graphing library in the page header?
 Default nil.
@@ -13491,8 +13109,7 @@ Default nil.
 
 \item [Use-raphael?]
 \index{Use-raphael?
-[base-ajax-graphics-sheet]}\emph{
-\boolean{}}
+[base-ajax-graphics-sheet]}\emph{Boolean}
 
  Include raphael javascript library in the page header?
 Default nil.
@@ -13512,8 +13129,7 @@ automatically included in the view-controls.
 
 \item [Viewport-border-default]
 \index{Viewport-border-default
-[base-ajax-graphics-sheet]}\emph{
-\number{}}
+[base-ajax-graphics-sheet]}\emph{Number}
 
  Thickness of default border around graphics viewport.
 Default is 1.
@@ -13535,8 +13151,7 @@ Default is 1.
 
 \item [Js-to-eval]
 \index{Js-to-eval
-[base-ajax-graphics-sheet]}\emph{
-\string of valid javascript{}}
+[base-ajax-graphics-sheet]}\emph{String of valid Javascript}
 
  This Javascript will be send with the Ajax response,
 and evaluated after the innerHTML for this section has been replaced.
@@ -13558,8 +13173,7 @@ and evaluated after the innerHTML for this section has been replaced.
 
 \item [Graphics]
 \index{Graphics
-[base-ajax-graphics-sheet]}\emph{
-\string of valid html{}}
+[base-ajax-graphics-sheet]}\emph{String of valid HTML}
 
  This can be used to
 include the geometry, in the format currently selected by the image-format-selector.
@@ -13571,8 +13185,7 @@ bottom of the graphics inside a table.
 
 \item [Raster-graphics]
 \index{Raster-graphics
-[base-ajax-graphics-sheet]}\emph{
-\string of valid html{}}
+[base-ajax-graphics-sheet]}\emph{String of valid HTML}
 
  This can be used to
 include the PNG or JPG raster-graphics of the geometry.
@@ -13582,8 +13195,7 @@ include the PNG or JPG raster-graphics of the geometry.
 
 \item [Vector-graphics]
 \index{Vector-graphics
-[base-ajax-graphics-sheet]}\emph{
-\string of valid html{}}
+[base-ajax-graphics-sheet]}\emph{String of valid HTML}
 
  This can be used to
 include the SVG or VML vector-graphics of the geometry.
@@ -13593,8 +13205,7 @@ include the SVG or VML vector-graphics of the geometry.
 
 \item [View-controls]
 \index{View-controls
-[base-ajax-graphics-sheet]}\emph{
-\string of valid html{}}
+[base-ajax-graphics-sheet]}\emph{String of valid HTML}
 
  This includes the image-format-selector, the reset-zoom-button,
 and the view-selector, in a simple table layout. You can override this to make the view-controls
@@ -13605,8 +13216,7 @@ appear any way you want and include different and/or additional form-controls.
 
 \item [Web3d-graphics]
 \index{Web3d-graphics
-[base-ajax-graphics-sheet]}\emph{
-\string of valid html{}}
+[base-ajax-graphics-sheet]}\emph{String of valid HTML}
 
  This can be used to
 include the VRML or X3D graphics of the geometry.
@@ -13628,8 +13238,7 @@ include the VRML or X3D graphics of the geometry.
 
 \item [Image-format-selector]
 \index{Image-format-selector
-[base-ajax-graphics-sheet]}\emph{
-\object of type menu-form-control{}}
+[base-ajax-graphics-sheet]}\emph{Object of type menu-form-control}
 
  Its value slot can be used to determine the format of image displayed.
 
@@ -13650,8 +13259,7 @@ include the VRML or X3D graphics of the geometry.
 
 \item [Write-embedded-x3dom-world]
 \index{Write-embedded-x3dom-world
-[base-ajax-graphics-sheet]}\emph{
-\void{}}
+[base-ajax-graphics-sheet]}\emph{Void}
 
  Writes an embedded X3D tag with content for the \texttt{view-object} child of this object.
 The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
@@ -13842,8 +13450,7 @@ but which you can fill in your own specific lens to do something useful for the 
 
 \item [Body-class]
 \index{Body-class
-[base-ajax-sheet]}\emph{
-\string or nil{}}
+[base-ajax-sheet]}\emph{String or nil}
 
  Names the value of class attribute for the body tag. Default is nil.
 
@@ -13852,8 +13459,7 @@ but which you can fill in your own specific lens to do something useful for the 
 
 \item [Body-onload]
 \index{Body-onload
-[base-ajax-sheet]}\emph{
-\string of javascript or nil{}}
+[base-ajax-sheet]}\emph{String of Javascript or nil}
 
  This Javascript will go into the :onload event of the body.
 Default is nil.
@@ -13863,8 +13469,7 @@ Default is nil.
 
 \item [Doctype-string]
 \index{Doctype-string
-[base-ajax-sheet]}\emph{
-\string or nil{}}
+[base-ajax-sheet]}\emph{String or nil}
 
  Contains the string for the doctype at the top of the document. Default is:
 
@@ -13876,8 +13481,7 @@ Default is nil.
 
 \item [Main-sheet-body]
 \index{Main-sheet-body
-[base-ajax-sheet]}\emph{
-\string of html{}}
+[base-ajax-sheet]}\emph{String of HTML}
 
  The main body of the page.
 This can be specified as input or overridden in subclass, otherwise it defaults
@@ -13889,8 +13493,7 @@ in the applicable lens for  html-format.
 
 \item [Respondent]
 \index{Respondent
-[base-ajax-sheet]}\emph{
-\gdl object{}}
+[base-ajax-sheet]}\emph{GDL Object}
 
  Object to respond to the form submission. Defaults to self.
 
@@ -13899,8 +13502,7 @@ in the applicable lens for  html-format.
 
 \item [Title]
 \index{Title
-[base-ajax-sheet]}\emph{
-\string{}}
+[base-ajax-sheet]}\emph{String}
 
  The title of the web page. Defaults to "Genworks GDL -"
 .followed by the strings-for-display.
@@ -13922,8 +13524,7 @@ in the applicable lens for  html-format.
 
 \item [Additional-header-content]
 \index{Additional-header-content
-[base-ajax-sheet]}\emph{
-\string of valid html{}}
+[base-ajax-sheet]}\emph{String of valid HTML}
 
  Additional tag content to go into the page header,
 if you use the default main-sheet message and just fill in your own main-sheet-body, as
@@ -13934,8 +13535,7 @@ is the intended use of the base-ajax-sheet primitive.
 
 \item [Additional-header-js-content]
 \index{Additional-header-js-content
-[base-ajax-sheet]}\emph{
-\valid javascript{}}
+[base-ajax-sheet]}\emph{valid javascript}
 
  This javascript is added to the head of the page -just before- the body.
 When jquery is loaded (by setting the input-slot (use-jquery t)), the javascript can use the
@@ -13949,8 +13549,7 @@ Good Practice&\#0153;.
 
 \item [Ui-specific-layout-js]
 \index{Ui-specific-layout-js
-[base-ajax-sheet]}\emph{
-\absolute uri in the browser{}}
+[base-ajax-sheet]}\emph{Absolute URI in the browser}
 
 .
 This is additional JavaScript that needs to be loaded in order to initiate the layout of a user
@@ -13961,8 +13560,7 @@ interface. Defaults to nil.
 
 \item [Use-jquery?]
 \index{Use-jquery?
-[base-ajax-sheet]}\emph{
-\boolean{}}
+[base-ajax-sheet]}\emph{Boolean}
 
  Include jquery javascript libraries in the page header?
 Default nil.
@@ -13984,8 +13582,7 @@ Default nil.
 
 \item [Custom-snap-restore!]
 \index{Custom-snap-restore!
-[base-ajax-sheet]}\emph{
-\void{}}
+[base-ajax-sheet]}\emph{Void}
 
  This is a hook function which applications can use to restore automatically
 from a saved snapshot file.
@@ -14229,8 +13826,7 @@ Capitol Hill.")
 
 \item [Accept]
 \index{Accept
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14239,8 +13835,7 @@ Capitol Hill.")
 
 \item [Accesskey]
 \index{Accesskey
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14249,8 +13844,7 @@ Capitol Hill.")
 
 \item [Align]
 \index{Align
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14259,8 +13853,7 @@ Capitol Hill.")
 
 \item [Allow-invalid-type?]
 \index{Allow-invalid-type?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  If non-nil, then values which fail the type test will still be allowed to be the value. Default is nil.
 
@@ -14269,8 +13862,7 @@ Capitol Hill.")
 
 \item [Allow-invalid?]
 \index{Allow-invalid?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  If non-nil, then values which fail the type or validation test will still be allowed to be the value. Default is t.
 
@@ -14279,8 +13871,7 @@ Capitol Hill.")
 
 \item [Allow-nil?]
 \index{Allow-nil?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  Regardless of :domain, if this is non-nil, nil values will be accepted. Defaults to t if (the default) is nil,
 otherwise defaults to nil.
@@ -14290,8 +13881,7 @@ otherwise defaults to nil.
 
 \item [Alt]
 \index{Alt
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14300,8 +13890,7 @@ otherwise defaults to nil.
 
 \item [Append-error-string?]
 \index{Append-error-string?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  Determines whether a default error string is appended to string ouput-function for
 html-format (and therefore html-string computed-slot as well). Defaults to t.
@@ -14311,8 +13900,7 @@ html-format (and therefore html-string computed-slot as well). Defaults to t.
 
 \item [Default]
 \index{Default
-[base-form-control]}\emph{
-\lisp value of a type compatible with (the domain){}}
+[base-form-control]}\emph{Lisp value of a type compatible with (the domain)}
 
  This is the initial default value for the control.
 This must be specified by user code, or an error will result.
@@ -14322,8 +13910,7 @@ This must be specified by user code, or an error will result.
 
 \item [Disabled?]
 \index{Disabled?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14332,8 +13919,7 @@ This must be specified by user code, or an error will result.
 
 \item [Domain]
 \index{Domain
-[base-form-control]}\emph{
-\keyword symbol, one of :number, :keyword, :list-of-strings, :list-of-anything, or :string{}}
+[base-form-control]}\emph{Keyword symbol, one of :number, :keyword, :list-of-strings, :list-of-anything, or :string}
 
 .
 This specifies the expected and acceptable type for the submitted form value. If possible, the
@@ -14346,8 +13932,7 @@ the domain will default to :string
 
 \item [Ismap?]
 \index{Ismap?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14356,8 +13941,7 @@ the domain will default to :string
 
 \item [Label-position]
 \index{Label-position
-[base-form-control]}\emph{
-\keyword symbol or nil{}}
+[base-form-control]}\emph{Keyword symbol or nil}
 
  Specifies where the label tag goes, if any.
 Can be :table-td (label goes in a td before the form control), :table-td-append (label goes in a td after the form control),
@@ -14367,8 +13951,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Lang]
 \index{Lang
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14377,8 +13960,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Maxlength]
 \index{Maxlength
-[base-form-control]}\emph{
-\number or nil{}}
+[base-form-control]}\emph{Number or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14387,8 +13969,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Nullify-empty-string?]
 \index{Nullify-empty-string?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  Regardless of :domain, if this is non-nil, empty strings will convert to nil. Defaults to (the allow-nil?)
 
@@ -14397,8 +13978,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onblur]
 \index{Onblur
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14407,8 +13987,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onchange]
 \index{Onchange
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14417,8 +13996,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onclick]
 \index{Onclick
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14427,8 +14005,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Ondblclick]
 \index{Ondblclick
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14437,8 +14014,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onfocus]
 \index{Onfocus
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14447,8 +14023,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onkeydown]
 \index{Onkeydown
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14457,8 +14032,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onkeypress]
 \index{Onkeypress
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14467,8 +14041,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onkeyup]
 \index{Onkeyup
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14477,8 +14050,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onmousedown]
 \index{Onmousedown
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14487,8 +14059,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onmousemove]
 \index{Onmousemove
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14497,8 +14068,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onmouseout]
 \index{Onmouseout
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14507,8 +14077,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onmouseover]
 \index{Onmouseover
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14517,8 +14086,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onmouseup]
 \index{Onmouseup
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14527,8 +14095,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Onselect]
 \index{Onselect
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14537,8 +14104,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Placeholder]
 \index{Placeholder
-[base-form-control]}\emph{
-\string{}}
+[base-form-control]}\emph{String}
 
  Text to place in the field by default, overwritten as soon as the field is selected. Works only in HTML5. Default is nil.
 
@@ -14547,8 +14113,7 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 
 \item [Preset?]
 \index{Preset?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  This switch determines whether this form-control should be preset before the final setting,
 in order to allow any interdependencies to be detected for validation or detecting changed values. Default is nil.
@@ -14558,8 +14123,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Prompt]
 \index{Prompt
-[base-form-control]}\emph{
-\string{}}
+[base-form-control]}\emph{String}
 
  The prompt used in the label.
 
@@ -14568,8 +14132,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Readonly?]
 \index{Readonly?
-[base-form-control]}\emph{
-\boolean{}}
+[base-form-control]}\emph{Boolean}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14578,8 +14141,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Size]
 \index{Size
-[base-form-control]}\emph{
-\number or nil{}}
+[base-form-control]}\emph{Number or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14588,8 +14150,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Src]
 \index{Src
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14598,8 +14159,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Style]
 \index{Style
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14608,8 +14168,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Tabindex]
 \index{Tabindex
-[base-form-control]}\emph{
-\integer or nil{}}
+[base-form-control]}\emph{Integer or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14618,8 +14177,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Title]
 \index{Title
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14628,8 +14186,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Usemap]
 \index{Usemap
-[base-form-control]}\emph{
-\string or nil{}}
+[base-form-control]}\emph{String or nil}
 
  Maps to HTML form control attribute of the same name. Default is nil.
 
@@ -14638,8 +14195,7 @@ in order to allow any interdependencies to be detected for validation or detecti
 
 \item [Validation-function]
 \index{Validation-function
-[base-form-control]}\emph{
-\function of one argument{}}
+[base-form-control]}\emph{Function of one argument}
 
  The argument will be the submitted form value converted to the proper type.
 The return value from this function can be nil, any non-nil value, or a plist with keys :validated-value
@@ -14682,8 +14238,7 @@ Default is (list :validated-value value :error nil).
 
 \item [Error]
 \index{Error
-[base-form-control]}\emph{
-\string or error object{}}
+[base-form-control]}\emph{String or error object}
 
  This will be set to a validation error if any,
 and cleared when the error is gone.
@@ -14693,8 +14248,7 @@ and cleared when the error is gone.
 
 \item [Failed-value]
 \index{Failed-value
-[base-form-control]}\emph{
-\lisp value{}}
+[base-form-control]}\emph{Lisp value}
 
  The value which was attempted to be set but failed validation.
 
@@ -14703,8 +14257,7 @@ and cleared when the error is gone.
 
 \item [Value]
 \index{Value
-[base-form-control]}\emph{
-\lisp value{}}
+[base-form-control]}\emph{Lisp value}
 
  The current value of this form control.
 
@@ -14725,8 +14278,7 @@ and cleared when the error is gone.
 
 \item [Restore-defaults!]
 \index{Restore-defaults!
-[base-form-control]}\emph{
-\void{}}
+[base-form-control]}\emph{Void}
 
  Restores the default for the value, the failed-value, and the error.
 
@@ -14786,8 +14338,7 @@ in a \texttt{main-sheet} output-function in an html-format view of the object.
 
 \item [Standard-views]
 \index{Standard-views
-[base-html-graphics-sheet]}\emph{
-\plist of keywords and 3d vectors{}}
+[base-html-graphics-sheet]}\emph{Plist of keywords and 3D vectors}
 
 .
 Indicates the views to show in the graphics controls.
@@ -14797,8 +14348,7 @@ Indicates the views to show in the graphics controls.
 
 \item [Use-bsplines?]
 \index{Use-bsplines?
-[base-html-graphics-sheet]}\emph{
-\boolean{}}
+[base-html-graphics-sheet]}\emph{Boolean}
 
  Determines whether to use native bspline data in the vrml
 
@@ -14819,8 +14369,7 @@ Indicates the views to show in the graphics controls.
 
 \item [Digitation-mode]
 \index{Digitation-mode
-[base-html-graphics-sheet]}\emph{
-\keyword symbol, one of {\texttt{:zoom-and-center}, \texttt{:report-point}, or \texttt{:measure-distance}}}
+[base-html-graphics-sheet]}\emph{Keyword symbol, one of <tt>:zoom-and-center</tt>, <tt>:report-point</tt>, or <tt>:measure-distance</tt>}
 
 .
 
@@ -14847,8 +14396,7 @@ Default is \texttt{:zoom-and-center}
 
 \item [Image-format]
 \index{Image-format
-[base-html-graphics-sheet]}\emph{
-\keyword symbol{}}
+[base-html-graphics-sheet]}\emph{Keyword symbol}
 
  Determines the default image format. Defaults to :png
 
@@ -14857,8 +14405,7 @@ Default is \texttt{:zoom-and-center}
 
 \item [View]
 \index{View
-[base-html-graphics-sheet]}\emph{
-\keyword symbol{}}
+[base-html-graphics-sheet]}\emph{Keyword symbol}
 
  Determines the default view from the \texttt{standard-views}. Defaults to :trimetric.
 
@@ -14867,8 +14414,7 @@ Default is \texttt{:zoom-and-center}
 
 \item [Zoom-factor]
 \index{Zoom-factor
-[base-html-graphics-sheet]}\emph{
-\number{}}
+[base-html-graphics-sheet]}\emph{Number}
 
  The factor used for zooming in or out.
 
@@ -14877,8 +14423,7 @@ Default is \texttt{:zoom-and-center}
 
 \item [Zoom-mode]
 \index{Zoom-mode
-[base-html-graphics-sheet]}\emph{
-\keyword symbol, one of :in, :out, or :none, or nil{}}
+[base-html-graphics-sheet]}\emph{Keyword symbol, one of :in, :out, or :none, or nil}
 
  If :in, then clicks
 in the graphics area will increase the zoom factor by (the zoom-factor). If :out,
@@ -14902,8 +14447,7 @@ will have no effect.
 
 \item [Background-color]
 \index{Background-color
-[base-html-graphics-sheet]}\emph{
-\keyword symbol, string, list, or vector{}}
+[base-html-graphics-sheet]}\emph{Keyword symbol, string, list, or vector}
 
  Default background for the graphics viewport. Can be specified
 as a name (keyword or string) in *color-table*, an html-style hex string (starting with \#), or a decimal RGB
@@ -14914,8 +14458,7 @@ triplet in a list or vector. The default comes from the :background entry in \te
 
 \item [Foreground-color]
 \index{Foreground-color
-[base-html-graphics-sheet]}\emph{
-\keyword symbol, string, list, or vector{}}
+[base-html-graphics-sheet]}\emph{Keyword symbol, string, list, or vector}
 
  Default foreground for the graphics viewport. Can be specified
 as a name (keyword or string) in *color-table*, an html-style hex string (starting with \#), or a decimal RGB
@@ -14926,8 +14469,7 @@ triplet in a list or vector. The default comes from the :foreground entry in \te
 
 \item [Report-point]
 \index{Report-point
-[base-html-graphics-sheet]}\emph{
-\void{}}
+[base-html-graphics-sheet]}\emph{Void}
 
  Process the points selected by digitizing in the graphics. You can override this
 function to do your own processing. By default, it prints the information to the console.
@@ -14937,8 +14479,7 @@ function to do your own processing. By default, it prints the information to the
 
 \item [Write-embedded-vrml-world]
 \index{Write-embedded-vrml-world
-[base-html-graphics-sheet]}\emph{
-\void{}}
+[base-html-graphics-sheet]}\emph{Void}
 
  Writes an EMBED tag and publishes a VRML world for the \texttt{view-object} child of this object.
 The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
@@ -14948,8 +14489,7 @@ The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
 
 \item [Write-embedded-x3d-world]
 \index{Write-embedded-x3d-world
-[base-html-graphics-sheet]}\emph{
-\void{}}
+[base-html-graphics-sheet]}\emph{Void}
 
  Writes an OBJECT tag and publishes an X3D world for the \texttt{view-object} child of this object.
 The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
@@ -14959,8 +14499,7 @@ The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
 
 \item [Write-geometry]
 \index{Write-geometry
-[base-html-graphics-sheet]}\emph{
-\void{}}
+[base-html-graphics-sheet]}\emph{Void}
 
  Writes an image tag and publishes an image for the \texttt{view-object} child of this object.
 The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
@@ -15019,8 +14558,7 @@ object.
 
 \item [Check-sanity?]
 \index{Check-sanity?
-[base-html-sheet]}\emph{
-\boolean{}}
+[base-html-sheet]}\emph{Boolean}
 
  Determines whether a a sanity check is done (with the \texttt{check-sanity} function) before
 presenting the response page if this page is a respondent. Default is NIL.
@@ -15030,8 +14568,7 @@ presenting the response page if this page is a respondent. Default is NIL.
 
 \item [Return-object]
 \index{Return-object
-[base-html-sheet]}\emph{
-\gdl object{}}
+[base-html-sheet]}\emph{GDL object}
 
  Default object to which control will return with the write-back-link method
 
@@ -15040,8 +14577,7 @@ presenting the response page if this page is a respondent. Default is NIL.
 
 \item [Target]
 \index{Target
-[base-html-sheet]}\emph{
-\string{}}
+[base-html-sheet]}\emph{String}
 
  Name of a browser frame or window to display this page. Default of NIL indicates to use the same window.
 
@@ -15050,8 +14586,7 @@ presenting the response page if this page is a respondent. Default is NIL.
 
 \item [Transitory-slots]
 \index{Transitory-slots
-[base-html-sheet]}\emph{
-\list of keyword symbols{}}
+[base-html-sheet]}\emph{List of keyword symbols}
 
  Messages corresponding to form fields which should not be retained
 against Updates to the model (e.g. calls to the update! function or hitting the Update button or link in
@@ -15074,8 +14609,7 @@ the browser in development mode). Defaults to NIL (the empty list).
 
 \item [Query-plist]
 \index{Query-plist
-[base-html-sheet]}\emph{
-\plist{}}
+[base-html-sheet]}\emph{Plist}
 
  Contains submitted form field names and values for which no corresponding settable
 computed-slots exist. Where corresponding settable computed-slots exist, their values are set from
@@ -15098,8 +14632,7 @@ the submitted form fields automatically.
 
 \item [Header-plist]
 \index{Header-plist
-[base-html-sheet]}\emph{
-\plist{}}
+[base-html-sheet]}\emph{Plist}
 
  Extra http headers to be published with the URI for this page.
 
@@ -15108,8 +14641,7 @@ the submitted form fields automatically.
 
 \item [Url]
 \index{Url
-[base-html-sheet]}\emph{
-\string{}}
+[base-html-sheet]}\emph{String}
 
  The web address in the current session which points at this page. Published on demand.
 
@@ -15130,8 +14662,7 @@ the submitted form fields automatically.
 
 \item [After-present!]
 \index{After-present!
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  This is an empty function by default, but can be overridden in
 the respondent of a form, to do some processing after the respondent's
@@ -15142,8 +14673,7 @@ the respondent of a form, to do some processing after the respondent's
 
 \item [After-set!]
 \index{After-set!
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  This is an empty function by default, but can be overridden in
 the requestor of a form, to do some processing after the requestor's form
@@ -15154,8 +14684,7 @@ values are set into the specified bashee.
 
 \item [Before-present!]
 \index{Before-present!
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  This is an empty function by default, but can be overridden in
 the respondent of a form, to do some processing before the respondent's
@@ -15173,8 +14702,7 @@ intended modifications may already have been evaluated by the time the
 
 \item [Before-response!]
 \index{Before-response!
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  This is an empty function by default, but can be overridden in
 a user specialization of base-html-sheet, to do some processing before the
@@ -15185,8 +14713,7 @@ header-plist is evaluated and before the HTTP response is actually initiated.
 
 \item [Before-set!]
 \index{Before-set!
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  This is an empty function by default, but can be overridden in
 the requestor of a form, to do some processing before the requestor's form
@@ -15197,8 +14724,7 @@ values are set into the specified bashee.
 
 \item [Check-sanity]
 \index{Check-sanity
-[base-html-sheet]}\emph{
-\nil or error object{}}
+[base-html-sheet]}\emph{NIL or error object}
 
  This function checks the "sanity" of this object. By
 default, it checks that following the object's root-path from the root resolves
@@ -15217,8 +14743,7 @@ when this object is a respondent, before the main-sheet is presented.
 
 \item [Process-cookies!]
 \index{Process-cookies!
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  This is an empty function by default, but can be overridden in
 a user specialization of base-html-sheet, to do some processing before the
@@ -15230,8 +14755,7 @@ the cookies-received have been set.
 
 \item [Restore-form-controls!]
 \index{Restore-form-controls!
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  Calls restore-defaults! on all the form-controls in this sheet.
 
@@ -15240,8 +14764,7 @@ the cookies-received have been set.
 
 \item [Sanity-error]
 \index{Sanity-error
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  Emits a page explaining the sanity error. This will be invoked instead of the write-main-sheet
 if check-sanity? is set to T and the check-sanity throws an error. You may override this function to
@@ -15253,8 +14776,7 @@ is presented.
 
 \item [Select-choices]
 \index{Select-choices
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  Writes an HTML Select field with Options.
 
@@ -15263,8 +14785,7 @@ is presented.
 
 \item [Write-child-links]
 \index{Write-child-links
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  Creates a default unordered list with links to each child part of self.
 The text of the links will come from each child's strings-for-display.
@@ -15274,8 +14795,7 @@ The text of the links will come from each child's strings-for-display.
 
 \item [Write-development-links]
 \index{Write-development-links
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  Writes links for access to the standard developer views of the object, currently consisting
 of an update (Refresh!) link, a Break link, and a ta2 link.
@@ -15285,8 +14805,7 @@ of an update (Refresh!) link, a Break link, and a ta2 link.
 
 \item [Write-html-sheet]
 \index{Write-html-sheet
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  This GDL function should be redefined to generate the HTML page corresponding to this object.
 It can be specified here, or as the \texttt{main-sheet} output-function in an html-format lens for this
@@ -15298,8 +14817,7 @@ function defined in the lens. Typically a \texttt{write-html-sheet} function wou
 
 \item [Write-self-link]
 \index{Write-self-link
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  Emits a hyperlink pointing to self. Note that if you need extra customization
 on the display-string (e.g. to include an image tag or other arbitrary markup), use with-output-to-string
@@ -15310,8 +14828,7 @@ in conjunction with the html-stream macro.
 
 \item [Write-standard-footer]
 \index{Write-standard-footer
-[base-html-sheet]}\emph{
-\void{}}
+[base-html-sheet]}\emph{Void}
 
  Writes some standard footer information. Defaults to writing Genworks and Franz
 copyright and product links. Note that VAR agreements often require that you include a ``powered by''
@@ -15373,8 +14890,7 @@ This represents a INPUT of TYPE CHECKBOX
 
 \item [Domain]
 \index{Domain
-[checkbox-form-control]}\emph{
-\keyword symbol{}}
+[checkbox-form-control]}\emph{Keyword symbol}
 
  The domain defaults to :boolean for the checkbox-form-control.
 However, this can be overridden in user code if the checkbox is supposed to return
@@ -15386,8 +14902,7 @@ the same name, where each can return a different value).
 
 \item [Possible-nil?]
 \index{Possible-nil?
-[checkbox-form-control]}\emph{
-\boolean{}}
+[checkbox-form-control]}\emph{Boolean}
 
  Indicates whether this should be included in possible-nils. Defaults to t.
 
@@ -15431,8 +14946,7 @@ the same name, where each can return a different value).
 
 \item [Length]
 \index{Length
-[geometry-view-mixin]}\emph{
-\number{}}
+[geometry-view-mixin]}\emph{Number}
 
  Length ("height" of screen window) of the graphics viewport. Default is 300.
 
@@ -15441,8 +14955,7 @@ the same name, where each can return a different value).
 
 \item [Width]
 \index{Width
-[geometry-view-mixin]}\emph{
-\number{}}
+[geometry-view-mixin]}\emph{Number}
 
  Width of the graphics viewport. Default is 300.
 
@@ -15503,8 +15016,7 @@ Allow for all types of form-control for each column.
 
 \item [Default]
 \index{Default
-[grid-form-control]}\emph{
-\list of lists{}}
+[grid-form-control]}\emph{List of lists}
 
  These values become the default row and column
 values for the grid.
@@ -15514,8 +15026,7 @@ values for the grid.
 
 \item [Form-control-attributes]
 \index{Form-control-attributes
-[grid-form-control]}\emph{
-\list of plists{}}
+[grid-form-control]}\emph{List of plists}
 
  Each plist contains the desired form-control
 inputs for the respective column in the table.
@@ -15525,8 +15036,7 @@ inputs for the respective column in the table.
 
 \item [Form-control-inputs]
 \index{Form-control-inputs
-[grid-form-control]}\emph{
-\list of lists plists{}}
+[grid-form-control]}\emph{List of lists plists}
 
  Each list corresponds to one row
 and contains plists desired form-control inputs for the
@@ -15537,8 +15047,7 @@ respective column in the table.
 
 \item [Form-control-types]
 \index{Form-control-types
-[grid-form-control]}\emph{
-\list of symbols naming gdl object types{}}
+[grid-form-control]}\emph{List of symbols naming GDL object types}
 
  This must be
 the same length as a row of the table. The corresponding
@@ -15551,8 +15060,7 @@ be of type 'text-form-control.
 
 \item [Include-delete-buttons?]
 \index{Include-delete-buttons?
-[grid-form-control]}\emph{
-\boolean{}}
+[grid-form-control]}\emph{Boolean}
 
  Should each row have a delete button?
 Default is nil.
@@ -15562,8 +15070,7 @@ Default is nil.
 
 \item [Row-labels]
 \index{Row-labels
-[grid-form-control]}\emph{
-\list of strings{}}
+[grid-form-control]}\emph{List of strings}
 
  One for each row.
 
@@ -15584,8 +15091,7 @@ Default is nil.
 
 \item [Form-controls]
 \index{Form-controls
-[grid-form-control]}\emph{
-\list of gdl objects{}}
+[grid-form-control]}\emph{List of GDL objects}
 
  All the children or hidden-children
 of type base-form-control.
@@ -15672,8 +15178,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Available-image-formats]
 \index{Available-image-formats
-[layout-mixin]}\emph{
-\list of keyword symbols{}}
+[layout-mixin]}\emph{List of keyword symbols}
 
  Determines which formats are available in the Preferences. Defaults to :png, :jpeg, and :vrml.
 
@@ -15682,8 +15187,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Body-bgcolor]
 \index{Body-bgcolor
-[layout-mixin]}\emph{
-\keyword symbol{}}
+[layout-mixin]}\emph{Keyword symbol}
 
  Color keyword from \texttt{*color-table*} for the body background. Defaults to \texttt{:blue-sky}.
 
@@ -15692,8 +15196,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Height]
 \index{Height
-[layout-mixin]}\emph{
-\number{}}
+[layout-mixin]}\emph{Number}
 
  Z-axis dimension of the reference box. Defaults to zero.
 
@@ -15702,8 +15205,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Image-format]
 \index{Image-format
-[layout-mixin]}\emph{
-\keyword symbol{}}
+[layout-mixin]}\emph{Keyword symbol}
 
  Determines the default image format. Defaults to :png
 
@@ -15712,8 +15214,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Inputs-bgcolor]
 \index{Inputs-bgcolor
-[layout-mixin]}\emph{
-\keyword symbol{}}
+[layout-mixin]}\emph{Keyword symbol}
 
  Color keyword from \texttt{*color-table*} for the model-inputs area background. Defaults to \texttt{:aquamarine}.
 
@@ -15722,8 +15223,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Inputs-title]
 \index{Inputs-title
-[layout-mixin]}\emph{
-\string{}}
+[layout-mixin]}\emph{String}
 
  Title for the model-inputs section. Defaults to "Model Inputs".
 
@@ -15732,8 +15232,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Length]
 \index{Length
-[layout-mixin]}\emph{
-\number{}}
+[layout-mixin]}\emph{Number}
 
  Length ("height" of screen window) of the graphics viewport. Default is 300.
 
@@ -15742,8 +15241,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Multipart-form?]
 \index{Multipart-form?
-[layout-mixin]}\emph{
-\boolean{}}
+[layout-mixin]}\emph{Boolean}
 
  Determines whether the embedded form will support multipart MIME parts. Defaults to NIL.
 
@@ -15752,8 +15250,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Other-rules]
 \index{Other-rules
-[layout-mixin]}\emph{
-\list of gdl objects of type {\texttt{base-rule-object} or (preferably) \texttt{gwl-base-rule-object}}}
+[layout-mixin]}\emph{List of GDL objects of type <tt>base-rule-object</tt> or (preferably) <tt>gwl-base-rule-object</tt>}
 
 .
 Links to these will be displayed in the other-rules section. Default to the collection of all objects of type
@@ -15765,8 +15262,7 @@ evaluates to NIL.
 
 \item [Other-rules-bgcolor]
 \index{Other-rules-bgcolor
-[layout-mixin]}\emph{
-\keyword symbol{}}
+[layout-mixin]}\emph{Keyword symbol}
 
  Color keyword from \texttt{*color-table*} for the other-rules area  background. Defaults to \texttt{:aquamarine}.
 
@@ -15775,8 +15271,7 @@ evaluates to NIL.
 
 \item [Other-rules-title]
 \index{Other-rules-title
-[layout-mixin]}\emph{
-\string{}}
+[layout-mixin]}\emph{String}
 
  Title for the other-rules section. Defaults to "Other Rules".
 
@@ -15785,8 +15280,7 @@ evaluates to NIL.
 
 \item [Page-title]
 \index{Page-title
-[layout-mixin]}\emph{
-\string{}}
+[layout-mixin]}\emph{String}
 
  The title to display on the page and in the tree. Defaults to \texttt{(the strings-for-display)}.
 
@@ -15795,8 +15289,7 @@ evaluates to NIL.
 
 \item [Show-title?]
 \index{Show-title?
-[layout-mixin]}\emph{
-\boolean{}}
+[layout-mixin]}\emph{Boolean}
 
  Indicates whether to display the title at the top of the page. Defaults to T.
 
@@ -15805,8 +15298,7 @@ evaluates to NIL.
 
 \item [Tree-bgcolor]
 \index{Tree-bgcolor
-[layout-mixin]}\emph{
-\keyword symbol{}}
+[layout-mixin]}\emph{Keyword symbol}
 
  Color keyword from \texttt{*color-table*} for the tree area background. Defaults to \texttt{:aquamarine}.
 
@@ -15815,8 +15307,7 @@ evaluates to NIL.
 
 \item [Tree-title]
 \index{Tree-title
-[layout-mixin]}\emph{
-\string{}}
+[layout-mixin]}\emph{String}
 
  Title for the Tree section. Defaults to "Assembly Tree" if the tree-root is only a
 subclass of \texttt{application-mixin}, and "Assembly Tree" if the tree-root is an actual node with
@@ -15827,8 +15318,7 @@ child applications.
 
 \item [Ui-display-list-leaves]
 \index{Ui-display-list-leaves
-[layout-mixin]}\emph{
-\list of gdl objects{}}
+[layout-mixin]}\emph{List of GDL objects}
 
  This should be overridden with a list of objects of your choice. These objects (not their leaves,
 but these actual nodes) will be scaled to fit and displayed in the graphics area. Defaults to NIL.
@@ -15838,8 +15328,7 @@ but these actual nodes) will be scaled to fit and displayed in the graphics area
 
 \item [Ui-display-list-objects]
 \index{Ui-display-list-objects
-[layout-mixin]}\emph{
-\list of gdl objects{}}
+[layout-mixin]}\emph{List of GDL objects}
 
  This should be overridden with a list of objects of your choice. The leaves of these objects will
 be scaled to fit and displayed in the graphics area. Defaults to NIL.
@@ -15849,8 +15338,7 @@ be scaled to fit and displayed in the graphics area. Defaults to NIL.
 
 \item [Violated-rules]
 \index{Violated-rules
-[layout-mixin]}\emph{
-\list of gdl objects of type {\texttt{base-rule-object} or (preferably) \texttt{gwl-base-rule-object}}}
+[layout-mixin]}\emph{List of GDL objects of type <tt>base-rule-object</tt> or (preferably) <tt>gwl-base-rule-object</tt>}
 
 .
 Links to these will be displayed in the other-rules section. Default to the collection of all objects of type
@@ -15862,8 +15350,7 @@ evaluates to non-NIL.
 
 \item [Violated-rules-bgcolor]
 \index{Violated-rules-bgcolor
-[layout-mixin]}\emph{
-\keyword symbol{}}
+[layout-mixin]}\emph{Keyword symbol}
 
  Color keyword from \texttt{*color-table*} for the violated-rules area background. Defaults to \texttt{:aquamarine}.
 
@@ -15872,8 +15359,7 @@ evaluates to non-NIL.
 
 \item [Violated-rules-title]
 \index{Violated-rules-title
-[layout-mixin]}\emph{
-\string{}}
+[layout-mixin]}\emph{String}
 
  Title for the violated-rules section. Defaults to "Violated Rules".
 
@@ -15882,8 +15368,7 @@ evaluates to non-NIL.
 
 \item [Width]
 \index{Width
-[layout-mixin]}\emph{
-\number{}}
+[layout-mixin]}\emph{Number}
 
  Width of the graphics viewport. Default is 300.
 
@@ -15904,8 +15389,7 @@ evaluates to non-NIL.
 
 \item [Display-rules?]
 \index{Display-rules?
-[layout-mixin]}\emph{
-\boolean{}}
+[layout-mixin]}\emph{Boolean}
 
  Indicates whether the Rules panel should be displayed. Defaults to T.
 
@@ -15914,8 +15398,7 @@ evaluates to non-NIL.
 
 \item [Display-tree?]
 \index{Display-tree?
-[layout-mixin]}\emph{
-\boolean{}}
+[layout-mixin]}\emph{Boolean}
 
  Indicates whether the Tree area should be displayed. Defaults to T.
 
@@ -15924,8 +15407,7 @@ evaluates to non-NIL.
 
 \item [Graphics-height]
 \index{Graphics-height
-[layout-mixin]}\emph{
-\integer{}}
+[layout-mixin]}\emph{Integer}
 
  Height (top to bottom on screen) in pixels of the graphics area. Defaults to 500.
 
@@ -15934,8 +15416,7 @@ evaluates to non-NIL.
 
 \item [Graphics-width]
 \index{Graphics-width
-[layout-mixin]}\emph{
-\integer{}}
+[layout-mixin]}\emph{Integer}
 
  Height (left to right on screen) in pixels of the graphics area. Defaults to 500.
 
@@ -15944,8 +15425,7 @@ evaluates to non-NIL.
 
 \item [Use-standard-saved-slots?]
 \index{Use-standard-saved-slots?
-[layout-mixin]}\emph{
-\boolean{}}
+[layout-mixin]}\emph{Boolean}
 
  Determines whether the standard-saved-slots are automatically used by default for the
 saved-slots. This is a trickle-down slot so its value will be passed to descendent objects automatically.
@@ -15968,8 +15448,7 @@ The default value is NIL.
 
 \item [Saved-slots]
 \index{Saved-slots
-[layout-mixin]}\emph{
-\list of keyword symbols or lists{}}
+[layout-mixin]}\emph{List of keyword symbols or lists}
 
 .
 The first of this list should be the unique name for this tree node for the purposes of saving slots.
@@ -15986,8 +15465,7 @@ The default value is the \texttt{standard-saved-slots} if the \texttt{use-standa
 
 \item [Standard-saved-slots]
 \index{Standard-saved-slots
-[layout-mixin]}\emph{
-\list of keyword symbols{}}
+[layout-mixin]}\emph{List of keyword symbols}
 
  The first of this list is the \texttt{name-for-display} of this object. The rest of the list
 are all the keyword symbols representing the settable computed-slots and input-slots which have a default value. Required
@@ -16011,8 +15489,7 @@ inputs with the saved-slots, you should explicitly append them to this list when
 
 \item [Read-saved-slots]
 \index{Read-saved-slots
-[layout-mixin]}\emph{
-\void{}}
+[layout-mixin]}\emph{Void}
 
  Reads the slots data from \texttt{filename}, restores the corresponding slots in this
 object and matching descendant objects, and calls the \texttt{restore!} function on each object.
@@ -16023,8 +15500,7 @@ object and matching descendant objects, and calls the \texttt{restore!} function
 
 \item [Write-html-sheet]
 \index{Write-html-sheet
-[layout-mixin]}\emph{
-\void{}}
+[layout-mixin]}\emph{Void}
 
  This GDL function should be redefined to generate the HTML page corresponding to this object.
 It can be specified here, or as the \texttt{main-sheet} output-function in an html-format lens for this
@@ -16036,8 +15512,7 @@ function defined in the lens. Typically a \texttt{write-html-sheet} function wou
 
 \item [Write-saved-slots]
 \index{Write-saved-slots
-[layout-mixin]}\emph{
-\void{}}
+[layout-mixin]}\emph{Void}
 
  Writes the unique application name names and values of all saved-slots in this and all
 descendants which are of type node-mixin or application-mixin.
@@ -16127,8 +15602,7 @@ OPTIONGROUP is not yet implemented, but will be.
 
 \item [Choice-list]
 \index{Choice-list
-[menu-form-control]}\emph{
-\list{}}
+[menu-form-control]}\emph{List}
 
  Display values, also used as return values, for selection list. Specify this or choice-plist, not both.
 
@@ -16137,8 +15611,7 @@ OPTIONGROUP is not yet implemented, but will be.
 
 \item [Choice-plist]
 \index{Choice-plist
-[menu-form-control]}\emph{
-\plist{}}
+[menu-form-control]}\emph{Plist}
 
  Keywords and display values for the selection list. Specify this or choice-list, not both.
 
@@ -16147,8 +15620,7 @@ OPTIONGROUP is not yet implemented, but will be.
 
 \item [Choice-styles]
 \index{Choice-styles
-[menu-form-control]}\emph{
-\plist{}}
+[menu-form-control]}\emph{Plist}
 
  Keywords and CSS style for display of each choice. The keys should correspond to the
 keys in choice-plist, or the items in choice-list if no choice-plist is given.
@@ -16158,8 +15630,7 @@ keys in choice-plist, or the items in choice-list if no choice-plist is given.
 
 \item [Disabled-keys]
 \index{Disabled-keys
-[menu-form-control]}\emph{
-\list of keyword symbols{}}
+[menu-form-control]}\emph{List of keyword symbols}
 
  Each of these should match a key in the choice-plist, and where there is a
 match, that key will be disabled in the rendering.
@@ -16169,8 +15640,7 @@ match, that key will be disabled in the rendering.
 
 \item [Multiple?]
 \index{Multiple?
-[menu-form-control]}\emph{
-\boolean{}}
+[menu-form-control]}\emph{Boolean}
 
  Are multiple selections allowed? Default is nil.
 
@@ -16179,8 +15649,7 @@ match, that key will be disabled in the rendering.
 
 \item [Possible-nil?]
 \index{Possible-nil?
-[menu-form-control]}\emph{
-\boolean{}}
+[menu-form-control]}\emph{Boolean}
 
  Indicates whether this should be included in possible-nils. Defaults to (the multiple?)
 
@@ -16189,8 +15658,7 @@ match, that key will be disabled in the rendering.
 
 \item [Size]
 \index{Size
-[menu-form-control]}\emph{
-\number{}}
+[menu-form-control]}\emph{Number}
 
  How many choices to display
 
@@ -16199,8 +15667,7 @@ match, that key will be disabled in the rendering.
 
 \item [Test]
 \index{Test
-[menu-form-control]}\emph{
-\predicate function of two arguments{}}
+[menu-form-control]}\emph{Predicate function of two arguments}
 
  Defaults based on type of first in choice-plist:
 eql for keywords, string-equal for strings, and equalp otherwise.
@@ -16259,8 +15726,7 @@ The \texttt{ui-display-list-objects} is appended up automatically from those of 
 
 \item [Default-tree-depth]
 \index{Default-tree-depth
-[node-mixin]}\emph{
-\integer{}}
+[node-mixin]}\emph{Integer}
 
  Determines how many descendant levels to show in the tree initially. Default is 1.
 
@@ -16269,8 +15735,7 @@ The \texttt{ui-display-list-objects} is appended up automatically from those of 
 
 \item [Node-ui-display-list-objects]
 \index{Node-ui-display-list-objects
-[node-mixin]}\emph{
-\gdl object list{}}
+[node-mixin]}\emph{GDL object list}
 
  Appends additional objects to the automatically-appended \texttt{ui-display-list-objects}
 from the children.
@@ -16292,8 +15757,7 @@ from the children.
 
 \item [Ui-display-list-leaves]
 \index{Ui-display-list-leaves
-[node-mixin]}\emph{
-\list of gdl objects{}}
+[node-mixin]}\emph{List of GDL objects}
 
  This should be overridden with a list of objects of your choice. These objects (not their leaves,
 but these actual nodes) will be scaled to fit and displayed in the graphics area. Defaults to NIL.
@@ -16303,8 +15767,7 @@ but these actual nodes) will be scaled to fit and displayed in the graphics area
 
 \item [Ui-display-list-objects]
 \index{Ui-display-list-objects
-[node-mixin]}\emph{
-\list of gdl object roots{}}
+[node-mixin]}\emph{List of GDL object roots}
 
  The leaves of these objects will be
 displayed in the graphics. Defaults to the appended result of children's
@@ -16350,8 +15813,7 @@ displayed in the graphics. Defaults to the appended result of children's
 
 \item [Description-position]
 \index{Description-position
-[radio-form-control]}\emph{
-\keyword symbol or nil{}}
+[radio-form-control]}\emph{Keyword symbol or nil}
 
  Specifies where the description for each radio goes, if any.
 Can be:
@@ -16399,8 +15861,7 @@ Default is :paragraph-append.
 
 \item [Table-class]
 \index{Table-class
-[radio-form-control]}\emph{
-\string{}}
+[radio-form-control]}\emph{String}
 
  Allows you to specify a class for the table surrounding the radio input elements. Defaults to empty string.
 
@@ -16421,8 +15882,7 @@ Default is :paragraph-append.
 
 \item [Multiple?]
 \index{Multiple?
-[radio-form-control]}\emph{
-\boolean{}}
+[radio-form-control]}\emph{Boolean}
 
  Are multiple selections allowed? Default is nil.
 
@@ -16491,8 +15951,7 @@ Type of original object, useful when viewing session report log
 
 \item [Recovery-expires-at]
 \index{Recovery-expires-at
-[session-control-mixin]}\emph{
-\expiration time of the recovery object{}}
+[session-control-mixin]}\emph{Expiration time of the recovery object}
 
  After the recovery object has replaced the orginal
 instance at what time should the recovery instance expire?
@@ -16520,8 +15979,7 @@ Length of time a session should last without activity in minutes
 
 \item [Use-recovery-object?]
 \index{Use-recovery-object?
-[session-control-mixin]}\emph{
-\boolean{}}
+[session-control-mixin]}\emph{Boolean}
 
  Determines whether expired sessions are replaced by recovery object. Default is nil.
 
@@ -16572,8 +16030,7 @@ This is the function called to check for and handle session control
 
 \item [Clear-now?]
 \index{Clear-now?
-[session-control-mixin]}\emph{
-\boolean{}}
+[session-control-mixin]}\emph{Boolean}
 
  Test to run to see if this session has expired and needs to be cleared now.
 
@@ -16582,8 +16039,7 @@ This is the function called to check for and handle session control
 
 \item [Session-clean-up]
 \index{Session-clean-up
-[session-control-mixin]}\emph{
-\gets called right before the instance is going to get cleared{}}
+[session-control-mixin]}\emph{Gets called right before the instance is going to get cleared}
 
  Is intended to be used to stop any instance states that may not be elequently handled by the garbage collector. ie database connections, multiprocessing locks, open streams etc.
 
@@ -16714,8 +16170,7 @@ Does not perform the actual bashing and computation of result value, should be m
 
 \item [Class]
 \index{Class
-[skeleton-form-control]}\emph{
-\string{}}
+[skeleton-form-control]}\emph{String}
 
  You can use this to specify a user-defined class for the form-control. Defaults to nil, which means no class attribute will be generated.
 
@@ -16724,8 +16179,7 @@ Does not perform the actual bashing and computation of result value, should be m
 
 \item [Primary?]
 \index{Primary?
-[skeleton-form-control]}\emph{
-\boolean{}}
+[skeleton-form-control]}\emph{Boolean}
 
  Set this to t if the form-control should always occur first in an outputted snapshot file.
 Defaults to nil.
@@ -16747,8 +16201,7 @@ Defaults to nil.
 
 \item [Field-name]
 \index{Field-name
-[skeleton-form-control]}\emph{
-\keyword symbol{}}
+[skeleton-form-control]}\emph{Keyword symbol}
 
  The name of this field. Computed from the object name within the tree.
 
@@ -16757,8 +16210,7 @@ Defaults to nil.
 
 \item [Form-control]
 \index{Form-control
-[skeleton-form-control]}\emph{
-\string of valid html{}}
+[skeleton-form-control]}\emph{String of valid HTML}
 
  This is the default HTML which can be included in a form in a web page to display this form control.
 Previously known as form-control-string. Default is the form-control-string.
@@ -16768,8 +16220,7 @@ Previously known as form-control-string. Default is the form-control-string.
 
 \item [Form-control-string]
 \index{Form-control-string
-[skeleton-form-control]}\emph{
-\string of valid html{}}
+[skeleton-form-control]}\emph{String of valid HTML}
 
  Also known as simply form-control.
 This is the default HTML which can be included in a form in a web page to display this form control.
@@ -16781,8 +16232,7 @@ specific type of this object, returned as a string.
 
 \item [Form-controls]
 \index{Form-controls
-[skeleton-form-control]}\emph{
-\list of gdl objects{}}
+[skeleton-form-control]}\emph{List of GDL objects}
 
  All the children or hidden-children
 of type base-form-control.
@@ -16792,8 +16242,7 @@ of type base-form-control.
 
 \item [Html-string]
 \index{Html-string
-[skeleton-form-control]}\emph{
-\string of valid html{}}
+[skeleton-form-control]}\emph{String of valid HTML}
 
  This is the default HTML which can be included in a form in a web page to display this form control, wrapped with labels and table cells.
 
@@ -16802,8 +16251,7 @@ of type base-form-control.
 
 \item [Id]
 \index{Id
-[skeleton-form-control]}\emph{
-\keyword symbol{}}
+[skeleton-form-control]}\emph{Keyword symbol}
 
  The ID attribute for this tag. Defaults to (the field-name).
 
@@ -16889,8 +16337,7 @@ server.
 
 \item [Bashee]
 \index{Bashee
-[skeleton-ui-element]}\emph{
-\gdl object{}}
+[skeleton-ui-element]}\emph{GDL Object}
 
  Object to have its settable computed-slots and/or query-plist set
 from the fields on the form upon submission. Defaults to self.
@@ -16900,8 +16347,7 @@ from the fields on the form upon submission. Defaults to self.
 
 \item [Dom-id]
 \index{Dom-id
-[skeleton-ui-element]}\emph{
-\string{}}
+[skeleton-ui-element]}\emph{String}
 
  This is the auto-computed dom-id which should be used for rendering
 this section. If you use the main-div HTML string for rendering this object as a
@@ -16913,8 +16359,7 @@ will be a string of HTML which is wrapped in the correct :div tag already.
 
 \item [Force-validation-for]
 \index{Force-validation-for
-[skeleton-ui-element]}\emph{
-\list of gdl objects of type form-control{}}
+[skeleton-ui-element]}\emph{List of GDL objects of type form-control}
 
  The validation-function will be forced
 on these objects when a form is submitted, even if the object's html form-control does
@@ -16925,8 +16370,7 @@ not happen to be included in the values submitted with the form. Defaults to nil
 
 \item [Inner-html]
 \index{Inner-html
-[skeleton-ui-element]}\emph{
-\string{}}
+[skeleton-ui-element]}\emph{String}
 
  This can be used with (str .) [in cl-who] or (:princ .) [in htmlGen]
 to output this section of the page, without the wrapping :div tag [so if you use this,
@@ -16937,8 +16381,7 @@ your code would be responsible for wrapping the :div tag with :id (the dom-id).]
 
 \item [Js-to-eval]
 \index{Js-to-eval
-[skeleton-ui-element]}\emph{
-\string of valid javascript{}}
+[skeleton-ui-element]}\emph{String of valid Javascript}
 
  This Javascript will be send with the Ajax response,
 and evaluated after the innerHTML for this section has been replaced.
@@ -16960,8 +16403,7 @@ and evaluated after the innerHTML for this section has been replaced.
 
 \item [Respondent]
 \index{Respondent
-[skeleton-ui-element]}\emph{
-\gdl object{}}
+[skeleton-ui-element]}\emph{GDL Object}
 
  Object to respond to the form submission. Defaults to self.
 
@@ -16982,8 +16424,7 @@ and evaluated after the innerHTML for this section has been replaced.
 
 \item [Failed-form-controls]
 \index{Failed-form-controls
-[skeleton-ui-element]}\emph{
-\list of gdl objects{}}
+[skeleton-ui-element]}\emph{List of GDL objects}
 
  All the form-controls which do not pass validation.
 
@@ -16992,8 +16433,7 @@ and evaluated after the innerHTML for this section has been replaced.
 
 \item [Form-controls]
 \index{Form-controls
-[skeleton-ui-element]}\emph{
-\list of gdl objects{}}
+[skeleton-ui-element]}\emph{List of GDL objects}
 
  All the children or hidden-children
 of type base-form-control.
@@ -17016,8 +16456,7 @@ is demanded.
 
 \item [Main-div%]
 \index{Main-div%
-[skeleton-ui-element]}\emph{
-\string{}}
+[skeleton-ui-element]}\emph{String}
 
  This should be used with (str .) [in cl-who] or (:princ .)
 [in htmlGen] to output this section of the page, including the wrapping :div tag.
@@ -17027,8 +16466,7 @@ is demanded.
 
 \item [Ordered-form-controls]
 \index{Ordered-form-controls
-[skeleton-ui-element]}\emph{
-\list of gdl objects, which should be of type 'base-form-control{}}
+[skeleton-ui-element]}\emph{List of GDL objects, which should be of type 'base-form-control}
 
 .
 
@@ -17048,8 +16486,7 @@ those dependent objects first. Default is nil.
 
 \item [Possible-nils]
 \index{Possible-nils
-[skeleton-ui-element]}\emph{
-\list of keyword symbols{}}
+[skeleton-ui-element]}\emph{List of keyword symbols}
 
  Messages corresponding to form fields which could
 be missing from form submission (e.g. checkbox fields). Defaults to the names
@@ -17061,8 +16498,7 @@ checkbox-form-control.
 
 \item [Preset-all?]
 \index{Preset-all?
-[skeleton-ui-element]}\emph{
-\boolean{}}
+[skeleton-ui-element]}\emph{Boolean}
 
  This switch determines whether all form-controls should be preset
 before the final setting, in order to allow any interdependencies to be detected
@@ -17088,8 +16524,7 @@ form-controls (default of these is also nil) will be respected. Default is nil.
 
 \item [Gdl-ajax-call]
 \index{Gdl-ajax-call
-[skeleton-ui-element]}\emph{
-\string{}}
+[skeleton-ui-element]}\emph{String}
 
 .
 This function returns a string of Javascript, appropriate to use for events
@@ -17153,8 +16588,7 @@ This represents a INPUT TYPE=TEXT or TEXTAREA form control tag.
 
 \item [Cols]
 \index{Cols
-[text-form-control]}\emph{
-\integer{}}
+[text-form-control]}\emph{Integer}
 
  The number of columns for a TEXTAREA (if rows is > 1). Defaults to (the size).
 
@@ -17163,8 +16597,7 @@ This represents a INPUT TYPE=TEXT or TEXTAREA form control tag.
 
 \item [Number?]
 \index{Number?
-[text-form-control]}\emph{
-\boolean{}}
+[text-form-control]}\emph{Boolean}
 
  Specifies whether this should be a number form control with support for numerical input.
 Defaults to nil. Use number-form-control to get a default of t.
@@ -17174,8 +16607,7 @@ Defaults to nil. Use number-form-control to get a default of t.
 
 \item [Password?]
 \index{Password?
-[text-form-control]}\emph{
-\boolean{}}
+[text-form-control]}\emph{Boolean}
 
  Specifies whether this should be a password form control with obscured screen text.
 Note that this does not automatically give encrypted transmission to the server - you need SSL
@@ -17186,8 +16618,7 @@ for that. Defaults to nil. Use password-form-control to get a default of t.
 
 \item [Rows]
 \index{Rows
-[text-form-control]}\emph{
-\integer{}}
+[text-form-control]}\emph{Integer}
 
  The number of rows. If more than 1, this will be a TEXTAREA. Defaults to 1.
 
@@ -17352,8 +16783,7 @@ application-mixin, you can include one object of this type in the ui-display-lis
 
 \item [Immune-objects]
 \index{Immune-objects
-[web-drawing]}\emph{
-\list of gdl objects{}}
+[web-drawing]}\emph{List of GDL objects}
 
  These objects are not used in computing the scale or centering for the display list. Defaults to nil.
 
@@ -17362,8 +16792,7 @@ application-mixin, you can include one object of this type in the ui-display-lis
 
 \item [Object-roots]
 \index{Object-roots
-[web-drawing]}\emph{
-\list of gdl objects{}}
+[web-drawing]}\emph{List of GDL objects}
 
  The leaves of each of these objects will be included in the geometry display. Defaults to nil.
 
@@ -17372,8 +16801,7 @@ application-mixin, you can include one object of this type in the ui-display-lis
 
 \item [Objects]
 \index{Objects
-[web-drawing]}\emph{
-\list of gdl objects{}}
+[web-drawing]}\emph{List of GDL objects}
 
  These nodes (not their leaves but the actual objects) will be included in the geometry display. Defaults to nil.
 
@@ -17382,8 +16810,7 @@ application-mixin, you can include one object of this type in the ui-display-lis
 
 \item [Projection-vector]
 \index{Projection-vector
-[web-drawing]}\emph{
-\3d vector{}}
+[web-drawing]}\emph{3D vector}
 
  This is the normal vector of the view plane onto which to project the 3D objects. Defaults to (getf *standard-views* :top).
 
@@ -17392,8 +16819,7 @@ application-mixin, you can include one object of this type in the ui-display-lis
 
 \item [Raphael-canvas-id]
 \index{Raphael-canvas-id
-[web-drawing]}\emph{
-\string{}}
+[web-drawing]}\emph{String}
 
  Unique ID on the page for the raphael canvas div. By default this is passed in
 from the base-ajax-graphics-sheet and based on its root-path, but can be specified manually
@@ -17416,8 +16842,7 @@ if you are making a web-drawing on your own. Defaults (in the standalone case) t
 
 \item [Center]
 \index{Center
-[web-drawing]}\emph{
-\3d point{}}
+[web-drawing]}\emph{3D Point}
 
  Indicates in global coordinates where the center of the reference
 box of this object should be located.
@@ -17427,8 +16852,7 @@ box of this object should be located.
 
 \item [Image-file]
 \index{Image-file
-[web-drawing]}\emph{
-\pathname or string{}}
+[web-drawing]}\emph{Pathname or string}
 
  Points to a pre-existing image file to be displayed instead of actual geometry for this object. Defaults to nil
 
@@ -17449,8 +16873,7 @@ box of this object should be located.
 
 \item [Main-view]
 \index{Main-view
-[web-drawing]}\emph{
-\gdl object of type geom-base:base-view{}}
+[web-drawing]}\emph{GDL object of type geom-base:base-view}
 
  This is the actual drawing view which is used to present the geometry. Defaults to an
 internally-computed object, this should not be overridden in user code.
@@ -17794,8 +17217,7 @@ internally-computed object, this should not be overridden in user code.
 
 \item [Onclick-function]
 \index{Onclick-function
-[newertree]}\emph{
-\function of one argument{}}
+[newertree]}\emph{Function of one argument}
 
  This function takes a node in the tree as an argument, and should return
 a plist with keys :function and :arguments, which is a function in the bashee which will be called
@@ -17806,8 +17228,7 @@ with the given arguments when the given node in the tree is clicked.
 
 \item [Respondent]
 \index{Respondent
-[newertree]}\emph{
-\gdl object{}}
+[newertree]}\emph{GDL Object}
 
  Object to respond to the form submission. Defaults to self.
 
@@ -17828,8 +17249,7 @@ with the given arguments when the given node in the tree is clicked.
 
 \item [Inner-html]
 \index{Inner-html
-[newertree]}\emph{
-\string{}}
+[newertree]}\emph{String}
 
  This can be used with (str .) [in cl-who] or (:princ .) [in htmlGen]
 to output this section of the page, without the wrapping :div tag [so if you use this,
@@ -17840,8 +17260,7 @@ your code would be responsible for wrapping the :div tag with :id (the dom-id).]
 
 \item [Safe-children]
 \index{Safe-children
-[newertree]}\emph{
-\list of gdl instances{}}
+[newertree]}\emph{List of GDL Instances}
 
  All objects from the :objects specification, including elements of sequences
 as flat lists. Any children which throw errors come back as a plist with error information
@@ -17894,8 +17313,7 @@ as flat lists. Any children which throw errors come back as a plist with error i
 
 \item [Onclick-function]
 \index{Onclick-function
-[tree]}\emph{
-\function of one argument{}}
+[tree]}\emph{Function of one argument}
 
  This function takes a node in the tree as an argument, and should return
 a plist with keys :function and :arguments, which is a function in the bashee which will be called
@@ -17906,8 +17324,7 @@ with the given arguments when the given node in the tree is clicked.
 
 \item [Respondent]
 \index{Respondent
-[tree]}\emph{
-\gdl object{}}
+[tree]}\emph{GDL Object}
 
  Object to respond to the form submission. Defaults to self.
 
@@ -18009,8 +17426,7 @@ messages flags show up, can be controlled with optional-inputs.
 
 \item [External-only?]
 \index{External-only?
-[assembly]}\emph{
-\boolean{}}
+[assembly]}\emph{Boolean}
 
  This defaults to nil, if it is set to t, only exported symbols will be
 considered for documentation.
@@ -18020,8 +17436,7 @@ considered for documentation.
 
 \item [Packages-to-ignore]
 \index{Packages-to-ignore
-[assembly]}\emph{
-\list of keyword symbols{}}
+[assembly]}\emph{List of keyword symbols}
 
  These packages will be ignored.
 This list defaults to standard internal and test packages
@@ -18043,8 +17458,7 @@ This list defaults to standard internal and test packages
 
 \item [Title]
 \index{Title
-[assembly]}\emph{
-\string{}}
+[assembly]}\emph{String}
 
  The title of the web page. Defaults to "Genworks GDL -"
 .followed by the strings-for-display.
@@ -18066,8 +17480,7 @@ This list defaults to standard internal and test packages
 
 \item [Master-index]
 \index{Master-index
-[assembly]}\emph{
-\index{}}
+[assembly]}\emph{index}
 
  Master index of all symbols (objects, functions, parameters, variables, constants)
 
@@ -18088,8 +17501,7 @@ This list defaults to standard internal and test packages
 
 \item [Package-dokumentations]
 \index{Package-dokumentations
-[assembly]}\emph{
-\package-dokumentation{}}
+[assembly]}\emph{package-dokumentation}
 
  Quantified, one for each :package-to-document
 
@@ -18110,8 +17522,7 @@ This list defaults to standard internal and test packages
 
 \item [Main-sheet-body]
 \index{Main-sheet-body
-[assembly]}\emph{
-\string of html{}}
+[assembly]}\emph{String of HTML}
 
  The main body of the page.
 This can be specified as input or overridden in subclass, otherwise it defaults
@@ -18174,8 +17585,7 @@ Base mixin for a yadd sheet
 
 \item [Additional-header-js]
 \index{Additional-header-js
-[base-yadd-sheet]}\emph{
-\contains standard jquery files to include in the header for additional search funcionality{}}
+[base-yadd-sheet]}\emph{Contains standard jQuery files to include in the header for additional search funcionality}
 
 .
 This computed-slot contains javascript files, found in the *gdl-install-dir*
@@ -18187,8 +17597,7 @@ The javascript loaded is jquery.
 
 \item [Default-header-content]
 \index{Default-header-content
-[base-yadd-sheet]}\emph{
-\contains default header contents for yadd html files{}}
+[base-yadd-sheet]}\emph{Contains default header contents for yadd html files}
 
 .
 This computed-slot is available in all children of this object. It contains links
@@ -18252,8 +17661,7 @@ Prints bullet list of symbols as links to their documentation pages.
 
 \item [Symbols-for-index]
 \index{Symbols-for-index
-[master-index]}\emph{
-\list of lists{}}
+[master-index]}\emph{List of lists}
 
  Each list contains the page object for the symbol's
 documentation and the symbol's print-name. The list should be sorted
@@ -18276,8 +17684,7 @@ based on the symbols' print-names.
 
 \item [Additional-header-js-content]
 \index{Additional-header-js-content
-[master-index]}\emph{
-\valid javascript{}}
+[master-index]}\emph{valid javascript}
 
  This javascript is added to the head of the page -just before- the body.
 When jquery is loaded (by setting the input-slot (use-jquery t)), the javascript can use the
@@ -18291,8 +17698,7 @@ Good Practice&\#0153;.
 
 \item [Main-sheet-body]
 \index{Main-sheet-body
-[master-index]}\emph{
-\string of html{}}
+[master-index]}\emph{String of HTML}
 
  The main body of the page.
 This can be specified as input or overridden in subclass, otherwise it defaults
@@ -18304,8 +17710,7 @@ in the applicable lens for  html-format.
 
 \item [Use-jquery?]
 \index{Use-jquery?
-[master-index]}\emph{
-\boolean{}}
+[master-index]}\emph{Boolean}
 
  Include jquery javascript libraries in the page header?
 Default nil.
@@ -18366,8 +17771,7 @@ Prepares documentation for all relevant symbols in a given Lisp package.
 
 \item [External-only?]
 \index{External-only?
-[package-dokumentation]}\emph{
-\boolean{}}
+[package-dokumentation]}\emph{Boolean}
 
  Determines whether to consider all symbols in the package or just the exported ones.
 
@@ -18376,8 +17780,7 @@ Prepares documentation for all relevant symbols in a given Lisp package.
 
 \item [Package]
 \index{Package
-[package-dokumentation]}\emph{
-\string or keyword symbol{}}
+[package-dokumentation]}\emph{String or keyword symbol}
 
  Names the package, or a nickname of the package, to be documented.
 
@@ -18386,8 +17789,7 @@ Prepares documentation for all relevant symbols in a given Lisp package.
 
 \item [Show-supported-flag]
 \index{Show-supported-flag
-[package-dokumentation]}\emph{
-\boolean{}}
+[package-dokumentation]}\emph{boolean}
 
  Determines whether to show red/green flag on each message indicating whether it is a
 supported message.
@@ -18409,8 +17811,7 @@ supported message.
 
 \item [Strings-for-display]
 \index{Strings-for-display
-[package-dokumentation]}\emph{
-\string or list of strings{}}
+[package-dokumentation]}\emph{String or List of Strings}
 
  Determines how the name of objects of this type will be printed in most places.
 This defaults to the name-for-display (generally the part's name as specified in its
@@ -18421,8 +17822,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Title]
 \index{Title
-[package-dokumentation]}\emph{
-\string{}}
+[package-dokumentation]}\emph{String}
 
  The title of the web page. Defaults to "Genworks GDL -"
 .followed by the strings-for-display.
@@ -18444,8 +17844,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Function-docs]
 \index{Function-docs
-[package-dokumentation]}\emph{
-\function-doc{}}
+[package-dokumentation]}\emph{function-doc}
 
  Container for set of all Function documentation sheets.
 
@@ -18454,8 +17853,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Object-docs]
 \index{Object-docs
-[package-dokumentation]}\emph{
-\object-doc{}}
+[package-dokumentation]}\emph{object-doc}
 
  Container for set of all Object documentation sheets.
 
@@ -18464,8 +17862,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Variable-docs]
 \index{Variable-docs
-[package-dokumentation]}\emph{
-\variable-doc{}}
+[package-dokumentation]}\emph{variable-doc}
 
  Container for set of all Parameter/Variable/Constant documentation sheets.
 
@@ -18486,8 +17883,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Package-form]
 \index{Package-form
-[package-dokumentation]}\emph{
-\package-form{}}
+[package-dokumentation]}\emph{package-form}
 
  Allows user to modify toplevel optional-inputs.
 
@@ -18508,8 +17904,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Dom-section]
 \index{Dom-section
-[package-dokumentation]}\emph{
-\list in gdl dom authoring format{}}
+[package-dokumentation]}\emph{List in GDL dom authoring format}
 
  Suitable for filling in a section of output document.
 
@@ -18518,8 +17913,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 \item [Write-html-sheet]
 \index{Write-html-sheet
-[package-dokumentation]}\emph{
-\void{}}
+[package-dokumentation]}\emph{Void}
 
  Prints to *html-stream* a bulleted list for each of the three categories of docs in the package.
 
@@ -18580,8 +17974,7 @@ supported-flag, and external flag.
 
 \item [Write-html-sheet]
 \index{Write-html-sheet
-[package-form]}\emph{
-\void{}}
+[package-form]}\emph{Void}
 
  This GDL function should be redefined to generate the HTML page corresponding to this object.
 It can be specified here, or as the \texttt{main-sheet} output-function in an html-format lens for this

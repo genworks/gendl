@@ -362,6 +362,12 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 								    (the symbol)))
 
 						   ,(if (getf (fourth value) :type)
+
+							`(:emph ,(replace-substring
+								  (getf (fourth value) :type)
+								  "-dot-" "."))
+
+							#+nil
 							`(:emph ,(net.html.parser:parse-html
 								  (replace-substring
 								   (getf (fourth value) :type)
