@@ -67,12 +67,18 @@ Our informal definition of a "
        " is a hybrid " 
        (:emph "Object-Oriented") 
        (:footnote "An " (:emph "Object-Oriented")
-		  " programming environment supports named collections of data values and procedures to operate on that data.")
+		  " programming environment supports named collections
+		  of values along with procedures to operate on that
+		  data, including the possibility to
+		  modify (``mutate'') the data. See
+		  https://en.wikipedia.org/wiki/Object-oriented_programming")
        " and "
        (:emph "Functional")
        (:footnote "A pure " (:emph "Functional")
-		  " programming environment supports only the definition and execution of Functions which work by returning
-computed values, but do not modify the in-memory state of any data values.")
+		  " programming environment supports only the
+evaluation of Functions which work by computing results, but do not
+modify (i.e. ``mutate'') the in-memory state of any objects. See
+http://en.wikipedia.org/wiki/Functional_programming")
        " programming environment, which implements the features of "
        (:emph (:indexed "Caching"))
        " and "
@@ -133,7 +139,7 @@ instantiation in the next section)")))
        (:quote
 	"KBE systems use the "
 	(:emph "demand-driven")
-	" approach. That is, they evaluate just those chains of
+	" approach. That is, they evaluate only those chains of
 expressions required to satisfy a direct request of the user (i.e. the
 evaluation of certain attributes for the instantiation of an object),
 or the indirect requests of another object, which is trying to satisfy
@@ -146,22 +152,26 @@ available.
 
 It should be recognized that a typical object tree can be structured
 in hundreds of branches and include thousands of attributes. Hence,
-the ability to evaluate specific attributes and product model branches
-at demand, without the need to evaluate the whole model from its root,
-prevents waste of computational resources and in many cases brings
-seemingly intractible problems to a rapid and solution."))
+the ability to evaluate "
+	(:emph "specific")
+	" attributes and product model branches at demand, without the
+need to evaluate the whole model from its root, prevents waste of
+computational resources and in many cases brings seemingly intractible
+problems to a rapid solution."))
 
       ((:section :title "Object-oriented Systems")
        (:quote "An object-oriented system is composed of
-       objects (i.e. concrete instantiations of named classes), and
-       the behavior of the system results from the collaboration of
-       those objects. Collaboration between objects involves them
-       sending messages to each other. Sending a message differs from
-       calling a function in the sense that when a target object
-       receives a message, it decides on its own what function to
-       carry out to service that message. The same message may be
-       implemented by many different functions, the one selected
-       depending on the current state of the target object."))
+       objects (i.e. concrete instantiations of "
+	       (:emph "named")
+	       " classes), and the behavior of the system results from
+       the collaboration of those objects. Collaboration between
+       objects involves them sending messages to each other. Sending a
+       message differs from calling a function in the sense that when
+       a target object receives a message, it decides on its own what
+       function to carry out to service that message. The same message
+       may be implemented by many different functions, the one
+       selected depending on the current state of the target
+       object."))
       
       ((:section :title "Object-oriented Analysis")
        (:quote
@@ -171,7 +181,7 @@ seemingly intractible problems to a rapid and solution."))
        model would describe computer software that could be used to
        satisfy a set of customer-defined requirements. During the
        analysis phase of problem-solving, the analyst might consider a
-       written requirements statement, a formal vision document, or
+       Written Requirements Statement, a formal vision document, or
        interviews with stakeholders or other interested parties. The
        task to be addressed might be divided into several subtasks (or
        domains), each representing a different business,
@@ -191,13 +201,13 @@ interaction diagrams. It may also include some form of user interface.")))
 	"During the object-oriented design (OOD) phase, a developer
 applies implementation constraints to the conceptual model produced in
 object-oriented analysis. Such constraints could include not only
-those imposed by the chosen architecture but also any
-non-functional --- technological or environmental --- constraints,
-such as transaction throughput, response time, run-time platform,
-development environment, or those inherent in the programming
-language. Concepts in the analysis model are mapped onto
-implementation classes and interfaces resulting in a model of the
-solution domain, i.e., a detailed description of "
+those imposed by the chosen architecture but also any non-functional
+--- technological or environmental --- constraints, such as data
+processing capacity, response time, run-time platform, development
+environment, or those inherent in the programming language. Concepts
+in the analysis model are mapped onto implementation classes and
+interfaces resulting in a model of the solution domain, i.e., a
+detailed description of "
 	(:emph "how") 
 	" the system is to be built."))
 
@@ -220,8 +230,11 @@ systems.")
 
       ((:section :title "Goals for this Manual")
        "This manual is designed as a companion to a live two-hour
-GDL/GWL tutorial, but you may also be relying on it independently of the
-video tutorial. In either case, the fundamental goals are:"
+GDL/GWL tutorial, but you may also be relying on it independently of
+the tutorial. Portions of the live tutorial are available in
+``screencast'' video form, in the Documentation section of "
+       (:texttt "http://genworks.com")
+       " In any case, our fundamental goals of this Manual are:"
        ((:list :style :itemize)
 	(:item "To get you motivated about using Genworks GDL")
 	(:item "Enable you to ascertain whether Genworks GDL is an appropriate tool for a given job")
@@ -231,12 +244,12 @@ applications, or porting apps from similar KB systems into GDL."))
        
        "The manual will begin with an introduction to the "
        (:indexed "Common Lisp")
-       " programming language. If you are new to Common Lisp:
-congratulations! You are about to be introduced to a powerful tool
-backed by a rock-solid standard specification, which will protect your
-development investment for decades to come. In addition to the
-overview in this manual, many resources are available to get you
-started in CL --- for starters, we recommend "
+       " programming language. If you are new to Common Lisp: welcome!
+You are about to be introduced to a powerful tool backed by a
+rock-solid standard specification, which will protect your development
+investment for decades to come. In addition to the overview provided
+in this manual, many resources are available to get you started in CL
+--- for starters, we recommend "
        (:underline (:indexed "Basic Lisp Techniques") )
        (:footnote (:underline "BLT")
 		  " is available at "
@@ -273,12 +286,13 @@ the size and complexity of the application.")
        (:li "GDL is also a "
 	    (:emph (:indexed "declarative"))
 	    " language in the fullest sense. When you put together a
-GDL application, you write and think mainly in terms of objects and
-their properties, and how they depend on one another in a direct
-sense. You do not have to track in your mind explicitly how one object
-or property will ``call'' another object or propery, in what order
-this will happen, etc. Those details are taken care of for you
-automatically by the embedded language.")
+GDL application, you think and write mainly in terms of "
+	    (:emph "objects")
+	    " and their properties, and how they depend on one another
+in a direct sense. You do not have to track in your mind explicitly
+how one object or property will ``call'' another object or propery, in
+what order this will happen, and so forth. Those details are taken
+care of for you automatically by the embedded language.")
 
        (:li "Because GDL is object-oriented, you have all the features you would normally expect
 from an object-oriented language, such as "
@@ -295,24 +309,28 @@ from an object-oriented language, such as "
 
        (:li "GDL supports the ``message-passing'' paradigm of object
 orientation, with some extensions. Since full-blown ANSI CLOS (Common
-Lisp Object System) is always available as well, the Generic Function
-paradigm is supported as well. Do not be concerned at this point if
-you are not fully aware of the differences between Message Passing
-and Generic Function models of object-orientation."
+Lisp Object System) is always available as well, you are free to use
+the Generic Function paradigm too. Do not be concerned at this point
+if you are not fully conversant of the differences between Message
+Passing and Generic Function models of object-orientation."
        (:footnote "See Paul Graham's "
 		  (:underline "ANSI Common Lisp")
 		  ", page 192, for an excellent discussion of the Two Models 
-of Object-oriented Programming.")
+of Object-oriented Programming. Peter Siebel's "
+		  (:underline "Practical Common Lisp")
+		  "also covers the topic; see http://www.gigamonkeys.com/book/object-reorientation-generic-functions.html.")
        ".")))
       
       ((:section :title "Why GDL (i.e., what is GDL good for?)")
        ((:list :style :itemize)
 	(:item "Organizing and integrating large amounts of
-information in ways not possible, or not practical, using conventional
-languages or conventional relational database technology alone;")
+information in ways which are impossible impractical using
+conventional languages, CAD systems, and/or database technology
+alone;")
 	(:item "Evaluating many design or engineering alternatives and 
 performing various kinds of optimizations within specified design
-spaces, and doing so very rapidly;")
+spaces, and doing so"
+	  (:emph "very rapidly;"))
 	(:item
 	 "Capturing, i.e., implementing, the procedures and rules used
 to solve repetitive tasks in engineering and other fields;")
@@ -331,6 +349,6 @@ excellent environment for developing capabilities which could qualify
 as such);")
 	(:item "An Expert System Shell (although one could be easily embedded within it).")))
       
-      "Without further definitions, let's turn the page and get
+      "Without further description, let's turn the page and get
       started with hands-on GDL..."))
       
