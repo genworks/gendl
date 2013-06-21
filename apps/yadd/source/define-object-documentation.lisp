@@ -362,20 +362,22 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 								    (the symbol)))
 
 						   ,(if (getf (fourth value) :type)
-
+							
+							#+nil
 							`(:emph ,(replace-substring
 								  (getf (fourth value) :type)
 								  "-dot-" "."))
+							
+							`(:emph ,(let ((parsed 
+									(net.html.parser:parse-html
+									 (replace-substring
+									  (getf (fourth value) :type)
+									  "-dot-" "."))))
+								      parsed))
+							"")
 
-							#+nil
-							`(:emph ,(net.html.parser:parse-html
-								  (replace-substring
-								   (getf (fourth value) :type)
-								   "-dot-" "."))) "")
-
-						   (:p ,@(net.html.parser:parse-html (getf (fourth value) :intro)))
-
-						   )) 
+						   (:p ,@(let ((parsed-intro (net.html.parser:parse-html (getf (fourth value) :intro))))
+							      parsed-intro))))
 					     values))))))
 
 			(list-elements (the sections))))

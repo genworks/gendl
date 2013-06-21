@@ -9659,7 +9659,7 @@ width of the letter "A" in the specified \texttt{font} and \texttt{character-siz
 
 \item [Text-side]
 \index{Text-side
-[label]}\emph{Keyword Symbol, either <tt>:left</tt> or <tt>:right</tt>}
+[label]}\emph{Keyword Symbol, either \texttt{:left} or \texttt{:right}}
 
  Determines whether the label text sits to
 the right or the left of the last point in the \texttt{leader-path}. The default is computed based on
@@ -10684,7 +10684,7 @@ Defaults to NIL, must be specified as non-NIL to get a result.
 
 \item [Line-color]
 \index{Line-color
-[pie-chart]}\emph{Keyword symbol naming color from <tt>*color-table*</tt>}
+[pie-chart]}\emph{Keyword symbol naming color from \texttt{*color-table*}}
 
 .
 Color of the outline of the pie. Defaults to :black.
@@ -10712,7 +10712,7 @@ Color of the outline of the pie. Defaults to :black.
 
 \item [Title-color]
 \index{Title-color
-[pie-chart]}\emph{Keyword symbol naming color from <tt>*color-table*</tt>}
+[pie-chart]}\emph{Keyword symbol naming color from \texttt{*color-table*}}
 
 .
 Color of title text. Defaults to :black.
@@ -10980,7 +10980,7 @@ the objects in the scene, consisting of the \texttt{object-roots} and the \textt
 
 \item [Bounding-sphere]
 \index{Bounding-sphere
-[renderer-mixin]}\emph{Plist containing keys: <tt>:center</tt> and <tt>:radius</tt>}
+[renderer-mixin]}\emph{Plist containing keys: \texttt{:center} and \texttt{:radius}}
 
  This plist represents the tightest-fitting sphere
 around all the objects listed in the \texttt{object-roots} and the \texttt{objects}
@@ -14369,7 +14369,7 @@ Indicates the views to show in the graphics controls.
 
 \item [Digitation-mode]
 \index{Digitation-mode
-[base-html-graphics-sheet]}\emph{Keyword symbol, one of <tt>:zoom-and-center</tt>, <tt>:report-point</tt>, or <tt>:measure-distance</tt>}
+[base-html-graphics-sheet]}\emph{Keyword symbol, one of \texttt{:zoom-and-center}, \texttt{:report-point}, or \texttt{:measure-distance}}
 
 .
 
@@ -15250,7 +15250,7 @@ messages for nodes in a GWL application tree. For any \texttt{node-mixin} or \te
 
 \item [Other-rules]
 \index{Other-rules
-[layout-mixin]}\emph{List of GDL objects of type <tt>base-rule-object</tt> or (preferably) <tt>gwl-base-rule-object</tt>}
+[layout-mixin]}\emph{List of GDL objects of type \texttt{base-rule-object} or (preferably) \texttt{gwl-base-rule-object}}
 
 .
 Links to these will be displayed in the other-rules section. Default to the collection of all objects of type
@@ -15338,7 +15338,7 @@ be scaled to fit and displayed in the graphics area. Defaults to NIL.
 
 \item [Violated-rules]
 \index{Violated-rules
-[layout-mixin]}\emph{List of GDL objects of type <tt>base-rule-object</tt> or (preferably) <tt>gwl-base-rule-object</tt>}
+[layout-mixin]}\emph{List of GDL objects of type \texttt{base-rule-object} or (preferably) \texttt{gwl-base-rule-object}}
 
 .
 Links to these will be displayed in the other-rules section. Default to the collection of all objects of type
@@ -17585,25 +17585,27 @@ Base mixin for a yadd sheet
 
 \item [Additional-header-js]
 \index{Additional-header-js
-[base-yadd-sheet]}\emph{Contains standard jQuery files to include in the header for additional search funcionality}
+[base-yadd-sheet]}\emph{String of valid HTML}
 
-.
-This computed-slot contains javascript files, found in the *gdl-install-dir*
-and used throughout the yadd pages for the generation of automatic search forms (like the master-index).
-The javascript loaded is jquery.
+ Contains standard jQuery files to include
+in the header for additional search funcionality.  This computed-slot
+contains javascript files, found in the *gdl-install-dir* and used
+throughout the yadd pages for the generation of automatic search
+forms (like the master-index).  The javascript loaded is jquery.
 
 
 
 
 \item [Default-header-content]
 \index{Default-header-content
-[base-yadd-sheet]}\emph{Contains default header contents for yadd html files}
+[base-yadd-sheet]}\emph{String of valid HTML}
 
-.
-This computed-slot is available in all children of this object. It contains links
-to default header content of a HTML generated yadd page. This contains a
-link to the favicon.ico and a link to a default CSS sheet. All these elements can be
-found in the *gdl-install-dir*/static/gwl/ directories.
+ Contains default header contents for yadd
+html files.  This computed-slot is available in all children of this
+object. It contains links to default header content of a HTML
+generated yadd page. This contains a link to the favicon.ico and a
+link to a default CSS sheet. All these elements can be found in the
+*gdl-install-dir*/static/gwl/ directories.
 
 
 
