@@ -24,7 +24,7 @@
 (defparameter *custom-user-interfaces*
   `((:chapter :title "Custom User Interfaces in GDL")
 
-    (:p "Another of the strengths of GDL is the ability to create custom
+    (:p "Another strength of GDL is the ability to create custom
 web-based user interfaces. GDL contains a built-in web server and
 supports the creation of generative "
 	(:emph "web-based")
@@ -58,20 +58,20 @@ refresh) as well as so-called ``Web 2.0'' interaction with AJAX.")
 
     ((:section :title "Package and Environment for Web Development")
      (:p "Similarly to " (:texttt "gdl:define-package") ", you can use "
-	 (:texttt "gwl:define-package") " in order to create a working package which has
-access to the symbols you will need for building a web application (in
-addition to all the other GDL symbols).")
+	 (:texttt "gwl:define-package") " in order to create a working
+package which has access to the symbols you will need for building a
+web application (in addition to the other GDL symbols).")
      
      (:p "The " (:texttt ":gwl-user") " package is pre-defined and may be used for practice
 work. For real projects, you should define your own package using "
 	 (:texttt "gwl:define-package") ".")
 
      (:p "The acronym ``GWL'' stands for Generative Web Language,
-which is not in fact a separate language from GDL itself, but rather
-is a set of primitive objects and functions available with GDL for
-building web applications. The YADD reference documentation for
-package ``Generative Web Language'' provides detailed specifications
-for all the primitive objects and functions."))
+which is not a separate language from GDL itself, but rather is a set
+of primitive objects and functions available within GDL for building
+web applications. The YADD reference documentation for package
+``Generative Web Language'' provides detailed specifications for all
+the primitive objects and functions."))
 
     ((:section :title "Traditional Web Pages and Applications")
      (:p "To make a GDL object presentable as a web page, the following two
@@ -92,10 +92,11 @@ an HTML generating library, such as "
 	 ", both of which are built into GDL.")
 
      (:p "For our examples we will use cl-who, which is currently the
-standard default HTML generating library used internally by
-GDL. Here we will make note of the major features of cl-who while
-introducing the examples; for complete documentation on cl-who, please
-visit the page at Edi Weitz' website linked above.")
+standard default HTML generating library used internally by GDL. Here
+we will make note of the major features of cl-who while introducing
+the examples; for complete documentation on cl-who, please visit the
+page at Edi Weitz' website linked above and listed in the footnote
+below.")
 
 
 
@@ -129,7 +130,8 @@ within a GWL application."
 			  :label "fig:gwl-1-image")))
 
 
-      (:p "Several important concepts are packed into this example. Note the following:"
+      (:p "Several important concepts are lumped into this
+      example. Note the following:"
 
 	  ((:list :style :itemize)
 
@@ -409,7 +411,7 @@ unchanged. This ability is not present in some other Ajax
 frameworks.")
 
      ((:subsection :title "Steps to Create a gdlAjax Application")
-      (:p "Initially, it is important to understand that the
+      (:p "Initially, it is important to appreciate that the
 fundamentals from the previous section on Standard Web Applications
 still apply for gdlAjax applications --- that is, HTML generation,
 page linking, etc. These techniques will all still work in a gdlAjax
@@ -545,10 +547,9 @@ necessary.")
 	  and :function-key simultaneously. As long as your logic
 	  works correctly when the form-controls are set before the
 	  function is called, then you can group the functions
-	  together into a ``wrapper-function,'' and do the whole
+	  together into a ``wrapper-function,'' and do the entire
 	  processing with a single Ajax (or Sjax) call. Normally this
-	  would be be the recommended approach whenever it it
-	  possible."))
+	  would be be the recommended approach whenever possible."))
 
 
      ((:subsection :title "Including Graphics")

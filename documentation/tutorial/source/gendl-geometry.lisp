@@ -23,10 +23,10 @@
 
 (defparameter *gendl-geometry*
   `((:chapter :title "Working with Geometry in GDL")
-    (:p "Although GDL's uses include general-purpose computing, one of
-  its particular strong points is generating geometry and processing
-  geometric entities in various ways. Geometric capabilities are
-  provided by a library of "
+    (:p "Although Genworks GDL is a powerful framework for all kinds
+  of general-purpose computing, one of its particular strong points is
+  generating geometry and processing geometric entities. Geometric
+  capabilities are provided by a library of "
 	(:emph "low-level primitives")
 	", or LLPs. LLPs are pre-defined GDL objects which you can
 	extend by ``mixing in'' with your own definitions, and/or

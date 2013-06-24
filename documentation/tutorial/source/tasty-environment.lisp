@@ -34,8 +34,8 @@ as an end-user application interface (see Chapter "
 	(:ref "chap:customuserinterfacesingdl")
 	" for the recommended steps to create end-user interfaces).")
 
-    (:p "Tasty allows you to visualize and inspect any object defined
-in GDL, which mixes at least "
+    (:p "Tasty allows one to visualize and inspect any object defined
+in GDL which mixes at least "
 	(:texttt "base-object")
 	" into the definition of its root"
 	(:footnote "base-object is the core mixin for all geometric
@@ -51,7 +51,7 @@ the Chapter 5 examples, contained in "
 	(:verbatim ".../src/documentation/tutorial/examples/chapter-5/")
 
 	" in your GDL distribution. If you are not sure how to do this,
-temporarily leave this section and review Chapter "
+you may want to leave this section temporarily and review Chapter "
 	(:ref "chap:basicoperationofthegdlenvironment")
 	", and then return.")
      
@@ -101,20 +101,18 @@ practice, because it means that the code in quesion is accessing the
 ``internals'' or ``guts'' of another package, which may not have been
 the intent of that other package's designer."))
 
-    (:p "After you specify the class package and the object type and press the
-``browse'' button, the browser will produce the utility interface
-with an instance of the specified type (see figure "
-	(:ref "fig:tastyshockabsorberpre") ".")
-
-    (:p "The utility interface by default is composed of three toolbars and
-three view frames (tree frame, inspector frame and viewport frame
-``graphical view port'').")
+    (:p "After you specify the class package and the object type and
+press the ``browse'' button, the browser will produce the tasty
+interface with an instance of the specified type (see figure "
+	(:ref "fig:tastytowerpre") "). The utility interface
+by default is composed of three toolbars and three view frames (tree
+frame, inspector frame and viewport frame ``graphical view port'').")
 
 
-    ((:image-figure :image-file "tasty-shock-absorber-pre.pdf"
+    ((:image-figure :image-file "tasty-tower-pre.pdf"
 		    :width "5in" :height "5in"
 		    :caption "Tasty Interface"
-		    :label "fig:tastyshockabsorberpre"))
+		    :label "fig:tastytowerpre"))
 
 
     ((:subsection :title "The Toolbars")
@@ -271,16 +269,16 @@ object. For example for the tower assembly this will be as depicted in
 figure "
 	 (:ref "fig:tree-twisty-tower"))
 
-     (:p "To draw the graphics (geometry) for the shock-absorber
-leaf-level objects, you can select the ``Add Leaves (AL)'' item from
-the Tree menu, then click the desired leaf to be displayed from the
+     (:p "To draw the graphics (geometry) for the tower leaf-level
+objects, you can select the ``Add Leaves (AL)'' item from the Tree
+menu, then click the desired leaf to be displayed from the
 tree. Alternatively, you can select the ``rapid'' button from third
 toolbar which is symbolized by a pencil icon. Because this
-operation (draw leaves) is frequently used, the operation is directly
-available as a tooltip which will pop up when you hover the mouse over
-any leaf or node in the tree.")
+operation (draw leaves) is frequently used, the operation is also
+directly available as a direct-click icon which will appear when you
+hover the mouse over any leaf or node in the tree.")
 
-     (:p "The ``on the fly'' feature is available also for ``inspect
+     (:p "A direct-click icon is also available for ``inspect
 object,'' as the second icon when you hover the mouse over a leaf or
 node.")
 
@@ -299,11 +297,9 @@ syntax). We will also pass the number-of-blocks as the :size of the  "
 	 " sequence, rather than using a hard-coded value as
 previously. The new assembly definition is now:"
 	 
-	 ;;
+	 (:verbatim ";;
 	 ;; FLAG -- insert verbatim or ref to new tower code
-	 ;; 
-
-	 )
+	 ;; "))
 
      (:p "In this new version of the tower, the number-of-blocks is a
 settable slot, and its value can be modified (i.e. ``bashed'') as
@@ -318,7 +314,7 @@ menu, then select the root of the "
 	 (:ref "fig:tasty-inspector")
 	 "). Once the inspector is displaying this object, it is
 possible to expand its settable slots by clicking on the ``Show
-Settables!''  link. (use the ``X'' link to collapse the settable slots
+Settables!''  link (use the ``X'' link to collapse the settable slots
 view). When the settable slots area is open, the user may set the
 values as desired by inputting the new value and pressing the OK
 button (see Figure "

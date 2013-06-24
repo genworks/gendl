@@ -26,14 +26,16 @@
       "This chapter will lead you through all the basic steps of
 operating a typical GDL-based development environment. We will not go
 into particular depth about the additional features of the environment
-or language syntax in this section --- this is merely for getting
-familiar and practicing with the mechanics of operating the
-environment with a keyboard."
+or language syntax in this section --- this chapter is merely for
+getting familiar with and practicing with the nuts and bolts of
+operating the environment with a keyboard."
 
       ((:section :title "What is Different about GDL?")
-       "GDL is a dynamic language environment with incremental
-compiling and in-memory definitions. That means that as long as the
-system is running you can "
+       "GDL is a "
+       (:emph "dynamic")
+       " language environment with incremental compiling and in-memory
+definitions. This means that as long as the system is running you
+can "
        (:emph "compile")
        " new " 
        (:emph "definitions") 
@@ -63,7 +65,7 @@ done "
 	(:li "using commands placed into
 the "
 	     (:texttt "gdlinit.cl")
-	     " initialization file, as introduced in Section "
+	     " initialization file, as described in Section "
 	     (:ref "sec:customizingyourenvironment") ".")
 
 	(:li "alternatively, you can compile and load definitions into
@@ -71,25 +73,30 @@ your session, then save the ``world'' in that state. That way it is
 possible to start a new GDL ``world'' which already has all your
 application's definitions loaded and ready for use, without having to
 procedurally reload any files. You can then begin to make and test new
-definitions (and re-definitions) starting from this new ``world.''")))
+definitions (and re-definitions) starting from this new ``world.''
+You can think of a saved ``world'' like pre-made cookie dough: no need
+to add each ingredient one by one --- just start making cookies!")))
        
       ((:section :title "Startup, ``Hello, World!'' and Shutdown")
        (:p
-	"The typical GDL environment consists of three programs: Gnu
-Emacs (the editor), a Common Lisp engine with GDL system loaded or built into it (e.g. the "
-	(:texttt "gdl.exe")
-	" executable in your "
-	(:texttt "program/")
-	" directory), and (optionally) a web browser
-such as Firefox, Google Chrome, Safari, Opera, or Internet
-Explorer. Emacs runs as the main "
+	"The typical GDL environment consists of three programs:"
+	(:ol
+	 (:li "Gnu Emacs (the editor);")
+	 (:li "a Common Lisp engine with GDL system loaded or built into it (e.g. the "
+	      (:texttt "gdl.exe")
+	      " executable in your "
+	      (:texttt "program/")
+	      " directory); and")
+	 (:li "(optionally) a web browser such as Firefox, Google
+Chrome, Safari, Opera, or Internet Explorer"))
+	"Emacs runs as the main "
 	(:emph "process")
 	", and this in turn starts the CL engine with GDL as a "
 	(:emph "sub-process")
 	". The CL engine typically runs an embedded "
 	(:emph "webserver")
 	", enabling you to access your application through a standard web browser.")
-       (:p "As introduced in Chapter "
+       (:p "As described in Chapter "
 	   (:ref "chap:installation")
 	   ", the typical way to start a pre-packaged GDL environment is with the "
 	   (:texttt "run-gdl.bat") 
@@ -285,14 +292,11 @@ the bootstrap module."
 
 	
 
-	(:p "You should structure your applications in a modular fashion, with the
-directories containing actual Lisp sources called \"source.\"")
-
-	(:p "You may have subdirectories which themselves contain \"source\"
-directories.")
-
-	(:p "We recommend keeping your codebase directories relatively flat,
-however.")
+	(:p "You should structure your applications in a modular
+fashion, with the directories containing actual Lisp sources called
+\"source.\" You may have subdirectories which themselves contain
+\"source\" directories. We recommend keeping your codebase directories
+relatively flat, however.")
 
 	(:p "In Figure "
 	    (:ref "fig:yoyodyne-base")
@@ -316,8 +320,8 @@ however.")
 	 (:p "Within a source subdirectory, you may have a file called "
 	     (:texttt "file-ordering.isc")
 	     (:footnote (:texttt "isc") " stands for ``Intelligent Source Configuration''")
-	     " to enforce a certain ordering on the files. Here is the contents of an example for the 
-above application:")
+	     " to enforce a certain ordering on the files. Here are
+the contents of an example for the above application:")
 	 (:verbatim  "(\"package\" \"parameters\")")
 
 	 (:p "This will force package.lisp to be compiled/loaded first, and

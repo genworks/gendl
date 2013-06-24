@@ -23,17 +23,19 @@
 
 (defparameter *understanding-common-lisp*
     `((:chapter :title "Understanding Common Lisp")
-      (:p "GDL is a superset of Common Lisp, and is ``embedded'' in
-Common Lisp. This means that when working with GDL you have the full
-power of CL available to you. The lowest-level expressions in a GDL
-definition are CL ``symbolic expressions,'' or ``s-expressions.''
-This chapter will familiarize you with CL s-expressions.")
+      (:p "GDL is a superset of Common Lisp (CL) --- that is, all of
+CL is available to you during development, and is available to your
+applications at runtime (i.e. after they are deployed). The
+lowest-level expressions in a GDL definition are CL ``symbolic
+expressions,'' or ``s-expressions.''  This chapter will familiarize
+you with CL s-expressions.")
       ((:section :title "S-expression Fundamentals")
-       (:p "S-expressions can be used in your definitions to establish
-the value of a particular "
+       (:p "S-expressions can be used in a similar manner to Formulas
+in a Spreadsheet to establish the value of a particular "
 	   (:emph "slot")
-	   " (i.e. named data value) in an object, which will be
-computed on-demand. You can also evaluate S-expressions at the
+	   " (i.e. named data value) in an object. Unlike in a
+spreadsheet, however, these values are only computed on an as-needed
+basis (i.e. ``on-demand''). You can also evaluate S-expressions at the
 toplevel "
 	   (:texttt "gdl-user\\textgreater")
 	   " prompt, and see the result immediately. In fact, this toplevel prompt is called a "
@@ -66,11 +68,12 @@ toplevel "
 	  (:texttt "2") 
 	  " and another "
 	  (:texttt "2")
-	  ". As you may have guessed, when this expression is evaluated it will return the value 4."
+	  ". As you may have suspected, when this expression is
+evaluated it will return the value 4."
 	  (:emph "Try it: ")
 	  "try typing this expression at your command prompt, and see
 the return-value being printed on the console. What is actually
-happening here? When CL is asked to evaluate an expression, it
+occurring here? When CL is asked to evaluate an expression, it
 processes the expression according to the following rules:")
        (:p ((:list :style :itemize)
 	    (:item "If the expression is an "
@@ -132,10 +135,16 @@ special power. Here are some examples of functional s-expressions: "
 
       ((:section :title "Fundamental CL Data Types")
        
-       (:p "As we have seen, Common Lisp natively supports
-many data types common to other languages, such as numbers and text
-strings. CL also contains several compound data types such as lists,
-arrays, and hash tables. CL contains "
+       (:p "As has been noted, Common Lisp natively supports many data
+types"
+	   (:footnote "See http://en.wikipedia.org/wiki/Data_type for
+a more detailed discussion of what is meant by ``data types'' in this
+context.")
+	   " common to other languages, such as numbers and text strings. CL
+also contains several "
+	   (:emph "compound")
+	   " data types such as lists, arrays, and hash tables. CL
+contains "
 	   (:emph "symbols")
 	   " as well, which typically are used as names for other data elements.")
 
@@ -145,9 +154,9 @@ not necessarily have type, and typically variables are not
 ``pre-declared'' to be of a particular type.")
 
        ((:subsection :title "Numbers")
-	(:p "As we have seen, numbers in CL are a native
-data type which simply evaluate to themselves when entered at the
-toplevel or included in an expression.")
+	(:p "As observed, numbers in CL are a native data type which
+simply evaluate to themselves when entered at the toplevel or included
+in an expression.")
 	(:p "Numbers in CL form a hierarchy of types, which includes Integers,
 Ratios, Floating Point, and Complex numbers. For many purposes, you
 only need to think of a value as a ``number'' without getting any more
@@ -159,11 +168,11 @@ specific than that. Most arithmetic operations, such as "
 	    (:texttt "*")
 	    ", "
 	    (:texttt "/")
-	    " etc, will automaticaly do any necessary type coercion on their
+	    " etc, will automaticaly do any necessary type-coercion on their
 arguments and will return a number of the appropriate type.
 
 CL supports a full range of floating-point decimal numbers, as well as
-true Ratios, which means that "
+true Ratios, which means that for example "
 	    (:texttt "1/3")
 	    " is a true one-third, not "
 	    (:texttt "0.333333333")
@@ -175,7 +184,7 @@ characters. These characters can be letters, numbers, or punctuation,
 and in some cases can include characters from international character
 sets (e.g. Unicode or UTF-8) such as Chinese Hanzi or Japanese
 Kanji. The string delimiter in CL is the double-quote character.")
-	(:p "As we have seen, strings in CL are a native data type which simply
+	(:p "Text strings in CL are a native data type which simply
 evaluate to themselves when included in an expression.")
 
 
@@ -197,7 +206,7 @@ evaluate to themselves when included in an expression.")
  gdl-user> (format nil \"The time is: ~a\" (iso-8601-date (get-universal-time) :include-time? t))
  \"The time is: 2012-12-10T14:30:17\"")))
 
-	(:p "As you can see from the above example, "
+	(:p "As the above example shows, "
 	    (:texttt "format")
 	    " takes a "
 	    (:emph "stream designator")
@@ -254,13 +263,13 @@ plist slots is one fundamental distinction between Common Lisp and most
 other Lisp dialects. Most other dialects allow only one (1) ``thing''
 to be stored in the symbol data structure, other than its name
  (e.g. either a function or a value, but not both at the same
-time). Because Common Lisp does not impose this restriction, it is not
+time). Because Common Lisp does not impose this restriction it is not
 necessary to contrive names, for example for your variables, to avoid
 conflicting with existing ``reserved words'' in the system. For
 example, "
 	    (:texttt "list")
-	    " is the name of a built-in function in CL. But you
-may freely use "
+	    " is the name of a built-in function in CL, but you may
+freely use "
 	    (:texttt "list")
 	    " as a variable name as well. There is no need to
 contrive arbitrary abbreviations such as "
@@ -274,8 +283,8 @@ expression. As we have seen, if a "
 	    (:texttt "+")
 	    " in "
 	    (:texttt "(+ 2 2)")
-	    ", the symbol is evaluated for its function slot. If the first 
-element of an expression indeed has a "
+	    ", the symbol is evaluated for its function slot. If the
+first element of an expression indeed has an identified "
 	    (:emph "function") 
 	    " in its function slot, then any 
 subsequent symbol in the expression is taken as a variable, and it is evaluated 
@@ -293,9 +302,10 @@ way to achieve this is to ``quote'' the symbol name:"
 	    ") applies across everything in the list expression, including any sub- expressions."))
 
        ((:subsection :title "List Basics")
-	(:p "Lisp takes its name from its strong support for the list data
-structure. The list concept is important to CL for more than this
-reason alone --- most notably, lists are important because "
+	(:p "Lisp takes its name from its strong support for the list
+data structure. The list concept is important to Common Lisp (CL) for
+more than this reason alone --- most notably, lists are important
+because "
 	    (:emph "all CL programs are themselves lists."))
 	(:p " Having the list as a native data structure, as well as the form of all
 programs, means that it is straightforward for CL programs to compute
@@ -303,12 +313,16 @@ and generate other CL programs. Likewise, CL programs can read and
 manipulate other CL programs in a natural manner. This cannot be said
 of most other languages, and is one of the primary distinguishing
 characteristics of Lisp as a language.")
-	(:p "Textually, a list is defined as zero or more items
-surrounded by parentheses. The items can be objects of any valid CL
-data types, such as numbers, strings, symbols, lists, or other kinds
-of objects. According to standard evaluation rules, you must quote a
+	(:p "Textually, a "
+	    (:emph "list")
+	    " is defined as zero or more items surrounded by
+parentheses. The items can be objects of any valid CL data types, such
+as numbers, strings, symbols, lists, or other kinds of
+objects. According to standard evaluation rules, you must quote a
 literal list to evaluate it as such, or CL will assume you are calling
-a function. Now look at the following list:"
+a "
+	    (:emph "function")
+	    ". Now look at the following list:"
 	    (:verbatim "(defun hello () (write-string \"Hello, World!\"))")
 	    "This list also happens to be a valid CL program (function definition,
 in this case). Don't concern yourself about analyzing the function definition
@@ -338,8 +352,9 @@ call "
 
        ((:subsection :title "The List as a Data Structure")
 
-	"In this section we will present a few of the fundamental native CL operators for manipulating
-lists as data structures. These include operators for doing things such as:"
+	"In this section we will cover a few of the fundamental native
+CL operators for manipulating lists as data structures. These include
+operators for doing things such as:"
 	((:list :style :enumerate)
 	 (:item "finding the length of a list")
 	 (:item "accessing particular members of a list")
@@ -469,7 +484,13 @@ arguments in any way:"
 	(:texttt "my-slides")
 	". Later we will see how one may alter the value of a variable such as "
 	(:texttt "my-slides")
-	"."))))
+	"."))
+
+      "In this chapter we have presented enough basics of Lisp's
+minimal syntax, and some particulars of Common Lisp, to enable you to
+start with the Genworks GDL framework. In keeping with the
+demand-driven philosophy of GDL, subsequent chapters will cover additional
+CL material on an as-needed basis."))
 
 
 

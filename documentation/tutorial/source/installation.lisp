@@ -27,7 +27,7 @@
       "Follow Section "
       (:ref "sec:installationofpre-packagedgdl")
       " if your email address is registered with Genworks and you will
-install a pre-packaged Genworks GDL distribution including its own
+install a pre-packaged Genworks GDL distribution, including its own
 Common Lisp engine.  The foundation of Genworks GDL is also available
 as open-source software through The Gendl Project"
       (:footnote "http://github.com/genworks/gendl")
@@ -46,10 +46,7 @@ Gnu Emacs)."
 	 (:item "Enter your email address" 
 	   (:footnote "if your address is not on file, send mail to licensing@genworks.com")
 	   ".")
-	 (:item "Download the latest Payload for Windows, Linux, or Mac"
-	   (:footnote "Gnu Emacs is included with the download. The source code for this 
-is available at http://downloads.genworks.com/emacs-windows-24.3.zip. Gnu Ghostscript
-is also included; please contact Genworks if you need the source code for this."))
+	 (:item "Download the latest Payload for Windows, Linux, or Mac")
 	 (:item "Click to receive the license key file by email.")))
        
        ((:subsection :title "Unpack the Distribution")
@@ -72,13 +69,13 @@ a ``dmg'' application bundle for Mac, and a self-contained zip file for Linux."
 
       ((:section :title "Installation of open-source Gendl")
        
-       "This section is only relevant if you have not received a
-pre-packaged Gendl distribution with its own Common Lisp engine.  If
-you have received a pre-packaged Gendl distribution, then you may skip
-this section. In case you want to use the open-source Gendl, you will
-use your own Common Lisp installation and obtain Gendl (Genworks-GDL)
-using a very powerful and convenient CL package/library manager
-called "
+       "This section is only germane if you have not received a
+pre-packaged Gendl or Genworks GDL distribution with its own Common
+Lisp engine.  If you have received a pre-packaged Gendl distribution,
+then you may skip this section. In case you want to use the
+open-source Gendl, you will use your own Common Lisp installation and
+obtain Gendl (Genworks-GDL) using a very powerful and convenient CL
+package/library manager called "
        (:emph "Quicklisp") "."
        
        ((:subsection :title "Install and Configure your Common Lisp environment")
@@ -162,9 +159,9 @@ in a shaded dynamic view.")))
 	"The following commands will invoke a full regression test,
 including a test of the Surface and Solids primitives provided by the
 SMLib geometry kernel. Note that the SMLib geometry kernel is only
-available with proprietary Genworks GDL licenses --- therefore if you
-have open-source Gendl or a lite Trial version of Genworks GDL, 
-these regression tests will not all function.
+available with proprietary Genworks GDL licenses --- therefore, if you
+have open-source Gendl or a lite Trial version of Genworks GDL, these
+regression tests will not all function.
 
 In Emacs at the "
 	(:texttt "gdl-user>")

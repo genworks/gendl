@@ -25,11 +25,11 @@
     `((:chapter* :title "Upgrade Notes")
 
       "GDL 1580 marked the end of a major branch of GDL development,
-and 1581 was actually a major new version, which now has been
-supplanted by 1582. 
+and 1581 was an upgraded new version, which in turn has now been
+supplanted by 1582.
 
 This addendum lists the typical modifications you will want to
-consider for upgrading from GDL 1580 to GDL 1582 or later."
+consider for upgrading from GDL 1580 to GDL 1582, or later versions."
 
       ((:list :style :itemize)
        
@@ -46,7 +46,7 @@ contact support@genworks.com")
 	 (:texttt "\"3rdpty/\"")
 	 " directory are no longer needed or available. Instead, we depend on the Quicklisp
 system. Details of Quicklisp are available at "
-	 (:href "http://www.quicklisp.org")
+	 (:texttt "http://www.quicklisp.org")
 	 ". See Section "
 	 (:ref "subsec:compilingandloadingasystem")
 	 " for information about how to use Quicklisp with GDL.")
