@@ -259,7 +259,6 @@ interface. Defaults to nil."
                 ((:a :href (the return-object url)) (str display-string))))
               
               (update-root! () 
-                            (format t "Updateing root...~%~%")
                             (unpublish-instance-urls (the instance-id) (the url))
                             (the root update!)
                             (the url)

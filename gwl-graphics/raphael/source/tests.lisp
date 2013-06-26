@@ -19,7 +19,52 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :raphael)
+(in-package :gwl-user)
+
+
+(define-object dd (base-ajax-sheet base-object)
+
+  :computed-slots ((use-raphael? t)
+
+		   (main-sheet-body (with-cl-who-string ()
+				      (str (the development-links))
+				      (str (the main-area main-div))))
+		   
+
+		   (dropped-x-y (if (the main-area dropped-x-y)
+				    (make-point (get-x (the main-area dropped-x-y))
+						(- (get-y (the main-area dropped-x-y))
+						   1)
+						0)
+				    (make-point 0 0 0))))
+  
+
+  :objects ((poly-1 :type 'global-polyline 
+		    :display-controls (list :color :red :fill-color :blue)
+		    :vertex-list (list (the dropped-x-y)
+				       (translate (the dropped-x-y) :right 1)
+				       (translate (the dropped-x-y) :right 1 :rear 1)
+				       (the dropped-x-y)))
+
+	    (poly-2 :type 'global-polyline 
+		    :display-controls (list :color :black :fill-color :green)
+		    :vertex-list (list (make-point 2 0 0)
+				       (make-point 3 0 0)
+				       (make-point 3 1 0)
+				       (make-point 2 0 0)))
+            
+	    (main-area :type 'base-ajax-graphics-sheet
+		       :respondent self
+		       :vector-graphics-onclick? nil
+		       :length 500 :width 500
+		       :projection-vector (getf *standard-views* :top)
+		       :display-list-objects (list (the poly-1) (the poly-2)))))
+
+
+
+            
+
+
 
 #+nil
 (define-object test-sheet (base-ajax-sheet)
@@ -40,33 +85,8 @@
     (with-html-output (*stream*)
       (write-the viewport main-div)))))
 
-#+nil
-(define-object test-vp (base-ajax-graphics-sheet)
 
-  :computed-slots ((js-to-eval (the raphael-string)))
-  
-  :objects ((surf :type 'surf::test-b-spline-surface)
-            
-            (view-object :type 'web-drawing
-                         :page-width 500
-                         :page-length 500
-                         :projection-vector (getf *standard-views* (the projection-direction value))
-                         :objects (list (the surf)))
-            
-            (projection-direction :type 'menu-form-control
-                                  :size 1
-                                  :default :trimetric
-                                  :choice-list (plist-keys *standard-views*)
-                                  :onclick (the (gdl-ajax-call :form-controls (list (the-child)))))
 
-            
-            (restore-button :type 'button-form-control
-                            :label "Restore"
-                            :onclick (the (gdl-ajax-call :function-key :restore-zoom!))))
-  
-  :functions ((restore-zoom!
-               ()
-               (the view-object (restore-slot-defaults! (list :user-scale :user-center))))))
 
 
 #+nil

@@ -41,8 +41,28 @@
                       (let ((width (the-object child-view width))
                             (length (the-object child-view length)))
 
-                        (format *stream* "~&~%var paper = Raphael('~a', ~a, ~a);~%"
-                                (the raphael-canvas-id) width length)
+                        (format *stream* "~&~%var paper = Raphael('~a', ~a, ~a);~%
+
+                var start = function () {
+                    this.lastdx ? this.odx += this.lastdx : this.odx = 0;
+                    this.lastdy ? this.ody += this.lastdy : this.ody = 0;
+                    this.animate({opacity: .5}, 500, \">\");
+                },
+                move = function (dx, dy) {
+                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
+                    this.lastdx = dx;
+                    this.lastdy = dy;
+                },
+                up = function () {
+                    this.animate({opacity: 1.0}, 500, \">\");
+                    ~a
+                };
+
+"
+                                (the raphael-canvas-id) width length
+				
+				(the parent (gdl-ajax-call :js-vals? t))
+				)
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))
@@ -383,7 +403,7 @@
             (str 
              (format 
               nil
-              "var ~a_polyline = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a'});~%"
+              "var ~a = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a', cursor: 'pointer'}).data('name','\\\"~a\\\"'); ~a~%;"
               ;; FLAG -- add fill-color
               name
               (to-single-float (get-x start))
@@ -398,47 +418,19 @@
 				      (to-single-float (get-y end))))))
 			  line-index-pairs)
               
-              (the color-hex))))))))))
+              (the color-hex)
+	      
+	      name
 
+	      (when (getf (the display-controls) :fill-color)
+		(let ((fill-color (lookup-color (getf (the display-controls) :fill-color) :format :hex)))
+		  (format nil "~a.attr({fill: '~a'});" name fill-color)))
 
-;;
-;; FLAG -- this is not working - sort it out. 
-;;
-#+nil
-(define-lens (raphael global-polyline)()
-  :output-functions
-  (
-   (cad-output
-    ()
-    (with-format-slots (view)
-      (let (;;(line-index-pairs (the %%line-vertex-indices%%))
-            (2d-vertices (map 'vector
-                           (if view
-                               #'(lambda(point) 
-                                   (add-vectors (subseq (the-object view (view-point point)) 0 2)
-                                                geom-base:*raphael-translation*))
-                             #'identity) (the %%vertex-array%%)))
-            (name (base64-encode-safe 
-                     (format nil "~s" (remove :root-object-object 
-                                              (the  root-path))))))
-        
-         (with-cl-who ()
-          (let ((*read-default-float-format* 'single-float))
-            (str 
-             (format 
-              nil
-              "var ~a_polyline = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a'});~%"
-              ;; FLAG -- add fill-color
-              name
-              (to-single-float (get-x (aref 2d-vertices 0)))
-              (to-single-float (get-y (aref 2d-vertices 0)))
-              
-              (mapcar #'(lambda(point) (format nil "L ~a ~a" 
-                                               (to-single-float (get-x point)) 
-                                               (to-single-float (get-y point))))
-                      (rest (coerce (subseq 2d-vertices 1) 'list)))
-              
-              (the color-hex))))))))))
+	      ))
+
+	    (str (format nil "~&paper.set(~a).drag(move,start,up);" name))
+
+	    )))))))
 
 
 (define-lens (raphael point)()
@@ -529,3 +521,45 @@
   :output-functions
   ((cad-output ())))
 
+
+#|
+
+var start = function () {
+  this.lastdx ? this.odx += this.lastdx : this.odx = 0;
+  this.lastdy ? this.ody += this.lastdy : this.ody = 0;
+  this.animate({"fill-opacity": 0.2}, 500);
+},
+move = function (dx, dy) {
+  this.transform("T"+(dx+this.odx)+","+(dy+this.ody));
+  this.lastdx = dx;
+  this.lastdy = dy;
+},
+up = function () {
+  this.animate({"fill-opacity": 1}, 500);
+};
+
+tri.drag(move, start, up);
+
+<script>
+            window.onload = function () {
+                var R = Raphael(0, 0, "100%", "100%"),
+                    r = R.circle(100, 100, 50).attr({fill: "hsb(0, 1, 1)", stroke: "none", opacity: .5}),
+                    g = R.circle(210, 100, 50).attr({fill: "hsb(.3, 1, 1)", stroke: "none", opacity: .5}),
+                    b = R.circle(320, 100, 50).attr({fill: "hsb(.6, 1, 1)", stroke: "none", opacity: .5}),
+                    p = R.circle(430, 100, 50).attr({fill: "hsb(.8, 1, 1)", stroke: "none", opacity: .5});
+                var start = function () {
+                    this.ox = this.attr("cx");
+                    this.oy = this.attr("cy");
+                    this.animate({r: 70, opacity: .25}, 500, ">");
+                },
+                move = function (dx, dy) {
+                    this.attr({cx: this.ox + dx, cy: this.oy + dy});
+                },
+                up = function () {
+                    this.animate({r: 50, opacity: .5}, 500, ">");
+                };
+                R.set(r, g, b, p).drag(move, start, up);
+            };
+        </script>
+
+|#

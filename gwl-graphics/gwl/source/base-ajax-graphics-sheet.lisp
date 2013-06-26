@@ -127,11 +127,16 @@ value of the image-format-selector, which itself defaults to :raphael."
   :computed-slots
   (
    
+
+   (dropped-x-y nil :settable)
+
+
+			  
+
    (js-to-eval (let ((image-format (the image-format)))
-                 (print-variables image-format)
-                 (cond ((eql (the image-format) :raphael)
+                 (cond ((eql image-format :raphael)
                         (the raphael-string))
-                       ((eql (the image-format) :x3dom)
+                       ((eql image-format :x3dom)
 			nil
                         ;;"console.log(\"loading x3dom js\"); xdom_script.src=\"http://www.x3dom.org/x3dom/release/x3dom.js\""
 			)))
@@ -249,7 +254,34 @@ bottom of the graphics inside a table."
    )
   
   :functions
-  ((reset-zoom!
+  (
+   ;;
+   ;; FLAG -- copied from base-html-graphics-sheet's logic for dig-point and report-point -- 
+   ;;         factor out the repeated code!
+   ;;
+   ;; FLAG -- standardize on length instead of height for Y coord.
+   ;;
+   
+   (model-x-y (bbox)
+	      (when bbox
+		(destructuring-bind (&key x y width height name) bbox
+		  (declare (ignore width height name))
+		  (let ((x (- x (half (the view-object width))))
+			(y (let ((y (- (the view-object length) y)))
+			     (- y (half (the view-object length))))))
+		    (let ((adjusted 
+			   (scalar*vector 
+			    (the view-object user-scale)
+			    (add-vectors (make-point (get-x (the view-object user-center) )
+						     (get-y (the view-object user-center)) 0)
+					 (scalar*vector (/ (the view-object user-scale))
+							(make-point x y 0))))))
+		      (let ((model-point (the view-object main-view (model-point adjusted))))
+			model-point))))))
+
+
+
+   (reset-zoom!
     ()
     (the view-object (restore-slot-defaults! (list :user-center :user-scale))))
 
@@ -342,8 +374,6 @@ to call the :write-embedded-x3d-world function."))
           (t
 
 
-	   (print-variables (the onclick-function))
-	   
 	   (with-cl-who ()
 	     (:p
 	      ((:span :style "cursor: pointer;")
