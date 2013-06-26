@@ -228,7 +228,7 @@ NOTE: this is not currently supported in cl-lite.
 Defaults to nil (i.e. we assume we are loading into a clean system and need all the initial definitions.)."
     load-always? t)
 
-   (encoding-line ";;;; -*- encoding: utf-8; -*-")
+   (encoding-line ";;;; -*- coding: utf-8 -*-")
 
    )
 
