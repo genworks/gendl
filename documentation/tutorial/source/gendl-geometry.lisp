@@ -128,7 +128,17 @@
       (:item (:texttt "orientation") " Default: " (:texttt "nil"))
       (:item (:texttt "height") " Default: " (:texttt "0"))
       (:item (:texttt "length") " Default: " (:texttt "0"))
-      (:item (:texttt "width") " Default: " (:texttt "0"))))
+      (:item (:texttt "width") " Default: " (:texttt "0")))
+     (:p "Figure "
+	 (:ref "fig:box-code")
+	 " defines an example box, and Figure "
+	 (:ref "fig:tasty-box")
+	 " shows how it will display in tasty.")
+     ((:boxed-figure :caption "Definition of a Box" :label "fig:box-code")
+      (:verbatim (:include "~/gendl/documentation/tutorial/examples/box-1.gdl")))
+     ((:image-figure :image-file "tasty-box-1.png" :caption "Simple box displayed in tasty"
+		     :width "4in" :height "3in"
+		     :label "fig:tasty-box")))
     
 
      
