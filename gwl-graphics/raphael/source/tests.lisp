@@ -28,7 +28,9 @@
 
 		   (main-sheet-body (with-cl-who-string ()
 				      (str (the development-links))
-				      (str (the main-area main-div))))
+				      (str (the main-area main-div))
+				      (str (the drop-coord-section main-div))
+				      ))
 		   
 
 		   (dropped-x-y (if (the main-area dropped-x-y)
@@ -52,6 +54,10 @@
 				       (make-point 3 0 0)
 				       (make-point 3 1 0)
 				       (make-point 2 0 0)))
+
+	    (drop-coord-section :type 'sheet-section
+				:inner-html (with-cl-who-string ()
+					      (str (the main-area dropped-x-y))))
             
 	    (main-area :type 'base-ajax-graphics-sheet
 		       :respondent self

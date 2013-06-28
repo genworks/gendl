@@ -21,50 +21,53 @@
 
 (in-package :gwl)
 
+(defparameter *ajax-snap-restore?* nil)
 
 (defun quick-save (self &key (snap-folder (glisp:snap-folder)))
-  (let ((snap-file 
-	 (merge-pathnames 
-	  (make-pathname :name (format nil "~a" (the instance-id))
-			 :type "snap") snap-folder)))
-    (with-error-handling ()
-      (the (write-snapshot :filename snap-file)))))
+  (when *ajax-snap-restore?*
+    (let ((snap-file 
+	   (merge-pathnames 
+	    (make-pathname :name (format nil "~a" (the instance-id))
+			   :type "snap") snap-folder)))
+      (with-error-handling ()
+	(the (write-snapshot :filename snap-file))))))
 
 
 (defun restore-from-snap (iid)
-  (let ((new-self
-	 (let ((snap-file 
-		(merge-pathnames 
-		 (make-pathname :name (format nil "~a" iid) 
-				:type "snap") (glisp:snap-folder))))
-	   (when (probe-file snap-file)
-             (with-error-handling ()
-	       (read-snapshot :filename snap-file
-			      :keys-to-ignore (list :time-last-touched 
-						    :time-instantiated 
-						    :expires-at)))))))
+  (when *ajax-snap-restore?*
+    (let ((new-self
+	   (let ((snap-file 
+		  (merge-pathnames 
+		   (make-pathname :name (format nil "~a" iid) 
+				  :type "snap") (glisp:snap-folder))))
+	     (when (probe-file snap-file)
+	       (with-error-handling ()
+		 (read-snapshot :filename snap-file
+				:keys-to-ignore (list :time-last-touched 
+						      :time-instantiated 
+						      :expires-at)))))))
         
-    (when new-self
-          (setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
-            (list new-self nil))
-          (when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
-          (the-object new-self set-instantiation-time!)
-          (the-object new-self set-time-last-touched!)
+      (when new-self
+	(setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
+	      (list new-self nil))
+	(when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
+	(the-object new-self set-instantiation-time!)
+	(the-object new-self set-time-last-touched!)
           
-          (format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
-		  (the-object new-self instance-id))
+	(format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
+		(the-object new-self instance-id))
 	  
-	  (the-object new-self custom-snap-restore!)
+	(the-object new-self custom-snap-restore!)
 	  
-	  )
+	)
     
-    ;;
-    ;; FLAG for testing only. 
-    ;; return error object instead of just throwing an error here. 
-    ;;
-    (unless new-self (error "Restoring of session ~a was not possible.~%" iid))
+      ;;
+      ;; FLAG for testing only. 
+      ;; return error object instead of just throwing an error here. 
+      ;;
+      (unless new-self (error "Restoring of session ~a was not possible.~%" iid))
 
-    new-self))
+      new-self)))
 
 
 (defun gdlAjax (req ent)

@@ -52,6 +52,7 @@
                     this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
                     this.lastdx = dx;
                     this.lastdy = dy;
+                    ~a
                 },
                 up = function () {
                     this.animate({opacity: 1.0}, 500, \">\");
@@ -60,8 +61,8 @@
 
 "
                                 (the raphael-canvas-id) width length
-				
-				(the parent (gdl-ajax-call :js-vals? t))
+				(the parent (gdl-sjax-call :js-vals? t))
+				(the parent (gdl-sjax-call :js-vals? t))
 				)
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
@@ -151,51 +152,53 @@
               (curve-index-quadruples (the-object object %curve-vertex-indices%))
               (display-controls (or (geom-base::find-in-hash object *display-controls*)
                                     (the object display-controls)))
-
+	      (name (base64-encode-safe 
+		     (format nil "~s" (remove :root-object-object 
+					      (the-object object  root-path)))))
               (*read-default-float-format* 'single-float))
-          
 	  (let (prev-end 
 		(move? t))
-	    (mapc 
-	     #'(lambda(line-index-pair)
-		 ;;(setq move? t)
-		 (destructuring-bind (start-index end-index) line-index-pair
-		   (let ((start (svref 2d-vertices start-index)) 
-			 (end (svref 2d-vertices end-index))
-			 (name (base64-encode-safe 
-				(format nil "~s" (remove :root-object-object 
-							 (the-object object  root-path))))))
-		     (when nil 
-		       (setq move? nil))
-		     (setq prev-end end)
-		     (with-cl-who ()
-		       (str 
-			(format 
-			 nil 
-			 "var ~a_lines = paper.path('~aL ~a ~a').attr({stroke: '~a'});~%"
-                       
-			 name 
-                       
-			 (if move? (format nil "M ~a ~a "
-					   (to-single-float (get-x start))
-					   (to-single-float (get-y start)))
-			     "")
-			 (to-single-float (get-x end))
-			 (to-single-float (get-y end))
-                       
-			 (or (when (getf display-controls :color)
-			       (lookup-color (getf display-controls :color) :format :hex))
-			     (the-object object color-hex))))
-                       
-		       (let ((stroke-width-string
-			      (let* ((line-thickness (getf display-controls :line-thickness))
-				     (line-thickness (or line-thickness (the object line-thickness)))
-				     (line-thickness (if (zerop line-thickness) 1 line-thickness)))
-				(if line-thickness
-				    (format nil "~a_lines.attr('stroke-width','~a');" 
-					    name (to-single-float line-thickness)) ""))))
-			 (htm (str stroke-width-string)))))))
-	     line-index-pairs))
+
+	    (when line-index-pairs
+	      (let ((path-string 
+
+		     (format nil "~{~a~^ ~}"
+			     (mapcar 
+			      #'(lambda(line-index-pair)
+				  (destructuring-bind (start-index end-index) line-index-pair
+				    (let ((start (svref 2d-vertices start-index)) 
+					  (end (svref 2d-vertices end-index)))
+
+				      (when (and prev-end (coincident-point? start prev-end))
+					(setq move? nil))
+				      (setq prev-end end)
+
+				      (format nil "~aL ~a ~a"
+					      (if move?
+						  (format nil "M ~a ~a "
+							  (to-single-float (get-x start))
+							  (to-single-float (get-y start)))
+						  " ")
+					      (to-single-float (get-x end))
+					      (to-single-float (get-y end))))))
+			      line-index-pairs))))
+
+		(with-cl-who ()
+		  (fmt "var ~a_lines = paper.path('~a').attr({stroke: '~a', fill: '~a'});~%" 
+		       name
+		       path-string
+		       (or (when (getf display-controls :color)
+			     (lookup-color (getf display-controls :color) :format :hex))
+			   (the-object object color-hex))
+		       (or (when (getf display-controls :color)
+			     (lookup-color (getf display-controls :color) :format :hex))
+			   (the-object object color-hex)))
+		  
+		  (fmt "~a_lines.attr({cursor: 'pointer'}).data('name','\\\"~a\\\"');"
+		       name name)
+
+		  (fmt "~&paper.set(~a_lines).drag(move,start,up);" name)
+		  ))))
                       
           (let (result)
             (mapc #'(lambda(curve-index-quadruple)
