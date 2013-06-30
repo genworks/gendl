@@ -1,0 +1,16 @@
+(in-package :gdl-user)
+
+(define-object positioned-by-index (base-object)
+  
+  :input-slots ((number-of-boxes 5))
+
+  :computed-slots ((length 10)
+                   (width (* (the length) +phi+))
+                   (height (* (the width) +phi+)))
+
+  :objects ((boxes :type 'box
+                   :sequence (:size (the number-of-boxes))
+                   :center (make-point (* (the width) (the-child index))
+                                       0 0))))
+            
+                 

@@ -134,15 +134,128 @@
 	 " defines an example box, and Figure "
 	 (:ref "fig:tasty-box")
 	 " shows how it will display in tasty.")
+
+     (:p "Note the following from the example in "
+	 (:ref "fig:box-code")
+	 ":"
+	 ((:list :style :itemize)
+	  (:item "The symbol "
+	    (:texttt "+phi+")
+	    (:footnote "By convention, constants in Common Lisp are
+	    named with a leading and trailing "
+		       (:texttt "+")
+		       " as a way to make them recognizable as constants.")
+	    " holds a global constant containing the ``golden ratio''
+	    number, which is approximated as 1.618.")
+	  (:item "The slots " 
+	    (:texttt "length")
+	    ", "
+	    (:texttt "width")
+	    ", and "
+	    (:texttt "height"))
+	  " are defined in "
+	  (:texttt "base-object")
+	  " as "
+	  (:emph "trickle-down-slots")
+	  ". For this reason, they are automatically being passed down into into the "
+	  (:texttt "box")
+	  " child object. Therefore it is not necessary to pass them down explicitly."))
+
      ((:boxed-figure :caption "Definition of a Box" :label "fig:box-code")
       (:verbatim (:include "~/gendl/documentation/tutorial/examples/box-1.gdl")))
      ((:image-figure :image-file "tasty-box-1.png" :caption "Simple box displayed in tasty"
 		     :width "4in" :height "3in"
 		     :label "fig:tasty-box")))
+
+
+    ((:subsection :title "Positioning a child object using the center input")
+
+     ((:rendered-figure :caption "Positioned Boxes" :object "positioned-boxes"))
+
+     (:p "By default, a child object will be positioned at the same "
+     (:texttt "center")
+     " as its parent, and the "
+     (:texttt "center") 
+     " defaults to the point "
+     (:texttt "#(0.0 0.0 0.0)")
+     ". Figure "
+     (:ref "fig:positioned-boxes-source")
+     " (rendered in Figure "
+     (:ref "fig:positioned-boxes")
+     ") shows a second box being positioned next to the first, by using the "
+     (:texttt ":center")
+     " input. "))
+
+    ((:subsection :title "Positioning Sequence Elements using (the-child index)")
+     
+     "When specifying a sequence of child objects, each individual sequence element
+can be referenced from within its "
+     (:texttt ":objects")
+     " section using the operator "
+     (:texttt "the-child")
+     ". By using "
+     (:texttt "the-child")
+     " to send the "
+     (:texttt "index")
+     " message, you can obtain the index"
+     (:footnote "Indices in GDL ``size'' sequences are integers which start with 0 (zero).")
+     " of each individual child object as it is being processed. 
+In this manner it is possible to compute a distinct position for each child, as a function of its
+index, as demonstrated in Figures "
+     (:ref "fig:positioned-by-index")
+     " and "
+     (:ref "fig:positioned-by-index")
+     "."
+     ((:rendered-figure :caption "Positioned by Index" 
+			:object "positioned-by-index")))
+
+
     
+    ((:subsection :title "Relative positioning using the translate operator")
+     (:p "It is usually wise to position child objects in a "
+	 (:emph "relative")
+	 " rather than "
+	 (:emph "absolute") 
+	 " manner with respect to the parent. For example, in our positioned-by-index example in Figure "
+	 (:ref "fig:positioned-by-index-source")
+	 ", each child box object is being positioned using an absolute coordinate produced by "
+	 (:texttt "make-point")
+	 ". This will work fine as long as the center of the current parent is "
+	 (:texttt "#(0.0 0.0 0.0)")
+	 " (which it is, by default). But imagine if this parent
+     itself is a child of a larger assembly. Imagine further that the
+     larger assembly specifies a non-default center for this instance
+     of "
+	 (:texttt "positioned-by-index")
+	 ". At this point, the strategy falls apart.")
+     (:p "The solution is to adhere to a consistent Best Practice of positioning child objects according to the "
+	 (:texttt "center") 
+	 " (or some other known datum point) of the parent
+	 object. This can easily be accomplished through the use of
+	 the "
+	 (:emph "translate")
+	 " operator. The "
+	 (:texttt "translate")
+	 " operator works within the context of a GDL object, and
+	 allows a 3D point to be translated in up to three directions, chosen from: "
+	 (:texttt ":up")
+	 ", "
+	 (:texttt ":down")
+	 ", "
+	 (:texttt ":left")
+	 ", "
+	 (:texttt ":right")
+	 ", "
+	 (:texttt ":front")
+	 ", "
+	 (:texttt ":rear")
+	 ". Figures "
+	 (:ref "fig:translate-by-index-source")
+	 " and "
+	 (:ref "fig:translate-by-index")
+	 " show the equivalent of our positioned-by-index example, but
+with all the positioning done relative to the parent's center."
+	 ((:rendered-figure :caption "Translated by Index" 
+			:object "translate-by-index"))))))
 
-     
-     
-
-     ))
 
