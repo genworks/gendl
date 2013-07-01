@@ -26,6 +26,10 @@
 
   :computed-slots ((use-raphael? t)
 
+		   (too-far? (> (3d-distance (first (the poly-1 vertex-list))
+					     (first (the poly-2 vertex-list)))
+				3))
+
 		   (main-sheet-body (with-cl-who-string ()
 				      (str (the development-links))
 				      (str (the main-area main-div))
@@ -41,7 +45,29 @@
 				    (make-point 0 0 0))))
   
 
-  :objects ((poly-1 :type 'global-polyline 
+  :objects ((poly-0 :type 'global-polyline 
+		    :display-controls (list :color :red :fill-color :orange)
+		    :vertex-list (list (make-point -2 0 0)
+				       (make-point -1 0 0)
+				       (make-point -1 1 0)
+				       (make-point -2 0 0)))
+	    
+	    (poly-1-up :type 'global-polyline 
+		       :display-controls (list :color :red :fill-color :blue)
+		       :vertex-list (list (make-point 0 2 0)
+					  (make-point 1 2 0)
+					  (make-point 1 3 0)
+					  (make-point 0 2 0)))
+
+	    (poly-1-down :type 'global-polyline 
+			 :display-controls (list :color :red :fill-color :blue)
+			 :vertex-list (list (make-point 0 -2 0)
+					    (make-point 1 -2 0)
+					    (make-point 1 -1 0)
+					    (make-point 0 -2 0)))
+
+
+	    (poly-1 :type 'global-polyline 
 		    :display-controls (list :color :red :fill-color :blue)
 		    :vertex-list (list (the dropped-x-y)
 				       (translate (the dropped-x-y) :right 1)
@@ -49,7 +75,10 @@
 				       (the dropped-x-y)))
 
 	    (poly-2 :type 'global-polyline 
-		    :display-controls (list :color :black :fill-color :green)
+		    :display-controls (list :color :black 
+					    :fill-color (if (the too-far?) 
+							    :red
+							    :green))
 		    :vertex-list (list (make-point 2 0 0)
 				       (make-point 3 0 0)
 				       (make-point 3 1 0)
@@ -64,7 +93,7 @@
 		       :vector-graphics-onclick? nil
 		       :length 500 :width 500
 		       :projection-vector (getf *standard-views* :top)
-		       :display-list-objects (list (the poly-1) (the poly-2)))))
+		       :display-list-objects (list (the poly-0) (the poly-1-up) (the poly-1-down) (the poly-1) (the poly-2)))))
 
 
 
