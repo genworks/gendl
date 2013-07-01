@@ -23,7 +23,7 @@
 
 
 (define-object dd (base-ajax-sheet base-object)
-
+ 
   :computed-slots ((use-raphael? t)
 
 		   (too-far? (> (3d-distance (first (the poly-1 vertex-list))
@@ -44,6 +44,8 @@
 						0)
 				    (make-point 0 0 0))))
   
+
+  :functions ((on-drop () (format t "~&We just dropped an object at ~s~%" (the main-area dropped-x-y))))
 
   :objects ((poly-0 :type 'global-polyline 
 		    :display-controls (list :color :red :fill-color :orange)

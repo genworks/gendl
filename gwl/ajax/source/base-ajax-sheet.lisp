@@ -252,7 +252,12 @@ interface. Defaults to nil."
                    )
   
   
-  :functions ((back-link 
+  :functions ((on-move ())
+
+	      (on-drop ())
+
+
+	      (back-link 
                (&key (display-string "&lt;-Back"))
                (w-c-w-s 
                 () 

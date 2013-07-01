@@ -52,17 +52,20 @@
                     this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
                     this.lastdx = dx;
                     this.lastdy = dy;
-                    ~a
+                    ~a 
+                    
                 },
                 up = function () {
                     this.animate({opacity: 1.0}, 500, \">\");
-                    ~a
+                    ~a 
                 };
 
 "
                                 (the raphael-canvas-id) width length
 				(the parent (gdl-sjax-call :js-vals? t))
-				(the parent (gdl-sjax-call :js-vals? t))
+				;;(the parent (gdl-sjax-call :function-key :on-move))
+				(the parent (gdl-sjax-call :js-vals? t :function-key :on-drop))
+
 				)
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
