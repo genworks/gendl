@@ -1,0 +1,21 @@
+(in-package :gdl-user)
+
+(define-object display-color (base-object)
+  
+  :input-slots ((number-of-boxes 5))
+
+  :computed-slots ((length 10)
+                   (width (* (the length) +phi+))
+                   (height (* (the width) +phi+))
+                   
+                   (color-list (list :red :orange :yellow :blue :indigo :violet)))
+
+  :objects ((boxes :type 'box
+                   :sequence (:size (the number-of-boxes))
+                   :display-controls (list :color (or (nth (the-child index)
+                                                           (the color-list)) :black)
+                                           :line-thickness 2)
+                   :center (translate (the center) 
+                                      :right (* (the width) (the-child index))))))
+            
+                 

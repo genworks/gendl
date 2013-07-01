@@ -60,7 +60,7 @@ written consent from Genworks International.")
       ,*advanced-common-lisp*
       ,*advanced-gendl*
       ,*upgrade-notes*
-      ;;,(the-object (make-self 'yadd::assy) dom-chapter)
+      ,(the-object (make-self 'yadd::assy) dom-chapter)
       :backmatter
       ,*bibliography*      
       :printindex

@@ -256,6 +256,99 @@ index, as demonstrated in Figures "
 	 " show the equivalent of our positioned-by-index example, but
 with all the positioning done relative to the parent's center."
 	 ((:rendered-figure :caption "Translated by Index" 
-			:object "translate-by-index"))))))
+			:object "translate-by-index"))))
+
+
+    ((:subsection :title "Display Controls")
+     (:p "It is possible to specify certain default display
+	 characteristics"
+	 (:footnote "In addition to display-controls attached to a geometric entity 
+itself, GDL also supports the concept of "
+		    (:emph "lenses")
+		    ", which capture the program code used to output a
+		    particular class of  entities (e.g. "
+		    (:texttt "box")
+		    " in a particular output format (e.g. "
+		    (:texttt "pdf")
+		    ". Lenses will be covered in more detail in Chapter "
+		    (:ref "chap:input-output")
+		    ".")
+	 " for objects in GDL, such as: "
+	 (:ul (:li "color")
+	      (:li "line-thickness (for line-based output formats like PDF)")
+	      (:li "transparency (for shaded graphics outputs like X3D)"))
+	 )
+     (:p "The most common display-control is probably "
+	 (:texttt ":color")
+	 ". Color in GDL can be specified in one of three formats:"
+
+	 ((:image-figure :image-file "color-map.png"
+			 :caption "Color Map (assembled by Andrew
+			 Wolven from standard X Window colors)"
+			 :width "4in" :label "fig:color-map"))
+
+
+	 ((:list :style :enumerate)
+	  (:item "By name. The names can be seen at the URL "
+	    (:texttt "http://localhost:9000/color-map")
+	    " as seen in Figure "
+	    (:ref "fig:color-map"))
+	  (:item "By hexadecimal Red-Green-Blue values, in the form of
+	  a string beginning with the ``#'' character. Each two-digit
+	  hex number represents a component of Red, Green, or Blue (to
+	  make this easy to remember, use the mnemonic ``Roy G. Biv''
+	  from the rainbow colors). For example, "
+	    (:texttt "#000000") 
+	    " represents pure Black, and "
+	    (:texttt "#FFFFFF") 
+	    " represents pure White. "
+	    (:texttt "#FF0000")
+	    " would be pure Red, "
+	    (:texttt "#00FF00")
+	    " would be pure Green, and "
+	    (:texttt "#FF00FF")
+	    " would be Purple (a mix of Red and Blue). Note that this
+	    is also a standard for HTML and the World Wide Web.")
+
+	  (:item "By a list of three decimal numbers between 0.0 and
+	  1.0, again representing values for Red, Green, and Blue. For example, "
+	    (:texttt "(1.0 1.0 1.0)")
+	    " would be pure White, and "
+	    (:texttt "(0.0 0.0 0.0)")
+	    " would be pure Black."))
+
+	 " The "
+	 (:texttt "display-controls")
+	 " is an optional input-slot for any geometric entity in GDL,
+and is expected to be a "
+	 (:emph "Property List")
+	 " containing alternating keywords and values. Common keywords for the "
+	 (:texttt "display-controls")
+	 ", corresponding to the display characteristics listed above, are: "
+	 (:ul (:li (:texttt ":color"))
+	      (:li (:texttt ":line-thickness"))
+	      (:li (:texttt ":transparency")))
+	 " Figures "
+	 (:ref "fig:display-color")
+	 " and "
+	 (:ref "fig:display-color-source")
+	 " demonstrates the use of the "
+	 (:texttt ":color")
+	 " keyword in the "
+	 (:texttt "display-controls")
+	 " for our positioned boxes example.")
+     
+     ((:rendered-figure :caption "Color controlled by display-controls"
+			:object "display-color"))
+
+     )
+	 
+	 
+
+
+     
+
+
+    ))
 
 
