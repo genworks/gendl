@@ -342,13 +342,67 @@ and is expected to be a "
 			:object "display-color"))
 
      )
+
+
+    ((:subsection :title "Orientation and the Alignment function")
+     (:p "Orientations in GDL are specified using a 3x3 orientation
+matrix. The simplest way to compute an orientation matrix is to use
+the use the "
+     (:texttt "alignment")
+     " function. The "
+     (:texttt "alignment")
+     " function takes up to three direction keywords, and
+corresponding vectors to which these directions should be aligned. For
+example, to obtain an orientation matrix specifying that the Rear of a
+reference box should be aligned with the vector "
+     (:texttt "#(1.0 0.0 0.0)")
+     ", you could call "
+     (:verbatim 
+      "(alignment :rear (make-vector 1 0 0))"))
+
+     ((:rendered-figure :caption "Cylinder aligned vertically"
+			:object "vertical-cylinder"))
+
+     (:p "Usually, you will want the orientation of a child object to be 
+specified in a "
+	 (:emph "relative")
+	 " manner to that of the current (parent) object. The concept here is 
+similar to that for positioning with respect to "
+	 (:texttt "(the center)")
+	 ". For relative orientation, you can use the various "
+	 (:texttt "face-normal-vector")
+	 "s of the parent object. For example, by default, cylinders are aligned with 
+their flat ends along the longitudinal (Y) axis. Figures "
+	 (:ref "fig:vertical-cylinder-source")
+	 " and "
+	 (:ref "fig:vertical-cylinder")
+	 " show the red cylinder which is turned to be
+	 vertical (aligned to the Z axis), by aligning its "
+	 (:texttt ":rear")
+	 " face with "
+	 (:texttt "(the (face-normal-vector :top))")
+	 " of the parent base-object."))
+
+    ((:rendered-figure :caption "Twisty Tower "
+			:object "tower"))
+
+    ((:subsection :title "Rotating vectors with the rotate-vector-d function")
+     "In order to specify a vector which is not aligned exactly with
+one of the major axes, you can use the "
+     (:texttt "rotate-vector-d")
+     " function to yield a new vector which is the result of
+     ``rotating'' one vector about another vector. Figures "
+     (:ref "fig:tower-source")
+     " and "
+     (:ref "fig:tower")
+     " show a stack of boxes, where the rear face of each box is
+     rotated 2 degrees with respect to the box under it.")))
+
+
 	 
 	 
 
 
      
-
-
-    ))
 
 

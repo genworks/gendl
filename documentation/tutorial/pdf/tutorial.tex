@@ -2920,6 +2920,129 @@ and is expected to be a \emph{Property List} containing alternating keywords and
 \end{figure}
 
 
+\subsection{Orientation and the Alignment function}
+
+\label{subsec:orientationandthealignmentfunction}
+
+
+
+Orientations in GDL are specified using a 3x3 orientation
+matrix. The simplest way to compute an orientation matrix is to use
+the use the \texttt{alignment} function. The \texttt{alignment} function takes up to three direction keywords, and
+corresponding vectors to which these directions should be aligned. For
+example, to obtain an orientation matrix specifying that the Rear of a
+reference box should be aligned with the vector \texttt{\#(1.0 0.0 0.0)}, you could call 
+
+\begin{verbatim}(alignment :rear (make-vector 1 0 0))
+\end{verbatim}
+
+\begin{figure}\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}\begin{verbatim}(in-package :gdl-user)
+
+(define-object vertical-cylinder (base-object)
+
+  :objects
+  ((horizontal-cylinder :type 'cylinder
+                        :display-controls (list :color :green)
+                        :length 10 :radius 3)
+
+   (vertical-cylinder :type 'cylinder
+                      :length 10 :radius 3
+                      :display-controls (list :color :red)
+                      :orientation (alignment :rear 
+                                              (the (face-normal-vector :top))))))
+
+\end{verbatim}\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Cylinder aligned vertically source}
+
+\label{fig:vertical-cylinder-source}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=4in]{../images/vertical-cylinder.pdf}
+\end{center}
+
+\caption{Cylinder aligned vertically}
+
+\label{fig:vertical-cylinder}
+
+\end{figure}
+
+
+Usually, you will want the orientation of a child object to be 
+specified in a \emph{relative} manner to that of the current (parent) object. The concept here is 
+similar to that for positioning with respect to \texttt{(the center)}. For relative orientation, you can use the various \texttt{face-normal-vector}s of the parent object. For example, by default, cylinders are aligned with 
+their flat ends along the longitudinal (Y) axis. Figures 
+\ref{fig:vertical-cylinder-source} and 
+\ref{fig:vertical-cylinder} show the red cylinder which is turned to be
+	 vertical (aligned to the Z axis), by aligning its \texttt{:rear} face with \texttt{(the (face-normal-vector :top))} of the parent base-object.
+
+\begin{figure}\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}\begin{verbatim}(in-package :gdl-user)
+
+(define-object tower (base-object)
+  :input-slots 
+  ((height 42)
+   (block-height 1)
+   (width +phi+)
+   (length (* (the width) +phi+)))
+
+  :computed-slots
+  ((number-of-blocks (floor (the height)
+                            (the block-height))))
+
+  :objects
+  ((blocks :type 'box
+           :sequence (:size (the number-of-blocks))
+           :length (the length)
+           :height (the block-height)
+           :width (the width)
+           :center (translate (the center) :up 
+                              (* (the-child height)
+                                 (the-child index)))
+           :orientation (alignment :rear (rotate-vector-d 
+                                          (the (face-normal-vector :rear))
+                                          (twice (the-child index))
+                                          (the (face-normal-vector :top)))))))
+
+\end{verbatim}\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Twisty Tower  source}
+
+\label{fig:tower-source}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=4in]{../images/tower.pdf}
+\end{center}
+
+\caption{Twisty Tower }
+
+\label{fig:tower}
+
+\end{figure}
+
+
+\subsection{Rotating vectors with the rotate-vector-d function}
+
+\label{subsec:rotatingvectorswiththerotate-vector-dfunction}
+
+In order to specify a vector which is not aligned exactly with
+one of the major axes, you can use the \texttt{rotate-vector-d} function to yield a new vector which is the result of
+     ``rotating'' one vector about another vector. Figures 
+\ref{fig:tower-source} and 
+\ref{fig:tower} show a stack of boxes, where the rear face of each box is
+     rotated 2 degrees with respect to the box under it.
+
 \chapter{Custom User Interfaces in GDL}
 
 \label{chap:customuserinterfacesingdl}
