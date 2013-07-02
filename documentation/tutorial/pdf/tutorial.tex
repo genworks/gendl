@@ -3043,6 +3043,155 @@ one of the major axes, you can use the \texttt{rotate-vector-d} function to yiel
 \ref{fig:tower} show a stack of boxes, where the rear face of each box is
      rotated 2 degrees with respect to the box under it.
 
+\subsection{Assemblies}
+
+\label{subsec:assemblies}
+
+Objects which you define can be used just like the built-in primitives. This illustrates
+why it is important for the positioning and orientation passed into a child object to be \emph{relative} to that in the parent. Figures 
+\ref{fig:tower-assembly} and 
+\ref{fig:tower-assembly-source} show how several towers can be positioned side-by-side, while
+maintaining consistent internal positioning and orientation. Figure 
+\ref{fig:tower-assembly-tasty} shows how the child towers form an \emph{assembly hierarchy} of objects.\begin{figure}\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}\begin{verbatim}(in-package :gdl-user)
+
+(define-object tower-assembly (base-object)
+  :input-slots 
+  ((base-height 10)
+   (height-deviation 5)
+   (number-of-towers 5))
+  
+  
+  :objects
+  ((towers :type 'tower
+           :sequence (:size (the number-of-towers))
+           :height (+ (* (the-child index) (the height-deviation))
+		      (the base-height))
+           :center (translate (the center) :right (* (twice
+						      (twice (the-child width)))
+						     (the-child index))))))
+
+ 
+
+\end{verbatim}\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Tower Assembly source}
+
+\label{fig:tower-assembly-source}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=4in]{../images/tower-assembly.pdf}
+\end{center}
+
+\caption{Tower Assembly}
+
+\label{fig:tower-assembly}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=4in,height=3in]{../images/tower-assembly-tasty.png}
+\end{center}
+
+\caption{Tower Assembly as displayed in Tasty}
+
+\label{fig:tasty-assembly-tasty}
+
+\end{figure}
+
+
+\subsection{Mechanisms}
+
+\label{subsec:mechanisms}
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=5in,height=3in]{../images/4-bar-image.png}
+\end{center}
+
+\caption{Four-bar Link Mechanism}
+
+\label{fig:4bar-image}
+
+\end{figure}
+GDL supports mechanisms without need for any special
+features. By defining position and orientation of some objects to be
+dependent on others, you can set up a mechanism. Figure 
+\ref{fig:4bar-image} shows a standard four-bar link mechanism which is defined in the code in 
+the file \href{run:../examples/4-bar-assembly.gdl}{4-bar-assembly.gdl} (this is in the examples directory\footnote{http://github.com/genworks/gendl/tree/master/documentation/tutorial/examples/} --- due to its length, the
+     source is not printed in the manual.
+
+\subsection{Other Geometric Primitives}
+
+\label{subsec:othergeometricprimitives}
+
+This chapter has focused mainly on the \texttt{box} primitive, because every type of geometric primitive is based upon a \emph{reference box}. Other primitives have their own sets of input-slots, and their
+     own ways of being rendered in the various output formats. Basic
+     2D primitives include:
+
+\begin{itemize}
+
+\item \texttt{circle} described on page 
+\pageref{prim:circle}
+
+\item \texttt{line} described on page 
+\pageref{prim:line}
+
+\item \texttt{arc} described on page 
+\pageref{prim:arc}
+
+\item \texttt{ellipse} described on page 
+\pageref{prim:ellipse}
+
+\item \texttt{bezier-curve}\footnote{The simple cubic bezier curve is supported
+	       in the basic GDL and open-source Gendl. More
+	       sophisticated NURBS based curves and surfaces are
+	       supported in the commercial GDL product with the SMLib
+	       geometry kernel. These are covered in chapter 
+\ref{chap:advanced-geometry}} described on page 
+\pageref{prim:bezier-curve}
+
+\end{itemize}
+
+Basic 3D primitives include:
+
+\begin{itemize}
+
+\item \texttt{sphere} described on page 
+\pageref{prim:sphere}
+
+\item \texttt{cylinder} described on page 
+\pageref{prim:cylinder}
+
+\item \texttt{cone} described on page 
+\pageref{prim:cone}
+
+\item \texttt{global-polyline} described on page 
+\pageref{prim:global-polyline}
+
+\item \texttt{global-polygon-projection} described on page 
+\pageref{prim:global-polygon-projection}
+
+\item \texttt{global-filleted-polyline} described on page 
+\pageref{prim:global-polyline}
+
+\item \texttt{torus} described on page 
+\pageref{prim:torus}
+
+\item \texttt{route-pipe} described on page 
+\pageref{prim:route-pipe}
+
+\end{itemize}
+
+
+
 \chapter{Custom User Interfaces in GDL}
 
 \label{chap:customuserinterfacesingdl}
@@ -4156,6 +4305,7 @@ system.
 \begin{itemize}
 
 \item \index{CODEBASE-DIRECTORY-NODE}
+\label{prim:codebase-directory-node}
 \textbf{CODEBASE-DIRECTORY-NODE}
 
 
@@ -4323,6 +4473,7 @@ parent), followed by an index number if the part is an element of a sequence.
 \begin{itemize}
 
 \item \index{CL-PATCH}
+\label{prim:cl-patch}
 \textbf{CL-PATCH}
 
 
@@ -4330,46 +4481,6 @@ parent), followed by an index number if the part is an element of a sequence.
 
 
 \end{itemize}
-
-
-
-
-
-\section{COM.GENWORKS.DOM }
-
-\label{sec:com.genworks.dom}
-
-
-
-
-
-
-
-\section{COM.GENWORKS.DOM-HTML }
-
-\label{sec:com.genworks.dom-html}
-
-
-
-
-
-
-
-\section{COM.GENWORKS.DOM-LATEX }
-
-\label{sec:com.genworks.dom-latex}
-
-
-
-
-
-
-
-\section{COM.GENWORKS.DOM-WRITERS }
-
-\label{sec:com.genworks.dom-writers}
-
-
 
 
 
@@ -4392,6 +4503,7 @@ parent), followed by an index number if the part is an element of a sequence.
 \begin{itemize}
 
 \item \index{BASE-RULE-OBJECT}
+\label{prim:base-rule-object}
 \textbf{BASE-RULE-OBJECT}
 
 
@@ -4510,6 +4622,7 @@ the \texttt{rule-title}, or "Unnamed Rule" if \texttt{rule-title} is NIL.
 
 
 \item \index{MATRIX-SEQUENCE}
+\label{prim:matrix-sequence}
 \textbf{MATRIX-SEQUENCE}
 
 
@@ -4572,6 +4685,7 @@ A matrix sequence quantification is generated as a result of specifying
 
 
 \item \index{NULL-OBJECT}
+\label{prim:null-object}
 \textbf{NULL-OBJECT}
 
 
@@ -4604,6 +4718,7 @@ conditional \texttt{:type} expression if you want to turn off a branch of the tr
 
 
 \item \index{QUANTIFICATION}
+\label{prim:quantification}
 \textbf{QUANTIFICATION}
 
 
@@ -4669,6 +4784,7 @@ internal. It can be used, and returns an integer representing the cardinality of
 
 
 \item \index{RADIAL-SEQUENCE}
+\label{prim:radial-sequence}
 \textbf{RADIAL-SEQUENCE}
 
 
@@ -4701,6 +4817,7 @@ A radial sequence quantification is generated as a result of specifying
 
 
 \item \index{STANDARD-SEQUENCE}
+\label{prim:standard-sequence}
 \textbf{STANDARD-SEQUENCE}
 
 
@@ -4766,6 +4883,7 @@ each member of the sequence will be reinstantiated as it is demanded.
 
 
 \item \index{VANILLA-MIXIN*}
+\label{prim:vanilla-mixin*}
 \textbf{VANILLA-MIXIN*}
 
 
@@ -5266,6 +5384,7 @@ current instance. Typically this file can be read back into the system using the
 
 
 \item \index{VARIABLE-SEQUENCE}
+\label{prim:variable-sequence}
 \textbf{VARIABLE-SEQUENCE}
 
 
@@ -5381,6 +5500,7 @@ re-evaluates the expression to compute the original list of indices)
 \begin{itemize}
 
 \item \index{ALIST2PLIST}
+\label{prim:alist2plist}
 \textbf{ALIST2PLIST}
 
 
@@ -5388,6 +5508,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{ALWAYS}
+\label{prim:always}
 \textbf{ALWAYS}
 
 
@@ -5395,6 +5516,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{APPEND-ELEMENTS}
+\label{prim:append-elements}
 \textbf{APPEND-ELEMENTS [Macro]}
 
 
@@ -5402,6 +5524,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{CL-LITE}
+\label{prim:cl-lite}
 \textbf{CL-LITE}
 
 
@@ -5409,6 +5532,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{CYCLIC-NTH}
+\label{prim:cyclic-nth}
 \textbf{CYCLIC-NTH}
 
 
@@ -5416,6 +5540,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{DEFAULTING}
+\label{prim:defaulting}
 \textbf{DEFAULTING [Macro]}
 
 
@@ -5423,6 +5548,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{DEFINE-FORMAT}
+\label{prim:define-format}
 \textbf{DEFINE-FORMAT [Macro]}
 
 
@@ -5430,6 +5556,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{DEFINE-LENS}
+\label{prim:define-lens}
 \textbf{DEFINE-LENS [Macro]}
 
 
@@ -5437,6 +5564,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{DEFINE-OBJECT}
+\label{prim:define-object}
 \textbf{DEFINE-OBJECT [Macro]}
 
 
@@ -5444,6 +5572,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{DEFINE-OBJECT-AMENDMENT}
+\label{prim:define-object-amendment}
 \textbf{DEFINE-OBJECT-AMENDMENT [Macro]}
 
 
@@ -5451,6 +5580,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{DIV}
+\label{prim:div}
 \textbf{DIV}
 
 
@@ -5458,6 +5588,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{ENSURE-LIST}
+\label{prim:ensure-list}
 \textbf{ENSURE-LIST}
 
 
@@ -5465,6 +5596,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{FIND-DEPENDANTS}
+\label{prim:find-dependants}
 \textbf{FIND-DEPENDANTS}
 
 
@@ -5472,6 +5604,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{FIND-DEPENDENCIES}
+\label{prim:find-dependencies}
 \textbf{FIND-DEPENDENCIES}
 
 
@@ -5479,6 +5612,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{FIND-MESSAGES-USED-BY}
+\label{prim:find-messages-used-by}
 \textbf{FIND-MESSAGES-USED-BY}
 
 
@@ -5486,6 +5620,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{FIND-MESSAGES-WHICH-USE}
+\label{prim:find-messages-which-use}
 \textbf{FIND-MESSAGES-WHICH-USE}
 
 
@@ -5493,6 +5628,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{FLATTEN}
+\label{prim:flatten}
 \textbf{FLATTEN}
 
 
@@ -5500,6 +5636,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{FORMAT-SLOT}
+\label{prim:format-slot}
 \textbf{FORMAT-SLOT [Macro]}
 
 
@@ -5507,6 +5644,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{FROUND-TO-NEAREST}
+\label{prim:fround-to-nearest}
 \textbf{FROUND-TO-NEAREST}
 
 
@@ -5514,6 +5652,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{HALF}
+\label{prim:half}
 \textbf{HALF}
 
 
@@ -5521,6 +5660,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{IGNORE-ERRORS-WITH-BACKTRACE}
+\label{prim:ignore-errors-with-backtrace}
 \textbf{IGNORE-ERRORS-WITH-BACKTRACE [Macro]}
 
 
@@ -5528,6 +5668,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{INDEX-FILTER}
+\label{prim:index-filter}
 \textbf{INDEX-FILTER}
 
 
@@ -5535,6 +5676,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{ISO-8601-DATE}
+\label{prim:iso-8601-date}
 \textbf{ISO-8601-DATE}
 
 
@@ -5542,6 +5684,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{LASTCAR}
+\label{prim:lastcar}
 \textbf{LASTCAR}
 
 
@@ -5549,6 +5692,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{LEAST}
+\label{prim:least}
 \textbf{LEAST}
 
 
@@ -5556,6 +5700,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{LIST-ELEMENTS}
+\label{prim:list-elements}
 \textbf{LIST-ELEMENTS [Macro]}
 
 
@@ -5563,6 +5708,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{LIST-OF-NUMBERS}
+\label{prim:list-of-numbers}
 \textbf{LIST-OF-NUMBERS}
 
 
@@ -5570,6 +5716,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{MAKE-KEYWORD}
+\label{prim:make-keyword}
 \textbf{MAKE-KEYWORD}
 
 
@@ -5577,6 +5724,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{MAKE-OBJECT}
+\label{prim:make-object}
 \textbf{MAKE-OBJECT}
 
 
@@ -5584,6 +5732,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{MAPSEND}
+\label{prim:mapsend}
 \textbf{MAPSEND}
 
 
@@ -5591,6 +5740,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{MAPTREE}
+\label{prim:maptree}
 \textbf{MAPTREE}
 
 
@@ -5598,6 +5748,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{MAX-OF-ELEMENTS}
+\label{prim:max-of-elements}
 \textbf{MAX-OF-ELEMENTS [Macro]}
 
 
@@ -5605,6 +5756,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{MIN-OF-ELEMENTS}
+\label{prim:min-of-elements}
 \textbf{MIN-OF-ELEMENTS [Macro]}
 
 
@@ -5612,6 +5764,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{MOST}
+\label{prim:most}
 \textbf{MOST}
 
 
@@ -5619,6 +5772,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{NEAR-TO?}
+\label{prim:near-to?}
 \textbf{NEAR-TO?}
 
 
@@ -5626,6 +5780,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{NEAR-ZERO?}
+\label{prim:near-zero?}
 \textbf{NEAR-ZERO?}
 
 
@@ -5633,6 +5788,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{NEVER}
+\label{prim:never}
 \textbf{NEVER}
 
 
@@ -5640,6 +5796,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{NUMBER-FORMAT}
+\label{prim:number-format}
 \textbf{NUMBER-FORMAT}
 
 
@@ -5647,6 +5804,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{NUMBER-ROUND}
+\label{prim:number-round}
 \textbf{NUMBER-ROUND}
 
 
@@ -5654,6 +5812,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{PLIST-KEYS}
+\label{prim:plist-keys}
 \textbf{PLIST-KEYS}
 
 
@@ -5661,6 +5820,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{PLIST-VALUES}
+\label{prim:plist-values}
 \textbf{PLIST-VALUES}
 
 
@@ -5668,6 +5828,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{PRINT-MESSAGES}
+\label{prim:print-messages}
 \textbf{PRINT-MESSAGES [Macro]}
 
 
@@ -5675,6 +5836,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{PRINT-VARIABLES}
+\label{prim:print-variables}
 \textbf{PRINT-VARIABLES [Macro]}
 
 
@@ -5682,6 +5844,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{READ-SAFE-STRING}
+\label{prim:read-safe-string}
 \textbf{READ-SAFE-STRING}
 
 
@@ -5689,6 +5852,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{READ-SNAPSHOT}
+\label{prim:read-snapshot}
 \textbf{READ-SNAPSHOT}
 
 
@@ -5696,6 +5860,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{REMOVE-PLIST-ENTRY}
+\label{prim:remove-plist-entry}
 \textbf{REMOVE-PLIST-ENTRY}
 
 
@@ -5703,6 +5868,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{ROUND-TO-NEAREST}
+\label{prim:round-to-nearest}
 \textbf{ROUND-TO-NEAREST}
 
 
@@ -5710,6 +5876,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{SAFE-FLOAT}
+\label{prim:safe-float}
 \textbf{SAFE-FLOAT}
 
 
@@ -5717,6 +5884,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{SAFE-SORT}
+\label{prim:safe-sort}
 \textbf{SAFE-SORT}
 
 
@@ -5724,6 +5892,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{SET-FORMAT-SLOT}
+\label{prim:set-format-slot}
 \textbf{SET-FORMAT-SLOT [Macro]}
 
 
@@ -5731,6 +5900,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{SPLIT}
+\label{prim:split}
 \textbf{SPLIT}
 
 
@@ -5738,6 +5908,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{STATUS-MESSAGE}
+\label{prim:status-message}
 \textbf{STATUS-MESSAGE}
 
 
@@ -5745,6 +5916,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{STRING-APPEND}
+\label{prim:string-append}
 \textbf{STRING-APPEND}
 
 
@@ -5752,6 +5924,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{SUM-ELEMENTS}
+\label{prim:sum-elements}
 \textbf{SUM-ELEMENTS [Macro]}
 
 
@@ -5759,6 +5932,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{THE}
+\label{prim:the}
 \textbf{THE [Macro]}
 
 
@@ -5766,6 +5940,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{THE-CHILD}
+\label{prim:the-child}
 \textbf{THE-CHILD [Macro]}
 
 
@@ -5773,6 +5948,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{THE-ELEMENT}
+\label{prim:the-element}
 \textbf{THE-ELEMENT [Macro]}
 
 
@@ -5780,6 +5956,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{THE-OBJECT}
+\label{prim:the-object}
 \textbf{THE-OBJECT [Macro]}
 
 
@@ -5787,6 +5964,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{TWICE}
+\label{prim:twice}
 \textbf{TWICE}
 
 
@@ -5794,6 +5972,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{UNDEFINE-OBJECT}
+\label{prim:undefine-object}
 \textbf{UNDEFINE-OBJECT}
 
 
@@ -5801,6 +5980,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{UNIVERSAL-TIME-FROM-ISO-8601}
+\label{prim:universal-time-from-iso-8601}
 \textbf{UNIVERSAL-TIME-FROM-ISO-8601}
 
 
@@ -5808,6 +5988,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{WITH-ERROR-HANDLING}
+\label{prim:with-error-handling}
 \textbf{WITH-ERROR-HANDLING [Macro]}
 
 
@@ -5815,6 +5996,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{WITH-FORMAT}
+\label{prim:with-format}
 \textbf{WITH-FORMAT [Macro]}
 
 
@@ -5822,6 +6004,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{WITH-FORMAT-SLOTS}
+\label{prim:with-format-slots}
 \textbf{WITH-FORMAT-SLOTS [Macro]}
 
 
@@ -5829,6 +6012,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{WRITE-ENV}
+\label{prim:write-env}
 \textbf{WRITE-ENV [Macro]}
 
 
@@ -5836,6 +6020,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{WRITE-PLIST}
+\label{prim:write-plist}
 \textbf{WRITE-PLIST}
 
 
@@ -5843,6 +6028,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{WRITE-THE}
+\label{prim:write-the}
 \textbf{WRITE-THE [Macro]}
 
 
@@ -5850,6 +6036,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{WRITE-THE-OBJECT}
+\label{prim:write-the-object}
 \textbf{WRITE-THE-OBJECT [Macro]}
 
 
@@ -5857,6 +6044,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{^2}
+\label{prim:^2}
 \textbf{^2}
 
 
@@ -5876,6 +6064,7 @@ re-evaluates the expression to compute the original list of indices)
 \begin{itemize}
 
 \item \index{*COLOR-PLIST*}
+\label{prim:*color-plist*}
 \textbf{*COLOR-PLIST*}
 
 
@@ -5883,6 +6072,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COLOR-TABLE*}
+\label{prim:*color-table*}
 \textbf{*COLOR-TABLE*}
 
 
@@ -5890,6 +6080,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COLOR-TABLE-DECIMAL*}
+\label{prim:*color-table-decimal*}
 \textbf{*COLOR-TABLE-DECIMAL*}
 
 
@@ -5897,6 +6088,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COLORS-DEFAULT*}
+\label{prim:*colors-default*}
 \textbf{*COLORS-DEFAULT*}
 
 
@@ -5904,6 +6096,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COMPILE-CIRCULAR-REFERENCE-DETECTION?*}
+\label{prim:*compile-circular-reference-detection?*}
 \textbf{*COMPILE-CIRCULAR-REFERENCE-DETECTION?*}
 
 
@@ -5911,6 +6104,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COMPILE-DEPENDENCY-TRACKING?*}
+\label{prim:*compile-dependency-tracking?*}
 \textbf{*COMPILE-DEPENDENCY-TRACKING?*}
 
 
@@ -5918,6 +6112,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COMPILE-DOCUMENTATION-DATABASE?*}
+\label{prim:*compile-documentation-database?*}
 \textbf{*COMPILE-DOCUMENTATION-DATABASE?*}
 
 
@@ -5925,6 +6120,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COMPILE-FOR-DGDL?*}
+\label{prim:*compile-for-dgdl?*}
 \textbf{*COMPILE-FOR-DGDL?*}
 
 
@@ -5932,6 +6128,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*COMPILE-SOURCE-CODE-DATABASE?*}
+\label{prim:*compile-source-code-database?*}
 \textbf{*COMPILE-SOURCE-CODE-DATABASE?*}
 
 
@@ -5939,6 +6136,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*CURVE-CHORDS*}
+\label{prim:*curve-chords*}
 \textbf{*CURVE-CHORDS*}
 
 
@@ -5946,6 +6144,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*ENSURE-LISTS-WHEN-BASHING?*}
+\label{prim:*ensure-lists-when-bashing?*}
 \textbf{*ENSURE-LISTS-WHEN-BASHING?*}
 
 
@@ -5953,6 +6152,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*LOAD-DOCUMENTATION-DATABASE?*}
+\label{prim:*load-documentation-database?*}
 \textbf{*LOAD-DOCUMENTATION-DATABASE?*}
 
 
@@ -5960,6 +6160,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*LOAD-SOURCE-CODE-DATABASE?*}
+\label{prim:*load-source-code-database?*}
 \textbf{*LOAD-SOURCE-CODE-DATABASE?*}
 
 
@@ -5967,6 +6168,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*OUT-OF-BOUNDS-SEQUENCE-REFERENCE-ACTION*}
+\label{prim:*out-of-bounds-sequence-reference-action*}
 \textbf{*OUT-OF-BOUNDS-SEQUENCE-REFERENCE-ACTION*}
 
 
@@ -5974,6 +6176,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*REMEMBER-PREVIOUS-SLOT-VALUES?*}
+\label{prim:*remember-previous-slot-values?*}
 \textbf{*REMEMBER-PREVIOUS-SLOT-VALUES?*}
 
 
@@ -5981,6 +6184,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*ROOT-CHECKING-ENABLED?*}
+\label{prim:*root-checking-enabled?*}
 \textbf{*ROOT-CHECKING-ENABLED?*}
 
 
@@ -5988,6 +6192,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*RUN-WITH-CIRCULAR-REFERENCE-DETECTION?*}
+\label{prim:*run-with-circular-reference-detection?*}
 \textbf{*RUN-WITH-CIRCULAR-REFERENCE-DETECTION?*}
 
 
@@ -5995,6 +6200,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*RUN-WITH-DEPENDENCY-TRACKING?*}
+\label{prim:*run-with-dependency-tracking?*}
 \textbf{*RUN-WITH-DEPENDENCY-TRACKING?*}
 
 
@@ -6002,6 +6208,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*UNDECLARED-PARAMETERS-ENABLED?*}
+\label{prim:*undeclared-parameters-enabled?*}
 \textbf{*UNDECLARED-PARAMETERS-ENABLED?*}
 
 
@@ -6009,6 +6216,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{*ZERO-EPSILON*}
+\label{prim:*zero-epsilon*}
 \textbf{*ZERO-EPSILON*}
 
 
@@ -6016,6 +6224,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{+PHI+}
+\label{prim:+phi+}
 \textbf{+PHI+}
 
 
@@ -6023,6 +6232,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{2PI}
+\label{prim:2pi}
 \textbf{2PI}
 
 
@@ -6030,6 +6240,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \item \index{PI/2}
+\label{prim:pi/2}
 \textbf{PI/2}
 
 
@@ -6079,6 +6290,7 @@ re-evaluates the expression to compute the original list of indices)
 \begin{itemize}
 
 \item \index{ANGULAR-DIMENSION}
+\label{prim:angular-dimension}
 \textbf{ANGULAR-DIMENSION}
 
 
@@ -6295,6 +6507,7 @@ Defaults to nil.
 
 
 \item \index{ARC}
+\label{prim:arc}
 \textbf{ARC}
 
 
@@ -6513,6 +6726,7 @@ the start and end point of the arc.
 
 
 \item \index{ARCOID-MIXIN}
+\label{prim:arcoid-mixin}
 \textbf{ARCOID-MIXIN}
 
 
@@ -6597,6 +6811,7 @@ For developers it should be used as a mixin.
 
 
 \item \index{BASE-COORDINATE-SYSTEM}
+\label{prim:base-coordinate-system}
 \textbf{BASE-COORDINATE-SYSTEM}
 
 
@@ -6632,6 +6847,7 @@ This provides a default 3D Cartesian
 
 
 \item \index{BASE-DRAWING}
+\label{prim:base-drawing}
 \textbf{BASE-DRAWING}
 
 
@@ -6782,6 +6998,7 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
 
 
 \item \index{BASE-OBJECT}
+\label{prim:base-object}
 \textbf{BASE-OBJECT}
 
 
@@ -7224,6 +7441,7 @@ based on the orientation and center of the object to which the local-to-global m
 
 
 \item \index{BASE-VIEW}
+\label{prim:base-view}
 \textbf{BASE-VIEW}
 
 
@@ -7500,6 +7718,7 @@ the box should be facing. Defaults to \texttt{*nominal-y-vector*}.
 
 
 \item \index{BEZIER-CURVE}
+\label{prim:bezier-curve}
 \textbf{BEZIER-CURVE}
 
 
@@ -7668,6 +7887,7 @@ which should be between 0 and 1.
 
 
 \item \index{BOX}
+\label{prim:box}
 \textbf{BOX}
 
 
@@ -7761,6 +7981,7 @@ messages as base-object, which knows how to output itself in various formats.
 
 
 \item \index{C-CYLINDER}
+\label{prim:c-cylinder}
 \textbf{C-CYLINDER}
 
 
@@ -7914,6 +8135,7 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 
 \item \index{CENTER-LINE}
+\label{prim:center-line}
 \textbf{CENTER-LINE}
 
 
@@ -8117,6 +8339,7 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 
 \item \index{CIRCLE}
+\label{prim:circle}
 \textbf{CIRCLE}
 
 
@@ -8238,6 +8461,7 @@ angles are measured anti-clockwise.
 
 
 \item \index{CONE}
+\label{prim:cone}
 \textbf{CONE}
 
 
@@ -8391,6 +8615,7 @@ the center of its base. Partial cones and hollow cones are supported.
 
 
 \item \index{CYLINDER}
+\label{prim:cylinder}
 \textbf{CYLINDER}
 
 
@@ -8621,6 +8846,7 @@ Partial cylinders and hollow cylinders are supported.
 
 
 \item \index{ELLIPSE}
+\label{prim:ellipse}
 \textbf{ELLIPSE}
 
 
@@ -8795,6 +9021,7 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 
 \item \index{GENERAL-NOTE}
+\label{prim:general-note}
 \textbf{GENERAL-NOTE}
 
 
@@ -9114,6 +9341,7 @@ Defaults to "Courier".
 
 
 \item \index{GLOBAL-FILLETED-POLYGON-PROJECTION}
+\label{prim:global-filleted-polygon-projection}
 \textbf{GLOBAL-FILLETED-POLYGON-PROJECTION}
 
 
@@ -9232,6 +9460,7 @@ as with global-filleted-polygon.
 
 
 \item \index{GLOBAL-FILLETED-POLYLINE}
+\label{prim:global-filleted-polyline}
 \textbf{GLOBAL-FILLETED-POLYLINE}
 
 
@@ -9310,6 +9539,7 @@ for documentation on the messages.
 
 
 \item \index{GLOBAL-FILLETED-POLYLINE-MIXIN}
+\label{prim:global-filleted-polyline-mixin}
 \textbf{GLOBAL-FILLETED-POLYLINE-MIXIN}
 
 
@@ -9437,6 +9667,7 @@ of the filleted-polyline.
 
 
 \item \index{GLOBAL-POLYGON-PROJECTION}
+\label{prim:global-polygon-projection}
 \textbf{GLOBAL-POLYGON-PROJECTION}
 
 
@@ -9621,6 +9852,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 \item \index{GLOBAL-POLYLINE}
+\label{prim:global-polyline}
 \textbf{GLOBAL-POLYLINE}
 
 
@@ -9696,6 +9928,7 @@ global-polyline-mixin for documentation on the messages.
 
 
 \item \index{GLOBAL-POLYLINE-MIXIN}
+\label{prim:global-polyline-mixin}
 \textbf{GLOBAL-POLYLINE-MIXIN}
 
 
@@ -9771,6 +10004,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 \item \index{HORIZONTAL-DIMENSION}
+\label{prim:horizontal-dimension}
 \textbf{HORIZONTAL-DIMENSION}
 
 
@@ -9916,6 +10150,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{LABEL}
+\label{prim:label}
 \textbf{LABEL}
 
 
@@ -10200,6 +10435,7 @@ of one (1.0).
 
 
 \item \index{LEADER-LINE}
+\label{prim:leader-line}
 \textbf{LEADER-LINE}
 
 
@@ -10312,6 +10548,7 @@ in cases where there is overlap.
 
 
 \item \index{LINE}
+\label{prim:line}
 \textbf{LINE}
 
 
@@ -10462,6 +10699,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 \item \index{LINEAR-DIMENSION}
+\label{prim:linear-dimension}
 \textbf{LINEAR-DIMENSION}
 
 
@@ -10923,6 +11161,7 @@ GDL
 
 
 \item \index{PARALLEL-DIMENSION}
+\label{prim:parallel-dimension}
 \textbf{PARALLEL-DIMENSION}
 
 
@@ -11059,6 +11298,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{PIE-CHART}
+\label{prim:pie-chart}
 \textbf{PIE-CHART}
 
 
@@ -11235,6 +11475,7 @@ Color of title text. Defaults to :black.
 
 
 \item \index{POINT}
+\label{prim:point}
 \textbf{POINT}
 
 
@@ -11381,6 +11622,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 \item \index{RENDERER-MIXIN}
+\label{prim:renderer-mixin}
 \textbf{RENDERER-MIXIN}
 
 
@@ -11533,6 +11775,7 @@ the \texttt{bounding-sphere}
 
 
 \item \index{ROUTE-PIPE}
+\label{prim:route-pipe}
 \textbf{ROUTE-PIPE}
 
 
@@ -11735,6 +11978,7 @@ of one (1.0).
 
 
 \item \index{SAMPLE-DRAWING}
+\label{prim:sample-drawing}
 \textbf{SAMPLE-DRAWING}
 
 
@@ -11799,6 +12043,7 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
 
 
 \item \index{SPHERE}
+\label{prim:sphere}
 \textbf{SPHERE}
 
 
@@ -12014,6 +12259,7 @@ The set of points equidistant from a given center point.
 
 
 \item \index{SPHERICAL-CAP}
+\label{prim:spherical-cap}
 \textbf{SPHERICAL-CAP}
 
 
@@ -12249,6 +12495,7 @@ or cap-thickness, not both.
 
 
 \item \index{TEXT-LINE}
+\label{prim:text-line}
 \textbf{TEXT-LINE}
 
 
@@ -12332,6 +12579,7 @@ or cap-thickness, not both.
 
 
 \item \index{TORUS}
+\label{prim:torus}
 \textbf{TORUS}
 
 
@@ -12562,6 +12810,7 @@ Partial ``bent'' cylinders are not currently supported.
 
 
 \item \index{TYPESET-BLOCK}
+\label{prim:typeset-block}
 \textbf{TYPESET-BLOCK}
 
 
@@ -12686,6 +12935,7 @@ than this default, the content will be cropped.
 
 
 \item \index{VERTICAL-DIMENSION}
+\label{prim:vertical-dimension}
 \textbf{VERTICAL-DIMENSION}
 
 
@@ -12847,6 +13097,7 @@ Must be specified in the subclass except for angular
 \begin{itemize}
 
 \item \index{3D-DISTANCE}
+\label{prim:3d-distance}
 \textbf{3D-DISTANCE}
 
 
@@ -12854,6 +13105,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{3D-VECTOR-TO-ARRAY}
+\label{prim:3d-vector-to-array}
 \textbf{3D-VECTOR-TO-ARRAY}
 
 
@@ -12861,6 +13113,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ACOSD}
+\label{prim:acosd}
 \textbf{ACOSD}
 
 
@@ -12868,6 +13121,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ADD-MATRICES}
+\label{prim:add-matrices}
 \textbf{ADD-MATRICES}
 
 
@@ -12875,6 +13129,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ADD-VECTORS}
+\label{prim:add-vectors}
 \textbf{ADD-VECTORS}
 
 
@@ -12882,6 +13137,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ALIGNMENT}
+\label{prim:alignment}
 \textbf{ALIGNMENT}
 
 
@@ -12889,6 +13145,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ANGLE-BETWEEN-VECTORS}
+\label{prim:angle-between-vectors}
 \textbf{ANGLE-BETWEEN-VECTORS}
 
 
@@ -12896,6 +13153,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ANGLE-BETWEEN-VECTORS-D}
+\label{prim:angle-between-vectors-d}
 \textbf{ANGLE-BETWEEN-VECTORS-D}
 
 
@@ -12903,6 +13161,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{APPLY-MAKE-POINT}
+\label{prim:apply-make-point}
 \textbf{APPLY-MAKE-POINT}
 
 
@@ -12910,6 +13169,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ARRAY-TO-3D-VECTOR}
+\label{prim:array-to-3d-vector}
 \textbf{ARRAY-TO-3D-VECTOR}
 
 
@@ -12917,6 +13177,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ARRAY-TO-LIST}
+\label{prim:array-to-list}
 \textbf{ARRAY-TO-LIST}
 
 
@@ -12924,6 +13185,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ASIND}
+\label{prim:asind}
 \textbf{ASIND}
 
 
@@ -12931,6 +13193,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ATAND}
+\label{prim:atand}
 \textbf{ATAND}
 
 
@@ -12938,6 +13201,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{COINCIDENT-POINT?}
+\label{prim:coincident-point?}
 \textbf{COINCIDENT-POINT?}
 
 
@@ -12945,6 +13209,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{CREATE-OBLIQUENESS}
+\label{prim:create-obliqueness}
 \textbf{CREATE-OBLIQUENESS}
 
 
@@ -12952,6 +13217,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{CROSS-VECTORS}
+\label{prim:cross-vectors}
 \textbf{CROSS-VECTORS}
 
 
@@ -12959,6 +13225,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{DEGREE}
+\label{prim:degree}
 \textbf{DEGREE}
 
 
@@ -12966,6 +13233,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{DEGREES-TO-RADIANS}
+\label{prim:degrees-to-radians}
 \textbf{DEGREES-TO-RADIANS}
 
 
@@ -12973,6 +13241,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{DISTANCE-TO-LINE}
+\label{prim:distance-to-line}
 \textbf{DISTANCE-TO-LINE}
 
 
@@ -12980,6 +13249,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{DOT-VECTORS}
+\label{prim:dot-vectors}
 \textbf{DOT-VECTORS}
 
 
@@ -12987,6 +13257,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{EQUI-SPACE-POINTS}
+\label{prim:equi-space-points}
 \textbf{EQUI-SPACE-POINTS}
 
 
@@ -12994,6 +13265,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{GET-U}
+\label{prim:get-u}
 \textbf{GET-U}
 
 
@@ -13001,6 +13273,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{GET-V}
+\label{prim:get-v}
 \textbf{GET-V}
 
 
@@ -13008,6 +13281,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{GET-W}
+\label{prim:get-w}
 \textbf{GET-W}
 
 
@@ -13015,6 +13289,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{GET-X}
+\label{prim:get-x}
 \textbf{GET-X}
 
 
@@ -13022,6 +13297,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{GET-Y}
+\label{prim:get-y}
 \textbf{GET-Y}
 
 
@@ -13029,6 +13305,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{GET-Z}
+\label{prim:get-z}
 \textbf{GET-Z}
 
 
@@ -13036,6 +13313,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{INTER-CIRCLE-SPHERE}
+\label{prim:inter-circle-sphere}
 \textbf{INTER-CIRCLE-SPHERE}
 
 
@@ -13043,6 +13321,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{INTER-LINE-PLANE}
+\label{prim:inter-line-plane}
 \textbf{INTER-LINE-PLANE}
 
 
@@ -13050,6 +13329,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{INTER-LINE-SPHERE}
+\label{prim:inter-line-sphere}
 \textbf{INTER-LINE-SPHERE}
 
 
@@ -13057,6 +13337,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{LENGTH-VECTOR}
+\label{prim:length-vector}
 \textbf{LENGTH-VECTOR}
 
 
@@ -13064,6 +13345,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MAKE-POINT}
+\label{prim:make-point}
 \textbf{MAKE-POINT [Macro]}
 
 
@@ -13071,6 +13353,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MAKE-TRANSFORM}
+\label{prim:make-transform}
 \textbf{MAKE-TRANSFORM}
 
 
@@ -13078,6 +13361,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MAKE-VECTOR}
+\label{prim:make-vector}
 \textbf{MAKE-VECTOR [Macro]}
 
 
@@ -13085,6 +13369,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MATRIX*VECTOR}
+\label{prim:matrix*vector}
 \textbf{MATRIX*VECTOR}
 
 
@@ -13092,6 +13377,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MATRIX-TO-QUATERNION}
+\label{prim:matrix-to-quaternion}
 \textbf{MATRIX-TO-QUATERNION}
 
 
@@ -13099,6 +13385,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MERGE-DISPLAY-CONTROLS}
+\label{prim:merge-display-controls}
 \textbf{MERGE-DISPLAY-CONTROLS [Macro]}
 
 
@@ -13106,6 +13393,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MIDPOINT}
+\label{prim:midpoint}
 \textbf{MIDPOINT}
 
 
@@ -13113,6 +13401,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{MULTIPLY-MATRICES}
+\label{prim:multiply-matrices}
 \textbf{MULTIPLY-MATRICES}
 
 
@@ -13120,6 +13409,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ORTHOGONAL-COMPONENT}
+\label{prim:orthogonal-component}
 \textbf{ORTHOGONAL-COMPONENT}
 
 
@@ -13127,6 +13417,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{PARALLEL-VECTORS?}
+\label{prim:parallel-vectors?}
 \textbf{PARALLEL-VECTORS?}
 
 
@@ -13134,6 +13425,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{PROJ-POINT-ON-LINE}
+\label{prim:proj-point-on-line}
 \textbf{PROJ-POINT-ON-LINE}
 
 
@@ -13141,6 +13433,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{PROJECTED-VECTOR}
+\label{prim:projected-vector}
 \textbf{PROJECTED-VECTOR}
 
 
@@ -13148,6 +13441,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{PYTHAGORIZE}
+\label{prim:pythagorize}
 \textbf{PYTHAGORIZE}
 
 
@@ -13155,6 +13449,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{QUATERNION-TO-MATRIX}
+\label{prim:quaternion-to-matrix}
 \textbf{QUATERNION-TO-MATRIX}
 
 
@@ -13162,6 +13457,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{QUATERNION-TO-ROTATION}
+\label{prim:quaternion-to-rotation}
 \textbf{QUATERNION-TO-ROTATION}
 
 
@@ -13169,6 +13465,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{RADIANS-TO-DEGREES}
+\label{prim:radians-to-degrees}
 \textbf{RADIANS-TO-DEGREES}
 
 
@@ -13176,6 +13473,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{RADIANS-TO-GRADS}
+\label{prim:radians-to-grads}
 \textbf{RADIANS-TO-GRADS}
 
 
@@ -13183,6 +13481,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{REVERSE-VECTOR}
+\label{prim:reverse-vector}
 \textbf{REVERSE-VECTOR}
 
 
@@ -13190,6 +13489,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ROLL}
+\label{prim:roll}
 \textbf{ROLL [Macro]}
 
 
@@ -13197,6 +13497,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ROTATE-POINT}
+\label{prim:rotate-point}
 \textbf{ROTATE-POINT}
 
 
@@ -13204,6 +13505,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ROTATE-POINT-D}
+\label{prim:rotate-point-d}
 \textbf{ROTATE-POINT-D}
 
 
@@ -13211,6 +13513,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ROTATE-VECTOR}
+\label{prim:rotate-vector}
 \textbf{ROTATE-VECTOR}
 
 
@@ -13218,6 +13521,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ROTATE-VECTOR-D}
+\label{prim:rotate-vector-d}
 \textbf{ROTATE-VECTOR-D}
 
 
@@ -13225,6 +13529,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ROTATION}
+\label{prim:rotation}
 \textbf{ROTATION}
 
 
@@ -13232,6 +13537,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{SAME-DIRECTION-VECTORS?}
+\label{prim:same-direction-vectors?}
 \textbf{SAME-DIRECTION-VECTORS?}
 
 
@@ -13239,6 +13545,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{SCALAR*MATRIX}
+\label{prim:scalar*matrix}
 \textbf{SCALAR*MATRIX}
 
 
@@ -13246,6 +13553,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{SCALAR*VECTOR}
+\label{prim:scalar*vector}
 \textbf{SCALAR*VECTOR}
 
 
@@ -13253,6 +13561,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{SORT-POINTS-ALONG-VECTOR}
+\label{prim:sort-points-along-vector}
 \textbf{SORT-POINTS-ALONG-VECTOR}
 
 
@@ -13260,6 +13569,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{SUBTRACT-VECTORS}
+\label{prim:subtract-vectors}
 \textbf{SUBTRACT-VECTORS}
 
 
@@ -13267,6 +13577,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{TRANSFORM-AND-TRANSLATE-POINT}
+\label{prim:transform-and-translate-point}
 \textbf{TRANSFORM-AND-TRANSLATE-POINT}
 
 
@@ -13274,6 +13585,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{TRANSFORM-NUMERIC-POINT}
+\label{prim:transform-numeric-point}
 \textbf{TRANSFORM-NUMERIC-POINT}
 
 
@@ -13281,6 +13593,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{TRANSLATE}
+\label{prim:translate}
 \textbf{TRANSLATE [Macro]}
 
 
@@ -13288,6 +13601,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{TRANSLATE-ALONG-VECTOR}
+\label{prim:translate-along-vector}
 \textbf{TRANSLATE-ALONG-VECTOR}
 
 
@@ -13295,6 +13609,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{TRANSPOSE-MATRIX}
+\label{prim:transpose-matrix}
 \textbf{TRANSPOSE-MATRIX}
 
 
@@ -13302,6 +13617,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{UNITIZE-VECTOR}
+\label{prim:unitize-vector}
 \textbf{UNITIZE-VECTOR}
 
 
@@ -13309,6 +13625,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{ZERO-VECTOR?}
+\label{prim:zero-vector?}
 \textbf{ZERO-VECTOR?}
 
 
@@ -13328,6 +13645,7 @@ Must be specified in the subclass except for angular
 \begin{itemize}
 
 \item \index{*BREAK-LEADERS?*}
+\label{prim:*break-leaders?*}
 \textbf{*BREAK-LEADERS?*}
 
 
@@ -13335,6 +13653,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{*GS-GRAPHICS-ALPHA-BITS*}
+\label{prim:*gs-graphics-alpha-bits*}
 \textbf{*GS-GRAPHICS-ALPHA-BITS*}
 
 
@@ -13342,6 +13661,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{*GS-TEXT-ALPHA-BITS*}
+\label{prim:*gs-text-alpha-bits*}
 \textbf{*GS-TEXT-ALPHA-BITS*}
 
 
@@ -13349,6 +13669,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{*HASH-TRANSFORMS?*}
+\label{prim:*hash-transforms?*}
 \textbf{*HASH-TRANSFORMS?*}
 
 
@@ -13356,6 +13677,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{*ZERO-VECTOR-CHECKING?*}
+\label{prim:*zero-vector-checking?*}
 \textbf{*ZERO-VECTOR-CHECKING?*}
 
 
@@ -13363,6 +13685,7 @@ Must be specified in the subclass except for angular
 
 
 \item \index{+POSTNET-BITS+}
+\label{prim:+postnet-bits+}
 \textbf{+POSTNET-BITS+}
 
 
@@ -13392,6 +13715,7 @@ Must be specified in the subclass except for angular
 \begin{itemize}
 
 \item \index{APPLICATION-MIXIN}
+\label{prim:application-mixin}
 \textbf{APPLICATION-MIXIN}
 
 
@@ -13425,6 +13749,7 @@ or \texttt{application-mixin}
 
 
 \item \index{BASE-AJAX-GRAPHICS-SHEET}
+\label{prim:base-ajax-graphics-sheet}
 \textbf{BASE-AJAX-GRAPHICS-SHEET}
 
 
@@ -13764,6 +14089,7 @@ The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
 
 
 \item \index{BASE-AJAX-SHEET}
+\label{prim:base-ajax-sheet}
 \textbf{BASE-AJAX-SHEET}
 
 
@@ -14087,6 +14413,7 @@ from a saved snapshot file.
 
 
 \item \index{BASE-FORM-CONTROL}
+\label{prim:base-form-control}
 \textbf{BASE-FORM-CONTROL}
 
 
@@ -14782,6 +15109,7 @@ and cleared when the error is gone.
 
 
 \item \index{BASE-HTML-GRAPHICS-SHEET}
+\label{prim:base-html-graphics-sheet}
 \textbf{BASE-HTML-GRAPHICS-SHEET}
 
 
@@ -15007,6 +15335,7 @@ display geometric parts in a GWL application.
 
 
 \item \index{BASE-HTML-SHEET}
+\label{prim:base-html-sheet}
 \textbf{BASE-HTML-SHEET}
 
 
@@ -15334,6 +15663,7 @@ link to the vendor on public web pages.
 
 
 \item \index{CHECKBOX-FORM-CONTROL}
+\label{prim:checkbox-form-control}
 \textbf{CHECKBOX-FORM-CONTROL}
 
 
@@ -15406,6 +15736,7 @@ the same name, where each can return a different value).
 
 
 \item \index{GEOMETRY-VIEW-MIXIN}
+\label{prim:geometry-view-mixin}
 \textbf{GEOMETRY-VIEW-MIXIN}
 
 
@@ -15459,6 +15790,7 @@ the same name, where each can return a different value).
 
 
 \item \index{GRID-FORM-CONTROL}
+\label{prim:grid-form-control}
 \textbf{GRID-FORM-CONTROL}
 
 
@@ -15596,6 +15928,7 @@ of type base-form-control.
 
 
 \item \index{GWL-RULE-OBJECT}
+\label{prim:gwl-rule-object}
 \textbf{GWL-RULE-OBJECT}
 
 
@@ -15628,6 +15961,7 @@ Mixes together \texttt{base-html-sheet} and \texttt{base-rule-object}.
 
 
 \item \index{LAYOUT-MIXIN}
+\label{prim:layout-mixin}
 \textbf{LAYOUT-MIXIN}
 
 
@@ -16018,6 +16352,7 @@ descendants which are of type node-mixin or application-mixin.
 
 
 \item \index{MENU-FORM-CONTROL}
+\label{prim:menu-form-control}
 \textbf{MENU-FORM-CONTROL}
 
 
@@ -16172,6 +16507,7 @@ eql for keywords, string-equal for strings, and equalp otherwise.
 
 
 \item \index{NODE-MIXIN}
+\label{prim:node-mixin}
 \textbf{NODE-MIXIN}
 
 
@@ -16273,6 +16609,7 @@ displayed in the graphics. Defaults to the appended result of children's
 
 
 \item \index{RADIO-FORM-CONTROL}
+\label{prim:radio-form-control}
 \textbf{RADIO-FORM-CONTROL}
 
 
@@ -16386,6 +16723,7 @@ Default is :paragraph-append.
 
 
 \item \index{SESSION-CONTROL-MIXIN}
+\label{prim:session-control-mixin}
 \textbf{SESSION-CONTROL-MIXIN}
 
 
@@ -16552,6 +16890,7 @@ Method which will set the expires-at slot to the current time + the session-dura
 
 
 \item \index{SHEET-SECTION}
+\label{prim:sheet-section}
 \textbf{SHEET-SECTION}
 
 
@@ -16612,6 +16951,7 @@ are the child of a base-ajax-sheet.
 
 
 \item \index{SKELETON-FORM-CONTROL}
+\label{prim:skeleton-form-control}
 \textbf{SKELETON-FORM-CONTROL}
 
 
@@ -16755,6 +17095,7 @@ of type base-form-control.
 
 
 \item \index{SKELETON-UI-ELEMENT}
+\label{prim:skeleton-ui-element}
 \textbf{SKELETON-UI-ELEMENT}
 
 
@@ -17032,6 +17373,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
 
 \item \index{TEXT-FORM-CONTROL}
+\label{prim:text-form-control}
 \textbf{TEXT-FORM-CONTROL}
 
 
@@ -17122,6 +17464,7 @@ for that. Defaults to nil. Use password-form-control to get a default of t.
 
 
 \item \index{WEB-DRAWING}
+\label{prim:web-drawing}
 \textbf{WEB-DRAWING}
 
 
@@ -17390,6 +17733,7 @@ internally-computed object, this should not be overridden in user code.
 \begin{itemize}
 
 \item \index{BASE64-DECODE-LIST}
+\label{prim:base64-decode-list}
 \textbf{BASE64-DECODE-LIST}
 
 
@@ -17397,6 +17741,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{BASE64-DECODE-SAFE}
+\label{prim:base64-decode-safe}
 \textbf{BASE64-DECODE-SAFE}
 
 
@@ -17404,6 +17749,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{BASE64-ENCODE-LIST}
+\label{prim:base64-encode-list}
 \textbf{BASE64-ENCODE-LIST}
 
 
@@ -17411,6 +17757,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{BASE64-ENCODE-SAFE}
+\label{prim:base64-encode-safe}
 \textbf{BASE64-ENCODE-SAFE}
 
 
@@ -17418,6 +17765,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{CLEAR-ALL-INSTANCES}
+\label{prim:clear-all-instances}
 \textbf{CLEAR-ALL-INSTANCES}
 
 
@@ -17425,6 +17773,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{CLEAR-INSTANCE}
+\label{prim:clear-instance}
 \textbf{CLEAR-INSTANCE}
 
 
@@ -17432,6 +17781,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{CLEAR-OLD-TIMERS}
+\label{prim:clear-old-timers}
 \textbf{CLEAR-OLD-TIMERS}
 
 
@@ -17439,6 +17789,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{GWL-MAKE-OBJECT}
+\label{prim:gwl-make-object}
 \textbf{GWL-MAKE-OBJECT}
 
 
@@ -17446,6 +17797,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{PUBLISH-GWL-APP}
+\label{prim:publish-gwl-app}
 \textbf{PUBLISH-GWL-APP}
 
 
@@ -17453,6 +17805,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{PUBLISH-SHARED}
+\label{prim:publish-shared}
 \textbf{PUBLISH-SHARED}
 
 
@@ -17460,6 +17813,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{PUBLISH-STRING-CONTENT}
+\label{prim:publish-string-content}
 \textbf{PUBLISH-STRING-CONTENT}
 
 
@@ -17467,6 +17821,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{RELATIVIZE-PATHNAME}
+\label{prim:relativize-pathname}
 \textbf{RELATIVIZE-PATHNAME}
 
 
@@ -17474,6 +17829,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{SESSION-CONTROL-AUTO-REFRESH}
+\label{prim:session-control-auto-refresh}
 \textbf{SESSION-CONTROL-AUTO-REFRESH}
 
 
@@ -17481,6 +17837,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{SESSION-REPORT}
+\label{prim:session-report}
 \textbf{SESSION-REPORT}
 
 
@@ -17488,6 +17845,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{WITH-CL-WHO}
+\label{prim:with-cl-who}
 \textbf{WITH-CL-WHO [Macro]}
 
 
@@ -17495,6 +17853,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{WITH-CL-WHO-STRING}
+\label{prim:with-cl-who-string}
 \textbf{WITH-CL-WHO-STRING [Macro]}
 
 
@@ -17502,6 +17861,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{WITH-HTML-FORM}
+\label{prim:with-html-form}
 \textbf{WITH-HTML-FORM [Macro]}
 
 
@@ -17521,6 +17881,7 @@ internally-computed object, this should not be overridden in user code.
 \begin{itemize}
 
 \item \index{*BREAK-ON-SET-SELF?*}
+\label{prim:*break-on-set-self?*}
 \textbf{*BREAK-ON-SET-SELF?*}
 
 
@@ -17528,6 +17889,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*BYPASS-SECURITY-CHECK?*}
+\label{prim:*bypass-security-check?*}
 \textbf{*BYPASS-SECURITY-CHECK?*}
 
 
@@ -17535,6 +17897,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*DEVELOPING?*}
+\label{prim:*developing?*}
 \textbf{*DEVELOPING?*}
 
 
@@ -17542,6 +17905,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*ENT*}
+\label{prim:*ent*}
 \textbf{*ENT*}
 
 
@@ -17549,6 +17913,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*FAILED-REQUEST-URL*}
+\label{prim:*failed-request-url*}
 \textbf{*FAILED-REQUEST-URL*}
 
 
@@ -17556,6 +17921,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*INSTANCE-HASH-TABLE*}
+\label{prim:*instance-hash-table*}
 \textbf{*INSTANCE-HASH-TABLE*}
 
 
@@ -17563,6 +17929,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*JUMP-TO-TOPLEVEL-ON-SET-SELF?*}
+\label{prim:*jump-to-toplevel-on-set-self?*}
 \textbf{*JUMP-TO-TOPLEVEL-ON-SET-SELF?*}
 
 
@@ -17570,6 +17937,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*MAX-ID-VALUE*}
+\label{prim:*max-id-value*}
 \textbf{*MAX-ID-VALUE*}
 
 
@@ -17577,6 +17945,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*QUERY*}
+\label{prim:*query*}
 \textbf{*QUERY*}
 
 
@@ -17584,6 +17953,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*REAP-EXPIRED-SESSIONS?*}
+\label{prim:*reap-expired-sessions?*}
 \textbf{*REAP-EXPIRED-SESSIONS?*}
 
 
@@ -17591,6 +17961,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*RECOVERY-URL-DEFAULT*}
+\label{prim:*recovery-url-default*}
 \textbf{*RECOVERY-URL-DEFAULT*}
 
 
@@ -17598,6 +17969,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 \item \index{*REQ*}
+\label{prim:*req*}
 \textbf{*REQ*}
 
 
@@ -17605,16 +17977,6 @@ internally-computed object, this should not be overridden in user code.
 
 
 \end{itemize}
-
-
-
-
-
-\section{JQUERY }
-
-\label{sec:jquery}
-
-
 
 
 
@@ -17677,6 +18039,7 @@ internally-computed object, this should not be overridden in user code.
 \begin{itemize}
 
 \item \index{NEWERTREE}
+\label{prim:newertree}
 \textbf{NEWERTREE}
 
 
@@ -17765,6 +18128,7 @@ as flat lists. Any children which throw errors come back as a plist with error i
 
 
 \item \index{TREE}
+\label{prim:tree}
 \textbf{TREE}
 
 
@@ -17859,6 +18223,7 @@ String
 \begin{itemize}
 
 \item \index{ASSEMBLY}
+\label{prim:assembly}
 \textbf{ASSEMBLY}
 
 
@@ -18029,6 +18394,7 @@ in the applicable lens for  html-format.
 
 
 \item \index{BASE-YADD-SHEET}
+\label{prim:base-yadd-sheet}
 \textbf{BASE-YADD-SHEET}
 
 
@@ -18107,6 +18473,7 @@ link to a default CSS sheet. All these elements can be found in the
 
 
 \item \index{MASTER-INDEX}
+\label{prim:master-index}
 \textbf{MASTER-INDEX}
 
 
@@ -18217,6 +18584,7 @@ Default nil.
 
 
 \item \index{PACKAGE-DOKUMENTATION}
+\label{prim:package-dokumentation}
 \textbf{PACKAGE-DOKUMENTATION}
 
 
@@ -18419,6 +18787,7 @@ parent), followed by an index number if the part is an element of a sequence.
 
 
 \item \index{PACKAGE-FORM}
+\label{prim:package-form}
 \textbf{PACKAGE-FORM}
 
 

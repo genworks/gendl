@@ -396,7 +396,124 @@ one of the major axes, you can use the "
      " and "
      (:ref "fig:tower")
      " show a stack of boxes, where the rear face of each box is
-     rotated 2 degrees with respect to the box under it.")))
+     rotated 2 degrees with respect to the box under it.")
+
+    ((:subsection :title "Assemblies")
+     "Objects which you define can be used just like the built-in primitives. This illustrates
+why it is important for the positioning and orientation passed into a child object to be "
+     (:emph "relative")
+     " to that in the parent. Figures "
+     (:ref "fig:tower-assembly")
+     " and "
+     (:ref "fig:tower-assembly-source")
+     " show how several towers can be positioned side-by-side, while
+maintaining consistent internal positioning and orientation. Figure "
+     (:ref "fig:tower-assembly-tasty")
+     " shows how the child towers form an "
+     (:emph "assembly hierarchy")
+     " of objects."
+
+     ((:rendered-figure :caption "Tower Assembly"
+			:object "tower-assembly"))
+    
+     ((:image-figure :image-file "tower-assembly-tasty.png" 
+		     :caption "Tower Assembly as displayed in Tasty"
+		     :width "4in" :height "3in"
+		     :label "fig:tasty-assembly-tasty")))
+    
+    
+
+    ((:subsection :title "Mechanisms")
+
+     ((:image-figure :image-file "4-bar-image.png" 
+		     :caption "Four-bar Link Mechanism"
+		     :width "5in" :height "3in"
+		     :label "fig:4bar-image"))
+
+     "GDL supports mechanisms without need for any special
+features. By defining position and orientation of some objects to be
+dependent on others, you can set up a mechanism. Figure "
+     (:ref "fig:4bar-image")
+     " shows a standard four-bar link mechanism which is defined in the code in 
+the file "
+     (:href "run:../examples/4-bar-assembly.gdl" "4-bar-assembly.gdl")
+     " (this is in the examples directory"
+     (:footnote "http://github.com/genworks/gendl/tree/master/documentation/tutorial/examples/")
+     " --- due to its length, the
+     source is not printed in the manual.")
+
+    ((:subsection :title "Other Geometric Primitives")
+     "This chapter has focused mainly on the "
+     (:texttt "box")
+     " primitive, because every type of geometric primitive is based upon a "
+     (:emph "reference box")
+     ". Other primitives have their own sets of input-slots, and their
+     own ways of being rendered in the various output formats. Basic
+     2D primitives include:"
+     (:ul (:li (:texttt "circle")
+	       " described on page "
+	       (:pageref "prim:circle"))
+	  (:li (:texttt "line")
+	       " described on page "
+	       (:pageref "prim:line"))
+	  (:li (:texttt "arc")
+	       " described on page "
+	       (:pageref "prim:arc"))
+	  (:li (:texttt "ellipse")
+	       " described on page "
+	       (:pageref "prim:ellipse"))
+	  (:li (:texttt "bezier-curve")
+	       (:footnote "The simple cubic bezier curve is supported
+	       in the basic GDL and open-source Gendl. More
+	       sophisticated NURBS based curves and surfaces are
+	       supported in the commercial GDL product with the SMLib
+	       geometry kernel. These are covered in chapter "
+			  (:ref "chap:advanced-geometry"))
+	       " described on page "
+	       (:pageref "prim:bezier-curve")))
+     "Basic 3D primitives include:"
+     (:ul (:li (:texttt "sphere")
+	       " described on page "
+	       (:pageref "prim:sphere"))
+
+	  (:li (:texttt "cylinder")
+	       " described on page "
+	       (:pageref "prim:cylinder"))
+
+	  (:li (:texttt "cone")
+	       " described on page "
+	       (:pageref "prim:cone"))
+
+	  (:li (:texttt "global-polyline")
+	       " described on page "
+	       (:pageref "prim:global-polyline"))
+
+	  (:li (:texttt "global-polygon-projection")
+	       " described on page "
+	       (:pageref "prim:global-polygon-projection"))
+	  (:li (:texttt "global-filleted-polyline")
+	       " described on page "
+	       (:pageref "prim:global-polyline"))
+
+	  (:li (:texttt "torus")
+	       " described on page "
+	       (:pageref "prim:torus"))
+
+	  (:li (:texttt "route-pipe")
+	       " described on page "
+	       (:pageref "prim:route-pipe"))
+	  
+	  
+
+
+     
+	  
+	  
+
+
+
+	  ))))
+
 
 
 	 

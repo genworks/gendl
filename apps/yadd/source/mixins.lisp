@@ -263,6 +263,7 @@ additional-header-js (with-cl-who-string ()
 			 (remove nil 
 				 `(:item 
 				      (:index ,(format nil "~a" (the-object documentation symbol)))
+				    (:label ,(format nil "prim:~(~a~)" (the-object documentation symbol)))
 				    (:textbf ,(format nil "~a~a"
 						      (the-object documentation symbol)
 						      (if (the-object documentation :macro?)
