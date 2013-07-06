@@ -14,6 +14,17 @@
 (require 'cl)
 
 
+(defun maximize-frame ()
+  "Maximizes the active frame in Windows"
+  (interactive)
+  ;; Send a `WM_SYSCOMMAND' message to the active frame with the
+  ;; `SC_MAXIMIZE' parameter.
+  (when (eq system-type 'windows-nt) (w32-send-sys-command 61488))
+  (unless (eq system-type 'windows-nt) (set-frame-parameter nil 'fullscreen 'maximized)))
+
+(add-hook 'window-setup-hook 'maximize-frame t)
+
+
 ;; 2. WHERE ARE WE?
 
 (defvar *gendl-home* (file-truename (concat (file-name-directory (file-truename load-file-name)) "../")))
@@ -122,7 +133,7 @@
 ;; If you don't have slime loaded yet, and/or you don't have 
 ;; slime-lisp-implementations set, then please make a file
 ;; .configure-glime.el in your home directory which sets
-;; correct slime-lisp-implementations and path-to-quicklisp-helper
+;; correct slime-lisp-implementations and quicklisp-slime-helper
 ;;
 ;; Loading the latter means we can load slime-autoloads.el (which
 ;; enables SLIME itself).
@@ -130,7 +141,7 @@
 ;;
 
 (defun configure-slime ()
-  (setq path-to-quicklisp-helper nil)
+  (setq quicklisp-slime-helper nil)
   (let ((built-in-config (concat *gendl-home* "emacs/configure-glime.el"))
 	(home-config "~/.configure-glime.el"))
     (let ((config-file (if (file-exists-p built-in-config) built-in-config home-config)))
@@ -139,7 +150,7 @@
       ;; path-to-quicklisp-helper should have been set by config-file,
       ;; or slime must already be set up.
       ;;
-      (when (file-exists-p quicklisp-slime-helper) 
+      (when (file-exists-p quicklisp-slime-helper)
 	(load-file quicklisp-slime-helper)))))
 
 
@@ -161,13 +172,9 @@
   (slime-repl)
   (insert "(unless (find-package :gendl) (load (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname))))")
   (slime-repl-return)
-  (insert (format "(load (compile-file \"%s/emacs/glime.lisp\"))" *gendl-home*))
+  (insert (format "(load (compile-file \"%semacs/glime.lisp\"))" *gendl-home*))
   (slime-repl-return)
-  (insert "(gendl:start-gendl!)")
-  (slime-repl-return)
-  (insert (format "(format nil \"Also contains ~a, and Quicklisp libraries from: 
-%s.
-Thank You to their respective authors and maintainers.\" (lisp-implementation-type))" (concat *gendl-home* "quicklisp/")))
+  (insert "(gdl::startup-banner)")
   (slime-repl-return)
   (insert "(in-package gdl-user)")
   (slime-repl-return)
@@ -191,15 +198,16 @@ Thank You to their respective authors and maintainers.\" (lisp-implementation-ty
 
 ;; 4.4. Prior to SLIME
 
+
+
 (defun prior-to-glime ()
   (find-file (concat *gendl-home* "emacs/README.txt"))
   (toggle-read-only)
   (let ((frame-title "Genworks® Gendl™ Interactive Authoring Environment"))
     (modify-frame-parameters nil (list (cons 'name frame-title))))
-  
   (setq inhibit-splash-screen t)
-  (cd "~/")
-  (set-frame-parameter nil 'fullscreen 'maximized))
+  (cd "~/"))
+
 
 (defun load-user-emacs-glime ()
   (when (file-exists-p "~/.emacs-glime") (load-file "~/.emacs-glime"))
