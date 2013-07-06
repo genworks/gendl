@@ -90,8 +90,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:*error-on-reserved-words?*
            #:*force-restore-slot-default?*
            #:*gdl-init-functions*
-           #:*genworks-oss-svn-version*
-           #:*genworks-svn-version*
+	   #:*gendl-version*
            #:*ghostscript-path*
            #:*gs-path*
            #:*load-documentation-database?*

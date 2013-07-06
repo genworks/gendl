@@ -1,9 +1,9 @@
-;;;; -*- encoding: utf-8; -*-
+;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:base :description
  "The Gendl™ Base Core Kernel Engine" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20130501" :depends-on nil
+ :serial t :version "20130706" :depends-on nil
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/genworks")
