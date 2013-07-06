@@ -112,11 +112,12 @@
                ,setter))))))
 
 #-:lispworks 
-(defmacro when-let (binding &body body)
-  (destructuring-bind (var val) binding
-    `(let ((,var ,val))
-       (when ,var
-	 ,@body))))
+(glisp:without-redefinition-warnings 
+  (defmacro when-let (binding &body body)
+    (destructuring-bind (var val) binding
+      `(let ((,var ,val))
+	 (when ,var
+	   ,@body)))))
 
 #||
 #-:lispworks

@@ -1,10 +1,10 @@
-;;;; -*- encoding: utf-8; -*-
+;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:surf :description
  "The Gendl™ NURBS Surface and Solids Geometry Primitives" :author
  "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130501" :depends-on (:geom-base)
+ :version "20130706" :depends-on (:geom-base)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/parameters") (:file "source/classes")
