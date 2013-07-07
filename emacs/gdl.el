@@ -14,6 +14,17 @@
 (require 'cl)
 
 
+(defun maximize-frame ()
+  "Maximizes the active frame in Windows"
+  (interactive)
+  ;; Send a `WM_SYSCOMMAND' message to the active frame with the
+  ;; `SC_MAXIMIZE' parameter.
+  (when (eq system-type 'windows-nt) (w32-send-sys-command 61488))
+  (unless (eq system-type 'windows-nt) (set-frame-parameter nil 'fullscreen 'maximized)))
+
+(add-hook 'window-setup-hook 'maximize-frame t)
+
+
 ;; 2. WHERE ARE WE?
 
 (defvar *gendl-home* (file-truename (concat (file-name-directory (file-truename load-file-name)) "../")))
@@ -161,13 +172,9 @@
   (slime-repl)
   (insert "(unless (find-package :gendl) (load (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname))))")
   (slime-repl-return)
-  (insert (format "(load (compile-file \"%s/emacs/glime.lisp\"))" *gendl-home*))
+  (insert (format "(load (compile-file \"%semacs/glime.lisp\"))" *gendl-home*))
   (slime-repl-return)
-  (insert "(gendl:start-gendl!)")
-  (slime-repl-return)
-  (insert (format "(format nil \"Also contains ~a, and Quicklisp libraries from: 
-%s.
-Thank You to their respective authors and maintainers.\" (lisp-implementation-type))" (concat *gendl-home* "quicklisp/")))
+  (insert "(gdl::startup-banner)")
   (slime-repl-return)
   (insert "(in-package gdl-user)")
   (slime-repl-return)
@@ -191,15 +198,16 @@ Thank You to their respective authors and maintainers.\" (lisp-implementation-ty
 
 ;; 4.4. Prior to SLIME
 
+
+
 (defun prior-to-glime ()
   (find-file (concat *gendl-home* "emacs/README.txt"))
   (toggle-read-only)
   (let ((frame-title "Genworks® Gendl™ Interactive Authoring Environment"))
     (modify-frame-parameters nil (list (cons 'name frame-title))))
-  
   (setq inhibit-splash-screen t)
-  (cd "~/")
-  (set-frame-parameter nil 'fullscreen 'maximized))
+  (cd "~/"))
+
 
 (defun load-user-emacs-glime ()
   (when (file-exists-p "~/.emacs-glime") (load-file "~/.emacs-glime"))

@@ -1,9 +1,9 @@
-;;;; -*- encoding: utf-8; -*-
+;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:geom-base :description
  "The Gendl™ Wireframe Geometry" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130501" :depends-on (:glisp)
+ :version "20130706" :depends-on (:glisp)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "prereqs/source/presets")
