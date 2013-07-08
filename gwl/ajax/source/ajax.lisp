@@ -102,8 +102,8 @@
          (respondent (progn (when *debug?* (print-variables plist))
                             (or (getf plist :|respondent|) bashee)))
          (function (getf plist :|function|))
-	 (bbox-x-y (let ((jsvals (getf query-plist :|jsvals|)))
-		     (when jsvals (read-from-string jsvals))))
+	 (js-vals (let ((jsvals (getf query-plist :|jsvals|)))
+		    (when jsvals (read-from-string jsvals))))
          (arguments (getf plist :|arguments|)))
     
 
@@ -130,10 +130,7 @@
         (the-object f-e-p  validate-and-set!)
         (when *debug?* (setq *f-e-p* f-e-p)))
       
-      (when (defaulting (the-object bashee main-area))
-	(the-object bashee main-area  
-		    (set-slot! :dropped-x-y 
-			       (the-object bashee main-area (model-x-y bbox-x-y)))))
+      (when js-vals (the-object bashee (set-js-vals! js-vals)))
       
       (when function 
         (with-error-handling (:timeout *ajax-timeout*) 

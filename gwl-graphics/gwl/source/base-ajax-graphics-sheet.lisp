@@ -121,17 +121,41 @@ value of the image-format-selector, which itself defaults to :raphael."
    ;;
    ;; FLAG -- probably not needed, inherited from skeleton-ui-mixin via base-ajax-sheet, base-html-sheet, sheet-section. 
    ;;
-   (inner-html (with-cl-who-string () (write-the inner-html))))
+   (inner-html (with-cl-who-string () (write-the inner-html)))
+
+   (on-move-function nil)
+
+   (on-drop-function nil)
+
+   )
 
   
+  :functions 
+  ((set-js-vals! 
+    (js-vals)
+    (let ((dropped-x-y (the (model-x-y (destructuring-bind (&key x y &allow-other-keys) js-vals
+					 (list :x x :y y)))))
+	  (dropped-height-width (destructuring-bind (&key width height &allow-other-keys) js-vals
+				  (list :width (/ width (the view-object view-scale))
+					:height (/ height (the view-object view-scale)))))
+	  (dropped-object (with-error-handling ()
+			    (base64-decode-list (getf js-vals :name)))))
+
+      (the (set-slots! (list :dropped-x-y dropped-x-y
+			     :dropped-height-width dropped-height-width
+			     :dropped-object dropped-object
+			     )
+		       )))))
+
   :computed-slots
   (
    
-
    (dropped-x-y nil :settable)
 
+   (dropped-height-width nil :settable)
 
-			  
+   (dropped-object nil :settable)
+
 
    (js-to-eval (let ((image-format (the image-format)))
                  (cond ((eql image-format :raphael)
@@ -247,14 +271,19 @@ bottom of the graphics inside a table."
                   :choice-list (plist-keys (the standard-views))
                   ;;:default :top
                   :default (the view-direction-default)
-                  )
+                  ))
 
-   
-
-   )
   
   :functions
   (
+   (on-move ()
+	    (when (the on-move-function)
+	      (funcall (the on-move-function))))
+
+   (on-drop ()
+	    (when (the on-drop-function)
+	      (funcall (the on-drop-function))))
+
    ;;
    ;; FLAG -- copied from base-html-graphics-sheet's logic for dig-point and report-point -- 
    ;;         factor out the repeated code!
@@ -262,10 +291,9 @@ bottom of the graphics inside a table."
    ;; FLAG -- standardize on length instead of height for Y coord.
    ;;
    
-   (model-x-y (bbox)
-	      (when bbox
-		(destructuring-bind (&key x y width height name) bbox
-		  (declare (ignore width height name))
+   (model-x-y (local-x-y)
+	      (when local-x-y
+		(destructuring-bind (&key x y) local-x-y
 		  (let ((x (- x (half (the view-object width))))
 			(y (let ((y (- (the view-object length) y)))
 			     (- y (half (the view-object length))))))

@@ -235,29 +235,14 @@ interface. Defaults to nil."
   
   
   :computed-slots ((use-raphael? nil)
-                   ;; FLAG 090907-JB: indiscussion with Dave - removed
-                   ;;(use-raphael-graf? nil)
 
                    (use-x3dom? nil)
                    
                    (development-links
-                    (with-cl-who-string () (write-the development-links)))
-                   
-                   
-                   
-
-                   
-                             
-
-                   )
+                    (with-cl-who-string () (write-the development-links))))
   
   
-  :functions ((on-move ())
-
-	      (on-drop ())
-
-
-	      (back-link 
+  :functions ((back-link 
                (&key (display-string "&lt;-Back"))
                (w-c-w-s 
                 () 

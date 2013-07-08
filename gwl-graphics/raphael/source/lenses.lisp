@@ -62,11 +62,14 @@
 
 "
                                 (the raphael-canvas-id) width length
-				(the parent (gdl-sjax-call :js-vals? t))
-				;;(the parent (gdl-sjax-call :function-key :on-move))
-				(the parent (gdl-sjax-call :js-vals? t :function-key :on-drop))
-
-				)
+				;;
+				;; FLAG -- pass in the containing
+				;; base-ajax-graphics-sheet and refer
+				;; to that, instead of referring to
+				;; the parent here.
+				;;
+				(the parent (gdl-sjax-call :js-vals? t :function-key :on-move))
+				(the parent (gdl-sjax-call :js-vals? t :function-key :on-drop)))
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))

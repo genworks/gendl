@@ -21,7 +21,6 @@
 
 (in-package :gwl-user)
 
-
 (define-object dd (base-ajax-sheet base-object)
  
   :computed-slots ((use-raphael? t)
@@ -88,10 +87,35 @@
 
 	    (drop-coord-section :type 'sheet-section
 				:inner-html (with-cl-who-string ()
-					      (str (the main-area dropped-x-y))))
+					      ((:table  :border 1)
+						  (:tr (:td "dropped coord:")
+						       (:td (str (the main-area dropped-x-y))))
+						(:tr (:td "dropped dimensions:")
+						       (:td (str (the main-area dropped-height-width))))
+						(:tr (:td "dropped object:")
+						       (:td (fmt "~s" (the main-area dropped-object)))))))
             
 	    (main-area :type 'base-ajax-graphics-sheet
 		       :respondent self
+
+
+		       :on-drop-function 
+
+		       #'(lambda()
+			   (format t "Just called the on-drop hook with ~s, ~s, and ~s.~%"
+				   (the main-area dropped-x-y)
+				   (the main-area dropped-height-width)
+				   (the main-area dropped-object)))
+
+		       #+nil
+		       :on-move-function 
+		       #+nil
+		       #'(lambda()
+			   (format t "Just called the on-move hook with ~s, ~s, and ~s.~%"
+				   (the main-area dropped-x-y)
+				   (the main-area dropped-height-width)
+				   (the main-area dropped-object)))
+
 		       :vector-graphics-onclick? nil
 		       :length 500 :width 500
 		       :projection-vector (getf *standard-views* :top)
