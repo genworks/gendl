@@ -206,9 +206,9 @@ You can reload to get previous state" *ajax-timeout*))
 			    ""))
 		  replace-list)))
 
-	(when *debug?* (print-variables (the-object section js-always-to-eval)))
-
-	(when *debug?* (print-variables replace-list)))
+	(when *debug?* (print-variables (the-object section js-always-to-eval))))
+      
+      (when *debug?* (print-variables replace-list))
       
       (setq replace-list (nreverse replace-list))
     
@@ -229,6 +229,14 @@ You can reload to get previous state" *ajax-timeout*))
 					 ;; FLAG -- use another flag to indicate that the 
 					 ;; innerHTML is trumped by js-to-eval.
 					 ;;
+
+					 (:|newHTML| (when t
+						       (str (wrap-cdata (if security-ok?
+									    (second replace-pair)
+									    "<i>Security Error</i>")))))
+
+					 
+					 #+nil
 					 (:|newHTML| (when (or (not js-to-eval-status)
 							       (not js-to-eval?))
 						       (str (wrap-cdata (if security-ok?

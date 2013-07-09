@@ -123,7 +123,7 @@ value of the image-format-selector, which itself defaults to :raphael."
    ;;
    (inner-html (with-cl-who-string () (write-the inner-html)))
 
-   (on-move-function nil)
+   (on-drag-function nil)
 
    (on-drop-function nil)
 
@@ -150,11 +150,15 @@ value of the image-format-selector, which itself defaults to :raphael."
   :computed-slots
   (
    
-   (dropped-x-y nil :settable)
+   ("3D point. This is the upper-right corner of the bounding box of the dragged and/or dropped element."
+    dropped-x-y nil :settable)
 
-   (dropped-height-width nil :settable)
+   ("Plist with :width and :height. The dimensions of the bounding-box of the dragged and/or dropped element."
+    dropped-height-width nil :settable)
 
-   (dropped-object nil :settable)
+   ("List representing GDL root-path. This is the root path of the dragged and/or dropped object. 
+This is not tested to see if it is part of the same object tree as current self."
+    dropped-object nil :settable)
 
 
    (js-to-eval (let ((image-format (the image-format)))
@@ -276,9 +280,9 @@ bottom of the graphics inside a table."
   
   :functions
   (
-   (on-move ()
-	    (when (the on-move-function)
-	      (funcall (the on-move-function))))
+   (on-drag ()
+	    (when (the on-drag-function)
+	      (funcall (the on-drag-function))))
 
    (on-drop ()
 	    (when (the on-drop-function)
