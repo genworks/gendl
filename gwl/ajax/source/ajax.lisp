@@ -119,9 +119,9 @@
           (*clicked-y* (let ((string (getf query-plist :|y|)))
                          (when string (ignore-errors (parse-integer string)))))
 
-	  (js-to-eval-stati (mapcar #'(lambda(section)
-					(the-object section js-to-eval))
-				    (the-object respondent html-sections))))
+	  (js-to-eval-previi (mapcar #'(lambda(section)
+					   (the-object section js-to-eval))
+				       (the-object respondent html-sections))))
       
       (let ((f-e-p (make-object 'form-element-processor 
                                 :bashee bashee 
@@ -149,7 +149,7 @@
       (quick-save self)
 
       (respond-with-new-html-sections req ent respondent
-				      :js-to-eval-stati js-to-eval-stati))))
+				      :js-to-eval-previi js-to-eval-previi))))
 
 
 (publish :path "/gdlAjax" :function 'gdlAjax)
@@ -166,6 +166,92 @@
         ))))
 
 
+(defun respond-with-new-html-sections (req ent respondent &key js-to-eval-previi)
+  (the-object (make-object 'ajax-response :req req :ent ent :respondent respondent :js-to-eval-previi js-to-eval-previi)
+	      respond!))
+
+(define-object ajax-response ()
+
+  :input-slots (req ent respondent (js-to-eval-previi nil))
+
+  :computed-slots 
+  ((security-ok? (the respondent root do-security-check))
+   (replace-lists (mapsend (the html-sections) :replace-list))
+   (html-section-objects (the respondent html-sections))
+   (mismatch? (< (length (the js-to-eval-previi)) (length (the replace-lists)))))
+
+  :objects
+  ((html-sections :type 'html-replacement-section
+		  :sequence (:size (length (the html-section-objects)))
+		  :js-to-eval-previous (nth (the-child index) (the js-to-eval-previi))
+		  :section (nth (the-child index) (the html-section-objects))))
+  
+  :functions
+  ((respond! 
+    ()
+    (when (the mismatch?)
+      (warn "the js-to-eval-previous is not the same length as html-section-objects in ~s~%" 
+	    (the respondent)))
+    (with-http-response ((the req) (the ent) :content-type "text/xml")
+      (with-http-body ((the req) (the ent))
+	(with-html-output (*html-stream* nil)
+	  (:document
+	     (mapc #'(lambda(replace-pair js-to-eval-status)
+		       (declare (ignore js-to-eval-status)) ;; this can play into the flag
+		       (destructuring-bind (&key dom-id inner-html js-to-eval) replace-pair
+			 (let ((js-to-eval? (and js-to-eval (not (string-equal js-to-eval "")))))
+			   (when (or inner-html js-to-eval?)
+			     (htm
+			      (:html-section (:|replaceId| (str dom-id))
+					     (:|newHTML| (if inner-html
+							     (str (wrap-cdata (if (the security-ok?) inner-html
+										  (with-cl-who-string ()
+										    (:i "Security Error"))))) ""))
+					     (:|jsToEval| (if (and js-to-eval? (the security-ok?))
+							      (str (wrap-cdata js-to-eval)) ""))))))))
+		   (the replace-lists) (the js-to-eval-previi)))))))))
+
+
+(define-object html-replacement-section ()
+  :input-slots (section js-to-eval-previous)
+  :computed-slots ((status (the section (slot-status :inner-html)))
+		   (js-status (the section (slot-status :js-to-eval)))
+		   (stale? (or (eql (the status) :unbound)
+			       (eql (the js-status) :unbound)))
+
+		   (dom-id (the section dom-id))
+
+		   (inner-html (when (eql (the status) :unbound)
+				 (let ((timeout? nil))
+				   (multiple-value-bind (value error backtrace)
+				       (ignore-errors-with-backtrace (the section inner-html))
+				     (cond ((typep error 'error)
+					    (with-cl-who-string () 
+					      (:i (esc (format nil "!! This section threw error: ~a !!" 
+							       error)))
+					      (:pre (esc backtrace))))
+					   (timeout?
+					    (with-cl-who-string ()
+					      (:i (fmt "!! This section timed out after ~a seconds.
+You can reload to get previous state" *ajax-timeout*))
+					      (:pre (esc backtrace))))
+					   (t value))))))
+
+		   (js-to-eval (multiple-value-bind (value error)
+				   (ignore-errors (the section js-to-eval))
+				 (if (typep error 'error)
+				     (with-cl-who-string ()
+				       (:i (fmt "alert('This section threw error: ~a !!');" error)))
+				     (if (equalp value :parse) "parseme" value))))
+
+
+		   (replace-list (when (the stale?)
+				   (list :dom-id (the dom-id)
+					 :inner-html (the inner-html)
+					 :js-to-eval (the js-to-eval))))))
+		   
+
+#+nil
 (defun respond-with-new-html-sections (req ent self ;;current-body-sans-sections
 				       &key js-to-eval-stati)
 
@@ -248,10 +334,11 @@ You can reload to get previous state" *ajax-timeout*))
 									     "")))))))))
 		   replace-list js-to-eval-stati))))))))
 
+#+nil
 (defun remove-html-sections (sections string)
   (remove-substrings string (mapsend sections :main-div)))
 
-
+#+nil
 (defun remove-substrings (string substrings)
   (let ((result string))
     (dolist (substring substrings result)

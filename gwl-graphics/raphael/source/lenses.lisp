@@ -79,8 +79,8 @@
 				;; to that, instead of referring to
 				;; the parent here.
 				;;
-				(the parent (gdl-sjax-call :js-vals? t :function-key :on-drag))
-				(the parent (gdl-sjax-call :js-vals? t :function-key :on-drop)))
+				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
+				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop)))
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))

@@ -320,8 +320,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 	  js-vals?
           form-controls
           (asynch? t)
-	  (one-arg? nil)
-	  )
+	  (null-event? nil))
     
     (let ((string-1 (the (encode-ajax-args :bashee bashee
 					   :respondent respondent
@@ -398,10 +397,8 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 	    js-vals (glisp:replace-regexp js-vals "\\" "\\\\\\\\"))
 
 
-      
-      (if one-arg? 
-	  (format nil "gdlAjax1('args=~a~a~a);" string-1 string-2 (or js-vals ""))
-	  (format nil "gdlAjax(event,'args=~a~a~a,~a);" string-1 string-2 (or js-vals "") string-3))))
+      (format nil "gdlAjax(~a,'args=~a~a~a,~a);" 
+	      (if null-event? "null" "event") string-1 string-2 (or js-vals "") string-3)))
 
    
    (encode-ajax-args

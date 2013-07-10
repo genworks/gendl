@@ -69,8 +69,10 @@
    
    (use-bsplines? (the use-bsplines-checkbox value))
    
+   #+nil
    (js-to-eval (when (eql (the image-format) :raphael)
                  (the raphael-string)))
+
    
    (recompute? nil :settable)
    

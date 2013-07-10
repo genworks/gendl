@@ -161,7 +161,10 @@ This is not tested to see if it is part of the same object tree as current self.
     dropped-object nil :settable)
 
 
-   (js-to-eval (let ((image-format (the image-format)))
+   (js-to-eval 
+    :parse
+    #+nil
+    (let ((image-format (the image-format)))
                  (cond ((eql image-format :raphael)
                         (the raphael-string))
                        ((eql image-format :x3dom)
