@@ -203,7 +203,7 @@
 (defun prior-to-glime ()
   (find-file (concat *gendl-home* "emacs/README.txt"))
   (toggle-read-only)
-  (let ((frame-title "Genworks® Gendl™ Interactive Authoring Environment"))
+  (let ((frame-title "Genworks® GDL Interactive Authoring Environment"))
     (modify-frame-parameters nil (list (cons 'name frame-title))))
   (setq inhibit-splash-screen t)
   (cd "~/"))
