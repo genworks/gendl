@@ -689,10 +689,10 @@ by the update."
                           (the (message-list :category :required-input-slots))
                           (the (message-list :category :defaulted-input-slots)))) result)
       (mapc #'(lambda (slot)
-                (let ((contents (funcall (read-from-string (format nil "gdl-acc::~a" slot)) self)))
-                  (when (and (not (member slot '(:%name% :%parent% :%aggregate% :%index% :$$tatu-object)))
-                             (consp contents) (third contents))
-                    (push slot result) (push (readable-expression (first contents) self) result)))) inputs)
+		(unless (member slot '(:%name% :%parent% :%aggregate% :%index% :$$tatu-object))
+		  (let ((contents (funcall (read-from-string (format nil "gdl-acc::~a" slot)) self)))
+		    (when (and (consp contents) (third contents))
+		      (push slot result) (push (readable-expression (first contents) self) result))))) inputs)
       (nreverse result)))
    
 

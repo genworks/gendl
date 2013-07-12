@@ -21,50 +21,53 @@
 
 (in-package :gwl)
 
+(defparameter *ajax-snap-restore?* nil)
 
 (defun quick-save (self &key (snap-folder (glisp:snap-folder)))
-  (let ((snap-file 
-	 (merge-pathnames 
-	  (make-pathname :name (format nil "~a" (the instance-id))
-			 :type "snap") snap-folder)))
-    (with-error-handling ()
-      (the (write-snapshot :filename snap-file)))))
+  (when *ajax-snap-restore?*
+    (let ((snap-file 
+	   (merge-pathnames 
+	    (make-pathname :name (format nil "~a" (the instance-id))
+			   :type "snap") snap-folder)))
+      (with-error-handling ()
+	(the (write-snapshot :filename snap-file))))))
 
 
 (defun restore-from-snap (iid)
-  (let ((new-self
-	 (let ((snap-file 
-		(merge-pathnames 
-		 (make-pathname :name (format nil "~a" iid) 
-				:type "snap") (glisp:snap-folder))))
-	   (when (probe-file snap-file)
-             (with-error-handling ()
-	       (read-snapshot :filename snap-file
-			      :keys-to-ignore (list :time-last-touched 
-						    :time-instantiated 
-						    :expires-at)))))))
+  (when *ajax-snap-restore?*
+    (let ((new-self
+	   (let ((snap-file 
+		  (merge-pathnames 
+		   (make-pathname :name (format nil "~a" iid) 
+				  :type "snap") (glisp:snap-folder))))
+	     (when (probe-file snap-file)
+	       (with-error-handling ()
+		 (read-snapshot :filename snap-file
+				:keys-to-ignore (list :time-last-touched 
+						      :time-instantiated 
+						      :expires-at)))))))
         
-    (when new-self
-          (setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
-            (list new-self nil))
-          (when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
-          (the-object new-self set-instantiation-time!)
-          (the-object new-self set-time-last-touched!)
+      (when new-self
+	(setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
+	      (list new-self nil))
+	(when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
+	(the-object new-self set-instantiation-time!)
+	(the-object new-self set-time-last-touched!)
           
-          (format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
-		  (the-object new-self instance-id))
+	(format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
+		(the-object new-self instance-id))
 	  
-	  (the-object new-self custom-snap-restore!)
+	(the-object new-self custom-snap-restore!)
 	  
-	  )
+	)
     
-    ;;
-    ;; FLAG for testing only. 
-    ;; return error object instead of just throwing an error here. 
-    ;;
-    (unless new-self (error "Restoring of session ~a was not possible.~%" iid))
+      ;;
+      ;; FLAG for testing only. 
+      ;; return error object instead of just throwing an error here. 
+      ;;
+      (unless new-self (error "Restoring of session ~a was not possible.~%" iid))
 
-    new-self))
+      new-self)))
 
 
 (defun gdlAjax (req ent)
@@ -104,6 +107,8 @@
          (respondent (progn (when *debug?* (print-variables plist))
                             (or (getf plist :|respondent|) bashee)))
          (function (getf plist :|function|))
+	 (js-vals (let ((jsvals (getf query-plist :|jsvals|)))
+		    (when jsvals (read-from-string jsvals))))
          (arguments (getf plist :|arguments|)))
     
 
@@ -117,7 +122,11 @@
     (let ((*clicked-x* (let ((string (getf query-plist :|x|)))
                          (when string (ignore-errors (parse-integer string)))))
           (*clicked-y* (let ((string (getf query-plist :|y|)))
-                         (when string (ignore-errors (parse-integer string))))))
+                         (when string (ignore-errors (parse-integer string)))))
+
+	  (js-to-eval-previi (mapcar #'(lambda(section)
+					   (the-object section js-to-eval))
+				       (the-object respondent html-sections))))
       
       (let ((f-e-p (make-object 'form-element-processor 
                                 :bashee bashee 
@@ -125,7 +134,8 @@
         
         (the-object f-e-p  validate-and-set!)
         (when *debug?* (setq *f-e-p* f-e-p)))
-
+      
+      (when js-vals (the-object bashee (set-js-vals! js-vals)))
       
       (when function 
         (with-error-handling (:timeout *ajax-timeout*) 
@@ -143,7 +153,8 @@
       
       (quick-save self)
 
-      (respond-with-new-html-sections req ent respondent))))
+      (respond-with-new-html-sections req ent respondent
+				      :js-to-eval-previi js-to-eval-previi))))
 
 
 (publish :path "/gdlAjax" :function 'gdlAjax)
@@ -160,37 +171,121 @@
         ))))
 
 
-(defun respond-with-new-html-sections (req ent self ;;current-body-sans-sections
-                                       )
+(defun respond-with-new-html-sections (req ent respondent &key js-to-eval-previi)
+  (the-object (make-object 'ajax-response :req req :ent ent :respondent respondent :js-to-eval-previi js-to-eval-previi)
+	      respond!))
+
+(define-object ajax-response ()
+
+  :input-slots (req ent respondent (js-to-eval-previi nil))
+
+  :computed-slots 
+  ((security-ok? (the respondent root do-security-check))
+   (replace-lists (mapsend (the html-sections) :replace-list))
+   (html-section-objects (the respondent html-sections))
+   (mismatch? (< (length (the js-to-eval-previi)) (length (the replace-lists)))))
+
+  :objects
+  ((html-sections :type 'html-replacement-section
+		  :sequence (:size (length (the html-section-objects)))
+		  :js-to-eval-previous (nth (the-child index) (the js-to-eval-previi))
+		  :section (nth (the-child index) (the html-section-objects))))
   
+  :functions
+  ((respond! 
+    ()
+    (when (the mismatch?)
+      (warn "the js-to-eval-previous is not the same length as html-section-objects in ~s~%" 
+	    (the respondent)))
+    (with-http-response ((the req) (the ent) :content-type "text/xml")
+      (with-http-body ((the req) (the ent))
+	(with-html-output (*html-stream* nil)
+	  (:document
+	     (mapc #'(lambda(replace-pair js-to-eval-status)
+		       (declare (ignore js-to-eval-status)) ;; this can play into the flag
+		       (destructuring-bind (&key dom-id inner-html js-to-eval) replace-pair
+			 (let ((js-to-eval? (and js-to-eval (not (string-equal js-to-eval "")))))
+			   (when (or inner-html js-to-eval?)
+			     (htm
+			      (:html-section (:|replaceId| (str dom-id))
+					     (:|newHTML| (if inner-html
+							     (str (wrap-cdata (if (the security-ok?) inner-html
+										  (with-cl-who-string ()
+										    (:i "Security Error"))))) ""))
+					     (:|jsToEval| (if (and js-to-eval? (the security-ok?))
+							      (str (wrap-cdata js-to-eval)) ""))))))))
+		   (the replace-lists) (the js-to-eval-previi)))))))))
+
+
+(define-object html-replacement-section ()
+  :input-slots (section js-to-eval-previous)
+  :computed-slots ((status (the section (slot-status :inner-html)))
+		   (js-status (the section (slot-status :js-to-eval)))
+		   (stale? (or (eql (the status) :unbound)
+			       (eql (the js-status) :unbound)))
+
+		   (dom-id (the section dom-id))
+
+		   (inner-html (when (eql (the status) :unbound)
+				 (let ((timeout? nil))
+				   (multiple-value-bind (value error backtrace)
+				       (ignore-errors-with-backtrace (the section inner-html))
+				     (cond ((typep error 'error)
+					    (with-cl-who-string () 
+					      (:i (esc (format nil "!! This section threw error: ~a !!" 
+							       error)))
+					      (:pre (esc backtrace))))
+					   (timeout?
+					    (with-cl-who-string ()
+					      (:i (fmt "!! This section timed out after ~a seconds.
+You can reload to get previous state" *ajax-timeout*))
+					      (:pre (esc backtrace))))
+					   (t value))))))
+
+		   (js-to-eval (multiple-value-bind (value error)
+				   (ignore-errors (the section js-to-eval))
+				 (if (typep error 'error)
+				     (with-cl-who-string ()
+				       (:i (fmt "alert('This section threw error: ~a !!');" error)))
+				     (if (equalp value :parse) "parseme" value))))
+
+
+		   (replace-list (when (the stale?)
+				   (list :dom-id (the dom-id)
+					 :inner-html (the inner-html)
+					 :js-to-eval (the js-to-eval))))))
+		   
+
+#+nil
+(defun respond-with-new-html-sections (req ent self ;;current-body-sans-sections
+				       &key js-to-eval-stati)
+
   (let ((security-ok? (the root do-security-check)))
     (let (replace-list)
-      (dolist (section (the html-sections) (reverse replace-list))
-        (let ((status (the-object section (slot-status :inner-html)))
-              (js-status (the-object section (slot-status :js-to-eval))))
-        
-          (when *debug?* (print-variables (the-object section root-path) status js-status))
-        
-          (when (or (eql status :unbound)
-                    (eql js-status :unbound))
-            (push (list (the-object section dom-id)
-                        (let ((timeout? nil))
-                          (multiple-value-bind (string error backtrace)
-                              (ignore-errors-with-backtrace
-                                (the-object section inner-html))
-                            (cond ((typep error 'error)
-                                   (with-output-to-string(ss)
-                                     (with-html-output(ss)
-                                       (:i (esc (format nil "!! This section threw error: ~a !!" 
-                                                error)))
-                                       (:pre (esc backtrace)))))
-                                  (timeout?
-                                   (with-output-to-string(ss)
-                                     (with-html-output(ss)
-                                       (:i (fmt "!! This section timed out after ~a seconds.
+      (dolist (section (the html-sections))
+	(let ((status (the-object section (slot-status :inner-html)))
+	      (js-status (the-object section (slot-status :js-to-eval))))
+	  (when *debug?* (print-variables (the-object section root-path) status js-status))
+	  (when (or (eql status :unbound)
+		    (eql js-status :unbound))
+	    (push (list (the-object section dom-id)
+			(let ((timeout? nil))
+			  (multiple-value-bind (string error backtrace)
+			      (ignore-errors-with-backtrace
+				(the-object section inner-html))
+			    (cond ((typep error 'error)
+				   (with-output-to-string(ss)
+				     (with-html-output(ss)
+				       (:i (esc (format nil "!! This section threw error: ~a !!" 
+							error)))
+				       (:pre (esc backtrace)))))
+				  (timeout?
+				   (with-output-to-string(ss)
+				     (with-html-output(ss)
+				       (:i (fmt "!! This section timed out after ~a seconds.
 You can reload to get previous state" *ajax-timeout*))
-                                       (:pre (esc backtrace)))))
-                                  (t string))))
+				       (:pre (esc backtrace)))))
+				  (t string))))
 			(if t ;;(eql js-status :unbound)
 			    (multiple-value-bind (string error)
 				(ignore-errors (the-object section js-to-eval))
@@ -200,33 +295,55 @@ You can reload to get previous state" *ajax-timeout*))
 				      (:i (fmt "alert('This section threw error: ~a !!');" error))))
 				  (or string (the-object section js-always-to-eval) "")))
 			    ""))
-                  replace-list)))
+		  replace-list)))
 
 	(when *debug?* (print-variables (the-object section js-always-to-eval))))
-
-
+      
       (when *debug?* (print-variables replace-list))
-        
+      
+      (setq replace-list (nreverse replace-list))
     
-      (with-http-response (req ent :content-type "text/xml")
-        (with-http-body (req ent)
-          (with-html-output(*html-stream* nil)
-            (:document
-             (dolist (replace-pair replace-list)
-               (htm
-                (:html-section (:|replaceId| (str (first replace-pair)))
-                               (:|newHTML| (str (wrap-cdata (if security-ok?
-                                                                (second replace-pair)
-                                                              "<i>Security Error</i>"))))
-                               (:|jsToEval| (when (third replace-pair)
-					      (str (wrap-cdata (if security-ok?
-								   (third replace-pair)
-								   "")))))))))))))))
+      (when (< (length js-to-eval-stati) (length replace-list))
+	(error "js-to-eval-stati is too short. If you get this error, please contact support@genworks.com~%"))
 
+      (with-http-response (req ent :content-type "text/xml")
+	(with-http-body (req ent)
+	  (with-html-output(*html-stream* nil)
+	    (:document
+
+	     (mapc #'(lambda(replace-pair js-to-eval-status)
+		       (let ((js-to-eval? (and (third replace-pair)
+					       (not (string-equal (third replace-pair) "")))))
+			 (htm
+			  (:html-section (:|replaceId| (str (first replace-pair)))
+					 ;;
+					 ;; FLAG -- use another flag to indicate that the 
+					 ;; innerHTML is trumped by js-to-eval.
+					 ;;
+
+					 (:|newHTML| (when t
+						       (str (wrap-cdata (if security-ok?
+									    (second replace-pair)
+									    "<i>Security Error</i>")))))
+
+					 
+					 #+nil
+					 (:|newHTML| (when (or (not js-to-eval-status)
+							       (not js-to-eval?))
+						       (str (wrap-cdata (if security-ok?
+									    (second replace-pair)
+									    "<i>Security Error</i>")))))
+					 (:|jsToEval| (when js-to-eval?
+							(str (wrap-cdata (if security-ok?
+									     (third replace-pair)
+									     "")))))))))
+		   replace-list js-to-eval-stati))))))))
+
+#+nil
 (defun remove-html-sections (sections string)
   (remove-substrings string (mapsend sections :main-div)))
 
-
+#+nil
 (defun remove-substrings (string substrings)
   (let ((result string))
     (dolist (substring substrings result)

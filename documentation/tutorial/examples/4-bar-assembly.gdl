@@ -1,0 +1,238 @@
+(gwl:define-package :4-bar (:export #:assembly #:dd))
+
+(in-package :4-bar)
+
+
+(define-object dd (base-ajax-sheet base-object)
+ 
+  :computed-slots ((use-raphael? t)
+		   (main-sheet-body (with-cl-who-string ()
+				      (str (the development-links))
+				      (str (the main-area main-div))
+				      (str (the drop-coord-section main-div))))
+
+		   (dropped-x-y (the main-area dropped-x-y)))
+
+  :objects ((assembly :type 'assembly
+		      :input-link-angle-d (if (the dropped-x-y)
+					      (angle-between-vectors-d (the (face-normal-vector :right))
+								       (subtract-vectors  (the dropped-x-y)
+											  (the assembly ground-2))
+								       (the (face-normal-vector :top)))
+					      90)))
+
+  :hidden-objects ((drop-coord-section :type 'sheet-section
+				:inner-html (with-cl-who-string ()
+					      (str (the main-area dropped-x-y))))
+		   (main-area :type 'base-ajax-graphics-sheet
+			      :respondent self
+			      :vector-graphics-onclick? nil
+			      :length 500 :width 500
+			      ;;:projection-vector (getf *standard-views* :top)
+			      :display-list-object-roots (list (the assembly)))))
+
+
+
+(define-object assembly (base-object)
+
+  :input-slots
+  ((ground-link-length 15 :settable)
+   (grounded-link-1-length 8 :settable)
+   (grounded-link-2-length 5 :settable)
+   (coupler-link-length 15 :settable)
+   (coupler-angle-1-d 30 :settable)
+   (coupler-length-1 10 :settable)
+   (input-link-index 1 :settable)
+   (input-link-angle-d 90 :settable)
+   (angle-increment 10 :settable))
+   
+  
+  :computed-slots
+  ((input-link-angle (degree (the input-link-angle-d)))
+   (coupler-angle-1 (degree (the coupler-angle-1-d)))
+   (ground-1 (translate (the center) :left (half (the ground-link-length))))
+   (ground-2 (translate (the center) :right (half (the ground-link-length))))
+   (follower-link-circle (the (grounded-link-circles (- 1 (the input-link-index)))))
+   
+   
+   (follower-link-ends (mapcar #'(lambda(flag)
+				   (inter-circle-sphere (the input-link-circle center)
+							(the input-link-circle radius)
+							(the input-link-circle 
+							  (face-normal-vector :top))
+							(the follower-link-circle center)
+							(the follower-link-circle radius) 
+							flag))
+			       (list t nil)))
+   
+   (follower-link-angles (mapcar #'(lambda(point)
+				     (angle-between-vectors 
+				      (the follower-link-circle (face-normal-vector :right))
+				      (subtract-vectors point
+							(the follower-link-circle center))
+				      (the follower-link-circle (face-normal-vector :top))))
+				 (the follower-link-ends)))
+   
+   (follower-link-angle (apply #'min (the follower-link-angles)))
+   
+   (follower-link-end (if (near-to? (first (the follower-link-angles))
+				    (the follower-link-angle))
+			  (first (the follower-link-ends))
+			(second (the follower-link-ends))))
+
+   
+   (links (list (the ground-link) (the (grounded-links 0)) (the (grounded-links 1))
+		(the coupler-link)))
+   
+   (sorted-links (safe-sort (the links) #'<
+			    :key #'(lambda(link) (the-object link length))))
+   
+   (shortest-link (first (the sorted-links)))
+   
+   (longest-link (lastcar (the sorted-links)))
+   
+   (p-link (second (the sorted-links)))
+   
+   (q-link (third (the sorted-links)))
+   
+   (crank-rocker? (and (eql (the grashof-classification) :type-1)
+		       (or (eql (the shortest-link) (the (grounded-links 0)))
+			   (eql (the shortest-link) (the (grounded-links 1))))))
+   
+   (double-crank? (eql (the shortest-link) (the ground-link)))
+   
+   (double-rocker? (eql (the shortest-link) (the coupler-link)))
+   
+   (grashof-classification (cond ((< (+ (the shortest-link length)
+					(the longest-link length))
+				     (+ (the p-link length)
+					(the q-link length))) :type-1)
+				 ((> (+ (the shortest-link length)
+					(the longest-link length))
+				     (+ (the p-link length)
+					(the q-link length))) :type-2)
+				 (t :neutral))))
+
+  :hidden-objects
+  ((scratch :type 'assembly
+	    :pass-down (angle-increment 
+			ground-link-length grounded-link-1-length
+			grounded-link-2-length coupler-link-length
+			coupler-angle-1-d coupler-length-1
+			input-link-index input-link-angle-d)))
+
+  
+  :objects
+  (
+   (follower-link-sphere :type 'sphere
+			 :center (the follower-link-circle center)
+			 :radius (the follower-link-circle radius))
+   
+   (input-link-circle :type 'circle
+		      :radius (the coupler-link-length)
+		      :center (the (grounded-links (the input-link-index)) end))
+   
+   
+   (grounded-link-circles :type 'circle
+			  :sequence (:size 2)
+			  :radius (ecase (the-child index) 
+				    (0 (the grounded-link-1-length)) 
+				    (1 (the grounded-link-2-length)))
+			  :center (ecase (the-child index) 
+				    (0 (the ground-1)) 
+				    (1 (the ground-2))))
+   
+   (ground-link :type 'c-cylinder :radius 0.3
+		:start (the ground-1) :end (the ground-2)
+		:display-controls (list :line-thickness 2))
+   
+   (pivot-1 :type 'cylinder 
+	    :center (the ground-link start)
+	    :radius (the ground-link radius)
+	    :length 0.5
+	    :display-controls (list :line-thickness 3)
+	    :orientation (alignment :front (the (face-normal-vector :top))))
+   
+   (pivot-2 :type 'cylinder 
+	    :center (the ground-link end)
+	    :radius (the ground-link radius)
+	    :length 0.5
+	    :display-controls (list :line-thickness 3)
+	    :orientation (alignment :front (the (face-normal-vector :top))))
+   
+   
+
+   (grounded-links :type 'c-cylinder
+		   :radius (the ground-link radius)
+		   :sequence (:size 2)
+		   :display-controls (list :color (ecase (the-child index) 
+						    (0 :red) (1 :green))
+					   :line-thickness 2
+					   :drag-controls :drag-and-drop)
+		   :circle (the (grounded-link-circles (the-child index)))
+		   :pseudo-inputs (circle)
+		   :start (the-child circle center)
+		   :end (rotate-point (the-child circle start)
+				      (the-child circle center)
+				      (the (face-normal-vector :top))
+				      :angle (if (= (the input-link-index) 
+						    (the-child index))
+						 (the input-link-angle) 
+					       (the follower-link-angle))))
+   
+   (coupler-link :type 'coupler-link
+		 :display-controls (list :line-thickness 2 :color :blue)
+		 :pass-down (coupler-angle-1 coupler-length-1)
+		 :start (the (grounded-links 0) end)
+		 :end (the (grounded-links 1) end)))
+  
+  :functions
+  ((animate 
+    (&key (start-angle-d 0) (end-angle-d 360) (increment (the angle-increment)) (write-pdfs? t))
+    (let* ((current-angle (the input-link-angle-d))
+	   (angles (list-of-numbers start-angle-d end-angle-d increment))
+	   (count -1) data)
+      (dolist (angle angles)
+	(the (set-slot! :input-link-angle-d angle))
+	(print-variables angle)
+	(incf count)
+	(with-error-handling () (push (the coupler-link datum) data))
+	(when write-pdfs?
+	  (let ((filename (format nil "/tmp/4bar-~2,,,'0@a.pdf" count)))
+	    (with-format (pdf filename :page-width (* 5 72) :page-length (* 5 72))
+	      (write-the view-object cad-output)))))
+      (the (set-slot! :input-link-angle-d current-angle))
+      (nreverse data)))))
+   
+
+(define-object coupler-link (line)
+  
+  :input-slots (coupler-angle-1 coupler-length-1)
+  
+  :computed-slots ((datum (the edge-1 end)))
+  
+  :objects
+  ((baseline :type 'line
+	     :pass-down (start end))
+   
+   (edge-1 :type 'line
+	   :pass-down (start)
+	   :end (rotate-point (translate-along-vector (the start)
+						      (the direction-vector)
+						      (the coupler-length-1))
+			      (the start)
+			      (the (face-normal-vector :top))
+			      :angle (the coupler-angle-1)))
+   (edge-2 :type 'line
+	   :start (the edge-1 end)
+	   :pass-down (end))))
+			      
+ 
+
+
+
+
+
+
+    
+    

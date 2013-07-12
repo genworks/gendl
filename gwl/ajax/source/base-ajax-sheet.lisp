@@ -235,24 +235,13 @@ interface. Defaults to nil."
   
   
   :computed-slots ((use-raphael? nil)
-                   ;; FLAG 090907-JB: indiscussion with Dave - removed
-                   ;;(use-raphael-graf? nil)
 
                    (use-x3dom? nil)
                    
                    ("String of HTML. Provides the developer control links for current sheet."
 		    development-links
-                    (with-cl-who-string () (write-the development-links)))
-                   
-                   
-                   
+                    (with-cl-who-string () (write-the development-links))))
 
-                   
-                             
-
-                   )
-  
-  
   :functions ((back-link 
                (&key (display-string "&lt;-Back"))
                (w-c-w-s 
@@ -260,7 +249,6 @@ interface. Defaults to nil."
                 ((:a :href (the return-object url)) (str display-string))))
               
               (update-root! () 
-                            (format t "Updateing root...~%~%")
                             (unpublish-instance-urls (the instance-id) (the url))
                             (the root update!)
                             (the url)
@@ -472,7 +460,9 @@ from a saved snapshot file."
       (when (the use-raphael?)
         (htm ((:script :type "text/javascript" 
                        :src 
-                       "/static/3rdpty/raphael/js/raphael-1.2-min.js"))))
+                       ;;"/static/3rdpty/raphael/js/raphael-1.2-min.js"
+		       "/static/3rdpty/raphael/js/raphael-2.1-min.js"
+		       ))))
       
       #+nil
       ((:script :type "text/javascript"

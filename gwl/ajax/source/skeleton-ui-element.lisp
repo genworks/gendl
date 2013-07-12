@@ -317,10 +317,10 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
           (respondent (the respondent)) 
           function-key 
           arguments
+	  js-vals?
           form-controls
           (asynch? t)
-	  (one-arg? nil)
-	  )
+	  (null-event? nil))
     
     (let ((string-1 (the (encode-ajax-args :bashee bashee
 					   :respondent respondent
@@ -378,18 +378,27 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 			       "'"
 			       )))
 		      string))
+	  
+	  (js-vals (when js-vals?
+		     "+ '&jsvals=' + '(:x ' + this.getBBox().x + 
+' :y ' + this.getBBox().y + 
+' :width ' + this.getBBox().width + 
+' :height ' + this.getBBox().height +
+' :name ' + this.data('name') +
+')'"))
 
 	  (string-3 (if asynch? "true" "false")))
       
       (when *debug?* (print-variables string-1 string-2 string-3))
+
       
       (setq string-1 (glisp:replace-regexp string-1 "\\" "\\\\\\\\")
-	    string-2 (glisp:replace-regexp string-2 "\\" "\\\\\\\\"))
+	    string-2 (glisp:replace-regexp string-2 "\\" "\\\\\\\\")
+	    js-vals (glisp:replace-regexp js-vals "\\" "\\\\\\\\"))
 
 
-      (if one-arg? 
-	  (format nil "gdlAjax1('args=~a~a);" string-1 string-2)
-	  (format nil "gdlAjax(event,'args=~a~a,~a);" string-1 string-2 string-3))))
+      (format nil "gdlAjax(~a,'args=~a~a~a,~a);" 
+	      (if null-event? "null" "event") string-1 string-2 (or js-vals "") string-3)))
 
    
    (encode-ajax-args

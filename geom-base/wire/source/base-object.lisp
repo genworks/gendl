@@ -361,6 +361,8 @@ Defaults to the foreground color specified in <tt>*colors-default*</tt>. This me
   
   :functions 
   (
+   (path-info ())
+
    ;;
    ;; FLAG -- check if we are at root orientation and center,
    ;; i.e. confirm transform is really necessary.
