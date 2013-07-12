@@ -28,7 +28,7 @@
 			      :respondent self
 			      :vector-graphics-onclick? nil
 			      :length 500 :width 500
-			      :projection-vector (getf *standard-views* :top)
+			      ;;:projection-vector (getf *standard-views* :top)
 			      :display-list-object-roots (list (the assembly)))))
 
 
@@ -167,7 +167,8 @@
 		   :sequence (:size 2)
 		   :display-controls (list :color (ecase (the-child index) 
 						    (0 :red) (1 :green))
-					   :line-thickness 2)
+					   :line-thickness 2
+					   :drag-controls :drag-and-drop)
 		   :circle (the (grounded-link-circles (the-child index)))
 		   :pseudo-inputs (circle)
 		   :start (the-child circle center)
