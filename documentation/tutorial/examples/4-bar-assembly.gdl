@@ -181,7 +181,7 @@
 					       (the follower-link-angle))))
    
    (coupler-link :type 'coupler-link
-		 :display-controls (list :line-thickness 2 :color :blue)
+		 :display-controls (list :line-thickness 2 :color :blue :fill-color :blue)
 		 :pass-down (coupler-angle-1 coupler-length-1)
 		 :start (the (grounded-links 0) end)
 		 :end (the (grounded-links 1) end)))
@@ -205,13 +205,40 @@
       (nreverse data)))))
    
 
-(define-object coupler-link (line)
+(define-object coupler-link (global-polyline)
+  
+  :input-slots (start end coupler-angle-1 coupler-length-1)
+  
+  :computed-slots ((datum (the edge-1 end))
+
+		   (direction-vector (subtract-vectors (the end) (the start)))
+		   (vertex-list (list (the start) (the end) (the edge-1 end))))
+  
+  :hidden-objects
+  ((baseline :type 'line
+	     :pass-down (start end))
+   
+   (edge-1 :type 'line
+	   :pass-down (start)
+	   :end (rotate-point (translate-along-vector (the start)
+						      (the direction-vector)
+						      (the coupler-length-1))
+			      (the start)
+			      (the (face-normal-vector :top))
+			      :angle (the coupler-angle-1)))
+   (edge-2 :type 'line
+	   :start (the edge-1 end)
+	   :pass-down (end))))
+
+
+#+nil
+(define-object coupler-link (line outline-specialization-mixin)
   
   :input-slots (coupler-angle-1 coupler-length-1)
   
   :computed-slots ((datum (the edge-1 end)))
   
-  :objects
+  :hidden-objects
   ((baseline :type 'line
 	     :pass-down (start end))
    
