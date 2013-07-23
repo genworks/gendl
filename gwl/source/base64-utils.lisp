@@ -62,14 +62,18 @@
 
 
 (defun base64-decode-safe (string)
-"String. Decodes a base64 string without need for trailing = signs into a decoded string.
+  "String. Decodes a base64 string without need for trailing = signs into a decoded string.
 
 :arguments (string \"string\")
 
 "
+
+  (when *debug?* (print-variables string))
+
+
   (let ((padding (make-string (mod (- 4 (mod (length string) 4)) 4) :initial-element #\=)))
     (funcall glisp:*base64-decode-func* 
-             (string-append (glisp:replace-regexp (glisp:replace-regexp string "-" "+") "_" "/") padding))))
+	     (string-append (glisp:replace-regexp (glisp:replace-regexp string "-" "+") "_" "/") padding))))
 
                            
 

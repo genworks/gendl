@@ -3,7 +3,7 @@
 (asdf:defsystem #:examples :description
  "The Gendl™ examples Subsystem" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130709" :depends-on (:surf)
+ :version "20130723" :depends-on (:surf)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/ch2-examples") (:file "source/ch3-examples")
