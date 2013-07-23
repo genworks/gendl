@@ -30,6 +30,7 @@
 					:type nil
 					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
 					:defaults glisp:*gdl-program-home*))
+  (pushnew (make-keyword (format nil "gendl-~a" *gendl-version*)) *features*)
   (glisp:set-genworks-source-home-if-known)
   (glisp:set-default-float-format)
   (glisp:set-defpackage-behavior)

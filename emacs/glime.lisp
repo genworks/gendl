@@ -245,30 +245,30 @@
   (multiple-value-bind (decoded-arglist determining-args any-enrichment)
       (call-next-method)
     (destructuring-bind (&optional name mixins &rest spec-pairs)
-        arguments
+	arguments
       (declare (ignore name mixins))
       ;; Has the user got as far as the keyword list yet?
       (when spec-pairs
-        ;; Which keyword are they working on?
-        (multiple-value-bind (key values)
-            (active-keyword spec-pairs)
-          (when key
-            (when-let (this-keyword-arg (find key (arglist.keyword-args decoded-arglist)
-                                              :key 'keyword-arg.keyword))
-              ;; Mangle the arglist structure: only show the keyword we're working on.
-              (let ((local-arglist (copy-arglist decoded-arglist)))
-                (setf (arglist.keyword-args local-arglist) (list this-keyword-arg)
-                      (arglist.rest local-arglist) nil
-                      (arglist.allow-other-keys-p local-arglist) t
-                      ;; Disable highlighting.
-                      *autodoc-highlighting* nil)
-                (return-from compute-enriched-decoded-arglist
-                  ;; If we can, make the init-slots for this keyword appear to be
-                  ;; its default initargs. Behold! That makes them look just right.
-                  (values (augment-gendl-define-object (keyword-arg.keyword this-keyword-arg)
-                                                       local-arglist
-                                                       values)
-                          determining-args t))))))))
+	;; Which keyword are they working on?
+	(multiple-value-bind (key values)
+	    (active-keyword spec-pairs)
+	  (when key
+	    (when-let (this-keyword-arg (find key (arglist.keyword-args decoded-arglist)
+					      :key 'keyword-arg.keyword))
+	      ;; Mangle the arglist structure: only show the keyword we're working on.
+	      (let ((local-arglist (copy-arglist decoded-arglist)))
+		(setf (arglist.keyword-args local-arglist) (list this-keyword-arg)
+		      (arglist.rest local-arglist) nil
+		      (arglist.allow-other-keys-p local-arglist) t
+		      ;; Disable highlighting.
+		      *autodoc-highlighting* nil)
+		(return-from compute-enriched-decoded-arglist
+		  ;; If we can, make the init-slots for this keyword appear to be
+		  ;; its default initargs. Behold! That makes them look just right.
+		  (values (augment-gendl-define-object (keyword-arg.keyword this-keyword-arg)
+						       local-arglist
+						       values)
+			  determining-args t))))))))
     ;; &allow-other-keys and &rest don't contribute anything here.
     (setf (arglist.rest decoded-arglist) nil
 	  (arglist.allow-other-keys-p decoded-arglist) nil)
@@ -443,25 +443,30 @@ each returning a list of proposed messages.")
 
 (defvar *this-the*)
 
+
+;;
+;; FLAG -- DJC added this ignore-errors
+;;
 (defun embedded-the-arglist ()
-  (let* ((whole-form *form-with-arglist*)
-         (*this-the* (or (this-the-from-form whole-form)
-                         ;; The gend:the form isn't embedded inside a define-object. Bail out.
-                         (return-from embedded-the-arglist
-                           nil))))
+  (ignore-errors
+    (let* ((whole-form *form-with-arglist*)
+	   (*this-the* (or (this-the-from-form whole-form)
+			   ;; The gend:the form isn't embedded inside a define-object. Bail out.
+			   (return-from embedded-the-arglist
+			     nil))))
     
-    (when-let (messages (when (and (consp whole-form)
-                                   (eq (car whole-form) 'gendl:define-object))
-                          (remove-duplicates (loop for locator in *message-locators* append
-                                                   (funcall locator whole-form))
-                                             :from-end t)))
-      (values (make-arglist :key-p t
-			    :keyword-args (loop for message in messages collect
-						(make-keyword-arg message message nil))
-			    :provided-args nil
-			    :allow-other-keys-p t
-			    :rest 'reference-chain)
-	      nil t))))
+      (when-let (messages (when (and (consp whole-form)
+				     (eq (car whole-form) 'gendl:define-object))
+			    (remove-duplicates (loop for locator in *message-locators* append
+						    (funcall locator whole-form))
+					       :from-end t)))
+	(values (make-arglist :key-p t
+			      :keyword-args (loop for message in messages collect
+						 (make-keyword-arg message message nil))
+			      :provided-args nil
+			      :allow-other-keys-p t
+			      :rest 'reference-chain)
+		nil t)))))
 
 
 ;; 9.1. Analyse the current gendl:the form
@@ -507,6 +512,7 @@ each returning a list of proposed messages.")
 
 ;; Try repeating the name of this function, many times, fast, and in a darkened room.
 
+
 (defun this-the-from-form (form)
   ;; A bit like messages-in-this-form below, best done as a separate cycle.
   (when (eq (car form) 'gendl:define-object)
@@ -523,22 +529,22 @@ each returning a list of proposed messages.")
 	    do
 	    (when-let (form-with-cursor-marker (form-with-cursor-marker item))
 	      (return-from this-the-from-form
-                (make-this-the section-name item form-with-cursor-marker))))))))
+		(make-this-the section-name item form-with-cursor-marker))))))))
 
 
 (defun form-with-cursor-marker (form)
   ;; Return, if any, the innermost (the ...) form containing the
   ;; cursor-marker.
   (loop for thing in form
-        do
-        (cond ((eq thing '%cursor-marker%) (return form))
-              ((consp thing)
-               (when-let (inner-form (form-with-cursor-marker thing))
-                 (if (and (consp inner-form)
-                          (case (car inner-form)
-                            ((gendl:the gendl:the-child gendl:the-object) t)))
-                     (return inner-form)
-                   (return thing)))))))
+     do
+     (cond ((eq thing '%cursor-marker%) (return form))
+	   ((consp thing)
+	    (when-let (inner-form (form-with-cursor-marker thing))
+	      (if (and (consp inner-form)
+		       (case (car inner-form)
+			 ((gendl:the gendl:the-child gendl:the-object) t)))
+		  (return inner-form)
+		  (return thing)))))))
 
 
 ;; 9.2. Messages which we can deduce from the current form.

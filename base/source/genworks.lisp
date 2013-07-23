@@ -1,4 +1,4 @@
-;;;; -*- encoding: utf-8; -*-
+;;;; -*- coding: utf-8 -*-;
 ;;
 ;; Copyright 2002-2011, 2012 Genworks International
 ;;
