@@ -469,7 +469,7 @@ from a saved snapshot file."
                 :src "/static/gwl/js/base64.js"))
 
       ((:script :type "text/javascript"
-                :src "/static/gwl/js/gdlajax.js"))
+                :src "/static/gwl/js/gdlajax-swap.js"))
       
       ((:script :type "text/javascript")
        (fmt "~%var gdliid = '~a';" (the instance-id)))
