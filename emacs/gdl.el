@@ -30,7 +30,7 @@
 (defvar *gendl-home* (file-truename (concat (file-name-directory (file-truename load-file-name)) "../")))
 
 
-;; 3. CONFGURGE EMACS
+;; 3. CONFIGURGE EMACS
 ;;
 ;; This section is not SLIME-specific.
 ;;
