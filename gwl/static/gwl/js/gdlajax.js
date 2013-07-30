@@ -173,8 +173,9 @@ function gdlUpdate (request) {
 		if (jsToEval && (jsToEval == 'parseme'))
 		    {
 			codes = myelem.getElementsByTagName("script");
+
 			for(var j=0;j<codes.length;j++)  
-			{  
+			{   //alert(codes[j].text);
 			    eval(codes[j].text); }}
             }
 	    
