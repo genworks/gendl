@@ -153,8 +153,7 @@
 	;;
 	;; FLAG -- update this to handle global-filleted-polyline and any other odd types.
 	;;
-	(unless (typep object 'global-filleted-polyline)
-      
+	(unless (typep object 'global-polyline-mixin)
 	  (let ((line-index-pairs (the-object object %line-vertex-indices%))
 		(curve-index-quadruples (the-object object %curve-vertex-indices%)))
         

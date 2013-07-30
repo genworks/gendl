@@ -514,9 +514,10 @@ CL \"fround\" function.
 	     ,(readable-expression (nreverse vals) self)) ht)))
 
 (defmethod readable-expression ((object cons) &optional self)  
-           (with-error-handling (:timeout nil) `(list ,@(mapcar #'(lambda(expr)
-								    (readable-expression expr self))
-								object))))
+  
+  (with-error-handling (:timeout nil) `(list ,@(mapcar #'(lambda(expr)
+							   (readable-expression expr self))
+						       object))))
 
 (defmethod readable-expression ((object number) &optional self) (declare (ignore self)) object)
 (defmethod readable-expression ((object string) &optional self) (declare (ignore self)) object)

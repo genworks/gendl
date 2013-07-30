@@ -76,11 +76,27 @@ filleted-polyline."
    (%arcs% (list-elements (the fillets)))
    
    (%renderer-info% (list :vrml? t :view-default :top))
+
+
+   (path-info (let ((first? t))
+		(mapcan #'(lambda(straight curve-set)
+			    (append (if first? (progn (setq first? nil)
+						      (list :move (first straight) :line (second straight)))
+					(list :line (second straight)))
+
+				    (apply #'append
+					   (mapcar #'(lambda(curve) (cons :curve (rest (reverse curve))))
+						   (reverse (the-object curve-set %curves-to-draw%))))))
+			(the straights) (list-elements (the fillets)))))
+				
+
+
    
    (fillet-types (mapcar #'(lambda(test)
                              (if (the-object test valid?) 'fillet 'null-part))
                          (list-elements (the fillet-tests)))))
-
+  
+  
   ;;
   ;; FLAG --replace with function call returning fillet-curves.
   ;;

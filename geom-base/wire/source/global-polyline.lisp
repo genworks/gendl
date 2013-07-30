@@ -29,14 +29,14 @@
   
   :computed-slots
   ((%corners%  (bounding-box-from-points (the vertex-list)))
-   (%lines-to-draw% nil)
-   (%%lines-to-draw%% (the :lines))
-   (%%vertex-array%% (flatten-lines (the %%lines-to-draw%%)))
+
+   (%lines-to-draw% (the :lines))
+   (%%vertex-array%% (flatten-lines (the %lines-to-draw%)))
    (%%line-vertex-indices%% (let ((count -1))
                             (mapcar #'(lambda(line)
                                         (declare (ignore line))
                                         (list (incf count) (incf count)))
-                                    (the %%lines-to-draw%%))))
+                                    (the %lines-to-draw%))))
    
    
    (%renderer-info% (list :vrml? t :view-default :top))

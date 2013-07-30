@@ -149,7 +149,7 @@ the browser in development mode). Defaults to NIL (the empty list)."
    
    (host nil :defaulting)
    
-   (query-toplevel nil :settable)
+   ;; (query-toplevel nil :settable)
    
    )
 
@@ -201,7 +201,8 @@ the submitted form fields automatically."
 
 
   :trickle-down-slots
-  (tree-root instance-id plain-url? host home-page query-toplevel fixed-url-prefix)
+  (tree-root instance-id plain-url? host home-page ;;query-toplevel 
+	     fixed-url-prefix)
 
   :hidden-objects
   (($$update :type 'update

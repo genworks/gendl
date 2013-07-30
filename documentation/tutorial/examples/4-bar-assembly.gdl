@@ -1,4 +1,41 @@
+<<<<<<< HEAD
 (in-package :gdl-user)
+=======
+(gwl:define-package :4-bar (:export #:assembly #:dd))
+
+(in-package :4-bar)
+
+
+(define-object dd (base-ajax-sheet base-object)
+ 
+  :computed-slots ((use-raphael? t)
+		   (main-sheet-body (with-cl-who-string ()
+				      (str (the development-links))
+				      (str (the main-area main-div))
+				      (str (the drop-coord-section main-div))))
+
+		   (dropped-x-y (the main-area dropped-x-y)))
+
+  :objects ((assembly :type 'assembly
+		      :input-link-angle-d (if (the dropped-x-y)
+					      (angle-between-vectors-d (the (face-normal-vector :right))
+								       (subtract-vectors  (the dropped-x-y)
+											  (the assembly ground-2))
+								       (the (face-normal-vector :top)))
+					      90)))
+
+  :hidden-objects ((drop-coord-section :type 'sheet-section
+				:inner-html (with-cl-who-string ()
+					      (str (the main-area dropped-x-y))))
+		   (main-area :type 'base-ajax-graphics-sheet
+			      :respondent self
+			      :vector-graphics-onclick? nil
+			      :length 500 :width 500
+			      ;;:projection-vector (getf *standard-views* :top)
+			      :display-list-object-roots (list (the assembly)))))
+
+
+>>>>>>> facad824c62c6c09b254532affea451b984f9d43
 
 (define-object assembly (base-object)
 
@@ -134,7 +171,12 @@
 		   :sequence (:size 2)
 		   :display-controls (list :color (ecase (the-child index) 
 						    (0 :red) (1 :green))
+<<<<<<< HEAD
 					   :line-thickness 2)
+=======
+					   :line-thickness 2
+					   :drag-controls :drag-and-drop)
+>>>>>>> facad824c62c6c09b254532affea451b984f9d43
 		   :circle (the (grounded-link-circles (the-child index)))
 		   :pseudo-inputs (circle)
 		   :start (the-child circle center)
