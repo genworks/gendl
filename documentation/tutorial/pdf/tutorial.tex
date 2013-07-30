@@ -2127,17 +2127,6 @@ by default is composed of three toolbars and three view frames (tree
 frame, inspector frame and viewport frame ``graphical view port'').
 
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=5in,height=5in]{../images/tasty-tower-pre.pdf}
-\end{center}
-
-\caption{Tasty Interface}
-
-\label{fig:tastytowerpre}
-
-\end{figure}
-
 
 \subsection{The Toolbars}
 
@@ -4486,6 +4475,56 @@ parent), followed by an index number if the part is an element of a sequence.
 
 
 
+\section{COM.GENWORKS.DOM }
+
+\label{sec:com.genworks.dom}
+
+
+
+
+
+
+
+\section{COM.GENWORKS.DOM-HTML }
+
+\label{sec:com.genworks.dom-html}
+
+
+
+
+
+
+
+\section{COM.GENWORKS.DOM-LATEX }
+
+\label{sec:com.genworks.dom-latex}
+
+
+
+
+
+
+
+\section{COM.GENWORKS.DOM-WRITERS }
+
+\label{sec:com.genworks.dom-writers}
+
+
+
+
+
+
+
+\section{COM.YOYODYNE.BOOSTER-ROCKET }
+
+\label{sec:com.yoyodyne.booster-rocket}
+
+
+
+
+
+
+
 \section{GENDL (Base Core Kernel Engine) Nicknames: Gdl, Genworks, Base}
 
 \label{sec:gendl(basecorekernelengine)nicknames:gdl,genworks,base}
@@ -4627,7 +4666,7 @@ the \texttt{rule-title}, or "Unnamed Rule" if \texttt{rule-title} is NIL.
 
 
 \textbf{
-\underline{Mixins:}} STANDARD-SEQUENCE, VANILLA-MIXIN
+\underline{Mixins:}} STANDARD-SEQUENCE
 
 
 
@@ -4639,8 +4678,15 @@ the \texttt{rule-title}, or "Unnamed Rule" if \texttt{rule-title} is NIL.
 \underline{Description}]
 
 
-A matrix sequence quantification is generated as a result of specifying 
-\texttt{:sequence (:matrix &lt;direction-keyword&gt; &lt;number&gt; &lt;direction-keyword&gt; &lt;number&gt;))} in an \texttt{:objects} specification.
+A matrix sequence quantification is
+generated as a result of specifying \texttt{:sequence (:matrix
+direction-keyword number direction-keyword number))} in an
+\texttt{:objects} specification. The direction-keywords can be one of
+\texttt{:lateral}, \texttt{:longitudinal}, and \texttt{:vertical}. The
+items will be arranged spread out evenly in the directions specified.
+Centers can also be provided explicitly based on the indices.  The
+indices to a matrix sequence consist of a list of numbers rather than
+a single number as with a normal sequence.
 
 
 
@@ -4789,7 +4835,7 @@ internal. It can be used, and returns an integer representing the cardinality of
 
 
 \textbf{
-\underline{Mixins:}} STANDARD-SEQUENCE, VANILLA-MIXIN
+\underline{Mixins:}} STANDARD-SEQUENCE
 
 
 
@@ -6295,7 +6341,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \textbf{
-\underline{Mixins:}} LINEAR-DIMENSION, VANILLA-MIXIN
+\underline{Mixins:}} LINEAR-DIMENSION
 
 
 
@@ -6816,7 +6862,7 @@ For developers it should be used as a mixin.
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT, VANILLA-MIXIN
+\underline{Mixins:}} BASE-OBJECT
 
 
 
@@ -7065,7 +7111,7 @@ and orientation.
 ;;
 #|
 gdl-user(46): (setq self (make-object 'tower))
-#&lt;tower @ #x750666f2&gt;
+ #tower @ #x750666f2
 gdl-user(47): (setq test-center (the (blocks 10) center))
 #(0.0 0.0 10.0)
 gdl-user(48): (the (blocks 10) (global-to-local test-center))
@@ -10009,7 +10055,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 \textbf{
-\underline{Mixins:}} LINEAR-DIMENSION, VANILLA-MIXIN
+\underline{Mixins:}} LINEAR-DIMENSION
 
 
 
@@ -11983,7 +12029,7 @@ of one (1.0).
 
 
 \textbf{
-\underline{Mixins:}} BASE-DRAWING, VANILLA-MIXIN
+\underline{Mixins:}} BASE-DRAWING
 
 
 
@@ -13720,7 +13766,7 @@ Must be specified in the subclass except for angular
 
 
 \textbf{
-\underline{Mixins:}} LAYOUT-MIXIN, VANILLA-MIXIN
+\underline{Mixins:}} LAYOUT-MIXIN
 
 
 
@@ -13961,6 +14007,34 @@ Default is 1.
 \underline{Computed slots (settable):}}
 
 \begin{description}
+
+\item [Dropped-height-width]
+\index{Dropped-height-width
+[base-ajax-graphics-sheet]}\emph{Plist with :width and :height}
+
+ The dimensions of the bounding-box of the dragged and/or dropped element.
+
+
+
+
+\item [Dropped-object]
+\index{Dropped-object
+[base-ajax-graphics-sheet]}\emph{List representing GDL root-path}
+
+ This is the root path of the dragged and/or dropped object.
+This is not tested to see if it is part of the same object tree as current self.
+
+
+
+
+\item [Dropped-x-y]
+\index{Dropped-x-y
+[base-ajax-graphics-sheet]}\emph{3D point}
+
+ This is the upper-right corner of the bounding box of the dragged and/or dropped element.
+
+
+
 
 \item [Js-to-eval]
 \index{Js-to-eval
@@ -14378,6 +14452,27 @@ interface. Defaults to nil.
 
  Include jquery javascript libraries in the page header?
 Default nil.
+
+
+
+
+\end{description}
+
+
+
+
+
+
+\textbf{
+\underline{Computed slots:}}
+
+\begin{description}
+
+\item [Development-links]
+\index{Development-links
+[base-ajax-sheet]}\emph{String of HTML}
+
+ Provides the developer control links for current sheet.
 
 
 
@@ -16512,7 +16607,7 @@ eql for keywords, string-equal for strings, and equalp otherwise.
 
 
 \textbf{
-\underline{Mixins:}} LAYOUT-MIXIN, VANILLA-MIXIN
+\underline{Mixins:}} LAYOUT-MIXIN
 
 
 
@@ -16895,7 +16990,7 @@ Method which will set the expires-at slot to the current time + the session-dura
 
 
 \textbf{
-\underline{Mixins:}} SKELETON-UI-ELEMENT, VANILLA-MIXIN
+\underline{Mixins:}} SKELETON-UI-ELEMENT
 
 
 

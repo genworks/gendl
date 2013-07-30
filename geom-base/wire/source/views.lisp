@@ -149,7 +149,7 @@
 ;; the need for separate views. But it works this way for now.
 ;;
 
-
+#+nil
 (define-lens (pdf global-filleted-polyline)()
   :output-functions
   ((cad-output
@@ -187,7 +187,7 @@
                                                (get-x p4) (get-y p4)))))))) lines (append fillets (list nil))))
           (if (the fill-color-decimal) (pdf:fill-and-stroke) (pdf:stroke))))))))
 
-
+#+nil
 (define-lens (dxf global-filleted-polyline)()
   :output-functions
   ((cad-output
@@ -254,6 +254,7 @@
 ;;
 ;; FLAG -- update for auto-scaling outside base-view
 ;;
+#+nil
 (define-lens (pdf global-polyline)()
   :output-functions
   ((cad-output
@@ -278,7 +279,7 @@
           (if (the fill-color-decimal) (pdf:fill-and-stroke) (pdf:stroke))))))))
 
 
-
+#+nil
 (define-lens (dxf global-polyline)()
   :output-functions
   ((cad-output

@@ -94,11 +94,7 @@
          (raw-fields (getf query-plist :|raw-fields|))
          (iid (getf plist :|iid|))
 
-         (self (progn (print-variables iid)
-		      (print-hash gwl:*instance-hash-table*)
-		      (first (gethash (make-keyword-sensitive iid) gwl:*instance-hash-table*))))
-
-	 (foo (print-variables self))
+         (self (first (gethash (make-keyword-sensitive iid) gwl:*instance-hash-table*)))
 
 	 (self (or self (restore-from-snap iid)))
 
@@ -174,6 +170,11 @@
 (defun respond-with-new-html-sections (req ent respondent &key js-to-eval-previi)
   (the-object (make-object 'ajax-response :req req :ent ent :respondent respondent :js-to-eval-previi js-to-eval-previi)
 	      respond!))
+
+(defparameter *current-status* nil)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (setq *current-status* *compile-dependency-tracking?*)
+  (setq *compile-dependency-tracking?* nil))
 
 (define-object ajax-response ()
 
@@ -255,6 +256,9 @@ You can reload to get previous state" *ajax-timeout*))
 					 :inner-html (the inner-html)
 					 :js-to-eval (the js-to-eval))))))
 		   
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (setq *compile-dependency-tracking?* *current-status*))
+
 
 #+nil
 (defun respond-with-new-html-sections (req ent self ;;current-body-sans-sections

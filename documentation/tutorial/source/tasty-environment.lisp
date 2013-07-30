@@ -108,7 +108,8 @@ interface with an instance of the specified type (see figure "
 by default is composed of three toolbars and three view frames (tree
 frame, inspector frame and viewport frame ``graphical view port'').")
 
-
+    
+    #+nil
     ((:image-figure :image-file "tasty-tower-pre.pdf"
 		    :width "5in" :height "5in"
 		    :caption "Tasty Interface"

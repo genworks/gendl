@@ -179,7 +179,9 @@
 		   :display-controls (list :color (ecase (the-child index) 
 						    (0 :red) (1 :green))
 					   :line-thickness 2
-					   :drag-controls :drag-and-drop)
+					   :drag-controls (ecase (the-child index)
+							    (1 :drag-and-drop)
+							    (0 nil)))
 		   :circle (the (grounded-link-circles (the-child index)))
 		   :pseudo-inputs (circle)
 		   :start (the-child circle center)

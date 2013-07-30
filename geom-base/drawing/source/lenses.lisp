@@ -151,9 +151,9 @@
     (when (typep (the object) 'gdl::gdl-basis)
       (let ((object (the object)) (2d-vertices (the vertex-array-2d-scaled)))
 	;;
-	;; FLAG -- update this to handle global-filleted-polyline and any other odd types.
+	;; FLAG -- clean up the handling for global-filleted-polyline and any other odd types.
 	;;
-	(unless (typep object 'global-polyline-mixin)
+	(unless nil ;;(typep object 'global-polyline-mixin)
 	  (let ((line-index-pairs (the-object object %line-vertex-indices%))
 		(curve-index-quadruples (the-object object %curve-vertex-indices%)))
         

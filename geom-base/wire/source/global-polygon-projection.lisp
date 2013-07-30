@@ -81,10 +81,10 @@ each direction.</li>
    (%renderer-info% (list :vrml? t :view-default :trimetric))
    
    (%lines-to-draw% (append 
-                     (the :polygon-original :%%lines-to-draw%%)
-                     (the :polygon-1 :%%lines-to-draw%%)
+                     (the :polygon-original :%lines-to-draw%)
+                     (the :polygon-1 :%lines-to-draw%)
                      (when (typep (the :polygon-2) (the :polygon-type))
-                       (the :polygon-2 :%%lines-to-draw%%))
+                       (the :polygon-2 :%lines-to-draw%))
                      (the :projection-lines)))
    
    (projection-lines (mapcar #'list 
