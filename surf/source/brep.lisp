@@ -438,16 +438,13 @@ The function returns a NIL value if no intersection is found and T if a intersec
        (angle-tolerance (radians-to-degrees *angle-tolerance-radians-default*))  \"Number, in radians. The angle tolerance for intersection.\")"   
 
     brep-intersect? 
-    (brep &key 
-          (tolerance (the adaptive-tolerance))
-          (angle-tolerance (radians-to-degrees *angle-tolerance-radians-default*)))
-    (let ((box-1 (the bounding-box))
-          (box-2 (the brep bounding-box)))
-      (if (box-intersection box-1 box-2) 't
-        (and (the (bbox-intersect? brep))
-             (brep-intersect? *geometry-kernel* (the %native-brep%) (the brep %native-brep%)
-                              :tolerance tolerance :angle-tolerance angle-tolerance)) 
-        )))
+    (other-brep &key 
+		(tolerance (the adaptive-tolerance))
+		(angle-tolerance (radians-to-degrees *angle-tolerance-radians-default*)))
+    (or (box-intersection (the bounding-box) (the-object other-brep bounding-box))
+	(and (the (bbox-intersect? other-brep))
+	     (brep-intersect? *geometry-kernel* (the %native-brep%) (the-object other-brep %native-brep%)
+			      :tolerance tolerance :angle-tolerance angle-tolerance))))
    
    (bbox-intersect? 
     (brep)

@@ -21,7 +21,7 @@
 
 (in-package :gdl)
 
-(defparameter *gendl-version* "1583")
+(defparameter *gendl-version* "1584")
 
 (eval-when (compile load eval)
   (when (not (boundp '*production-build?*)) (defvar *production-build?* nil)))
