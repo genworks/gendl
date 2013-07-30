@@ -2,9 +2,9 @@
 
 (asdf:defsystem #:surf :description
  "The Gendl™ NURBS Surface and Solids Geometry Primitives" :author
- "John McCarthy" :license
- "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20130724" :depends-on (:geom-base)
+ "Dave Cooper and Genworks International" :license
+ "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
+ :serial t :version "20130710" :depends-on (:geom-base)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/parameters") (:file "source/classes")
@@ -63,3 +63,4 @@
   (:file "source/validated-solid") (:file "source/vertex")
   (:file "source/views") (:file "lenses/source/vrml")
   (:file "lenses/source/x3d") (:file "zzinit/source/zzinit")))
+

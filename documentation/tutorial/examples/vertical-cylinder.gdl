@@ -1,0 +1,14 @@
+(in-package :gdl-user)
+
+(define-object vertical-cylinder (base-object)
+
+  :objects
+  ((horizontal-cylinder :type 'cylinder
+                        :display-controls (list :color :green)
+                        :length 10 :radius 3)
+
+   (vertical-cylinder :type 'cylinder
+                      :length 10 :radius 3
+                      :display-controls (list :color :red)
+                      :orientation (alignment :rear 
+                                              (the (face-normal-vector :top))))))

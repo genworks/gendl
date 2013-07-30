@@ -1,0 +1,19 @@
+(in-package :gdl-user)
+
+(define-object tower-assembly (base-object)
+  :input-slots 
+  ((base-height 10)
+   (height-deviation 5)
+   (number-of-towers 5))
+  
+  
+  :objects
+  ((towers :type 'tower
+           :sequence (:size (the number-of-towers))
+           :height (+ (* (the-child index) (the height-deviation))
+		      (the base-height))
+           :center (translate (the center) :right (* (twice
+						      (twice (the-child width)))
+						     (the-child index))))))
+
+ 

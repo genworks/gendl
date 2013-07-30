@@ -93,7 +93,12 @@
                     (plist-values encoded-fields)))))
          (raw-fields (getf query-plist :|raw-fields|))
          (iid (getf plist :|iid|))
-         (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
+
+         (self (progn (print-variables iid)
+		      (print-hash gwl:*instance-hash-table*)
+		      (first (gethash (make-keyword-sensitive iid) gwl:*instance-hash-table*))))
+
+	 (foo (print-variables self))
 
 	 (self (or self (restore-from-snap iid)))
 

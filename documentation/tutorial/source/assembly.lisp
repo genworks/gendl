@@ -29,13 +29,16 @@
 		 :oddsidemargin 0
 		 :evensidemargin 0
 		 :pdfimageresolution "135"
-		 :title "GenDL Unified Documentation"
+		 :usepackage ("datetime")
+		 :title "Genworks GDL: A User's Manual"
+		 :date ("\\monthname\\ \\the\\year")
 		 :author "Dave Cooper"
 		 :usepackage ("dvips" "graphicx")
 		 :usepackage ("usenames, dvipsnames" "color")
 		 :usepackage ("makeidx")
 		 :usepackage ("textcomp")
 		 :usepackage ("colorlinks=true, urlcolor=cyan" "hyperref")
+		 :usepackage ("nottoc, numbib" "tocbibind")
 		 :newsavebox ("\\boxedverb")
 		 :makeindex nil)
       :frontmatter
@@ -59,6 +62,7 @@ written consent from Genworks International.")
       ,*upgrade-notes*
       ,(the-object (make-self 'yadd::assy) dom-chapter)
       :backmatter
+      ,*bibliography*      
       :printindex
       ))
 
@@ -80,14 +84,16 @@ written consent from Genworks International.")
     ;;
 
     (asdf:run-shell-command 
-     (format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path))
+     ;;(format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
+     (format nil "cd ~a; /usr/texbin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
+     )
   
   (asdf:run-shell-command 
-   (format nil "cd ~a; /opt/local/bin/makeindex tutorial" pdf-path))
+   (format nil "cd ~a; /usr/texbin/makeindex tutorial" pdf-path))
   
   (dotimes (n level)
     (asdf:run-shell-command 
-     (format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
+     (format nil "cd ~a; /usr/texbin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
 
 
 (define-object assembly (com.genworks.dom:assembly)

@@ -16,7 +16,7 @@ bin
 *.toc
 *.ilg
 *.ind
-
+*.out
 
 configure.el
 systems.txt

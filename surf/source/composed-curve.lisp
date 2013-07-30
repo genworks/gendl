@@ -29,7 +29,28 @@ If the result is more than one curve, this object will throw an error and you sh
 instead."
   
   :examples "<pre>
- (in-package :surf)
+ (in-package :gdl-user)
+
+ (define-object test-global-filleted-polyline-curves (global-filleted-polyline-curves)
+                    
+  :computed-slots
+  ((default-radius 5)
+   (vertex-list (list (make-point 0 0 0)
+                      (make-point 10 10 0)
+                      (make-point 30 10 0)
+                      (make-point 40 0 0)
+                      (make-point 30 -10 0)
+                      (make-point 10 -10 0)
+                      (make-point 0 0 0))))
+
+  :hidden-objects
+  ((points :type 'point
+           :sequence (:size (length (rest (the vertex-list))))
+           :center (nth (the-child index) (rest (the vertex-list))))
+
+   (view :type 'base-view
+         :page-width (* 5 72) :page-height (* 5 72)
+         :objects (cons self (list-elements (the points))))))
 
  (define-object test-composed-curve (composed-curve)
   :computed-slots

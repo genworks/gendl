@@ -22,6 +22,6 @@
 (in-package :gendl-doc)
 
 (defparameter *advanced-gendl*
-    `((:chapter :title "Advanced Gendl")
+    `((:chapter :title "Advanced GDL")
       ))
 

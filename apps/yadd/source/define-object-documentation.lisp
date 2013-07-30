@@ -298,194 +298,276 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
   (   
    (dom-body
     ()
-    `(:p "Mixins: " ,@(mapcar #'(lambda (sym) (string sym)) (the mixins-list))))
 
+    (when (and (the example-code) (not (search "(generate-sample-drawing" (the example-code))))
+      (warn "Sample code found in ~s, but no call to generate-sample-drawing was found."
+	    (the part-full-symbol)))
+          
+    (let (pdf-file named-pdf-file)
 
-   (write-documentation
-    nil
-    (html ((:table :bgcolor "#eeeeff" :width "100%" :border 0 :cellpadding 1
-                   :cellspacing 0)
-           (:tr
-            (:td
-             (:b
-              ((:font :size "+1") "Object: "
-                                  (:princ (string (the :part-full-symbol)))
-                                  ((:font :size -1)
-                                   (:i " (The :"
-                                       (:princ
-                                        (string (package-name (the :part-package))))
-                                       " Package)"))))))
-           (:tr
-            (:td (:b "Mixins: ")
-                 (format *html-stream* "~{~a~^, ~}"
-                         (mapcar #'(lambda (sym)
-                                     (when *debug?* (print-variables sym))
-                                     (let ((page-object (gethash sym (the index-ht))))
-                                       (cond ((eql sym 'standard-object)
-                                              (with-output-to-string (ss)
-                                                (html-stream
-                                                 ss
-                                                 ((:a
-                                                   :href
-                                                   "http://www-2.cs.cmu.edu/Groups/AI/html/hyperspec/HyperSpec/Body/cla_standard-object.html")
-                                                  (:princ
-                                                   (string sym))))))
-                                             (page-object
-                                              (with-output-to-string (ss)
-                                                (html-stream
-                                                 ss
-                                                 ((:a
-                                                   :href
-                                                   (the-object page-object url))
-                                                  (:princ
-                                                   (string sym))))))
-                                             (t (string sym)))))
-                                 (the mixins-list))))))
-          (dolist (keyword
-                      (remove :examples (safe-sort *allowed-part-documentation-keywords* #'string<)))
-            (when (getf (the :part-documentation-plist) keyword)
-              (html (:p (:h3 (:princ (format nil "~@(~a~)" keyword)))
-                        (let ((text (getf (the :part-documentation-plist) keyword)))
-                          (html (:princ text)))))))
-          (let ((trickle-down-slots
-                 (safe-sort (remove-if-not
-                             #'(lambda (message)
-                                 (let ((remark
-                                        (the instance
-                                          (message-remarks message))))
-                                   (and remark
-                                        (eql (first remark)
-                                             (the part-full-symbol)))))
-                             (the instance
-                               (message-list :category :trickle-down-slots
-                                             :message-type :local)))
-                            #'string-lessp)))
-            (when trickle-down-slots
-              (html ((:table :width "100%" :border 0 :cellpadding 1 :cellspacing 1)
-                     ((:tr :bgcolor "#eeeeff")
-                      ((:td :colspan 2)
-                       (:b ((:font :size "+1") "Trickle-Down Slots"))))
-                     (:tr
-                      ((:td :align :left)
-                       (format *html-stream* "~{~a~^, ~}"
-                               trickle-down-slots)))))))
-          (mapc #'(lambda (section)
-                    (let ((values (the-object section message-and-remarks)))
+      (when (and (the example-code) 
+		 (or (search "(generate-sample-drawing" (the example-code))
+		     (search "(with-format (pdf" (the example-code))))
+	(format t "~&~%Loading example code and generating example image for ~s...~%"
+		(the part-full-symbol))
+
+	(the load-example)
+
+	(setq pdf-file (merge-pathnames "example.pdf" (glisp:temporary-folder))
+	      named-pdf-file (merge-pathnames (format nil "example-~s.pdf" (the part-full-symbol))
+					      "~/genworks/gendl/documentation/tutorial/images/"))
+	  (uiop:copy-file pdf-file named-pdf-file))
+
+      `((:p (:textbf (:underline "Mixins:")) " " 
+	    ,(format nil "~{~a~^, ~}" (mapcar #'(lambda (sym) (string sym)) (the mixins-list))))
+	(:p ((:list :style :description)
+	     ,@(mapcar #'(lambda(keyword)
+			   `((:item :word (:underline ,(format nil "~@(~a~)" keyword)))
+			     (:p ,@(net.html.parser:parse-html (getf (the :part-documentation-plist) keyword)))))
+		       (remove-if-not #'(lambda(keyword)
+					  (getf (the part-documentation-plist) keyword))
+				      (remove :examples (safe-sort *allowed-part-documentation-keywords* #'string<))))))
+	
+	,(when (the example-code)
+	       `((:boxed-figure :caption ,(format nil "Example Code for ~s" (the part-full-symbol))
+				:label ,(format nil "fig:example-code-~s" (the part-full-symbol)))
+		 (:small (:verbatim ,(the example-code)))))
+	       
+
+	,(when named-pdf-file
+	       `((:image-figure :image-file ,named-pdf-file
+				:width "3in"  :height "3in"
+				:caption ,(format nil "~s example" (the part-full-symbol))
+				:label ,(format nil "fig:~s" (the part-full-symbol)))))
+
+	(:p ,@(or 
+	       (remove 
+		nil
+		(mapcar #'(lambda (section)
+			    (let ((values (the-object section message-and-remarks)))
+			      (when values
+				`(:p 
+				  (:textbf (:underline ,(format nil "~@(~a~):" (the-object section heading))))
+				  ((:list :style :description)
+				   ,@(mapcar #'(lambda(value)
+						 `((:item :word ,(format nil "~@(~a~)" 
+									 (first value)
+									 #+nil ;; reformat inheritance note
+									 (if (sixth value)
+									     (format nil "[~a]" (sixth value))
+									     "")))
+
+						   (:index ,(format nil "~@(~a~)~%[~(~a~)]" 
+								    (first value)
+								    (the symbol)))
+
+						   ,(if (getf (fourth value) :type)
+							
+							#+nil
+							`(:emph ,(replace-substring
+								  (getf (fourth value) :type)
+								  "-dot-" "."))
+							
+							`(:emph ,(let ((parsed 
+									(net.html.parser:parse-html
+									 (replace-substring
+									  (getf (fourth value) :type)
+									  "-dot-" "."))))
+								      parsed))
+							"")
+
+						   (:p ,@(let ((parsed-intro (net.html.parser:parse-html (getf (fourth value) :intro))))
+							      parsed-intro))))
+					     values))))))
+
+			(list-elements (the sections))))
+	       `(""))))))
+
+	(write-documentation
+	 nil
+	 (html ((:table :bgcolor "#eeeeff" :width "100%" :border 0 :cellpadding 1
+			:cellspacing 0)
+		(:tr
+		 (:td
+		  (:b
+		   ((:font :size "+1") "Object: "
+		    (:princ (string (the :part-full-symbol)))
+		    ((:font :size -1)
+		     (:i " (The :"
+			 (:princ
+			  (string (package-name (the :part-package))))
+			 " Package)"))))))
+		(:tr
+		 (:td (:b "Mixins: ")
+		      (format *html-stream* "~{~a~^, ~}"
+			      (mapcar #'(lambda (sym)
+					  (when *debug?* (print-variables sym))
+					  (let ((page-object (gethash sym (the index-ht))))
+					    (cond ((eql sym 'standard-object)
+						   (with-output-to-string (ss)
+						     (html-stream
+						      ss
+						      ((:a
+							:href
+							"http://www-2.cs.cmu.edu/Groups/AI/html/hyperspec/HyperSpec/Body/cla_standard-object.html")
+						       (:princ
+							(string sym))))))
+						  (page-object
+						   (with-output-to-string (ss)
+						     (html-stream
+						      ss
+						      ((:a
+							:href
+							(the-object page-object url))
+						       (:princ
+							(string sym))))))
+						  (t (string sym)))))
+				      (the mixins-list))))))
+	       (dolist (keyword
+			 (remove :examples (safe-sort *allowed-part-documentation-keywords* #'string<)))
+		 (when (getf (the :part-documentation-plist) keyword)
+		   (html (:p (:h3 (:princ (format nil "~@(~a~)" keyword)))
+			     (let ((text (getf (the :part-documentation-plist) keyword)))
+			       (html (:princ text)))))))
+	       (let ((trickle-down-slots
+		      (safe-sort (remove-if-not
+				  #'(lambda (message)
+				      (let ((remark
+					     (the instance
+						  (message-remarks message))))
+					(and remark
+					     (eql (first remark)
+						  (the part-full-symbol)))))
+				  (the instance
+				       (message-list :category :trickle-down-slots
+						     :message-type :local)))
+				 #'string-lessp)))
+		 (when trickle-down-slots
+		   (html ((:table :width "100%" :border 0 :cellpadding 1 :cellspacing 1)
+			  ((:tr :bgcolor "#eeeeff")
+			   ((:td :colspan 2)
+			    (:b ((:font :size "+1") "Trickle-Down Slots"))))
+			  (:tr
+			   ((:td :align :left)
+			    (format *html-stream* "~{~a~^, ~}"
+				    trickle-down-slots)))))))
+	       (mapc #'(lambda (section)
+			 (let ((values (the-object section message-and-remarks)))
                       
-                      (when values
-                        (html ((:table :width "100%" :border 0 :cellpadding 1
-                                       :cellspacing 0)
-                               ((:tr :bgcolor "#eeeeff")
-                                ((:td :colspan 2)
-                                 (:b
-                                  ((:font :size "+1")
-                                   (:princ (the-object section heading))))))
-                               (:tr (:td :br))
-                               (dolist (value values)
-                                 (when (or (the :show-all-messages?)
-                                           (the
-                                               (:supported?
-                                                (getf (fourth value) :type))))
-                                   (html (:tr
-                                          ((:td :align :left)
-                                           (:b
-                                            (:princ
-                                             (first value)))
-                                           (when (sixth value)
-                                             (html " [" (:i (:princ (sixth value))) "] "))
-                                           (when
-                                               (getf (fourth value) :type)
-                                             (html
-                                              " "
-                                              (:i
-                                               (the
-                                                   (:write-type
-                                                    (replace-substring
-                                                     (getf (fourth value) :type)
-                                                     "-dot-"
-                                                     ".")
-                                                    :show-supported-flag?
-                                                    (the :show-supported-flag))))))
+			   (when values
+			     (html ((:table :width "100%" :border 0 :cellpadding 1
+					    :cellspacing 0)
+				    ((:tr :bgcolor "#eeeeff")
+				     ((:td :colspan 2)
+				      (:b
+				       ((:font :size "+1")
+					(:princ (the-object section heading))))))
+				    (:tr (:td :br))
+				    (dolist (value values)
+				      (when (or (the :show-all-messages?)
+						(the
+						 (:supported?
+						  (getf (fourth value) :type))))
+					(html (:tr
+					       ((:td :align :left)
+						(:b
+						 (:princ
+						  (first value)))
+						(when (sixth value)
+						  (html " [" (:i (:princ (sixth value))) "] "))
+						(when
+						    (getf (fourth value) :type)
+						  (html
+						    " "
+						    (:i
+						     (the
+						      (:write-type
+						       (replace-substring
+							(getf (fourth value) :type)
+							"-dot-"
+							".")
+						       :show-supported-flag?
+						       (the :show-supported-flag))))))
                                            
-                                           (when (fifth value)
-                                             (html (:pre (:prin1 (fifth value)))))
-                                           )
-                                          ((:td :align :right) :br))
-                                         (:tr
-                                          ((:td :colspan 2)
-                                           (the
-                                               (:write-remark-body (fourth value)))))
-                                         (:tr ((:td :colspan 2) :br)))))
-                               (:tr :br))))))
-                (list-elements (the sections)))
+						(when (fifth value)
+						  (html (:pre (:prin1 (fifth value)))))
+						)
+					       ((:td :align :right) :br))
+					      (:tr
+					       ((:td :colspan 2)
+						(the
+						 (:write-remark-body (fourth value)))))
+					      (:tr ((:td :colspan 2) :br)))))
+				    (:tr :br))))))
+		     (list-elements (the sections)))
           
           
-          (when (getf (the :part-documentation-plist) :examples)
-              (html (:p (:h3 (:princ (format nil "~@(~a~)" :examples)))
-                        (let ((text (getf (the :part-documentation-plist) :examples)))
-                          (html (:princ text))))))
+	       (when (getf (the :part-documentation-plist) :examples)
+		 (html (:p (:h3 (:princ (format nil "~@(~a~)" :examples)))
+			   (let ((text (getf (the :part-documentation-plist) :examples)))
+			     (html (:princ text))))))
           
           
-          (when (and (the example-code) (not (search "(generate-sample-drawing" (the example-code))))
-            (warn "Sample code found in ~s, but no call to generate-sample-drawing was found."
-                  (the part-full-symbol)))
+	       (when (and (the example-code) (not (search "(generate-sample-drawing" (the example-code))))
+		 (warn "Sample code found in ~s, but no call to generate-sample-drawing was found."
+		       (the part-full-symbol)))
           
-          (when (and (the example-code) 
-                     (or (search "(generate-sample-drawing" (the example-code))
-                         (search "(with-format (pdf" (the example-code))))
-            (let ((image-file (the image-file)) (image-format :png)
-                  (pdf-file (merge-pathnames "example.pdf"  (glisp:temporary-folder)))
-                  (url (the image-url)) (lisp-file (the lisp-file)))
+	       (when (and (the example-code) 
+			  (or (search "(generate-sample-drawing" (the example-code))
+			      (search "(with-format (pdf" (the example-code))))
+		 (let ((image-file (the image-file)) (image-format :png)
+		       (pdf-file (merge-pathnames "example.pdf"  (glisp:temporary-folder)))
+		       (url (the image-url)) (lisp-file (the lisp-file)))
               
-              (publish :path url
-                       :content-type "image/png"
-                       :format :binary
-                       :function #'(lambda(req ent)
-                                     (format t "~&~%Loading example code and generating example image for ~s...~%"
-                                             (the part-full-symbol))
-                                     (the load-example)
-                                     (let ((command (format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
-                                                            *gs-path* (ecase image-format
-                                                                        (:png "png16m")
-                                                                        (:gif "gif")
-                                                                        ((:jpg :jpeg) "jpeg"))
-                                                            image-file
-                                                            *gs-text-alpha-bits*
-                                                            *gs-graphics-alpha-bits*
-                                                            pdf-file)))
+		   (publish :path url
+			    :content-type "image/png"
+			    :format :binary
+			    :function #'(lambda(req ent)
+					  (format t "~&~%Loading example code and generating example image for ~s...~%"
+						  (the part-full-symbol))
+					  (the load-example)
+					  (let ((command (format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
+								 *gs-path* (ecase image-format
+									     (:png "png16m")
+									     (:gif "gif")
+									     ((:jpg :jpeg) "jpeg"))
+								 image-file
+								 *gs-text-alpha-bits*
+								 *gs-graphics-alpha-bits*
+								 pdf-file)))
                                        
-                                       (let ((return-value
-                                              (glisp:run-program command :show-window? nil)))
-                                         (with-http-response (req ent)
-                                           (setf (reply-header-slot-value req :cache-control) "no-cache")
-                                           (setf (reply-header-slot-value req :pragma) "no-cache")
-                                           (with-http-body (req ent)
-                                             (let
-                                                 ((reply-stream (request-reply-stream req)))
-                                               (with-open-file 
-                                                   (image-stream image-file :element-type '(unsigned-byte 8))
-                                                 (do ((val (read-byte image-stream nil nil)
-                                                           (read-byte image-stream nil nil)))
-                                                     ((null val))
-                                                   (write-byte val reply-stream))))))
+					    (let ((return-value
+						   (glisp:run-program command :show-window? nil)))
+					      (with-http-response (req ent)
+						(setf (reply-header-slot-value req :cache-control) "no-cache")
+						(setf (reply-header-slot-value req :pragma) "no-cache")
+						(with-http-body (req ent)
+						  (let
+						      ((reply-stream (request-reply-stream req)))
+						    (with-open-file 
+							(image-stream image-file :element-type '(unsigned-byte 8))
+						      (do ((val (read-byte image-stream nil nil)
+								(read-byte image-stream nil nil)))
+							  ((null val))
+							(write-byte val reply-stream))))))
                                        
-                                         (when (zerop return-value)
-                                           (delete-file pdf-file)
-                                           (delete-file image-file)
-                                           (delete-file lisp-file)
-                                           (delete-file (make-pathname :name (pathname-name lisp-file)
-                                                                       :type glisp:*fasl-extension*
-                                                                       :directory (pathname-directory lisp-file)
-                                                                       :device (pathname-device lisp-file))))))))
+					      (when (zerop return-value)
+						(delete-file pdf-file)
+						(delete-file image-file)
+						(delete-file lisp-file)
+						(delete-file (make-pathname :name (pathname-name lisp-file)
+									    :type glisp:*fasl-extension*
+									    :directory (pathname-directory lisp-file)
+									    :device (pathname-device lisp-file))))))))
               
-              (push url (gethash (make-keyword (the instance-id)) gwl::*url-hash-table*))
+		   (push url (gethash (make-keyword (the instance-id)) gwl::*url-hash-table*))
               
-              (html ((:table   :cellpadding 1)
-                     ((:tr :bgcolor "#cccccc") (:td ((:img :src url)))
-                                 (when (the show-vrml?)
-                                   (html ((:td :valign :top) 
-                                          (:ul (:li (the vrml-sheet (write-self-link :display-string "VRML...")))
-                                               (:li ((:font :color :grey) "RenderMan...")))))))))))))))
+		   (html ((:table   :cellpadding 1)
+			  ((:tr :bgcolor "#cccccc") (:td ((:img :src url)))
+			   (when (the show-vrml?)
+			     (html ((:td :valign :top) 
+				    (:ul (:li (the vrml-sheet (write-self-link :display-string "VRML...")))
+					 (:li ((:font :color :grey) "RenderMan...")))))))))))))))
 
 
 

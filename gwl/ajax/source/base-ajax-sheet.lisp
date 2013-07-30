@@ -238,10 +238,10 @@ interface. Defaults to nil."
 
                    (use-x3dom? nil)
                    
-                   (development-links
-                    (with-cl-who-string () (write-the development-links))))
-  
-  
+                   ("String of HTML. Provides the developer control links for current sheet."
+		    development-links
+                    (with-cl-who-string () (write-the development-links))))
+
   :functions ((back-link 
                (&key (display-string "&lt;-Back"))
                (w-c-w-s 

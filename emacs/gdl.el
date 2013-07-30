@@ -27,7 +27,8 @@
 
 ;; 2. WHERE ARE WE?
 
-(defvar *gendl-home* (file-truename (concat (file-name-directory (file-truename load-file-name)) "../")))
+(defvar *gendl-home* (file-truename (concat (file-name-directory 
+					     (file-truename load-file-name)) "../")))
 
 
 ;; 3. CONFIGURGE EMACS

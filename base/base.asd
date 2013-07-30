@@ -1,9 +1,10 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:base :description
- "The Gendl™ Base Core Kernel Engine" :author "John McCarthy"
- :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20130724" :depends-on nil
+ "The Gendl™ Base Core Kernel Engine" :author
+ "Dave Cooper and Genworks International" :license
+ "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
+ :serial t :version "20130710" :depends-on nil
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/genworks")
@@ -28,3 +29,4 @@
   (:file "rest/source/init") (:file "rest/source/make-part")
   (:file "rest/source/sequence") (:file "zzinit/source/initialize")
   (:file "zzinit/source/zzinit")))
+

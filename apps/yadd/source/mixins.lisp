@@ -28,20 +28,22 @@
   
   :computed-slots
   (;; FLAG JB-090817 added default header content with links to style-sheet and icons
-   ("Contains default header contents for yadd html files.
-This computed-slot is available in all children of this object. It contains links 
-to default header content of a HTML generated yadd page. This contains a
-link to the favicon.ico and a link to a default CSS sheet. All these elements can be
-found in the *gdl-install-dir*/static/gwl/ directories."
-    default-header-content (html 
+   ("String of valid HTML. Contains default header contents for yadd
+html files.  This computed-slot is available in all children of this
+object. It contains links to default header content of a HTML
+generated yadd page. This contains a link to the favicon.ico and a
+link to a default CSS sheet. All these elements can be found in the
+*gdl-install-dir*/static/gwl/ directories."
+default-header-content (html
                             ((:link :href "/static/gwl/images/favicon.ico"
                                     :type "image/x-icon" :rel "icon"))))
 
-   ("Contains standard jQuery files to include in the header for additional search funcionality.
-This computed-slot contains javascript files, found in the *gdl-install-dir* 
-and used throughout the yadd pages for the generation of automatic search forms (like the master-index).
-The javascript loaded is jquery."
-    additional-header-js (with-cl-who-string ()
+   ("String of valid HTML. Contains standard jQuery files to include
+in the header for additional search funcionality.  This computed-slot
+contains javascript files, found in the *gdl-install-dir* and used
+throughout the yadd pages for the generation of automatic search
+forms (like the master-index).  The javascript loaded is jquery."
+additional-header-js (with-cl-who-string ()
 			   ;;
 			   ;; FLAG -- base jquery should come with base-ajax-sheet. 
 			   ;;
@@ -76,7 +78,7 @@ The javascript loaded is jquery."
                 (:i "User Code Packages copyright &copy; their respective authors"))))))
   
   :functions
-  ((dom-body () "")
+  ((dom-body () `((:p "")))
 
    (compute-url
     ()
@@ -261,12 +263,12 @@ The javascript loaded is jquery."
 			 (remove nil 
 				 `(:item 
 				      (:index ,(format nil "~a" (the-object documentation symbol)))
-				    ,(format nil "~a~a"
-					     (the-object documentation symbol)
-					     (if (the-object documentation :macro?)
-						 " [Macro]" ""))
-
-				    ,(the-object documentation dom-body))))
+				    (:label ,(format nil "prim:~(~a~)" (the-object documentation symbol)))
+				    (:textbf ,(format nil "~a~a"
+						      (the-object documentation symbol)
+						      (if (the-object documentation :macro?)
+							  " [Macro]" "")))
+				    ,@(the-object documentation dom-body))))
 		     documentations))))))
 
 

@@ -1,0 +1,9 @@
+(in-package :gdl-user)
+
+(define-object box-assembly-1 (base-object)
+
+  :computed-slots ((length 10)
+                   (width (* (the length) +phi+))
+                   (height (* (the width) +phi+)))
+  :objects ((box :type 'box)))
+                 

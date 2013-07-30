@@ -31,7 +31,7 @@ into a single curve."
                   
                   :examples "<pre>
 
- (in-package :surf)
+ (in-package :gdl-user)
 
  (define-object test-global-filleted-polyline-curves (global-filleted-polyline-curves)
                     
@@ -54,9 +54,8 @@ into a single curve."
          :page-width (* 5 72) :page-height (* 5 72)
          :objects (cons self (list-elements (the points))))))
 
- (with-format (pdf \"/tmp/example.pdf\" :page-width (* 5 72) :page-length (* 5 72))
-    (let ((obj (make-object 'test-global-filleted-polyline-curves)))
-      (write-the-object obj view cad-output)))
+ (generate-sample-drawing :objects (the-object (make-object 'test-global-filleted-polyline-curves))
+                          :projection-direction (getf *standard-views* :trimetric))
 
 </pre>")
                   
