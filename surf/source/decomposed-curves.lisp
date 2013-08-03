@@ -29,6 +29,31 @@ knots with degree-fold mutiplicity, i.e. each piece is at least C^ continuous."
   
   (in-package :surf)  
 
+  (define-object test-global-filleted-polyline-curves (global-filleted-polyline-curves)
+                    
+  :computed-slots
+  ((default-radius 5)
+   (vertex-list (list (make-point 0 0 0)
+                      (make-point 10 10 0)
+                      (make-point 30 10 0)
+                      (make-point 40 0 0)
+                      (make-point 30 -10 0)
+                      (make-point 10 -10 0)
+                      (make-point 0 0 0))))
+
+  :hidden-objects
+  ((points :type 'point
+           :sequence (:size (length (rest (the vertex-list))))
+           :center (nth (the-child index) (rest (the vertex-list))))))
+
+
+  (define-object test-composed-curve (composed-curve)
+  :computed-slots
+  ((curves (the filleted-polyline-curves ordered-curves)))
+  
+  :hidden-objects
+  ((filleted-polyline-curves :type 'test-global-filleted-polyline-curves)))
+
   (define-object test-decomposed-curves (decomposed-curves)
   :computed-slots
   ((curve-in (the composed-curve)))

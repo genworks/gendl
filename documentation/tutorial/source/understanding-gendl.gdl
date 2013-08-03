@@ -52,7 +52,7 @@ language.]")
        (:p "In Common Lisp, "
 	   (:emph "packages")
 	   " are a mechanism to separate symbols into
-namespaces. Using packages it is possible to avoid naming conflicts in
+namespaces. Using packages it is possible to avoid ``naming'' conflicts in
 large projects. Consider this analogy: in the United States, telephone
 numbers are preceded by a three-digit area code and then consist of a
 seven-digit number. The same seven-digit number can occur in two or
@@ -60,7 +60,8 @@ more separate area codes, without causing a conflict.")
 
        (:p "The macro "
 	   (:texttt "gdl:define-package")
-	   "is used to set up a new working package in GDL.")
+	   " is used to set up a new working package in GDL.")
+       (:p " ")
        (:p "Example:"
 	   (:verbatim "(gdl:define-package :yoyodyne)")
 	   " will establish a new package (i.e. ``area code'')
@@ -142,7 +143,7 @@ Here are descriptions of the most common keywords making up the specification-pl
          ((:item :word (:indexed "input-slots"))
           "specify information to be passed into the object instance when it is created.")
          ((:item :word (:indexed "computed-slots"))
-          "are really cached methods, with expressions to compute and return a value.")
+          "are actually cached methods, with expressions to compute and return a value.")
          ((:item :word (:indexed "objects"))
           "specify other instances to be ``contained'' within this instance.")
          ((:item :word (:indexed "functions"))
@@ -175,7 +176,7 @@ normal CL functions, with the added feature that you can also use "
                      (the first-name) 
                      (the last-name)))))
 "))
-        "A GDL Object is analogous in some ways to a "
+        "A GDL Object is analogous in some ways to a CL "
         (:texttt "defun")
         ", where the input-slots are like arguments to the function,
 and the computed-slots are like return-values. But seen another way,
@@ -408,8 +409,8 @@ A passed-in value will override the default expression.")))
 
       ((:section :title "Summary")
        "This chapter has provided an introduction to the core GDL
-syntax. Much as with any language, practice (that is, usage) makes
-perfect. Following chapters will cover more specialized aspects of the
-GDL language, introducing additional Common Lisp concepts as they are
-required along the way.")))
+syntax. As with any language, practice (that is, usage) makes
+perfect. The chapters that follow will cover more specialized aspects
+of the GDL language, introducing additional Common Lisp concepts as
+they are required along the way.")))
 

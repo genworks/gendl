@@ -34,17 +34,23 @@
 				      (str (the viewport main-div))
 				      (str (the drop-coord-section main-div))))
 
-		   (datum (when (the viewport dropped-x-y)
-			    (ecase (the poly-type)
-			      ((global-polyline rounded-corner-triangle)
-			       (make-point (get-x (the viewport dropped-x-y))
-					   (- (get-y (the viewport dropped-x-y)) 1) 0))
-			      (tri-cyl
-			       (make-point (+ (get-x (the viewport dropped-x-y))
-					      (the poly-0 radius))
-					   (- (get-y (the viewport dropped-x-y)) 
-					      (the poly-0 radius)) 0)))))
+		   (datum (if (the viewport dropped-x-y)
+			      (ecase (the poly-type)
+				((global-polyline rounded-corner-triangle)
+				 (make-point (get-x (the viewport dropped-x-y))
+					     (- (get-y (the viewport dropped-x-y)) 1) 0))
+				(tri-cyl
+				 (make-point (+ (get-x (the viewport dropped-x-y))
+						(the poly-0 radius))
+					     (- (get-y (the viewport dropped-x-y)) 
+						(the poly-0 radius)) 0)))
+			      (make-point 0 0 0)) :settable)
 		   
+		   
+		   (poly-1-datum (the datum))
+
+		   ;;(poly-1-datum (make-point 0 0 0))
+		   #+nil
 		   (poly-1-datum (if (and (the datum) (eql (the dropped-object) (the poly-1)))
 				     (the datum) (make-point 0 0 0)))
 
@@ -88,7 +94,9 @@
 	    (poly-1 :type (the poly-type) 
 		    :pass-down (top-vector)
 		    :display-controls (list :color :red :fill-color :blue
-					    :drag-controls :drag-and-drop
+					    ;;:drag-controls :drag-and-drop
+					    ;;:drag-controls :drop
+					    :drag-controls :touchmove
 					    ;; other possible values are :drag, :drop
 					    )
 		    :vertex-list (the (triangle-vertices (the poly-1-datum))))
@@ -116,6 +124,18 @@
             
 	    (viewport :type 'base-ajax-graphics-sheet
 		      :respondent self
+		      
+		      :on-touchmove-function 
+		      #'(lambda()
+			  (the (set-slot! :datum 
+					  (translate (the datum) :right 0.05)))
+			  (format t "Just called the on-touchmove hook with ~s, ~s, and ~s.~%"
+				  (the viewport dropped-x-y)
+				  (the viewport dropped-height-width)
+				  (the viewport dropped-object))
+			  (print-messages datum)
+
+			  )
 
 		      :on-drop-function 
 		      #'(lambda()
@@ -155,3 +175,4 @@
   :computed-slots ((default-radius 0.1)))
 
 
+(gwl:publish-gwl-app "/dd" 'dd)
