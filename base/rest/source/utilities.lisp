@@ -781,13 +781,22 @@ toplevel inputs as specified in the snapshot file.
 
 
 (defun add-notify-cons (notify-cons value &optional self message)
+  ;;
+  ;; FLAG -- this was added as a fix for github Issue #69, but causes
+  ;; a regression by polluting the dependency graph with normal objects 
+  ;; which may then become unbound spuriously. Retracted until a more
+  ;; benign fix for Issue #69 can be determined. 
+  ;;
+  (declare (ignore self message))
+  #+nil
   (when (and self message)
-    (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
-      (when (and (consp aggregate)
-		 (not (consp (gdl-acc::%aggregate% self))))
-	(let ((num-value (gdl-acc::number-of-elements (first aggregate))))
-	  (when (consp num-value)
-	    (add-notify-cons (list self message) num-value))))))
+    (unless (eql message 'gdl-acc::%trickle-down-slots%)
+      (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
+	(when (and (consp aggregate)
+		   (not (consp (gdl-acc::%aggregate% self))))
+	  (let ((num-value (gdl-acc::number-of-elements (first aggregate))))
+	    (when (consp num-value)
+	      (add-notify-cons (list self message) num-value)))))))
   (let ((second (second value)))
     (if (and (listp second) (< (length second) *dep-hash-threshhold*))
 	(let ((matching-sublist (assoc (first notify-cons) (second value))))
