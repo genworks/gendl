@@ -21,6 +21,9 @@
 
 (in-package :common-lisp-user)
 
+#+allegro 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (require :phtml))
 
 (gwl:define-package :yadd
     (:documentation #.(glisp:system-description :yadd))

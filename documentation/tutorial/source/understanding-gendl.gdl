@@ -22,47 +22,51 @@
 (in-package :gendl-doc)
 
 (defparameter *understanding-gendl*
-    `((:chapter :title "Understanding Gendl --- Core GDL Syntax")
-      (:p "Now that you have a basic grasp of Common Lisp syntax (or, more accurately, "
-	  (:emph "lack")
-	  " of syntax), we will jump directly into the Gendl framework. By using Gendl you can formulate most of 
-your engineering and computing problems in a natural way, without becoming bogged down in the complexity of
-the Common Lisp Object System (CLOS).")
+    `((:chapter :title "Understanding GDL --- Core GDL Syntax")
+      (:p "Now that you have a basic familiarity with Common Lisp
+      syntax (or, more accurately, the "
+	  (:emph "absence")
+	  " of syntax), we will move directly into the Genworks GDL
+framework. By using GDL you can formulate most of your engineering and
+computing problems in a natural way, without becoming involved in the
+complexity of the Common Lisp Object System (CLOS).")
 
+      (:p "As discussed in the previous chapter, GDL is based on and
+is a superset of ANSI Common Lisp. Because ANSI CL is unencumbered and
+is an open standard, with several commercial and free implementations,
+it is a good wager that applications written in it will continue to be
+usable for the balance of this century, and beyond. Many commercial
+products have a shelf life only until a new product comes along. Being
+based in ANSI Common Lisp ensures GDL's permanence.")
+
+      (:p "[The GDL product is a commercially available KBE system
+with Proprietary licensing.  The Gendl Project is an open-source
+Common Lisp library which contains the core language kernel of GDL,
+and is licensed under the terms of the Affero Gnu Public License. The
+core GDL language is a proposed standard for a vendor-neutral KBE
+language.]")
       
-      (:p "The Gendl product is a commercially available KBE system
-dual-licensed under the Affero Gnu Public License and a Proprietary
-license. The core GDL language is a proposed standard for a
-vendor-neutral KBE language.")
-
-      (:p "As we mentioned in the previous chapter, Gendl is based on
-and is a superset of ANSI Common Lisp. Because ANSI CL is an
-unencumbered, open standard with several commercial and free
-implementations, it is a good bet that applications written in it will
-continue to function 50, 100, or even hundreds of years from now.")
-
-      (:p "Note that the historical name of Gendl was ``GDL,'' and this name persists throughout the product
-for example appearing occasionally in documentation for naming Common Lisp packages.")
 
       ((:section :title "Defining a Working Package")
        
        (:p "In Common Lisp, "
 	   (:emph "packages")
 	   " are a mechanism to separate symbols into
-namespaces. Using packages it is possible to avoid naming collisions
-in large projects. Consider this analogy: in the United States,
-telephone numbers consist of a three-digit area code and a seven-digit
-number. The same seven-digit number can occur in two or more separate
-area codes, without causing a conflict.")
+namespaces. Using packages it is possible to avoid naming conflicts in
+large projects. Consider this analogy: in the United States, telephone
+numbers are preceded by a three-digit area code and then consist of a
+seven-digit number. The same seven-digit number can occur in two or
+more separate area codes, without causing a conflict.")
 
        (:p "The macro "
 	   (:texttt "gdl:define-package")
-	   "is used to set up a new working package in Gendl.")
+	   "is used to set up a new working package in GDL.")
        (:p "Example:"
 	   (:verbatim "(gdl:define-package :yoyodyne)")
-	   " will establish a new package called "
+	   " will establish a new package (i.e. ``area code'')
+called "
 	   (:texttt ":yoyodyne")
-	   " which has all the Gendl operators available.")
+	   " which has all the GDL operators available.")
 
        (:p "The "
 	   (:texttt ":gdl-user")
@@ -70,13 +74,13 @@ area codes, without causing a conflict.")
 you do not wish to make a new package just for scratch work.")
 
        (:p "For real projects it is recommended that you make and work in your own
-Gendl package, defined as above with "
+GDL package, defined as above with "
 	   (:texttt "gdl:define-package")
 	   ".")
 
-       (:p (:emph "Notes for advanced users:")
+       (:p (:emph "A Note for advanced users:")
 
-	   "Packages defined with "
+	   " Packages defined with "
 	   (:texttt "gdl:define-package")
 	   " will implicitly "
 	   (:emph "use")
@@ -100,8 +104,9 @@ for Internet applications.")
 	   ", you could set it up as follows:"
 	   (:verbatim " (ql:quickload :cl-json)
  (gdl:define-package :yoyodyne (:use :cl-json))")
-	   ". the first form ensures that the cl-json code module is actually  fetched and loaded. The second form
-defines a package with the "
+	   "The first form ensures that the cl-json code module is
+actually fetched and loaded. The second form defines a package with
+the "
 	   (:texttt ":cl-json")
 	   " operators available to it."))
 
@@ -141,9 +146,12 @@ Here are descriptions of the most common keywords making up the specification-pl
          ((:item :word (:indexed "objects"))
           "specify other instances to be ``contained'' within this instance.")
          ((:item :word (:indexed "functions"))
-          "are (uncached) functions ``of'' the object, i.e.\\ they are actually methods which
-discriminate on their first argument, which is the object instance upon which they are operating. 
-GDL functions can also take other non-specialized arguments, just like a normal CL function."))
+          "are (uncached) functions ``of'' the object, i.e.\\ they
+operate just as normal CL functions, and accept arguments just like
+normal CL functions, with the added feature that you can also use "
+	  (:emph "the")
+	  " referencing, to refer to messages or reference chains
+	  which are available to the current object."))
 
 	"Figure "
         (:ref "fig:object-hello")
@@ -167,10 +175,11 @@ GDL functions can also take other non-specialized arguments, just like a normal 
                      (the first-name) 
                      (the last-name)))))
 "))
-        "As you can see, a GDL Object is analogous in some ways to a "
+        "A GDL Object is analogous in some ways to a "
         (:texttt "defun")
-        ", where the input-slots are like arguments to the function, and the computed-slots
-are like return-values. But seen another way, each attribute in a GDL object is like a function in its own right.
+        ", where the input-slots are like arguments to the function,
+and the computed-slots are like return-values. But seen another way,
+each slot in a GDL object serves as function in its own right.
 
 The referencing macro "
         (:texttt (:indexed "the"))
@@ -196,12 +205,21 @@ symbols (i.e.\\ preceded by a colon), and the "
 	(:texttt "the")
 	" macro will process them appropriately.")
       ((:section :title "Making Instances and Sending Messages")
-        "Once we have defined an object such as the example above, we can use
+        "Once we have defined an object, such as the example above, we can use
 the constructor function "
         (:texttt (:indexed "make-object"))
         " in order to create an "
         (:emph "instance")
-        " of it. This function is very similar to the CLOS "
+        " of it. "
+       (:emph "Instance")
+       ", in this context, means a single occurence of the object with
+tangible values assigned to its input-slots. By way of analogy: an "
+       (:emph "object definition")
+       " is like a blueprint for a house; an "
+       (:emph "instance")
+       " is like an actual house. The "
+       (:texttt "make-object") 
+       " function is very similar to the CLOS "
         (:texttt (:indexed "make-instance"))
         " function. Here we create an instance of "
         (:texttt "hello")
@@ -217,9 +235,11 @@ the constructor function "
                  (make-object 'hello :first-name \"John\" 
                                      :last-name \"Doe\"))
  #<HELLO @ #x218f39c2>")
-        "As you can see, keyword symbols are used to ``tag'' the input values, and the return value is an instance of class "
+        "Note that keyword symbols are used to ``tag'' the input values. And the return-value of "
+       (:emph "make-object")
+       " is an instance of class "
         (:texttt "hello")
-        ". Now that we have an instance, we can use the macro "
+        ". Now that we have an instance, we can use the operator "
         (:texttt (:indexed "the-object"))
         " to send messages to this instance:"
         (:verbatim "
@@ -320,7 +340,7 @@ which each answer the "
 
 These child objects become instantiated "
        (:emph "on demand")
-       ", meaning that the first time these instances or any of their messages
+       ", which means that the first time these instances, or any of their messages,
 are referenced, the actual instance will be created "
        (:emph "and")
        " cached for future reference.")
@@ -364,10 +384,10 @@ common type of sequence is called a "
         (:emph "fixed size")
         " sequence. See Figure "
         (:ref "fig:object-presidents-container")
-        " for an example of an object which contains a sequenced set of 
-instances representing U.S. presidents. Each member of the sequenced set 
-is fed inputs from a list of plists, which simulates a relational database 
-table (essentially a ``list of rows'').
+        " for an example of an object which contains a sequenced set
+of instances representing successive U.S. presidents. Each member of
+the sequenced set is fed inputs from a list of plists, which simulates
+a relational database table (essentially a ``list of rows'').
         
 Note the following from this example:"
         
@@ -387,8 +407,9 @@ instantiation or from the parent, as with an input-slot which has no default exp
 A passed-in value will override the default expression.")))
 
       ((:section :title "Summary")
-       "This chapter has provided a minimal introduction to the core
-Gendl syntax. In subsequent chapters we will cover more specialized
-aspects of the Gendl language, introducing new Common Lisp concepts as
-they are required along the way.")))
+       "This chapter has provided an introduction to the core GDL
+syntax. Much as with any language, practice (that is, usage) makes
+perfect. Following chapters will cover more specialized aspects of the
+GDL language, introducing additional Common Lisp concepts as they are
+required along the way.")))
 

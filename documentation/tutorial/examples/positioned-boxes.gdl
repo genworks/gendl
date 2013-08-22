@@ -1,0 +1,13 @@
+(in-package :gdl-user)
+
+(define-object positioned-boxes (base-object)
+
+  :computed-slots ((length 10)
+                   (width (* (the length) +phi+))
+                   (height (* (the width) +phi+)))
+
+  :objects ((box-1 :type 'box)
+            (box-2 :type 'box 
+                   :center (make-point (the width)  0 0))))
+            
+                 

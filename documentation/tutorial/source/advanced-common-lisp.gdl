@@ -22,6 +22,6 @@
 (in-package :gendl-doc)
 
 (defparameter *advanced-common-lisp*
-    `((:chapter :title "More Common Lisp for Gendl")
+    `((:chapter :title "More Common Lisp for GDL")
 ))
 

@@ -97,8 +97,8 @@
             :width 10 )))
 
  (generate-sample-drawing :object-roots 
-                          (list (the-object (make-object 'join-surfaces-test) 
-                                            join-A-and-B )))
+                          (list (the-object (make-object 'compatible-surfaces-test) 
+                                            make-compatible-A-and-B)))
  
  </pre>
  ")

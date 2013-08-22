@@ -4,7 +4,8 @@
  "The Gendl™ Yet Another Definition Documenter (yadd)" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130822" :depends-on (:gwl-graphics)
+ :serial t :version "20130822" :depends-on
+ (:gwl-graphics #-allegro :cl-html-parse)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/genworks")

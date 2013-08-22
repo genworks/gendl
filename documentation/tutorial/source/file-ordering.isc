@@ -21,4 +21,4 @@
 
 ("package" "parameters" "introduction" "installation" "basic-operation" "upgrade-notes"
 	   "understanding-common-lisp" "understanding-gendl" "advanced-common-lisp" "advanced-gendl" 
-	   "tasty-environment" "gendl-geometry" "custom-user-interfaces")		       
+	   "tasty-environment" "gendl-geometry" "custom-user-interfaces" "bibliography")		       
