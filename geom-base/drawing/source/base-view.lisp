@@ -416,7 +416,13 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
                                        (the arcs-array-2d)))
                            (the arcs-array-2d)))
 
-
+   (path-info-2d-scaled (when (the path-info-2d)
+			  (if (the scale?) 
+			      (let ((scale (the view-scale)))
+				(mapcar #'(lambda(point)
+					    (if (keywordp point) point (scalar*vector scale point)))
+					(the path-info-2d)))
+			      (the path-info-2d))))
    
    ;;
    ;; FLAG -- fold code from this and next message into a method function
@@ -438,21 +444,15 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
                   (:right (make-vector (get-y point) (get-z point)))
                   (:left  (make-vector (- (get-y point)) (get-z point)))))
           #'(lambda(point) 
-              (project-to-plane point 1 (the projection-vector) (the view-transform)
-                                :snap-to (the snap-to))))
+	      (subseq 
+	       (project-to-plane point 1 (the projection-vector) (the view-transform)
+				 :snap-to (the snap-to)) 0 2)))
         raw-points)))
    
    
    (vertex-array-2d 
     (when (typep (the object) 'gdl::gdl-basis)
-      (let ((raw-points (or (the object %corners%) (the object %vertex-array%))))
-
-	;;(the touched-geometry)
-
-	;;(print-messages object)
-	;;(print-variables raw-points)
-
-      
+      (let ((raw-points (or (the object %vertex-array%) (the object %corners%))))
 	(map 'vector 
 	     #'(lambda(point)
 		 ;;
@@ -465,10 +465,34 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
 		       (:rear (make-vector (- (get-x point)) (get-z point)))
 		       (:front (make-vector (get-x point) (get-z point)))
 		       (:right (make-vector (get-y point) (get-z point)))
-		       (:left  (make-vector (- (get-y point)) (get-z point)))))
-		 (project-to-plane point 1 (the projection-vector) (the view-transform)
-				   :snap-to (the snap-to)))
+		       (:left  (make-vector (- (get-y point)) (get-z point))))
+		     (subseq
+		      (project-to-plane point 1 (the projection-vector) (the view-transform)
+				       :snap-to (the snap-to)) 0 2)))
 	     raw-points))))
+
+
+   (path-info-2d 
+    (when (and (typep (the object) 'gdl::gdl-basis) (the object path-info))
+      (let ((raw-points (the object path-info)))
+	(mapcar
+	 #'(lambda(point)
+	     ;;
+	     ;; FLAG this case basically repeats code from (defun keyed-transform*vector ...)
+	     ;;
+	     (if (keywordp point) point
+		 (if (and (keywordp (the view-transform)) (the snap-to-y?))
+		     (case (the view-transform)
+		       (:top (subseq point 0 2)) ;;(make-vector (get-x point) (get-y point)))
+		       (:bottom (make-vector (get-x point) (- (get-y point))))
+		       (:rear (make-vector (- (get-x point)) (get-z point)))
+		       (:front (make-vector (get-x point) (get-z point)))
+		       (:right (make-vector (get-y point) (get-z point)))
+		       (:left  (make-vector (- (get-y point)) (get-z point))))
+		     (subseq
+		      (project-to-plane point 1 (the projection-vector) (the view-transform)
+					:snap-to (the snap-to)) 0 2)))) raw-points))))
+
    
    (2d-bounding-box
     (unless (or (not (typep (the object) 'gdl::gdl-basis))

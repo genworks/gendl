@@ -357,7 +357,8 @@ package-qualified object name\")
              (root-part-and-version 
               (if (or (not share?) (not current))
                   (list (apply #'make-object (read-safe-string part) 
-                               :instance-id instance-id :query-toplevel query make-object-args)
+                               :instance-id instance-id ;;:query-toplevel query 
+			       make-object-args)
                         *dummy-version*)
                 current)))
         (setf (gethash (first root-part-and-version) *weak-objects*) t)

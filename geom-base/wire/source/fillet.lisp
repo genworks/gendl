@@ -28,9 +28,12 @@
   (local-vertex direction-vectors)
   
   :computed-slots
-  ((orientation (alignment :top (apply #'cross-vectors (the :direction-vectors))))
+  ((normal (apply #'cross-vectors (the direction-vectors)))
+
+   (orientation (alignment :top (the normal)))
              
-   (angle (apply #'angle-between-vectors (the :direction-vectors)))
+   (angle (apply #'angle-between-vectors (append (the :direction-vectors) 
+						 (list (the normal) :-ve t))))
    
    (other-angle (- pi (the :angle)))
              
@@ -47,17 +50,18 @@
 
    (start-to-end-angle (twice (angle-between-vectors 
                                (the :keep-vector)
-                               (subtract-vectors (first (the :tangents)) (the :center)))))
+                               (subtract-vectors (first (the :tangents)) (the :center))
+			       (the normal) :-ve t)))
    
    (start-tangent (if (minusp (angle-between-vectors 
                                (subtract-vectors (first (the :tangents)) (the :center))
                                (subtract-vectors (second (the :tangents)) (the :center))
-                               (the (:face-normal-vector :top)) :-ve t))
+                               (the normal) :-ve t))
                       (second (the :tangents)) (first (the :tangents))))
    
    (start-angle (angle-between-vectors (the (:face-normal-vector :right))
                                        (subtract-vectors (the :start-tangent) (the :center))
-                                       (the (:face-normal-vector :top))))
+                                       (the normal) :-ve t))
    
    (start-angle-normalized (mod (the start-angle) 2pi))
    

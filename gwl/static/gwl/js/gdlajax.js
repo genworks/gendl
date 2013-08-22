@@ -78,9 +78,9 @@ return y;
 }
 
 
-function gdlAjax1 (params)
+function gdlAjax1 (params, asynch)
 {
-    gdlAjax(null, params, true);
+    gdlAjax(null, params, async);
 }
 
 function gdlAjax (evt, params, asynch)
@@ -134,40 +134,60 @@ function gdlUpdate (request) {
      document.getElementById('gdlStatus').innerHTML = 'Almost There...';
 
  if ((request.readyState == 4) && (request.status == 200))
-  {
-
-   var root = request.responseXML.documentElement;
-
-   var children = root.childNodes;
-
-   for (i=0; i< children.length; i++)
-   {
-    var child=children[i];
-    var myid = null;
-    if (child.getElementsByTagName('replaceId')[0].firstChild != null)
-        {
-            myid = child.getElementsByTagName('replaceId')[0].firstChild.data
-                }
-
-    var newHTML = null;
-    if (child.getElementsByTagName('newHTML')[0].firstChild != null)
-        {newHTML = child.getElementsByTagName('newHTML')[0].firstChild.nodeValue}
-
-    var jsToEval = child.getElementsByTagName('jsToEval')[0].firstChild.nodeValue;
-
-    if (myid)
-        {
-            document.getElementById(myid).innerHTML = newHTML;
-        }
-
-    if (jsToEval != '') eval(jsToEval);
-   }
-
-   if (document.getElementById('gdlStatus'))
     {
-     document.getElementById('gdlStatus').innerHTML = 'Done.';
-    }
-   }}
+
+	var root = request.responseXML.documentElement;
+
+	var children = root.childNodes;
+	
+	var myelem;
+	var codes;
+
+	for (i=0; i< children.length; i++)
+	{
+	    var child=children[i];
+	    var myid = null;
+	    if (child.getElementsByTagName('replaceId')[0].firstChild != null)
+            {
+		myid = child.getElementsByTagName('replaceId')[0].firstChild.data
+            }
+
+	    var newHTML = null;
+	    
+	    if (child.getElementsByTagName('newHTML')[0].firstChild != null)
+            {newHTML = child.getElementsByTagName('newHTML')[0].firstChild.nodeValue}
+	    
+
+	    var jsToEval = null;
+
+	    if (child.getElementsByTagName('jsToEval')[0].firstChild != null)
+	    {jsToEval = child.getElementsByTagName('jsToEval')[0].firstChild.nodeValue}
+
+
+	    if (myid && newHTML && (newHTML != ''))
+            {
+
+		myelem = document.getElementById(myid);
+		myelem.innerHTML = newHTML;
+		
+		if (jsToEval && (jsToEval == 'parseme'))
+		    {
+			codes = myelem.getElementsByTagName("script");
+			for(var j=0;j<codes.length;j++)  
+			{  
+			    eval(codes[j].text); }}
+            }
+	    
+	    if (jsToEval && (jsToEval != 'parseme') && (jsToEval != ''))
+	    eval(jsToEval);
+	}
+
+
+	if (document.getElementById('gdlStatus'))
+	{
+	    document.getElementById('gdlStatus').innerHTML = 'Done.';
+	}
+    }}
 
 
 // This code was written by Tyler Akins and has been placed in the
@@ -277,11 +297,11 @@ function decode64(input) {
 
 
 
-
 function gdlResize()
 {
  gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (InnerLayout.state.center.innerWidth -20 ) +  ' :length ' + (InnerLayout.state.center.innerHeight - 75) + ')))'));
 }
+
 
 
 function collectMenuSelections(select)

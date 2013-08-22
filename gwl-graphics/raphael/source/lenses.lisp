@@ -41,8 +41,46 @@
                       (let ((width (the-object child-view width))
                             (length (the-object child-view length)))
 
-                        (format *stream* "~&~%var paper = Raphael('~a', ~a, ~a);~%"
-                                (the raphael-canvas-id) width length)
+                        (format *stream* "if (typeof paper === 'undefined') {var paper = Raphael('~a', ~a, ~a)};~%
+
+               if (typeof start === 'undefined') {
+                var start = function () {
+                    this.lastdx ? this.odx += this.lastdx : this.odx = 0;
+                    this.lastdy ? this.ody += this.lastdy : this.ody = 0;
+                    this.animate({opacity: .5}, 500, \">\");
+                },
+
+
+                move_cb = function (dx, dy) {
+                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
+                    this.lastdx = dx;
+                    this.lastdy = dy;
+                    this.animate({opacity: .5}, 500, \">\");
+                    ~a 
+                },
+
+                move = function (dx, dy) {
+                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
+                    this.lastdx = dx;
+                    this.lastdy = dy;
+                    this.animate({opacity: .5}, 500, \">\");
+                },
+
+                up = function () {
+                    this.animate({opacity: 1.0}, 500, \">\");
+                    ~a 
+                }};
+
+"
+                                (the raphael-canvas-id) width length
+				;;
+				;; FLAG -- pass in the containing
+				;; base-ajax-graphics-sheet and refer
+				;; to that, instead of referring to
+				;; the parent here.
+				;;
+				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
+				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop)))
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))
@@ -115,186 +153,149 @@
     (unless (zerop (length (the vertex-array-2d-scaled)))
       (let ((object (the object)) 
             (2d-vertices 
-             (map 'vector #'(lambda(vertex) 
-                              (let ((point 
-                                     (add-vectors (subseq vertex 0 2) 
-                                                  geom-base:*raphael-translation*)))
-                                (make-point (get-x point) 
-                                            (- (the length) (get-y point)))))
-                  (the vertex-array-2d-scaled))))
-      
-        ;;
-        ;; FLAG -- update this to handle global-filleted-polyline and any other odd types.
-        ;;
+	     (unless (the path-info-2d-scaled)
+	       (map 'vector #'(lambda(vertex) 
+				(let ((point 
+				       (add-vectors (subseq vertex 0 2) 
+						    geom-base:*raphael-translation*)))
+				  (make-point (get-x point) 
+					      (- (the length) (get-y point)))))
+		    (the vertex-array-2d-scaled))))
+	    
+
+	    (path-info (when (the path-info-2d-scaled)
+			 (mapcar #'(lambda(component)
+				     (if (keywordp component) component
+					 (let ((point 
+						(add-vectors component geom-base:*raphael-translation*)))
+					   (make-point (get-x point) 
+						       (- (the length) (get-y point))))))
+				 (the path-info-2d-scaled)))))
         
-        (let ((line-index-pairs (the-object object %line-vertex-indices%))
-              (curve-index-quadruples (the-object object %curve-vertex-indices%))
+        (let ((line-index-pairs (when 2d-vertices (the-object object %line-vertex-indices%)))
+              (curve-index-quadruples (when 2d-vertices (the-object object %curve-vertex-indices%)))
               (display-controls (or (geom-base::find-in-hash object *display-controls*)
                                     (the object display-controls)))
+	      (name (base64-encode-safe 
+		     (format nil "~s" (remove :root-object-object 
+					      (the-object object  root-path)))))
+              ;;(*read-default-float-format* 'single-float)
+	      )
+	  
+	  (let ((line-path-string 
+		 (when line-index-pairs
+		   (let (prev-end (move? t))
+		     (format nil "~{~a~^ ~}"
+			     (mapcar 
+			      #'(lambda(line-index-pair)
+				  (destructuring-bind (start-index end-index) line-index-pair
+				    (let ((start (svref 2d-vertices start-index)) 
+					  (end (svref 2d-vertices end-index)))
 
-              (*read-default-float-format* 'single-float))
-          
-	  (let (prev-end 
-		(move? t))
-	    (mapc 
-	     #'(lambda(line-index-pair)
-		 ;;(setq move? t)
-		 (destructuring-bind (start-index end-index) line-index-pair
-		   (let ((start (svref 2d-vertices start-index)) 
-			 (end (svref 2d-vertices end-index))
-			 (name (base64-encode-safe 
-				(format nil "~s" (remove :root-object-object 
-							 (the-object object  root-path))))))
-		     (when nil 
-		       (setq move? nil))
-		     (setq prev-end end)
-		     (with-cl-who ()
-		       (str 
-			(format 
-			 nil 
-			 "var ~a_lines = paper.path('~aL ~a ~a').attr({stroke: '~a'});~%"
-                       
-			 name 
-                       
-			 (if move? (format nil "M ~a ~a "
-					   (to-single-float (get-x start))
-					   (to-single-float (get-y start)))
-			     "")
-			 (to-single-float (get-x end))
-			 (to-single-float (get-y end))
-                       
-			 (or (when (getf display-controls :color)
-			       (lookup-color (getf display-controls :color) :format :hex))
-			     (the-object object color-hex))))
-                       
-		       (let ((stroke-width-string
-			      (let* ((line-thickness (getf display-controls :line-thickness))
-				     (line-thickness (or line-thickness (the object line-thickness)))
-				     (line-thickness (if (zerop line-thickness) 1 line-thickness)))
-				(if line-thickness
-				    (format nil "~a_lines.attr('stroke-width','~a');" 
-					    name (to-single-float line-thickness)) ""))))
-			 (htm (str stroke-width-string)))))))
-	     line-index-pairs))
-                      
-          (let (result)
-            (mapc #'(lambda(curve-index-quadruple)
-                      (destructuring-bind (start-index c1-index c2-index end-index) 
-                          curve-index-quadruple
+				      (setq move? (not (and prev-end (coincident-point? start prev-end))))
+				      (setq prev-end end)
 
-                        (let ((start (svref 2d-vertices start-index))
-                              (end (svref 2d-vertices end-index))
-                              (c1 (svref 2d-vertices c1-index))
-                              (c2 (svref 2d-vertices c2-index)))
-                          (push (list start c1 c2 end) result)))) curve-index-quadruples)
-              
-            (setq result (nreverse result))
-
-            (when result
-
-              (let* ((name (base64-encode-safe 
-                            (format nil "~s" (remove :root-object-object 
-                                                     (the-object object  root-path)))))
-                     (line-thickness (getf display-controls :line-thickness))
-                     (line-thickness (or line-thickness (the object line-thickness)))
-                     (line-thickness (if (zerop line-thickness) 1 line-thickness)))
-                  
-                
-                (let ((start-string 
-                       
-                       (format nil "var ~a_curves = paper.path('~{~a~}').attr({stroke: '~a'});~%"
-                               name
-                               (let* (prev-end
-				      (move? t)
-				      (curve-strings
-				       (mapcar 
-					#'(lambda(curve)
-					    (setq move? t)
-					    (destructuring-bind (start c1 c2 end) curve
-					      (when (and prev-end (coincident-point? start prev-end))
-						(setq move? nil))
-					      (setq prev-end end)
-					      (format nil "~aC  ~a ~a ~a ~a ~a ~a "
-						      (if move? (format nil "M ~a ~a "
-									(to-single-float (get-x start))
-									(to-single-float (get-y start)))
-							  "")
-						      (to-single-float (get-x c1) )
-						      (to-single-float (get-y c1))
-						      (to-single-float (get-x c2) )
-						      (to-single-float (get-y c2))
-						      (to-single-float (get-x end) )
-						      (to-single-float (get-y end))
+				      (format nil "~a ~a ~a"
+					      (if move?
+						  (format nil "M ~a ~a "
+							  (number-round (get-x start) 4)
+							  (number-round (get-y start) 4))
+						  " ")
+					      (number-round (get-x end) 4)
+					      (number-round (get-y end) 4)))))
+			      line-index-pairs)))))
+		(curve-path-string 
+		 (when curve-index-quadruples
+		   (let (coords)
+		     (mapc #'(lambda(curve-index-quadruple)
+			       (destructuring-bind (start-index c1-index c2-index end-index) 
+				   curve-index-quadruple
+				 (let ((start (svref 2d-vertices start-index))
+				       (end (svref 2d-vertices end-index))
+				       (c1 (svref 2d-vertices c1-index))
+				       (c2 (svref 2d-vertices c2-index)))
+				   (push (list start c1 c2 end) coords)))) curve-index-quadruples)
+		     (setq coords (nreverse coords))
+		     (let (prev-end (move? t))
+		       (format nil "~{~a~}"
+			       (mapcar 
+				#'(lambda(curve)
+				    (setq move? t)
+				    (destructuring-bind (start c1 c2 end) curve
+				      (when (and prev-end (coincident-point? start prev-end))
+					(setq move? nil))
+				      (setq prev-end end)
+				      (format nil "~aC  ~a ~a ~a ~a ~a ~a "
+					      (if move? (format nil "M ~a ~a "
+								(number-round (get-x start) 4)
+								(number-round (get-y start) 4)) "")
+					      (number-round (get-x c1) 4)
+					      (number-round (get-y c1) 4)
+					      (number-round (get-x c2) 4)
+					      (number-round (get-y c2) 4)
+					      (number-round (get-x end) 4)
+					      (number-round (get-y end) 4)
                                                      
-                                                     
-						      ))) result)))
-                                 curve-strings)
-                               (let ((color (or (when (getf display-controls :color)
-                                                  (lookup-color (getf display-controls :color) :format :hex))
-                                                (the-object object color-hex))))
-                                 
-                                 (or color "#000"))))
-                      
-                      ;;
-                      ;; FLAG make this into separate output-function to be amended for objects containing a viewport. 
-                      ;;
-                      (onclick-string nil)
-                      #+nil 
-                      (onclick-string
-                       (when (ignore-errors (and (the viewport) (eql (the viewport digitation-mode) :select-object)))
-                         (format nil "~a_curves.node.onclick = function (event) {~a};"
-                                 name
-                                 (the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
-                                                              :arguments (list object))))))
-                               
-                               
-                      
-		      
-                      (onmouseover-string
-		       nil 
-			#+nil
-			(format nil 
-				" ~a_curves.node.onmouseover = function (){~a_curves.attr({'stroke-width': '~a'});};" 
-				name name 
-				(floor (to-single-float (* (or line-thickness 1) 3)))
-				))
-                      
-                      (onmouseout-string
-		       nil
-			#+nil
-			(format nil " ~a_curves.node.onmouseout = function (){~a_curves.attr({'stroke-width': '~a'});};" 
-				name name (to-single-float (or line-thickness 1))))
-                      
-                      (fill-string
-                       (let ((color (or (when (getf display-controls :fill-color)
-                                          (lookup-color (getf display-controls :fill-color) :format :hex))
-                                        (the-object object fill-color-hex))))
-                         (if color
-                             (format nil "~a_curves.attr('fill','~a');" 
-                                     name color) "")))
+					      ))) coords)))))))
+		
+		  (when (or path-info line-path-string curve-path-string)
+		    (who:with-html-output (*stream*) 
+		      (fmt "var ~a;~%" name)
 
+		      (when (or line-path-string curve-path-string)
+			(fmt "~a = paper.path('~a ~a');" 
+			     name (or line-path-string "") (or curve-path-string "")))
+
+		      (when path-info 
+			(fmt "~&~a = paper.path('~{~a~^ ~}');~%"
+			     name
+			     (mapcar #'(lambda(component)
+					 (if (keywordp component)
+					     (ecase component 
+					       (:move "M")
+					       (:line "L")
+					       (:curve "C"))
+					     (format nil "~a ~a"
+						     (number-round (get-x component) 4)
+						     (number-round (get-y component) 4)))) path-info)))
+
+		      (fmt "~a.attr({stroke: '~a'});" 
+			   name (or (when (getf display-controls :color)
+				      (lookup-color (getf display-controls :color) :format :hex))
+				    (the-object object color-hex)))
+		      (let ((fill (or (when (getf display-controls :fill-color)
+					(lookup-color (getf display-controls :fill-color) :format :hex))
+				      (the-object object fill-color-hex))))
+			(when fill (fmt "~a.attr({fill: '~a'});" name fill)))
+		      (let ((line-thickness (getf display-controls :line-thickness)))
+			(when line-thickness 
+			  (fmt "~&~a.attr('stroke-width','~a');" name (number-round line-thickness 4))))
+
+		      (write-the (drag-controls :name name :display-controls display-controls))
+		      ;;
+		      ;; FLAG work these back in as generic output-functions.
+		      ;;
+		      #+nil
+		      (onclick-string 
+		       (when (ignore-errors (and (the viewport) (eql (the viewport digitation-mode) :select-object)))
+			 (format nil "~a_curves.node.onclick = function (event) {~a};"
+				 name
+				 (the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
+							      :arguments (list object))))))
+		      #+nil
+		      (onmouseover-string 
+		       (format nil 
+			       " ~a_curves.node.onmouseover = function (){~a_curves.attr({'stroke-width': '~a'});};" 
+			       name name 
+			       (floor (to-single-float (* (or line-thickness 1) 3)))))
+
+		      #+nil
+		      (onmouseout-string
+		       (format nil " ~a_curves.node.onmouseout = function (){~a_curves.attr({'stroke-width': '~a'});};" 
+			       name name (to-single-float (or line-thickness 1))))
                       
-                      (stroke-width-string
-                       (if line-thickness
-                           (format nil "~&~a_curves.attr('stroke-width','~a');" 
-                                   name (to-single-float line-thickness))
-                         "")))
-                    
-                  (with-cl-who () 
-                    (str start-string) 
-                    ;;
-                    ;; FLAG -- this has to be conditionalized based on :display-controls 
-                    ;;         of the object. 
-                    ;;
-                    (when onclick-string (str onclick-string))
-                    (when onmouseover-string (str onmouseover-string))
-                    (when onmouseout-string (str onmouseout-string))
-                    (str fill-string) 
-                    (str stroke-width-string)
-                    )))
-                  
-                  
-              ))))))))
+                      )))))))))
+
 
 
 
@@ -360,7 +361,10 @@
 
 (define-lens (raphael global-polyline)()
   :output-functions
-  ((cad-output
+  ((cad-output ())
+
+   #+nil
+   (cad-output
     ()
     (with-format-slots (view)
       (let ((line-index-pairs (the %%line-vertex-indices%%))
@@ -377,13 +381,15 @@
                      (format nil "~s" (remove :root-object-object 
                                               (the  root-path))))))
         
-         (with-cl-who ()
+         (who:with-html-output (*stream*)
           (let ((*read-default-float-format* 'single-float)
-		(start (aref 2d-vertices (first (first line-index-pairs)))))
+		(start (aref 2d-vertices (first (first line-index-pairs))))
+		(display-controls (or (geom-base::find-in-hash self *display-controls*)
+				      (the display-controls))))
             (str 
              (format 
               nil
-              "var ~a_polyline = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a'});~%"
+              "var ~a = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a'}).data('name','\\\"~a\\\"'); ~a~%;"
               ;; FLAG -- add fill-color
               name
               (to-single-float (get-x start))
@@ -398,47 +404,17 @@
 				      (to-single-float (get-y end))))))
 			  line-index-pairs)
               
-              (the color-hex))))))))))
+              (the color-hex)
+	      
+	      name
 
+	      (when (getf (the display-controls) :fill-color)
+		(let ((fill-color (lookup-color (getf (the display-controls) :fill-color) :format :hex)))
+		  (format nil "~a.attr({fill: '~a'});" name fill-color)))))
 
-;;
-;; FLAG -- this is not working - sort it out. 
-;;
-#+nil
-(define-lens (raphael global-polyline)()
-  :output-functions
-  (
-   (cad-output
-    ()
-    (with-format-slots (view)
-      (let (;;(line-index-pairs (the %%line-vertex-indices%%))
-            (2d-vertices (map 'vector
-                           (if view
-                               #'(lambda(point) 
-                                   (add-vectors (subseq (the-object view (view-point point)) 0 2)
-                                                geom-base:*raphael-translation*))
-                             #'identity) (the %%vertex-array%%)))
-            (name (base64-encode-safe 
-                     (format nil "~s" (remove :root-object-object 
-                                              (the  root-path))))))
-        
-         (with-cl-who ()
-          (let ((*read-default-float-format* 'single-float))
-            (str 
-             (format 
-              nil
-              "var ~a_polyline = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a'});~%"
-              ;; FLAG -- add fill-color
-              name
-              (to-single-float (get-x (aref 2d-vertices 0)))
-              (to-single-float (get-y (aref 2d-vertices 0)))
-              
-              (mapcar #'(lambda(point) (format nil "L ~a ~a" 
-                                               (to-single-float (get-x point)) 
-                                               (to-single-float (get-y point))))
-                      (rest (coerce (subseq 2d-vertices 1) 'list)))
-              
-              (the color-hex))))))))))
+	    (write-the (drag-controls :name name :display-controls display-controls))
+	    )))))))
+
 
 
 (define-lens (raphael point)()
@@ -525,7 +501,65 @@
 
 
 (define-lens (raphael t)()
-
   :output-functions
-  ((cad-output ())))
+  ((cad-output ())
+   (drag-controls
+    (&key name display-controls)
+    (let ((drag-controls (ensure-list (getf display-controls :drag-controls))))
+      (when drag-controls
+	(with-cl-who ()
+	  (str (format nil "~a.attr({cursor: 'pointer'}).data('name','\\\"~a\\\"');~%" 
+		       name name))
+	  (cond
+	    ((or (member :drag drag-controls)
+		 (member :drag-and-drop drag-controls))
+	     (str (format nil "~&paper.set(~a).drag(move_cb,start,up);" name)))
+	    ((or (member :drop drag-controls)
+		 (member :drag-and-drop drag-controls))
+	     (str (format nil "~&paper.set(~a).drag(move,start,up);" name))))))))))
 
+
+
+
+
+#|
+
+var start = function () {
+  this.lastdx ? this.odx += this.lastdx : this.odx = 0;
+  this.lastdy ? this.ody += this.lastdy : this.ody = 0;
+  this.animate({"fill-opacity": 0.2}, 500);
+},
+move = function (dx, dy) {
+  this.transform("T"+(dx+this.odx)+","+(dy+this.ody));
+  this.lastdx = dx;
+  this.lastdy = dy;
+},
+up = function () {
+  this.animate({"fill-opacity": 1}, 500);
+};
+
+tri.drag(move, start, up);
+
+<script>
+            window.onload = function () {
+                var R = Raphael(0, 0, "100%", "100%"),
+                    r = R.circle(100, 100, 50).attr({fill: "hsb(0, 1, 1)", stroke: "none", opacity: .5}),
+                    g = R.circle(210, 100, 50).attr({fill: "hsb(.3, 1, 1)", stroke: "none", opacity: .5}),
+                    b = R.circle(320, 100, 50).attr({fill: "hsb(.6, 1, 1)", stroke: "none", opacity: .5}),
+                    p = R.circle(430, 100, 50).attr({fill: "hsb(.8, 1, 1)", stroke: "none", opacity: .5});
+                var start = function () {
+                    this.ox = this.attr("cx");
+                    this.oy = this.attr("cy");
+                    this.animate({r: 70, opacity: .25}, 500, ">");
+                },
+                move = function (dx, dy) {
+                    this.attr({cx: this.ox + dx, cy: this.oy + dy});
+                },
+                up = function () {
+                    this.animate({r: 50, opacity: .5}, 500, ">");
+                };
+                R.set(r, g, b, p).drag(move, start, up);
+            };
+        </script>
+
+|#

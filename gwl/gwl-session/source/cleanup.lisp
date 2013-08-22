@@ -68,7 +68,6 @@ the object hierarchies rooted at the instances, as well as all associated publis
   </pre>"
   (maphash #'(lambda(key val)
                (declare (ignore val))
-               (print-variables key)
                (unless (member key *keys-to-preserve*)
                  (clear-instance key))) *instance-hash-table*))
 
@@ -98,9 +97,7 @@ the object hierarchy rooted at the instance, as well as all associated published
   
   (setq base-url (when base-url (subseq base-url 0 (- (length base-url) (length "index.html")))))
   
-  ;;(when *debug?* (print-variables  id base-url))
-  ;; FLAG DEBUG
-  (when t (print-variables  id base-url))
+  (when *debug?* (print-variables  id base-url))
 
   (let ((urls (gethash id *url-hash-table*)) remaining-urls)
     (mapc #'(lambda(url) 
@@ -117,7 +114,7 @@ the object hierarchy rooted at the instance, as well as all associated published
 		      ;;
 		      ;;FLAG DEBUG
 		      ;;
-		      (let ((url-to-unpub url)) (print-variables url-to-unpub))
+		      (when *debug?* (let ((url-to-unpub url)) (print-variables url-to-unpub)))
 
                       (net.aserve::unpublish-entity (first (wserver-locators *wserver*))
                                                     url nil nil)))

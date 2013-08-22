@@ -121,17 +121,53 @@ value of the image-format-selector, which itself defaults to :raphael."
    ;;
    ;; FLAG -- probably not needed, inherited from skeleton-ui-mixin via base-ajax-sheet, base-html-sheet, sheet-section. 
    ;;
-   (inner-html (with-cl-who-string () (write-the inner-html))))
+   (inner-html (with-cl-who-string () (write-the inner-html)))
+
+   (on-drag-function nil)
+
+   (on-drop-function nil)
+
+   )
 
   
+  :functions 
+  ((set-js-vals! 
+    (js-vals)
+    (let ((dropped-x-y (the (model-x-y (destructuring-bind (&key x y &allow-other-keys) js-vals
+					 (list :x x :y y)))))
+	  (dropped-height-width (destructuring-bind (&key width height &allow-other-keys) js-vals
+				  (list :width (/ width (the view-object view-scale))
+					:height (/ height (the view-object view-scale)))))
+	  (dropped-object (with-error-handling ()
+			    (base64-decode-list (getf js-vals :name)))))
+
+      (the (set-slots! (list :dropped-x-y dropped-x-y
+			     :dropped-height-width dropped-height-width
+			     :dropped-object dropped-object
+			     )
+		       )))))
+
   :computed-slots
   (
    
-   (js-to-eval (let ((image-format (the image-format)))
-                 (print-variables image-format)
-                 (cond ((eql (the image-format) :raphael)
+   ("3D point. This is the upper-right corner of the bounding box of the dragged and/or dropped element."
+    dropped-x-y nil :settable)
+
+   ("Plist with :width and :height. The dimensions of the bounding-box of the dragged and/or dropped element."
+    dropped-height-width nil :settable)
+
+   ("List representing GDL root-path. This is the root path of the dragged and/or dropped object. 
+This is not tested to see if it is part of the same object tree as current self."
+    dropped-object nil :settable)
+
+
+   (js-to-eval 
+    :parse
+    #+nil
+    (let ((image-format (the image-format)))
+                 (cond ((eql image-format :raphael)
                         (the raphael-string))
-                       ((eql (the image-format) :x3dom)
+                       ((eql image-format :x3dom)
 			nil
                         ;;"console.log(\"loading x3dom js\"); xdom_script.src=\"http://www.x3dom.org/x3dom/release/x3dom.js\""
 			)))
@@ -242,14 +278,45 @@ bottom of the graphics inside a table."
                   :choice-list (plist-keys (the standard-views))
                   ;;:default :top
                   :default (the view-direction-default)
-                  )
+                  ))
 
-   
-
-   )
   
   :functions
-  ((reset-zoom!
+  (
+   (on-drag ()
+	    (when (the on-drag-function)
+	      (funcall (the on-drag-function))))
+
+   (on-drop ()
+	    (when (the on-drop-function)
+	      (funcall (the on-drop-function))))
+
+   ;;
+   ;; FLAG -- copied from base-html-graphics-sheet's logic for dig-point and report-point -- 
+   ;;         factor out the repeated code!
+   ;;
+   ;; FLAG -- standardize on length instead of height for Y coord.
+   ;;
+   
+   (model-x-y (local-x-y)
+	      (when local-x-y
+		(destructuring-bind (&key x y) local-x-y
+		  (let ((x (- x (half (the view-object width))))
+			(y (let ((y (- (the view-object length) y)))
+			     (- y (half (the view-object length))))))
+		    (let ((adjusted 
+			   (scalar*vector 
+			    (the view-object user-scale)
+			    (add-vectors (make-point (get-x (the view-object user-center) )
+						     (get-y (the view-object user-center)) 0)
+					 (scalar*vector (/ (the view-object user-scale))
+							(make-point x y 0))))))
+		      (let ((model-point (the view-object main-view (model-point adjusted))))
+			model-point))))))
+
+
+
+   (reset-zoom!
     ()
     (the view-object (restore-slot-defaults! (list :user-center :user-scale))))
 
@@ -342,8 +409,6 @@ to call the :write-embedded-x3d-world function."))
           (t
 
 
-	   (print-variables (the onclick-function))
-	   
 	   (with-cl-who ()
 	     (:p
 	      ((:span :style "cursor: pointer;")
