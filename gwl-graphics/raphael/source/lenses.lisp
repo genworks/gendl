@@ -44,6 +44,7 @@
                         (format *stream* "if (typeof paper === 'undefined') {var paper = Raphael('~a', ~a, ~a)};~%
 
                if (typeof start === 'undefined') {
+
                 var start = function () {
                     this.lastdx ? this.odx += this.lastdx : this.odx = 0;
                     this.lastdy ? this.ody += this.lastdy : this.ody = 0;
@@ -69,7 +70,9 @@
                 up = function () {
                     this.animate({opacity: 1.0}, 500, \">\");
                     ~a 
-                }};
+                },
+
+                  touchcoords = function () {~a}};
 
 "
                                 (the raphael-canvas-id) width length
@@ -80,7 +83,9 @@
 				;; the parent here.
 				;;
 				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
-				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop)))
+				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop))
+
+				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-touchmove)))
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))
@@ -516,7 +521,11 @@
 	     (str (format nil "~&paper.set(~a).drag(move_cb,start,up);" name)))
 	    ((or (member :drop drag-controls)
 		 (member :drag-and-drop drag-controls))
-	     (str (format nil "~&paper.set(~a).drag(move,start,up);" name))))))))))
+	     (str (format nil "~&paper.set(~a).drag(move,start,up);" name)))
+	    ((member :touchmove drag-controls)
+	     (str (format nil "~&paper.set(~a).touchmove(touchcoords);" name)))
+
+	    )))))))
 
 
 

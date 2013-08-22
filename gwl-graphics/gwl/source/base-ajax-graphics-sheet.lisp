@@ -127,6 +127,8 @@ value of the image-format-selector, which itself defaults to :raphael."
 
    (on-drop-function nil)
 
+   (on-touchmove-function nil)
+
    )
 
   
@@ -290,6 +292,10 @@ bottom of the graphics inside a table."
    (on-drop ()
 	    (when (the on-drop-function)
 	      (funcall (the on-drop-function))))
+
+   (on-touchmove ()
+	    (when (the on-touchmove-function)
+	      (funcall (the on-touchmove-function))))
 
    ;;
    ;; FLAG -- copied from base-html-graphics-sheet's logic for dig-point and report-point -- 

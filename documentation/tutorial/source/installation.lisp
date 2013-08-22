@@ -22,16 +22,16 @@
 (in-package :gendl-doc)
 
 (defparameter *installation*
-    `((:chapter :title "Installation")
+    `((:chapter :title "Installation [GDL and Gendl]")
       
-      "Follow Section "
+      "Please follow Section "
       (:ref "sec:installationofpre-packagedgdl")
       " if your email address is registered with Genworks and you will
 install a pre-packaged Genworks GDL distribution, including its own
 Common Lisp engine.  The foundation of Genworks GDL is also available
 as open-source software through The Gendl Project"
       (:footnote "http://github.com/genworks/gendl")
-      "; if you want to use that version, then please refer to Section "
+      "; if you elect to use that version, then please refer to Section "
       (:ref "sec:installationofopen-sourcegendl")
       "."
       ((:section :title "Installation of pre-packaged GDL")
@@ -42,11 +42,11 @@ Gnu Emacs)."
        ((:subsection :title "Download the Software and retrieve a license key")
 	((:list :style :enumerate)
 	 (:item "Visit the Downloads section of the "
-	   (:href "http://genworks.com" "Genworks Website"))
+	   (:href "http://genworks.com" "Genworks Website") ";")
 	 (:item "Enter your email address" 
 	   (:footnote "if your address is not on file, send mail to licensing@genworks.com")
-	   ".")
-	 (:item "Download the latest Payload for Windows, Linux, or Mac")
+	   ";")
+	 (:item "Download the latest Payload for Windows, Linux, or Mac;")
 	 (:item "Click to receive the license key file by email.")))
        
        ((:subsection :title "Unpack the Distribution")
@@ -71,10 +71,10 @@ a ``dmg'' application bundle for Mac, and a self-contained zip file for Linux."
        
        "This section is only germane if you have not received a
 pre-packaged Gendl or Genworks GDL distribution with its own Common
-Lisp engine.  If you have received a pre-packaged Gendl distribution,
+Lisp engine.  If you have received a pre-packaged Gendl distribution
 then you may skip this section. In case you want to use the
 open-source Gendl, you will use your own Common Lisp installation and
-obtain Gendl (Genworks-GDL) using a very powerful and convenient CL
+obtain Gendl (Genworks-GDL) using a powerful and convenient CL
 package/library manager called "
        (:emph "Quicklisp") "."
        
@@ -198,7 +198,7 @@ startup process, please contact the following resources:"
 	(:item "If you are not a supported Genworks customer but you want to report an apparent bug or have other suggestions or inquiries, you may also send email to "
 	  (:href "mailto:support@genworks.com" "support@genworks.com")
 	  ", but as a non-customer please understand that Genworks
-	  cannot guarantee a response or a particular timeframe for a
+	  cannot guarantee a response or a particular time frame for a
 	  response. Also note that we are not able to offer guaranteed
 	  support for Trial and Student licenses ")))))
 

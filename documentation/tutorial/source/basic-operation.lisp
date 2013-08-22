@@ -24,11 +24,11 @@
 (defparameter *basic-operation*
     `((:chapter :title "Basic Operation of the GDL Environment")
       "This chapter will lead you through all the basic steps of
-operating a typical GDL-based development environment. We will not go
-into particular depth about the additional features of the environment
-or language syntax in this section --- this chapter is merely for
-getting familiar with and practicing with the nuts and bolts of
-operating the environment with a keyboard."
+operating a typical GDL-based development environment. We will not in
+this section go into particular depth about the additional features of
+the environment or language syntax --- this chapter is merely to
+familiarize you with, and start you practicing with the nuts and bolts
+of operating the environment with a keyboard."
 
       ((:section :title "What is Different about GDL?")
        "GDL is a "
@@ -51,7 +51,7 @@ function or object, one has "
  
 In GDL, it is typical to keep the same development session up and
 running for an entire day or longer, making it unnecessary to
-constantly recompile and reload your definitions from scratch. Note,
+repeatedly recompile and reload your definitions from scratch. Note,
 however, that if you do shut down and restart the system for some
 reason, then you will have to recompile and/or reload your
 application's definitions in order to bring the system back into a
@@ -62,13 +62,13 @@ done "
        (:emph "automatically")
        " in one of two ways:"
        (:ol 
-	(:li "using commands placed into
+	(:li "Using commands placed into
 the "
 	     (:texttt "gdlinit.cl")
 	     " initialization file, as described in Section "
 	     (:ref "sec:customizingyourenvironment") ".")
 
-	(:li "alternatively, you can compile and load definitions into
+	(:li "Alternatively, you can compile and load definitions into
 your session, then save the ``world'' in that state. That way it is
 possible to start a new GDL ``world'' which already has all your
 application's definitions loaded and ready for use, without having to
@@ -284,7 +284,7 @@ This will visit the *slime-repl* buffer. Now type: "
 	"GDL contains utilities which allow you to treat your
 application as a ``project,'' with the ability to compile,
 incrementally compile, and load a ``project'' from a directory tree of
-source files representing your project. In this section we give an
+source files representing your project. In this section we provide an
 overview of the expected directory structure and available control
 files, followed by a reference for each of the functions included in
 the bootstrap module."
@@ -309,9 +309,7 @@ relatively flat, however.")
   apps/yoyodyne/booster-rocket/source/package.gdl
   apps/yoyodyne/booster-rocket/source/parameters.gdl
   apps/yoyodyne/booster-rocket/source/rules.gdl
-"))
-
-	)
+")))
 
        
        ((:subsection :title "Source Files within a source/ subdirectory")
@@ -320,7 +318,7 @@ relatively flat, however.")
 	 (:p "Within a source subdirectory, you may have a file called "
 	     (:texttt "file-ordering.isc")
 	     (:footnote (:texttt "isc") " stands for ``Intelligent Source Configuration''")
-	     " to enforce a certain ordering on the files. Here are
+	     " to enforce a certain ordering of the files. Here are
 the contents of an example for the above application:")
 	 (:verbatim  "(\"package\" \"parameters\")")
 
@@ -330,7 +328,8 @@ of the files should not matter (although it will default to
 lexigraphical ordering).")
 
 
-	(:p "Now our sample application directory looks like Figure "
+	(:p "Now our sample application directory appears as in
+	Figure "
 	    (:ref "fig:yoyodyne-with-file-ordering-isc")
 	    "."))
 	
@@ -382,14 +381,14 @@ load the system using Quicklisp. To do this for our example, follow these steps:
 	   " for projects you want available during every development session. Note that you should include
 the full path prefix for the directory containing the ASDF system file.")
 	 (:item (:verbatim "(ql:quickload :gdl-yoyodyne)")
-	   " this will compile and load the actual system. Quicklisp
+	   " This will compile and load the actual system. Quicklisp
 uses ASDF at the low level to compile and load the systems, and
 Quicklisp will retrieve any depended-upon third-party libraries from
 the Internet on-demand.  Source files will be compiled only if the
 corresponding binary (fasl) file does not exist or is older than the
 source file. By default, ASDF keeps its binary files in a  "
 	   (:emph "cache")
-	   " directory, separated according to CL platform and
+	   " directory, separated according to the CL platform and
 operating system. The location of this cache is system-dependent, but
 you can see where it is by observing the compile and load
 process."))))

@@ -94,7 +94,7 @@ an HTML generating library, such as "
      (:p "For our examples we will use cl-who, which is currently the
 standard default HTML generating library used internally by GDL. Here
 we will make note of the major features of cl-who while introducing
-the examples; for complete documentation on cl-who, please visit the
+the examples. For complete documentation on cl-who, please visit the
 page at Edi Weitz' website linked above and listed in the footnote
 below.")
 
@@ -150,7 +150,7 @@ within a GWL application."
 
 	   (:item "The " (:texttt "fmt") " symbol has special meaning
       within the cl-who environment and works the same as a Common
-      Lisp " (:texttt "(format nil ...)") ", in order to evaluate a format
+      Lisp " (:texttt "(format nil ...)") " in order to evaluate a format
       string together with matching arguments, and produce a string at
       runtime.")
 
@@ -346,7 +346,7 @@ available form-controls are:"
 
 
        (:p "These form-controls are customizable by mixing them into
-	   your own specific form-controls (although this is often not
+	   your own specific form-controls (although this often is not
 	   necessary). New form-controls such as for numbers, dates,
 	   etc will soon be added to correspond to latest HTML
 	   standards."))
@@ -368,7 +368,7 @@ of the form controls within the " (:texttt "with-html-form") " macro.")
 		       :width "4in" :height "3in"
 		       :label "fig:gwl-3b-image"))
 
-       (:p "In Figure "
+       (:p "Figure "
 	   (:ref "fig:gwl-3b")
 	   " is an example which allows the user to enter a year, and the 
 application will respond with the revenue amount for that year. Additional
@@ -407,7 +407,7 @@ page need to be updated after a request.")
 represents the page and the page sections is kept identical to the
 displayed state of the page. This means that if the user hits the
 ``Refresh'' button in the browser, the state of the page will remain
-unchanged. This ability is not present in some other Ajax
+unchanged. This ability is not available in some other Ajax
 frameworks.")
 
      ((:subsection :title "Steps to Create a gdlAjax Application")
@@ -417,7 +417,7 @@ still apply for gdlAjax applications --- that is, HTML generation,
 page linking, etc. These techniques will all still work in a gdlAjax
 application.")
 
-      (:p "To produce a gdlAjax application involves three main differences from
+      (:p "To produce a gdlAjax application entails three main differences from
 a standard web application:"
 
 	  
@@ -438,10 +438,11 @@ a standard web application:"
     fills in the body of the page --- everything between the <body>
     and </body> tags. The head tag of the page is filled in
     automatically and can be customized in various ways.")
-	   (:item "Any sections of the page which you want to be able
-      to change themselves in response to an Ajax call must be made
-      into separate page sections, or ``sheet sections,'' and the HTML
-      for their " (:texttt "main-div") " included in the main page's "
+	   (:item "Any sections of the page which you want to have the
+      capacity to change themselves in response to an Ajax call must
+      be made into separate page sections, or ``sheet sections,'' and
+      the HTML for their " (:texttt "main-div") " included in the main
+      page's "
       (:texttt "main-sheet-body") " by use of cl-who's " (:texttt "str") " directive."))
 
 
@@ -485,7 +486,7 @@ a standard web application:"
 	     " is simply the " (:texttt "inner-html") ", wrapped with
                an HTML DIV (i.e. ``division'') tag which contains a unique
                identifier for this section, derived from the root-path
-               to the GDL object in the in tree which represents the
+               to the GDL object in the tree which represents the
                sheet section.")
 
 	   (:item "We introduce the CL function " (:texttt "gwl:publish-gwl-app")
@@ -548,8 +549,8 @@ necessary.")
 	  works correctly when the form-controls are set before the
 	  function is called, then you can group the functions
 	  together into a ``wrapper-function,'' and do the entire
-	  processing with a single Ajax (or Sjax) call. Normally this
-	  would be be the recommended approach whenever possible."))
+	  processing with a single Ajax (or Sjax) call. This would be
+	  be the recommended approach whenever possible."))
 
 
      ((:subsection :title "Including Graphics")
@@ -580,7 +581,7 @@ can be controlled with other optional input-slots.")
 
       (:p "The example in Figure " (:ref "fig:gwl-5")
 	  " contains a simple box with two graphics viewports
-and ability to modify the length, height, and and with of the box:")
+and ability to modify the length, height, and and width of the box:")
 
 
 

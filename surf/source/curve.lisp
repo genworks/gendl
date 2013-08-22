@@ -116,9 +116,9 @@ this is not a surface-curve, this will return an error."
                           (t (make-b-spline-curve* *geometry-kernel* (the native-curve) 
                                                    :schedule-finalization? t))))
    
-   ("GDL Curve. Specify this if you want this curve to be a clone of an existing curve. (note - this uses a shared underlying 
-curve object, it does not make a copy)"
-    built-from nil)
+   ("GDL Curve. Specify this if you want this curve to be a clone of
+an existing curve. (note - this uses a shared underlying curve object,
+it does not make a copy)" built-from nil)
    
    ("Number. Approximation tolerance for display purposes. Defaults to the tolerance of the 
 built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
