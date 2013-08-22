@@ -4,7 +4,7 @@
  "The Gendl™ Wireframe Geometry" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130710" :depends-on (:glisp)
+ :serial t :version "20130822" :depends-on (:glisp)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "prereqs/source/presets")
@@ -57,4 +57,3 @@
   (:file "lenses/source/vrml") (:file "lenses/source/x3d")
   (:file "math/source/polynomial") (:file "zzinit/source/initialize")
   (:file "zzinit/source/zzinit")))
-

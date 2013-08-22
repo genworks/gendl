@@ -4,7 +4,7 @@
  "The Gendl™ Web-based Development Environment (tasty)" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130710" :depends-on (:tree :gwl-graphics)
+ :serial t :version "20130822" :depends-on (:tree :gwl-graphics)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/parameters")
@@ -15,4 +15,3 @@
   (:file "source/status-object") (:file "source/test-part")
   (:file "source/test-part2") (:file "source/two-viewports")
   (:file "source/viewport") (:file "source/zzinit")))
-

@@ -4,7 +4,7 @@
  "The Gendl™ Wireframe School Bus Demo" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130710" :depends-on (:gwl-graphics)
+ :serial t :version "20130822" :depends-on (:gwl-graphics)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "source/package") (:file "source/assembly")
@@ -23,4 +23,3 @@
   (:file "source/rear-axle") (:file "source/seat")
   (:file "source/seating-section") (:file "source/seating-side")
   (:file "source/wheel")))
-

@@ -4,7 +4,7 @@
  "The Gendl™ GWL embedded graphics support" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130710" :depends-on (:geom-base :gwl)
+ :serial t :version "20130822" :depends-on (:geom-base :gwl)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "gwl/source/application-mixin")
@@ -16,4 +16,3 @@
   (:file "raphael/source/package") (:file "raphael/source/formats")
   (:file "raphael/source/lenses") (:file "source/parameters")
   (:file "zzinit/source/initialize") (:file "zzinit/source/zzinit")))
-
