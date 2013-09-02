@@ -59,11 +59,13 @@ Currently only :wedge is supported. Default is :none."
    (leader-length (3d-distance (first (the path-points)) (lastcar (the path-points))))
    
    
-   )
+   (%lines-to-draw% (remove nil
+			    (cons (the polyline %lines-to-draw%)
+				  (apply #'append (mapsend (the polylines) :%lines-to-draw%))))))
+
   
   :hidden-objects
-  (
-   (polyline :type (if (null (the break-points)) 'global-polyline 'null-part)
+  ((polyline :type (if (null (the break-points)) 'global-polyline 'null-part)
              :vertex-list (the path-points))
    
    

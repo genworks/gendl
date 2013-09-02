@@ -215,13 +215,14 @@
   (when (file-exists-p "~/.emacs-glime.el") (load-file "~/.emacs-glime.el")))
 
 
-(require 'package)
-;; Add the original Emacs Lisp Package Archive
-(add-to-list 'package-archives
-             '("elpa" . "http://tromey.com/elpa/"))
-;; Add the user-contributed repository
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(ignore-errors 
+  (require 'package)
+  ;; Add the original Emacs Lisp Package Archive
+  (add-to-list 'package-archives
+	       '("elpa" . "http://tromey.com/elpa/"))
+  ;; Add the user-contributed repository
+  (add-to-list 'package-archives
+	       '("marmalade" . "http://marmalade-repo.org/packages/")))
 
 
 ;; 5.  MAKE IT HAPPEN

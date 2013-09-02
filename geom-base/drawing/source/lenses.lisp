@@ -150,53 +150,50 @@
     ()
     (when (typep (the object) 'gdl::gdl-basis)
       (let ((object (the object)) (2d-vertices (the vertex-array-2d-scaled)))
-	;;
-	;; FLAG -- clean up the handling for global-filleted-polyline and any other odd types.
-	;;
-	(unless nil ;;(typep object 'global-polyline-mixin)
-	  (let ((line-index-pairs (the-object object %line-vertex-indices%))
-		(curve-index-quadruples (the-object object %curve-vertex-indices%)))
+
+	(let ((line-index-pairs (the-object object %line-vertex-indices%))
+	      (curve-index-quadruples (the-object object %curve-vertex-indices%)))
         
-	    (pdf:with-saved-state (write-the-object object line-thickness-setting)
+	  (pdf:with-saved-state (write-the-object object line-thickness-setting)
           
-				  (write-the-object object dash-pattern-setting)
+				(write-the-object object dash-pattern-setting)
           
-				  (write-the-object object rgb-stroke-setting)
+				(write-the-object object rgb-stroke-setting)
 
             
-				  (mapc #'(lambda(line-index-pair)
-					    (destructuring-bind (start-index end-index) line-index-pair
-					      (let ((start (svref 2d-vertices start-index)) 
-						    (end (svref 2d-vertices end-index)))
-						(pdf:move-to (%get-x% start) (%get-y% start))
-						(pdf:line-to (%get-x% end)(%get-y% end))))) line-index-pairs)
+				(mapc #'(lambda(line-index-pair)
+					  (destructuring-bind (start-index end-index) line-index-pair
+					    (let ((start (svref 2d-vertices start-index)) 
+						  (end (svref 2d-vertices end-index)))
+					      (pdf:move-to (%get-x% start) (%get-y% start))
+					      (pdf:line-to (%get-x% end)(%get-y% end))))) line-index-pairs)
             
             
-				  (let (start end prev-end)
+				(let (start end prev-end)
               
-				    (mapc #'(lambda(curve-index-quadruple)
-					      (destructuring-bind (start-index c1-index c2-index end-index) 
-						  curve-index-quadruple
-						(declare (ignorable start-index))
+				  (mapc #'(lambda(curve-index-quadruple)
+					    (destructuring-bind (start-index c1-index c2-index end-index) 
+						curve-index-quadruple
+					      (declare (ignorable start-index))
                           
-						(setq prev-end end)
-						(setq start (svref 2d-vertices start-index)
-						      end (svref 2d-vertices end-index))
+					      (setq prev-end end)
+					      (setq start (svref 2d-vertices start-index)
+						    end (svref 2d-vertices end-index))
                           
-						(let ((c1 (svref 2d-vertices c1-index))
-						      (c2 (svref 2d-vertices c2-index)))
+					      (let ((c1 (svref 2d-vertices c1-index))
+						    (c2 (svref 2d-vertices c2-index)))
 
-						  (unless (and start prev-end (coincident-point? start prev-end))
-						    (pdf:move-to (%get-x% start) (%get-y% start)))
+						(unless (and start prev-end (coincident-point? start prev-end))
+						  (pdf:move-to (%get-x% start) (%get-y% start)))
                             
-						  (pdf:bezier-to (%get-x% c1) (%get-y% c1) (%get-x% c2) 
-								 (%get-y% c2) (%get-x% end) (%get-y% end)))))
-					  curve-index-quadruples))
+						(pdf:bezier-to (%get-x% c1) (%get-y% c1) (%get-x% c2) 
+							       (%get-y% c2) (%get-x% end) (%get-y% end)))))
+					curve-index-quadruples))
             
             
-				  (if (the-object object fill-color-decimal)
-				      (pdf:fill-and-stroke)
-				      (pdf:stroke))))))))))
+				(if (the-object object fill-color-decimal)
+				    (pdf:fill-and-stroke)
+				    (pdf:stroke)))))))))
 
 
 (define-lens (dxf view-object-cache)()

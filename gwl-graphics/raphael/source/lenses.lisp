@@ -28,7 +28,11 @@
 
 (define-lens (raphael base-drawing)()
   :output-functions
-  ((cad-output
+  ((raphael-paper-def (&key width length)
+		      (format *stream* "if (typeof paper === 'undefined') {var paper = Raphael('~a', ~a, ~a)};~%"
+			      (the raphael-canvas-id) width length))
+
+   (cad-output
     ()
     (let ((view-center (if (the user-center) 
                            (scalar*vector (the user-scale) (the user-center)) 
@@ -41,51 +45,7 @@
                       (let ((width (the-object child-view width))
                             (length (the-object child-view length)))
 
-                        (format *stream* "if (typeof paper === 'undefined') {var paper = Raphael('~a', ~a, ~a)};~%
-
-               if (typeof start === 'undefined') {
-
-                var start = function () {
-                    this.lastdx ? this.odx += this.lastdx : this.odx = 0;
-                    this.lastdy ? this.ody += this.lastdy : this.ody = 0;
-                    this.animate({opacity: .5}, 500, \">\");
-                },
-
-
-                move_cb = function (dx, dy) {
-                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
-                    this.lastdx = dx;
-                    this.lastdy = dy;
-                    this.animate({opacity: .5}, 500, \">\");
-                    ~a 
-                },
-
-                move = function (dx, dy) {
-                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
-                    this.lastdx = dx;
-                    this.lastdy = dy;
-                    this.animate({opacity: .5}, 500, \">\");
-                },
-
-                up = function () {
-                    this.animate({opacity: 1.0}, 500, \">\");
-                    ~a 
-                },
-
-                  touchcoords = function () {~a}};
-
-"
-                                (the raphael-canvas-id) width length
-				;;
-				;; FLAG -- pass in the containing
-				;; base-ajax-graphics-sheet and refer
-				;; to that, instead of referring to
-				;; the parent here.
-				;;
-				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
-				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop))
-
-				(the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-touchmove)))
+                        (write-the (raphael-paper-def :width width :length length))
 
                         (with-translated-state (:raphael (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))
@@ -112,8 +72,6 @@
       (with-translated-state (:raphael 
                               (make-point (+ (get-x center) (half (the width)))
                                           (+ (get-y center) (half (the length)))))
-        
-        
         
         
         
@@ -277,6 +235,8 @@
 			  (fmt "~&~a.attr('stroke-width','~a');" name (number-round line-thickness 4))))
 
 		      (write-the (drag-controls :name name :display-controls display-controls))
+
+
 		      ;;
 		      ;; FLAG work these back in as generic output-functions.
 		      ;;
@@ -362,66 +322,6 @@
                            (the-object object fill-color-hex)) "#000"))))))))))
 
 
-
-
-(define-lens (raphael global-polyline)()
-  :output-functions
-  ((cad-output ())
-
-   #+nil
-   (cad-output
-    ()
-    (with-format-slots (view)
-      (let ((line-index-pairs (the %%line-vertex-indices%%))
-            (2d-vertices (map 'vector
-                           (if view
-                               #'(lambda(point) 
-				   (let ((p (add-vectors (let ((point (subseq (the-object view (view-point point)) 0 2)))
-							   point)
-							 geom-base:*raphael-translation*)))
-				     (make-point (get-x p) (- (the-object view length) (get-y p)))
-				     ))
-			       #'identity) (the %%vertex-array%%)))
-            (name (base64-encode-safe 
-                     (format nil "~s" (remove :root-object-object 
-                                              (the  root-path))))))
-        
-         (who:with-html-output (*stream*)
-          (let ((*read-default-float-format* 'single-float)
-		(start (aref 2d-vertices (first (first line-index-pairs))))
-		(display-controls (or (geom-base::find-in-hash self *display-controls*)
-				      (the display-controls))))
-            (str 
-             (format 
-              nil
-              "var ~a = paper.path('M ~a ~a ~{~a~^ ~}').attr({stroke: '~a'}).data('name','\\\"~a\\\"'); ~a~%;"
-              ;; FLAG -- add fill-color
-              name
-              (to-single-float (get-x start))
-              (to-single-float (get-y start))
-              
-              (mapcar #'(lambda(line-index-pair) 
-			  (destructuring-bind (start-index end-index) line-index-pair
-			    (declare (ignore start-index))
-			    (let ((end   (svref 2d-vertices end-index)))
-			      (format nil "L ~a ~a" 
-				      (to-single-float (get-x end))
-				      (to-single-float (get-y end))))))
-			  line-index-pairs)
-              
-              (the color-hex)
-	      
-	      name
-
-	      (when (getf (the display-controls) :fill-color)
-		(let ((fill-color (lookup-color (getf (the display-controls) :fill-color) :format :hex)))
-		  (format nil "~a.attr({fill: '~a'});" name fill-color)))))
-
-	    (write-the (drag-controls :name name :display-controls display-controls))
-	    )))))))
-
-
-
 (define-lens (raphael point)()
   :output-functions
   ((cad-output
@@ -492,7 +392,6 @@
                 nil
                 "var ~a_lines = paper.path('M ~a ~a L ~a ~a M ~a ~a L ~a ~a').attr({stroke: '#000'});~%"
                 name 
-
                 start-x 
                 center-y
                 end-x 
@@ -504,31 +403,11 @@
                 ))))))))))
 
 
-
 (define-lens (raphael t)()
   :output-functions
   ((cad-output ())
-   (drag-controls
-    (&key name display-controls)
-    (let ((drag-controls (ensure-list (getf display-controls :drag-controls))))
-      (when drag-controls
-	(with-cl-who ()
-	  (str (format nil "~a.attr({cursor: 'pointer'}).data('name','\\\"~a\\\"');~%" 
-		       name name))
-	  (cond
-	    ((or (member :drag drag-controls)
-		 (member :drag-and-drop drag-controls))
-	     (str (format nil "~&paper.set(~a).drag(move_cb,start,up);" name)))
-	    ((or (member :drop drag-controls)
-		 (member :drag-and-drop drag-controls))
-	     (str (format nil "~&paper.set(~a).drag(move,start,up);" name)))
-	    ((member :touchmove drag-controls)
-	     (str (format nil "~&paper.set(~a).touchmove(touchcoords);" name)))
-
-	    )))))))
-
-
-
+   (drag-controls (&key name display-controls)
+		  (declare (ignore name display-controls)))))
 
 
 #|

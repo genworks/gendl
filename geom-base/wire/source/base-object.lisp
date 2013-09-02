@@ -769,4 +769,3 @@ based on the orientation and center of the object to which the local-to-global m
       (push (third curve) result)
       (push (fourth curve) result))))
       
-

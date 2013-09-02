@@ -172,6 +172,3 @@ each direction.</li>
 			  (the polygons-for-ifs))))))
   
 
-
-
-
