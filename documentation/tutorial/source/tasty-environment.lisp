@@ -29,7 +29,7 @@
 for TAtu with STYle (sheets), where tatu comes from Testing And
 Tracking Utility.")
 	" is a web based testing and tracking utility. Note that Tasty is
-designed for developers of GDL applications --- it is not intended
+designed for developers of GDL applications --- that is, it is not intended
 as an end-user application interface (see Chapter "
 	(:ref "chap:customuserinterfacesingdl")
 	" for the recommended steps to create end-user interfaces).")
@@ -40,9 +40,9 @@ in GDL which mixes at least "
 	" into the definition of its root"
 	(:footnote "base-object is the core mixin for all geometric
 objects and gives them a coordinate system, length, width, and
-height. This restriction in tasty will be eliminated in a future GDL
+height. This restriction in Tasty will be eliminated in a future GDL
 release so the user will be able to instantiate non-geometric
-root-level objects in tasty as well, for example to inspect objects
+root-level objects in Tasty as well, for example to inspect objects
 which generate a web page but no geometry."))
      
     (:p "First, make sure you have compiled and loaded the code for
@@ -102,13 +102,14 @@ practice, because it means that the code in quesion is accessing the
 the intent of that other package's designer."))
 
     (:p "After you specify the class package and the object type and
-press the ``browse'' button, the browser will produce the tasty
+press the ``browse'' button, the browser will produce the Tasty
 interface with an instance of the specified type (see figure "
 	(:ref "fig:tastytowerpre") "). The utility interface
 by default is composed of three toolbars and three view frames (tree
 frame, inspector frame and viewport frame ``graphical view port'').")
 
-
+    
+    #+nil
     ((:image-figure :image-file "tasty-tower-pre.pdf"
 		    :width "5in" :height "5in"
 		    :caption "Tasty Interface"
@@ -132,7 +133,7 @@ present, this can be done programmatically.") ".")
      (:p "The "
 	 (:emph "tree menu")
 	 " allows the user to customize the ``click mode'' of the
-mouse (or ``tap mode'' for other pointing device) for objects in the
+mouse (or ``tap mode'' for other pointing devices) for objects in the
 tree, inspector, or viewport frames. The behavior follows the "
 	 (:emph "select-and-match")
 	 " behavior -- you first "
@@ -255,8 +256,9 @@ buttons. These buttons have tooltips which will pop up when you hover
 the mouse over them. However, these buttons are found in the second
 toolbar as well, except for line thickness and color buttons. The line
 thickness and color buttons"
-	 (:footnote "the design of the line thickness and color buttons is
-being refined and may appear different in your installation.")
+	 (:footnote "The design of the line thickness and color
+buttons is being refined and may appear differently in your
+installation.")
 	 " expand and contract when clicked, and allows the user to
 select a desired line thickness and color for the objects displayed in
 the graphics viewport."))
@@ -272,8 +274,8 @@ figure "
      (:p "To draw the graphics (geometry) for the tower leaf-level
 objects, you can select the ``Add Leaves (AL)'' item from the Tree
 menu, then click the desired leaf to be displayed from the
-tree. Alternatively, you can select the ``rapid'' button from third
-toolbar which is symbolized by a pencil icon. Because this
+tree. Alternatively, you can select the ``rapid'' button from the
+third toolbar which is symbolized by a pencil icon. Because this
 operation (draw leaves) is frequently used, the operation is also
 directly available as a direct-click icon which will appear when you
 hover the mouse over any leaf or node in the tree.")
@@ -291,8 +293,9 @@ some cases modify) the object instance being inspected.")
 	 (:texttt ":settable")
 	 " after its default expression (please look ahead to Chapter "
 	 (:ref "chap:advancedgendl")
-	 " if you are interested in more details on this  GDL
-syntax). We will also pass the number-of-blocks as the :size of the  "
+	 " if you are interested in more details on this GDL
+syntax). We will also pass in the number-of-blocks as the :size of
+the "
 	 (:texttt "blocks")
 	 " sequence, rather than using a hard-coded value as
 previously. The new assembly definition is now:"

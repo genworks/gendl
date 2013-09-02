@@ -278,8 +278,15 @@ re-evaluates the expression to compute the original list of indices)"
 
 
 (define-object matrix-sequence (standard-sequence)
-  :documentation (:description "A matrix sequence quantification is generated as a result of specifying 
-<tt>:sequence (:matrix &lt;direction-keyword&gt; &lt;number&gt; &lt;direction-keyword&gt; &lt;number&gt;))</tt> in an <tt>:objects</tt> specification.")
+  :documentation (:description "A matrix sequence quantification is
+generated as a result of specifying <tt>:sequence (:matrix
+direction-keyword number direction-keyword number))</tt> in an
+<tt>:objects</tt> specification. The direction-keywords can be one of
+<tt>:lateral</tt>, <tt>:longitudinal</tt>, and <tt>:vertical</tt>. The
+items will be arranged spread out evenly in the directions specified.
+Centers can also be provided explicitly based on the indices.  The
+indices to a matrix sequence consist of a list of numbers rather than
+a single number as with a normal sequence.")
 
                
   :computed-slots

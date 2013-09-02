@@ -780,7 +780,6 @@ toplevel inputs as specified in the snapshot file.
 
 (defparameter *dep-hash-threshhold* 1000)
 
-
 (defun add-notify-cons (notify-cons value &optional self message)
   ;;
   ;; FLAG -- this was added as a fix for github Issue #69, but causes

@@ -32,11 +32,17 @@ The point at the start parameter and the end parameter in the result
 curve will be fixed to be identical to the original curve. 
 
 You can use the pinned-parameters input-slot to specify additional parameter
-values where the new curve will be pinned to be identical with the original curve."
+values where the new curve will be pinned to be identical with the original curve.
+
+NOTE: This object is currently non-functional and is expected to be
+re-activated in GDL 1585.
+
+"
                   
                   :examples "
 <pre>
 
+#+nil
  (define-object approximated-curve-test (base-object)
   
    :input-slots 
@@ -380,6 +386,8 @@ values where the new curve will be pinned to be identical with the original curv
                           :pinned-parameters (list 0.1 0.5 0.7 0.9)
                           :match-parameterization? t
                           :curve-in (the profile))))
+
+#+nil
 
  (generate-sample-drawing :object-roots (make-object 'approximated-curve-test)
                           :projection-direction (getf *standard-views* :front)

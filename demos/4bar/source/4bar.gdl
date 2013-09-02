@@ -11,19 +11,30 @@
 				      (str (the main-area main-div))
 				      (str (the drop-coord-section main-div))))
 
-		   (dropped-x-y (the main-area dropped-x-y)))
+		   (dropped-x-y (the main-area dropped-x-y))
+
+		   (input-link-angle-d nil :settable)
+		   )
 
   :objects ((assembly :type 'assembly
-		      :input-link-angle-d (if (the dropped-x-y)
-					      (angle-between-vectors-d (the (face-normal-vector :right))
-								       (subtract-vectors  (the dropped-x-y)
-											  (the assembly ground-2))
-								       (the (face-normal-vector :top)))
-					      90)))
+		      :input-link-angle-d (or nil ;;(the input-link-angle-d)
+					      (if (the dropped-x-y)
+						  (angle-between-vectors-d (the (face-normal-vector :right))
+									   (subtract-vectors  (the dropped-x-y)
+											      (the assembly ground-2))
+									   (the (face-normal-vector :top)))
+						  90))))
 
   :hidden-objects ((drop-coord-section :type 'sheet-section
-				:inner-html (with-cl-who-string ()
-					      (str (the main-area dropped-x-y))))
+				       :js-to-eval :parse
+				       :inner-html (with-cl-who-string ()
+						     (str (the main-area dropped-x-y))
+						     (str (the input-link-angle-d))
+						     #+nil
+						     (:script 
+						      (str (the (gdl-ajax-call :function-key :set-slot! 
+									       :arguments (list :input-link-angle-d (if (the input-link-angle-d) 
+															(1+ (the input-link-angle-d)) 90 ))))))))
 		   (main-area :type 'base-ajax-graphics-sheet
 			      :respondent self
 			      :vector-graphics-onclick? nil
@@ -168,7 +179,10 @@
 		   :display-controls (list :color (ecase (the-child index) 
 						    (0 :red) (1 :green))
 					   :line-thickness 2
-					   :drag-controls :drag-and-drop)
+					   :drag-controls (ecase (the-child index)
+							    (1 :drag-and-drop)
+							    ;;(1 :drop)
+							    (0 nil)))
 		   :circle (the (grounded-link-circles (the-child index)))
 		   :pseudo-inputs (circle)
 		   :start (the-child circle center)
@@ -181,7 +195,7 @@
 					       (the follower-link-angle))))
    
    (coupler-link :type 'coupler-link
-		 :display-controls (list :line-thickness 2 :color :blue)
+		 :display-controls (list :line-thickness 2 :color :blue :fill-color :blue)
 		 :pass-down (coupler-angle-1 coupler-length-1)
 		 :start (the (grounded-links 0) end)
 		 :end (the (grounded-links 1) end)))
@@ -205,13 +219,40 @@
       (nreverse data)))))
    
 
-(define-object coupler-link (line)
+(define-object coupler-link (global-polyline)
+  
+  :input-slots (start end coupler-angle-1 coupler-length-1)
+  
+  :computed-slots ((datum (the edge-1 end))
+
+		   (direction-vector (subtract-vectors (the end) (the start)))
+		   (vertex-list (list (the start) (the end) (the edge-1 end))))
+  
+  :hidden-objects
+  ((baseline :type 'line
+	     :pass-down (start end))
+   
+   (edge-1 :type 'line
+	   :pass-down (start)
+	   :end (rotate-point (translate-along-vector (the start)
+						      (the direction-vector)
+						      (the coupler-length-1))
+			      (the start)
+			      (the (face-normal-vector :top))
+			      :angle (the coupler-angle-1)))
+   (edge-2 :type 'line
+	   :start (the edge-1 end)
+	   :pass-down (end))))
+
+
+#+nil
+(define-object coupler-link (line outline-specialization-mixin)
   
   :input-slots (coupler-angle-1 coupler-length-1)
   
   :computed-slots ((datum (the edge-1 end)))
   
-  :objects
+  :hidden-objects
   ((baseline :type 'line
 	     :pass-down (start end))
    
@@ -228,7 +269,7 @@
 	   :pass-down (end))))
 			      
  
-
+(publish-gwl-app "/4bar" '4-bar:dd)
 
 
 

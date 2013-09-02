@@ -68,8 +68,8 @@ Our informal definition of a "
        (:emph "Object-Oriented") 
        (:footnote "An " (:emph "Object-Oriented")
 		  " programming environment supports named collections
-		  of values along with procedures to operate on that
-		  data, including the possibility to
+		  of values along with procedures to operate on those
+		  values, including the possibility to
 		  modify (``mutate'') the data. See
 		  https://en.wikipedia.org/wiki/Object-oriented_programming")
        " and "
@@ -83,14 +83,14 @@ http://en.wikipedia.org/wiki/Functional_programming")
        (:emph (:indexed "Caching"))
        " and "
        (:emph (:indexed "Dependency tracking"))
-       ". Caching means that once the KB has computed something, it
-generally will not need to repeat that computation if the same
-question is asked again. Dependency tracking is the flip side of that
-coin --- it ensures that if a cached result is "
+       ". Caching means that once the KB system has computed
+something, it generally will not need to repeat that computation if
+the same question is asked again. Dependency tracking is the flip side
+of that coin --- it ensures that if a cached result is "
        (:emph "stale")
        ", the result will be recomputed the next time it is "
        (:emph "demanded")
-       ", so as to give a fresh result.")
+       ", in order to give a fresh result.")
 
       ((:section :title "Classic Definition of Knowledge Based Engineering (KBE)")
        "Sections "
@@ -122,13 +122,13 @@ validity of the cached values.  As soon as these values are no longer
 valid (stale), they are set to unbound and recomputed if and only at
 the very moment they are again demanded.")
 
-	(:p "This dependency tracking mechanism is at the base of associative
-modeling, which is of extreme interest for engineering design
-applications. For example, the shape of a wing rib can be defined
-accordingly to the shape of the wing aerodynamic surface. In case the
-latter is modified, the dependency tracking mechanism will notify the
-system that the given rib instance is no longer valid and will be
-eliminated from the product tree, together with all the
+	(:p "This dependency tracking mechanism is at the base of
+associative modeling, which is of extreme interest for engineering
+design applications. For example, the shape of a wing rib can be
+defined according to the shape of the wing aerodynamic surface. In
+case the latter is modified, the dependency tracking mechanism will
+notify the system that the given rib instance is no longer valid and
+will be eliminated from the product tree, together with all the
 information (objects and attributes) depending on it. The new rib
 object, including its attributes and the rest of the affected
 information, will not be re-instantiated/updated/re-evaluated
@@ -155,7 +155,7 @@ in hundreds of branches and include thousands of attributes. Hence,
 the ability to evaluate "
 	(:emph "specific")
 	" attributes and product model branches at demand, without the
-need to evaluate the whole model from its root, prevents waste of
+need to evaluate the entire model from its root, prevents waste of
 computational resources and in many cases brings seemingly intractible
 problems to a rapid solution."))
 
@@ -177,7 +177,7 @@ problems to a rapid solution."))
        (:quote
 	(:p "Object-oriented analysis (OOA) is the process of analyzing
        a task (also known as a problem domain) to develop a conceptual
-       model that can then be used to complete the task. A typical OOA
+       model that can then be used to complete that task. A typical OOA
        model would describe computer software that could be used to
        satisfy a set of customer-defined requirements. During the
        analysis phase of problem-solving, the analyst might consider a
@@ -190,7 +190,7 @@ problems to a rapid solution."))
        constraints (e.g. concurrency, distribution, persistence, or
        how the system is to be built) are not considered during the
        analysis phase; rather, they are addressed during
-       object-oriented design (OOD) phase.")
+       the object-oriented design (OOD) phase.")
 
 	(:p "The conceptual model that results from OOA will typically consist of a
 set of use cases, one or more UML class diagrams, and a number of
@@ -200,7 +200,7 @@ interaction diagrams. It may also include some form of user interface.")))
        (:quote 
 	"During the object-oriented design (OOD) phase, a developer
 applies implementation constraints to the conceptual model produced in
-object-oriented analysis. Such constraints could include not only
+the object-oriented analysis. Such constraints could include not only
 those imposed by the chosen architecture but also any non-functional
 --- technological or environmental --- constraints, such as data
 processing capacity, response time, run-time platform, development
@@ -218,11 +218,11 @@ oriented nature of their underlying language (e.g. Common
 Lisp). ``Object'' in this context refers to an instantiated data
 structure "
        (:emph "of a particular assigned data type")
-       ". As is well-known in the computing community, unrestricted state
-modification of objects leads to unmaintainable systems which are
-difficult to debug. KBE systems manage this drawback by strictly
-controlling and constraining any ability to modify or ``change state''
-of objects.
+       ". As is well-known in the computing community, unrestricted
+modification of the state of objects leads to unmaintainable systems
+which are difficult to debug. KBE systems manage this drawback by
+strictly controlling and constraining any ability to modify or
+``change state'' of objects.
 
 In essence, a KBE system generates a tree of inspectable objects which
 is analogous to the function call tree of pure functional-language
@@ -246,10 +246,10 @@ applications, or porting apps from similar KB systems into GDL."))
        (:indexed "Common Lisp")
        " programming language. If you are new to Common Lisp: welcome!
 You are about to be introduced to a powerful tool backed by a
-rock-solid standard specification, which will protect your development
-investment for decades to come. In addition to the overview provided
-in this manual, many resources are available to get you started in CL
---- for starters, we recommend "
+rock-solid body of standard specifications, which will protect your
+development investment for decades to come. In addition to the
+overview provided in this manual, many resources are available to get
+you started in CL --- for starters, we recommend "
        (:underline (:indexed "Basic Lisp Techniques") )
        (:footnote (:underline "BLT")
 		  " is available at "
@@ -265,7 +265,7 @@ in this manual, many resources are available to get you started in CL
 automatic code-expanding extensions to Common Lisp implemented in the
 form of macros. When you write, for example, 20 lines in GDL, you
 might be writing the equivalent of 200 lines of Common Lisp. Given
-that GDL is a superset of Common Lisp, you of course still have the
+that GDL is a superset of Common Lisp, you of course retain the
 full power of the CL language at your disposal whenever you are
 working in GDL.")
 
@@ -273,12 +273,11 @@ working in GDL.")
        (:index "macros!code-expanding")
        
        (:li
-	"Since GDL expands into CL, everything you write in GDL will be
-compiled ``down to the metal'' to machine code with all the
+	"Since GDL expands into CL, everything you write in GDL will
+be compiled ``down to the metal'' to machine code with all the
 optimizations and safety that the tested-and-true CL compiler provides
-[this is an important distinction as contrasted to some other
-so-called KB systems on the market, which are essentially nothing more
-than interpreted "
+[this is an important distinction from some other so-called KB systems
+on the market, which are essentially nothing more than interpreted "
 	(:emph "scripting languages") 
 	" which often impose arbitrary limits on
 the size and complexity of the application.")
@@ -291,8 +290,8 @@ GDL application, you think and write mainly in terms of "
 	    " and their properties, and how they depend on one another
 in a direct sense. You do not have to track in your mind explicitly
 how one object or property will ``call'' another object or propery, in
-what order this will happen, and so forth. Those details are taken
-care of for you automatically by the embedded language.")
+what order this will happen, and so forth. Those details are managed
+automatically by the embedded language.")
 
        (:li "Because GDL is object-oriented, you have all the features you would normally expect
 from an object-oriented language, such as "
@@ -310,26 +309,26 @@ from an object-oriented language, such as "
        (:li "GDL supports the ``message-passing'' paradigm of object
 orientation, with some extensions. Since full-blown ANSI CLOS (Common
 Lisp Object System) is always available as well, you are free to use
-the Generic Function paradigm too. Do not be concerned at this point
-if you are not fully conversant of the differences between Message
+the Generic Function paradigm. Do not be concerned at this point if
+you are not fully conversant with the differences between Message
 Passing and Generic Function models of object-orientation."
        (:footnote "See Paul Graham's "
 		  (:underline "ANSI Common Lisp")
 		  ", page 192, for an excellent discussion of the Two Models 
 of Object-oriented Programming. Peter Siebel's "
 		  (:underline "Practical Common Lisp")
-		  "also covers the topic; see http://www.gigamonkeys.com/book/object-reorientation-generic-functions.html.")
+		  " also covers the topic; see http://www.gigamonkeys.com/book/object-reorientation-generic-functions.html.")
        ".")))
       
       ((:section :title "Why GDL (i.e., what is GDL good for?)")
        ((:list :style :itemize)
 	(:item "Organizing and integrating large amounts of
-information in ways which are impossible impractical using
+information in ways which are impossible or impractical using
 conventional languages, CAD systems, and/or database technology
 alone;")
 	(:item "Evaluating many design or engineering alternatives and 
 performing various kinds of optimizations within specified design
-spaces, and doing so"
+spaces, and doing so "
 	  (:emph "very rapidly;"))
 	(:item
 	 "Capturing, i.e., implementing, the procedures and rules used

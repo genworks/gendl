@@ -71,7 +71,7 @@ and orientation."
 ;;
 #|
 gdl-user(46): (setq self (make-object 'tower))
-#&lt;tower @ #x750666f2&gt;
+ #tower @ #x750666f2
 gdl-user(47): (setq test-center (the (blocks 10) center))
 #(0.0 0.0 10.0)
 gdl-user(48): (the (blocks 10) (global-to-local test-center))
@@ -769,4 +769,3 @@ based on the orientation and center of the object to which the local-to-global m
       (push (third curve) result)
       (push (fourth curve) result))))
       
-

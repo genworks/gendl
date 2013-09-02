@@ -123,9 +123,6 @@ value of the image-format-selector, which itself defaults to :raphael."
    ;;
    (inner-html (with-cl-who-string () (write-the inner-html)))
 
-   (on-drag-function nil)
-
-   (on-drop-function nil)
 
    )
 
@@ -149,39 +146,10 @@ value of the image-format-selector, which itself defaults to :raphael."
 
   :computed-slots
   (
+
+   (js-to-eval :parse :settable)
    
-   ("3D point. This is the upper-right corner of the bounding box of the dragged and/or dropped element."
-    dropped-x-y nil :settable)
-
-   ("Plist with :width and :height. The dimensions of the bounding-box of the dragged and/or dropped element."
-    dropped-height-width nil :settable)
-
-   ("List representing GDL root-path. This is the root path of the dragged and/or dropped object. 
-This is not tested to see if it is part of the same object tree as current self."
-    dropped-object nil :settable)
-
-
-   (js-to-eval 
-    :parse
-    #+nil
-    (let ((image-format (the image-format)))
-                 (cond ((eql image-format :raphael)
-                        (the raphael-string))
-                       ((eql image-format :x3dom)
-			nil
-                        ;;"console.log(\"loading x3dom js\"); xdom_script.src=\"http://www.x3dom.org/x3dom/release/x3dom.js\""
-			)))
-               :settable)
-   
-   
-   
-   (js-always-to-eval nil #+nil
-		      (cond ((eql (the image-format) :x3dom)
-                             "console.log(\"loading x3dom script\"); 
-loadScript(xdom_script.src);
-//location.reload(true);
-
-")))
+   (js-always-to-eval nil)
                      
    
    (raphael-canvas-id (format nil "raphael-~a" (the base64-encoded-root-path)))
@@ -283,14 +251,6 @@ bottom of the graphics inside a table."
   
   :functions
   (
-   (on-drag ()
-	    (when (the on-drag-function)
-	      (funcall (the on-drag-function))))
-
-   (on-drop ()
-	    (when (the on-drop-function)
-	      (funcall (the on-drop-function))))
-
    ;;
    ;; FLAG -- copied from base-html-graphics-sheet's logic for dig-point and report-point -- 
    ;;         factor out the repeated code!
@@ -326,10 +286,6 @@ The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>.
     write-embedded-x3dom-world
     (&key (include-view-controls? nil))
     (write-the (embedded-x3dom-world :include-view-controls? include-view-controls?)))))
-
-
-
-
 
 
 (define-lens (html-format base-ajax-graphics-sheet)()

@@ -23,9 +23,9 @@
 
 (defparameter *gendl-geometry*
   `((:chapter :title "Working with Geometry in GDL")
-    (:p "Although Genworks GDL is a powerful framework for all kinds
-  of general-purpose computing, one of its particular strong points is
-  generating geometry and processing geometric entities. Geometric
+    (:p "Although Genworks GDL is a powerful framework for a variety
+  of general-purpose undertakings, one of its particular strong points
+  is generating geometry and processing geometric entities. Geometric
   capabilities are provided by a library of "
 	(:emph "low-level primitives")
 	", or LLPs. LLPs are pre-defined GDL objects which you can
@@ -36,9 +36,9 @@
 	(:texttt ":geom-base")
 	" package, and here are some examples:"
 	((:list :style :itemize)
-	 (:item (:texttt "base-coordinate-system") " provides an empty 3D Cartesian coordinate system"
+	 (:item (:texttt "base-coordinate-system") " provides an empty 3D Cartesian coordinate system."
 		(:footnote (:texttt "base-coordinate-system") " is also known by its legacy name "
-			   (:texttt "base-object") "."))
+			   (:texttt "base-object")))
 
 	 (:item "Simple 2-dimensional primitives include "
 	   (:texttt "line")
@@ -133,7 +133,7 @@
 	 (:ref "fig:box-code")
 	 " defines an example box, and Figure "
 	 (:ref "fig:tasty-box")
-	 " shows how it will display in tasty.")
+	 " demonstrates how it will display in Tasty.")
 
      (:p "Note the following from the example in "
 	 (:ref "fig:box-code")
@@ -157,13 +157,14 @@
 	  (:texttt "base-object")
 	  " as "
 	  (:emph "trickle-down-slots")
-	  ". For this reason, they are automatically being passed down into into the "
+	  ". For this reason they are automatically being passed down
+into into the "
 	  (:texttt "box")
 	  " child object. Therefore it is not necessary to pass them down explicitly."))
 
      ((:boxed-figure :caption "Definition of a Box" :label "fig:box-code")
       (:verbatim (:include "~/gendl/documentation/tutorial/examples/box-1.gdl")))
-     ((:image-figure :image-file "tasty-box-1.png" :caption "Simple box displayed in tasty"
+     ((:image-figure :image-file "tasty-box-1.png" :caption "Simple box displayed in Tasty"
 		     :width "4in" :height "3in"
 		     :label "fig:tasty-box")))
 
@@ -182,7 +183,7 @@
      (:ref "fig:positioned-boxes-source")
      " (rendered in Figure "
      (:ref "fig:positioned-boxes")
-     ") shows a second box being positioned next to the first, by using the "
+     ") shows a second box being positioned adjacent to the first, by using the "
      (:texttt ":center")
      " input. "))
 
@@ -202,7 +203,7 @@ can be referenced from within its "
      " of each individual child object as it is being processed. 
 In this manner it is possible to compute a distinct position for each child, as a function of its
 index, as demonstrated in Figures "
-     (:ref "fig:positioned-by-index")
+     (:ref "fig:positioned-by-index-source")
      " and "
      (:ref "fig:positioned-by-index")
      "."
@@ -212,7 +213,7 @@ index, as demonstrated in Figures "
 
     
     ((:subsection :title "Relative positioning using the translate operator")
-     (:p "It is usually wise to position child objects in a "
+     (:p "It is usually preferable to position child objects in a "
 	 (:emph "relative")
 	 " rather than "
 	 (:emph "absolute") 
@@ -220,14 +221,14 @@ index, as demonstrated in Figures "
 	 (:ref "fig:positioned-by-index-source")
 	 ", each child box object is being positioned using an absolute coordinate produced by "
 	 (:texttt "make-point")
-	 ". This will work fine as long as the center of the current parent is "
+	 ". This will work as long as the center of the current parent is "
 	 (:texttt "#(0.0 0.0 0.0)")
 	 " (which it is, by default). But imagine if this parent
      itself is a child of a larger assembly. Imagine further that the
      larger assembly specifies a non-default center for this instance
      of "
 	 (:texttt "positioned-by-index")
-	 ". At this point, the strategy falls apart.")
+	 ". At this point, the strategy fails.")
      (:p "The solution is to adhere to a consistent Best Practice of positioning child objects according to the "
 	 (:texttt "center") 
 	 " (or some other known datum point) of the parent
@@ -237,7 +238,7 @@ index, as demonstrated in Figures "
 	 " operator. The "
 	 (:texttt "translate")
 	 " operator works within the context of a GDL object, and
-	 allows a 3D point to be translated in up to three directions, chosen from: "
+	 allows a 3D point to be translated in up to three directions, selected from: "
 	 (:texttt ":up")
 	 ", "
 	 (:texttt ":down")
@@ -260,7 +261,7 @@ with all the positioning done relative to the parent's center."
 
 
     ((:subsection :title "Display Controls")
-     (:p "It is possible to specify certain default display
+     (:p "It is possible to specify particular default display
 	 characteristics"
 	 (:footnote "In addition to display-controls attached to a geometric entity 
 itself, GDL also supports the concept of "
@@ -332,7 +333,7 @@ and is expected to be a "
 	 (:ref "fig:display-color")
 	 " and "
 	 (:ref "fig:display-color-source")
-	 " demonstrates the use of the "
+	 " demonstrate the use of the "
 	 (:texttt ":color")
 	 " keyword in the "
 	 (:texttt "display-controls")
@@ -351,7 +352,7 @@ the use the "
      (:texttt "alignment")
      " function. The "
      (:texttt "alignment")
-     " function takes up to three direction keywords, and
+     " function accepts up to three direction keywords, and
 corresponding vectors to which these directions should be aligned. For
 example, to obtain an orientation matrix specifying that the Rear of a
 reference box should be aligned with the vector "
@@ -363,13 +364,13 @@ reference box should be aligned with the vector "
      ((:rendered-figure :caption "Cylinder aligned vertically"
 			:object "vertical-cylinder"))
 
-     (:p "Usually, you will want the orientation of a child object to be 
+     (:p "Generally, you will want the orientation of a child object to be 
 specified in a "
 	 (:emph "relative")
 	 " manner to that of the current (parent) object. The concept here is 
 similar to that for positioning with respect to "
 	 (:texttt "(the center)")
-	 ". For relative orientation, you can use the various "
+	 ". For relative orientation, you can utilize the various "
 	 (:texttt "face-normal-vector")
 	 "s of the parent object. For example, by default, cylinders are aligned with 
 their flat ends along the longitudinal (Y) axis. Figures "
@@ -399,10 +400,13 @@ one of the major axes, you can use the "
      rotated 2 degrees with respect to the box under it.")
 
     ((:subsection :title "Assemblies")
-     "Objects which you define can be used just like the built-in primitives. This illustrates
-why it is important for the positioning and orientation passed into a child object to be "
+     "Objects which you define with "
+     (:texttt "define-object")
+     " can be used no differently from the built-in primitives. This
+underscores why it is important for the positioning and orientation
+passed into a child object be "
      (:emph "relative")
-     " to that in the parent. Figures "
+     " to that present in the parent. Figures "
      (:ref "fig:tower-assembly")
      " and "
      (:ref "fig:tower-assembly-source")
@@ -443,7 +447,7 @@ the file "
      source is not printed in the manual.")
 
     ((:subsection :title "Other Geometric Primitives")
-     "This chapter has focused mainly on the "
+     "This chapter has focused primarily on the "
      (:texttt "box")
      " primitive, because every type of geometric primitive is based upon a "
      (:emph "reference box")
@@ -465,9 +469,10 @@ the file "
 	  (:li (:texttt "bezier-curve")
 	       (:footnote "The simple cubic bezier curve is supported
 	       in the basic GDL and open-source Gendl. More
-	       sophisticated NURBS based curves and surfaces are
-	       supported in the commercial GDL product with the SMLib
-	       geometry kernel. These are covered in chapter "
+	       sophisticated NURBS-based curves and surfaces are
+	       supported in the commercial GDL product when
+	       accompanied with the SMLib geometry kernel. These are
+	       covered in chapter "
 			  (:ref "chap:advanced-geometry"))
 	       " described on page "
 	       (:pageref "prim:bezier-curve")))

@@ -14,14 +14,9 @@ bin
 *.idx
 *.log
 *.toc
-<<<<<<< HEAD
-*.ind
-*.ilg
-=======
 *.ilg
 *.ind
 *.out
->>>>>>> feature/book
 
 configure.el
 systems.txt

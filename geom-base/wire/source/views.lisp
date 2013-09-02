@@ -145,49 +145,11 @@
 
 
 ;;
-;; FLAG -- the following should be folded into %lines-to-draw% and %curves-to-draw% to avoid
+;; FLAG -- the following has been folded into %lines-to-draw% and %curves-to-draw% to avoid
 ;; the need for separate views. But it works this way for now.
 ;;
 
-
-(define-lens (pdf global-filleted-polyline)()
-  :output-functions
-  ((cad-output
-    ()
-    (let ((lines (the straights))
-          (fillets (list-elements (the fillets))))
-      (pdf:with-saved-state
-          (write-the line-thickness-setting)
-        (write-the rgb-stroke-setting)
-        (when (the fill-color-decimal) (apply #'pdf:set-rgb-fill (coerce (the fill-color-decimal) 'list)))
-        (with-format-slots (view)
-          (let ((start (if view (the-object view (view-point (first (first lines))))
-                         (first (first lines)))))
-            (pdf:move-to (get-x start) (get-y start))
-            
-            (mapc #'(lambda(line fillet)
-                      (destructuring-bind (start end)
-                          (if view (mapcar #'(lambda(point) (the-object view (view-point point))) line) line)
-                        (declare (ignore start))
-                        (pdf:line-to (get-x end) (get-y end))
-                        (when fillet
-                          (let ((curves (chain-curves (mapcar #'(lambda(curve)
-                                                                  (if view
-                                                                      (mapcar #'(lambda(point)
-                                                                                  (the-object view
-                                                                                              (view-point point)))
-                                                                              curve) curve))
-                                                              (the-object fillet :curves))
-                                                      (make-point (get-x end) (get-y end)) :rank 2)))
-                            (dolist (curve curves)
-                              (destructuring-bind (p1 p2 p3 p4) curve
-                                (declare (ignore p1))
-                                (pdf:bezier-to (get-x p2) (get-y p2)
-                                               (get-x p3) (get-y p3)
-                                               (get-x p4) (get-y p4)))))))) lines (append fillets (list nil))))
-          (if (the fill-color-decimal) (pdf:fill-and-stroke) (pdf:stroke))))))))
-
-
+#+nil
 (define-lens (dxf global-filleted-polyline)()
   :output-functions
   ((cad-output
@@ -246,39 +208,10 @@
                     
                   ( )) fillets)
         
-        
         )))))
 
 
-
-;;
-;; FLAG -- update for auto-scaling outside base-view
-;;
-(define-lens (pdf global-polyline)()
-  :output-functions
-  ((cad-output
-    ()
-    (with-format-slots (view)
-      (let ((line-index-pairs (the %%line-vertex-indices%%))
-            (2d-vertices (map 'vector
-                           (if view
-                               #'(lambda(point) (the-object view (view-point point)))
-                             #'identity) (the %%vertex-array%%))))
-        (pdf:with-saved-state (write-the line-thickness-setting)
-          (write-the rgb-stroke-setting)
-          (when (the fill-color-decimal) (apply #'pdf:set-rgb-fill (coerce (the fill-color-decimal) 'list)))
-          (let ((start (svref 2d-vertices (first (first line-index-pairs)))))
-            (pdf:move-to (%get-x% start) (%get-y% start))
-            (mapc #'(lambda(line-index-pair)
-                      (destructuring-bind (start-index end-index) line-index-pair
-                        (declare (ignore start-index))
-                        (let ((end   (svref 2d-vertices end-index)))
-                          (pdf:line-to (%get-x% end) (%get-y% end))))) line-index-pairs))
-          
-          (if (the fill-color-decimal) (pdf:fill-and-stroke) (pdf:stroke))))))))
-
-
-
+#+nil
 (define-lens (dxf global-polyline)()
   :output-functions
   ((cad-output
@@ -303,10 +236,4 @@
                     (write-the rgb-stroke-setting)
                     )
                 line-index-pairs)))))))
-
-
-
-
-
-
 
