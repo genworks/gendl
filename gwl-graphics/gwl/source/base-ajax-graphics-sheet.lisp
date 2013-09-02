@@ -128,21 +128,7 @@ value of the image-format-selector, which itself defaults to :raphael."
 
   
   :functions 
-  ((set-js-vals! 
-    (js-vals)
-    (let ((dropped-x-y (the (model-x-y (destructuring-bind (&key x y &allow-other-keys) js-vals
-					 (list :x x :y y)))))
-	  (dropped-height-width (destructuring-bind (&key width height &allow-other-keys) js-vals
-				  (list :width (/ width (the view-object view-scale))
-					:height (/ height (the view-object view-scale)))))
-	  (dropped-object (with-error-handling ()
-			    (base64-decode-list (getf js-vals :name)))))
-
-      (the (set-slots! (list :dropped-x-y dropped-x-y
-			     :dropped-height-width dropped-height-width
-			     :dropped-object dropped-object
-			     )
-		       )))))
+  ((set-js-vals! (js-vals) (declare (ignore js-vals))))
 
   :computed-slots
   (

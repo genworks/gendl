@@ -11,7 +11,7 @@
 				      (str (the main-area main-div))
 				      (str (the drop-coord-section main-div))))
 
-		   (dropped-x-y (the main-area dropped-x-y))
+		   (dropped-x-y (defaulting (the main-area dropped-x-y)))
 
 		   (input-link-angle-d nil :settable)
 		   )
@@ -28,7 +28,7 @@
   :hidden-objects ((drop-coord-section :type 'sheet-section
 				       :js-to-eval :parse
 				       :inner-html (with-cl-who-string ()
-						     (str (the main-area dropped-x-y))
+						     (str (defaulting (the main-area dropped-x-y)))
 						     (str (the input-link-angle-d))
 						     #+nil
 						     (:script 
