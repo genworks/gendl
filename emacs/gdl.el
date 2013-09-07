@@ -31,7 +31,7 @@
 					     (file-truename load-file-name)) "../")))
 
 
-;; 3. CONFIGURGE EMACS
+;; 3. CONFIGURE EMACS
 ;;
 ;; This section is not SLIME-specific.
 ;;
@@ -86,7 +86,10 @@
   ;; http://emacswiki.org/emacs/AutoIndentation).
   ;;
   ;;(global-set-key (kbd "C-m") 'newline-and-indent)
-  )
+  
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cc" 'org-capture))
+
 
 (gdl:global-keys)
 
