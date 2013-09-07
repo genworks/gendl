@@ -72,9 +72,8 @@
   (format t
 "
 
-Welcome to Gendl™
-
-Copyright© 2002-2013, Genworks International, Birmingham MI, USA.
+Welcome to Gendl®
+Copyright© 2002-2013, Genworks® International, Birmingham MI, USA.
 All Rights Reserved.
 
 This program contains free software: you can redistribute it and/or
