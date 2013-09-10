@@ -787,14 +787,22 @@ toplevel inputs as specified in the snapshot file.
   ;; which may then become unbound spuriously. Retracted until a more
   ;; benign fix for Issue #69 can be determined. 
   ;;
-  (declare (ignore self message))
-  #+nil
+  ;;(declare (ignore self message))
+  ;;
+  ;; FLAG -- we put back the extra tracking of notify-cons but only if
+  ;; the message does not name a GDL object -- we don't want those
+  ;; being the target of dependencies or they can be orphaned.
+  ;;
   (when (and self message)
     (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
       (when (and (consp aggregate)
 		 (not (consp (gdl-acc::%aggregate% self))))
 	(let ((num-value (gdl-acc::number-of-elements (first aggregate))))
-	  (when (consp num-value)
+	  (when (and (consp num-value)
+		     (let ((value (funcall message self)))
+		       (not 
+			(and (consp value) 
+			     (typep (first value) 'gdl-basis)))))
 	    (add-notify-cons (list self message) num-value))))))
   (let ((second (second value)))
     (if (and (listp second) (< (length second) *dep-hash-threshhold*))

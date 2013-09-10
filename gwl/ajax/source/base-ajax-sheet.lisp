@@ -226,12 +226,12 @@ interface. Defaults to nil."
                  ui-specific-layout-js nil :settable)
                 
                 
-                (respondent (the bashee))
+                (respondent (the bashee) :defaulting) 
                 
                 )
 
   
-  ;;:trickle-down-slots (respondent)
+  :trickle-down-slots (respondent)
   
   
   :computed-slots ((use-raphael? nil)
@@ -460,8 +460,8 @@ from a saved snapshot file."
       (when (the use-raphael?)
         (htm ((:script :type "text/javascript" 
                        :src 
-                       ;;"/static/3rdpty/raphael/js/raphael-1.2-min.js"
-		       "/static/3rdpty/raphael/js/raphael-2.1-min.js"
+                       "/static/3rdpty/raphael/js/raphael-1.2-min.js"
+		       ;;"/static/3rdpty/raphael/js/raphael-2.1-min.js"
 		       ))))
       
       #+nil
