@@ -261,7 +261,7 @@ checkbox-form-control."
    (register-html-section!
     (section)
     
-    (when t ;;*debug?*
+    (when *debug?*
       (format *trace-output* "~&Before:~%")
       (print-variables self)
       (print-messages %html-section-root-paths%))
@@ -273,7 +273,7 @@ checkbox-form-control."
                       ;;:remember? nil
 		      :warn-on-non-toplevel? nil)))
     
-    (when t;; *debug?*
+    (when *debug?*
       (format *trace-output* "~&After:~%")
       (print-messages %html-section-root-paths%)))
 
@@ -398,7 +398,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 	    js-vals (glisp:replace-regexp js-vals "\\" "\\\\\\\\"))
 
 
-      (format nil "gdlAjax(~a,'args=~a~a~a,~a);" 
+      (format nil "gdlAjax(~a, 'args=~a~a~a, ~a);" 
 	      (if null-event? "null" "event") string-1 string-2 (or js-vals "") string-3)))
 
    
