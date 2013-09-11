@@ -94,11 +94,6 @@
 			     (with-http-body (req ent)
 			       (let ((reply-stream (request-reply-stream req))
 				     (*req* req) (*ent* ent))
-				 (when *debug?* 
-				   (let ((*onclick-function* (the onclick-function)
-					   ))
-				     (with-format (x3d "/tmp/try.x3d") 
-				       (write-the view-object cad-output))))
 				 (let ((*onclick-function* (the onclick-function)))
 				   (let ((*stream* reply-stream))
 				     (with-cl-who ()
