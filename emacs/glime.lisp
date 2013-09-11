@@ -111,22 +111,23 @@
              (progn (setf ,current ,form)
                ,setter))))))
 
-#-:lispworks 
-(glisp:without-redefinition-warnings 
-  (defmacro when-let (binding &body body)
-    (destructuring-bind (var val) binding
-      `(let ((,var ,val))
-	 (when ,var
-	   ,@body)))))
+#-:lispworks
+(glisp:without-redefinition-warnings
+ (defmacro when-let (binding &body body)
+   (destructuring-bind (var val) binding
+     `(let ((,var ,val))
+        (when ,var
+          ,@body)))))
 
 #||
 #-:lispworks
-(defmacro when-let* (bindings &body body)
-  (if bindings
-      `(when-let ,(car bindings)
-	 (when-let* ,(cdr bindings)
-	   ,@body))
-    `(progn ,@body)))
+(glisp:without-redefinition-warnings
+ (defmacro when-let* (bindings &body body)
+   (if bindings
+       `(when-let ,(car bindings)
+          (when-let* ,(cdr bindings)
+                     ,@body))
+     `(progn ,@body))))
 ||#
 
 ;; We could do with more informative error handling than SLIME provides. Getting
@@ -245,30 +246,30 @@
   (multiple-value-bind (decoded-arglist determining-args any-enrichment)
       (call-next-method)
     (destructuring-bind (&optional name mixins &rest spec-pairs)
-	arguments
+        arguments
       (declare (ignore name mixins))
       ;; Has the user got as far as the keyword list yet?
       (when spec-pairs
-	;; Which keyword are they working on?
-	(multiple-value-bind (key values)
-	    (active-keyword spec-pairs)
-	  (when key
-	    (when-let (this-keyword-arg (find key (arglist.keyword-args decoded-arglist)
-					      :key 'keyword-arg.keyword))
-	      ;; Mangle the arglist structure: only show the keyword we're working on.
-	      (let ((local-arglist (copy-arglist decoded-arglist)))
-		(setf (arglist.keyword-args local-arglist) (list this-keyword-arg)
-		      (arglist.rest local-arglist) nil
-		      (arglist.allow-other-keys-p local-arglist) t
-		      ;; Disable highlighting.
-		      *autodoc-highlighting* nil)
-		(return-from compute-enriched-decoded-arglist
-		  ;; If we can, make the init-slots for this keyword appear to be
-		  ;; its default initargs. Behold! That makes them look just right.
-		  (values (augment-gendl-define-object (keyword-arg.keyword this-keyword-arg)
-						       local-arglist
-						       values)
-			  determining-args t))))))))
+        ;; Which keyword are they working on?
+        (multiple-value-bind (key values)
+            (active-keyword spec-pairs)
+          (when key
+            (when-let (this-keyword-arg (find key (arglist.keyword-args decoded-arglist)
+                                              :key 'keyword-arg.keyword))
+              ;; Mangle the arglist structure: only show the keyword we're working on.
+              (let ((local-arglist (copy-arglist decoded-arglist)))
+                (setf (arglist.keyword-args local-arglist) (list this-keyword-arg)
+                      (arglist.rest local-arglist) nil
+                      (arglist.allow-other-keys-p local-arglist) t
+                      ;; Disable highlighting.
+                      *autodoc-highlighting* nil)
+                (return-from compute-enriched-decoded-arglist
+                  ;; If we can, make the init-slots for this keyword appear to be
+                  ;; its default initargs. Behold! That makes them look just right.
+                  (values (augment-gendl-define-object (keyword-arg.keyword this-keyword-arg)
+                                                       local-arglist
+                                                       values)
+                          determining-args t))))))))
     ;; &allow-other-keys and &rest don't contribute anything here.
     (setf (arglist.rest decoded-arglist) nil
 	  (arglist.allow-other-keys-p decoded-arglist) nil)
@@ -350,7 +351,6 @@
                                                                                    :keyword-args (unless (find :type keywords)
                                                                                                    (list (make-keyword-arg :type :type nil)))
                                                                                    :allow-other-keys-p t)))))))))
-
               ;; Apply original defintion of find-subform-with-arglist to gendl:make-self form.
               (return-from find-define-object-subform
                 (funcall finder new-form))))))))
@@ -363,7 +363,7 @@
 
 (defun destructure-implicit-make-object (form)
   "If FORM destructures as (SLOTNAME (quote CLASSNAME) ...) and CLASSNAME
-   names a subclass of gendl:vanilla-mixin* then treturn four values: t,
+   names a subclass of gendl:vanilla-mixin* then return four values: t,
    SLOTNAME, (quote CLASSNAME), and the class's init-slots. Otherwise
    return nil."
   (multiple-value-bind (name classname-form)
@@ -423,7 +423,8 @@ doesn't matter. For others it does. So we'll make an object and cache it."
 
 (defparameter *message-locators*
   '(messages-in-this-form
-    messages-from-classes)
+    messages-from-classes
+    messages-for-evaluate)
   "A list of functions, each taking a (gendl:define-object ...) form,
 each returning a list of proposed messages.")
 
@@ -433,136 +434,158 @@ each returning a list of proposed messages.")
 
 (defmethod compute-enriched-decoded-arglist ((operator (eql 'gendl:the-object)) arguments)
   (declare (ignorable arguments))
-  (let ((*message-locators* '(messages-from-classes)))
-    (or (embedded-the-arglist) (call-next-method))))
+  (or (embedded-the-arglist) (call-next-method)))
 
 (defmethod compute-enriched-decoded-arglist ((operator (eql 'gendl:the-child)) arguments)
   (declare (ignorable arguments))
-  (let ((*message-locators* '(messages-from-classes)))
-    (or (embedded-the-arglist) (call-next-method))))
+  (or (embedded-the-arglist) (call-next-method)))
 
-(defvar *this-the*)
-
-
-;;
-;; FLAG -- DJC added this ignore-errors
-;;
 (defun embedded-the-arglist ()
-  (ignore-errors
-    (let* ((whole-form *form-with-arglist*)
-	   (*this-the* (or (this-the-from-form whole-form)
-			   ;; The gend:the form isn't embedded inside a define-object. Bail out.
-			   (return-from embedded-the-arglist
-			     nil))))
-    
-      (when-let (messages (when (and (consp whole-form)
-				     (eq (car whole-form) 'gendl:define-object))
-			    (remove-duplicates (loop for locator in *message-locators* append
-						    (funcall locator whole-form))
-					       :from-end t)))
-	(values (make-arglist :key-p t
-			      :keyword-args (loop for message in messages collect
-						 (make-keyword-arg message message nil))
-			      :provided-args nil
-			      :allow-other-keys-p t
-			      :rest 'reference-chain)
-		nil t)))))
+  (let* ((whole-form *form-with-arglist*)
+         (this-the (or (this-the-from-form whole-form)
+                       ;; The gendl:the form isn't embedded inside a define-object or
+                       ;; one of the gendl:the macros. Bail out.
+                       (return-from embedded-the-arglist
+                         nil))))
+    (when-let (messages (remove-duplicates (loop for locator in *message-locators* append
+                                                 (funcall locator this-the whole-form))
+                                           :from-end t))
+      (values (or (loop for message in messages
+                        when (arglist-p message)
+                        return message)
+                  (make-arglist :key-p t
+                                :keyword-args (loop for message in messages collect
+                                                    (make-keyword-arg message message nil))
+                                :provided-args nil
+                                :allow-other-keys-p t
+                                :rest 'reference-chain))
+                nil t))))
 
 
 ;; 9.1. Analyse the current gendl:the form
 
 (defstruct (this-the
-	     (:constructor make-this-the (section slot-form the-form
-						  &aux
-						  (functionp (when (consp the-form)
-							       (the-form-functionp (cdr the-form))))
-						  (quantifiedp (quantified-objects-p section slot-form the-form)))))
+            (:constructor make-this-the (operator the-form &optional section slot-form
+                                                  &aux
+                                                  (functionp (when (consp the-form)
+                                                               (the-form-functionp (cdr the-form))))
+                                                  (quantifiedp (quantified-objects-p section slot-form the-form)))))
+  operator
+  the-form
   section
   slot-form
-  the-form
   functionp
   quantifiedp)
 
 ;; Select "(the ... (..."
 (defun the-form-functionp (form)
   (when form
-    (or (and (consp (car form))
-             (or (eq (cadr form) '%cursor-marker%)
-                 (null (cdr form))))
+    (or (and (or (eq (cadr form) '%cursor-marker%)
+                 (null (cdr form)))
+             (let ((operator (car form)))
+               (when (consp operator)
+                 (let ((what (car operator)))
+                   (if (or (eq what 'gendl:evaluate)
+                           (and (consp what)
+                                (eq (car what) 'gendl:evaluate)))
+                       :evaluate
+                     t)))))
         (the-form-functionp (cdr form)))))
 
 ;; If we are inside an :object or :hidden-object specification, and
 ;; one of the input keys is ":sequence", then "(the-child ..."  should
 ;; include display of the sequence messages as well as (in this case)
-;; the user-visible messages for 'box.  Otherwise, the "sequence
-;; messages" should be suppressed.
+;; the user-visible messages for the child class.  Otherwise, the
+;; "sequence messages" should be suppressed.
 ;;
 ;; http://paste.lisp.org/display/137258
 
 (defun quantified-objects-p (section slot-form the-form)
-  (and (case section
-         ((objects hidden-objects) t))
-       (destructuring-bind (operator &rest more)
-           the-form
-         (declare (ignore more))
-         (case operator
-           ((gendl:the-child)
-            ;; It's a the-child inside an :object or :hidden-object.
-            (not (null (find-key :sequence (cdr slot-form)))))))))
+  (case section
+    ((objects hidden-objects) 
+     (destructuring-bind (operator &rest more)
+         the-form
+       (declare (ignore more))
+       (case operator
+         ((gendl:the-child)
+          ;; It's a the-child inside an :object or :hidden-object.
+          (not (null (find-key :sequence (cdr slot-form))))))))
+    ;; *form-with-arglist* is (gendl:the ...). Is it also (gendl:the (...) ...)?
+    ((nil)
+     (consp (car the-form)))))
 
 ;; Try repeating the name of this function, many times, fast, and in a darkened room.
 
-
 (defun this-the-from-form (form)
   ;; A bit like messages-in-this-form below, best done as a separate cycle.
-  (when (eq (car form) 'gendl:define-object)
-    (destructuring-bind (classname &optional mixins
-				   &key input-slots computed-slots objects hidden-objects functions methods
-				   &allow-other-keys)
-	(cdr form)
-      (declare (ignore classname mixins))
-      (loop for section in (list input-slots computed-slots objects hidden-objects functions methods)
-	 as section-name in '(input-slots computed-slots objects hidden-objects functions methods)
-	 do
-	 (loop for item in section
-	    when (consp item)
-	    do
-	    (when-let (form-with-cursor-marker (form-with-cursor-marker item))
-	      (return-from this-the-from-form
-		(make-this-the section-name item form-with-cursor-marker))))))))
-
+  (let ((operator (car form)))
+    (case operator
+      ((gendl:define-object)
+       (destructuring-bind (classname &optional mixins
+                                      &key input-slots computed-slots objects hidden-objects functions methods
+                                      &allow-other-keys)
+           (cdr form)
+         (declare (ignore classname mixins))
+         (loop for section in (list input-slots computed-slots objects hidden-objects functions methods)
+               as section-name in '(input-slots computed-slots objects hidden-objects functions methods)
+               do
+               (loop for item in section
+                     when (consp item)
+                     do
+                     (when-let (form-with-cursor-marker (form-with-cursor-marker item))
+                       (return-from this-the-from-form
+                         (make-this-the operator form-with-cursor-marker section-name item)))))))
+      ((gendl:the)
+       (when-let (form-with-cursor-marker (cdr form))
+         (make-this-the operator form-with-cursor-marker)))
+      ((gendl:the-object)
+       (when-let (form-with-cursor-marker (cddr form))
+         (let ((gendl:self (gendl:the-object (cadr form))))
+           (declare (special gendl:self))
+           (make-this-the operator form-with-cursor-marker)))))))
 
 (defun form-with-cursor-marker (form)
   ;; Return, if any, the innermost (the ...) form containing the
   ;; cursor-marker.
   (loop for thing in form
-     do
-     (cond ((eq thing '%cursor-marker%) (return form))
-	   ((consp thing)
-	    (when-let (inner-form (form-with-cursor-marker thing))
-	      (if (and (consp inner-form)
-		       (case (car inner-form)
-			 ((gendl:the gendl:the-child gendl:the-object) t)))
-		  (return inner-form)
-		  (return thing)))))))
+        do
+        (cond ((eq thing '%cursor-marker%) (return form))
+              ((consp thing)
+               (when-let (inner-form (form-with-cursor-marker thing))
+                 (if (and (consp inner-form)
+                          (case (car inner-form)
+                            ((gendl:the gendl:the-child gendl:the-object) t)))
+                     (return inner-form)
+                   (return thing)))))))
 
 
 ;; 9.2. Messages which we can deduce from the current form.
 
-(defun messages-in-this-form (form)
+(defun messages-in-this-form (this-the form)
   "Do what define-object itself does, to figure out the messages being
-defined by this form. As a side effect, set *this-the* to the
-gendl:the (etc) form under construction."
+defined by this form."
+  (let ((operator (this-the-operator this-the))
+        (the-form (this-the-the-form this-the)))
+    (unless (and (eq operator 'gendl:define-object)
+                 (eq (car the-form) 'gendl:the)                            ; exclude gendl:the-object and gendl:the-child
+                 (let ((the-what (cadr the-form)))
+                   (or (eq the-what '%cursor-marker%)                      ; exclude past the head on reference-chains
+                       (and (arglist-dummy-p the-what)
+                            (string= (arglist-dummy.string-representation the-what) ""))))
+                 ;; other exclusions?
+                 )
+      (return-from messages-in-this-form
+        nil)))
   (destructuring-bind (classname &optional mixins
                                  &key input-slots computed-slots objects hidden-objects functions methods
                                  &allow-other-keys)
       (cdr form)
     (declare (ignore classname mixins))
     ;; [logic lifted from gendl::with-gdl-message-symbols]
-    (loop for section in (list input-slots computed-slots objects hidden-objects functions methods)
-          append
-          (with-buffer-syntax ()
-            (let ((keyword (find-package :keyword)))
+    (let ((keyword (find-package :keyword)))
+      (loop for section in (list input-slots computed-slots objects hidden-objects functions methods)
+            append
+            (with-buffer-syntax ()
               (loop for item in section
                     for symbol = (cond ((symbolp item) item)
                                        ((consp item) (unless (form-with-cursor-marker item)
@@ -581,64 +604,65 @@ gendl:the (etc) form under construction."
 ;; 9.3. Messages which we can deduce from mixin classes.
 
 (defparameter *messages-to-suppress*
-  (list 
-   ;; from vanilla-mixin*:
-   :aggregate :all-mixins :children-uncached :direct-mixins :documentation
-   :hidden? :leaves-uncached :message-documentation :message-list :mixins :name-for-display
-   :restore-all-defaults! :restore-tree! :root :root-path-local :root? :safe-children
-   :safe-hidden-children :slot-documentation :slot-source :slot-status :update! :visible-children
-   :write-snapshot
-   ;; from base-object:
-   :image-file :local-bbox :local-box :local-center :local-center* 
-   :local-orientation :obliqueness 
-   ))
+  (list ;; from vanilla-mixin*:
+        :aggregate :all-mixins :children-uncached :direct-mixins :documentation
+	:hidden? :leaves-uncached :message-documentation :message-list :mixins :name-for-display
+	:restore-all-defaults! :restore-tree! :root :root-path-local :root? :safe-children
+	:safe-hidden-children :slot-documentation :slot-source :slot-status :update! :visible-children
+	:write-snapshot
+        ;; from base-object:
+        :image-file :local-bbox :local-box :local-center :local-center*
+        :local-orientation :obliqueness
+        ))
 
 (defparameter *messages-to-suppress-when-not-sequence-member*
   (list :first? :index :last? :next :previous))
 
-
-(defun messages-from-classes* (classes)
+(defun messages-from-classes (this-the form)
   "Use message-list to find out what the messages might be."
-  (let* ((starting-classes classes)
-         (mixins (remove-duplicates (append (mapcar 'class-name starting-classes)
-                                            (loop for class in starting-classes append
-                                                  (gendl:the-object (gendl-class-prototype class) all-mixins)))
-                                    :from-end t))
-         (messages (remove-duplicates (loop for class in mixins
-                                            append (sort (messages-from-class class)
-                                                         'string<)))))
-    (filter-sequence-messages messages)))
+  (unless (eq (this-the-functionp this-the) :evaluate)
+    (let* ((starting-classes (or (starting-classes this-the form)
+                                 (return-from messages-from-classes
+                                   nil)))
+           (mixins (remove-duplicates (append (mapcar 'class-name starting-classes)
+                                              (loop for class in starting-classes append
+                                                    (gendl:the-object (gendl-class-prototype class) all-mixins)))
+                                      :from-end t))
+           (messages (remove-duplicates (loop for class in mixins
+                                              append (sort (messages-from-class this-the class)
+                                                           'string<)))))
+      (filter-sequence-messages this-the messages))))
 
-(defun messages-from-classes (form)
-  "Use message-list to find out what the messages might be."
-  (let ((starting-classes (starting-classes form)))
-    (messages-from-classes* starting-classes)))
-
-
-(defun starting-classes (form)
-  (destructuring-bind (classname &optional mixins &rest keywords)
-      (cdr form)
-    (declare (ignore keywords))
-    (let ((this-class (or (the-child-class)
-                          (safe-find-class classname))))
-      (if this-class
-          ;; It's a either a (the-child ...) class , or a redefinition
-          ;; (which includes: clicking on an existing defintion).
-          (the-reference-chain this-class)
-	  ;; New definition. Hit the superclasses.
-	  (loop for classname in mixins
-	     for class = (safe-find-class classname)
-	     when class collect class)))))
+(defun starting-classes (this-the form)
+  (case (car form)
+    ((gendl:define-object)
+     (destructuring-bind (classname &optional mixins &rest keywords)
+         (cdr form)
+       (declare (ignore keywords))
+       (let ((this-class (or (the-child-class this-the)
+                             (safe-find-class classname))))
+         (if this-class
+             ;; It's a either a (the-child ...) class , or a redefinition
+             ;; (which includes: clicking on an existing defintion).
+             (the-reference-chain this-the this-class)
+           ;; New definition. Hit the superclasses.
+           (loop for classname in mixins
+                 for class = (safe-find-class classname)
+                 when class collect class)))))
+    ((gendl:the gendl:the-object)
+     (locally (declare (special gendl:self))
+       (when (boundp 'gendl:self)
+         (when-let (self gendl:self)
+           (let ((reference-chain (the-reference-chain this-the (class-of self))))
+             (list (car reference-chain)))))))))
 
 ;; If we're in a the-child inside an :objects or :hidden-objects clause and can find
 ;; a class for the :type, return that.
-(defun the-child-class ()
-  (when (boundp '*this-the*)
-    (let ((this-the *this-the*))
-      (when (and (case (this-the-section this-the)
-                   ((objects hidden-objects) t))
-                 (eq (car (this-the-the-form this-the)) 'gendl:the-child))
-        (object-slot-form-class (cdr (this-the-slot-form this-the)))))))
+(defun the-child-class (this-the)
+  (when (and (case (this-the-section this-the)
+               ((objects hidden-objects) t))
+             (eq (car (this-the-the-form this-the)) 'gendl:the-child))
+    (object-slot-form-class (cdr (this-the-slot-form this-the)))))
 
 (defun object-slot-form-class (slot-form)
   (multiple-value-bind (typep quoted-type)
@@ -649,17 +673,18 @@ gendl:the (etc) form under construction."
                (symbolp (cadr quoted-type)))
       (find-class (cadr quoted-type) nil))))
 
-(defun the-reference-chain (class)
+(defun the-reference-chain (this-the class)
   (unless (arglist-dummy-p class)
-    (when (boundp '*this-the*)
-      (let* ((this-the *this-the*)
-             (the-form (this-the-the-form this-the))
-             (reference-chain (case (car the-form)
-                                ((gendl:the gendl:the-child) (cdr the-form))
-                                ((gendl:the-object)          (cddr the-form)))))
-        (loop for reference in reference-chain do
-              (setf class (or (reference-class reference class)
-                              (return))))))
+    (let* ((the-form (this-the-the-form this-the))
+           (reference-chain (case (this-the-operator this-the)
+                              ((gendl:define-object)
+                               (case (car the-form)
+                                 ((gendl:the gendl:the-child) (cdr the-form))
+                                 ((gendl:the-object)          (cddr the-form))))
+                              ((gendl:the gendl:the-child gendl:the-object) the-form))))
+      (loop for reference in reference-chain do
+            (setf class (or (reference-class reference class)
+                            (return)))))
     (list class)))
 
 (defun reference-class (reference class)
@@ -679,12 +704,12 @@ gendl:the (etc) form under construction."
         collect
         (find-package designator)))
 
-(defun messages-from-class (class)
+(defun messages-from-class (this-the class)
   "Return a list of messages. Take anything from a user-defined class (not
 in one of the *internal-packages*), otherwise filter for non-nil message-remarks."
   (unless (find class '(gendl::gdl-basis standard-object t))
     (multiple-value-bind (functionp current)
-        (when-let (this-the (when (boundp '*this-the*) *this-the*))
+        (when this-the
           (values (this-the-functionp this-the)
                   ;; Use this to check we don't return the current slot as a potential message.
                   ;; But messages -- as in (the message-list) -- are keywords and this isn't...
@@ -705,32 +730,38 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
                                                                      (lambda (category keyword)
                                                                        (declare (ignore category))
                                                                        (not (eq keyword current)))))))
-             (sequences (loop for message in all-messages
-                              for source = (cadr (gendl:the-object prototype (slot-source message)))
-                              when (and (consp source)
-                                        (find-key :sequence source))
-                              collect message))
+             (sequences (append (gendl:the-object prototype (message-list :category :quantified-objects
+                                                                          :message-type :local))
+                                (gendl:the-object prototype (message-list :category :quantified-hidden-objects
+                                                                          :message-type :local))))
              (functions (gendl:the-object prototype (message-list :category :functions
                                                                   :message-type :local))))
         ;; Preserve order
         (loop for message in all-messages
-              for found = (and functions
-                               (not (null (find message functions))))
-              when (or (eq found functionp)
-                       (and sequences
-                            (find message sequences)))
+              for functions-found = (and functions
+                                         (not (null (find message functions))))
+              when (if (and sequences
+                            (find message sequences))
+                       (this-the-quantifiedp this-the)
+                     (eq functions-found functionp))
               collect message)))))
 
-(defun filter-sequence-messages (messages)
-  
-  (if (and (boundp '*this-the*)
-           (this-the-quantifiedp *this-the*))
+(defun filter-sequence-messages (this-the messages)
+  (if (this-the-quantifiedp this-the)
       messages
     ;; Again, we preserve order
     (let ((suppress *messages-to-suppress-when-not-sequence-member*))
       (loop for message in messages
             unless (find message suppress)
             collect message))))
+
+
+;; 9.4. Deal with (the ... (evaluate ...))
+ 
+(defun messages-for-evaluate (this-the form)
+  (declare (ignore form))
+  (when (eq (this-the-functionp this-the) :evaluate)
+    (list (make-arglist :required-args '(expression)))))
 
 
 ;; 10.  UTILITIES
@@ -747,9 +778,10 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 
 ;; Look graciously for key: don't assume list is correctly formed for destructuring-bind.
 (defun find-key (key plist)
-  (loop for (k v) on plist by #'cddr
-        when (eq k key)
-        do (return (values k v))))
+  (when (consp plist)
+    (loop for (k v) on plist by #'cddr
+          when (eq k key)
+          do (return (values k v)))))
 
 ;; List is of form (:keyword stuff :keyword stuff ...); the final stuff may be missing.
 ;; Return the final (:keyword stuff) pair as two values, provided stuff is a list.
@@ -818,5 +850,3 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 ;; You should have received a copy of the GNU Affero General Public
 ;; License along with this source file.  If not, see
 ;; <http://www.gnu.org/licenses/>.
-
-
