@@ -55,18 +55,18 @@
                       
 		       (cl-who:htm 
 			((:|Viewpoint| 
-			   :position (format nil "~a ~a ~a" (get-x position) (get-y position) (get-z position))
-			   :orientation (format nil "~a ~a ~a ~a"
+			   :|position| (format nil "~a ~a ~a" (get-x position) (get-y position) (get-z position))
+			   :|orientation| (format nil "~a ~a ~a ~a"
 						(get-x orientation)
 						(get-y orientation)
 						(get-z orientation)
 						(get-w orientation))
 			   :|fieldOfView| field-of-view
-			   :description (string-capitalize key)))
+			   :|description| (string-capitalize key)))
 
 			((:|navigationinfo| :type "Examine"
-			   :headlight "TRUE"
-			   :speed (format nil "~a" (getf viewpoint :speed)))))))
+			   :|headlight| "TRUE"
+			   :|speed| (format nil "~a" (getf viewpoint :speed)))))))
 		 		 
 		 (plist-keys (the viewpoints))
 		 (plist-values (the viewpoints)))
@@ -214,7 +214,7 @@
 	      ((and *onclick-function* (or (getf (the display-controls) :billboard)
 					   (getf (the display-controls) :billboard-vector)))
 	       (cl-who:htm 
-		((:|Anchor| :url (format nil "javascript:~a;" 
+		((:|Anchor| :|url| (format nil "javascript:~a" 
 					 (funcall *onclick-function* self)))
 		 ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
 						      (let ((vector (getf (the display-controls) :billboard-vector)))
@@ -226,7 +226,7 @@
 	      #+nil
 	      (*onclick-function*
 	       (cl-who:htm 
-		((:|Anchor| :url (format nil "javascript:~a;" 
+		((:|Anchor| :|url| (format nil "javascript:~a" 
 					 (funcall *onclick-function* self)))
 		 (write-the shape))))
 
@@ -338,7 +338,7 @@
 		  ((and *onclick-function* (or (getf (the display-controls) :billboard)
 					       (getf (the display-controls) :billboard-vector)))
 		   (cl-who:htm 
-		    ((:|Anchor| :url (format nil "javascript:~a;" 
+		    ((:|Anchor| :|url| (format nil "javascript:~a" 
 					     (funcall *onclick-function* self)))
 		     ((:|Billboard| :|axisOfRotation| (if (getf (the display-controls) :billboard-vector)
 							  (let ((vector (getf (the display-controls) :billboard-vector)))
@@ -350,7 +350,7 @@
 		  #+nil
 		  (*onclick-function*
 		   (cl-who:htm 
-		    ((:|Anchor| :url (format nil "javascript:~a;" 
+		    ((:|Anchor| :|url| (format nil "javascript:~a" 
 					     (funcall *onclick-function* self)))
 		     (write-the shape))))
 
