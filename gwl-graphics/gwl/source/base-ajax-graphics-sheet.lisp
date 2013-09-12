@@ -365,10 +365,10 @@ to call the :write-embedded-x3d-world function."))
 		  (with-format (x3d *stream*) 
 		    (let ((*onclick-function* (the onclick-function)))
 		      (write-the view-object cad-output)))))))
-		
-	     ((:script :type "text/javascript" 
-		       :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))
-	     
+	
+	     ((:script :type "text/javascript")
+	      "x3dom.reload();")
+	
 	     (when (the x3dom-view-controls?)
 	       (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
 				      :onclick "document.getElementById('the_element').runtime.showAll();")

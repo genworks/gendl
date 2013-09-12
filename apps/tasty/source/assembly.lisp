@@ -64,7 +64,10 @@ o filter inspector slots to local slots
         (the tree update!)))
    
    (use-jquery? (the have-valid-instance?))
-   (use-raphael? (the have-valid-instance?)))
+   (use-raphael? (the have-valid-instance?))
+   (use-x3dom? (the have-valid-instance?))
+
+   )
 
   :computed-slots
   (

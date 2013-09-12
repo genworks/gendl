@@ -112,7 +112,8 @@
                ,setter))))))
 
 #-:lispworks
-(glisp:without-redefinition-warnings
+(#-clozure glisp:without-redefinition-warnings
+	   #+clozure progn
  (defmacro when-let (binding &body body)
    (destructuring-bind (var val) binding
      `(let ((,var ,val))

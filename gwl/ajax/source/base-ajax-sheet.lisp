@@ -22,6 +22,7 @@
 (in-package :gwl)
 
 
+
 (defmacro w-c-w-s ((&rest args) &rest body) `(with-cl-who-string ,args ,@body))
 
 (define-object base-ajax-sheet (base-html-sheet)
@@ -455,7 +456,10 @@ from a saved snapshot file."
       (when (the use-x3dom?)
         (htm ((:script :type "text/javascript" 
                        :src 
-                       "/static/3rdpty/x3dom/x3dom.js" :id "x3dom_script"))))
+		       (if *x3dom-dev?*
+			   "/static/3rdpty/x3dom/x3dom-dev.js"
+			   "/static/3rdpty/x3dom/x3dom.js")
+		       :id "x3dom_script"))))
 
       (when (the use-raphael?)
         (htm ((:script :type "text/javascript" 
