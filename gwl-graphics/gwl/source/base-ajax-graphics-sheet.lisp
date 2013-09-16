@@ -369,6 +369,8 @@ to call the :write-embedded-x3d-world function."))
 	     ((:script :type "text/javascript")
 	      "x3dom.reload();")
 	
+
+	     #+nil
 	     (when (the x3dom-view-controls?)
 	       (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
 				      :onclick "document.getElementById('the_element').runtime.showAll();")

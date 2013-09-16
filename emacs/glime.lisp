@@ -442,25 +442,30 @@ each returning a list of proposed messages.")
   (or (embedded-the-arglist) (call-next-method)))
 
 (defun embedded-the-arglist ()
-  (let* ((whole-form *form-with-arglist*)
-         (this-the (or (this-the-from-form whole-form)
-                       ;; The gendl:the form isn't embedded inside a define-object or
-                       ;; one of the gendl:the macros. Bail out.
-                       (return-from embedded-the-arglist
-                         nil))))
-    (when-let (messages (remove-duplicates (loop for locator in *message-locators* append
-                                                 (funcall locator this-the whole-form))
-                                           :from-end t))
-      (values (or (loop for message in messages
-                        when (arglist-p message)
-                        return message)
-                  (make-arglist :key-p t
-                                :keyword-args (loop for message in messages collect
-                                                    (make-keyword-arg message message nil))
-                                :provided-args nil
-                                :allow-other-keys-p t
-                                :rest 'reference-chain))
-                nil t))))
+  ;;DJC
+  ;;
+  ;; Fixes "error in process filter" from within getpid of watchdog/source/assembly.lisp.
+  ;;
+  (ignore-errors
+    (let* ((whole-form *form-with-arglist*)
+	   (this-the (or (this-the-from-form whole-form)
+			 ;; The gendl:the form isn't embedded inside a define-object or
+			 ;; one of the gendl:the macros. Bail out.
+			 (return-from embedded-the-arglist
+			   nil))))
+      (when-let (messages (remove-duplicates (loop for locator in *message-locators* append
+						  (funcall locator this-the whole-form))
+					     :from-end t))
+	(values (or (loop for message in messages
+		       when (arglist-p message)
+		       return message)
+		    (make-arglist :key-p t
+				  :keyword-args (loop for message in messages collect
+						     (make-keyword-arg message message nil))
+				  :provided-args nil
+				  :allow-other-keys-p t
+				  :rest 'reference-chain))
+                nil t)))))
 
 
 ;; 9.1. Analyse the current gendl:the form
