@@ -219,7 +219,9 @@
 		 :length 9
 		 :radius 19
 		 :inner-radius 7
-		 :display-controls (list :color "#333333"  :shininess 0.6 :specular-color "#999999")
+		 :display-controls (list :color "#333333"  :shininess 0.6 :specular-color "#999999"
+					 :drag-controls :drag-and-drop
+					 )
 		 )
    
    (wheels-rear :type 'wheel

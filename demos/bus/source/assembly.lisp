@@ -21,6 +21,7 @@
 
 (in-package :genworks.demos.bus)
 
+
 (define-object assembly (node-mixin)
 
   :input-slots
