@@ -60,9 +60,18 @@
  ")
   
   :input-slots ("Gdl surface object. The first surface to be joined. Its u-max or v-max lays at the common boundary." surface 
+
                 "Gdl surface object. The second surface to be joined . Its u-min or v-min lays at the common boundary." other-surface 
+
                 ("Number. This is a tolerance used for Knot removal.  The knot corresponding to the merged boundary has multiplicity equal to the degree. Knot removal will be attempted using this tolerance. Default is *3d-tolerance-default*" tolerance *3d-tolerance-default*) 
-                ("Keyword symbol, one of :u or :v. If :u the common boundary is for first surface u-max and for the second surface u-min. Surfaces must already be compatible in the u-direction. If :v the common boundary is for first surface v-max and for the second surface v-min. Surfaces must already be compatible in the v-direction. Default is :u. " direction :u))
+
+                ("Keyword symbol, one of :u or :v. If :u the common
+                boundary is for first surface u-max and for the second
+                surface u-min. Surfaces must already be compatible in
+                the u-direction. If :v the common boundary is for
+                first surface v-max and for the second surface
+                v-min. Surfaces must already be compatible in the
+                v-direction. Default is :u. " direction :u))
   
   :computed-slots ((native-surface (join-surfaces *geometry-kernel* (the surface) (the other-surface) 
                                                   :tolerance (the tolerance) 

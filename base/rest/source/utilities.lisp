@@ -672,10 +672,9 @@ toplevel inputs as specified in the snapshot file.
         (error "Invalid package specification at beginning of ~a.~%" filename))
       (let* ((*package* (find-package (second package-form))) (root-form (read in)))
         (when (or (null root-form) 
-                  (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class)))
-                  ;;(not (find :%gdl-messages% (symbol-plist (first root-form))))
-                  )
+                  (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class))))
           (error "Invalid object type specifier as first element of second form in ~a.~%" root-form))
+
         
         (let ((object (cond ((and object keep-bashed-values?) object)
                             (object (the-object object restore-tree!) object)
@@ -683,6 +682,7 @@ toplevel inputs as specified in the snapshot file.
                                  (apply #'make-object (first root-form) make-object-args))))))
           
           (let ((self object) (value-plist (rest root-form)))
+
             (mapc #'(lambda(key expression) 
                       (unless (member key keys-to-ignore)
                         (when self (the-object self (set-slot! key (eval expression))))))
@@ -707,15 +707,12 @@ toplevel inputs as specified in the snapshot file.
             
                 (let ((root-path (first form)) (value-plist (rest form)))
                   (let ((self 
-
                          (with-error-handling (:timeout nil)
                            (the-object object (follow-root-path root-path)))))
-                
                     (when self
                       (mapc #'(lambda(key expression) 
                                 (unless (member key keys-to-ignore)
-                                  (when self 
-                                    (the-object self (set-slot! key (eval expression))))))
+				  (the-object self (set-slot! key (eval `(let ((self ,self)) ,expression))))))
                             (plist-keys value-plist) (plist-values value-plist))))))))
           object)))))
 
