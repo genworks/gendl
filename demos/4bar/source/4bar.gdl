@@ -17,7 +17,7 @@
 		   )
 
   :objects ((assembly :type 'assembly
-		      :input-link-angle-d (or nil ;;(the input-link-angle-d)
+		      :input-link-angle-d (or (the input-link-angle-d)
 					      (if (the dropped-x-y)
 						  (angle-between-vectors-d (the (face-normal-vector :right))
 									   (subtract-vectors  (the dropped-x-y)
@@ -29,12 +29,7 @@
 				       :js-to-eval :parse
 				       :inner-html (with-cl-who-string ()
 						     (str (defaulting (the main-area dropped-x-y)))
-						     (str (the input-link-angle-d))
-						     #+nil
-						     (:script 
-						      (str (the (gdl-ajax-call :function-key :set-slot! 
-									       :arguments (list :input-link-angle-d (if (the input-link-angle-d) 
-															(1+ (the input-link-angle-d)) 90 ))))))))
+						     (str (the input-link-angle-d))))
 		   (main-area :type 'base-ajax-graphics-sheet
 			      :respondent self
 			      :vector-graphics-onclick? nil

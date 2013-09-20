@@ -67,11 +67,17 @@ into a single curve."
    ("List of GDL NURBS curve objects. The curve segments in the right order for chaining together."
     ordered-curves (let ((tail (nreverse (mapcan #'list (list-elements (the straight-curves)) (list-elements (the fillet-curves))))))
                      (if (< (the fillet-curves number-of-elements) (the straight-curves number-of-elements))
-                         (cons (the straight-curves last) tail) tail))))
+                         (cons (the straight-curves last) tail) tail)))
+
+   (fillet-curve-types (mapcar #'(lambda(fillet-index)
+				   (if (typep (the (fillets fillet-index)) 'geom-base::fillet)
+				       'arc-curve 'null-part))
+			       (list-of-numbers 0 (1- (the fillets number-of-elements))))))
   
   :hidden-objects
   (("GDL Sequence of GDL NURBS curve objects. The arc-curves representing the fillets."
-    fillet-curves :type 'arc-curve
+    fillet-curves 
+    :type (:sequence (the fillet-curve-types))
     :sequence (:size (the fillets number-of-elements))
     :pseudo-inputs (fillet)
     :fillet (the (fillets (the-child :index)))
@@ -100,10 +106,8 @@ into a single curve."
 from a global-filleted-polyline-curves object")
   
   :computed-slots
-  ((curves (the ordered-curves))
-   
+  ((curves (remove-if #'(lambda(item) (typep item 'null-part)) (the ordered-curves)))))
 
-   ))
   
 
 

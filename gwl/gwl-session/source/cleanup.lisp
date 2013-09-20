@@ -72,6 +72,15 @@ the object hierarchies rooted at the instances, as well as all associated publis
                  (clear-instance key))) *instance-hash-table*))
 
 
+(defparameter *instance-finalizer* nil 
+  "CL Function of one argument. The argument is a keyword representing
+a GWL Instance ID. This is an application-specific function (either a
+symbol naming a function, or a lambda expression) which will be run
+after an instance is cleared with the standard clear-instance
+function. The default is nil which indicates that no finalizer
+function will be run.")
+
+
 (defun clear-instance (id)
   "Void. Clears the specified instance from GWL's master table of root-level instances.
 The instance ID is the same number you see in published GWL URIs, and is available
@@ -89,7 +98,9 @@ the object hierarchy rooted at the instance, as well as all associated published
   
   (when (not (keywordp id)) (setq id (make-keyword id)))
   (clear-instance-from-hash id)
-  (unpublish-instance-urls id))
+  (unpublish-instance-urls id)
+
+  (when *instance-finalizer* (funcall *instance-finalizer* id)))
 
 
 (defun unpublish-instance-urls (id &optional base-url)

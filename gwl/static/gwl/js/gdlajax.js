@@ -163,10 +163,8 @@ function gdlUpdate (request) {
 	    if (child.getElementsByTagName('jsToEval')[0].firstChild != null)
 	    {jsToEval = child.getElementsByTagName('jsToEval')[0].firstChild.nodeValue}
 
-
-	    if (myid && newHTML && (newHTML != ''))
+	    if (myid && (newHTML != null))
             {
-
 		myelem = document.getElementById(myid);
 		myelem.innerHTML = newHTML;
 		

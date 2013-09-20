@@ -32,7 +32,9 @@
    )
 
   :computed-slots
-  ((ui-display-list-objects (remove-if
+  ((respondent self)
+
+   (ui-display-list-objects (remove-if
 			     #'(lambda (item) (typep item 'base-rule-object))
 			     (the :children)))
    (frame-width (the :frame :width))
@@ -140,6 +142,7 @@
   
   :objects
   ((knuckles :type 'knuckle
+	     :pseudo-inputs (front-vector left-vector top-vector transformation-matrix)
 	     :sequence (:size 2)
 	     :side (ecase (the-child :index) (0 :left) (1 :right))
 	     :top-vector (getf (the (:axles 0) :kingpin-vectors) (the-child :side))
@@ -211,6 +214,7 @@
 	  :display-controls (list :color :black :line-thickness 2))
    (wheels-front :type 'wheel
 		 :sequence (:size 2)
+		 :pseudo-inputs (transformation-matrix)
 		 :center (the (:knuckles (the-child :index)) :spindle-center)
 		 :transformation-matrix (alignment :front
 						   (the (:knuckles (the-child :index))
@@ -230,6 +234,7 @@
 					 (ecase (the-child :index) (0 :left) (1 :right)))
 				   (ecase (the-child :index) (0 :front) (1 :rear))
 				   (half (the-child :length)))
+		:pseudo-inputs (transformation-matrix)
 		:transformation-matrix (alignment :front
 						  (the (:face-normal-vector
 							(ecase
@@ -265,6 +270,7 @@
 				  (:right (the-child :front-vector))))
     :spindle-downward-pitch (+ (the :kingpin-inclination-angle) (the :camber-angle))
     :pass-down (:tie-rod-arm-length :tie-rod-arm-setting)
+    :pseudo-inputs (front-vector left-vector top-vector transformation-matrix)
     :transformation-matrix (alignment :top (the-child :top-vector) :front
 				      (rotate-vector-d (the-child :front-vector)
 						       (the :toe-in-angle)

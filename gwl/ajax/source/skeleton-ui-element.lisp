@@ -261,6 +261,7 @@ checkbox-form-control."
    (register-html-section!
     (section)
     
+    #+nil
     (when *debug?*
       (format *trace-output* "~&Before:~%")
       (print-variables self)
@@ -273,6 +274,7 @@ checkbox-form-control."
                       ;;:remember? nil
 		      :warn-on-non-toplevel? nil)))
     
+    #+nil
     (when *debug?*
       (format *trace-output* "~&After:~%")
       (print-messages %html-section-root-paths%)))

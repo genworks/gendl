@@ -195,6 +195,9 @@
   :functions
   ((respond! 
     ()
+
+    (when *debug?* (print-messages replace-lists))
+
     (when (the mismatch?)
       (warn "the js-to-eval-previous is not the same length as html-section-objects in ~s~%" 
 	    (the respondent)))
@@ -209,12 +212,12 @@
 			   (when (or inner-html js-to-eval?)
 			     (htm
 			      (:html-section (:|replaceId| (str dom-id))
-					     (:|newHTML| (if inner-html
-							     (str (wrap-cdata (if (the security-ok?) inner-html
+					     (:|newHTML| (str (if inner-html
+								  (wrap-cdata (if (the security-ok?) inner-html
 										  (with-cl-who-string ()
-										    (:i "Security Error"))))) ""))
-					     (:|jsToEval| (if (and js-to-eval? (the security-ok?))
-							      (str (wrap-cdata js-to-eval)) ""))))))))
+										    (:i "Security Error")))) "")))
+					     (:|jsToEval| (str (if (and js-to-eval? (the security-ok?))
+								   (wrap-cdata js-to-eval) "")))))))))
 		   (the replace-lists) (the js-to-eval-previi)))))))))
 
 
