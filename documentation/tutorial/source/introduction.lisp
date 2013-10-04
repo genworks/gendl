@@ -280,7 +280,7 @@ optimizations and safety that the tested-and-true CL compiler provides
 on the market, which are essentially nothing more than interpreted "
 	(:emph "scripting languages") 
 	" which often impose arbitrary limits on
-the size and complexity of the application.")
+the size and complexity of the application].")
 
        (:li "GDL is also a "
 	    (:emph (:indexed "declarative"))

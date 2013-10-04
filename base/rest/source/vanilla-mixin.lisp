@@ -30,7 +30,7 @@
   
   :documentation (:description "Vanilla-Mixin is automatically inherited by every object
 created in GDL. It provides basic messages which are common to all GDL objects defined
-with the define-object macro, unless <tt>:no-vanilla-mixin t</tt> is specifqqied at the toplevel
+with the define-object macro, unless <tt>:no-vanilla-mixin t</tt> is specified at the toplevel
 of the define-object form.")
   
   :input-slots
