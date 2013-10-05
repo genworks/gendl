@@ -500,7 +500,7 @@ CL \"fround\" function.
   (declare (ignore self))
   (error "Objects of type ~a cannot currently be written out and read back into GDL reliably.
  Please do not use objects of this type as the value for toplevel inputs or settable slots, 
- or contact Genworks with an enhancement request to include a readble output format for 
+ or contact Genworks with an enhancement request to include a readable output format for 
  this object type." (type-of object)))
 
 
@@ -524,6 +524,8 @@ CL \"fround\" function.
 (defmethod readable-expression ((object symbol) &optional self) (declare (ignore self)) 
            `',object)
 (defmethod readable-expression ((object array) &optional self) (declare (ignore self)) object)
+(defmethod readable-expression ((object pathname) &optional self)
+  (declare (ignore self)) object)
 
 (defmethod lookup-color ((color string) &key (format :decimal) (ground :foreground))
   (if (and (eql (aref color 0) #\#) (= (length color) 7))

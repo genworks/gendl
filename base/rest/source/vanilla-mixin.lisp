@@ -440,7 +440,10 @@ error will be generated.
     
     (when (and warn-on-non-toplevel?
 	       *notify-cons*)
-      (warn "It is not possible to call set-slot! from within dependency-tracking context, e.g. from the body of a computed-slot. 
+      (warn "It is not recommended to call set-slot! from within dependency-tracking context, e.g. from the body of a computed-slot. 
+
+THIS CAN LEAD TO INCONSISTENT DEPENDENCY-TRACKING!!!
+
 Set-slot was called on 
 
   ~s 

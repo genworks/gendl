@@ -28,7 +28,56 @@
 
 (define-lens (raphael base-drawing)()
   :output-functions
-  ((raphael-paper-def (&key width length)
+  ((raphael-paper-def
+    (&key width length)
+    (format *stream* "if (typeof paper === 'undefined') {var paper = Raphael('~a', ~a, ~a)};~%
+
+               if (typeof start === 'undefined') {
+
+                var start = function () {
+                    this.lastdx ? this.odx += this.lastdx : this.odx = 0;
+                    this.lastdy ? this.ody += this.lastdy : this.ody = 0;
+                    this.animate({opacity: .5}, 500, \">\");
+                },
+
+
+                move_cb = function (dx, dy) {
+                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
+                    this.lastdx = dx;
+                    this.lastdy = dy;
+                    this.animate({opacity: .5}, 500, \">\");
+                    ~a 
+                },
+
+                move = function (dx, dy) {
+                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
+                    this.lastdx = dx;
+                    this.lastdy = dy;
+                    this.animate({opacity: .5}, 500, \">\");
+                },
+
+                up = function () {
+                    this.animate({opacity: 1.0}, 500, \">\");
+                    ~a 
+                },
+
+                  touchcoords = function () {~a}};
+
+"
+	    (the raphael-canvas-id) width length
+	    ;;
+	    ;; FLAG -- pass in the containing
+	    ;; base-ajax-graphics-sheet and refer
+	    ;; to that, instead of referring to
+	    ;; the parent here.
+	    ;;
+	    (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
+	    (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop))
+
+	    (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-touchmove))))
+
+   #+nil
+   (raphael-paper-def (&key width length)
 		      (format *stream* "if (typeof paper === 'undefined') {var paper = Raphael('~a', ~a, ~a)};~%"
 			      (the raphael-canvas-id) width length))
 
@@ -275,16 +324,10 @@
 
       (with-format-slots (view)
         (let* ((view-scale (if view (the-object view view-scale-total) 1))
-               (center (translate (the center) :front (half (half (* 0.7 (the length))))))
-
-	       )
-
-	  (print-variables (the center) view view-scale center )
+               (center (translate (the center) :front (half (half (* 0.7 (the length)))))))
 
 	  (setq center (if view (the-object view (view-point center)) center))
 
-	  (print-variables center)
-	  
           (let ((font-size (* 0.9 (* (the character-size) view-scale)))
                 (rotation 
                  (angle-between-vectors-d 
@@ -297,8 +340,6 @@
                            (make-point (get-x point)
                                        (- (the-object view length) (get-y point)))))
 
-	    (print-variables center)
-          
             (unless (zerop rotation) ;; FLAG -- rotate in raphael(pdf:rotate rotation)
               )
             (with-cl-who () 
@@ -406,6 +447,23 @@
 (define-lens (raphael t)()
   :output-functions
   ((cad-output ())
+   (drag-controls
+    (&key name display-controls)
+    (let ((drag-controls (ensure-list (getf display-controls :drag-controls))))
+      (when drag-controls
+	(with-cl-who ()
+	  (str (format nil "~a.attr({cursor: 'pointer'}).data('name','\\\"~a\\\"');~%" 
+		       name name))
+	  (cond
+	    ((or (member :drag drag-controls)
+		 (member :drag-and-drop drag-controls))
+	     (str (format nil "~&paper.set(~a).drag(move_cb,start,up);" name)))
+	    ((or (member :drop drag-controls)
+		 (member :drag-and-drop drag-controls))
+	     (str (format nil "~&paper.set(~a).drag(move,start,up);" name)))
+	    ((member :touchmove drag-controls)
+	     (str (format nil "~&paper.set(~a).touchmove(touchcoords);" name))))))))
+   #+nil
    (drag-controls (&key name display-controls)
 		  (declare (ignore name display-controls)))))
 

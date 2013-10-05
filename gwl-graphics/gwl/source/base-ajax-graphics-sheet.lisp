@@ -31,7 +31,7 @@ with base-html-graphics-sheet, and adds html-format output-functions
 for several of the new formats such as ajax-enabled png/jpeg and 
 Raphael vector graphics."
                   
-                  :examples "FLAG -- Fill in!!!")
+			       :examples "FLAG -- Fill in!!!")
   
   :input-slots 
   (("Number. Thickness of default border around graphics viewport. 
@@ -124,16 +124,15 @@ value of the image-format-selector, which itself defaults to :raphael."
    (inner-html (with-cl-who-string () (write-the inner-html)))
 
 
-   )
+   (on-drag-function nil)
+
+   (on-drop-function nil)
+
+   (on-touchmove-function nil))
 
   
-  :functions 
-  ((set-js-vals! (js-vals) (declare (ignore js-vals))))
-
   :computed-slots
-  (
-
-   (js-to-eval :parse :settable)
+  ((js-to-eval :parse :settable)
    
    (js-always-to-eval nil)
                      
@@ -187,18 +186,29 @@ bottom of the graphics inside a table."
     (with-cl-who-string ()
       (:table (:tr ((:td :align :center)
                     (str (ecase (the image-format-selector value)
-                               ((:web3d :vrml) (the web3d-graphics))
-                               ((:png :jpeg :jpg) (the raster-graphics))
-                               (:raphael (the vector-graphics))))))
-              (when (and (member (the image-format) (list :jpeg :jpg :png :raphael))
-                         (the include-view-controls?))
-                (htm (:tr (:td (str (the view-controls))))))
-              (when (and (member (the image-format) (list :vrml :web3d))
-                         (the include-view-controls?))
-                (htm (:tr (:td (str (the image-format-selector html-string))))))
+			   ((:web3d :vrml) (the web3d-graphics))
+			   ((:png :jpeg :jpg) (the raster-graphics))
+			   (:raphael (the vector-graphics))))))
+	(when (and (member (the image-format) (list :jpeg :jpg :png :raphael))
+		   (the include-view-controls?))
+	  (htm (:tr (:td (str (the view-controls))))))
+	(when (and (member (the image-format) (list :vrml :web3d))
+		   (the include-view-controls?))
+	  (htm (:tr (:td (str (the image-format-selector html-string))))))
 
 
-              ))))
+	)))
+
+   ("3D point. This is the upper-right corner of the bounding box of the dragged and/or dropped element."
+    dropped-x-y nil :settable)
+
+   ("Plist with :width and :height. The dimensions of the bounding-box of the dragged and/or dropped element."
+    dropped-height-width nil :settable)
+
+   ("List representing GDL root-path. This is the root path of the dragged and/or dropped object. 
+This is not tested to see if it is part of the same object tree as current self."
+    dropped-object nil :settable))
+
 
   
   :hidden-objects
@@ -243,7 +253,6 @@ bottom of the graphics inside a table."
    ;;
    ;; FLAG -- standardize on length instead of height for Y coord.
    ;;
-   
    (model-x-y (local-x-y)
 	      (when local-x-y
 		(destructuring-bind (&key x y) local-x-y
@@ -271,7 +280,31 @@ The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>.
 
     write-embedded-x3dom-world
     (&key (include-view-controls? nil))
-    (write-the (embedded-x3dom-world :include-view-controls? include-view-controls?)))))
+    (write-the (embedded-x3dom-world :include-view-controls? include-view-controls?)))
+
+   
+   (set-js-vals! 
+    (js-vals)
+    (let ((dropped-x-y (the (model-x-y (destructuring-bind (&key x y &allow-other-keys) js-vals
+					 (list :x x :y y)))))
+	  (dropped-height-width (destructuring-bind (&key width height &allow-other-keys) js-vals
+				  (list :width (/ width (the view-object view-scale))
+					:height (/ height (the view-object view-scale)))))
+	  (dropped-object (with-error-handling () (base64-decode-list (getf js-vals :name)))))
+
+      (the (set-slots! (list :dropped-x-y dropped-x-y
+			     :dropped-height-width dropped-height-width
+			     :dropped-object dropped-object)))))
+
+   (on-drag () (when (the on-drag-function)
+		 (funcall (the on-drag-function))))
+
+   (on-drop () (when (the on-drop-function)
+		 (funcall (the on-drop-function))))
+
+   (on-touchmove () (when (the on-touchmove-function)
+		      (funcall (the on-touchmove-function))))))
+
 
 
 (define-lens (html-format base-ajax-graphics-sheet)()
