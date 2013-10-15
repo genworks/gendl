@@ -336,7 +336,8 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		:serial t
 		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
-		"%%remove%%#+asdf-encoding :encoding #+asdf-encoding :utf-8%%remove%%"
+		"%%remove%%#-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)%%remove%%"
+		"%%remove%%#+asdf-encodings :encoding #+asdf-encodings :utf-8%%remove%%"
 				 
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)

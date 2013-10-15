@@ -1,4 +1,4 @@
-;;;; -*- coding: utf-8 -*-;
+;;;; -*- coding: utf-8 -*-
 ;;
 ;; Copyright 2002-2011, 2012 Genworks International
 ;;
@@ -21,7 +21,7 @@
 ;; 
 
 (in-package :com.genworks.lisp)
-
+ 
 (defparameter *external-text-format*
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
     #-(and mswindows allegro) :default)
@@ -327,7 +327,7 @@
 #-allegro(warn "Find out how to retitle relevant windows in currently running lisp.~%")
 #+(and allegro mswindows)
 (defun set-window-titles ()
-  (excl:console-control :title "Genworks Gendl™ Console")
+  (excl:console-control :title "Genworks Gendl® Console")
   ;;(retitle-emacs)
   )
 

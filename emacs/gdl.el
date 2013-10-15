@@ -1,3 +1,4 @@
+;;;; -*- coding: utf-8 -*-
 ;;                              GDL.EL
 ;;
 ;; 1.  INTRODUCTION
@@ -54,8 +55,8 @@
 (add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
-;;(color-theme-sitaramv-solaris)
-(color-theme-feng-shui)
+(color-theme-sitaramv-solaris)
+;;(color-theme-feng-shui)
 
 ;; 3.3. Indents
 
@@ -179,6 +180,11 @@
   (insert (format "(load (compile-file \"%semacs/glime.lisp\"))" *gendl-home*))
   (slime-repl-return)
   (insert "(gdl::startup-banner)")
+  (slime-repl-return)
+  (insert "(let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
+             (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
+                   (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
+                   (t (error \"Gendl or GDL is not loaded and did not load successfully from .load-gendl.lisp in your home directory.~%\"))))")
   (slime-repl-return)
   (insert "(in-package gdl-user)")
   (slime-repl-return)

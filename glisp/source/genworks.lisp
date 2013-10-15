@@ -294,7 +294,8 @@ and \"..\" entries."
 (defun find-gs-path (&optional gs-path)
   (let ((gs-path
 	 (or gs-path
-	     (if (featurep :os-windows)
+	     (if (or (featurep :os-windows)
+                     (featurep :windows))
 		 (find-windows-gs)
 		 (or (probe-file #p"~/bin/gs")
 		     (probe-file #p"/usr/local/bin/gs")

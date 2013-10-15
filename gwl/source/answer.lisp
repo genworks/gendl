@@ -411,6 +411,7 @@ being generated dynamically.
     (publish :path path
              :server server
              :host host
+	     :content-type "text/html"
              :function #'(lambda(req ent)
                          (let ((*req* req) (*ent* ent)
                                (object (first (gethash key *instance-hash-table*))))

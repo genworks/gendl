@@ -75,7 +75,6 @@
 Welcome to Gendl®
 Copyright© 2002-2013, Genworks® International, Birmingham MI, USA.
 All Rights Reserved.
-
 This program contains free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
@@ -92,7 +91,5 @@ License along with the source code for this program. If not, see:
 http://www.gnu.org/licenses/
 
 "))
-
-
 
 
