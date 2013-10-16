@@ -118,7 +118,8 @@
 ;; 4.1. Some synonyms
 
 (defun gendl () (interactive) 
-  (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+  ;;(add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+  (add-hook 'slime-connected-hook 'load-base-ql)
   (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
@@ -172,6 +173,14 @@
     (add-hook 'slime-connected-hook 'customise-slime)
     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
     (add-hook 'slime-connected-hook 'load-user-emacs-glime)))
+
+
+
+(defun load-base-ql ()
+  (slime-repl)
+  (insert "(load (merge-pathnames \".load-base-ql.lisp\" (user-homedir-pathname)))")
+  (slime-repl-return))
+
 
 (defun load-and-or-start-gendl ()
   (slime-repl)
