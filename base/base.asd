@@ -3,9 +3,9 @@
 (asdf:defsystem #:base :description
  "The Gendl™ Base Core Kernel Engine" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20131014" :depends-on nil
+ :serial t :version "20131015" :depends-on nil
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
- #+asdf-encoding :encoding #+asdf-encoding :utf-8
+ #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "source/package") (:file "source/genworks")
   (:file "source/presets") (:file "source/parameters")

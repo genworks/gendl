@@ -118,8 +118,8 @@
 ;; 4.1. Some synonyms
 
 (defun gendl () (interactive) 
-  ;;(add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
-  (add-hook 'slime-connected-hook 'load-base-ql)
+  (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+  ;;(add-hook 'slime-connected-hook 'load-base-ql)
   (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
