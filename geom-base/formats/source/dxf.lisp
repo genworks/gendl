@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International 
+;; Copyright 2013 Genworks International 
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -26,7 +26,85 @@
 
 
 (defparameter *dxf-header*
-    "  0
+  "  0
+SECTION
+  2
+HEADER
+  9
+$ACADVER
+  1
+AC1009
+  9
+$DWGCODEPAGE
+  3
+ANSI_1252
+  9
+$INSBASE
+ 10
+0.0
+ 20
+0.0
+ 30
+0.0
+  9
+$EXTMIN
+ 10
+-500.0
+ 20
+-500.0
+ 30
+1.000000000000000E+20
+  9
+$EXTMAX
+ 10
+500.0
+ 20
+500.0
+ 30
+-1.000000000000000E+20
+  9
+$LIMMIN
+ 10
+-500.0
+ 20
+-500.0
+  9
+$LIMMAX
+ 10
+500.0
+ 20
+500.0
+  9
+$ORTHOMODE
+ 70
+     0
+  9
+$LTSCALE
+ 40
+1.0
+  9
+$TEXTSTYLE
+  7
+Standard
+  9
+$LUNITS
+ 70
+     2
+  9
+$LUPREC
+ 70
+     4
+  9
+$SPLINESEGS
+ 70
+     8
+9
+$INSUNITS
+70
+    4
+0    
+ENDSEC
+0
 SECTION
   2
 TABLES
