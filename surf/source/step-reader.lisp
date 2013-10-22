@@ -64,7 +64,8 @@ If some trimmed surfaces or B-reps are blanked, they are grouped into a second, 
                 )
   
   :computed-slots
-  ((data (read-step-file* *geometry-kernel* (format nil "~a" (the file-name)) 
+  ((data (read-step-file* *geometry-kernel* (let ((file (namestring (translate-logical-pathname (the file-name)))))
+					      (if (probe-file file) file (error "~a: file not found.~%" file)))
                           :finalize-on self
                           :make-all-surfaces-trimmed? (the make-all-surfaces-trimmed?)
                           ;;:break-up-breps-into-trimmed-surfaces? (the break-up-breps-into-trimmed-surfaces?)
