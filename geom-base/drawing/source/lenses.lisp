@@ -144,6 +144,10 @@
             (write-the-object cache lines-and-curves))))))))
 
 
+;;
+;; FLAG - update this lens to be like Raphael so the fill will work for closed shapes.
+;;
+
 (define-lens (pdf view-object-cache)()
   :output-functions
   ((lines-and-curves
@@ -195,6 +199,10 @@
 				    (pdf:fill-and-stroke)
 				    (pdf:stroke)))))))))
 
+
+;;
+;; FLAG - update this lens to be like Raphael so the fill will work for closed shapes.
+;;
 
 (define-lens (dxf view-object-cache)()
   :output-functions

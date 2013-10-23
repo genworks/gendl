@@ -222,7 +222,7 @@
   :computed-slots ((datum (the edge-1 end))
 
 		   (direction-vector (subtract-vectors (the end) (the start)))
-		   (vertex-list (list (the start) (the end) (the edge-1 end))))
+		   (vertex-list (list (the start) (the end) (the edge-1 end) (the start))))
   
   :hidden-objects
   ((baseline :type 'line

@@ -209,7 +209,7 @@ brep in each direction (on the brep itself, not necessarily on the bounding box)
 		    ;;
 		    
 		    (the bounding-box-solid faces number-of-elements)
-
+		    
                     (list :min-x (first box)
                           :max-x (second box)
                           :min-y (first box)
@@ -229,7 +229,7 @@ brep in each direction (on the brep itself, not necessarily on the bounding box)
                           :min-y (least #'get-y points)
                           :max-y (most #'get-y points)
                           :min-z (least #'get-z points)
-p                          :max-z (most #'get-z points))))
+                          :max-z (most #'get-z points))))
 
    
    (%triangle-data% (let ((result (the (tessellation :in-memory? t))))
