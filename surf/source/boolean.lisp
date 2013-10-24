@@ -22,7 +22,62 @@
 (in-package :surf)
 
 
-(define-object boolean-merge (brep)
+(define-object boolean-tolerance-mixin ()
+  :input-slots
+  (("Number. Defaults to *approximation-tolerance-factor*. This is multiplied by  the minimum of the 
+adaptive-tolerance of any of the input breps to produce the approximation-tolerance-adaptive."
+    approximation-tolerance-factor (or *approximation-tolerance-factor* 5))
+   
+
+   ("Number. Defaults to the minimum of the adaptive-tolerance of any of the input breps, 
+multiplied by the approximation-tolerance-factor, rounded to nearest multiple of 
+tenths (e.g. it will be 0.01, 0.001, 0.001), however if this evaluates as zerop, 
+*3d-approximation-tolerance-default* will be used instead."
+    approximation-tolerance-adaptive 
+    (* (the approximation-tolerance-factor)
+       (let ((first-tolerance 
+              (the first-brep adaptive-tolerance)))
+         (if (the rest-breps)
+             (max first-tolerance 
+                  (apply #'max
+                         (mapsend (the rest-breps)
+                                  :adaptive-tolerance)))
+	     first-tolerance))))
+   
+   
+   ("Number. Defaults to *3d-approximation-tolerance-default* if non-nil. If this value is nil,
+then this defaults to the approximation-tolerance-adaptive." 
+    approximation-tolerance (or *boolean-operation-tolerance-default*
+                                (the approximation-tolerance-adaptive))))
+
+  :computed-slots
+  ((first-brep (let ((brep 
+                      (cond ((the brep) (the brep))
+                            ((consp (the other-brep))
+                             (first (the other-brep)))
+                            (t (error "If no brep is given, other-brep must be a list of breps.")))))
+                 (the (ensure-brep brep))))
+   
+   
+   (rest-breps (let ((breps (cond ((the brep)
+                                   (ensure-list (the other-brep)))
+                                  (t (rest (ensure-list (the other-brep)))))))
+                 (mapcar #'(lambda(brep)
+                             (the (ensure-brep brep))) breps))))
+
+  :functions
+  ((ensure-brep (brep)
+		(if (typep brep 'brep)
+		    brep
+		    (let ((brep (ignore-errors (the-object brep brep))))
+		      (if (typep brep 'brep)
+			  brep
+			  (error "Given brep must be of type brep, or contain an object of type brep.")))))))
+
+
+
+
+(define-object boolean-merge (boolean-tolerance-mixin brep)
 
   :documentation (:description "Generalized Merge container for doing boolean operations. This is not to be used directly, but is 
 mixed into subtracted-solid, united-solid, intersected-solid, and separated-solid. 
@@ -50,33 +105,6 @@ Defaults to *boolean-error-on-invalid-brep?* which itself defaults to t."
     error-on-invalid? *boolean-error-on-invalid-brep?*)
    
    
-   ("Number. Defaults to *approximation-tolerance-factor*. This is multiplied by  the minimum of the 
-adaptive-tolerance of any of the input breps to produce the approximation-tolerance-adaptive."
-    approximation-tolerance-factor (or *approximation-tolerance-factor* 5))
-   
-
-   ("Number. Defaults to the minimum of the adaptive-tolerance of any of the input breps, 
-multiplied by the approximation-tolerance-factor, rounded to nearest multiple of 
-tenths (e.g. it will be 0.01, 0.001, 0.001), however if this evaluates as zerop, 
-*3d-approximation-tolerance-default* will be used instead."
-    approximation-tolerance-adaptive 
-    (* (the approximation-tolerance-factor)
-       (let ((first-tolerance 
-              (the first-brep adaptive-tolerance)))
-         (if (the rest-breps)
-             (max first-tolerance 
-                  (apply #'max
-                         (mapsend (the rest-breps)
-                                  :adaptive-tolerance)))
-           first-tolerance))))
-   
-   
-   ("Number. Defaults to *3d-approximation-tolerance-default* if non-nil. If this value is nil,
-then this defaults to the approximation-tolerance-adaptive." 
-    approximation-tolerance (or *boolean-operation-tolerance-default*
-                                (the approximation-tolerance-adaptive)))
-   
-   
    ("Number. Defaults to *angle-tolerance-radians-default*." angle-tolerance *angle-tolerance-radians-default*)
    
    
@@ -88,19 +116,7 @@ and this is defaulted to t, except for merged-solid where we default this to nil
 
   
   :computed-slots
-  ((first-brep (let ((brep 
-                      (cond ((the brep) (the brep))
-                            ((consp (the other-brep))
-                             (first (the other-brep)))
-                            (t (error "If no brep is given, other-brep must be a list of breps.")))))
-                 (the (ensure-brep brep))))
-   
-   
-   (rest-breps (let ((breps (cond ((the brep)
-                                   (ensure-list (the other-brep)))
-                                  (t (rest (ensure-list (the other-brep)))))))
-                 (mapcar #'(lambda(brep)
-                             (the (ensure-brep brep))) breps)))
+  (
    
    
 
@@ -240,7 +256,6 @@ This occured in:
 
 
 
-
 (define-object merged-solid (boolean-merge)
   :documentation (:description "Given two brep solids or a brep solid and an open face represented as a brep,
 performs a merge operation. Optionally (with make-manifold? t) makes the result manifold by trimming 
@@ -261,7 +276,23 @@ and this is defaulted to t, except for merged-solid where we default this to nil
                    
                    (operation :merge)))
   
-  
+
+
+(define-object separated-solid-2 (base-object boolean-tolerance-mixin)
+
+  :input-slots (brep other-brep)
+
+  :objects ((breps :type 'brep
+		   :sequence (:size (the regioned breps number-of-elements))
+		   :display-controls (the-child built-from display-controls)
+		   :built-from (the regioned (breps (the-child index)))))
+
+  :hidden-objects ((merged :type 'merged-solid
+			   :pass-down (brep other-brep approximation-tolerance))
+		   
+		   (regioned :type 'regioned-solid
+			     :brep (the merged))))
+
 
 
 (define-object separated-solid (boolean-merge)
@@ -291,8 +322,6 @@ repeated in order. Defaults to a list with keys:
                    
                    (number-of-colors (length (the section-colors)))
                    
-
-
                    (
 		    ;;native-array-and-breps 
 		    native-breps

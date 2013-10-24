@@ -32,8 +32,6 @@ to make up a solid brep."
                   
                   :author "Dave Cooper, Genworks"
                   )
-
-  
   
   :input-slots 
   (
@@ -198,9 +196,10 @@ Defaults to a list with keys:
 
    ("FLAG -- for debug testing only 
 
-   Plist with :min-x :max-x :min-y :max-y :min-z :max-z. Returns the extreme points of the 
-brep in each direction (on the brep itself, not necessarily on the bounding box)."
-    
+   Plist with :min-x :max-x :min-y :max-y :min-z :max-z. Returns the
+extreme points of the bounding-box of the brep in each direction. This
+will be updated to return points on the brep itself, not necessarily
+the bounding box."
     
     min-max-x-y-z (let ((box (the bounding-box)))
 		    
@@ -208,8 +207,6 @@ brep in each direction (on the brep itself, not necessarily on the bounding box)
 		    ;; FLAG -- evaluate this just to see if it's the prob
 		    ;;
 		    
-		    (the bounding-box-solid faces number-of-elements)
-
                     (list :min-x (first box)
                           :max-x (second box)
                           :min-y (first box)
@@ -229,7 +226,7 @@ brep in each direction (on the brep itself, not necessarily on the bounding box)
                           :min-y (least #'get-y points)
                           :max-y (most #'get-y points)
                           :min-z (least #'get-z points)
-p                          :max-z (most #'get-z points))))
+                          :max-z (most #'get-z points))))
 
    
    (%triangle-data% (let ((result (the (tessellation :in-memory? t))))
