@@ -91,6 +91,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:*force-restore-slot-default?*
            #:*gdl-init-functions*
 	   #:*gendl-version*
+	   #:*gendl-patch-level*
            #:*ghostscript-path*
            #:*gs-path*
            #:*load-documentation-database?*
