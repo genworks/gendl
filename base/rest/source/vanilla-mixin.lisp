@@ -445,7 +445,8 @@ error will be generated.
  :arguments (slot \"Keyword Symbol\"
              value \"Lisp Object. (e.g. Number, String, List, etc.)\")
 
- :&key ((remember? t) \"Boolean. Determines whether to save in current version-tree.\")"
+ :&key ((remember? t) \"Boolean. Determines whether to save in current version-tree.\"
+        (warn-on-non-toplevel? t) \"Boolean. Determines whether to warn if this is called from the body of a cached slot.\" )"
     set-slot!
     (attribute value &key (remember? t) (warn-on-non-toplevel? t))
     
