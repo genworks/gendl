@@ -55,8 +55,8 @@ additional-header-js (with-cl-who-string ()
                            ((:script :type "text/javascript" 
                                      :src "/static/3rdpty/jquery/js/jquery.quicksearch.js"))))
    
-   (footer (let* ((version "1581")
-                  (patch 9))
+   (footer (let* ((version *gendl-version*)
+                  (patch *gendl-patch-level*))
              (with-cl-who-string ()
                ((:p :class "copyrightFooter")
                 "Copyright &copy; "
@@ -72,8 +72,9 @@ additional-header-js (with-cl-who-string ()
                 ". All rights reserved. "
                 (:i (:small "Genworks Build: "
                             (str version)
-                            (when patch (htm "p"))
-                            (str (format nil "~3,,,'0@a" patch)))))
+                            (when patch 
+			      (htm "p")
+			      (str (format nil "~3,,,'0@a" patch))))))
                ((:p :class "copyrightFooter")
                 (:i "User Code Packages copyright &copy; their respective authors"))))))
   
@@ -88,8 +89,8 @@ additional-header-js (with-cl-who-string ()
    (write-footer
     ()
     (let ((*stream* (or *html-stream* *stream*)))
-      (let* ((version "1581")
-             (patch 9))
+      (let* ((version *gendl-version*)
+             (patch *gendl-patch-level*))
         (with-cl-who()
           ((:p :class "copyrightFooter")
            "Copyright &copy; "
@@ -105,8 +106,9 @@ additional-header-js (with-cl-who-string ()
            ". All rights reserved. "
            (:i (:small "Genworks Build: "
                        (str version)
-                       (when patch (htm "p"))
-                       (str (format nil "~3,,,'0@a" patch)))))))))))
+                       (when patch 
+			 (htm "p")
+			 (str (format nil "~3,,,'0@a" patch))))))))))))
 
 
 

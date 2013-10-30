@@ -537,18 +537,23 @@ overview of <tt>define-object</tt> syntax."
        
        
        
+       #+nil
        (defmethod gdl-rule::%object-keywords%
            ((,self-arg ,name))
          (remove-duplicates
           (append ',object-syms ',quantified-object-syms
                   (when (next-method-p) (call-next-method)))))
        
+       #+nil
        (defmethod gdl-rule::%hidden-object-keywords%
            ((,self-arg ,name))
          (remove-duplicates
           (append ',hidden-object-syms ',quantified-hidden-object-syms
                   (when (next-method-p) (call-next-method)))))
        
+       ;;
+       ;; FLAG -- maybe some of these others can go away as well. 
+       ;;
        
        (defmethod gdl-rule::%trickle-down-slots% 
            ((,self-arg ,name))

@@ -28,11 +28,11 @@
 
 (defvar *log-file* nil)
 
-(defun start-log-maker (&key (interval 30)  (resolve-dns? t))
+(defun start-log-maker (&key (interval 30)  (resolve-dns? t) (server net.aserve:*wserver*))
   
   (setq *log-file* (format nil "/home/dcooper8/kitchen/logs-~a-~a.lisp" 
                            (gwl::iso-time (get-universal-time))
-                           (slot-value (slot-value gwl::*wserver* 'net.aserve::socket) 'socket::local-port)))
+                           (slot-value (slot-value server 'net.aserve::socket) 'socket::local-port)))
   (glisp:process-run-function
       "log-maker"
     #'(lambda()
@@ -75,6 +75,14 @@
 
 (defmethod net.aserve::log-request :after ((req http-request))
 
+  (dolist (function *aserve-log-request-after-functions*)
+    (funcall function req)))
+
+(defparameter *aserve-log-request-after-functions* nil)
+
+#+nil
+(defmethod monkey-log ((req http-request))
+  
   (when *log-file*
     (let* ((ipaddr (socket:remote-host (request-socket req)))
 	   (end-time   (net.aserve::request-reply-date req))

@@ -38,13 +38,16 @@ curves, surfaces, breps, and brep trees as sequences of GDL objects.
                 ("String. Contains output from a call to (with-format (native ...) (write-the cad-output))
 for an SMLib object (e.g. curve, surface, brep). Defaults to nil. If you specify this as well as a 
 file-name, the file-name will take precedence."
-                 smlib-string nil))
+                 smlib-string nil)
+
+		(sew-and-shrink-breps? nil))
 
   
   :computed-slots
   ((data (read-native-file *geometry-kernel* 
 			   (format nil "~a" 
-				   (translate-logical-pathname (the file-name)))))
+				   (translate-logical-pathname (the file-name)))
+			   :sew-and-shrink-breps? (the sew-and-shrink-breps?)))
 
    
    (breps-list (list-elements (the breps)))

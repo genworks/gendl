@@ -45,9 +45,7 @@
 
   
   :computed-slots
-  (;;(type (class-name (class-of self)))
-    
-   (remote-object-args (append (list :type (format nil "~a::~a" 
+  ((remote-object-args (append (list :type (format nil "~a::~a" 
                                                    (package-name (symbol-package (the remote-type)) )
                                                    (symbol-name (the remote-type)))
                                      :package *package*
@@ -81,6 +79,7 @@
                                                                          :remote-id (the remote-id)
                                                                          :remote-root-path (the remote-root-path)
                                                                          :package *package*)))))
+
       (multiple-value-bind 
           (result length)
 	  
@@ -88,11 +87,6 @@
 	   (net.aserve.client:do-http-request (format nil "http://~a:~a/fetch-remote-input?args=~a"
 						      (the host) (the port) encoded-args)))
 
-	  #+nil
-	(read-safe-string 
-           (base64-decode-safe
-            (net.aserve.client:do-http-request (format nil "http://~a:~a/fetch-remote-input?args=~a"
-                                                       (the host) (the port) encoded-args))))
         (declare (ignore length)) 
         
         (if (listp result)

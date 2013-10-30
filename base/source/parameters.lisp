@@ -22,8 +22,9 @@
 (in-package :gdl)
 
 (defparameter *gendl-version* "1585")
+(defparameter *gendl-patch-level* nil)
 
-(eval-when (compile load eval)
+(eval-when (:compile-toplevel :load-toplevel :execute)
   (when (not (boundp '*production-build?*)) (defvar *production-build?* nil)))
 
 ;;

@@ -234,9 +234,11 @@ and \"..\" entries."
 #-(and mswindows lispworks)
 (defun run-gs (command)
   "Shell out a ghostscript command and handle errors."
-  (let ((result 
-	 (run-program command)))
-    (unless (zerop result) (error "Ghostscript threw error"))))
+  (gdl:print-variables command)
+  (multiple-value-bind (output error result)
+      (run-program command)
+    (declare (ignore output))
+    (unless (zerop result) (error "Ghostscript threw error: ~a~%" error))))
 
 #+(and mswindows lispworks)
 (defun run-gs (command)

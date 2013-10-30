@@ -68,7 +68,9 @@ to be compatible in terms of number of control points, knot vectors, and degree.
                         (approximated-compatible-curves  *geometry-kernel* 
 							 (the curve-list) :tolerance (the tolerance)) 
 			(return-compatible-curves *geometry-kernel* 
-						  (mapsend (the curve-list) :copy-new)))))
+						  (mapcar #'(lambda(curve)
+							      (the-object curve (copy-new :finalize? nil)))
+							  (the curve-list))))))
   
   :objects (("Sequence of GDL Curve objects. These are the resultant curves which 
  are supposed to be compatible."

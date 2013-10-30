@@ -34,7 +34,8 @@
 			      :respondent self
 			      :vector-graphics-onclick? nil
 			      :length 500 :width 500
-			      ;;:projection-vector (getf *standard-views* :top)
+			      :image-format-default :raphael
+			      :view-direction-default :top
 			      :display-list-object-roots (list (the assembly)))))
 
 
@@ -221,7 +222,7 @@
   :computed-slots ((datum (the edge-1 end))
 
 		   (direction-vector (subtract-vectors (the end) (the start)))
-		   (vertex-list (list (the start) (the end) (the edge-1 end))))
+		   (vertex-list (list (the start) (the end) (the edge-1 end) (the start))))
   
   :hidden-objects
   ((baseline :type 'line
