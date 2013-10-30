@@ -197,17 +197,18 @@
       (:center
        ((:span :style "font-style: italic; font-weight: bold;")
         (:p "Inspecting: " 
+	    (fmt "\"~a\"" (the node strings-for-display))
+	    :br 
+	    "root-path: "
             (esc (format nil "~s" 
                          (cons 'the (reverse (butlast (the node-root-path))))))
             (unless (butlast (the node-root-path))
-              (htm " [the root object]")))
-        (:p " of type:  " ((:span :style "color: blue; cursor: pointer;" 
-                                  :onclick (the (gdl-ajax-call :function-key :visit-definition-in-emacs
-                                                               :arguments (list (format nil "~s" (the node type)))))
-                                  
-                                  
-                                  )
-                           (esc (format nil "~s" (the node type)))))))
+              (htm " [the root object]"))
+	    :br
+	    " type:  " ((:span :style "color: blue; cursor: pointer;" 
+			       :onclick (the (gdl-ajax-call :function-key :visit-definition-in-emacs
+							    :arguments (list (format nil "~s" (the node type))))))
+			(esc (format nil "~s" (the node type)))))))
       
       ((:table :class "inspector-table" :border 1)
        (:tr (:td "Settables") (:td (str (the settables-form control-view))))

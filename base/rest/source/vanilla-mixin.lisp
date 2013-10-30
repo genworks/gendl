@@ -96,10 +96,21 @@ parent), followed by an index number if the part is an element of a sequence."
                                              self)))
    
    (%trickle-down-slots% (gdl-rule::%trickle-down-slots% self))
+
    (%settable-slots% (gdl-rule::%settable-slots% self))
+
+   #+nil
    (%object-keywords% (mapcar #'make-keyword (gdl-rule::%object-keywords% self)))
-   (%hidden-object-keywords% (mapcar #'make-keyword (gdl-rule::%hidden-object-keywords% self)))
    
+   (%object-keywords% (safe-sort (append (the (message-list :category :objects))
+					 (the (message-list :category :quantified-objects)))
+				 #'string-lessp))
+
+   ;;(%hidden-object-keywords% (mapcar #'make-keyword (gdl-rule::%hidden-object-keywords% self)))
+   (%hidden-object-keywords% (safe-sort (append (the (message-list :category :hidden-objects))
+						(the (message-list :category :quantified-hidden-objects)))
+					#'string-lessp))
+
    ("Keyword symbol. The part's simple name, derived from its object specification in the parent or from
   the type name if this is the root instance."
     name-for-display (make-keyword (the %name%))) ;;(gdl-acc::%name% self)
