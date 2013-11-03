@@ -98,10 +98,17 @@
 
 (defun gdl:set-font ()
   (interactive)
-  ;;(ignore-errors (set-frame-font "-bitstream-Courier 10 Pitch-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
-  (ignore-errors (set-frame-font  "-outline-Consolas-normal-normal-normal-mono-15-*-*-*-c-*-fontset-auto2")))
+  (let ((font-size (1+ (/ (display-pixel-height) 100))))
+    (set-frame-font
+     (format 
+      (case system-type
+	(darwin  "-apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1")
+	(windows-nt "-outline-Courier New-normal-normal-normal-mono-%s-*-*-*-c-*-iso8859-1")
+	(gnu/linux "-bitstream-Courier 10 Pitch-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1"))
+      font-size))))
 
 (gdl:set-font)
+
 
 ;; 3.6. Miscellania
 
@@ -168,7 +175,7 @@
 
 (eval-after-load "slime"
   '(progn
-    (slime-setup '(slime-fancy slime-banner))
+    (slime-setup '(slime-fancy slime-banner slime-tramp))
     (add-hook 'slime-connected-hook 'set-slime-shortcuts)
     (add-hook 'slime-connected-hook 'customise-slime)
     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)

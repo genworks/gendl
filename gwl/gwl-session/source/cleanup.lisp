@@ -72,7 +72,7 @@ the object hierarchies rooted at the instances, as well as all associated publis
                  (clear-instance key))) *instance-hash-table*))
 
 
-(defparameter *instance-finalizer* nil 
+(defparameter *instance-finalizers* nil 
   "CL Function of one argument. The argument is a keyword representing
 a GWL Instance ID. This is an application-specific function (either a
 symbol naming a function, or a lambda expression) which will be run
@@ -100,7 +100,8 @@ the object hierarchy rooted at the instance, as well as all associated published
   (clear-instance-from-hash id)
   (unpublish-instance-urls id)
 
-  (when *instance-finalizer* (funcall *instance-finalizer* id)))
+  (dolist (finalizer *instance-finalizers*)
+    (funcall finalizer id)))
 
 
 (defun unpublish-instance-urls (id &optional base-url)

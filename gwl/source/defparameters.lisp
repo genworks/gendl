@@ -46,6 +46,8 @@ instance ids for URI identifiers. Defaults to 999." )
                                            net.aserve::*mime-types*) ht))
 
 
+(defparameter *iid-random-state* (make-random-state t))
+
 (defparameter *query-plist* nil)
 (defparameter *field-plist* nil)
 

@@ -804,6 +804,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:*ent*
      #:*html-referrer*
      #:*instance-hash-table*
+     #:*instance-finalizers*
      #:*max-node-depth*
      #:*developing?*
      #:*mime-file-types*
