@@ -540,11 +540,12 @@ as <tt>:settable</tt> for this to work properly. Any dependent slots in the tree
 respond accordingly when they are next demanded. Note that the slots must be specified as a keyword 
 symbols (i.e. prepended with a colon (``:'')), otherwise they will be evaluated as variables according 
 to normal Lisp functional evaluation rules.
- :arguments (slots-and-values \"Plist. Contains alternating slots and values to which they are to be set.\")"
+ :arguments (slots-and-values \"Plist. Contains alternating slots and values to which they are to be set.\"
+             warn-on-non-toplevel? \"Boolean. Indicates whether a warning should be issued for calling from inside the body of a cached slot. Default is t.\")"
     set-slots!
-    (keys-and-values &key (remember? t))
+    (keys-and-values &key (remember? t) (warn-on-non-toplevel? t))
     (mapc #'(lambda (key value)
-              (the (:set-slot! key value :remember? remember?)))
+              (the (:set-slot! key value :remember? remember? :warn-on-non-toplevel? warn-on-non-toplevel?)))
           (plist-keys keys-and-values) (plist-values keys-and-values)))
    
    (modify-attributes!
