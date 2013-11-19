@@ -191,7 +191,10 @@
 
 (defun load-and-or-start-gendl ()
   (slime-repl)
-  (insert "(unless (find-package :gendl) (load (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname))))")
+  (insert "(unless (find-package :gendl)
+             (let ((load-file (or (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))
+                                  (probe-file \"c:/users/dcooper8/.load-gendl.lisp\"))))
+                (load load-file)))")
   (slime-repl-return)
   (insert (format "(when (find-package :gendl) (load (compile-file \"%semacs/glime.lisp\")))" *gendl-home*))
   (slime-repl-return)
