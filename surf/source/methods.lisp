@@ -281,8 +281,11 @@
   (declare (ignore file-name curves surfaces breps file-type quiet?))
   (error "Don't know how to write native file using ~s.~%" geometry-kernel))
 
-(defmethod read-native-file ((geometry-kernel vanilla-geometry-kernel) file-name &key curves surfaces trees breps file-type quiet?)
-  (declare (ignore file-name curves surfaces trees breps file-type quiet?))
+
+(defgeneric read-native-file (geometry-kernel file-name &key  file-type quiet? sew-and-shrink-breps?))
+
+(defmethod read-native-file ((geometry-kernel vanilla-geometry-kernel) file-name &key  file-type quiet? sew-and-shrink-breps?)
+  (declare (ignore file-name sew-and-shrink-breps? file-type quiet?))
   (error "Don't know how to read native file using ~s.~%" geometry-kernel))
 
 
