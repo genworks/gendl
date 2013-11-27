@@ -405,8 +405,9 @@ The error was: ~a
          ((:div :class "outer-south ui-widget pane")
           ((:div :class "footer ui-widget-header")
            ((:span :class "fltrt") 
-            "powered by " ((:a :href "http://www.genworks.com" :target "_new")"Genworks GDL")
-	    (if (glisp:featurep :smlib) ", " " and ")
+            "powered by " 
+	    ((:a :href "http://www.genworks.com" :target "_new") "Genworks GDL")
+	    (str (if (glisp:featurep :smlib) ", " " and "))
 	    ((:a :href "http://www.quicklisp.org" :target "_new")"Quicklisp")
 	    (if (glisp:featurep :smlib) 
 		(progn

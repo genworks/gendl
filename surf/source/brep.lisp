@@ -143,16 +143,20 @@ The default is T."
     display-iso-curves-wireframe? (not *brep-wireframe-tessellation?*)
     :settable)
    
-   ("Boolean. Determines whether the tessellation grid-lines of the brep are used for wireframe display.
-The default is NIL."
-    display-tessellation-lines-wireframe? *brep-wireframe-tessellation?*
-    :settable)
 
    ("Plist with keys :n-u and :n-v. The number of isoparametric curves to be displayed in each direction. 
 This value comes from the value of :isos on the display-controls if that exists, and defaults 
 to *isos-default* otherwise."
     isos (getf (the display-controls) :isos *brep-isos-default*) 
-    :defaulting :settable)
+    :settable)
+
+
+   ("Boolean. Determines whether the tessellation grid-lines of the brep are used for wireframe display.
+The default is NIL."
+    display-tessellation-lines-wireframe? *brep-wireframe-tessellation?*
+    :settable)
+
+   
 
 
    ("Number. Overall tolerance for the created brep solid. Defaults to nil.

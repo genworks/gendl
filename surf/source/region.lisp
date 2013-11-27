@@ -24,7 +24,7 @@
 
 (define-object region (geometry-kernel-object-mixin base-object)
   
-  :input-slots (%native-region%)
+  :input-slots (%native-region% %native-brep% brep)
   
   :computed-slots ((%native-shells% (get-shells-from-region *geometry-kernel* (the %native-region%))))
   

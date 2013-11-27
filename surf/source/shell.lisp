@@ -24,4 +24,4 @@
 
 (define-object brep-shell (geometry-kernel-object-mixin base-object)
   
-  :input-slots (%native-shell%))
+  :input-slots (%native-shell% %native-brep% brep))
