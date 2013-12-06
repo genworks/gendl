@@ -42,7 +42,7 @@
 ;;         (errors ignored in case running in a console terminal)
 (ignore-errors (tool-bar-mode -1))
 
-(setq visible-bell t)
+;;(setq visible-bell t)
 
 ;; FLAG -- uncomment the following if you don't need a menu bar.
 ;;         (errors ignored in case running in a console terminal)
@@ -52,11 +52,17 @@
 
 ;; 3.2. Set up color-theme and solarized color-themes
 
-(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme"))
+(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-sitaramv-solaris)
 ;;(color-theme-feng-shui)
+
+;; 3.2.1 Set up org-mode-pomodoro for task time management and tracking:
+(add-to-list 'load-path (concat *gendl-home* "emacs/org-pomodoro"))
+(require 'org-pomodoro)
+(add-to-list 'load-path (concat *gendl-home* "emacs/alert"))
+(require 'alert)
 
 ;; 3.3. Indents
 
@@ -90,6 +96,8 @@
   
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cc" 'org-capture))
+
+
 
 
 (gdl:global-keys)
@@ -250,13 +258,21 @@
 	       '("elpa" . "http://tromey.com/elpa/"))
   ;; Add the user-contributed repository
   (add-to-list 'package-archives
-	       '("marmalade" . "http://marmalade-repo.org/packages/")))
+	       '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+  (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  
+  )
 
 
 ;; 5.  MAKE IT HAPPEN
 
 (prior-to-glime)
 (glime)
+
+
+ (setq org-timer-default-timer 25 org-timer-done-hook '(progn (ding) (ding) (ding)))
 
 
 ;; A.  REFERENCES
