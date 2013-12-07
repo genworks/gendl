@@ -59,10 +59,11 @@
 ;;(color-theme-feng-shui)
 
 ;; 3.2.1 Set up org-mode-pomodoro for task time management and tracking:
-(add-to-list 'load-path (concat *gendl-home* "emacs/org-pomodoro"))
-(require 'org-pomodoro)
 (add-to-list 'load-path (concat *gendl-home* "emacs/alert"))
 (require 'alert)
+(add-to-list 'load-path (concat *gendl-home* "emacs/org-pomodoro"))
+(require 'org-pomodoro)
+
 
 ;; 3.3. Indents
 
@@ -121,6 +122,7 @@
 ;; 3.6. Miscellania
 
 (show-paren-mode t)
+
 
 ;; Use M-x clear-kill-ring in case you have too much garbage in the
 ;; kill ring
