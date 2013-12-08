@@ -118,9 +118,9 @@ section on http://genworks.com.
 ### Training/Coaching
 
 * Genworks would like to host free Gendl/GDL training seminars in
-  Metro Detroit in the near future. Please contact
-  [Genworks](http://genworks.com) if you are interested in being
-  notified of any upcoming seminars.
+  Metro Detroit and possible other locations in the near
+  future. Please contact [Genworks](http://genworks.com) if you are
+  interested in being notified of any upcoming seminars.
 
 
 ### Gendl source code Architecture:
