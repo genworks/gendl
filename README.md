@@ -100,11 +100,11 @@ loading Glime and Gendl into an emacs environment.
 
 ### Further Documentation
 
-Documentation is in documentation/tutorial/pdf/tutorial.pdf and
-published [here](http://genworks.com/downloads/tutorial.pdf), and this
-very much an active work in progress. Training tutorials and videos
-are also in progress and in their current state are available in the
-Documentation section on http://genworks.com.
+Documentation is published
+[here](http://genworks.com/downloads/tutorial.pdf), and this very much
+an active work in progress. Training tutorials and videos are also in
+progress and in their current state are available in the Documentation
+section on http://genworks.com.
 
 Training videos and other resources are available in the Documentation
 section of the [Genworks site](http://genworks.com).
