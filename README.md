@@ -30,26 +30,18 @@ for creating your own custom web-based user interfaces.
 - Object and value caching (i.e. runtime memorization)
 - Dependency-tracking (cached values get recomputed when needed)
 
+Gendl ships with a full set of wireframe 3D and 2D geometry primitives
+along with output *lenses* for standard browser-based viewing and
+exchange formats such as PDF, SVG, X3D, PNG, as well as DXF.
+
 Optionally there is available a set of surface- and solid-modeling
 primitives which currently depend on SMLib, a commercial geometry
-kernel available from Solid Modeling Solutions, Inc.
-
-The Surface (`:surf`) package (in the `surf/` folder) contains all the
-high-level Surface and Solid modeling primitives. These primitives
-provide a protocol for what the objects should be able to do
-(i.e. what messages they should answer), but without the SMLib library
-and associated middleware available, they will not be able to return
-any results.  The SMLib kernel and associated middleware are available
-as part of the commercial Genworks® GDL product from [Genworks®
-International](http://genworks.com).
-
-If you have a different favorite solid modeling kernel
-(e.g. OpenCascade, Parasolid, Geometros sgCore), then it may be
-possible to interface the existing Surface package to that kernel, by
-implementing the methods in surf/source/methods.lisp. 
+kernel available from Solid Modeling Solutions, Inc. SMLib enables the
+use of standard CAD data exchange formats such as Iges, STEP, and STL
+(for 3D printing). 
 
 
-### Requirements:
+### Basic Requirements:
 
  1. Common Lisp: Allegro CL 9.0, LispWorks 6.x, SBCL, or CCL (Clozure
     CL). Without web interface, initial ports to ECL, ABCL, and CLISP
@@ -183,6 +175,25 @@ Including the base, there are eight modules supported with Gendl:
 
 * `:regression` - (gdl/regression) regression test utilities and tests.
 
+
+### Alternative Geometry Kernels
+
+If you have a different favorite solid modeling kernel
+(e.g. OpenCascade, Parasolid, Geometros sgCore), then an interesting
+project would be to interface the existing Surface package to that
+kernel, by implementing the methods in surf/source/methods.lisp.
+
+The Surface (`:surf`) package (in the `surf/` folder) contains all the
+high-level Surface and Solid modeling primitives currently implemented
+in Gendl. These primitives provide a protocol for what the objects
+should be able to do (i.e. what messages they should answer), but
+without the SMLib library and associated middleware available, they
+will not be able to return any results.  The SMLib kernel and
+associated middleware are available as part of the commercial
+Genworks® GDL product from [Genworks®
+International](http://genworks.com).
+
+
 ### License
 
 [Affero Gnu General Public License](http://www.gnu.org/licenses/agpl.txt).
@@ -213,4 +224,5 @@ Genworks is open to entertain bids for providing cleanly mergeable
 fixes to bugs listed on the [Github Issues
 List](https://github.com/genworks/gendl/issues?state=open). Please
 contact [Genworks](http://genworks.com) for details.
+
 
