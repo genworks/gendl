@@ -58,12 +58,6 @@
 (color-theme-sitaramv-solaris)
 ;;(color-theme-feng-shui)
 
-;; 3.2.1 Set up org-mode-pomodoro for task time management and tracking:
-(add-to-list 'load-path (concat *gendl-home* "emacs/alert"))
-(require 'alert)
-(add-to-list 'load-path (concat *gendl-home* "emacs/org-pomodoro"))
-(require 'org-pomodoro)
-
 
 ;; 3.3. Indents
 
@@ -94,9 +88,7 @@
   ;; http://emacswiki.org/emacs/AutoIndentation).
   ;;
   ;;(global-set-key (kbd "C-m") 'newline-and-indent)
-  
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cc" 'org-capture))
+  )
 
 
 
@@ -273,8 +265,6 @@
 (prior-to-glime)
 (glime)
 
-
- (setq org-timer-default-timer 25 org-timer-done-hook '(progn (ding) (ding) (ding)))
 
 
 ;; A.  REFERENCES
