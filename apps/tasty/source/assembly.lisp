@@ -391,7 +391,9 @@ The error was: ~a
          
          ((:div :class "outer-west ui-widget pane")
           ((:div :class "header ui-widget-header")"Tree")
-          ((:div :class "ui-widget-content")(str (the tree main-div)))
+          ((:div :class "ui-widget-content" 
+		 :style (format nil "background-color: ~a" (or (getf *colors-default* :background) "#fafafa")))
+		 (str (the tree main-div)))
           ((:div :class "footer ui-widget-header") 
            "Click-mode:" (str (the tree-status-object main-div)))
           )
@@ -403,8 +405,15 @@ The error was: ~a
          ((:div :class "outer-south ui-widget pane")
           ((:div :class "footer ui-widget-header")
            ((:span :class "fltrt") 
-            "powered by " ((:a :href "http://www.genworks.com" :target "_new")"Genworks GDL")
-            "- empowered by " ((:a :href "http://www.ke-works.com" :target "_new")"KE-works"))
+            "powered by " 
+	    ((:a :href "http://www.genworks.com" :target "_new") "Genworks GDL")
+	    (str (if (glisp:featurep :smlib) ", " " and "))
+	    ((:a :href "http://www.quicklisp.org" :target "_new")"Quicklisp")
+	    (if (glisp:featurep :smlib) 
+		(progn
+		  (str ", and ")
+		  (htm ((:a :href "http://www.smlib.com" :target "_new") "SMLib")))
+		""))
            ((:span) "GDL status: ")
            ((:span :id "gdlStatus")"Done.")
            (when *tasty-developing?*

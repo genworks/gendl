@@ -96,10 +96,21 @@ parent), followed by an index number if the part is an element of a sequence."
                                              self)))
    
    (%trickle-down-slots% (gdl-rule::%trickle-down-slots% self))
+
    (%settable-slots% (gdl-rule::%settable-slots% self))
+
+   #+nil
    (%object-keywords% (mapcar #'make-keyword (gdl-rule::%object-keywords% self)))
-   (%hidden-object-keywords% (mapcar #'make-keyword (gdl-rule::%hidden-object-keywords% self)))
    
+   (%object-keywords% (safe-sort (append (the (message-list :category :objects))
+					 (the (message-list :category :quantified-objects)))
+				 #'string-lessp))
+
+   ;;(%hidden-object-keywords% (mapcar #'make-keyword (gdl-rule::%hidden-object-keywords% self)))
+   (%hidden-object-keywords% (safe-sort (append (the (message-list :category :hidden-objects))
+						(the (message-list :category :quantified-hidden-objects)))
+					#'string-lessp))
+
    ("Keyword symbol. The part's simple name, derived from its object specification in the parent or from
   the type name if this is the root instance."
     name-for-display (make-keyword (the %name%))) ;;(gdl-acc::%name% self)
@@ -434,7 +445,8 @@ error will be generated.
  :arguments (slot \"Keyword Symbol\"
              value \"Lisp Object. (e.g. Number, String, List, etc.)\")
 
- :&key ((remember? t) \"Boolean. Determines whether to save in current version-tree.\")"
+ :&key ((remember? t) \"Boolean. Determines whether to save in current version-tree.\"
+        (warn-on-non-toplevel? t) \"Boolean. Determines whether to warn if this is called from the body of a cached slot.\" )"
     set-slot!
     (attribute value &key (remember? t) (warn-on-non-toplevel? t))
     
@@ -528,11 +540,12 @@ as <tt>:settable</tt> for this to work properly. Any dependent slots in the tree
 respond accordingly when they are next demanded. Note that the slots must be specified as a keyword 
 symbols (i.e. prepended with a colon (``:'')), otherwise they will be evaluated as variables according 
 to normal Lisp functional evaluation rules.
- :arguments (slots-and-values \"Plist. Contains alternating slots and values to which they are to be set.\")"
+ :arguments (slots-and-values \"Plist. Contains alternating slots and values to which they are to be set.\"
+             warn-on-non-toplevel? \"Boolean. Indicates whether a warning should be issued for calling from inside the body of a cached slot. Default is t.\")"
     set-slots!
-    (keys-and-values &key (remember? t))
+    (keys-and-values &key (remember? t) (warn-on-non-toplevel? t))
     (mapc #'(lambda (key value)
-              (the (:set-slot! key value :remember? remember?)))
+              (the (:set-slot! key value :remember? remember? :warn-on-non-toplevel? warn-on-non-toplevel?)))
           (plist-keys keys-and-values) (plist-values keys-and-values)))
    
    (modify-attributes!

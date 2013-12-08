@@ -1,5 +1,5 @@
 ;;
-;; Copyright 20012 Genworks International
+;; Copyright 2012 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -281,7 +281,24 @@
 			(when fill (fmt "~a.attr({fill: '~a'});" name fill)))
 		      (let ((line-thickness (getf display-controls :line-thickness)))
 			(when line-thickness 
-			  (fmt "~&~a.attr('stroke-width','~a');" name (number-round line-thickness 4))))
+			  (fmt "~&~a.attr('stroke-width','~a');" name (number-round line-thickness 4)))
+
+			(fmt " ~a.node.onmouseover = function (){~a.attr({'stroke-width': '~a'});};" 
+			     name name 
+			     (floor (to-single-float (* (or line-thickness 1) 3))))
+		      
+			(fmt " ~a.node.onmouseout = function (){~a.attr({'stroke-width': '~a'});};" 
+			     name name (to-single-float (or line-thickness 1))))
+		      
+		      ;;
+		      ;; FLAG -- do something better here than ignore-errors
+		      ;;
+		      (when (ignore-errors (and (the viewport) (eql (the viewport digitation-mode) :select-object)))
+			(fmt "~a.node.onclick = function (event) {~a};" name
+			     (the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
+							  :arguments (list object)))))
+		      
+
 
 		      (write-the (drag-controls :name name :display-controls display-controls))
 

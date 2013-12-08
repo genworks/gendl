@@ -42,12 +42,19 @@
 	    :p10 (make-point 15 0 -15)
 	    :p11 (make-point 15 0 15))
      
+     
+     (separated-2 :type 'surf::separated-solid-2
+		  :brep (the cylinder)
+		  :other-brep (the plane)
+		  :approximation-tolerance (* 0.001 (the-child brep adaptive-tolerance)))
+     
+
      (separated :type 'separated-solid
 		:brep (the cylinder)
 		:other-brep (the plane)
 		:approximation-tolerance (* 0.001 (the-child brep adaptive-tolerance))
 		;;:cap-results? t
-)))
+		)))
 
 
 (register-test-definition 'separated-solid-test)

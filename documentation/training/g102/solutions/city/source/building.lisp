@@ -12,6 +12,40 @@
 ;; group exercise.
 ;;
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (define-object proximity-rule ()
+
+    :input-slots (current-building neighbors target-type distance rule-data)
+  
+    :computed-slots
+    ((minimum-distance (let (result)
+			 (dolist (building (the violated-buildings) result)
+			   (let ((distance (3d-distance  
+					    (the current-building center)
+					    (the-object building center))))
+			     (when (or (null result) (< distance (first result)))
+			       (setq result (list distance building)))))))
+   
+     (violated? (not (null (the violated-buildings))))
+     
+     ;;
+     ;; This will end up as a list of other buildings which violate the  
+     ;; proximity rule. It can also be nil, which is the same as the 
+     ;; empty list, if no buildings are close enough to violate.
+     ;;
+     (violated-buildings 
+      (let (result)
+	(dolist (building (the neighbors) (nreverse result))
+	  (when (and (typep building (the target-type))
+		     (not (eql building (the current-building)))
+		     (< (3d-distance 
+			 (the current-building center)
+			 (the-object building center))
+			(the distance)))
+	    (push building result))))))))
+
+
+
 (define-object building (box)
   
   :input-slots (section proximity-rules closest?)
@@ -81,33 +115,4 @@
   ((color :red)))
 
 
-(define-object proximity-rule ()
 
-  :input-slots (current-building neighbors target-type distance)
-  
-  :computed-slots
-  ((minimum-distance (let (result)
-		       (dolist (building (the violated-buildings) result)
-			 (let ((distance (3d-distance  
-					  (the current-building center)
-					  (the-object building center))))
-			   (when (or (null result) (< distance (first result)))
-			     (setq result (list distance building)))))))
-   
-   (violated? (not (null (the violated-buildings))))
-     
-   ;;
-   ;; This will end up as a list of other buildings which violate the  
-   ;; proximity rule. It can also be nil, which is the same as the 
-   ;; empty list, if no buildings are close enough to violate.
-   ;;
-   (violated-buildings 
-    (let (result)
-      (dolist (building (the neighbors) (nreverse result))
-	(when (and (typep building (the target-type))
-		   (not (eql building (the current-building)))
-		   (< (3d-distance 
-		       (the current-building center)
-		       (the-object building center))
-		      (the distance)))
-	  (push building result)))))))

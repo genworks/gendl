@@ -103,7 +103,9 @@ Perhaps a zombie process is holding port ~a?~%" port port))
   ;; is still needed, currently LW-only.
   ;;
   (glisp:initialize-multiprocessing)
-
+  
+  (setq *iid-random-state* (make-random-state t))
+  
   (let (anything-changed?)
     (setq anything-changed? (glisp:set-settings *settings*))
     (publish-images) (publish-statics) (publish-style) (start-gwl) 

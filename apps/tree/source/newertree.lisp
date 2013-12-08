@@ -160,8 +160,8 @@ Converting to a string to avoid error."
                                          ((< (the tatu-line-thickness) 1) (* 400 (the tatu-line-thickness)))
                                          ((<= (the tatu-line-thickness) 3) (* 300 (the tatu-line-thickness)))
                                          (t 900))))
-                                   (if font-weight (format nil " font-weight: ~a; " font-weight) ""))))
-                                                                 
+                                   (format nil " font-weight: ~a; " font-weight))))
+		
                 :onclick (when (the onclick-function)
                            (funcall  (the onclick-function) (the target-object))))
          

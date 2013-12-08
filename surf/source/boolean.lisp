@@ -22,35 +22,9 @@
 (in-package :surf)
 
 
-(define-object boolean-merge (brep)
-
-  :documentation (:description "Generalized Merge container for doing boolean operations. This is not to be used directly, but is 
-mixed into subtracted-solid, united-solid, intersected-solid, and separated-solid. 
-The specific operation is specified in the respective subclass.")
-  
+(define-object boolean-tolerance-mixin ()
   :input-slots
-  ( 
-   ("GDL Brep object or object containing a brep. First of the breps to be merged"
-    brep nil)
-   
-   "GDL Brep object or object containing a brep, or list of brep objects or object containing a brep. 
-Second (or rest) of the breps to be merged into the given <tt>brep</tt>"
-   other-brep 
-   
-   operation 
-   
-   
-   ("Boolean. If set to non-nil, throw warning but not error if any of the input breps has more than 
- one infinite region. Defaults to *boolean-allow-multiple-regions?*, which itself defaults to nil."
-    allow-multiple-regions? *boolean-allow-multiple-regions?*)
-   
-   ("Boolean. If set to non-nil, we throw an error instead of a warning if the resulting brep does not
-pass the built-in validation test. If nil, we throw a warning but continue to return the resulting brep.
-Defaults to *boolean-error-on-invalid-brep?* which itself defaults to t."
-    error-on-invalid? *boolean-error-on-invalid-brep?*)
-   
-   
-   ("Number. Defaults to *approximation-tolerance-factor*. This is multiplied by  the minimum of the 
+  (("Number. Defaults to *approximation-tolerance-factor*. This is multiplied by  the minimum of the 
 adaptive-tolerance of any of the input breps to produce the approximation-tolerance-adaptive."
     approximation-tolerance-factor (or *approximation-tolerance-factor* 5))
    
@@ -68,25 +42,14 @@ tenths (e.g. it will be 0.01, 0.001, 0.001), however if this evaluates as zerop,
                   (apply #'max
                          (mapsend (the rest-breps)
                                   :adaptive-tolerance)))
-           first-tolerance))))
+	     first-tolerance))))
    
    
    ("Number. Defaults to *3d-approximation-tolerance-default* if non-nil. If this value is nil,
 then this defaults to the approximation-tolerance-adaptive." 
     approximation-tolerance (or *boolean-operation-tolerance-default*
-                                (the approximation-tolerance-adaptive)))
-   
-   
-   ("Number. Defaults to *angle-tolerance-radians-default*." angle-tolerance *angle-tolerance-radians-default*)
-   
-   
-   ("Boolean. Indicates whether we should try to sew and orient the resulting brep. Usually a good idea 
-and this is defaulted to t, except for merged-solid where we default this to nil."
-    sew-and-orient? t)
-   
-   (manifold? t))
+                                (the approximation-tolerance-adaptive))))
 
-  
   :computed-slots
   ((first-brep (let ((brep 
                       (cond ((the brep) (the brep))
@@ -100,13 +63,71 @@ and this is defaulted to t, except for merged-solid where we default this to nil
                                    (ensure-list (the other-brep)))
                                   (t (rest (ensure-list (the other-brep)))))))
                  (mapcar #'(lambda(brep)
-                             (the (ensure-brep brep))) breps)))
+                             (the (ensure-brep brep))) breps))))
+
+  :functions
+  ((ensure-brep (brep)
+		(if (typep brep 'brep)
+		    brep
+		    (let ((brep (ignore-errors (the-object brep brep))))
+		      (if (typep brep 'brep)
+			  brep
+			  (error "Given brep must be of type brep, or contain an object of type brep.")))))))
+
+
+
+
+(define-object boolean-merge (boolean-tolerance-mixin brep)
+
+  :documentation (:description "Generalized Merge container for doing
+boolean operations.  This is not to be used directly, but is mixed
+into subtracted-solid, united-solid, intersected-solid, and
+separated-solid. The specific operation is specified in the respective
+subclass.")
+  
+  :input-slots
+  ( 
+   ("GDL Brep object or object containing a brep. First of the breps to be merged"
+    brep nil)
+   
+   "GDL Brep object or object containing a brep, or list of brep
+objects or object containing a brep.  Second (or rest) of the breps to
+be merged into the given <tt>brep</tt>" 
+   other-brep
+   
+   operation 
+   
+   
+   ("Boolean. If set to non-nil, throw warning but not error if any of
+ the input breps has more than one non-infinite region. Defaults to
+ *boolean-allow-multiple-regions?*, which itself defaults to nil."
+ allow-multiple-regions? *boolean-allow-multiple-regions?*)
+   
+   ("Boolean. If set to non-nil, we throw an error instead of a
+warning if the resulting brep does not pass the built-in validation
+test. If nil, we throw a warning but continue to return the resulting
+brep.  Defaults to *boolean-error-on-invalid-brep?* which itself
+defaults to t."  error-on-invalid? *boolean-error-on-invalid-brep?*)
+   
+   
+   ("Number. Defaults to *angle-tolerance-radians-default*."
+   angle-tolerance *angle-tolerance-radians-default*)
+   
+   
+   ("Boolean. Indicates whether we should try to sew and orient the
+resulting brep. Usually a good idea and this is defaulted to t, except
+for merged-solid where we default this to nil."  sew-and-orient? t)
+   
+   (manifold? t))
+
+  
+  :computed-slots
+  (
    
    
 
    (%merge-and-brep 
     (progn
-      
       (when (or (> (the first-brep regions number-of-elements) 2)
                 (not (every #'(lambda(number) (<= number 2))
                             (mapcar #'(lambda(object) (the-object object regions number-of-elements))
@@ -173,8 +194,6 @@ and this is defaulted to t, except for merged-solid where we default this to nil
         ;;
         ;;(tag-edges *geometry-kernel* current-brep (get-long *geometry-kernel* current-brep))
         ;;
-          
-          
         (ecase (the operation)
           ((:difference :union :intersection :merge) 
            (list :merge-container merge-container :native-brep current-brep))
@@ -188,18 +207,13 @@ and this is defaulted to t, except for merged-solid where we default this to nil
                 (not (every #'(lambda(number) (<= number 2))
                             (mapcar #'(lambda(object) (the-object object regions number-of-elements))
                                     (the rest-breps)))))
-        
         (let ((message (format nil "~%~%in ~a -~%~%Attempting booleans where brep has ~~a non-infinite regions.~%"
                                (cons 'the (reverse (the root-path))))))
           (if (the allow-multiple-regions?)
-              (warn message 
-                    (1- (the first-brep regions number-of-elements)))
-            (error message 
-                   (1- (the first-brep regions number-of-elements))))))
+              (warn message (1- (the first-brep regions number-of-elements)))
+            (error message (1- (the first-brep regions number-of-elements))))))
     
-      (if (and (the first-brep)
-               (null (the rest-breps)))
-                      
+      (if (and (the first-brep) (null (the rest-breps)))
           (progn 
             (warn "Boolean operation invoked on a single brep, this has no effect and 
 returns the original brep. 
@@ -240,7 +254,6 @@ This occured in:
 
 
 
-
 (define-object merged-solid (boolean-merge)
   :documentation (:description "Given two brep solids or a brep solid and an open face represented as a brep,
 performs a merge operation. Optionally (with make-manifold? t) makes the result manifold by trimming 
@@ -261,7 +274,23 @@ and this is defaulted to t, except for merged-solid where we default this to nil
                    
                    (operation :merge)))
   
-  
+
+
+(define-object separated-solid-2 (base-object boolean-tolerance-mixin)
+
+  :input-slots (brep other-brep)
+
+  :objects ((breps :type 'brep
+		   :sequence (:size (the regioned breps number-of-elements))
+		   :display-controls (the-child built-from display-controls)
+		   :built-from (the regioned (breps (the-child index)))))
+
+  :hidden-objects ((merged :type 'merged-solid
+			   :pass-down (brep other-brep approximation-tolerance))
+		   
+		   (regioned :type 'regioned-solid
+			     :brep (the merged))))
+
 
 
 (define-object separated-solid (boolean-merge)
@@ -291,8 +320,6 @@ repeated in order. Defaults to a list with keys:
                    
                    (number-of-colors (length (the section-colors)))
                    
-
-
                    (
 		    ;;native-array-and-breps 
 		    native-breps

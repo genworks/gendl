@@ -22,6 +22,11 @@
 (in-package :gwl)
 
 
+(defun encode64-downcase (item)
+  (let ((*print-case* :downcase))
+    (base64-encode-list item)))
+    
+
 (define-object remote-object (vanilla-remote)
   :no-vanilla-mixin? t
   
@@ -31,7 +36,7 @@
                 
                 (remote-id (read-safe-string
                             (let* ((current-id (the previous-id))
-                                   (encoded-args (gwl:base64-encode-list 
+                                   (encoded-args (encode64-downcase
                                                   (encode-plist-args 
                                                    (append (list :current-id current-id)
                                                            (the remote-object-args))))))
@@ -46,8 +51,10 @@
   
   :computed-slots
   ((remote-object-args (append (list :type (format nil "~a::~a" 
-                                                   (package-name (symbol-package (the remote-type)) )
-                                                   (symbol-name (the remote-type)))
+                                                   (string-downcase
+						    (package-name (symbol-package (the remote-type)) ))
+                                                   (string-downcase 
+						    (symbol-name (the remote-type))))
                                      :package *package*
                                      :host (the host)
                                      :name (the %name%)
@@ -71,7 +78,7 @@
     ;; FLAG -- *notify-cons* is going to be broken now... have to unmarshal/marshal from hash table. 
     ;;         hold off on doing this until we switch to an Abstract Associative Map. 
     ;;
-    (let ((encoded-args (gwl:base64-encode-list (encode-plist-args (list :message (make-keyword message)
+    (let ((encoded-args (encode64-downcase (encode-plist-args (list :message (make-keyword message)
                                                                          :part-name (make-keyword part-name)
                                                                          :child (encode-for-http child)
                                                                          :notify-cons (encode-for-http gdl::*notify-cons*)
@@ -88,18 +95,16 @@
 						      (the host) (the port) encoded-args)))
 
         (declare (ignore length)) 
-        
+
+
         (if (listp result)
-            (if (keywordp (first result))
-                (evaluate-object (first result) (rest result))
-              (mapcar #'(lambda(item)
-                          (evaluate-object (first item) (rest item))) result))
-          result))))
+	    (evaluate-object (first result) (rest result))
+	    result))))
    
    
    (unbind-remote-slot 
     (slot)
-    (let ((encoded-args (gwl:base64-encode-list 
+    (let ((encoded-args (encode64-downcase 
                          (encode-plist-args (list :slot slot 
                                                   :remote-id (the remote-id)
                                                   :remote-root-path (the remote-root-path))))))
@@ -115,16 +120,17 @@
    
    (send
     (message &rest args)
-    (let ((encoded-args (gwl:base64-encode-list (encode-plist-args (list :message (make-keyword message)
-                                                                         :notify-cons (encode-for-http gdl::*notify-cons*)
-                                                                         :args args
-                                                                         :remote-id (the remote-id)
-                                                                         :remote-root-path (the remote-root-path)
-                                                                         :package *package*)))))
+    (let ((encoded-args (encode64-downcase 
+			 (encode-plist-args (list :message (make-keyword message)
+						  :notify-cons (encode-for-http gdl::*notify-cons*)
+						  :args args
+						  :remote-id (the remote-id)
+						  :remote-root-path (the remote-root-path)
+						  :package *package*)))))
 
       
       (multiple-value-bind
-          (result length)
+	    (result length)
           (read-safe-string
            (base64-decode-safe
             (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-message?args=~a"
@@ -132,7 +138,6 @@
 
         (declare (ignore length))
 
-        
         ;;
         ;; FLAG -- pass result through generic function to sanitize
         ;;
@@ -155,7 +160,7 @@
    
    (send-output 
     (message format &rest args)
-    (let ((encoded-args (gwl:base64-encode-list (encode-plist-args (list :message (make-keyword message)
+    (let ((encoded-args (encode64-downcase (encode-plist-args (list :message (make-keyword message)
                                                                          :format format
                                                                          :args args
                                                                          :remote-id (the remote-id)
@@ -183,9 +188,14 @@
           (t (cons (decode-from-http (first list)) (decode-from-http (rest list)))))))
 
 (defun encode-plist-args (plist)
-  (when plist
-    (cons (first plist)
-          (cons (encode-for-http (second plist)) (encode-plist-args (rest (rest plist)))))))
+  ;;
+  ;; FLAG -- not sure if this is the perfect place to do this - have to downcase to work 
+  ;; with mlisp slave. 
+  ;;
+  (let ((*print-case* :downcase))
+    (when plist
+      (cons (first plist)
+	    (cons (encode-for-http (second plist)) (encode-plist-args (rest (rest plist))))))))
 
 
 (defmethod encode-for-http ((item t)) item)
@@ -194,7 +204,7 @@
   (format nil "~a" item))
 
 (defmethod encode-for-http ((item package))
-  (package-name item))
+  (string-downcase (package-name item)))
 
 (defmethod encode-for-http ((item list))
   (when item
@@ -218,7 +228,9 @@
   (let ((id (or (the-object item root local-remote-id)
                 (let ((new-id (make-keyword (make-new-instance-id))))
                   (setf (gethash new-id *remote-objects-hash*) (the-object item root))
-                  (the-object item root (set-slot! :local-remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
+                  (the-object item root (set-slot! :local-remote-id new-id 
+						   :remember? nil 
+						   :warn-on-non-toplevel? nil))
                   new-id))))
     (encode-object-for-http item id)))
 
@@ -226,7 +238,9 @@
   (let ((id (or (the-object item root remote-id)
                 (let ((new-id (make-keyword (make-new-instance-id))))
                   (setf (gethash new-id *remote-objects-hash*) (the-object item root))
-                  (the-object item root (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
+                  (the-object item root (set-slot! :remote-id new-id 
+						   :remember? nil 
+						   :warn-on-non-toplevel? nil))
                   new-id))))
     (encode-object-for-http item id)))
 

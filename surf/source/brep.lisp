@@ -32,8 +32,6 @@ to make up a solid brep."
                   
                   :author "Dave Cooper, Genworks"
                   )
-
-  
   
   :input-slots 
   (
@@ -145,16 +143,20 @@ The default is T."
     display-iso-curves-wireframe? (not *brep-wireframe-tessellation?*)
     :settable)
    
-   ("Boolean. Determines whether the tessellation grid-lines of the brep are used for wireframe display.
-The default is NIL."
-    display-tessellation-lines-wireframe? *brep-wireframe-tessellation?*
-    :settable)
 
    ("Plist with keys :n-u and :n-v. The number of isoparametric curves to be displayed in each direction. 
 This value comes from the value of :isos on the display-controls if that exists, and defaults 
 to *isos-default* otherwise."
     isos (getf (the display-controls) :isos *brep-isos-default*) 
-    :defaulting :settable)
+    :settable)
+
+
+   ("Boolean. Determines whether the tessellation grid-lines of the brep are used for wireframe display.
+The default is NIL."
+    display-tessellation-lines-wireframe? *brep-wireframe-tessellation?*
+    :settable)
+
+   
 
 
    ("Number. Overall tolerance for the created brep solid. Defaults to nil.
@@ -198,17 +200,16 @@ Defaults to a list with keys:
 
    ("FLAG -- for debug testing only 
 
-   Plist with :min-x :max-x :min-y :max-y :min-z :max-z. Returns the extreme points of the 
-brep in each direction (on the brep itself, not necessarily on the bounding box)."
-    
+   Plist with :min-x :max-x :min-y :max-y :min-z :max-z. Returns the
+extreme points of the bounding-box of the brep in each direction. This
+will be updated to return points on the brep itself, not necessarily
+the bounding box."
     
     min-max-x-y-z (let ((box (the bounding-box)))
 		    
 		    ;;
 		    ;; FLAG -- evaluate this just to see if it's the prob
 		    ;;
-		    
-		    (the bounding-box-solid faces number-of-elements)
 		    
                     (list :min-x (first box)
                           :max-x (second box)

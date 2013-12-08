@@ -12,7 +12,7 @@
 		)))
 
 
-(define-view (html-format surface-ui)()
+(define-lens (html-format surface-ui)()
   :output-functions
   ((main-sheet
     ()

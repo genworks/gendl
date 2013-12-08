@@ -599,7 +599,13 @@ CL \"fround\" function.
                 
                 
 (defmethod evaluate-object ((category t) args)
-  (cons category args))
+  (cons (if (consp category)
+	    (evaluate-object (first category) (rest category))
+	    category)
+	(mapcar #'(lambda(arg)
+		    (if (consp arg)
+			(evaluate-object (first arg) (rest arg))
+			arg)) args)))
 
 
 (defun iso-8601-date (universal-time &key include-time?)

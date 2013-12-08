@@ -55,9 +55,20 @@ by user application code.")
                         (format nil "~a(~a)" (first component) (second component))))
                   root-path)))
 
+
+;;
+;; FLAG -- this is not thread-safe - you can get the same instance ID
+;; if called simultaneously by two threads.
+;;
+;; FLAG -- we also have to protect against the (unlikely but possible)
+;; case that the same number comes back twice within a second from the
+;; random generator. Only way is to store the resutls and check
+;; against previous results.
+;;
+;;
 (defun make-new-instance-id (&key (max-value *max-id-value*))
   (let ((*print-base* 16) (universal-time (get-universal-time))
-        (random (random max-value (make-random-state t))))
+        (random (random max-value *iid-random-state*)))
     (format nil "~a~a" random universal-time)))
          
 
@@ -311,9 +322,13 @@ by user application code.")
 
 
 (defun publish-gwl-app (path string-or-symbol &key make-object-args)
-  "Void. Publishes an application, optionally with some initial arguments to be passed in as input-slots
-:arguments (path string-or-symbol)
-:&key (make-object-args)"
+  "Void. Publishes an application, optionally with some initial arguments to be passed in as input-slots.
+
+:arguments (path \"String. The URL pathname component to be published.\"
+            string-or-symbol \"String or symbol. The object type to insantiate.\")
+
+:&key (make-object-args \"Plist. Extra arguments to pass to make-object.\")
+"
 
   (publish :path path
            :function #'(lambda(req ent)

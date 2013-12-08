@@ -56,6 +56,28 @@ of the objects themselves is returned.
 ;; FLAG -- rewrite the following without using apply so we don't risk
 ;;         hitting function argument limit.
 ;;
+
+
+
+(defmacro append-elements (aggregate &optional expression filter)
+  "List of Objects [Macro]. Returns an appended list of <tt>expression</tt> from each element of an aggregate, 
+with an optional filter.
+
+:arguments (aggregate \"GDL aggregate object. (e.g. from a <tt>:sequence (:size ..)</tt> <tt>:object</tt> specification).\")
+:&optional (expression \"Expression using <tt>the-element</tt>. Similar to a <tt>the-object</tt> reference, which should return a list.\")"
+  (unless expression (error "append-elements requires an expression keyword argument, using the-element.~%"))
+  (let ((result (gensym))  (value (gensym)))
+    `(let ((,result nil))
+       (dolist (%object% (the-object ,aggregate :list-elements))
+	 (let ((,value ,expression))
+	   (let ((,value (funcall (or ,filter #'identity) ,value)))
+	     (if (null ,result) 
+		 (setq ,result ,value)
+		 (nconc ,result ,value)))))
+       ,result)))
+
+
+#+nil
 (defmacro append-elements (aggregate &optional expression filter)
   "List of Objects [Macro]. Returns an appended list of <tt>expression</tt> from each element of an aggregate, 
 with an optional filter.

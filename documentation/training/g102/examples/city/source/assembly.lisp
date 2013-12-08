@@ -114,7 +114,7 @@
 	    :length length :center center)))))
 	  
 
-(define-view (html-format assembly)()
+(define-lens (html-format assembly)()
   :output-functions
   ((model-inputs
     ()

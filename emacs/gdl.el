@@ -42,7 +42,7 @@
 ;;         (errors ignored in case running in a console terminal)
 (ignore-errors (tool-bar-mode -1))
 
-(setq visible-bell t)
+;;(setq visible-bell t)
 
 ;; FLAG -- uncomment the following if you don't need a menu bar.
 ;;         (errors ignored in case running in a console terminal)
@@ -52,11 +52,12 @@
 
 ;; 3.2. Set up color-theme and solarized color-themes
 
-(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme"))
+(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-sitaramv-solaris)
 ;;(color-theme-feng-shui)
+
 
 ;; 3.3. Indents
 
@@ -87,9 +88,9 @@
   ;; http://emacswiki.org/emacs/AutoIndentation).
   ;;
   ;;(global-set-key (kbd "C-m") 'newline-and-indent)
-  
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cc" 'org-capture))
+  )
+
+
 
 
 (gdl:global-keys)
@@ -98,14 +99,22 @@
 
 (defun gdl:set-font ()
   (interactive)
-  ;;(ignore-errors (set-frame-font "-bitstream-Courier 10 Pitch-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"))
-  (ignore-errors (set-frame-font  "-outline-Consolas-normal-normal-normal-mono-15-*-*-*-c-*-fontset-auto2")))
+  (let ((font-size (1+ (/ (display-pixel-height) 100))))
+    (set-frame-font
+     (format 
+      (case system-type
+	(darwin  "-apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1")
+	(windows-nt "-outline-Courier New-normal-normal-normal-mono-%s-*-*-*-c-*-iso8859-1")
+	(gnu/linux "-bitstream-Courier 10 Pitch-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1"))
+      font-size))))
 
 (gdl:set-font)
+
 
 ;; 3.6. Miscellania
 
 (show-paren-mode t)
+
 
 ;; Use M-x clear-kill-ring in case you have too much garbage in the
 ;; kill ring
@@ -168,7 +177,7 @@
 
 (eval-after-load "slime"
   '(progn
-    (slime-setup '(slime-fancy slime-banner))
+    (slime-setup '(slime-fancy slime-banner slime-tramp))
     (add-hook 'slime-connected-hook 'set-slime-shortcuts)
     (add-hook 'slime-connected-hook 'customise-slime)
     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
@@ -184,7 +193,10 @@
 
 (defun load-and-or-start-gendl ()
   (slime-repl)
-  (insert "(unless (find-package :gendl) (load (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname))))")
+  (insert "(unless (find-package :gendl)
+             (let ((load-file (or (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))
+                                  (probe-file \"c:/users/dcooper8/.load-gendl.lisp\"))))
+                (load load-file)))")
   (slime-repl-return)
   (insert (format "(when (find-package :gendl) (load (compile-file \"%semacs/glime.lisp\")))" *gendl-home*))
   (slime-repl-return)
@@ -240,13 +252,19 @@
 	       '("elpa" . "http://tromey.com/elpa/"))
   ;; Add the user-contributed repository
   (add-to-list 'package-archives
-	       '("marmalade" . "http://marmalade-repo.org/packages/")))
+	       '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+  (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  
+  )
 
 
 ;; 5.  MAKE IT HAPPEN
 
 (prior-to-glime)
 (glime)
+
 
 
 ;; A.  REFERENCES
