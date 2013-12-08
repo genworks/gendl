@@ -30,11 +30,13 @@
 (defun dmapc (function list)
   (let ((count -1))
     (mapc #'(lambda(element)
-	      (mp:process-run-function
-		  (format nil "thread ~a from dmapcar" (incf count))
-		function element)) list)))
+	      (let ((element element))
+		(bt:make-thread function :name (format nil "thread ~a from dmapcar" (incf count)))))
+	  list)))
 
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (setq *compile-for-dgdl?* t))
 
 (define-object dgdl-test (base-object)
   
@@ -136,5 +138,9 @@
   ((cl!
     ()
     (load (compile-file-if-needed "~/genworks/training/g105/examples/source/drilled-block.lisp")))))
+
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (setq *compile-for-dgdl?* nil))
    
 

@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :user)
+(in-package :gdl-user)
 
 (defun file-size (pathname)
   (with-open-file (in pathname)

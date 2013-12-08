@@ -21,9 +21,10 @@
 
 (in-package :surf)
 
-(define-object b-spline-curve (curve)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (define-object b-spline-curve (curve)
   
-  :documentation (:description "A general NURBS (potentially non-Uniform, potentially Rational, b-spline) 
+    :documentation (:description "A general NURBS (potentially non-Uniform, potentially Rational, b-spline) 
 curve specified with control points, weights, knots, and degree.
 
 If the knot-vector is different from the default, it is non-Uniform.
@@ -31,7 +32,7 @@ If the knot-vector is different from the default, it is non-Uniform.
 If any of the weights are different from 1.0, it is Rational."
 
                   
-                  :examples "<pre>
+				 :examples "<pre>
 
  (in-package :surf)
 
@@ -115,36 +116,36 @@ If any of the weights are different from 1.0, it is Rational."
   
   
   
-  :input-slots
-  ("List of 3D Points. The control points."
-   control-points 
+    :input-slots
+    ("List of 3D Points. The control points."
+     control-points 
    
-   ("Integer. Degree of the curve. Defaults to 3 (cubic)."
-    degree 3) 
+     ("Integer. Degree of the curve. Defaults to 3 (cubic)."
+      degree 3) 
    
-   ("List of Numbers. Knots of the curve. Default is NIL, which indicates a uniform knot vector."
-    knot-vector (make-uniform-knot-vector (length (the control-points)) (the degree)))
+     ("List of Numbers. Knots of the curve. Default is NIL, which indicates a uniform knot vector."
+      knot-vector (make-uniform-knot-vector (length (the control-points)) (the degree)))
    
-   ("List of numbers. A weight to match each control point. Should be same length as control-points.
+     ("List of numbers. A weight to match each control point. Should be same length as control-points.
  Default is a value of 1.0 for each weight, resulting in a nonrational curve."
-    weights (make-list (length (the control-points)) :initial-element 1.0))
+      weights (make-list (length (the control-points)) :initial-element 1.0))
    
-   ("Boolean. Indicates whether the inputted control-points should be considered in local coordinate system of this object. Default is nil." 
-    local? nil)
+     ("Boolean. Indicates whether the inputted control-points should be considered in local coordinate system of this object. Default is nil." 
+      local? nil)
    
-   (surface nil)
-   )
+     (surface nil)
+     )
   
-  :computed-slots
-  ((native-curve (make-b-spline-curve *geometry-kernel* (if (the local?) 
-							    (mapcar #'(lambda(point) (the (local-to-global point))) 
-								    (the control-points))
-							    (the control-points))
-                                      (mapcar #'to-double-float (the weights)) (the degree) (the knot-vector) ))
+    :computed-slots
+    ((native-curve (make-b-spline-curve *geometry-kernel* (if (the local?) 
+							      (mapcar #'(lambda(point) (the (local-to-global point))) 
+								      (the control-points))
+							      (the control-points))
+					(mapcar #'to-double-float (the weights)) (the degree) (the knot-vector) ))
    
    
-   (%renderer-info% (list :vrml? t :view-default :top))
-   ))
+     (%renderer-info% (list :vrml? t :view-default :top))
+     )))
 
 
 (define-object test-b-spline-curves (base-object)

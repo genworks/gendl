@@ -1,1 +1,1 @@
-(:smlib)
+(:gwl-graphics :surf :yadd :bordeaux-threads)

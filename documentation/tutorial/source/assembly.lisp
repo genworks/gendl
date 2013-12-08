@@ -21,63 +21,66 @@
 
 (in-package :gendl-doc)
 
-(defparameter *data*
-    `((:document :class ("11pt" "book")
-		 :textwidth 6.5
-		 :topmargin 0
-		 :textheight 8.5
-		 :oddsidemargin 0
-		 :evensidemargin 0
-		 :pdfimageresolution "135"
-		 :usepackage ("datetime")
-		 :title "Genworks GDL: A User's Manual"
-		 :date ("\\monthname\\ \\the\\year")
-		 :author "Dave Cooper"
-		 :usepackage ("dvips" "graphicx")
-		 :usepackage ("usenames, dvipsnames" "color")
-		 :usepackage ("makeidx")
-		 :usepackage ("textcomp")
-		 :usepackage ("colorlinks=true, urlcolor=cyan" "hyperref")
-		 :usepackage ("nottoc, numbib" "tocbibind")
-		 :newsavebox ("\\boxedverb")
-		 :makeindex nil)
-      :frontmatter
-      :maketitle
-      (:footnotetext "Copyright "
-		     (:copyright)
-		     " 2012, Genworks International. Duplication, by any means, in whole or in part, requires 
+(defparameter *data* nil)
+
+
+(defun initialize-data ()
+  (setq *data*
+	`((:document :class ("11pt" "book")
+		     :textwidth 6.5
+		     :topmargin 0
+		     :textheight 8.5
+		     :oddsidemargin 0
+		     :evensidemargin 0
+		     :pdfimageresolution "135"
+		     :usepackage ("datetime")
+		     :title "Genworks GDL: A User's Manual"
+		     :date ("\\monthname\\ \\the\\year")
+		     :author "Dave Cooper"
+		     :usepackage ("dvips" "graphicx")
+		     :usepackage ("usenames, dvipsnames" "color")
+		     :usepackage ("makeidx")
+		     :usepackage ("textcomp")
+		     :usepackage ("colorlinks=true, urlcolor=cyan" "hyperref")
+		     :usepackage ("nottoc, numbib" "tocbibind")
+		     :newsavebox ("\\boxedverb")
+		     :makeindex nil)
+	  :frontmatter
+	  :maketitle
+	  (:footnotetext "Copyright "
+			 (:copyright)
+			 " 2012, Genworks International. Duplication, by any means, in whole or in part, requires 
 written consent from Genworks International.")
-      :tableofcontents
-      :mainmatter
-      ,*introduction*
-      ,*installation*
-      ,*basic-operation*
-      ,*understanding-common-lisp*
-      ,*understanding-gendl*
-      ,*tasty-environment*
-      ,*gendl-geometry*
-      ,*custom-user-interfaces*
-      ,*advanced-common-lisp*
-      ,*advanced-gendl*
-      ,*upgrade-notes*
-      ,(the-object (make-self 'yadd::assy) dom-chapter)
-      :backmatter
-      ,*bibliography*      
-      :printindex
-      ))
+	  :tableofcontents
+	  :mainmatter
+	  ,*introduction*
+	  ,*installation*
+	  ,*basic-operation*
+	  ,*understanding-common-lisp*
+	  ,*understanding-gendl*
+	  ,*tasty-environment*
+	  ,*gendl-geometry*
+	  ,*custom-user-interfaces*
+	  ,*advanced-common-lisp*
+	  ,*advanced-gendl*
+	  ,*upgrade-notes*
+	  ,(the-object (make-self 'yadd::assy) dom-chapter)
+	  :backmatter
+	  ,*bibliography*      
+	  :printindex
+	  )))
 
 
 (defun make (&optional (level 1))
+  (initialize-data)
   (let ((pdf-path (merge-pathnames "pdf/" *system-home*)))
 
     (load (merge-pathnames "../source/assembly.lisp" pdf-path))
 
     (let ((object (make-part 'com.genworks.dom:assembly :data *data*)))
       (ensure-directories-exist (translate-logical-pathname pdf-path))
-      (with-open-file (out (merge-pathnames "pdf/tutorial.tex" *system-home*)
-			   :direction :output :if-exists :supersede :if-does-not-exist :create)
-	(with-format (com.genworks.dom-writers:latex out)
-	  (write-the-object object (:base)))))
+      (with-format (com.genworks.dom-writers:latex (merge-pathnames "pdf/tutorial.tex" *system-home*))
+	(write-the-object object (:base))))
   
     ;;
     ;; FLAG - replace this asdf:run-shell-command with glisp:run-shell-command or uiop:run-program. 

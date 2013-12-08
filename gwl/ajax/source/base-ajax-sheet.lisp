@@ -55,7 +55,7 @@ but which you can fill in your own specific lens to do something useful for the 
 
    :objects
    ((inputs-section :type 'inputs-section)
-   
+
     (outputs-section :type 'outputs-section
                      :box (the viewport box)
                      :color (the inputs-section color))
@@ -241,7 +241,7 @@ interface. Defaults to nil."
                    
                    ("String of HTML. Provides the developer control links for current sheet."
 		    development-links
-                    (with-cl-who-string () (write-the development-links))))
+                    (with-cl-who-string () (write-the development-links))))
 
   :functions ((back-link 
                (&key (display-string "&lt;-Back"))
@@ -473,7 +473,7 @@ from a saved snapshot file."
                 :src "/static/gwl/js/base64.js"))
 
       ((:script :type "text/javascript"
-                :src "/static/gwl/js/gdlajax.js"))
+                :src "/static/gwl/js/gdlajax1585.js"))
       
       ((:script :type "text/javascript")
        (fmt "~%var gdliid = '~a';" (the instance-id)))

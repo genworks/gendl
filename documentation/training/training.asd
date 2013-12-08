@@ -4,7 +4,7 @@
  "The Gendl™ training Subsystem" :author
  "Dave Cooper and Genworks International" :license
  "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130508" :depends-on (:smlib)
+ :serial t :version "20130508" :depends-on (:gwl-graphics :surf :yadd :bordeaux-threads)
  #+asdf-encoding :encoding #+asdf-encoding :utf-8
  :components
  ((:file "slide-show/source/package")

@@ -20,10 +20,6 @@
 ;; 
 
 
-
-(gwl:define-package :training-g108 
-    (:nicknames :t108 :g108)(:export #:stretch-box))
-
 (in-package :training-g108)
 
 
