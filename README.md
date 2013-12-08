@@ -213,7 +213,7 @@ contact [Genworks](http://genworks.com) for details.
 
 ### Bug Fix Program
 
-Genworks is open to entertain bids for providing cleanly mergeable
+Genworks is open to considering bids for providing cleanly mergeable
 fixes to bugs listed on the [Github Issues
 List](https://github.com/genworks/gendl/issues?state=open). Please
 contact [Genworks](http://genworks.com) for details.
