@@ -25,7 +25,7 @@
 (defun initialize ()
   
   (declare (ignore edition))
-  (setq glisp:*gdl-program-home* (glisp:executable-homedir-pathname))
+  (setq glisp:*gdl-program-home* (probe-file (glisp:executable-homedir-pathname)))
   (setq glisp:*gdl-home* (make-pathname :name nil
 					:type nil
 					:directory (butlast (pathname-directory glisp:*gdl-program-home*))

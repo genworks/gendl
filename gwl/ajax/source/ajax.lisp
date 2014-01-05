@@ -85,8 +85,8 @@
                    (mapcan 
                     #'(lambda(key value)
                         (list key 
-                              (if (or (glisp:match-regexp "^radio-" (format nil "~a" key))
-                                      (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
+                              (if (or (glisp:match-regexp "^radio-" (string-downcase (format nil "~a" key)))
+                                      (glisp:match-regexp "-checkedp$" (string-downcase (format nil "~a" key))))
                                   value
 				  (base64-decode-safe value))))
                     (plist-keys encoded-fields)

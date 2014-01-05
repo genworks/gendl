@@ -580,7 +580,8 @@
   (error "Don't know how to make stitched solid with ~s.~%" geometry-kernel))
 
 
-(defmethod make-transformed-brep ((geometry-kernel vanilla-geometry-kernel) brep &key translation x-vector y-vector scale-vector)
+(defmethod make-transformed-brep ((geometry-kernel vanilla-geometry-kernel) brep &key translation x-vector y-vector scale-vector
+										   shrink? sew-and-orient?)
   (declare (ignore brep translation x-vector y-vector scale-vector))
   (error "Don't know how to make transformed-brep with ~s.~%" geometry-kernel))
 

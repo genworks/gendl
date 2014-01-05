@@ -448,7 +448,24 @@ error will be generated.
  :&key ((remember? t) \"Boolean. Determines whether to save in current version-tree.\"
         (warn-on-non-toplevel? t) \"Boolean. Determines whether to warn if this is called from the body of a cached slot.\" )"
     set-slot!
-    (attribute value &key (remember? t) (warn-on-non-toplevel? t))
+    (attribute value &key (remember? t) (warn-on-non-toplevel? t) (override-non-settable? *override-non-settables?*))
+
+    (unless (or (gethash attribute (the %settable-slots%))
+		(member attribute (the (message-list :category :required-input-slots))))
+      (let ((message (format nil "The slot ~s is not settable in ~a of type ~a." 
+			     attribute
+			     (cons 'the (reverse (the root-path))) 
+			     (the type))))
+	(if override-non-settable? 
+	    (warn (format nil "~a Setting it anyway... 
+To get a continuable error instead, use :override-non-settable? t or 
+globally (setq *override-non-settables?* t).
+
+Note that this behavior may change to error by default in a future GDL release.
+
+" 
+			  message))
+	    (cerror  "Set the slot anyway." message))))
     
     (when (and warn-on-non-toplevel?
 	       *notify-cons*)

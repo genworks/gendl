@@ -89,6 +89,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:*ensure-lists-when-bashing?*
            #:*error-on-reserved-words?*
            #:*force-restore-slot-default?*
+	   #:*override-non-settables?*
            #:*gdl-init-functions*
 	   #:*gendl-version*
 	   #:*gendl-patch-level*

@@ -39,6 +39,8 @@
 
 (defparameter *force-restore-slot-default?* nil)
 
+(defparameter *override-non-settables?* t)
+
 (defparameter *color-plist*
     (list :periwinkle "#aaaaff"
           :aqua "#00ffff"
