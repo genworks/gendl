@@ -48,7 +48,7 @@ from brep and cylinder"
   
    :hidden-objects
    ((outer-cylinder :type (if (and  (the :radius-1) (the :radius-2)) 'simple-cone-solid 'simple-cylinder-solid)
-                    :pass-down (radius radius-1 radius-2 arc))
+                    :pass-down (radius radius-1 radius-2 arc brep-tolerance))
    
    
     (inner-cylinder :type (cond ((and (the :inner-radius-1) (the :inner-radius-2)) 'simple-cone-solid)
@@ -57,7 +57,7 @@ from brep and cylinder"
                     :radius (the :inner-radius)
                     :radius-1 (the :inner-radius-1)
                     :radius-2 (the :inner-radius-2)
-                    :pass-down (arc))
+                    :pass-down (arc brep-tolerance))
 
    
     (subtract :type (if (typep (the inner-cylinder) 'null-part) 'null-part

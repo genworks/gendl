@@ -185,7 +185,7 @@
 				(output-stream *trace-output*))
   
   (dotimes (n warmup-runs)
-    (the-object (make-object (intern symbol :gdl-lift-tests)) regression-test-data))
+    (the-object (make-object (glisp:intern symbol :gdl-lift-tests)) regression-test-data))
   
   (multiple-value-bind (mem1-prev mem2-prev) (glisp:get-mem-info)
     (let ((mem1-orig mem1-prev) (mem2-orig mem2-prev))

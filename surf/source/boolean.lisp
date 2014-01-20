@@ -238,6 +238,7 @@ This occured in:
                                          :manifold? (the manifold?))))
           
           (brep-assert-valid *geometry-kernel* result :warn? (not (the error-on-invalid?)))
+
           result)))))
 
 
