@@ -672,7 +672,8 @@ please find implementation for the currently running lisp.~%")
 			     (append 
 			      (mapcar #'(lambda(option) (concatenate 'string "--" option)) long-form-options)
 			      (list (expanded-pathname-string (namestring source)))
-			      (list (expanded-pathname-string (namestring dest)))))))))
+			      (list (if (search ":" (namestring dest)) dest
+					(expanded-pathname-string (namestring dest))))))))))
     (when (or print-command? dry-run?) (format t "~s~%" command-list))
     (unless dry-run?
       (uiop:with-current-directory (directory) 
