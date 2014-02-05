@@ -266,12 +266,50 @@ and \"..\" entries."
 			   
 
 
-(defun run-program (command &key output ignore-error-status force-shell
-			  (element-type uiop:*default-stream-element-type*)
-			  (external-format :default)
-			  &allow-other-keys)
-  (funcall #'uiop:run-program command :output output :ignore-error-status ignore-error-status
-	   :force-shell force-shell :element-type element-type :external-format external-format))
+(defun run-program (command &rest keys
+		    &key ignore-error-status force-shell
+		      (input nil inputp) (if-input-does-not-exist :error)
+		      output (if-output-exists :overwrite)
+		      (error-output nil error-output-p) (if-error-output-exists :overwrite)
+		      (element-type #-clozure uiop:*default-stream-element-type* #+clozure 'character)
+		      (external-format uiop:*utf-8-external-format*)
+                      &allow-other-keys)
+  "Three values: output, error-output, and return-code. This is a trivial wrapper on uiop:run-program with all the same arguments."
+  (cond ((and error-output-p inputp) (apply #'uiop:run-program command 
+					    :ignore-error-status ignore-error-status
+					    :force-shell force-shell
+					    :input input
+					    :if-input-does-not-exist if-input-does-not-exist
+					    :output output
+					    :if-output-exists if-output-exists
+					    :error-output error-output
+					    :if-error-output-exists if-error-output-exists
+					    :element-type element-type
+					    :external-format external-format
+					    keys))
+	(inputp (apply #'uiop:run-program command 
+		       :ignore-error-status ignore-error-status
+		       :force-shell force-shell
+		       :input input
+		       :if-input-does-not-exist if-input-does-not-exist
+		       :output output
+		       :if-output-exists if-output-exists
+		       :if-error-output-exists if-error-output-exists
+		       :element-type element-type
+		       :external-format external-format
+		       keys))
+	(t (apply #'uiop:run-program command 
+		  :ignore-error-status ignore-error-status
+		  :force-shell force-shell
+		  :input input
+		  :if-input-does-not-exist if-input-does-not-exist
+		  :output output
+		  :if-output-exists if-output-exists
+		  :if-error-output-exists if-error-output-exists
+		  :element-type element-type
+		  :external-format external-format
+		  keys))))
+	
 
 (defun run-shell-command (&rest args)
   (warn "~&run-shell-command is deprecated, please use run-program.~%")
@@ -621,19 +659,45 @@ please find implementation for the currently running lisp.~%")
 			    dry-run?
 			    (options (list "a"))
 			    long-form-options)
-  #+mswindows (declare (ignore source dest directory  print-command? dry-run? options long-form-options))
-  #+mswindows (error "~&Sorry, glisp:rsync is not yet implemented for MS Windows.~%")
+  #+os-windows (declare (ignore source dest directory  print-command? dry-run? options long-form-options))
+  #+os-windows (error "~&Sorry, glisp:rsync is not yet implemented for MS Windows.~%")
   #-mswindows
   (labels ((expanded-pathname-string (pathname)
 	     (replace-regexp (namestring (translate-logical-pathname pathname)) "~/"
 			     (namestring (user-homedir-pathname)))))
   (let ((command-list 
 	 (remove nil
-		 (list "rsync" 
-		       (when options (format nil "-~{~a~}" options) )
-		       (when long-form-options (format nil "~{--~a~}" long-form-options))
-		       (expanded-pathname-string (namestring source))
-		       (expanded-pathname-string (namestring dest))))))
+		 (cons "rsync" 
+		       (cons (when options (format nil "-~{~a~}" options))
+			     (append 
+			      (mapcar #'(lambda(option) (concatenate 'string "--" option)) long-form-options)
+			      (list (expanded-pathname-string (namestring source)))
+			      (list (if (search ":" (namestring dest)) dest
+					(expanded-pathname-string (namestring dest))))))))))
     (when (or print-command? dry-run?) (format t "~s~%" command-list))
     (unless dry-run?
-      (uiop:with-current-directory (directory) (run-program command-list))))))
+      (uiop:with-current-directory (directory) 
+	;;
+	;; FLAG capture this pattern as a standard form of run-program:
+	;;
+	(multiple-value-bind (output error-output return-code)
+	    (run-program command-list :output :string :error-output :string :ignore-error-status t)
+	  (unless (zerop return-code)
+	    (error "The following command returned an error:
+
+~s
+
+The output was:
+
+~a
+
+The error-output was:
+
+~a
+
+and the return-code was:
+
+~a
+
+"
+		   command-list output error-output return-code))))))))

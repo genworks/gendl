@@ -131,10 +131,11 @@
       
       (multiple-value-bind
 	    (result length)
-          (read-safe-string
-           (base64-decode-safe
-            (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-message?args=~a"
-                                                       (the host) (the port) encoded-args)))) 
+	  (let ((string (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-message?args=~a"
+                                                       (the host) (the port) encoded-args))))
+	    
+
+          (read-safe-string (base64-decode-safe string)))
 
         (declare (ignore length))
 
@@ -143,6 +144,8 @@
         ;;
         
         (let ((result (decode-from-http result)))
+
+	  
 	  
           (cond ((and (consp result) (eql (first result) :error)
                       (eql (second result) :no-such-object))
@@ -207,9 +210,10 @@
   (string-downcase (package-name item)))
 
 (defmethod encode-for-http ((item list))
-  (when item
-    (cons (encode-for-http (first item))
-          (encode-for-http (rest item)))))
+  (with-standard-io-syntax
+    (when item
+      (cons (encode-for-http (first item))
+	    (encode-for-http (rest item))))))
 
 
 (defmethod encode-for-http ((item base-format))

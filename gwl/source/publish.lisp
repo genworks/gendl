@@ -138,7 +138,7 @@
                                           value))
                              (list :error :no-such-object (getf args-list :remote-id)))))
 		
-                (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
+                (let ((encoded-value (with-standard-io-syntax (base64-encode-safe (format nil "~s" (encode-for-http value))))))
 
                   (html (format *html-stream* encoded-value)))))))))))
 

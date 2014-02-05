@@ -15,6 +15,8 @@
 (require 'cl)
 
 
+(defvar *default-font-size* 15)
+
 (defun maximize-frame ()
   "Maximizes the active frame in Windows"
   (interactive)
@@ -90,16 +92,13 @@
   ;;(global-set-key (kbd "C-m") 'newline-and-indent)
   )
 
-
-
-
 (gdl:global-keys)
 
 ;; 3.5. Font
 
 (defun gdl:set-font ()
   (interactive)
-  (let ((font-size (1+ (/ (display-pixel-height) 100))))
+  (let ((font-size *default-font-size*)) ;; (/ (display-mm-height) 16)
     (set-frame-font
      (format 
       (case system-type
@@ -126,19 +125,24 @@
 ;;
 ;; 4.1. Some synonyms
 
-(defun gendl () (interactive) 
+(defun gendl (&optional exe) (interactive) 
   (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
   ;;(add-hook 'slime-connected-hook 'load-base-ql)
   (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
-  (with-temp-buffer (cd *gendl-home*) (slime)))
-(defun gdl () (interactive) (gendl))
+  (with-temp-buffer (cd *gendl-home*) (slime exe)))
+
+(defun gdl () (interactive) (gendl 'gdl))
+(defun agdl8 () (interactive) (gendl 'agdl8))
 (defun glime () (interactive) (gendl))
 
 (defun gdl-quit () (interactive) (slime-quit-lisp))
 (defun gq () (interactive) (gdl-quit))
 (defun gendl-quit () (interactive) (gdl-quit))
+(defun quit-gendl () (interactive) (gdl-quit))
+(defun quit-gdl () (interactive) (gdl-quit))
+
 
 
 ;; 4.2. Locate Common Lisp / Locate SLIME
@@ -191,25 +195,36 @@
   (slime-repl-return))
 
 
+(defvar gdl-startup-string 
+  (format 
+   "(progn (unless (find-package :gendl)
+	    (let ((load-file (or (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))
+				 (probe-file \"c:/users/dcooper8/.load-gendl.lisp\"))))
+	      (load load-file)))
+	  (when (and (find-package :gendl) (find-package :swank))
+            (load (compile-file \"%semacs/glime.lisp\"
+
+				:output-file 
+				(merge-pathnames 
+				 (make-pathname :name \"glime\" 
+						:type (symbol-value 
+						       (read-from-string \"glisp:*fasl-extension*\")))
+				 (funcall (symbol-function (read-from-string \"glisp:temporary-folder\")))))))
+	  (when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))
+	  (let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
+	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
+		  (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
+		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
+	  (when (find-package :gendl) (in-package :gdl-user)))" *gendl-home*))
+
+
 (defun load-and-or-start-gendl ()
   (slime-repl)
-  (insert "(unless (find-package :gendl)
-             (let ((load-file (or (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))
-                                  (probe-file \"c:/users/dcooper8/.load-gendl.lisp\"))))
-                (load load-file)))")
-  (slime-repl-return)
-  (insert (format "(when (find-package :gendl) (load (compile-file \"%semacs/glime.lisp\")))" *gendl-home*))
-  (slime-repl-return)
-  (insert "(when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))")
-  (slime-repl-return)
-  (insert "(let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
-             (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
-                   (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
-                   (t (format t  \"~%~%***~%Gendl or GDL is not loaded and did not load successfully from .load-gendl.lisp in your home directory.~%***~%~%\"))))")
-  (slime-repl-return)
-  (insert "(when (find-package :gendl) (in-package :gdl-user))")
+  (insert gdl-startup-string)
   (slime-repl-return)
   (end-of-buffer))
+
+
 
 (defun set-slime-shortcuts ()
   "Set keybindings for switching to slime buffers"
@@ -263,7 +278,59 @@
 ;; 5.  MAKE IT HAPPEN
 
 (prior-to-glime)
-(glime)
+
+;;
+;; FLAG -- conditionalize based on running slime or ELI
+;;
+;;(glime)
+
+(defvar *eli-init* (concat *gendl-home* "program/eli/fi-site-init.el"))
+
+
+(when (file-exists-p *eli-init*)
+
+  (defun get-executable (exe-name)
+
+      (let* ((info (assoc exe-name slime-lisp-implementations )))
+	(replace-regexp-in-string 
+	 "/program/program/" "/program/"
+	 (case system-type 
+	   (windows-nt
+	    (concat (file-name-directory (first (second info)))
+		    (replace-regexp-in-string "\\\\" "/" (second (second info)))))
+	   ((darwin gnu/linux)
+	    (first (second info)))))))
+
+
+  (defvar gdl:*gdl-toplevel-base* "*gdl toplevel*")
+
+
+  (defun agdl8e () (interactive)
+    (gdl-devo (get-executable 'agdl8)))
+
+  (defun gdle () (interactive)
+    (gdl-devo (get-executable 'gdl)))
+
+  (defun gdl-devo (executable) 
+    (interactive)
+    (load-file *eli-init*)
+	  
+    (setq gdl:*gdl-toplevel* 
+	  (concat gdl:*gdl-toplevel-base*
+		  (if (equalp (subseq (file-name-sans-extension (file-name-nondirectory executable))
+				      0 1) "a")
+		      "(ANSI)" "(modern)")))
+    (fi:common-lisp gdl:*gdl-toplevel* *gendl-home* executable nil)
+
+
+    (global-set-key "\C-x&" '(lambda()(interactive) (switch-to-buffer gdl:*gdl-toplevel*)))
+
+    (switch-to-buffer gdl:*gdl-toplevel*)
+    (end-of-buffer)
+    (goto-char (point-max))
+    (insert gdl-startup-string)
+    (fi:inferior-lisp-newline)
+    (end-of-buffer)))
 
 
 

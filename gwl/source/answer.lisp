@@ -442,28 +442,32 @@ being generated dynamically.
    
    (radios (mapcan 
             #'(lambda(key)
-                (when (and (glisp:match-regexp "^radio-" (format nil "~a" key))
+                (when (and (glisp:match-regexp "^radio-" (string-downcase (format nil "~a" key)))
                            (string-equal (second (getf (the query-plist) key)) "true"))
                   (list (make-keyword-sensitive (glisp:replace-regexp
-                                       (glisp:replace-regexp (format nil "~a" key) "^radio-" "")
-                                       "-.*" ""))
+						 (glisp:replace-regexp 
+						  (glisp:replace-regexp  (format nil "~a" key) "^RADIO-" "")
+						  "^radio-" "")
+						 "-.*" ""))
                         (first (getf (the query-plist) key)))))
                    (plist-keys (the query-plist))))
    
    (query-plist-all 
     (append (the radios) 
 	    (mapcan #'(lambda(key val)
-			(unless (or (glisp:match-regexp "^radio-" (format nil "~a" key))
-				    (glisp:match-regexp "-checkedp$" (format nil "~a" key)))
+			(unless (or (glisp:match-regexp "^radio-" (string-downcase (format nil "~a" key)))
+				    (glisp:match-regexp "-checkedp$" (string-downcase (format nil "~a" key))))
 			  (list key val)))
 		    (plist-keys (the query-plist))
 		    (plist-values (the query-plist)))))
    
    (checked-booleans 
     (mapcan #'(lambda(key)
-                (when (glisp:match-regexp "-checkedp$" (format nil "~a" key ))
+                (when (glisp:match-regexp "-checkedp$" (string-downcase (format nil "~a" key )))
                   (list 
-                   (make-keyword-sensitive (glisp:replace-regexp (format nil "~a" key ) "-checkedp$" ""))
+                   (make-keyword-sensitive (glisp:replace-regexp
+					    (glisp:replace-regexp (format nil "~a" key ) "-checkedp$" "")
+					    "-CHECKEDP$" ""))
                    (let ((checked (getf (the query-plist) key)))
                      (not (string-equal checked "false"))))))
             (plist-keys (the query-plist))))

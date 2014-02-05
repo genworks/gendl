@@ -1,6 +1,7 @@
 ;;;; -*- coding: utf-8 -*- 
 
-          Welcome to the Genworks® Gendl™ Environment
+
+          Welcome to the Genworks® GDL and Gendl® Environment
 
 
 =========
@@ -9,8 +10,9 @@ Startup
 
 After some time, you should see a "GDL-USER>" command prompt.
 
-A web server also starts by default on port 9000 of the local host,
-which allows you to visit, for example:
+A web server also starts by default on port 9000 (or the next
+available port above 9000) of the local host, which allows you to
+visit, for example:
 
   http://localhost:9000/tasty
 
@@ -21,35 +23,35 @@ wireframe rendering of a simplified android robot.
 See "Troubleshooting" below if you experience trouble starting up.
 
 
-================
-Emacs and Gendl
-================
+==================
+Authoring GDL Code
+==================
 
-Although you are free to use other editors or IDEs, spending some time
-to get familiar with Emacs is the best small investment you can make
-for working with a Lisp-based system like Gendl. Slime (Superior Lisp
-Interaction Mode for Emacs) which works across all major OS platforms
-and CL implementations and is well-supported by the Common Lisp
-community. Genworks plans to continue adding specialized Gendl support
-to Slime.
+Option 1: Gnu Emacs
+===================
+
+All things considered, Gnu Emacs is the most powerful, portable, and
+risk-free IDE (Integrated Development Environment) available for
+working with Lisp-based systems like GDL. Spending some time getting
+familiar with Gnu Emacs is perhaps the best small investment you can
+make. 
 
 If you are new to Emacs, you can get a general Emacs Tutorial under
 the Help menu above. After completing the Tutorial, try to practice
 what you learned by forcing yourself not to use the mouse too much in
 Emacs.
 
-Touch-typing ability is definitely an asset for Gendl development, but
+Touch-typing ability is definitely an asset for GDL development, but
 with auto-completion of symbols (possible with M-/ -- you'll know what
 that means after looking at the tutorial) it is possible to become a
-world-class Gendl developer without having world-class typing speed.
+world-class GDL developer without having world-class typing speed.
 
 It is strongly recommended to map your Caps Lock key to be a Control
-key. This will give you a much more comfortable experience, allowing
-you to use all the Emacs navigation keystrokes without constantly
-curling your left little finger down to the Control key.  For Linux
-and Mac, this is easy to do in your System Preferences. For Windows,
-here are some resources which can help you do this (the first one
-appears not to require Administrator access on your machine):
+key. This will allow you to use all the Emacs navigation keystrokes
+without constantly curling your left little finger down to the Control
+key.  For Linux and Mac, this is easy to do in your System
+Preferences. For Windows, here are some resources which can help you
+do this:
 
   http://johnhaller.com/jh/useful_stuff/disable_caps_lock/
 
@@ -57,93 +59,93 @@ Note that if you are running Windows in a Virtual Machine hosted under
 MacOS or Linux, it is sufficient to map the Caps Lock to to Control in
 the host system.
 
-Finally, please see the Genworks Documentation (URL below) for an
-introductory video on using Emacs in the Gendl environment.
+Finally, please see the Genworks Documentation (URL below) for some
+screen-cast videos on using Emacs in the GDL environment.
 
 
 ===============
-Learning Gendl
+Learning GDL
 ===============
 
-Absolutely the best way to learn Gendl is to dive in and start using
+Absolutely the best way to learn GDL is to dive in and start using
 it for small exercises and projects.
 
-The work-in-progress tutorial.pdf is shipped with this distribution.
+The work-in-progress tutorial.pdf is published here:
+
+ http://genworks.com/downloads/tutorial.pdf
 
 Other Documentation:
 
   http://www.genworks.com
 
-  Then click the link for Documentation.
+ Then click the link for Documentation.
 
 
 =========
 Quitting 
 =========
 
-  When you have had enough of using Gendl with Slime, you should do
+  When you have had enough of using GDL with Slime, you should do
   two things:
 
- 1. type 
+ 1. Visit the *slime-repl ...* buffer with C-x C-&
 
-        M-x gdl-quit (and press <Return>) 
+ 2. Type ,q (just a comma then the letter "q") to quit the GDL
+    session. This will not quit Emacs.
 
-    from anywhere in Emacs, to kill the Gendl process.
-
- 2. (optional) type 
+ 3. (optional) type 
 
         C-x C-c (that's Control-x, Control-c) 
 
     to kill the Emacs process and exit the window.
-
     
  3. If you kept Emacs up and running, it is possible to restart the
-    Gendl session again with "M-x gdl" or "M-x slime"
+    GDL session again with: 
 
+       M-x gdl
 
 
 =================
 Customizing Emacs
 =================
 
-If a file exists in your home directory called ".emacs-gendl" this will
-be loaded upon startup. You can put any custom emacs-lisp code in this
-file to customize your startup (see below for an example to customize
-the color theme).
+If a file exists in your home directory called ".emacs-glime" this
+will be loaded upon startup. You can put any custom emacs-lisp code in
+this file to customize your startup (see below for an example to
+customize the color theme).
 
 You can always find out where Emacs thinks is your home directory's
 location by typing
 
-  C-x d ~/ <RET>
+  C-x d ~/ <Enter>
 
 This should present the list of files in the home directory, and show
 its full name on the first line. Likewise, to visit your init file,
 type:
 
-   C-x C-f ~/.emacs-gendl <RET>.
+   C-x C-f ~/.emacs-gendl <Enter>.
 
 
 Color Themes
 ============
 
-Gendl comes packaged with the color-theme:
+GDL ships with the color-theme package for Gnu emacs:
 
   http://emacswiki.org/emacs/ColorTheme
 
-package for Gnu emacs.
 
 You can select any of the themes from color-theme with 
 
   M-x color-theme-select
 
-(Click on the color theme you want to select then press <Return>).
+(Click on the color theme you want to select then press <Enter>).
 
 
 To set a color theme automatically, put something like the following
 at the end of your ~/.emacs-gendl :
 
 
-  (color-theme-bharadwaj)  ;; for solarized dark theme, or 
+  (color-theme-bharadwaj)
 
 
 =========================
@@ -151,7 +153,7 @@ Emacs Keychord Reference
 =========================
 
 The following is a reference for the Emacs keychords which are
-commonly used when working with Gendl. They will be understandable after
+commonly used when working with GDL. They will be understandable after
 you have completed the Emacs Tutorial mentioned above. If you force
 yourself to use these for a few days, they will quickly feel natural.
 
@@ -273,7 +275,7 @@ Troubleshooting
 Webserver Fails to serve on Port 9000
 
   First of all, you may receive a message from your Firewall asking
-  for permission to unblock services from the dx86cl64 executable. You
+  for permission to unblock services from the GDL executable. You
   should grant this permission.
 
   If you are unable to see the following URL:
@@ -284,7 +286,7 @@ Webserver Fails to serve on Port 9000
   on Port 9000. For example, some online gaming software will set up a
   proxy service on this port.
 
-  If this is the case, then you can start Gendl serving on a different
+  If this is the case, then you can start GDL serving on a different
   port. To do this, try the following at the "gdl-user>" command
   prompt (using port 8888 as an example):
 
