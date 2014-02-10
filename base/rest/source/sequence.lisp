@@ -199,7 +199,8 @@ with <tt>:sequence (:size ...))</tt>), elements can be surgically inserted and d
 re-evaluates the expression to compute the original list of indices)"
     reset!
     ()
-    (the (restore-slot-default! :element-index-list)))
+    (the (restore-slot-default! :element-index-list))
+    (the (restore-slot-default! :ht)))
    
    (instantiated-indices () (remove-if-not #'(lambda(index)
                                                (second (multiple-value-list (gethash index (the :ht)))))

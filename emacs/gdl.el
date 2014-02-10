@@ -107,7 +107,7 @@
 	(gnu/linux "-bitstream-Courier 10 Pitch-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1"))
       font-size))))
 
-(gdl:set-font)
+(ignore-errors (gdl:set-font))
 
 
 ;; 3.6. Miscellania
