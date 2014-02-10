@@ -231,7 +231,7 @@ re-evaluates the expression to compute the original list of indices)"
 :arguments (index \"Integer, Symbol, or other object matching with <tt>eql</tt>. The identifier used when the element was initialized or inserted.\")"
     delete!
     (index)
-    (the (:modify-attribute! :ht (the :ht)))
+    (the (:set-slot! :ht (the :ht)))
     (remhash index (the ht))
     (the (:modify-attribute! :element-index-list
                              (remove index (the :element-index-list)))))

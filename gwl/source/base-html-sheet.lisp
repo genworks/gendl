@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002-2011 Genworks International 
+;; Copyright 2013 Genworks International 
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -149,7 +149,7 @@ the browser in development mode). Defaults to NIL (the empty list)."
    
    (host nil :defaulting)
    
-   ;; (query-toplevel nil :settable)
+   (query-toplevel nil :settable)
    
    )
 
@@ -201,7 +201,7 @@ the submitted form fields automatically."
 
 
   :trickle-down-slots
-  (tree-root instance-id plain-url? host home-page ;;query-toplevel 
+  (tree-root instance-id plain-url? host home-page query-toplevel 
 	     fixed-url-prefix)
 
   :hidden-objects
