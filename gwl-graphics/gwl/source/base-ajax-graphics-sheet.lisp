@@ -213,7 +213,8 @@ This is not tested to see if it is part of the same object tree as current self.
   
   :hidden-objects
   ((view-object :type 'web-drawing
-                :pass-down (projection-vector immune-objects background-color field-of-view-default raphael-canvas-id
+                :pass-down (projection-vector immune-objects background-color 
+					      field-of-view-default raphael-canvas-id
 					      zoom-factor-renderer)
                 :page-length (the length)
                 :page-width (the width)
@@ -335,7 +336,7 @@ position: relative;
 "
                             (if (the vector-graphics-onclick?)
                                 "crosshair" "arrow")
-
+			    
                             (the view-object length)
                             (the view-object width)
                             (the view-object width)

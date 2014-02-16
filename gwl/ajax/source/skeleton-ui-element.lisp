@@ -419,7 +419,14 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
                                  (when arguments 
                                    (list :|arguments| arguments)))) ss))))
    
-   (toggle-view-toggle! () (the (set-slot! :view-toggle (not (the view-toggle)))))))
+   (toggle-view-toggle! () (the (set-slot! :view-toggle (not (the view-toggle)))))
+
+   
+   (call-onclick-function!
+    (object)
+    (when (the-object object onclick-function)
+      (funcall (the-object object onclick-function))))))
+
 
 
 (define-lens (html-format skeleton-ui-element)()

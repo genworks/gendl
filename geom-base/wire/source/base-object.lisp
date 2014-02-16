@@ -96,7 +96,10 @@ gdl-user(53):
 </pre>" )
   
   :input-slots
-  (
+  (("Lambda function of zero arguments, or nil. If non-nil, this
+    function gets invoked when the user clicks the object in graphics
+    front-ends which support this functionality, e.g. SVG/Raphael and X3DOM." 
+    onclick-function nil)
    
    ("Pathname or string. Points to a pre-existing image file to be displayed instead of actual geometry for this object. Defaults to nil" image-file nil)
    

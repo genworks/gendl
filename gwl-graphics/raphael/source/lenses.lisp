@@ -30,7 +30,7 @@
   :output-functions
   ((raphael-paper-def
     (&key width length)
-    (format *stream* "if (typeof paper === 'undefined') {var paper = Raphael('~a', ~a, ~a)};~%
+    (format *stream* "var paper = Raphael('~a', ~a, ~a);~%
 
                if (typeof start === 'undefined') {
 
@@ -189,8 +189,12 @@
               (display-controls (or (geom-base::find-in-hash object *display-controls*)
                                     (the object display-controls)))
 	      (name (base64-encode-safe 
-		     (format nil "~s" (remove :root-object-object 
-					      (the-object object  root-path)))))
+		     (format nil "~s~s" 
+			     (remove :root-object-object 
+				     (the-object object  root-path))
+			     (remove :root-object-object 
+				     (the  root-path)))))
+			     
               ;;(*read-default-float-format* 'single-float)
 	      )
 	  
@@ -293,12 +297,16 @@
 		      ;;
 		      ;; FLAG -- do something better here than ignore-errors
 		      ;;
-		      (when (ignore-errors (and (the viewport) (eql (the viewport digitation-mode) :select-object)))
-			(fmt "~a.node.onclick = function (event) {~a};" name
-			     (the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
-							  :arguments (list object)))))
-		      
-
+		      (cond ((the object onclick-function)
+			     (fmt "~a.node.onclick = function (event) {~a};" name
+				  (the parent parent parent 
+				       (gdl-ajax-call :function-key :call-onclick-function!
+						      :arguments (list object)))))
+			    ((ignore-errors (and (the viewport) (eql (the viewport digitation-mode) :select-object)))
+			     (fmt "~a.node.onclick = function (event) {~a};" name
+				  (the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
+							       :arguments (list object)))))
+			    (t nil))
 
 		      (write-the (drag-controls :name name :display-controls display-controls))
 
