@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002, 2009, 2012 Genworks International
+;; Copyright 2014 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -29,6 +29,10 @@ o Add direct buttons back to viewport
 o support for multiple viewports
 
 o filter inspector slots to local slots
+
+o make Update! work properly for pre-made object expression.
+
+o allow input of required input-slots. 
 
 |#
 
@@ -63,19 +67,23 @@ o filter inspector slots to local slots
         (the (set-slot! :root-object (the root-object)))
         (the tree update!)))
    
-   (use-jquery? (the have-valid-instance?))
-   (use-raphael? (the have-valid-instance?))
-   (use-x3dom? (the have-valid-instance?))
+   (use-jquery? (the have-valid-instance-and-inputs?))
+   (use-raphael? (the have-valid-instance-and-inputs?))
+   (use-x3dom? (the have-valid-instance-and-inputs?))
 
    )
 
   :computed-slots
   (
+
    (ui-specific-layout-js (when (the use-jquery?) "/static/gwl/js/tasty-initlayout-3.js"))
    
    (have-valid-instance? (not (typep (the root-object) 'null-part)))
 
-   (additional-header-content (when (the have-valid-instance?)
+   (have-valid-instance-and-inputs? (and (the have-valid-instance?)
+					 (the required-inputs-satisfied?)))
+
+   (additional-header-content (when (the have-valid-instance-and-inputs?)
                                 (the ta2-style-view)))
    
    (ta2-style-view (with-cl-who-string ()
@@ -106,6 +114,8 @@ o filter inspector slots to local slots
 
    ;;(color-selected :red)
    
+
+   (required-inputs-satisfied? (the required-inputs-form satisfied?))
 
    )
 
@@ -141,6 +151,10 @@ o filter inspector slots to local slots
                                                (the (make-root-instance type))))
    
    
+   (required-inputs-form :type 'required-inputs-form 
+			 :root-object (the root-object-object)
+			 :tatu-root self)
+
    (tree
     :type 'tree:newertree
     ;;:type 'tree:tree
@@ -337,10 +351,19 @@ The error was: ~a
   ((main-sheet-body 
     ()
     
-    (if (the have-valid-instance?)
-        (write-the ui-sheet)
-      (write-the part-type-form main-sheet)))
-   
+    (cond ((and (the have-valid-instance?)
+		(the required-inputs-satisfied?))
+	   (write-the ui-sheet))
+	  ((the have-valid-instance?)
+	   (write-the required-inputs-form))
+	  (t (write-the part-type-form main-sheet))))
+
+ 
+   (required-inputs-form 
+    ()
+    (write-the required-inputs-form main-sheet))
+
+  
    (ui-sheet
     ()
     (with-cl-who (:indent t) 

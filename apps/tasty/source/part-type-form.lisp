@@ -1,5 +1,5 @@
 ;;
-;; Copyright 2002, 2009 Genworks International and Genworks BV 
+;; Copyright 2014 Genworks International and Genworks BV 
 ;;
 ;; This source file is part of the General-purpose Declarative
 ;; Language project (GDL).
@@ -60,3 +60,66 @@
 	       (:td ((:input :type :string :name :object-expression :size 40 :value 
 			     (the object-expression)))))
 	  (:tr (:td :br) (:td ((:input :type :submit :name :submit :value " Browse!"))))))))))
+
+
+(defparameter *test-self* nil)
+
+(define-object required-inputs-form (base-html-sheet)
+  :input-slots
+  (root-object tatu-root)
+  
+  :computed-slots
+  ((respondent (the tatu-root))
+   
+   (required-input-slots (the root-object (message-list :category :required-input-slots)))
+
+   (satisfied-toggle nil :settable)
+
+   (satisfied? (progn (the satisfied-toggle)
+		      (let ((result t))
+			(dolist (slot (the required-input-slots))
+			  (let ((status (the root-object (slot-status slot))))
+			    (when (eql status :unbound) (setq result nil))))
+		 
+			(print-variables result)
+		 
+			result))))
+  
+  :objects
+  ((required-input-inputs  :type 'text-form-control
+			   :sequence (:size (length (the required-input-slots)))
+			   :pseudo-inputs (keyword)
+			   :size 20
+			   :domain :pass-thru
+			   :keyword (nth (the-child index)(the required-input-slots))
+			   :default :unbound
+			   :prompt (the-child keyword)))
+
+  :functions 
+  (
+   (after-set!
+    ()
+
+    (setq *test-self* (the root-object))
+
+    (format t "In the after-set! of the required-inputs-form...~%")
+
+    (dolist (slot (list-elements (the required-input-inputs)))
+      (unless (eql (the-object slot value) :unbound)
+	(the root-object (set-slot! (the-object slot keyword)
+				    (the-object slot value)))))
+    
+    (the (set-slot! :satisfied-toggle (not (the satisfied-toggle)))))))
+
+
+(define-lens (html-format required-inputs-form)()
+  :output-functions
+  ((main-sheet     
+    () 
+    (with-cl-who ()
+      (with-html-form (:cl-who? t)
+	(dolist (slot (list-elements (the required-input-inputs)))
+	  (htm (:p (str (the-object slot html-string)))))
+	(:p ((:input :type :submit :name :submit :value " Browse!"))))))))
+
+
