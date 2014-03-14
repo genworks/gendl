@@ -39,6 +39,10 @@
                                     (the %lines-to-draw%))))
    
    
+   (path-info (append (list :move (first (the vertex-list)))
+		      (mapcan #'(lambda(point) (list :line point))
+			      (rest (the vertex-list)))))
+
    (%renderer-info% (list :vrml? t :view-default :top))
    
    ("List of pairs of 3D points. Each pair represents the start and end of each line segment in the polyline."
