@@ -717,6 +717,9 @@ eql for keywords, string-equal for strings, and equalp otherwise."
 ;;
 
 (define-object radio-form-control (menu-form-control)
+
+  :documentation (:description "Produces a standard radio-button form control.")
+
   :input-slots
   (("Keyword symbol or nil. Specifies where the description for each radio goes, if any. 
 Can be:

@@ -23,6 +23,8 @@
 
 
 (define-object geometry-view-mixin ()
+
+  :documentation (:description "Internal mixin for use inside e.g. base-html-graphics-sheet.")
   
   :input-slots
   ((display-controls-hash nil)

@@ -569,6 +569,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            
 
 	   #:fillet
+	   #:constrained-fillet
 	   #:constrained-line
 	   #:constrained-arc
 

@@ -22,7 +22,9 @@
 (in-package :geom-base)
 
 (define-object label (outline-specialization-mixin base-object)
-  :documentation (:examples "<pre>        
+  :documentation (:description 
+		  "Produces a text label for graphical output"
+		  :examples "<pre>        
 
  (in-package :gdl-user)
                    

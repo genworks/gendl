@@ -1,4 +1,4 @@
-;;
+a;;
 ;; Copyright 2002, 2009, 2012 Genworks International
 ;;
 ;; This source file is part of the General-purpose Declarative

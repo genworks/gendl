@@ -89,6 +89,9 @@ Default is (ecase (the fixed-parameter) (:u :v) (:v :u))."
 
 
 (define-object uv-iso-curve ()
+  
+  :documentation (:description "Convenience object to return UV parameter values on surface.")
+
   :input-slots (surface parameter u-or-v)
   
   :functions

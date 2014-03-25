@@ -21,11 +21,11 @@
 
 (define-object constrained-line (line)
 
-  :documentation "This object is intended to simplify the process of
+  :documentation (:description "This object is intended to simplify the process of
    constructing lines using various constraints. Currently supported
    are 2 through-points or 1 through-point and at-angle. Note the
    line-constraints must be an evaluatable s-expression as this is not
-   processed as a macro"
+   processed as a macro")
 
   :input-slots
   (line-constraints)
@@ -251,7 +251,7 @@
     (the constraint-object (tangent-point constraint-index)))))
 
 
-(define-object fillet (constrained-arc)
+(define-object constrained-fillet (constrained-arc)
 
   :documentation
   (:description 

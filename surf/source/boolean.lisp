@@ -23,6 +23,9 @@
 
 
 (define-object boolean-tolerance-mixin ()
+  
+  :documentation (:description "Implements adaptive tolerancing for certain brep objects.")
+  
   :input-slots
   (("Number. Defaults to *approximation-tolerance-factor*. This is multiplied by  the minimum of the 
 adaptive-tolerance of any of the input breps to produce the approximation-tolerance-adaptive."
@@ -468,6 +471,9 @@ multiple solids. Defaults to a repeating (circular) list with keys:
                     
 
 (define-object manifold-solid (brep)
+  
+  :documentation (:description "Attempts to take in a non-manifold brep and yield a manifold version.")
+  
   :input-slots ("GDL brep object. The brep to be represented as a manifold brep in this instance."
                 brep
 

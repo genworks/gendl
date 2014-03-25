@@ -22,6 +22,9 @@
 (in-package :surf)
 
 (define-object extruded-solid (brep)
+
+  :documentation (:description "Generates a brep by extruding a profile along an axis vector.")
+  
   :input-slots ("GDL Curve object. The profile to be extruded into a solid." 
 		profile
                 

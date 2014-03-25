@@ -23,6 +23,8 @@
 
 (define-object global-polyline-mixin (base-object)
   
+  :documentation (:description "Makes a connected polyline with vertices connected by straight line segments.")
+  
   :input-slots
   ("List of 3D Points. The vertices (``corners'') of the polyline."
    vertex-list)

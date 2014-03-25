@@ -22,6 +22,12 @@
 (in-package :surf)
 
 (define-object stitched-solid (brep)
+  
+  :documentation (:description "Attempts to stitch together a list of
+  surfaces into an open shell or possibly a manifold solid. This
+  primitive is not widely tested and may be deprecated. Consider use
+  of merged-solid instead. Please let Genworks know if you are using
+  this so we can consider documenting/testing it better.")
 
   :input-slots
   ("List of GDL Surface or Face objects. These will be stitched together into an open shell or possibly a Solid" faces-in)
