@@ -148,7 +148,7 @@ few seconds to several minutes for the Genworks GDL Console (or
 error messages, warnings, etc.")
 	 
 	 (:item "In Emacs, type: "
-	   (:texttt "C-x \\&")
+	   (:texttt "C-x &")
 	   " (or select Emacs menu item "
 	   "Buffers&dollar;\\rightarrow&dollar;*slime-repl...*"
 	   ") to visit the ``*slime-repl ...*'' buffer. The full name
@@ -225,11 +225,11 @@ to the file in your HOME directory.")
 	 
 	 (:item "type " (:texttt "C-c C-k") " (or choose Emacs menu item "
 		(:emph "SLIME&dollar;\\rightarrow&dollar;Compilation&dollar;\\rightarrow&dollar;Compile/Load File")
-		") to compile \\& load the code from this file.")
+		") to compile & load the code from this file.")
 
 	 (:item "type " (:texttt "C-c o") " (or move and click the mouse)  to switch to the bottom window.")
 
-	 (:item "In the bottom window, type " (:texttt "C-x \\&") " (or choose Emacs menu item "
+	 (:item "In the bottom window, type " (:texttt "C-x &") " (or choose Emacs menu item "
 		(:emph "Buffers&dollar;\\rightarrow&dollar;*slime-repl...*")
 		") to get the "
 		(:texttt "*slime-repl ...*") " buffer, which should contain a "
@@ -269,8 +269,8 @@ then shut down your Emacs."
 	   " in the mini-buffer), then press [Enter]")
 
 	 (:item "alternatively, you can type "
-	   (:texttt "C-x \\&")
-	   " (that is, hold Control and press X, then release both while you type \\&. 
+	   (:texttt "C-x &")
+	   " (that is, hold Control and press X, then release both while you type &. 
 This will visit the *slime-repl* buffer. Now type: "
 	   (:texttt ", q")
 	   " to quit the GDL session.")

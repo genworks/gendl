@@ -649,10 +649,11 @@ the function returns NIL. If <tt>:normal</tt> (the default), then no filtering i
                          (:all whittled)
                          (otherwise (let ((category (normalize-category-name category)))
                                       (remove-if-not #'(lambda(pair) (eql (second pair) category)) whittled)))))
-             (filtered (if (functionp filter)
+
+	     (filtered (if (functionp filter)
                            (remove-if-not #'(lambda(message-and-category)
                                               (apply filter (reverse message-and-category)))
-                                          unfiltered) chiseled)))
+                                          chiseled) chiseled)))
         (let ((sorted
                (ecase sort-order
                  (:unsorted filtered)

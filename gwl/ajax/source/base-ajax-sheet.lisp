@@ -167,10 +167,8 @@ in the applicable lens for  html-format."
 Default is nil."
 		 body-onload nil)
                 
-                ("String or nil. Contains the string for the doctype at the top of the document. Default is:
- 
-  \"<!DOCTYPE HTML>\"
-"
+                ("String or nil. Contains the string for the doctype at the top of the document. 
+Default is the standard doctype for HTML5 and later."
 
                  doctype-string "<!DOCTYPE HTML>")
                 

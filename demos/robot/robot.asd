@@ -1,24 +1,13 @@
 ;;;; -*- coding: utf-8 -*-
 
-(asdf:defsystem
- #:robot
- :description
- "The Gendl™ Simplified Android Robot example "
- :author
- "Genworks International"
- :license
- "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial
- t
- :version
- "20140313"
- :depends-on
- nil ;;(:gwl-graphics)
+(asdf:defsystem #:robot :description
+ "The Gendl™ Simplified Android Robot example " :author
+ "John McCarthy" :license
+ "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
+ :version "20140416" :depends-on nil
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
- ((:file "source/package")
-  (:file "source/assembly")
-  (:file "source/initialize")
-  (:file "source/parameters")
+ ((:file "source/package") (:file "source/assembly")
+  (:file "source/initialize") (:file "source/parameters")
   (:file "source/zzinit")))

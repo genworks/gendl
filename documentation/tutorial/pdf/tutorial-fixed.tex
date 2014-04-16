@@ -386,25 +386,12 @@ from an object-oriented language, such as
 
 \end{itemize}
 
-\index{object-orientation!message-passing}\index{object-orientation!generic-function}
-
-\item GDL supports the ``message-passing'' paradigm of object
-orientation, with some extensions. Since full-blown ANSI CLOS (Common
-Lisp Object System) is always available as well, you are free to use
-the Generic Function paradigm. Do not be concerned at this point if
-you are not fully conversant with the differences between Message
-Passing and Generic Function models of object-orientation.\footnote{See Paul Graham's 
-\underline{ANSI Common Lisp}, page 192, for an excellent discussion of the Two Models 
-of Object-oriented Programming. Peter Siebel's 
-\underline{Practical Common Lisp} also covers the topic; see http://www.gigamonkeys.com/book/object-reorientation-generic-functions.html.}.
 
 \end{itemize}
 
 
 
-\section{Why GDL (i.e., what is GDL good for?)}
-
-\label{sec:whygdl(i.e.,whatisgdlgoodfor?)}
+\section{Why GDL}
 
 
 
@@ -1696,8 +1683,6 @@ arguments in any way:
 variable such as \texttt{my-slides}.
 
 \section{Summary}
-
-\label{sec:summary}
 
 In this chapter we have presented enough basics of Lisp's
 minimal syntax, and some particulars of Common Lisp, to enable you to
@@ -4300,13 +4285,7 @@ system.
 \label{sec:cl-lite(compile-and-loadliteutility)}
 
 
-
-
-
 \subsection{Function and Macro Definitions}
-
-\label{subsec:functionandmacrodefinitions}
-
 
 
 \begin{itemize}
@@ -4555,7 +4534,6 @@ sequence.
 
 \subsection{Function and Macro Definitions}
 
-\label{subsec:functionandmacrodefinitions}
 
 
 
@@ -5113,13 +5091,6 @@ sequence.
 
 
 
-\item \index{hat-2}
-\label{prim:hat-2}
-\textbf{hat-2}
-
-
-
-
 
 \end{itemize}
 
@@ -5127,7 +5098,6 @@ sequence.
 
 \subsection{Object Definitions}
 
-\label{subsec:objectdefinitions}
 
 
 
@@ -5461,25 +5431,6 @@ A radial sequence quantification is generated as a result of specifying
 
 \textbf{
 \underline{Mixins:}} vanilla-mixin
-
-
-
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Represents a row of data.
-
-
-
-\end{description}
-
-
-
 
 
 
@@ -6425,7 +6376,6 @@ re-evaluates the expression to compute the original list of indices)
 
 \subsection{Function and Macro Definitions}
 
-\label{subsec:functionandmacrodefinitions}
 
 
 
@@ -6973,7 +6923,7 @@ re-evaluates the expression to compute the original list of indices)
 
 \subsection{Object Definitions}
 
-\label{subsec:objectdefinitions}
+
 
 
 
@@ -6985,7 +6935,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 \textbf{
-\underline{Mixins:}} linear-dimension, vanilla-mixin
+\underline{Mixins:}} linear-dimension
 
 
 
@@ -9402,7 +9352,7 @@ of one (1.0).
 
 
 \textbf{
-\underline{Mixins:}} constrained-arc, vanilla-mixin
+\underline{Mixins:}} constrained-arc
 
 
 
@@ -10398,7 +10348,7 @@ as with global-filleted-polygon.
 
 
 \textbf{
-\underline{Mixins:}} global-filleted-polyline-mixin, vanilla-mixin
+\underline{Mixins:}} global-filleted-polyline-mixin
 
 
 
@@ -10478,23 +10428,6 @@ for documentation on the messages.
 
 \textbf{
 \underline{Mixins:}} global-polyline-mixin
-
-
-
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Generates a polyline with the corners filleted according to default radius or the radius-list.
-
-
-
-\end{description}
-
 
 
 
@@ -10798,7 +10731,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 \textbf{
-\underline{Mixins:}} global-polyline-mixin, vanilla-mixin
+\underline{Mixins:}} global-polyline-mixin
 
 
 
@@ -10880,21 +10813,6 @@ global-polyline-mixin for documentation on the messages.
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Makes a connected polyline with vertices connected by straight line segments.
-
-
-
-\end{description}
-
-
-
-
 
 
 
@@ -10958,7 +10876,7 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 \textbf{
-\underline{Mixins:}} linear-dimension, vanilla-mixin
+\underline{Mixins:}} linear-dimension
 
 
 
@@ -11105,22 +11023,6 @@ Must be specified in the subclass except for angular
 
 \textbf{
 \underline{Mixins:}} outline-specialization-mixin, base-object
-
-
-
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Produces a text label for graphical output
-
-
-
-\end{description}
 
 
 
@@ -12356,7 +12258,7 @@ cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch).
    :computed-slots
    ((data (list 30 70))
    
-    (labels&colors '(("Expenses" :red) ("Revenue" :green)))
+    (labels\&colors '(("Expenses" :red) ("Revenue" :green)))
    
     (width 200) 
    
@@ -12999,7 +12901,7 @@ of one (1.0).
 
 
 \textbf{
-\underline{Mixins:}} base-drawing, vanilla-mixin
+\underline{Mixins:}} base-drawing
 
 
 
@@ -13518,21 +13420,6 @@ or cap-thickness, not both.
 \textbf{
 \underline{Mixins:}} base-object
 
-
-
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Outputs a single line of text for graphical display.
-
-
-
-\end{description}
 
 
 
@@ -14184,7 +14071,6 @@ Must be specified in the subclass except for angular
 
 \subsection{Function and Macro Definitions}
 
-\label{subsec:functionandmacrodefinitions}
 
 
 
@@ -14340,7 +14226,6 @@ Must be specified in the subclass except for angular
 
 \subsection{Object Definitions}
 
-\label{subsec:objectdefinitions}
 
 
 
@@ -14352,7 +14237,7 @@ Must be specified in the subclass except for angular
 
 
 \textbf{
-\underline{Mixins:}} layout-mixin, vanilla-mixin
+\underline{Mixins:}} layout-mixin
 
 
 
@@ -14491,15 +14376,6 @@ Default for the image-format-selector. Defaults to :png.
 
  The default formats for graphics display. Defaults to:
  
-
-\begin{verbatim}
- (list :png "PNG image"
-       :jpeg "jpeg image"
-       :raphael "SVG/VML")
-
-\end{verbatim}
-
-
 
 \item [Immune-objects]
 \index{Immune-objects
@@ -14947,10 +14823,7 @@ Default is nil.
 \index{Doctype-string
 [base-ajax-sheet]}\emph{String or nil}
 
- Contains the string for the doctype at the top of the document.
-Default is the standard doctype for HTML5 and later.
-
-
+ Contains the string for the doctype at the top of the document. Default is:
 
 
 \item [Main-sheet-body]
@@ -15002,9 +14875,7 @@ is the intended use of the base-ajax-sheet primitive.
 \index{Additional-header-js-content
 [base-ajax-sheet]}\emph{valid javascript}
 
- This javascript is added to the head of the page, just before the body.
-
-
+ This javascript is added to the head of the page -just before- the body.
 
 
 \item [Ui-specific-layout-js]
@@ -15106,7 +14977,7 @@ from a saved snapshot file.
 
 
 \textbf{
-\underline{Mixins:}} skeleton-form-control, vanilla-mixin
+\underline{Mixins:}} skeleton-form-control
 
 
 
@@ -16356,7 +16227,7 @@ link to the vendor on public web pages.
 
 
 \textbf{
-\underline{Mixins:}} base-form-control, vanilla-mixin
+\underline{Mixins:}} base-form-control
 
 
 
@@ -16435,19 +16306,6 @@ the same name, where each can return a different value).
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Internal mixin for use inside e.g. base-html-graphics-sheet.
-
-
-
-\end{description}
-
-
 
 
 
@@ -16507,7 +16365,7 @@ Beginnings of spread-sheet-like
 grid control.
 
 To do: Add row button, sort by column values, 
-save \& restore snapshot. Easy way for user to 
+save and restore snapshot. Easy way for user to 
 customize layout and markup.
 
 Allow for all types of form-control for each column.
@@ -17053,7 +16911,7 @@ descendants which are of type node-mixin or application-mixin.
 
 
 \textbf{
-\underline{Mixins:}} base-form-control, vanilla-mixin
+\underline{Mixins:}} base-form-control
 
 
 
@@ -17208,7 +17066,7 @@ eql for keywords, string-equal for strings, and equalp otherwise.
 
 
 \textbf{
-\underline{Mixins:}} layout-mixin, vanilla-mixin
+\underline{Mixins:}} layout-mixin
 
 
 
@@ -17310,23 +17168,10 @@ displayed in the graphics. Defaults to the appended result of children's
 
 
 \textbf{
-\underline{Mixins:}} menu-form-control, vanilla-mixin
+\underline{Mixins:}} menu-form-control
 
 
 
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Produces a standard radio-button form control.
-
-
-
-\end{description}
 
 
 
@@ -17599,7 +17444,7 @@ Method which will set the expires-at slot to the current time + the session-dura
 
 
 \textbf{
-\underline{Mixins:}} skeleton-ui-element, vanilla-mixin
+\underline{Mixins:}} skeleton-ui-element
 
 
 
@@ -17660,7 +17505,7 @@ are the child of a base-ajax-sheet.
 
 
 \textbf{
-\underline{Mixins:}} skeleton-ui-element, vanilla-mixin
+\underline{Mixins:}} skeleton-ui-element
 
 
 
@@ -18082,7 +17927,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
 
 \textbf{
-\underline{Mixins:}} base-form-control, vanilla-mixin
+\underline{Mixins:}} base-form-control
 
 
 
@@ -18606,7 +18451,6 @@ internally-computed object, this should not be overridden in user code.
 
 \subsection{Function and Macro Definitions}
 
-\label{subsec:functionandmacrodefinitions}
 
 
 
@@ -18658,7 +18502,6 @@ internally-computed object, this should not be overridden in user code.
 
 \subsection{Object Definitions}
 
-\label{subsec:objectdefinitions}
 
 
 
@@ -20345,21 +20188,6 @@ for merged-solid where we default this to nil.
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Implements adaptive tolerancing for certain brep objects.
-
-
-
-\end{description}
-
-
-
-
 
 
 
@@ -21430,46 +21258,24 @@ The keys are as follows:
 
 \item \texttt{:min-number-of-segments}
 
-
 \item \texttt{:max-3d-edge-factor}
-
 
 \item \texttt{:min-parametric-ratio}
 
-
 \item \texttt{:max-chord-height}
-
 
 \item \texttt{:max-angle-degrees}
 
-
 \item \texttt{:min-3d-edge}
-
 
 \item \texttt{:min-edge-ratio-uv}
 
-
 \item \texttt{:max-aspect-ratio}
-
 
 \end{itemize}
 
-
+\texttt{}
 and the defaults come from the following parameters:
-
-
-\begin{verbatim}
-   (list 
-       :min-number-of-segments *tess-min-number-of-segments*
-       :max-3d-edge-factor *tess-max-3d-edge-factor*
-       :min-parametric-ratio *tess-min-parametric-ratio*
-       :max-chord-height *tess-max-chord-height*
-       :max-angle-degrees *tess-max-angle-degrees*
-       :min-3d-edge *tess-min-3d-edge*
-       :min-edge-ratio-uv *tess-min-edge-ratio-uv*
-       :max-aspect-ratio *tess-max-aspect-ratio*)
-
-\end{verbatim}
 
 
 
@@ -22107,21 +21913,6 @@ Defaults to nil which makes them display as children.
 \textbf{
 \underline{Mixins:}} base-object
 
-
-
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Represents a hierarchical CAD assembly for import into GDL.
-
-
-
-\end{description}
 
 
 
@@ -24161,25 +23952,6 @@ Creates a smooth blend-surface between curve-1, lying on surface-1 and curve-2 o
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Represents one edge in a brep. This object is a type of curve and answers all curve messages.
-
-
-
-\end{description}
-
-
-
-
-
-
-
-
 \textbf{
 \underline{Computed slots:}}
 
@@ -24933,25 +24705,6 @@ and a V parameter if this input is :v. Default is :u.
 
 \textbf{
 \underline{Mixins:}} brep
-
-
-
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Generates a brep by extruding a profile along an axis vector.
-
-
-
-\end{description}
-
-
-
 
 
 
@@ -26897,7 +26650,7 @@ v-direction. Default is :u.
 
 
 \textbf{
-\underline{Mixins:}} \%linear-curve\%, vanilla-mixin
+\underline{Mixins:}} %linear-curve%, vanilla-mixin
 
 
 
@@ -27234,26 +26987,6 @@ the SMLib make-skinned-surface routine. Default is nil
 
 
 
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Attempts to take in a non-manifold brep and yield a manifold version.
-
-
-
-\end{description}
-
-
-
-
-
-
-
-
 \textbf{
 \underline{Input slots (required):}}
 
@@ -27266,12 +26999,7 @@ Attempts to take in a non-manifold brep and yield a manifold version.
  The brep to be represented as a manifold brep in this instance.
 
 
-
-
 \end{description}
-
-
-
 
 
 
@@ -27685,24 +27413,6 @@ for this parametric curve
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Offsets the faces of a brep by a certain distance.
-
-
-
-\end{description}
-
-
-
-
-
-
-
 
 \textbf{
 \underline{Input slots (required):}}
@@ -27767,20 +27477,6 @@ Defaults to (the adaptive-tolerance) of the input brep.
 
 
 
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-This primitive generates a new surface
-  which is offset from input surface in all normal directions from input surface.
-
-
-
-\end{description}
 
 
 
@@ -29716,25 +29412,6 @@ repeated in order. Defaults to a list with keys:
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Offsets the faces of a brep by a certain thickness.
-
-
-
-\end{description}
-
-
-
-
-
-
-
-
 \textbf{
 \underline{Input slots (required):}}
 
@@ -30394,29 +30071,6 @@ If some trimmed surfaces or B-reps are blanked, they are grouped into a second, 
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Attempts to stitch together a list of
-  surfaces into an open shell or possibly a manifold solid. This
-  primitive is not widely tested and may be deprecated. Consider use
-  of merged-solid instead. Please let Genworks know if you are using
-  this so we can consider documenting/testing it better.
-
-
-
-\end{description}
-
-
-
-
-
-
-
-
 \textbf{
 \underline{Input slots (required):}}
 
@@ -30565,54 +30219,34 @@ sew-and-orient operation. Defaults to nil.
 \index{Tessellation-parameters
 [surface]}\emph{Plist of keyword symbols and numbers}
 
- This controls tessellation for the brep of this surface.
+ This controls tessellation for this brep.
 The keys are as follows:
-
 
 \begin{itemize}
 
 \item \texttt{:min-number-of-segments}
-
-
+\texttt{}
 \item \texttt{:max-3d-edge-factor}
-
-
+\texttt{}
 \item \texttt{:min-parametric-ratio}
-
-
+\texttt{}
 \item \texttt{:max-chord-height}
-
-
+\texttt{}
 \item \texttt{:max-angle-degrees}
-
-
+\texttt{}
 \item \texttt{:min-3d-edge}
-
-
+\texttt{}
 \item \texttt{:min-edge-ratio-uv}
-
-
+\texttt{}
 \item \texttt{:max-aspect-ratio}
-
 
 \end{itemize}
 
-
+\texttt{}
 and the defaults come from the following parameters:
+\texttt{}
 
-
-\begin{verbatim}
-   (list 
-       :min-number-of-segments *tess-min-number-of-segments*
-       :max-3d-edge-factor *tess-max-3d-edge-factor*
-       :min-parametric-ratio *tess-min-parametric-ratio*
-       :max-chord-height *tess-max-chord-height*
-       :max-angle-degrees *tess-max-angle-degrees*
-       :min-3d-edge *tess-min-3d-edge*
-       :min-edge-ratio-uv *tess-min-edge-ratio-uv*
-       :max-aspect-ratio *tess-max-aspect-ratio*)
-
-\end{verbatim}
+\texttt{}
 
 
 
@@ -31874,24 +31508,6 @@ Given two brep solids, performs the union Boolean between the brep and the other
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Convenience object to return UV parameter values on surface.
-
-
-
-\end{description}
-
-
-
-
-
-
-
 
 \textbf{
 \underline{Gdl functions:}}
@@ -32153,7 +31769,6 @@ Convenience object to return UV parameter values on surface.
 
 \subsection{Object Definitions}
 
-\label{subsec:objectdefinitions}
 
 
 
@@ -32166,24 +31781,6 @@ Convenience object to return UV parameter values on surface.
 
 \textbf{
 \underline{Mixins:}} sheet-section
-
-
-
-
-
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Implements an interactive graphical tree from a nested list using HTML list element and CSS.
-
-
-
-\end{description}
-
-
 
 
 
@@ -32268,23 +31865,6 @@ as flat lists. Any children which throw errors come back as a plist with error i
 
 
 
-\begin{description}
-
-\item [
-\underline{Description}]
-
-
-Implements an interactive grapical tree using HTML table elements.
-
-
-
-\end{description}
-
-
-
-
-
-
 
 
 \textbf{
@@ -32353,8 +31933,6 @@ String
 
 \subsection{Object Definitions}
 
-\label{subsec:objectdefinitions}
-
 
 
 \begin{itemize}
@@ -32389,12 +31967,8 @@ Dave Cooper (Genworks)
 documentation for all the relevant packages in the current Lisp session. Presents a 
 standard :write-html-sheet method which can also be crawled with a call to 
 
-
 \begin{verbatim}
-
      (gwl:crawl "yadd:assembly")
-
-
 \end{verbatim}
 
 The packages to be documented, and whether the green/red supported 
@@ -32682,9 +32256,7 @@ based on the symbols' print-names.
 \index{Additional-header-js-content
 [master-index]}\emph{valid javascript}
 
- This javascript is added to the head of the page, just before the body.
-
-
+ This javascript is added to the head of the page just before the body.
 
 
 \item [Main-sheet-body]

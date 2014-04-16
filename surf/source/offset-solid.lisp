@@ -48,7 +48,7 @@ Defaults to (the adaptive-tolerance) of the input brep."
 
 (define-object shelled-solid (brep)
   
-  :description (:description "Offsets the faces of a brep by a certain thickness.")
+  :documentation (:description "Offsets the faces of a brep by a certain thickness.")
 
   :input-slots
   ("GDL Brep object. Should be an open shell. 
