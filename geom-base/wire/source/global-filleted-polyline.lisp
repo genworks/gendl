@@ -23,6 +23,7 @@
 
 (define-object global-filleted-polyline-mixin (global-polyline-mixin)
   
+  :documentation (:description "Generates a polyline with the corners filleted according to default radius or the radius-list.")
   
   :input-slots
   (vertex-list

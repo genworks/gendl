@@ -48,14 +48,8 @@
 </pre>")
 
   
-  :computed-slots
-  ((left-vector (the dimension-text (face-normal-vector :left)))
-   (right-vector (the dimension-text (face-normal-vector :right)))
-   (front-vector (the dimension-text (face-normal-vector :front)))
-   (rear-vector (the dimension-text (face-normal-vector :rear)))
-   
-   
-   ("3D Point. Determines where the text will start. Defaults to reasonable location for 
+  :input-slots
+  (("3D Point. Determines where the text will start. Defaults to reasonable location for 
 horizontal-dimension."
     dim-text-start (let ((mid-point (translate-along-vector 
                                      (the leader-start)
@@ -86,20 +80,29 @@ horizontal-dimension."
                                        (:start (translate-along-vector (the leader-start) 
                                                                        (if (the start-end-swapped?) 
                                                                            (the rear-vector) 
-                                                                         (the front-vector))
-                                                          (+ (the leader-line-length)
-                                                             (half (the dimension-text width)))))
+									   (the front-vector))
+								       (+ (the leader-line-length)
+									  (half (the dimension-text width)))))
                                        (:end (translate-along-vector (the leader-end) 
                                                                      (if (the start-end-swapped?) 
                                                                          (the rear-vector)
-                                                                       (the front-vector))
+									 (the front-vector))
                                                                      (+ (half (the dimension-text width))
                                                                         (the leader-line-length-2)))))))))
                        (translate-along-vector
                         (translate-along-vector center  (the left-vector)
                                                 (half (the dimension-text width)))
                         (the front-vector)
-                        (half (the dimension-text length))))))
+                        (half (the dimension-text length)))))))
+
+  :computed-slots
+  ((left-vector (the dimension-text (face-normal-vector :left)))
+   (right-vector (the dimension-text (face-normal-vector :right)))
+   (front-vector (the dimension-text (face-normal-vector :front)))
+   (rear-vector (the dimension-text (face-normal-vector :rear)))
+   
+   
+   
    
    
    (full-leader-break-points 

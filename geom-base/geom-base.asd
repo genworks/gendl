@@ -3,7 +3,7 @@
 (asdf:defsystem #:geom-base :description
  "The Gendl™ Wireframe Geometry" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20140227" :depends-on (:glisp)
+ :version "20140424" :depends-on (:glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
@@ -29,6 +29,7 @@
   (:file "wire/source/directional-light")
   (:file "wire/source/ellipse") (:file "wire/source/fillet")
   (:file "wire/source/global-filleted-polygon-projection")
+  (:file "wire/source/line-and-arc-constraints")
   (:file "wire/source/null-geometric-object")
   (:file "wire/source/outline-specialization-mixin")
   (:file "wire/source/point-light") (:file "wire/source/point")

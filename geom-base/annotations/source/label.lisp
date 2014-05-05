@@ -22,7 +22,9 @@
 (in-package :geom-base)
 
 (define-object label (outline-specialization-mixin base-object)
-  :documentation (:examples "<pre>        
+  :documentation (:description 
+		  "Produces a text label for graphical output"
+		  :examples "<pre>        
 
  (in-package :gdl-user)
                    
@@ -133,7 +135,7 @@ and <tt>nil</tt> are supported. The default is nil"
                   (:right (translate (lastcar (the leader-path)) :right (the text-gap)))
                   (:left (translate (lastcar (the leader-path)) :left (+ (the text-gap) (the-child width)))))
          :strings (or (ensure-list (the strings)) (ensure-list (the text)))
-         :pass-down (font outline-shape-type character-size dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset))))
+         :pass-down (onclick-function font outline-shape-type character-size dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset))))
 
   
   

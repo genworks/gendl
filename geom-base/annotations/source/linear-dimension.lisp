@@ -24,8 +24,10 @@
 
 (define-object linear-dimension (outline-specialization-mixin base-object)
   
-  :documentation (:description "Creates a dimension along either the horizontal, vertical, or an arbitray axis. Use
-<tt>horizontal-dimension</tt>, <tt>vertical-dimension</tt>, or <tt>parallel-dimension</tt>, respectively, to achieve these.")
+  :documentation (:description "Creates a dimension along either the
+horizontal, vertical, or an arbitray axis. Use
+<tt>horizontal-dimension</tt>, <tt>vertical-dimension</tt>, or
+<tt>parallel-dimension</tt>, respectively, to achieve these.")
   
   :input-slots
   (
@@ -205,6 +207,7 @@ and end-point."
   (   
    
    
+   (%corners% (list (the start-point) (the end-point)))
    
    
    (safe-distance (+ (3d-distance (the start-point) (the center))
@@ -356,5 +359,6 @@ and end-point."
                                                                        (the leader-start)))
                                   (the orientation))
                    :pass-down (font character-size text-x-scale justification outline-shape-type underline?
-                                    dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset))))
+                                    dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset
+ 				    onclick-function))))
 

@@ -23,6 +23,8 @@
 
 (define-object global-polyline-mixin (base-object)
   
+  :documentation (:description "Makes a connected polyline with vertices connected by straight line segments.")
+  
   :input-slots
   ("List of 3D Points. The vertices (``corners'') of the polyline."
    vertex-list)
@@ -39,6 +41,10 @@
                                     (the %lines-to-draw%))))
    
    
+   (path-info (append (list :move (first (the vertex-list)))
+		      (mapcan #'(lambda(point) (list :line point))
+			      (rest (the vertex-list)))))
+
    (%renderer-info% (list :vrml? t :view-default :top))
    
    ("List of pairs of 3D points. Each pair represents the start and end of each line segment in the polyline."

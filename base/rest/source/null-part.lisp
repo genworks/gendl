@@ -33,6 +33,7 @@ conditional <tt>:type</tt> expression if you want to turn off a branch of the tr
    (%lines-to-draw% nil)
    (%curves-to-draw% nil)
    (%2d-bounding-box% nil)
+   (path-info nil)
    
    ))
 

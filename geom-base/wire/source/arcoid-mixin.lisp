@@ -46,6 +46,9 @@ For developers it should be used as a mixin.")
    (end-angle-normalized (apply #'max (the angles-normalized)))
    
    (start-to-end-angle (- (the end-angle-normalized) (the start-angle-normalized)))
+   
+   (total-length (* (the radius) (the start-to-end-angle)))
+   
    (%arcs% (list self)))
   
   

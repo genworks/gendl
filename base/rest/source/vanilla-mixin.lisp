@@ -28,10 +28,11 @@
   
   :no-vanilla-mixin? t
   
-  :documentation (:description "Vanilla-Mixin is automatically inherited by every object
-created in GDL. It provides basic messages which are common to all GDL objects defined
-with the define-object macro, unless <tt>:no-vanilla-mixin t</tt> is specified at the toplevel
-of the define-object form.")
+  :documentation (:description "Vanilla-Mixin is automatically
+inherited by every object created in GDL. It provides basic messages
+which are common to all GDL objects defined with the define-object
+macro, unless <tt>:no-vanilla-mixin t</tt> is specified at the
+toplevel of the define-object form.")
   
   :input-slots
   (
@@ -46,17 +47,20 @@ of the define-object form.")
    (%aggregate% nil)
    (%index% nil)
    
-   ("String or List of Strings. Determines how the name of objects of this type will be printed in most places. 
-This defaults to the name-for-display (generally the part's name as specified in its
-parent), followed by an index number if the part is an element of a sequence."
-    strings-for-display (format nil "~a~a~a" (the :name-for-display)
+   ("String or List of Strings. Determines how the name of objects of
+this type will be printed in most places.  This defaults to the
+name-for-display (generally the part's name as specified in its
+parent), followed by an index number if the part is an element of a
+sequence."  strings-for-display (format
+nil "~a~a~a" (the :name-for-display)
                                 (if (the :index) " " "")
                                 (or (the :index) "")))
    (parent-tree nil)
    
-   ("List of GDL Instances. Additional objects to display in Tatu tree. Typically this would be a subset of hidden-children. Defaults to NIL."
+   ("List of GDL Instances. Additional objects to display in Tatu
+    tree. Typically this would be a subset of
+    hidden-children. Defaults to NIL."  
     visible-children nil)
-   
    
    
    
@@ -427,6 +431,10 @@ reading from databases or external files). Defaults to nil.\")"
           (unless (funcall equality-function value current)
             (the (set-slot! slot value :remember? remember?)))))))
 
+
+;;
+;; FLAG -- notify trobertson@whitebox.com if any changes to %version-tree% structure!!
+;;
    
 
    ("NIL. Forcibly sets the value of the given slot to the given value. The slot must be defined
@@ -641,10 +649,11 @@ the function returns NIL. If <tt>:normal</tt> (the default), then no filtering i
                          (:all whittled)
                          (otherwise (let ((category (normalize-category-name category)))
                                       (remove-if-not #'(lambda(pair) (eql (second pair) category)) whittled)))))
-             (filtered (if (functionp filter)
+
+	     (filtered (if (functionp filter)
                            (remove-if-not #'(lambda(message-and-category)
                                               (apply filter (reverse message-and-category)))
-                                          unfiltered) chiseled)))
+                                          chiseled) chiseled)))
         (let ((sorted
                (ecase sort-order
                  (:unsorted filtered)

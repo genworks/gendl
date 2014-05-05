@@ -23,6 +23,8 @@
 
 (define-object edge (curve)
   
+  :documentation (:description "Represents one edge in a brep. This object is a type of curve and answers all curve messages.")
+
   :input-slots (%native-edge%
                 %native-brep% 
                 brep 

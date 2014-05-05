@@ -58,10 +58,19 @@ Currently only :wedge is supported. Default is :none."
                                        (first (the path-points))))
    (leader-length (3d-distance (first (the path-points)) (lastcar (the path-points))))
    
+
+   (path-info (append (the arrowhead path-info)
+		      (the polyline path-info)
+		      (apply #'append (mapsend (the polylines) :path-info))
+		      (the arrowhead-2 path-info)))
+
+   (display-controls (merge-display-controls (list :fill-color :black)))
+
+		    
    
    (%lines-to-draw% (remove nil
-			    (cons (the polyline %lines-to-draw%)
-				  (apply #'append (mapsend (the polylines) :%lines-to-draw%))))))
+			    (append (the polyline %lines-to-draw%)
+				    (apply #'append (mapsend (the polylines) :%lines-to-draw%))))))
 
   
   :hidden-objects
@@ -80,15 +89,15 @@ Currently only :wedge is supported. Default is :none."
 
    
    (arrowhead :type (if (not (eql (the arrowhead-style) :none)) 'arrowhead 'null-part)
-               :center (first (the path-points))
-               :length (the arrowhead-length)
-               :width (the arrowhead-width)
-               :style (the arrowhead-style)
-               :orientation (alignment :top (if (parallel-vectors? 
-                                                 (the (face-normal-vector :top)) (the arrowhead-vector))
-                                                (the (face-normal-vector :rear))
-                                              (the (face-normal-vector :top)))
-                                       :rear (reverse-vector (the arrowhead-vector))))
+	      :center (first (the path-points))
+	      :length (the arrowhead-length)
+	      :width (the arrowhead-width)
+	      :style (the arrowhead-style)
+	      :orientation (alignment :top (if (parallel-vectors? 
+						(the (face-normal-vector :top)) (the arrowhead-vector))
+					       (the (face-normal-vector :rear))
+					       (the (face-normal-vector :top)))
+				      :rear (reverse-vector (the arrowhead-vector))))
        
     (arrowhead-2 :type (if (not (eql (the arrowhead-style-2) :none))
                            'arrowhead 'null-part)

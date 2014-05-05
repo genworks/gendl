@@ -317,7 +317,8 @@ Defaults to the foreground color specified in <tt>*colors-default*</tt>. This me
    ;; FLAG -- The following information is a catch-all until each
    ;; primitive computes more efficient info.
    ;;
-   (%vertex-array% (append (flatten-lines (the %lines-to-draw%)) (flatten-curves (the %curves-to-draw%))))
+   (%vertex-array% (append (flatten-lines (the %lines-to-draw%)) 
+			   (flatten-curves (the %curves-to-draw%))))
    
    (%corners% nil)
    

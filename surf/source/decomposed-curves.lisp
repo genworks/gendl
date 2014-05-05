@@ -24,7 +24,7 @@
 (define-object decomposed-curves (base-object)
   
   :documentation (:description "Given an input curve, creates a sequence of curve segments that do not contain 
-knots with degree-fold mutiplicity, i.e. each piece is at least C^ continuous."
+knots with degree-fold mutiplicity."
                   :examples "<pre>
   
   (in-package :surf)  

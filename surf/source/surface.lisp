@@ -119,33 +119,34 @@ sew-and-orient operation. Defaults to nil."
     sew-and-orient-brep? nil)
    
 
-   ("Plist of keyword symbols and numbers. This controls tessellation for this brep.
+   ("Plist of keyword symbols and numbers. This controls tessellation for the brep of this surface.
 The keys are as follows:
-<tt><ul>
-          <li>:min-number-of-segments</li>
-          <li>:max-3d-edge-factor</li>
-          <li>:min-parametric-ratio</li>
-          <li>:max-chord-height</li>
-          <li>:max-angle-degrees</li>
-          <li>:min-3d-edge</li>
-          <li>:min-edge-ratio-uv</li>
-          <li>:max-aspect-ratio</li>
-</ul></tt>
+
+<ul>
+          <li><tt>:min-number-of-segments</tt></li>
+          <li><tt>:max-3d-edge-factor</tt></li>
+          <li><tt>:min-parametric-ratio</tt></li>
+          <li><tt>:max-chord-height</tt></li>
+          <li><tt>:max-angle-degrees</tt></li>
+          <li><tt>:min-3d-edge</tt></li>
+          <li><tt>:min-edge-ratio-uv</tt></li>
+          <li><tt>:max-aspect-ratio</tt></li>
+</ul>
 
 and the defaults come from the following parameters:
 
- <tt><dl>
- <dd>(list </dd>
-       <dd>:min-number-of-segments *tess-min-number-of-segments* </dd>
-       <dd>:max-3d-edge-factor *tess-max-3d-edge-factor* </dd>
-       <dd>:min-parametric-ratio *tess-min-parametric-ratio* </dd>
-       <dd>:max-chord-height *tess-max-chord-height* </dd>
-       <dd>:max-angle-degrees *tess-max-angle-degrees* </dd>
-       <dd>:min-3d-edge *tess-min-3d-edge* </dd>
-       <dd>:min-edge-ratio-uv *tess-min-edge-ratio-uv* </dd>
-       <dd>:max-aspect-ratio *tess-max-aspect-ratio*) </dd>
+<pre>
+   (list 
+       :min-number-of-segments *tess-min-number-of-segments*
+       :max-3d-edge-factor *tess-max-3d-edge-factor*
+       :min-parametric-ratio *tess-min-parametric-ratio*
+       :max-chord-height *tess-max-chord-height*
+       :max-angle-degrees *tess-max-angle-degrees*
+       :min-3d-edge *tess-min-3d-edge*
+       :min-edge-ratio-uv *tess-min-edge-ratio-uv*
+       :max-aspect-ratio *tess-max-aspect-ratio*)
 
-</dl></tt>
+</pre>
 
 " 
     tessellation-parameters

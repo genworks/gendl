@@ -27,7 +27,7 @@
    :description "Base mixin for a yadd sheet")
   
   :computed-slots
-  (;; FLAG JB-090817 added default header content with links to style-sheet and icons
+  (
    ("String of valid HTML. Contains default header contents for yadd
 html files.  This computed-slot is available in all children of this
 object. It contains links to default header content of a HTML

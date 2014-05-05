@@ -22,6 +22,9 @@
 (in-package :surf)
 
 (define-object offset-surface (surface)
+  
+  :documentation (:description "This primitive generates a new surface
+  which is offset from input surface in all normal directions from input surface.")
 
   :input-slots
   ("GDL Surface object. The original surface from which to make the offset." surface-in

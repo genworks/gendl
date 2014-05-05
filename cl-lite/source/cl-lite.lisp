@@ -127,7 +127,10 @@ given as keyword args to this function)."
 
     :computed-slots
     ((device (pathname-device (the ppathname)))
-     (ppathname (probe-file (translate-logical-pathname (the pathname))))
+
+     (ppathname (probe-file (translate-logical-pathname (pathname (the pathname)))))
+     
+
      (contents (sort (glisp:directory-list (the ppathname))
                      #'(lambda (x y)
                          (string< (file-namestring x) (file-namestring y)))))

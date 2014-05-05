@@ -62,6 +62,8 @@ by specifying a start point and an end point."
    
    ("Number. The distance from start to end of the line."
     length (3d-distance (the :start) (the :end)))
+
+   (total-length (the length))
    
    ("3D Vector. Points from start to end of the line."
     direction-vector (subtract-vectors (the :end) (the :start)))

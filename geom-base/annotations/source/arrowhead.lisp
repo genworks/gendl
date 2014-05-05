@@ -51,6 +51,10 @@
                              (list p1 p2)
                              (list p2 p3)
                              (list p3 p0))))))
+
+   (path-info (append (list :move (first (the outline-points)))
+		      (mapcan #'(lambda(point) (list :line point))
+			      (rest (the outline-points)))))
     
    (outline-points (ecase (the style)
                      ((:wedge :double-wedge :triangle)
@@ -67,7 +71,8 @@
    
    (second-outline-points (when (member (the style) (list :double-wedge))
                             (mapcar #'(lambda(point)
-                                        (translate point :front (* (the length) (- 1 (the wedge-ratio)))))
+                                        (translate point :front (* (the length) 
+								   (- 1 (the wedge-ratio)))))
                                     (the outline-points))))))
 
 ;;
@@ -84,7 +89,8 @@
              (write-the line-thickness-setting)
            (destructuring-bind (p0 p1 p2 p3)
                (if view 
-                   (mapcar #'(lambda(point) (the-object view (view-point point))) (the outline-points))
+                   (mapcar #'(lambda(point) (the-object view (view-point point))) 
+			   (the outline-points))
                  (the outline-points))
              (write-the rgb-stroke-setting)
              (pdf:move-to (get-x p0) (get-y p0))
@@ -96,7 +102,8 @@
            (when (the second-outline-points)
              (destructuring-bind (p0 p1 p2 p3)
                  (if view 
-                     (mapcar #'(lambda(point) (the-object view (view-point point))) (the second-outline-points))
+                     (mapcar #'(lambda(point) (the-object view (view-point point))) 
+			     (the second-outline-points))
                    (the second-outline-points))
                (write-the rgb-stroke-setting)
                (pdf:move-to (get-x p0) (get-y p0))

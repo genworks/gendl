@@ -32,6 +32,8 @@
 ;; jquery, then use it here.
 ;;
 (define-object newertree (sheet-section)
+
+  :documentation (:description "Implements an interactive graphical tree from a nested list using HTML list element and CSS.")
   
   :input-slots
   (("Function of one argument. This function takes a node in the tree as an argument, and should return

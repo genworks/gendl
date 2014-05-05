@@ -25,18 +25,13 @@
 (defmacro defaulting (form &optional default)
   "Lisp object. Returns a default value if the reference-chain is not handled.
 
-Note: Defaulting is currently implemented with ignore-errors, so it will return the default value
-regardless of whether the reference-chain is actually not handled or throws some other error.
-
-This will be updated in a future GDL release only to return the default if the reference-chain
-is actually not handled, and to throw any other errors normally.
-
 :arguments (form \"Reference-chain with the or the-object\"
             default \"Lisp expression. Default value to return if reference-chain cannot be handled.\")"
   (let ((value (gensym)) (error (gensym)))
     `(multiple-value-bind (,value ,error) (ignore-errors ,form)
        (cond ((and ,error (typep ,error 'error)
-                   (let ((string (format nil "~a" ,error)))
+                   (let ((string (glisp:replace-regexp (format nil "~a" ,error)
+						       (format nil "~%") " ")))
                      (or (and (search "attempt to call" string)
                               (search "gdl-slots::" string))
                          (search "nor any of its ancestor instances could handle the" string)

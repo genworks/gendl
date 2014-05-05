@@ -215,6 +215,7 @@ is specified), so it is necessary to explicitly give either start or center for 
                :text (nth (the-child index) (the string-list))
                :pass-down (character-size text-x-scale font underline? width
                                           dxf-text-x-scale dxf-font dxf-offset dxf-size-ratio
+					  onclick-function
                                           )
                :start (translate (the start) 
                                  :front (* (the-child index)(the leading))
@@ -229,6 +230,8 @@ is specified), so it is necessary to explicitly give either start or center for 
 (define-object text-line (;;outline-specialization-mixin 
                           
                           base-object)
+
+  :documentation (:description "Outputs a single line of text for graphical display.")
   :input-slots
   (text (underline? nil)
    (text-x-scale 100)

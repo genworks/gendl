@@ -160,7 +160,7 @@ left-clicking (or tapping). These modes are as follows:")
 	 ((:item :word "Clear Leaves (DL)")
 	  "Delete Leaves")))
 
-      (:item (:underline "Tree: Inspect \\& debug modes")
+      (:item (:underline "Tree: Inspect & debug modes")
 	((:list :style :description)
 	 ((:item :word "Inspect object (I)")
 	  "Inspect (make the inspector frame to show the selected object).")

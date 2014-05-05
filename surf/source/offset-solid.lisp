@@ -23,6 +23,8 @@
 
 (define-object offset-solid (brep)
 
+  :documentation (:description "Offsets the faces of a brep by a certain distance.")
+  
   :input-slots
   ("GDL Brep object. The brep to be offset." brep
    "Number. The distance to offset. Can be negative." distance
@@ -45,6 +47,8 @@ Defaults to (the adaptive-tolerance) of the input brep."
 
 
 (define-object shelled-solid (brep)
+  
+  :documentation (:description "Offsets the faces of a brep by a certain thickness.")
 
   :input-slots
   ("GDL Brep object. Should be an open shell. 

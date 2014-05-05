@@ -25,6 +25,9 @@
 
 
 (define-object tree (sheet-section tree-node-mixin)
+
+  :documentation (:description "Implements an interactive grapical tree using HTML table elements.")
+
   :input-slots
   (("Function of one argument. This function takes a node in the tree as an argument, and should return
   a plist with keys :function and :arguments, which is a function in the bashee which will be called

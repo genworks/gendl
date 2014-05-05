@@ -167,10 +167,8 @@ in the applicable lens for  html-format."
 Default is nil."
 		 body-onload nil)
                 
-                ("String or nil. Contains the string for the doctype at the top of the document. Default is:
- 
-  \"<!DOCTYPE HTML>\"
-"
+                ("String or nil. Contains the string for the doctype at the top of the document. 
+Default is the standard doctype for HTML5 and later."
 
                  doctype-string "<!DOCTYPE HTML>")
                 
@@ -194,30 +192,8 @@ is the intended use of the base-ajax-sheet primitive."
                 ;; this is enable the user to add jquery code '$(document).ready(function () { /// };'
                 ;; and execute parts of this. This is complementary of the ui-specific-layout-js, which can
                 ;; only be an external js file. This is inline javascript
-                ("valid javascript. This javascript is added to the head of the page -just before- the body. 
-                  When jquery is loaded (by setting the input-slot (use-jquery t)), the javascript can use the 
-                  \'$([selector])\' shortcuts to do the magic. The javascript is automagically wrapped in the
-                  appropriate html tags to ensure a good execution by the javascript engine. When the use-jquery
-                  slot is true (t) than the javascript is wrapped in a '$(document).ready' function as a 
-                  Good Practice&#0153;.
-:example-1 when use-jquery is set to true (t)
-<pre>$('ul#menu').superfish({delay:1,speed:'fast'}) ;</pre> results in the following piece of HTML added 
-just before the body.
-<pre>&lt;script type='text/javascript'&gt;
-  $(document).ready(function () {
-    $('ul#menu').superfish({delay:1,speed:'fast'}) ;
-  });
-&lt;/script&gt;</pre>
-:example-2 when use-jquery is set to nil (false, not loaded)
-<pre>function initMenu({
-    // do javascript magic here.
-  });</pre> results in the following piece of HTML added just before the body.
-<pre>&lt;script type='text/javascript' language='Javascript'&gt;
-  function initMenu({
-    // do javascript magic here.
-  });
-&lt;/script&gt;</pre>
-"
+                ("valid javascript. This javascript is added to the head of the page, just before the body."
+
                  additional-header-js-content nil :settable)
                 
 

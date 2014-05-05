@@ -567,6 +567,12 @@ If you are interested in this effort we would love to hear from you at open-sour
            
 	   #:pie-chart
            
+
+	   #:fillet
+	   #:constrained-fillet
+	   #:constrained-line
+	   #:constrained-arc
+
 	   #:*gs-text-alpha-bits*
 	   #:*gs-graphics-alpha-bits*
 
@@ -627,7 +633,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:linear-curve
            #:fitted-curve
            #:planar-offset-curve
-           #:filleted-curve
+           ;;#:fillet
            #:projected-curve
            #:approximated-curve
            #:silhouette-curves

@@ -106,6 +106,21 @@ Defaults to nil."
    
    (witness-line-length-2 (the witness-line-length))
    
+
+   (leader-start (translate-along-vector (the start-point) 
+                                         (the witness-direction-vector-1)
+                                         (+ (the witness-line-length-1)
+                                            (the witness-line-gap))))
+
+   (leader-end (let ((nominal (translate-along-vector (the end-point)
+                                                      (the witness-direction-vector-2)
+                                                      (+ (the witness-line-length-2)
+                                                         (the witness-line-gap)))))
+                 (if (and (not (the outside-leaders?)) (the full-leader-line-length))
+                     (translate-along-vector (the leader-start)
+                                             (subtract-vectors nominal (the leader-start))
+                                             (the full-leader-line-length))
+                   nominal)))
    
    (dimension-angle (angle-between-vectors (the witness-direction-vector-1)
                                            (the witness-direction-vector-2)))
@@ -129,6 +144,10 @@ Defaults to nil."
                             arrowhead-style arrowhead-style-2 
                             arrowhead-length arrowhead-width))
    
+
+
+
+
    (leader-1 :type 'null-part ;; FLAG -- fill in for conditions requiring this.
              )
 

@@ -72,10 +72,12 @@ written consent from Genworks International.")
 
 
 (defun make (&optional (level 1))
-  (initialize-data)
+
   (let ((pdf-path (merge-pathnames "pdf/" *system-home*)))
 
     (load (merge-pathnames "../source/assembly.lisp" pdf-path))
+
+    (initialize-data)
 
     (let ((object (make-part 'com.genworks.dom:assembly :data *data*)))
       (ensure-directories-exist (translate-logical-pathname pdf-path))
@@ -88,15 +90,15 @@ written consent from Genworks International.")
 
     (asdf:run-shell-command 
      ;;(format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
-     (format nil "cd ~a; /usr/texbin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
+     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
      )
   
   (asdf:run-shell-command 
-   (format nil "cd ~a; /usr/texbin/makeindex tutorial" pdf-path))
+   (format nil "cd ~a; makeindex tutorial" pdf-path))
   
   (dotimes (n level)
     (asdf:run-shell-command 
-     (format nil "cd ~a; /usr/texbin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
+     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
 
 
 (define-object assembly (com.genworks.dom:assembly)

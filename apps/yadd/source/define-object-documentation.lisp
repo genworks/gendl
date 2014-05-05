@@ -299,11 +299,12 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
    (dom-body
     ()
 
+    
     (when (and (the example-code) (not (search "(generate-sample-drawing" (the example-code))))
       (warn "Sample code found in ~s, but no call to generate-sample-drawing was found."
 	    (the part-full-symbol)))
           
-    (let (pdf-file named-pdf-file)
+    (let (pdf-file named-pdf-file (net.html.parser::*ch-format* '(:i :b  :big :small :strike :s :u :em :strong :font)))
 
       (when (and (the example-code) 
 		 (or (search "(generate-sample-drawing" (the example-code))

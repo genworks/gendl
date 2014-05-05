@@ -23,7 +23,9 @@
 (in-package :surf)
 
 (define-object cad-assembly (base-object)
-
+  
+  :documentation (:description "Represents a hierarchical CAD assembly for import into GDL.")
+  
   :input-slots 
   ((file-name nil)
 
