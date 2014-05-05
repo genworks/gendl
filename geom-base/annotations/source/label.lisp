@@ -135,7 +135,7 @@ and <tt>nil</tt> are supported. The default is nil"
                   (:right (translate (lastcar (the leader-path)) :right (the text-gap)))
                   (:left (translate (lastcar (the leader-path)) :left (+ (the text-gap) (the-child width)))))
          :strings (or (ensure-list (the strings)) (ensure-list (the text)))
-         :pass-down (font outline-shape-type character-size dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset))))
+         :pass-down (onclick-function font outline-shape-type character-size dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset))))
 
   
   

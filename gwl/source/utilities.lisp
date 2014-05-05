@@ -1,15 +1,16 @@
 (in-package :gwl)
 
-(#+allegro 
- excl:without-redefinition-warnings 
- #-allegro progn
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (#+allegro 
+   excl:without-redefinition-warnings 
+   #-allegro progn
 	   
- (defmacro with-error-handling ((&key (error? nil)
-				      (timeout 2) 
-				      (timeout-body 
-				       `(warn "Timed Out after ~a Seconds" ,timeout))) 
-				&body body)
-   "[Macro]. Wraps the <b>body</b> of code with error-trapping and system timeout. 
+   (defmacro with-error-handling ((&key (error? nil)
+					(timeout 2) 
+					(timeout-body 
+					 `(warn "Timed Out after ~a Seconds" ,timeout))) 
+				  &body body)
+     "[Macro]. Wraps the <b>body</b> of code with error-trapping and system timeout. 
 A warning is given if an error condition occurs with <b>body</b>. 
 
 :&key ((timeout 2) \"Timeout in Seconds.\"
@@ -18,14 +19,14 @@ A warning is given if an error condition occurs with <b>body</b>.
 
 :&rest (body \"Body of code to be wrapped\")"
   
-   (if error? `(progn ,@body)
-       (let ((values (gensym)) (error (gensym)))
-	 (let ((code `(let* ((,values (multiple-value-list (ignore-errors ,@body)))
-			     (,error (second ,values)))
-			(if (and ,error (typep ,error 'error))
-			    (progn (warn "~a" ,error)
-				   (values nil ,error))
-			    (apply #'values ,values)))))
-	   (if timeout 
-	       `(,(glisp:with-timeout-sym) (,timeout ,timeout-body) ,code)
-	       code))))))
+     (if error? `(progn ,@body)
+	 (let ((values (gensym)) (error (gensym)))
+	   (let ((code `(let* ((,values (multiple-value-list (ignore-errors ,@body)))
+			       (,error (second ,values)))
+			  (if (and ,error (typep ,error 'error))
+			      (progn (warn "~a" ,error)
+				     (values nil ,error))
+			      (apply #'values ,values)))))
+	     (if timeout 
+		 `(,(glisp:with-timeout-sym) (,timeout ,timeout-body) ,code)
+		 code)))))))
