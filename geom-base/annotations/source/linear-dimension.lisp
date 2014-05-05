@@ -359,5 +359,6 @@ and end-point."
                                                                        (the leader-start)))
                                   (the orientation))
                    :pass-down (font character-size text-x-scale justification outline-shape-type underline?
-                                    dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset))))
+                                    dxf-text-x-scale dxf-size-ratio dxf-font dxf-offset
+ 				    onclick-function))))
 

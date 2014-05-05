@@ -283,20 +283,24 @@
 					(lookup-color (getf display-controls :fill-color) :format :hex))
 				      (the-object object fill-color-hex))))
 			(when fill (fmt "~a.attr({fill: '~a'});" name fill)))
+
 		      (let ((line-thickness (getf display-controls :line-thickness)))
+			
+			(setq line-thickness (when line-thickness (number-round line-thickness 4)))
+			
 			(when line-thickness 
-			  (fmt "~&~a.attr('stroke-width','~a');" name (number-round line-thickness 4)))
+			  (fmt "~&~a.attr('stroke-width','~a');" name line-thickness))
 
 			(fmt " ~a.node.onmouseover = function (){~a.attr({'stroke-width': '~a'});};" 
-			     name name 
-			     (floor (to-single-float (* (or line-thickness 1) 3))))
+			     name name (* (or line-thickness 1.0) 3))
 		      
 			(fmt " ~a.node.onmouseout = function (){~a.attr({'stroke-width': '~a'});};" 
-			     name name (to-single-float (or line-thickness 1))))
+			     name name (or line-thickness 1.0)))
 		      
 		      ;;
 		      ;; FLAG -- do something better here than ignore-errors
 		      ;;
+		      
 		      (cond ((the object onclick-function)
 			     (fmt "~a.node.onclick = function (event) {~a};" name
 				  (the parent parent parent 
@@ -349,7 +353,12 @@
 
       (with-format-slots (view)
         (let* ((view-scale (if view (the-object view view-scale-total) 1))
-               (center (translate (the center) :front (half (half (* 0.7 (the length)))))))
+               (center (translate (the center) :front (half (half (* 0.7 (the length))))))
+
+	       (name (base64-encode-safe 
+		     (format nil "~s" 
+			     (remove :root-object-object 
+				     (the  root-path))))))
 
 	  (setq center (if view (the-object view (view-point center)) center))
 
@@ -368,7 +377,11 @@
             (unless (zerop rotation) ;; FLAG -- rotate in raphael(pdf:rotate rotation)
               )
             (with-cl-who () 
-              (fmt "paper.text(~a, ~a, \"~a\").attr({\"font\": \"~2,3fpx Arial\", \"antialias\":  \"false\", \"stroke\": \"~a\", \"fill\": \"~a\"});"
+	      
+	      (fmt "var ~a;~%" name)
+
+              (fmt "~&~a = paper.text(~a, ~a, \"~a\").attr({\"font\": \"~2,3fpx Arial\", \"antialias\":  \"false\", \"stroke\": \"~a\", \"fill\": \"~a\"});"
+		   name
                    (get-x center)
                    (get-y center)
                    (the %text-to-draw%)
@@ -385,7 +398,18 @@
 
                    (or (or (when (getf display-controls :fill-color)
                              (lookup-color (getf display-controls :fill-color) :format :hex))
-                           (the-object object fill-color-hex)) "#000"))))))))))
+                           (the-object object fill-color-hex)) "#000"))
+
+	      (cond ((and view (the onclick-function))
+		     (fmt "~a.node.onclick = function (event) {~a};" name
+			  (the-object view parent parent 
+			       (gdl-ajax-call :function-key :call-onclick-function!
+					      :arguments (list self)))))
+		    ((ignore-errors (and (the viewport) (eql (the viewport digitation-mode) :select-object)))
+		     (fmt "~a.node.onclick = function (event) {~a};" name
+			  (the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
+						       :arguments (list self)))))
+		    (t nil))))))))))
 
 
 (define-lens (raphael point)()
