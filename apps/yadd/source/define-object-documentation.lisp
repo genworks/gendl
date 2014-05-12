@@ -452,6 +452,8 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 			   ((:td :align :left)
 			    (format *html-stream* "~{~a~^, ~}"
 				    trickle-down-slots)))))))
+
+
 	       (mapc #'(lambda (section)
 			 (let ((values (the-object section message-and-remarks)))
                       
@@ -552,7 +554,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 							  ((null val))
 							(write-byte val reply-stream))))))
                                        
-					      (when (zerop return-value)
+					      (when (or (null return-value) (zerop return-value))
 						(delete-file pdf-file)
 						(delete-file image-file)
 						(delete-file lisp-file)
@@ -772,8 +774,10 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                        (let ((note (with-cl-who-string ()
                                      "from "
                                      (let ((page-object (gethash (the remark-mixin) (the index-ht))))
-                                       (htm ((:a :href (the-object page-object url))
-                                             (str (the remark-mixin))))))))
+				       (if page-object
+					   (htm ((:a :href (the-object page-object url))
+						 (str (the remark-mixin))))
+					   (htm "unknown"))))))
                          (print-variables note)
                          note)))
    

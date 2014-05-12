@@ -106,6 +106,7 @@ In ~s, it evaluated to ~s.
     (index)
     (let ((child-types (the child-types))
 	  (array (the array)))
+      
       (typecase index
 	(number
 	 (if (>= index (length array))

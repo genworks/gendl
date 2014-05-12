@@ -92,13 +92,19 @@ the files are written into \"/tmp/sites/\".
     (multiple-value-bind (html code headers uri)
         (net.aserve.client:do-http-request (format nil "http://~a:~a~a" host port url))
       (declare (ignore code headers))
-      (let* ((lhtml      
-              (first (net.html.parser:parse-html 
+      (let* ((lhtmls (net.html.parser:parse-html 
                       html
                       :callbacks 
                       (list (cons :a
                                   #'(lambda(anchor)
-                                      (crawl-anchor anchor host port output-root visited-urls)))))))
+                                      (crawl-anchor anchor host port output-root visited-urls))))))
+
+	     (lhtml1 (first lhtmls))
+	     (lhtml2 (second lhtmls))
+	     
+	     (lhtml (if (eql (first lhtml1) :!doctype)
+			lhtml2 lhtml1))
+
              (url-string (net.uri:uri-path uri))
              (output-path 
               (let* ((components (rest (rest (split url-string #\/))))
