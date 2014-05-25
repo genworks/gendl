@@ -87,16 +87,16 @@ set of arms contained in the body which is contained in the robot which is conta
                                                           ,(make-keyword message) 'gdl-rule:%not-handled%)))
                                    (if (eql ,new-object 'gdl-rule:%not-handled%)
                                        (not-handled-error ,object ',message) ,new-object))))
-                          (cond ((and evaluate? apply?)
-                                 `(apply (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
+			    (cond ((and evaluate? apply?)
+				   `(apply (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
                                            ,args))
-                                (evaluate?
-                                 `(funcall (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
-                                           ,@args))
-                                (apply?
-                                 `(apply ',message ,object ,args))
+				  (evaluate?
+				   `(funcall (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
+					     ,@args))
+				  (apply?
+				   `(apply ',message ,object ,args))
                                 
-                                (t `(,message ,object ,@args))))
+				  (t `(,message ,object ,@args))))
                        
                        ,@(rest reference-chain))))
     object))

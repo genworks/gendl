@@ -95,6 +95,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:*gendl-patch-level*
            #:*ghostscript-path*
            #:*gs-path*
+	   #:*sort-children?*
            #:*load-documentation-database?*
            #:*load-source-code-database?*
            #:*out-of-bounds-sequence-reference-action*
