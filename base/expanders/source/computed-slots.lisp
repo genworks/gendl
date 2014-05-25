@@ -39,7 +39,16 @@
 		     (defmethod ,(glisp:intern message :gdl-inputs) ((,parent-arg gdl-basis) ,part-arg (,self-arg gdl-basis))
 		       (declare (ignore ,part-arg))
 		       (gdl-rule::lookup-parameters ,self-arg ,(make-keyword message))))) messages)))
-	
+
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defpackage :iq (:use) (:export #:qlet)))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defmacro iq:qlet ((&rest args) &rest body)
+    (declare (ignore args body))
+    (error "Query-attributes are not supported in this Gendl distribution.~%")))
+
 
 (defun computed-slots-section (name computed-slots &key query?)
   (mapcan 
@@ -66,6 +75,9 @@
              `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
                 (declare (ignore ,args-arg))
                 (let ((*error-on-not-handled?* t))
+		  (with-dependency-tracking (,attr-sym)
+		    ,(if query? `(iq:qlet (()) ,attr-expr) attr-expr))
+		  #+nil
                   (with-dependency-tracking (,attr-sym)
                     ,(if query? (error "Query-slots are not supported in this distribution of Genworks GDL.")
                        attr-expr)))))

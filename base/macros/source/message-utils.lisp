@@ -78,13 +78,16 @@
                             (mapcan #'(lambda(message)
                                         (list message cat))
                                     (let ((keys 
-                                           (safe-sort (mapcar #'make-keyword 
-                                                              (funcall (glisp:intern (format nil "~a" cat) :gdl) class))
-                                                      #'string<)))
+					   (if *sort-children?*
+					       (safe-sort (mapcar #'make-keyword 
+								  (funcall (glisp:intern (format nil "~a" cat) :gdl) class))
+							  #'string<)
+					       (mapcar #'make-keyword 
+								  (funcall (glisp:intern (format nil "~a" cat) :gdl) class)))))
                                       keys)))
                         *message-categories*))
                (otherwise (let ((messages (mapcar #'make-keyword 
-                                                  (funcall (glisp:intern (format nil "~a" category)) class))))
+                                                  (funcall (glisp:intern (format nil "~a" category) :gdl) class))))
                             (mapcan #'(lambda(message)
                                         (list message category))
                                     messages))))))
