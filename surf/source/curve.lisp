@@ -207,7 +207,7 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
    
    (%curves-to-draw%
     (unless (or *curve-tessellation?*
-                (zerop (the total-length)))
+                (near-to? (the total-length) 0))
       (if (typep self 'arc-curve)
 	  (call-next-method)
 	  (if (= (the decomposed curves number-of-elements) 1)
@@ -602,7 +602,6 @@ components of a surface point."
                                                            :3d-point (the (point (first parameter))))))) pairs)))))
    
    
-   #+allegro
    ("Surface point. Returns the first point of intersection between this curve and the surface given as an argument.
 
 :arguments (surface \"GDL Surface object. The surface to intersect with this curve.\")
@@ -615,7 +614,6 @@ components of a surface point."
                                         :3d-point (the (point (first triplet)))))))
    
    
-   #+allegro
    ("List of Surface points. Returns the point(s) of intersection between this curve and the surface given as an argument.
 
 :arguments (surface \"GDL Surface object. The surface to intersect with this curve.\")

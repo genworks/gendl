@@ -23,6 +23,7 @@
 
 
 (defun pin-value-to-range (value min max &key (lt-test #'<) (gt-test #'>))
+  #+nil
   "Number. Returns a value pinned to the range described by the min and max. 
 If the input value is out of range, a warning is issued.
 
@@ -30,8 +31,8 @@ If the input value is out of range, a warning is issued.
        min \"minimum end of allowed range\"
        max \"maximum end of allowed range\")
 
-:&key ((lt-test #'&lt;) \"The test applied for less-than comparison\"
-       (gt-test #'&gt;) \"The test applied for greater-than comparison\")
+:&key ((lt-test #'<) \"The test applied for less-than comparison\"
+       (gt-test #'>) \"The test applied for greater-than comparison\")
 "
   (cond ((funcall lt-test value min)
          (warn "Value ~a is less than minimum allowed ~a, pinning to ~a.~%" 

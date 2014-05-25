@@ -42,7 +42,7 @@ re-activated in GDL 1585.
                   :examples "
 <pre>
 
-#+nil
+
  (define-object approximated-curve-test (base-object)
   
    :input-slots 
@@ -387,7 +387,7 @@ re-activated in GDL 1585.
                           :match-parameterization? t
                           :curve-in (the profile))))
 
-#+nil
+
 
  (generate-sample-drawing :object-roots (make-object 'approximated-curve-test)
                           :projection-direction (getf *standard-views* :front)

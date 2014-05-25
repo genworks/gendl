@@ -612,7 +612,8 @@ overview of <tt>define-object</tt> syntax."
            ((,self-arg ,name) ,category-arg ,message-type-arg ,base-part-type-arg
             &optional (,depth-arg 0))
          (append (message-list ,self-arg 
-                               :all 
+                               ;;:all 
+			       ,category-arg
                                ,depth-arg ,base-part-type-arg)
                  (when (and (not (eql ,message-type-arg :local)) (next-method-p))
                    (call-next-method ,self-arg ,category-arg ,message-type-arg ,base-part-type-arg (1+ ,depth-arg)))))

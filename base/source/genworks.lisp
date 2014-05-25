@@ -292,7 +292,7 @@
   #+allegro 
   (rplacd (assoc 'tpl::*saved-package*
                  tpl:*default-lisp-listener-bindings*) (find-package :gdl-user))
-  #+allegro (top-level:do-command "package" "gdl-user"))
+  #+allegro (top-level:do-command "package" :gdl-user))
 
 (defun set-defpackage-behavior ()
   #+lispworks (setq hcl:*handle-existing-defpackage* (list :add))

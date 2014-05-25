@@ -310,7 +310,7 @@
     (gdl-devo (get-executable 'agdl8)))
 
   (defun gdle () (interactive)
-    (gdl-devo (get-executable 'gdl)))
+    (gdl-devo (get-executable 'gdle)))
 
   (defun gdl-devo (executable) 
     (interactive)

@@ -106,14 +106,27 @@ nil "~a~a~a" (the :name-for-display)
    #+nil
    (%object-keywords% (mapcar #'make-keyword (gdl-rule::%object-keywords% self)))
    
+   #+nil
    (%object-keywords% (safe-sort (append (the (message-list :category :objects))
 					 (the (message-list :category :quantified-objects)))
 				 #'string-lessp))
+   
+   (%object-keywords% (let ((unsorted (append (the (message-list :category :objects))
+					     (the (message-list :category :quantified-objects)))))
+			(if *sort-children?* (safe-sort unsorted #'string-lessp) unsorted)))
+			  
+   
 
    ;;(%hidden-object-keywords% (mapcar #'make-keyword (gdl-rule::%hidden-object-keywords% self)))
+   #+nil
    (%hidden-object-keywords% (safe-sort (append (the (message-list :category :hidden-objects))
 						(the (message-list :category :quantified-hidden-objects)))
 					#'string-lessp))
+
+   (%hidden-object-keywords% (let ((unsorted (append (the (message-list :category :hidden-objects))
+						(the (message-list :category :quantified-hidden-objects)))))
+			       (if *sort-children?* (safe-sort unsorted #'string-lessp) unsorted)))
+
 
    ("Keyword symbol. The part's simple name, derived from its object specification in the parent or from
   the type name if this is the root instance."
