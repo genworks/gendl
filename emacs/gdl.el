@@ -334,6 +334,17 @@
     (end-of-buffer)))
 
 
+;;
+;; Establish input methodf I.A.S.T diacritics
+;;
+
+(load-file (concat *gendl-home* "emacs/sa-translit.el"))
+
+(register-input-method
+ "sa-translit" "Sanskrit Transliteration" 'quail-use-package
+ "sa-translit" "Converts Harvard-Kyoto and ITRANS scheme to IAST diacritics."
+ (concat *gendl-home* "emacs/sa-translit.el"))
+
 
 ;; A.  REFERENCES
 ;;
