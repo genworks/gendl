@@ -89,6 +89,12 @@
   #+allegro (excl:copy-directory from-dir to-dir)
   #+clozure (ccl::recursive-copy-directory from-dir to-dir ))
 
+#+(or allegro lispworks clozure)
+(defun copy-file (from to)
+  #+allegro (sys:copy-file from to)
+  #+lispworks (lw:copy-file from to)
+  #+clozure (ccl:copy-file from to))
+
 
 
 #+nil
