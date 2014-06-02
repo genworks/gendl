@@ -26,7 +26,7 @@
   (append (list :win :windows :regexp) 
 	  (remove-duplicates 
 	   #-allegro nil
-	   #+allegro (mapcar #'(lambda(pair) (intern (first pair) :keyword)) excl::*autoload-package-name-alist*)
+	   #+allegro (mapcar #'rest excl::*autoload-package-name-alist*)
 	   )))
 
 

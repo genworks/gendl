@@ -138,7 +138,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
          ((:div :class "gdl-object-def")
           "(" ((:span :class "gdl-operator") "define-object") "&nbsp;"
           ((:span :class "gdl-defined-symbol") (str (the part-full-symbol)))
-          (fmt " (~{~a~^ ~})" (remove 'vanilla-mixin (the mixins-list))))
+          (fmt " (~{~a~^ ~})" (remove 'gdl::vanilla-mixin (the mixins-list))))
           
          (mapc #'(lambda(section) 
                    (str (with-output-to-string (*html-stream*)

@@ -258,8 +258,11 @@
 
 (defun load-user-emacs-glime ()
   (when (file-exists-p "~/.emacs-glime") (load-file "~/.emacs-glime"))
-  (when (file-exists-p "~/.emacs-glime.el") (load-file "~/.emacs-glime.el")))
+  (when (file-exists-p "~/.emacs-glime.el") (load-file "~/.emacs-glime.el"))
+  (when (file-exists-p "~/.emacs-gendl") (load-file "~/.emacs-gendl"))
+  (when (file-exists-p "~/.emacs-gendl.el") (load-file "~/.emacs-gendl.el")))
 
+(load-user-emacs-glime)
 
 (ignore-errors 
   (require 'package)
@@ -310,7 +313,7 @@
     (gdl-devo (get-executable 'agdl8)))
 
   (defun gdle () (interactive)
-    (gdl-devo (get-executable 'gdle)))
+    (gdl-devo (get-executable 'gdl)))
 
   (defun gdl-devo (executable) 
     (interactive)

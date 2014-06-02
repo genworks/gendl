@@ -69,7 +69,11 @@ by user application code.")
 (defun make-new-instance-id (&key (max-value *max-id-value*))
   (let ((*print-base* 16) (universal-time (get-universal-time))
         (random (random max-value *iid-random-state*)))
-    (format nil "~a~a" random universal-time)))
+    (let ((string (format nil "~a~a" random universal-time)))
+      (if (and (glisp:featurep :allegro) 
+	       (eql (symbol-value (read-from-string "excl:*current-case-mode*"))
+		    :case-insensitive-upper))
+	  (string-upcase string) string))))
          
 
 
