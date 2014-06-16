@@ -80,9 +80,6 @@
 			(dolist (slot (the required-input-slots))
 			  (let ((status (the root-object (slot-status slot))))
 			    (when (eql status :unbound) (setq result nil))))
-		 
-			(print-variables result)
-		 
 			result))))
   
   :objects

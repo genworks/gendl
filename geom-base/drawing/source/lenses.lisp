@@ -34,7 +34,6 @@
     (:pdf `(pdf:with-saved-state (pdf:translate (get-x ,center) (get-y ,center)) ,@body))
     (:dxf `(let ((*dxf-translation* (add-vectors (subseq ,center 0 2)  *dxf-translation*))) ,@body))
     (:raphael `(let ((*raphael-translation* (add-vectors (subseq ,center 0 2)  *raphael-translation*))) ,@body))))
-
              
 
 (define-lens (pdf base-drawing)()
@@ -45,12 +44,11 @@
       (let ((view-center (if (the user-center) 
                              (scalar*vector (the user-scale) (the user-center)) 
                            (make-point 0 0 0))))
-        
-        
+
         (pdf:with-saved-state
             (when view (unless *fixed-scale?* (pdf:scale (the-object view view-scale-total) 
                                                          (the-object view view-scale-total))))
-        
+
           (mapc #'(lambda(child-view) 
                     (let ((width (the-object child-view width))
                           (length (the-object child-view length))
@@ -261,47 +259,13 @@
 
 
 
-(define-lens (jpeg base-drawing)()
-  :output-functions
-  ((cad-output
-    ()
-    (let ((temp-dir (glisp:temporary-folder))
-          (temp-name (format nil "~a-~a" (glisp:get-pid) (gensym))))
-      (let ((temp-pdf (make-pathname :directory (pathname-directory temp-dir)
-                                     :device (pathname-device temp-dir)
-                                     :name temp-name
-                                     :type "pdf"))
-            
-            (temp-jpeg (make-pathname :directory (pathname-directory temp-dir)
-                                      :device (pathname-device temp-dir)
-                                      :name temp-name
-                                      :type "jpg")))
-        (with-format-slots (page-width page-length foreground-color background-color)
-          (with-format (pdf temp-pdf :page-width page-width :page-length page-length
-                            :foreground-color foreground-color :background-color background-color) 
-            (write-the cad-output)))
-        
-        
-        (let ((command 
-		(format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
-                       *gs-path* "jpeg"  temp-jpeg *gs-text-alpha-bits* 
-                       *gs-graphics-alpha-bits* temp-pdf)))
-          (glisp:run-gs command))
-        
-        (when *stream*
-          (with-open-file (image-stream temp-jpeg :element-type '(unsigned-byte 8))
-            (do ((val (read-byte image-stream nil nil)
-                      (read-byte image-stream nil nil)))
-                ((null val))
-              (write-byte val *stream*))))
-                                         
-        (delete-file temp-pdf)
-        (delete-file temp-jpeg))))))
+
 
 
 (defparameter *command* nil)
 
-(define-lens (png base-drawing)()
+
+(define-lens (raster base-drawing)()
   :output-functions
   ((cad-output
     ()
@@ -321,6 +285,39 @@
           (with-format (pdf temp-pdf :page-width page-width :page-length page-length 
                             :background-color background-color :foreground-color foreground-color) (write-the cad-output)))
         
+	
+	;;
+	;; FLAG -- try this list form of the command on all
+	;; implementations, get it working that way, and remove this
+	;; compiler conditional.
+	;;
+	;;#+clozure
+	(let ((command 
+	       (if (or (null *gs-path*)
+		       (and (or (stringp *gs-path*)
+				(pathnamep *gs-path*))
+			    (not (probe-file *gs-path*))))
+		   (error "Gnu Ghostscript executable not found. It is set to ~s.~%" *gs-path*)
+		   (list (format nil "~a" *gs-path*)
+			 "-q"
+			 (format nil "-sDEVICE=~a" (write-the gs-device))
+			 (format nil "-sOutputFile=~a" temp-png)
+			 (format nil "-dTextAlphaBits=~a" *gs-text-alpha-bits*)
+			 (format nil "-dGraphicsAlphaBits=~a" *gs-graphics-alpha-bits*)
+			 "-dSAFER"
+			 "-dBATCH"
+			 "-dNOPAUSE"
+			 (namestring temp-pdf)))))
+	  (multiple-value-bind (output error result)
+	      (uiop:run-program command 
+				:ignore-error-status t
+				:error-output :string
+				:output :string)
+	    (declare (ignore output))
+	    (unless (zerop result)
+	      (error "Ghostscript threw result code ~s with error: ~a~%" result error))))
+
+	#+nil
         (let ((command 
                (format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
                                *gs-path* "png16m"  temp-png *gs-text-alpha-bits* 
@@ -339,8 +336,17 @@
         (delete-file temp-png))))))
 
 
+
+
+
 (defparameter *current-vrml-requests* nil)
 
+(define-lens (png base-drawing)()
+  :output-functions
+  ((gs-device () "png16m")))
 
+(define-lens (jpeg base-drawing)()
+  :output-functions
+  ((gs-device () "jpeg")))
 
 

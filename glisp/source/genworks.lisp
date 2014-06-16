@@ -329,6 +329,8 @@ and \"..\" entries."
 		      (list (and glisp:*gdl-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-home*)))
 			    (and glisp:*gdl-home* (probe-file (merge-pathnames "../gpl/gs/" glisp:*gdl-home*)))
 			    (and glisp:*gdl-program-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-program-home*)))
+			    (and glisp:*genworks-source-home* 
+				 (probe-file (merge-pathnames "gpl/gs/" glisp:*genworks-source-home*)))
 			    "c:/gs/"))))
     (block :daddy
     (dolist (gs-dir gs-dirs)
