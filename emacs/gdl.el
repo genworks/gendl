@@ -312,6 +312,9 @@
   (defun agdl8e () (interactive)
     (gdl-devo (get-executable 'agdl8)))
 
+  (defun agdle () (interactive)
+     (gdl-devo (get-executable 'agdl)))
+  
   (defun gdle () (interactive)
     (gdl-devo (get-executable 'gdl)))
 
