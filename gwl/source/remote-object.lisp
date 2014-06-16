@@ -96,8 +96,11 @@
 
         (declare (ignore length)) 
 
-
-        (if (listp result)
+		
+	(print-variables result)
+	
+	
+        (if (consp result)
 	    (evaluate-object (first result) (rest result))
 	    result))))
    

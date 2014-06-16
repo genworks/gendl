@@ -258,8 +258,11 @@
 
 (defun load-user-emacs-glime ()
   (when (file-exists-p "~/.emacs-glime") (load-file "~/.emacs-glime"))
-  (when (file-exists-p "~/.emacs-glime.el") (load-file "~/.emacs-glime.el")))
+  (when (file-exists-p "~/.emacs-glime.el") (load-file "~/.emacs-glime.el"))
+  (when (file-exists-p "~/.emacs-gendl") (load-file "~/.emacs-gendl"))
+  (when (file-exists-p "~/.emacs-gendl.el") (load-file "~/.emacs-gendl.el")))
 
+(load-user-emacs-glime)
 
 (ignore-errors 
   (require 'package)
@@ -309,8 +312,11 @@
   (defun agdl8e () (interactive)
     (gdl-devo (get-executable 'agdl8)))
 
+  (defun agdle () (interactive)
+     (gdl-devo (get-executable 'agdl)))
+  
   (defun gdle () (interactive)
-    (gdl-devo (get-executable 'gdle)))
+    (gdl-devo (get-executable 'gdl)))
 
   (defun gdl-devo (executable) 
     (interactive)
@@ -333,6 +339,17 @@
     (fi:inferior-lisp-newline)
     (end-of-buffer)))
 
+
+;;
+;; Establish input methodf I.A.S.T diacritics
+;;
+
+(load-file (concat *gendl-home* "emacs/sa-translit.el"))
+
+(register-input-method
+ "sa-translit" "Sanskrit Transliteration" 'quail-use-package
+ "sa-translit" "Converts Harvard-Kyoto and ITRANS scheme to IAST diacritics."
+ (concat *gendl-home* "emacs/sa-translit.el"))
 
 
 ;; A.  REFERENCES

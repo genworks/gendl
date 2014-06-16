@@ -89,6 +89,12 @@
   #+allegro (excl:copy-directory from-dir to-dir)
   #+clozure (ccl::recursive-copy-directory from-dir to-dir ))
 
+#+(or allegro lispworks clozure)
+(defun copy-file (from to)
+  #+allegro (sys:copy-file from to)
+  #+lispworks (lw:copy-file from to)
+  #+clozure (ccl:copy-file from to))
+
 
 
 #+nil
@@ -323,6 +329,8 @@ and \"..\" entries."
 		      (list (and glisp:*gdl-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-home*)))
 			    (and glisp:*gdl-home* (probe-file (merge-pathnames "../gpl/gs/" glisp:*gdl-home*)))
 			    (and glisp:*gdl-program-home* (probe-file (merge-pathnames "gpl/gs/" glisp:*gdl-program-home*)))
+			    (and glisp:*genworks-source-home* 
+				 (probe-file (merge-pathnames "gpl/gs/" glisp:*genworks-source-home*)))
 			    "c:/gs/"))))
     (block :daddy
     (dolist (gs-dir gs-dirs)
