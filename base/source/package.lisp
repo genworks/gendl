@@ -349,6 +349,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:concatenate-fasls
    #:directory-list
    #:file-directory-p
+   #:run-command
    #:temporary-folder
    #:temporary-file
 

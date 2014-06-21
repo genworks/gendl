@@ -202,6 +202,9 @@
 	    (let ((load-file (or (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))
 				 (probe-file \"c:/users/dcooper8/.load-gendl.lisp\"))))
 	      (load load-file)))
+
+          (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\")))
+
 	  (when (and (find-package :gendl) (find-package :swank))
             (load (compile-file \"%semacs/glime.lisp\"
 

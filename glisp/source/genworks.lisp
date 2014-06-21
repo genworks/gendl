@@ -148,6 +148,17 @@ and \"..\" entries."
   "Returns non-nil if the path is a directory."
   (uiop/filesystem:directory-exists-p file))
 
+
+(defun glisp:run-command (&key command args directory)
+  (let ((command-line (cons command args)))
+    (multiple-value-bind (output error result)
+	(uiop:with-current-directory (directory)
+	  (uiop:run-program command-line :ignore-error-status t :error-output :string :output :string))
+      (declare (ignore output))
+      (unless (zerop result)
+	(error "~&~a threw result code ~s with error: ~a
+The command line was: ~%~%~s~%" command result error command-line)))))
+
 ;;
 ;; temporary-folder is potentially platform-specific so it is defined here. 
 ;;
