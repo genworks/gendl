@@ -1,0 +1,5 @@
+
+1. Revert (the children) to be sorted in the same order they are
+   defined, rather than lexigraphically. Global variable
+   gdl:*sort-children?* can be set to t in order to get lexigraphical
+   ordering for (the children).

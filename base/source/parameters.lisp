@@ -203,4 +203,6 @@ values are a color indicator for the default foreground and background of graphi
 
 
 
-(defparameter *sort-children?* t)
+(defparameter *sort-children?* nil
+  "Boolean. Determine whether to sort child objects in lexigraphical
+  order. Defaults to nil, which is the behavior previous to gdl1585.")
