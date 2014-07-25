@@ -53,24 +53,24 @@
                               3d-point-list)))
       
       (cl-who:with-html-output (*stream* nil :indent nil)
-        (:Shape
-         (:Appearance (progn (if (getf (the display-controls) :pixel-texture)
-                                 (write-the pixel-texture)
-                               (write-the material-properties))
-                             (when (getf (the display-controls) :linetype)
-                               (write-the line-properties))))
-         (:IndexedFaceSet :creaseAngle "1.571"
-                          :solid "false"
-                          :coordIndex formatted-vertices
-                          (:Coordinate :point (format nil "~{~a~^, ~}" 
-                                                      (let ((*read-default-float-format* 'single-float))
-                                                        (mapcar #'(lambda(point) 
-                                                                    (format nil "~a ~a ~a"
-                                                                            (coerce (get-x point) 'single-float)
-                                                                            (coerce (get-y point) 'single-float) 
-                                                                            (coerce (get-z point) 'single-float)
-                                                                            ))
-                                                                3d-points)))))))))))
+        (:|Shape|
+	  (:|Appearance| (progn (if (getf (the display-controls) :pixel-texture)
+				    (write-the pixel-texture)
+				    (write-the material-properties))
+				(when (getf (the display-controls) :linetype)
+				  (write-the line-properties))))
+	  (:|IndexedFaceSet| :|creaseAngle| "1.571"
+	    :|solid| "false"
+	    :|coordIndex| formatted-vertices
+	    (:|Coordinate| :|point| (format nil "~{~a~^, ~}" 
+					    (let ((*read-default-float-format* 'single-float))
+					      (mapcar #'(lambda(point) 
+							  (format nil "~a ~a ~a"
+								  (coerce (get-x point) 'single-float)
+								  (coerce (get-y point) 'single-float) 
+								  (coerce (get-z point) 'single-float)
+								  ))
+						      3d-points)))))))))))
 
 (define-lens (x3d curve)()
   :output-functions

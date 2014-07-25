@@ -564,6 +564,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:jpeg
 	   #:vrml
 	   #:x3d
+	   #:scad
 	   #:vector-graphics
              
            

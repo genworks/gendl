@@ -155,7 +155,7 @@ each direction.</li>
 		      (dolist (polygon (the polygons-for-ifs) ht)
 			(dolist (vertex polygon)
 			  (let ((current (gethash vertex ht)))
-		    (unless current 
+			    (unless current 
 			      (setf (gethash vertex ht) (incf count)))))))))
    
    (ifs-array (when (the polygons-for-ifs)

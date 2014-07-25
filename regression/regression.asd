@@ -5,13 +5,13 @@
  :description
  "The Gendl™ regression Subsystem"
  :author
- "Dave Cooper"
+ "Genworks International"
  :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)"
  :serial
  t
  :version
- "20140619"
+ "20140625"
  :depends-on
  (:lift :surf :tasty)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)

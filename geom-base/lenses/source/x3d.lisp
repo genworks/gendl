@@ -450,8 +450,8 @@
       (cl-who:with-html-output (*stream* nil :indent nil)
         ((:|Shape| 
           (:|Appearance| (write-the material-properties)))
-         ((:|IndexedLineSet| :coordIndex (format nil "~{~a ~}-1" indices))
-          ((:|Coordinate| :point (format nil "~{~a~^ ~}" 
+         ((:|IndexedLineSet| :|coordIndex| (format nil "~{~a ~}-1" indices))
+          ((:|Coordinate| :|point| (format nil "~{~a~^ ~}" 
                                        (mapcar #'(lambda(point) (format nil "~a ~a ~a" 
                                                                         (get-x point) 
                                                                         (get-y point) 

@@ -5,13 +5,13 @@
  :description
  "The Gendl™ Generative Web Language (GWL)"
  :author
- "Dave Cooper"
+ "Genworks International"
  :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)"
  :serial
  t
  :version
- "20140619"
+ "20140625"
  :depends-on
  (:glisp :aserve)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)

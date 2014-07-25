@@ -5,13 +5,13 @@
  :description
  "The Gendl™ Wireframe Geometry"
  :author
- "Dave Cooper"
+ "Genworks International"
  :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)"
  :serial
  t
  :version
- "20140619"
+ "20140625"
  :depends-on
  (:glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
@@ -83,6 +83,7 @@
   (:file "graphs/source/graph")
   (:file "graphs/source/legend")
   (:file "graphs/source/pie-chart")
+  (:file "lenses/source/scad")
   (:file "lenses/source/vrml")
   (:file "lenses/source/x3d")
   (:file "math/source/polynomial")

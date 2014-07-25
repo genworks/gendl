@@ -147,7 +147,8 @@
 
    (horizontal-increment-angle (/ (the horizontal-start-to-end-angle) (the number-of-horizontal-sections)))
 
-   (simple? (and (not (the inner-radius))
+   (simple? nil #+nil
+	    (and (not (the inner-radius))
 		 (near-to? (the start-horizontal-arc) 0)
 		 (near-to? (the end-horizontal-arc) 2pi)
 		 (near-to? (the start-vertical-arc) (- pi/2))
@@ -173,7 +174,7 @@
 			 (push inner-result result)))))
 								 
 
-   (polygons-for-ifs (unless (the simple?)
+   (polygons-for-ifs (unless nil ;;(the simple?)
 		       (append
 			(apply #'append
 			       (mapcar #'(lambda(list1 list2)

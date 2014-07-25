@@ -177,17 +177,17 @@
 			  ((:img :border nil :src (format nil "/images/gwl/~a" image-file))))))))
 		   (:td
 		    ((:table :border 0 :cellpadding 0 :cellspacing 0)
-		     (mapc #'(lambda(selector image)
-			       (html 
-				(:tr
-				 (:td
-				  ((:span :style "cursor: pointer;" 
-					  :title "Set Line Thickness"
-					  :onclick (format nil "return ta2setcontrol('~a', '~s', '~a');" 
-							   (the instance-id) :line-thickness (the-object selector line-thickness)))
-				   ((:img :border 0 :src (format nil "/images/gwl/~a" image))))))))
+		     (:tr
+		      (mapc #'(lambda(selector image)
+				(html 
+				  (:td
+				   ((:span :style "cursor: pointer;" 
+					   :title "Set Line Thickness"
+					   :onclick (format nil "return ta2setcontrol('~a', '~s', '~a');" 
+							    (the instance-id) :line-thickness (the-object selector line-thickness)))
+				    ((:img :border 0 :src (format nil "/images/gwl/~a" image)))))))
 			   (list-elements (the line-thickness-selectors))
-			   (list "line-1.gif" "line-1.gif" "line-2.gif" "line-3.gif" "line-4.gif"))))
+			   (list "line-1.gif" "line-1.gif" "line-2.gif" "line-3.gif" "line-4.gif")))))
 			 
 			 
 		   (:td 
