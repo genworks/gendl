@@ -101,12 +101,16 @@ supports a full range of output options such as page dimensions, view transforms
 
   (let ((flag (gensym)))
     (let (;;(external-format (getf args :external-format))
+	  ;;(element-type (getf args :element-type))
           (args (remove-plist-keys args (list :external-format))))
       `(let ((*%format%* (make-instance ',format ,@args))
 	     (file? (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))))
          (let ((*stream* (if file?
                              (open ,stream-or-file :if-does-not-exist :create 
                                    :if-exists :supersede :direction :output
+				   ;; FLAG -- below element-type seems necessary for generate-sample-drawing 
+				   ;; from an aserve  thread on CCL (at least). Make this as a passable
+				   ;; arg for with-format png and other known binary types. 
 				   ;;:element-type '(unsigned-byte 8)
                                    ;;:external-format ,(or external-format :default)
 				   )

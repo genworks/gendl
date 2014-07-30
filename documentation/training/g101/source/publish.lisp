@@ -11,3 +11,11 @@
 
 (publish-directory :prefix "/g101/style/"
 		   :destination (format nil "~a" (translate-logical-pathname "~/genworks/gendl/documentation/training/g101/style/")))
+
+
+(defun make! ()
+  (gwl:crawl "training-g101:assembly")
+  (glisp:rsync "/tmp/sites/assembly/"
+	       "genworks.com:kitchen/downloads/training-g101/"
+	       :options (list "zav")))
+	       

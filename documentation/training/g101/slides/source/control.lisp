@@ -54,6 +54,43 @@ prog1 is also available, which returns the return-value of the first form</i>."
 		    (prog1 (broadcast-apology)
 		      (shut-down-rocket)))
 		  :return-value "Countdown has been broadcast")))))
+
+
+
+      (:title "<tt>progn</tt> and <tt>prog1</tt>"
+	      :bullet-points
+	      ((:description "Note the use of <tt>progn</tt> and <tt>prog1</tt> in the previous example.")
+	       (:description "Some places in CL (e.g. the <i>test</i>,
+	       <i>then</i>, and <i>else</i> clauses of an <tt>if</tt>
+	       statement) accept only a single expression.")
+
+	       (:description "In such places, <tt>progn</tt> can be
+	       used to group expressions to be evaluated in the order
+	       they are listed, with the return-value of the last
+	       expression being the final return-value from the
+	       progn.")
+
+	       (:description "In such places, <tt>prog1</tt> can be
+	       used to group expressions to be evaluated in the order
+	       they are listed, with the return-value of the first
+	       expression being the final return-value from the
+	       progn.")
+
+	       (:description "Other places in CL accept a <i>body</i>
+	       of code (e.g. inside a function definition or inside a
+	       <tt>let</tt>), where expressions are evaluated in the
+	       order they are listed, with the return-value of the
+	       last expression being the final return-value of the
+	       code body.")
+
+	       (:description "No <tt>progn</tt> or <tt>prog1</tt> is
+	       needed to surround such a body of code.")
+	       
+	       (:description "The <i>only</i> time it makes sense to
+	       have a <tt>progn</tt>, <tt>prog1</tt>, or more than one
+	       expression in a body of code, is when some local or
+	       global side-effect is happening (i.e. you are modifying
+	       a value or performing some output).")))
 	  
       
       (:title "When"

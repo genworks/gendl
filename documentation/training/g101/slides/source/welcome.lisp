@@ -157,7 +157,7 @@ is evaluated, and its result is passed as an argument")
         (:description
          "No ambiguity or precedence rules to remember regarding Order of Operations")
         (:description
-         "Any number of arguments"
+         "Functions potentially can take any number of arguments (including zero)"
          :examples
          ((:code
            (+)
@@ -166,25 +166,47 @@ is evaluated, and its result is passed as an argument")
           (:code
            (+ 1)
            :return-value
-           1)))))
+           1)))
+	
+	(:description 
+	 "Functions can also have certain required arguments"
+	 :examples 
+	 ((:code
+           (/ 2)
+           :return-value
+           1/2)
+	  (:code
+           (- 2)
+           :return-value
+           -2)))
+	
+	(:description "Most modern CL development
+	environments (e.g. Slime) will tell you what are the required
+	arguments (if any) when you insert a function name.")))
 
       
       (:title
        "Turning off Evaluation"
        :bullet-points
        ((:description
-         "(+ 1 2) evaluates to 3")
+         "<tt>(+ 1 2)</tt> evaluates to 3")
         (:description
          "Sometimes you want to turn off expression evaluation")
         (:description
-         "(quote (+ 1 2)) evaluates to (+ 1 2)")
+         "<tt>(quote (+ 1 2))</tt> evaluates to <tt>(+ 1 2)</tt>")
         (:description
          "Common Lisp defines ' as an abbreviation for quote")
         (:description
-         "'(+ 1 2) evaluates to (+ 1 2)")))
-      
-
-      
+         "<tt>'(+ 1 2)</tt> evaluates to <tt>(+ 1 2)</tt>")
+	(:description 
+	 "Note that <tt>quote</tt> is one of a few <i>special
+operators</i> in Common Lisp (you can see that it is not an ordinary
+function, otherwise it would evaluate its arguments).")
+	(:description 
+	 "Note also that lists returned by <tt>quote</tt> (unlike
+lists returned by <tt>list</tt>) may be assumed to be <i>immutable</i>
+-- that is, you should never modify them in place using any
+destructive operators (no need to worry about this for now).")))
       
       
       (:title
