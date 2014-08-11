@@ -25,7 +25,7 @@
     #+allegro excl:*fasl-default-type*
     #+lispworks compiler:*fasl-extension-string*
     #+sbcl sb-fasl:*fasl-file-type*
-    #+ccl (namestring ccl:*.fasl-pathname*)
+    #+ccl (pathname-type ccl:*.fasl-pathname*)
     #+abcl "abcl"
     #+clisp "fas"
     #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))

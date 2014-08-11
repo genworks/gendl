@@ -24,12 +24,13 @@
 
 (defun initialize ()
   
-  (declare (ignore edition))
   (setq glisp:*gdl-program-home* (probe-file (glisp:executable-homedir-pathname)))
   (setq glisp:*gdl-home* (make-pathname :name nil
 					:type nil
 					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
 					:defaults glisp:*gdl-program-home*))
+  (setq glisp:*gendl-home* glisp:*gdl-home*)
+  (setq *quicklisp-home* (merge-pathnames "quicklisp/" glisp:*gendl-home*))
   (pushnew (make-keyword (format nil "gendl-~a" *gendl-version*)) *features*)
   (glisp:set-genworks-source-home-if-known)
   (glisp:set-default-float-format)

@@ -256,7 +256,6 @@
     (when (and (the define-object) (the have-sample-drawing?))
       (let* ((image-name (format nil "~(~a~).png" (the define-object)))
              (output-file (merge-pathnames image-name (the images-path)))
-	     #+nil
              (temp-file (merge-pathnames (string-append image-name "-t")
                                          (the images-path))))
 

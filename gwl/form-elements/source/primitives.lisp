@@ -546,7 +546,8 @@ Defaults to nil. Use number-form-control to get a default of t."
 
 
 (define-object number-form-control (text-form-control)
-  :input-slots ((min nil) (max nil) (step nil))
+  :input-slots ((min nil) (max nil) (step nil)
+		(domain :number))
   :computed-slots ((number? t)))
 
 

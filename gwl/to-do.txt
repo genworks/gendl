@@ -1,0 +1,10 @@
+
+
+o Get rid of tables
+
+o Need submit-on-enter
+
+o Fix arguments between publish and publish-shared
+
+o Add natural way to have a child or descendant be the page which
+  answers the published URL.

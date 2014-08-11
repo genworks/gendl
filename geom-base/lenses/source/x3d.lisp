@@ -140,16 +140,20 @@
    
    (material-properties
     ()
-    (cl-who:with-html-output (*stream* nil :indent nil)
-      (:|Material| :|diffuseColor| (write-the (rgb-color (if (getf (the display-controls) :color)
-                                                         (getf (the display-controls) :color)
-                                                       :black)))
-                 :|ambientIntensity| (getf (the display-controls) :ambient-intensity)
-                 :|emissiveColor| (write-the (rgb-color (getf (the display-controls) :emissive-color)))
-                 :|shininess| (getf (the display-controls) :shininess)
-                 :|specularColor| (write-the (rgb-color (getf (the display-controls) :specular-color)))
-                 :|transparency| (getf (the display-controls) :transparency)
-                 )))
+    (let* ((display-controls (find-in-hash self *display-controls*))
+           (color (getf display-controls :color))
+           (color  (or color (getf (the display-controls) :color) :black)))
+
+      (print-variables display-controls color)
+
+      (cl-who:with-html-output (*stream* nil :indent nil)
+	(:|Material| :|diffuseColor| (write-the (rgb-color color))
+	  :|ambientIntensity| (getf (the display-controls) :ambient-intensity)
+	  :|emissiveColor| (write-the (rgb-color (getf (the display-controls) :emissive-color)))
+	  :|shininess| (getf (the display-controls) :shininess)
+	  :|specularColor| (write-the (rgb-color (getf (the display-controls) :specular-color)))
+	  :|transparency| (getf (the display-controls) :transparency)
+	  ))))
    
    (appearance
     ()

@@ -199,21 +199,9 @@
 (defvar gdl-startup-string 
   (format 
    "(progn (unless (find-package :gendl)
-	    (let ((load-file (or (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))
-				 (probe-file \"c:/users/dcooper8/.load-gendl.lisp\"))))
+	    (let ((load-file (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))))
 	      (load load-file)))
-
           (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\")))
-
-	  (when (and (find-package :gendl) (find-package :swank))
-            (load (compile-file \"%semacs/glime.lisp\"
-
-				:output-file 
-				(merge-pathnames 
-				 (make-pathname :name \"glime\" 
-						:type (symbol-value 
-						       (read-from-string \"glisp:*fasl-extension*\")))
-				 (funcall (symbol-function (read-from-string \"glisp:temporary-folder\")))))))
 	  (when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))
 	  (let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
 	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))

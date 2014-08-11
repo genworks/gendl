@@ -187,6 +187,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:list-hash
            #:list-of-numbers
            #:lookup-color
+	   #:load-quicklisp
+	   #:*quicklisp-home*
            #:make-canonical-part
            #:make-keyword
 	   #:ensure-keyword
@@ -277,7 +279,9 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:xml-reader
            #:^2
 	   #:room-report
-	   #:*onclick-function*))
+	   #:*onclick-function*
+	   #:*already-loaded-systems*
+	   #:*packages-to-lock*))
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")

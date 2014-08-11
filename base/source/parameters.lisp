@@ -24,7 +24,8 @@
 ;;(defparameter *gendl-version* "1585p002")
 ;;(defparameter *gendl-version* "1587devo")
 ;;(defparameter *gendl-version* "1587p003")
-(defparameter *gendl-version* "1587p004")
+;;(defparameter *gendl-version* "1587p004")
+(defparameter *gendl-version* "1587p005")
 ;;(defparameter *gendl-version* "ql-2013-12")
 (defparameter *gendl-patch-level* nil)
 
@@ -206,3 +207,9 @@ values are a color indicator for the default foreground and background of graphi
 (defparameter *sort-children?* nil
   "Boolean. Determine whether to sort child objects in lexigraphical
   order. Defaults to nil, which is the behavior previous to gdl1585.")
+
+(defparameter *already-loaded-systems* nil)
+(defparameter *packages-to-lock* (list :gendl :geom-base :cl-lite :gwl :gwl-graphics 
+				       :tasty :robot :tree :yadd :surf :smlib :genworks-gdl))
+
+(defvar *quicklisp-home* nil)
