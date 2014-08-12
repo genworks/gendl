@@ -52,11 +52,20 @@
 ;;
 (defun present-part (req ent url &key instance-id header-plist fixed-prefix)
   (declare (ignore header-plist))
+  
+  (print-variables url)
+
   (when fixed-prefix (setq url (subseq url (1+ (length fixed-prefix)))))
   
-  (let ((cookies (when *process-cookies?* (get-cookie-values req)))
+  (print-variables url)
+
+  (let (;;(cookies (when *process-cookies?* (get-cookie-values req)))
+	(cookies (get-cookie-values req))
         (components (split url #\/)))
-    (let* ((hash-entry (gethash (ensure-keyword (or instance-id (second components))) *instance-hash-table*))
+    (let* ((hash-entry (gethash (ensure-keyword (or instance-id 
+						    (cdr (assoc "iid" cookies :test #'string-equal))
+						    (second components))) 
+				*instance-hash-table*))
            (root-object (first hash-entry)) (skin (third hash-entry))
            (root-path (multiple-value-bind (value found?) (gethash url *descriptive-url-hash*)
                         (if found? value
