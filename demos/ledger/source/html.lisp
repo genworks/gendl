@@ -38,23 +38,14 @@
 		    :accounts-sequence (the ledger accounts))
    
    (add-account :type 'add-account
-		:main-sheet self)
-   
-   
-   (username :type 'text-form-control
-	     :size 25
-	     :ajax-submit-on-change? t
-	     :default "")
-   
-   (password :type 'password-form-control
-	     :size 15 
-	     :ajax-submit-on-change? t
-	     :default ""))
+		:main-sheet self))
+
 		
   :functions
   (
    (write-html-sheet
     ()
+
     (let ((plist (the add-transaction query-plist)))
       (when plist
 	(the ledger 
@@ -65,6 +56,7 @@
 	   :amount (read-safe-string (getf plist :amount))
 	   :payee (getf plist :payee))))
       (the add-transaction (:set-slot! :query-plist nil)))
+
     (let ((plist (the add-account query-plist)))
       (when plist
 	(the ledger (add-account! 
@@ -78,37 +70,48 @@
       (the add-account (:set-slot! :query-plist nil)))
     
     (html 
-     (:html 
-      (:head (:title "Personal Ledger"))
-      (:body 
-       (:h2 (:center "Personal Ledger"))
+      (:html 
+	(:head (:title "Personal Ledger"))
+	(:body 
+	 (:h2 (:center "Personal Ledger"))
        
-       (with-html-form ()
-	 (:p (:princ (the username html-string)))
-	 (:p (:princ (the password html-string)))
-	 ((:input :type :submit :value " OK ")))
-       
-       (:p (:table 
-	    (:tr (:td "Net Worth:")
-		 ((:td :align :right) 
-		  (:b (:tt ((:font 
-			     :color (gethash (if (minusp (the ledger net-worth)) 
-						 :red :green-lime) *color-table*))
-			    (:princ (number-format (the ledger net-worth) 2)))))))
-	    (:tr (:td "Profit/Loss:")
-		 ((:td :align :right)
-		  (:b (:tt ((:font 
-			     :color (gethash (if (minusp (the ledger profit)) 
-						 :red :green-lime) *color-table*))
-			    (:princ (number-format (the ledger profit) 2)))))))))
-       (:p (:ul (:li (the view-accounts 
-		       (write-self-link :display-string "View Accounts")))
-		(:li (the view-transactions 
-		       (write-self-link :display-string "View Transactions")))
-		(:li (the add-transaction 
-		       (write-self-link :display-string "Add Transaction")))
-		(:li (the add-account 
-		       (write-self-link :display-string "Add Account")))))))))))
+	 (:p (:table 
+		 (:tr (:td "Net Worth:")
+		      ((:td :align :right) 
+		       (:b (:tt ((:font 
+				  :color (gethash (if (minusp (the ledger net-worth)) 
+						      :red :green-lime) *color-table*))
+				 (:princ (number-format (the ledger net-worth) 2)))))))
+	       (:tr (:td "Profit/Loss:")
+		    ((:td :align :right)
+		     (:b (:tt ((:font 
+				:color (gethash (if (minusp (the ledger profit)) 
+						    :red :green-lime) *color-table*))
+			       (:princ (number-format (the ledger profit) 2)))))))))
+	 (:p (:ul (:li (the view-accounts 
+			    (write-self-link :display-string "View Accounts")))
+		  (:li (the view-transactions 
+			    (write-self-link :display-string "View Transactions")))
+		  (:li (the add-transaction 
+			    (write-self-link :display-string "Add Transaction")))
+		  (:li (the add-account 
+			    (write-self-link :display-string "Add Account")))))))))))
+
+
+
+(defun adaptive-lessp (item1 item2)
+  (if (and (numberp item1)
+	   (numberp item2))
+      (< item1 item2)
+      (string-lessp (format nil "~a" item1)
+		    (format nil "~a" item2))))
+
+(defun adaptive-greaterp (item1 item2)
+  (if (and (numberp item1)
+	   (numberp item2))
+      (> item1 item2)
+      (string-greaterp (format nil "~a" item1)
+		       (format nil "~a" item2))))
 
 
 (define-object view-accounts (base-ajax-sheet)
@@ -116,24 +119,59 @@
   
   :computed-slots
   ((accounts (list-elements (the account-sequence)))
-   (headings (the-object (first (the accounts)) headings)))
 
-  :functions
-  ((write-html-sheet
-    ()
-    (html 
-     (:html 
-      (:head (:title "Account Listing"))
-      (:body 
-       (:h2 (:center "Account Listing"))
-       (:p (the (:write-back-link)))
-       (:p ((:table :bgcolor :black)
-	    ((:tr :bgcolor :yellow) 
-	     (dolist (heading (append (rest (the headings)) 
-				      (list "Current Balance")))
-	       (html (:th (:princ heading)))))
-	    (dolist (account (the accounts))
-	      (html 
+   (accounts-sorted 
+    (if (the sort-key)
+	(safe-sort (the accounts)
+		   (ecase (the sort-order) 
+		     (:ascending #'adaptive-lessp)
+		     (:descending #'adaptive-greaterp))
+		   :key #'(lambda(account)
+			    (the-object account (evaluate (the sort-key)))))
+	(the accounts)))
+
+   (sort-key nil :settable)
+   (sort-order :ascending :settable)
+   
+   (headings (the-object (first (the accounts)) headings))
+
+   (main-sheet-body (with-cl-who-string ()
+		      (when gwl:*developing?* (str (the development-links)))
+		      (:h2 (:center "Account Listing"))
+		      (:p (the (:write-back-link :display-string "Home")))
+		      (:p (str (the main-section main-div)))
+		      (:p (the (:write-back-link :display-string "Home"))))))
+  
+  :functions ((set-sort-key! 
+	       (&key sort-key)
+	       (if (eql sort-key (the sort-key))
+		   (the (set-slot! :sort-order (ecase (the sort-order)
+						 (:ascending :descending)
+						 (:descending :ascending))))
+		   (the (set-slot! :sort-key sort-key)))))
+
+  :objects
+  ((main-section 
+    :type 'sheet-section
+    :inner-html 
+    (with-cl-who-string ()
+      
+      (:p ((:table :bgcolor :black)
+	   ((:tr :bgcolor :yellow) 
+	    (dolist (heading (append (rest (the headings)) 
+				     (list "Current Balance")))
+	      (let ((ajax-call (the (gdl-ajax-call 
+				     :function-key :set-sort-key!
+				     :arguments (list :sort-key
+						      (make-keyword 
+						       (format nil "~(~a~)"
+							       (glisp:replace-regexp
+								heading " " "-"))))))))
+	      (htm (:th ((:span :onclick ajax-call
+				:style "color: blue; cursor: pointer;")
+			 (str heading)))))))
+	   (dolist (account (the accounts-sorted))
+	     (htm 
 	       ((:tr :bgcolor (gethash :grey-light-very *color-table*))
 		(dolist (slot (list :name :description :account-number :account-type 
 				    :account-class :beginning-balance :current-balance))
@@ -142,60 +180,81 @@
 				  ((:beginning-balance :current-balance)
 				   (number-format raw-value 2))
 				  (otherwise raw-value))))
-		    (html ((:td :align (case slot 
+		    (htm ((:td :align (case slot 
 					 ((:beginning-balance :current-balance)
 					  :right)
 					 (otherwise :left))) 
 			   (case slot ((:beginning-balance :current-balance)
-				       (html (:tt (format *html-stream* "$~$" value))))
-				 (otherwise (html (:princ value)))))))))))))
-       (:p (the (:write-back-link)))))))))
+				       (htm (:tt (fmt "$~$" value))))
+				 (otherwise (htm (str value)))))))))))))))))
+
 			   
 			     
 (define-object view-transactions (base-ajax-sheet)
+
   :input-slots (transaction-sequence accounts-sequence)
 
-  :computed-slots ((transactions (list-elements 
-				  (the transaction-sequence)))
-		   (headings (the-object (first (the transactions)) 
-					 headings)))
-  :functions
-  ((write-html-sheet
-    ()
-    (html 
-     (:html 
-      (:head (:title "Transaction Listing"))
-      (:body 
-       (:h2 (:center "Transaction Listing"))
-       (:p (the (:write-back-link)))
-       (:p ((:table :bgcolor :black)
-	    ((:tr :bgcolor :yellow) 
-	     (dolist (heading (rest (the headings)))
-	       (html (:th (:princ heading)))))
-	    (dolist (transaction (the transactions))
-	      (html 
-	       ((:tr :bgcolor (gethash :grey-light-very 
-				       *color-table*))
-		(dolist (slot (list :from-account :to-account 
-				    :date :amount :payee ))
-		  (let* ((raw-value 
-			  (the-object transaction (evaluate slot)))
-			 (value (case slot 
-				  ((:from-account :to-account)
-				   (the :accounts-sequence 
-				     (get-member raw-value) :name))
-				  (:date (iso-date raw-value))
-				  (:amount (number-format raw-value 2))
-				  (otherwise raw-value))))
-		    (html ((:td :align (case slot (:amount :right)
-					     (otherwise :left))) 
-			   (case slot (:amount 
-				       (html 
-					(:tt (format *html-stream* 
-						     "$~$" value))))
-				 (otherwise 
-				  (html (:princ value)))))))))))))
-       (:p (the (:write-back-link)))))))))
+  :computed-slots ((transactions (list-elements (the transaction-sequence)))
+
+		   (headings (the-object (first (the transactions)) headings))
+
+		   (main-sheet-body (with-cl-who-string ()
+				      (:h2 (:center "Transaction Listing"))
+				      (:p (the (:write-back-link :display-string "Home")))
+				      (:p (str (the main-section main-div)))
+				      (:p (the (:write-back-link :display-string "Home"))))))
+  
+  :functions ((delete-transaction!
+	       (index)
+	       (the ledger transactions (delete! index))
+	       (the ledger save-transactions!)))
+
+  :objects ((delete-buttons  :type 'button-form-control
+			     :sequence (:size (length (the transactions)))
+			     :label "Delete"
+			     :onclick 
+			     (the (gdl-ajax-call 
+				   :function-key :delete-transaction!
+				   :arguments (list (the-object (nth (the-child index)
+								     (the transactions))
+								index)))))
+
+	    (main-section 
+	     :type 'sheet-section
+	     :inner-html (with-cl-who-string ()
+			   ((:table :bgcolor :black)
+			    ((:tr :bgcolor :yellow) 
+			     (dolist (heading (rest (the headings)))
+			       (htm (:th (str heading)))) (:th ""))
+			    (let ((count -1))
+			      (dolist (transaction (the transactions))
+				(incf count)
+				(htm 
+				 ((:tr :bgcolor (gethash :grey-light-very 
+							 *color-table*))
+				  (dolist (slot (list :from-account :to-account 
+						      :date :amount :payee ))
+				    (let* ((raw-value 
+					    (the-object transaction (evaluate slot)))
+					   (value (case slot 
+						    ((:from-account :to-account)
+						     (the :accounts-sequence 
+							  (get-member raw-value) :name))
+						    (:date (iso-date raw-value))
+						    (:amount (number-format raw-value 2))
+						    (otherwise raw-value))))
+				      (htm ((:td :align (case slot (:amount :right)
+							      (otherwise :left))) 
+					    (case slot (:amount 
+							(htm 
+							 (:tt (fmt "$~$" value))))
+						  (otherwise 
+						   (htm (str value))))))))
+				 
+				  (:td (str (the (delete-buttons count) 
+						 form-control-string))))))))))))
+	     
+
 
 
 (define-object add-transaction (base-ajax-sheet)
@@ -210,7 +269,7 @@
      (:html 
       (:head (:title "Add Transaction"))
       (:body (:h2 (:center "Add Transaction"))
-	     (:p (the (:write-back-link)))
+	     (:p (the (:write-back-link :display-string "Home")))
 	     (with-html-form ()
 	       (:p ((:table :bgcolor :black)
 		    (:tr ((:td :bgcolor :yellow) "From Account")
@@ -252,7 +311,7 @@
      (:html 
       (:head (:title "Add Account"))
       (:body (:h2 (:center "Add Account"))
-	     (:p (the (:write-back-link)))
+	     (:p (the (:write-back-link :display-string "Home")))
 	     (with-html-form ()
 	       (:p ((:table :bgcolor :black)
 		    (:tr ((:td :bgcolor :yellow) "Name")
