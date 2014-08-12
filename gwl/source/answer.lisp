@@ -358,8 +358,6 @@ package-qualified object name\")
 	   (path (format nil "~a/~a" (package-name (symbol-package part-type))
 				       part-type)))
       
-      (print-variables session-urls? query)
-
       (let* ((current (gethash (make-keyword-sensitive instance-id) *instance-hash-table*))
              (skin (if skin (make-instance skin) t))
              (root-part-and-version 
@@ -381,18 +379,19 @@ package-qualified object name\")
 	    (the-object object set-expires-at))
 	  (the-object object set-instantiation-time!)
 	  (the-object object set-time-last-touched!)
-	  (the-object object (set-remote-host! req :original? t)))
+	  (the-object object (set-remote-host! req :original? t))
         
-	(with-http-response (req ent :response *response-found*)
-	  (setf (reply-header-slot-value req :location)
-		(format nil "~a" (the-object (first root-part-and-version) url)))
-	  (unless session-urls?
-	    (set-cookie-header req :name "iid" 
-			       :path (format nil "/~a" path)
-			       :value instance-id))
-	  (setf (reply-header-slot-value req :cache-control) "no-cache")
-	  (setf (reply-header-slot-value req :pragma) "no-cache")
-	  (with-http-body (req ent)))))))
+	  (with-http-response (req ent :response *response-found*)
+	    (setf (reply-header-slot-value req :location)
+		  (format nil "~a" (the-object (first root-part-and-version) url)))
+	    (when (the-object object use-cookie?)
+	      (set-cookie-header req :name "iid" 
+				 :path (let ((prefix (the-object object fixed-url-prefix)))
+					 (when prefix (string-append "/" prefix)))
+				 :value instance-id))
+	    (setf (reply-header-slot-value req :cache-control) "no-cache")
+	    (setf (reply-header-slot-value req :pragma) "no-cache")
+	    (with-http-body (req ent))))))))
 
 
 (defun publish-shared (&key path object-type host (server *wserver*)
