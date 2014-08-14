@@ -334,7 +334,7 @@
 #-(and allegro mswindows)
 (defun set-window-titles ())
 
-#-(or allegro lispworks abcl) (warn "Find out how to get the source-pathname  in current lisp.")
+#-(or allegro lispworks abcl clozure) (warn "Find out how to get the source-pathname  in current lisp.")
 (defun source-pathname ()
   #+allegro excl:*source-pathname*
   #+lispworks dspec:*source-pathname*
