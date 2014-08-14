@@ -75,6 +75,8 @@ o allow input of required input-slots.
 
   :computed-slots
   (
+   (use-cookie? nil)
+   (fixed-url-prefix nil)
 
    (ui-specific-layout-js (when (the use-jquery?) "/static/gwl/js/tasty-initlayout-3.js"))
    

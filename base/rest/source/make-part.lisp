@@ -21,9 +21,48 @@
 
 (in-package :gdl)
 
+(defparameter *warn-on-invalid-toplevel-inputs?* t)
+
 (defun make-part (&rest args)
   (apply #'make-object args))
 
+
+(defun make-object (object-type &rest args)
+  "GDL Object. Instantiates an object with specified initial values for input-slots.
+
+:arguments (object-name \"Symbol. Should name a GDL object type.\"
+            arguments \"spliced-in plist. A plist of keyword symbols and values for initial <tt>input-slots</tt>.\")"
+  (let (*notify-cons*
+        (keys (plist-keys args))
+        (vals (plist-values args)))
+    (let ((object (apply #'make-instance 
+                         object-type 
+                         :allow-other-keys t
+                         (list :%name% (list (format nil "~a" object-type) nil t)
+			       :%parent% (list nil nil t)))))
+      (let ((input-slots 
+	     (append (the-object object (message-list :category :required-input-slots))
+		     (the-object object (message-list :category :optional-input-slots))
+		     (the-object object (message-list :category :settable-optional-input-slots))
+		     (the-object object (message-list :category :defaulted-input-slots))
+		     (the-object object (message-list :category :settable-defaulted-input-slots)))))
+	(mapc #'(lambda(key val)
+		  (if (member key input-slots)
+		      (setf (slot-value object (glisp:intern key :gdl-acc))
+			    (list val nil t))
+		      (when *warn-on-invalid-toplevel-inputs?*
+			(warn "~&~%~s is not a defined input-slot for ~s. 
+The argument ~s, and its value ~s, have been ignored
+ [you may (setq *warn-on-invalid-toplevel-inputs?* nil) to suppress this warning).~%~%"
+			      key object-type key val)))) keys vals))
+      
+      (setf (gdl-acc::%root% object) object
+            (gdl-acc::%toplevel-inputs% object) args) object)))
+
+
+
+
+#+nil
 (defun make-object (object-type &rest args)
   "GDL Object. Instantiates an object with specified initial values for input-slots.
 

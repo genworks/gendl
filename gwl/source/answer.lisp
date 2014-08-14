@@ -291,7 +291,7 @@ instance at what time should the recovery instance expire?"
       (gwl-make-part req ent part))))
 
 
-(defun gwl-make-part (&rest args) (apply #'gwl-make-object args))
+(defun gwl-make-part (&rest args) (apply 'gwl-make-object args))
 
 (defparameter *weak-objects* (glisp:make-weak-hash-table))
 
@@ -333,7 +333,8 @@ instance at what time should the recovery instance expire?"
     (first root-part-and-version)))
   
 
-(defun gwl-make-object (req ent part &key make-object-args share? skin (instance-id (if share? "share" (make-new-instance-id))))
+(defun gwl-make-object (req ent part &key make-object-args share? skin 
+				       (instance-id (if share? "share" (make-new-instance-id))))
   "Void. Used within the context of the body of a :function argument to Allegroserve's 
 publish function, makes an instance of the specified part and responds to the request 
 with a redirect to a URI representing the instance.
@@ -351,34 +352,46 @@ package-qualified object name\")
            :function #'(lambda(req ent) (gwl-make-object req ent \"calendar:assembly\")))
   </pre>"
   (let ((query (request-query req)))
-    (let ((part (or part (rest (assoc "part" query :test #'string-equal)))))
+    (let* ((part (or part (rest (assoc "part" query :test #'string-equal))))
+	   (part-type (read-safe-string part))
+	   (session-urls? (assoc "session-urls" query :test #'string-equal))
+	   (path (format nil "~a/~a" (package-name (symbol-package part-type))
+				       part-type)))
+      
       (let* ((current (gethash (make-keyword-sensitive instance-id) *instance-hash-table*))
              (skin (if skin (make-instance skin) t))
              (root-part-and-version 
               (if (or (not share?) (not current))
-                  (list (apply #'make-object (read-safe-string part) 
-                               :instance-id instance-id ;;:query-toplevel query 
+		  (list (apply #'make-object  part-type
+			       :instance-id instance-id ;;:query-toplevel query 
+			       :use-cookie? (not session-urls?)
+			       :fixed-url-prefix (unless session-urls? path)
 			       make-object-args)
-                        *dummy-version*)
-                current)))
-        (setf (gethash (first root-part-and-version) *weak-objects*) t)
-        (setq root-part-and-version (append root-part-and-version (list skin)))
-        (when (or (not share?) (not current)) 
-          (setf (gethash (make-keyword-sensitive instance-id) *instance-hash-table*) root-part-and-version))
+			*dummy-version*)
+		  current)))
+	(setf (gethash (first root-part-and-version) *weak-objects*) t)
+	(setq root-part-and-version (append root-part-and-version (list skin)))
+	(when (or (not share?) (not current)) 
+	  (setf (gethash (make-keyword-sensitive instance-id) *instance-hash-table*) root-part-and-version))
         
-        (let ((object (first root-part-and-version)))
-          (when (typep object 'session-control-mixin)
-            (the-object object set-expires-at))
-          (the-object object set-instantiation-time!)
-          (the-object object set-time-last-touched!)
-          (the-object object (set-remote-host! req :original? t)))
+	(let ((object (first root-part-and-version)))
+	  (when (typep object 'session-control-mixin)
+	    (the-object object set-expires-at))
+	  (the-object object set-instantiation-time!)
+	  (the-object object set-time-last-touched!)
+	  (the-object object (set-remote-host! req :original? t))
         
-        (with-http-response (req ent :response *response-found*)
-          (setf (reply-header-slot-value req :location)
-            (format nil "~a" (the-object (first root-part-and-version) url)))
-          (setf (reply-header-slot-value req :cache-control) "no-cache")
-          (setf (reply-header-slot-value req :pragma) "no-cache")
-          (with-http-body (req ent)))))))
+	  (with-http-response (req ent :response *response-found*)
+	    (setf (reply-header-slot-value req :location)
+		  (format nil "~a" (the-object (first root-part-and-version) url)))
+	    (when (the-object object use-cookie?)
+	      (set-cookie-header req :name "iid" 
+				 :path (let ((prefix (the-object object fixed-url-prefix)))
+					 (when prefix (string-append "/" prefix)))
+				 :value instance-id))
+	    (setf (reply-header-slot-value req :cache-control) "no-cache")
+	    (setf (reply-header-slot-value req :pragma) "no-cache")
+	    (with-http-body (req ent))))))))
 
 
 (defun publish-shared (&key path object-type host (server *wserver*)

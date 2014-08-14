@@ -78,11 +78,14 @@ FLAG -- fill in.
 
 
 "
+
+  
   
   (let ((%enctype% (gensym))
         (fixed-prefix (gensym)))
     `(let ((,%enctype% (cond (,enctype ,enctype) (,multipart? "multipart/form-data")))
            (,fixed-prefix (the fixed-url-prefix)))
+
        (,@(if cl-who? '(with-html-output (*stream* nil :indent t)) 
             '(html 
               ;;html-stream *stream*
@@ -90,7 +93,7 @@ FLAG -- fill in.
               ))
           ((:form :method :|post| 
                   
-                  :action (string-append (or ,fixed-prefix "")
+                  :action (string-append "" ;;(or ,fixed-prefix "")
                                  (format nil (if ,local-anchor (format nil "/answer#~a" ,local-anchor) "/answer")))
                   
                   :name ,(or name `(the root-path-string))
@@ -103,7 +106,9 @@ FLAG -- fill in.
            ((:input :type :hidden :name :|requestor| :value ,(if (null requestor) `(the url-encoded-root-path)
                                                              `(the-object ,requestor url-encoded-root-path))))
            
-           ((:input :type :hidden :name :|iid| :value (the instance-id))) ,@body)))))
+           ((:input :type :hidden :name :|iid| :value (the instance-id)))
+
+	   ,@body)))))
 
         
   

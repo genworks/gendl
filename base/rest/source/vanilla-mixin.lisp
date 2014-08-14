@@ -625,7 +625,8 @@ otherwise it will be evaluated as a variable according to normal Lisp functional
     (the (:follow-root-path
           (mapcar #'(lambda (component) (list component 0)) reference-chain))))
 
-   ("List of Keyword Symbols. Returns the messages (slots, objects, and functions) of this object, according to the filtering criteria as specified by the arguments.
+
+("List of Keyword Symbols. Returns the messages (slots, objects, and functions) of this object, according to the filtering criteria as specified by the arguments.
 :&key ((category :all) \"Keyword. Either <tt>:all</tt> or the individual category of 
                          messages to be returned. This can be one of:
                            <tt><ul>
@@ -656,7 +657,7 @@ the function returns NIL. If <tt>:normal</tt> (the default), then no filtering i
     (&key (category :all) (message-type :global) return-category? base-part-type
           (sort-order :unsorted) (filter :normal))
     (let ((unfiltered
-           (gdl-rule::%message-list% self category message-type base-part-type)))
+           (gdl-rule::%message-list% self :all message-type base-part-type)))
       (let* ((whittled (remove-duplicates unfiltered :key #'first :from-end t))
              (chiseled (case category
                          (:all whittled)
@@ -673,6 +674,7 @@ the function returns NIL. If <tt>:normal</tt> (the default), then no filtering i
                  (:by-name (sort filtered #'string-lessp :key #'first))
                  (:by-category (sort filtered #'string-lessp :key #'second)))))
           (if return-category? (flatten-pairs sorted) (mapcar #'first sorted))))))
+
 
    
    ("Void. Uncaches all cached data in slots and objects throughout the instance 

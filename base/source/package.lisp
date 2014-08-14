@@ -281,7 +281,8 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:room-report
 	   #:*onclick-function*
 	   #:*already-loaded-systems*
-	   #:*packages-to-lock*))
+	   #:*packages-to-lock*
+	   #:*warn-on-invalid-toplevel-inputs?))
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
