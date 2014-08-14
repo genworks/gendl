@@ -44,43 +44,20 @@
 			      (nreverse result)) 
 			   (push transaction result)))))
    
-   (account-indices (mapcar 
-		     #'(lambda(account) 
-			 (the-object account index)) 
-		     (list-elements (the accounts))))
+   (account-indices (mapsend (the accounts) :index))
    
-   (transaction-indices (mapcar 
-			 #'(lambda(transaction) 
-			     (the-object transaction index)) 
-			 (list-elements (the transactions))))
-   
-   (net-worth (let ((result 0))
-		(dolist (account (list-elements (the accounts)) result)
-		  (print-variables result)
-		  (print-variables (make-keyword (the-object account account-class)))
-		  (when (eql (make-keyword (string-downcase (the-object account account-class)) )
-			     :asset/liability)
-		    (incf result (the-object account current-balance))))))
-   
-   (profit (let ((result 0))
-	     (dolist (account (list-elements (the accounts)) result)
-	       (when (eql (make-keyword (string-downcase (the-object account account-class)) )
-			  :income/expense)
-		 (decf result (the-object account current-balance))))))
+   (transaction-indices (mapsend (the transactions) :index))
+
+   (net-worth (the (total-balance :asset/liability)))
+   (profit (- (the (total-balance :income/expense))))
+
    
    (balances-hash-table (let ((ht (make-hash-table)))
 			  (dolist (account (list-elements (the accounts)))
-			    (print-variables account)
 			    (setf (gethash (the-object account index) ht)
 			      (the-object account beginning-balance)))
 			  (dolist (transaction (list-elements 
 						(the transactions)) ht)
-			    
-			    (print-variables transaction)
-			    
-			    (let ((amount (the-object transaction amount)))
-			      (print-variables amount))
-			    
 			    (decf 
 			     (gethash (the-object transaction from-account) ht)
 			     (the-object transaction amount))
@@ -91,7 +68,8 @@
   :objects
   ((accounts :type 'account
 	     :sequence (:indices (mapcar #'first (rest (the account-data))))
-	     :data (nth (the-child index) (rest (the account-data)))
+	     :data (find (the-child index) (rest (the account-data))
+			 :key #'first)
 	     :current-balance (gethash (the-child index) 
 				       (the balances-hash-table))
 	     :headings (first (the account-data)))
@@ -99,14 +77,25 @@
    (transactions :type 'transaction
 		 :sequence (:indices (mapcar #'first 
 					     (rest (the transaction-data))))
-		 :data (nth (the-child index) (rest (the transaction-data)))
+		 :data (find (the-child index) (rest (the transaction-data))
+			     :key #'first)
 		 :headings (first (the transaction-data))))
   
   :functions
-  (
+  ((total-balance 
+    (account-class-key)
+    (reduce #'+
+	    (mapsend
+	     (remove-if-not #'(lambda(account)
+				(eql (the-object account account-class-key)
+				     account-class-key))
+			    (list-elements (the accounts)))
+	     :current-balance)))
+
+
    (add-transaction! 
     (&key from-account to-account date amount payee)
-    (print-variables from-account to-account date amount payee)
+    
     (when (or (not (member from-account (the account-indices)))
 	      (not (member to-account (the account-indices)))
 	      (not (numberp amount)) (not (stringp payee))
@@ -115,14 +104,10 @@
     (let ((new-index (1+ (if (null (the transaction-indices)) 0 
 			   (apply #'max (the transaction-indices))))))
       (the transactions (insert! new-index))
-      (the (transactions new-index))
+      ;;(the (transactions new-index))
       (the (transactions new-index) 
 	(set-slot! :data (list new-index from-account 
-			       to-account date amount payee)))
-      
-      (let ((new-transaction (the (transactions new-index))))
-	(print-variables new-transaction new-index)))
-    
+			       to-account date amount payee))))
     
     (the save-transactions!))
 
@@ -145,7 +130,7 @@
     (let ((new-index (1+ (if (null (the account-indices)) 0 
 			   (apply #'max (the account-indices))))))
       (the accounts (insert! new-index))
-      (the (accounts new-index))
+      ;;(the (accounts new-index))
       (the (accounts new-index) 
 	(set-slot! :data (list new-index name description account-number account-type
 			       account-class beginning-balance))))
@@ -167,11 +152,15 @@
   (data headings current-balance)
   
   :computed-slots
-  ((name (second (the data)))
+  (   
+   (name (second (the data)))
    (description (third (the data)))
    (account-number (fourth (the data)))
    (account-type (fifth (the data)))
    (account-class (sixth (the data)))
+   
+   (account-class-key (make-keyword (string-downcase (the account-class))))
+
    (beginning-balance (seventh (the data)))))
 
 (define-object transaction (base-object)

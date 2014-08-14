@@ -805,7 +805,7 @@ Contact Genworks if you need this documented."
 (define-object button-form-control (base-form-control)
   
   :input-slots 
-  ((:label (the value))
+  ((label (the value))
    
    (content (the :label))
    
