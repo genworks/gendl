@@ -1,27 +1,27 @@
 
 
-o Get rid of tables
+o Get rid of any remnants of tables in HTML generated from Gendl. 
 
-o Need submit-on-enter
+o Need submit-on-enter for form-controls. 
 
-o Fix arguments between publish and publish-shared
+o Make consistent arguments between publish and publish-shared.
 
 o Add natural way to have a child or descendant be the page which
-  answers the published URL.
+  answers the published URL for root object.
 
 o Add support for cookies rather than URL rewriting:
 
-   o Detect when cookies are disabled in browser
+   o Detect when cookies are disabled in browser.
 
-   o Report on all active sessions from a particular IP
+   o Report on all active sessions from a particular IP.
 
    o Enable copy/pasting URLs and default new session for missing cookie.
 
-   x Override default fixed-url-prefix (in base-html-sheet)
+   x Allow wverride of default fixed-url-prefix (in base-html-sheet).
 
-   x Allow a default of old-style url rewriting instead of cookies (in base-html-sheet)
+   x Allow a default of old-style url rewriting instead of cookies (in base-html-sheet).
 
-   x Allow multiple instances of an app (maybe fixed-url as query arg)
+   x Allow multiple instances of an app with dispatch url.
 
 
 
