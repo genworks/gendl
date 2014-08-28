@@ -216,7 +216,7 @@
        
        (when (the settables-form show-settables?)
          (htm (:tr ((:td :colspan 2)
-                    (str (the settables-form main-div))))))
+                    (str (the settables-form inner-html))))))
        
        (let ((count -1))
          (dolist (value-inspector (list-elements (the values)))
@@ -439,8 +439,9 @@
                    
                    (submit-fields-button :type 'button-form-control
                                          :label " OK "
-                                         :onclick (the (gdl-ajax-call 
-                                                        :form-controls (list-elements (the form-fields)))))
+                                         :onclick nil #+nil 
+					 (the (gdl-ajax-call 
+					       :form-controls (list-elements (the form-fields)))))
                    
                    (form-fields :type 'text-form-control
 				:pseudo-inputs (keyword)
@@ -461,7 +462,8 @@
                                 ;; FLAG -- Comment this out to disable ajax submittal
                                 ;;
                                 :ajax-submit-on-change? t
-                                
+				;;:ajax-submit-on-enter? t
+
                                 :domain :pass-thru
                                 :keyword (nth (the-child index)(the settables))
                                 :default (with-error-handling () 

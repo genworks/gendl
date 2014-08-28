@@ -171,10 +171,12 @@ the browser in development mode). Defaults to NIL (the empty list)."
    
    ("String. The web address in the current session which points at this page. Published on demand."
     url (let ((url
-               (if (the plain-url?) (format nil "~a/~a" 
-					    (if (the fixed-url-prefix) (format nil "/~a" (the fixed-url-prefix)) "")
-					    (the (compute-url)))
-                 (format nil "~a/sessions/~a/~a" (if (the fixed-url-prefix) (format nil "/~a" (the fixed-url-prefix)) "")
+               (if (the plain-url?) 
+		   (format nil "~a/~a" 
+			   (if (the fixed-url-prefix) (format nil "/~a" (the fixed-url-prefix)) "")
+			   (the (compute-url)))
+                 (format nil "~a/sessions/~a/~a" (if (the fixed-url-prefix) 
+						     (format nil "/~a" (the fixed-url-prefix)) "")
                          (the :instance-id) (the (compute-url))))))
           (publish
            :path url
@@ -250,10 +252,21 @@ the submitted form fields automatically."
                escaped-strings-for-display))))
       url))
    
+
+   (url-base
+    ()
+    (if (the root?) 
+	""
+	(string-append (the parent url-base) 
+		       (string-downcase (glisp:replace-regexp (the strings-for-display)
+							      "\\s"
+							      "-")) "/")))
    
    (compute-url 
     ()
-    (compute-url (the root-path)))
+    (string-append (the url-base) "index.html")
+    ;;(compute-url (the root-path))
+    )
    
    (set-self () 
              (if *break-on-set-self?*

@@ -44,9 +44,6 @@
                            (read-from-string component)) result-list)))
             (t (push (make-keyword component) result-list))))))
 
-
-
-
 ;;
 ;; FLAG -- start using ensure-keyword here. 
 ;;
@@ -64,14 +61,18 @@
 	 (components (split url #\/))
 	 (cookies (unless (string-equal (first components) "sessions")
 		    (get-cookie-values req))))
-    (let* ((hash-entry (gethash (ensure-keyword (or instance-id 
-						    (cdr (assoc "iid" cookies :test #'string-equal))
-						    (second components))) 
-				*instance-hash-table*))
-           (root-object (first hash-entry)) (skin (third hash-entry))
+    (let* ((hash-entry 
+	    (or (gethash (ensure-keyword (or instance-id 
+					     (cdr (assoc "iid" cookies :test #'string-equal))
+					     (second components))) 
+			 *instance-hash-table*)
+		(error "object not found - must add logic to create new instance~%")))
+      
+	   (root-object (first hash-entry)) (skin (third hash-entry))
            (root-path (multiple-value-bind (value found?) (gethash url *descriptive-url-hash*)
                         (if found? value
-                          (compute-root-path (reverse (if instance-id components (rest (rest components))))))))
+                          (compute-root-path 
+			   (reverse (if instance-id components (rest (rest components))))))))
            (respondent (when root-object (the-object root-object (follow-root-path root-path)))))
       
       (when *debug?* (print-variables components instance-id root-object root-path respondent))

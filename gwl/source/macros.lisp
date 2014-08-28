@@ -82,9 +82,11 @@ FLAG -- fill in.
   
   
   (let ((%enctype% (gensym))
-        (fixed-prefix (gensym)))
+        ;;(fixed-prefix (gensym))
+	)
     `(let ((,%enctype% (cond (,enctype ,enctype) (,multipart? "multipart/form-data")))
-           (,fixed-prefix (the fixed-url-prefix)))
+           ;;(,fixed-prefix (the fixed-url-prefix))
+	   )
 
        (,@(if cl-who? '(with-html-output (*stream* nil :indent t)) 
             '(html 

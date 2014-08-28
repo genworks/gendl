@@ -510,62 +510,62 @@ from
 			       value
 			       (cons 'the (append (reverse (the-object (first *notify-cons*) root-path))
 						  (list (make-keyword (second *notify-cons*)))))))
-    
-    (unless (eql attribute :%primary?%)
-      (when (not *run-with-dependency-tracking?*)
-        (error "Dependency Tracking must be enabled in order to forcibly
+    (progn ;; bt:with-lock-held (*binding-lock*) FLAG - bring in later in bootstrapping. 
+      (unless (eql attribute :%primary?%)
+	(when (not *run-with-dependency-tracking?*)
+	  (error "Dependency Tracking must be enabled in order to forcibly
 set slot values. 
 
 Please setq the variable `*run-with-dependency-tracking?*' to T,
 make a fresh root-level object, and start again."))
-      (let (*leaf-resets*)
-        (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
-          (unbind-dependent-slots self slot)
-          (setf (slot-value self slot) 
-            (list value nil t)))
-        (when remember?
-          (let ((root (let ((maybe-root (the :root)))
-			(if (the-object maybe-root root?)
-			    maybe-root
-			    (the-object maybe-root parent))))
-		(root-path (the root-path)
-		  ;;(remove :root-object-object (the root-path))
-		  ;;(the root-path)
-		  ))
+	(let (*leaf-resets*)
+	  (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
+	    (unbind-dependent-slots self slot)
+	    (setf (slot-value self slot) 
+		  (list value nil t)))
+	  (when remember?
+	    (let ((root (let ((maybe-root (the :root)))
+			  (if (the-object maybe-root root?)
+			      maybe-root
+			      (the-object maybe-root parent))))
+		  (root-path (the root-path)
+		    ;;(remove :root-object-object (the root-path))
+		    ;;(the root-path)
+		    ))
 
-            (pushnew (list root-path)
-                     (gdl-acc::%version-tree% root)
-                     :test #'equalp
-                     :key #'(lambda(item) (list (first item))))
+	      (pushnew (list root-path)
+		       (gdl-acc::%version-tree% root)
+		       :test #'equalp
+		       :key #'(lambda(item) (list (first item))))
 
           
-            (setf (gdl-acc::%version-tree% root)
-                  (sort (gdl-acc::%version-tree% root)
-                        #'(lambda(item1 item2)
-                            (< (length (first item1)) (length (first item2))))))
+	      (setf (gdl-acc::%version-tree% root)
+		    (sort (gdl-acc::%version-tree% root)
+			  #'(lambda(item1 item2)
+			      (< (length (first item1)) (length (first item2))))))
           
-            (when (the primary?)
-              (setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) :%primary?%)
-                t))
+	      (when (the primary?)
+		(setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) :%primary?%)
+		      t))
 
-            (let ((non-root (remove nil (gdl-acc::%version-tree% root) :key #'first))
-                  (root-list (find nil (gdl-acc::%version-tree% root) :key #'first)))
-              (let ((primaries (remove-if-not #'(lambda(item)
-                                                  (getf (rest item) :%primary?%))
-                                              non-root))
-                    (non-primaries (remove-if #'(lambda(item)
-                                                  (getf (rest item) :%primary?%))
-                                              non-root)))
-              (setf (gdl-acc::%version-tree% root)
-                    (cons (or root-list (list nil))
-                          (append primaries non-primaries)))))
+	      (let ((non-root (remove nil (gdl-acc::%version-tree% root) :key #'first))
+		    (root-list (find nil (gdl-acc::%version-tree% root) :key #'first)))
+		(let ((primaries (remove-if-not #'(lambda(item)
+						    (getf (rest item) :%primary?%))
+						non-root))
+		      (non-primaries (remove-if #'(lambda(item)
+						    (getf (rest item) :%primary?%))
+						non-root)))
+		  (setf (gdl-acc::%version-tree% root)
+			(cons (or root-list (list nil))
+			      (append primaries non-primaries)))))
             
-            (setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) attribute)
-                  value)))
+	      (setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) attribute)
+		    value)))
       
-        (when *eager-setting-enabled?*
-          (dolist (reset *leaf-resets*)
-            (the-object (first reset) (evaluate (second reset))))))))
+	  (when *eager-setting-enabled?*
+	    (dolist (reset *leaf-resets*)
+	      (the-object (first reset) (evaluate (second reset)))))))))
 
    
    (modify-attribute!
@@ -886,6 +886,10 @@ a separate object hierarchy." object self)))
 
 (defparameter *unbound-slots* nil)
 
+;;
+;; FLAG -- bring this in later in bootstrapping when we have bordeaux-threads. 
+;;
+;;(defparameter *binding-lock* (bt:make-lock "unbinding-lock"))
 
 (defun unbind-dependent-slots (object slot &key updating?)
   (let ((*unbound-slots* (glisp:make-sans-value-equalp-hash-table)))
@@ -900,28 +904,32 @@ a separate object hierarchy." object self)))
       (setf (gethash (list object slot) *unbound-slots*) t)
       (if (slot-exists-p object slot)
           (let ((slot-value (slot-value object slot)))
-            (when (not (eq (first (ensure-list slot-value)) 'gdl-rule::%unbound%))
+            (when (not (eq (first (ensure-list slot-value)) 'gdl-rule:%unbound%))
               (when (and *eager-setting-enabled?* (null (second slot-value)))
                 (push (list object slot) *leaf-resets*))
-	      
-	      (let ((list-or-hash (second (slot-value object slot))))
+
+	      (let ((list-or-hash (second slot-value)))
 		(if (listp list-or-hash)
 		    (mapc #'(lambda(notify-cons)
 			      (destructuring-bind (node . messages) notify-cons
 				(mapc #'(lambda(message) 
-					  (%unbind-dependent-slots% node message :updating? updating?)) messages))) list-or-hash)
+					  (%unbind-dependent-slots% node message 
+								    :updating? updating?)) 
+				      messages))) list-or-hash)
 		    (maphash #'(lambda(node messages)
 				 (mapc #'(lambda(message) 
-					   (%unbind-dependent-slots%  node message :updating? updating?)) messages)) list-or-hash)))
-		
-              (setf (second (slot-value object slot)) nil)
-              (when (not (third slot-value))
-                (setf (slot-value object slot) 
-                  (if (or updating? (not *remember-previous-slot-values?*))
-                      'gdl-rule::%unbound%
-                    (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
-        (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
-          (the-object object (unbind-remote-slot slot)))))))
+					   (%unbind-dependent-slots%  node message 
+								      :updating? updating?)) 
+				       messages)) list-or-hash)))
+	      
+              (if (third slot-value)
+		  (setf (second (slot-value object slot)) nil)
+		  (setf (slot-value object slot) 
+			(if (or updating? (not *remember-previous-slot-values?*))
+			    'gdl-rule::%unbound%
+			    (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
+	  (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
+	    (the-object object (unbind-remote-slot slot)))))))
 
 
 #+nil
