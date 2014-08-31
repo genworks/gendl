@@ -354,7 +354,7 @@ package-qualified object name\")
   (let ((query (request-query req)))
     (let* ((part (or part (rest (assoc "part" query :test #'string-equal))))
 	   (part-type (read-safe-string part))
-	   (session-urls? (assoc "session-urls" query :test #'string-equal))
+	   (session-urls? (not (assoc "cookies" query :test #'string-equal)))
 	   (path (format nil "~a/~a" (package-name (symbol-package part-type))
 				       part-type)))
       
