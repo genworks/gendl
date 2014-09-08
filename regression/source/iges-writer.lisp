@@ -137,7 +137,6 @@
 
    (surface :type 'test-b-spline-surface))
 
-
   :functions
   ((iges-out ()
 	     (let ((output-path (merge-pathnames "points.iges" (glisp:temporary-folder))))
