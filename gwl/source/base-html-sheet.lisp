@@ -144,15 +144,14 @@ the browser in development mode). Defaults to NIL (the empty list)."
    
    ($$tatu-object (the $$tatu) :settable)
    ($$ta2-object (the $$ta2) :settable)
-
-   (use-cookie? nil :defaulting)
-
-   (plain-url? (the use-cookie?) :defaulting)
+   
+   (plain-url? nil :defaulting)
    
    (host nil :defaulting)
    
-   (query-toplevel nil :settable))
-
+   (query-toplevel nil :settable)
+   
+   )
 
   :computed-slots
   (
@@ -171,12 +170,8 @@ the browser in development mode). Defaults to NIL (the empty list)."
    
    ("String. The web address in the current session which points at this page. Published on demand."
     url (let ((url
-               (if (the plain-url?) 
-		   (format nil "~a/~a" 
-			   (if (the fixed-url-prefix) (format nil "/~a" (the fixed-url-prefix)) "")
-			   (the (compute-url)))
-                 (format nil "~a/sessions/~a/~a" (if (the fixed-url-prefix) 
-						     (format nil "/~a" (the fixed-url-prefix)) "")
+               (if (the plain-url?) (format nil "/~a" (the (compute-url)))
+                 (format nil "~a/sessions/~a/~a" (if (the fixed-url-prefix) (format nil "/~a" (the fixed-url-prefix)) "")
                          (the :instance-id) (the (compute-url))))))
           (publish
            :path url
@@ -184,14 +179,11 @@ the browser in development mode). Defaults to NIL (the empty list)."
            :host (the host)
            :function #'(lambda (req ent) 
                          (the before-response!)
-                         (present-part req ent url :instance-id (when (and (the plain-url?)
-									   (not (the use-cookie?)))
+                         (present-part req ent url :instance-id (when (the plain-url?) 
                                                                   (the instance-id)) 
                                        :header-plist (the header-plist)
                                        :fixed-prefix (the fixed-url-prefix))))
-
-	  (unless (the use-cookie?)
-	    (pushnew url (gethash (make-keyword (the instance-id)) *url-hash-table*) :test #'string-equal))
+          (pushnew url (gethash (make-keyword (the instance-id)) *url-hash-table*) :test #'string-equal)
           
           (setf (gethash url *descriptive-url-hash*) (the root-path))
           (when *debug?* (print-variables url))
@@ -210,7 +202,7 @@ the submitted form fields automatically."
 
   :trickle-down-slots
   (tree-root instance-id plain-url? host home-page query-toplevel 
-	     fixed-url-prefix use-cookie?)
+	     fixed-url-prefix)
 
   :hidden-objects
   (($$update :type 'update
@@ -252,21 +244,10 @@ the submitted form fields automatically."
                escaped-strings-for-display))))
       url))
    
-
-   (url-base
-    ()
-    (if (the root?) 
-	""
-	(string-append (the parent url-base) 
-		       (string-downcase (glisp:replace-regexp (the strings-for-display)
-							      "\\s"
-							      "-")) "/")))
    
    (compute-url 
     ()
-    (string-append (the url-base) "index.html")
-    ;;(compute-url (the root-path))
-    )
+    (compute-url (the root-path)))
    
    (set-self () 
              (if *break-on-set-self?*

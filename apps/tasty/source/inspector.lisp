@@ -413,8 +413,6 @@
    
    (respondent (the tatu-root))
    
-   ;;(bashee (the node))
-   
    
    (control-view (with-cl-who-string ()
                    ((:span :style "cursor: pointer; color: blue; font-style: oblique;"
@@ -439,16 +437,13 @@
                    
                    (submit-fields-button :type 'button-form-control
                                          :label " OK "
-                                         :onclick nil #+nil 
-					 (the (gdl-ajax-call 
-					       :form-controls (list-elements (the form-fields)))))
+                                         :onclick nil)
                    
                    (form-fields :type 'text-form-control
 				:pseudo-inputs (keyword)
                                 :sequence (:size (length (the settables)))
                                 ;;
-                                ;; FLAG -- precompute this in a slot, and allow for unbound until clicked. 
-                                ;;
+                                ;; FLAG -- precompute this in a slot, and allow for unbound until clicked.                         ;;
                                 :size (length (format nil "~s" (the-child default)))
                                 
                                 :validation-function 
@@ -487,7 +482,7 @@
     ()
     (with-cl-who ()
       (when (the show-settables?) 
-        (with-html-form (:cl-who? t :on-submit "return false;")
+	(htm
           (:table
            (mapc #'(lambda(form-control reset-button)
                      (let ((message (the-object form-control keyword)))
@@ -503,11 +498,7 @@
                                         ))))))
                  (list-elements (the form-fields)) (list-elements (the reset-buttons))))
           
-          ;;(:p ((:input :type :submit :value "OK")))
-          
-          (:p (str (the submit-fields-button form-control-string)))
-          
-          ))))))
+          (:p (str (the submit-fields-button form-control-string)))))))))
 
 
 

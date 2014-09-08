@@ -110,9 +110,10 @@
                              'gdl-rule:%not-handled%)))
                       (cond ((not (eql ,val-arg 'gdl-rule:%not-handled%)) ,val-arg)
                             ((and ,parent-arg (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)))
-                             (if (member ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
-                                 (,(glisp:intern (symbol-name attr-sym) :gdl-slots) ,parent-arg)
-                               (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))
+                             (if ;;(member ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
+			      (gethash ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
+			      (,(glisp:intern (symbol-name attr-sym) :gdl-slots) ,parent-arg)
+			      (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))
                             (t (not-handled self ,(make-keyword attr-sym))))))))))))) input-slots))
 
 (defun optional-input-slots-section (name input-slots &optional (defaulted? nil))

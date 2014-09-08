@@ -240,7 +240,7 @@ This occured in:
                                          :sew-and-orient? (the sew-and-orient?)
                                          :manifold? (the manifold?))))
           
-          (brep-assert-valid *geometry-kernel* result :warn? (not (the error-on-invalid?)))
+          ;;(brep-assert-valid *geometry-kernel* result :warn? (not (the error-on-invalid?)))
 
           result)))))
 

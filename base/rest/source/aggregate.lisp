@@ -69,7 +69,7 @@ with an optional filter.
   (let ((result (gensym))  (value (gensym)))
     `(let ((,result nil))
        (dolist (%object% (the-object ,aggregate :list-elements))
-	 (let ((,value ,expression))
+	 (let ((,value (copy-list ,expression)))
 	   (let ((,value (funcall (or ,filter #'identity) ,value)))
 	     (if (null ,result) 
 		 (setq ,result ,value)

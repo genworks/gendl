@@ -554,7 +554,29 @@ overview of <tt>define-object</tt> syntax."
        ;;
        ;; FLAG -- maybe some of these others can go away as well. 
        ;;
+
+
+       (let ((,self-arg (find-class ',name nil)))
+	 (when ,self-arg
+	   (setf (trickle-down-effective ,self-arg) nil)))
+
+       ;;
+       ;; FLAG -- use uiop:list-to-hash-set
+       ;;
+       (defmethod gdl-rule::%trickle-down-slots% 
+           ((,self-arg ,name))
+	   (let ((class (class-of ,self-arg)))
+	     (or (trickle-down-effective class)
+		 (let* ((trickles (remove-duplicates
+				   (mapcar #'make-keyword
+					   (append ',(append object-syms quantified-object-syms hidden-object-syms 
+							     quantified-hidden-object-syms trickle-down-slot-syms)
+						   (when (next-method-p) (list-hash (call-next-method)))))))
+			(ht (glisp:make-sans-value-hash-table :size (length trickles))))
+		   (dolist (trickle trickles ht)
+		     (setf (gethash trickle ht) t))))))
        
+       #+nil
        (defmethod gdl-rule::%trickle-down-slots% 
            ((,self-arg ,name))
          (remove-duplicates

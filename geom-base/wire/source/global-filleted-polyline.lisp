@@ -126,13 +126,14 @@ of the filleted-polyline."
                         (the :default-radius)
                         (error "You must specify a radius for global-filleted-polyline - root-path is ~s~%"
                                (the root-path)))
-
+	    
             :local-vertex (nth (1+ (the-child :index)) (the :vertex-list))
              
             :direction-vectors (the (fillet-tests (the-child index)) direction-vectors))
    
    (lins :type 'line
           :sequence (:size (length (the straights)))
+	  :pass-down (orientation)
           :start (first (nth (the-child index) (the straights)))
           :end (second (nth (the-child index) (the straights))))
    

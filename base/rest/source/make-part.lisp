@@ -27,6 +27,13 @@
   (apply #'make-object args))
 
 
+;;
+;; FLAG -- cache the computation of input-slots based on type, and
+;; look up input-slots on subsequent calls. Then reactivate this
+;; make-object.
+;;
+
+#+nil
 (defun make-object (object-type &rest args)
   "GDL Object. Instantiates an object with specified initial values for input-slots.
 
@@ -62,7 +69,7 @@ The argument ~s, and its value ~s, have been ignored
 
 
 
-#+nil
+
 (defun make-object (object-type &rest args)
   "GDL Object. Instantiates an object with specified initial values for input-slots.
 
@@ -84,8 +91,8 @@ The argument ~s, and its value ~s, have been ignored
             (gdl-acc::%toplevel-inputs% object) args) object)))
 
 (defun make-object-internal (object-type &rest args)
-  (let ((object (apply #'make-instance object-type :allow-other-keys t args)))
-    object))
+  (apply #'make-instance object-type :allow-other-keys t args))
+
 
 (defun make-canonical-part (&rest args)
   (apply #'make-object args))
