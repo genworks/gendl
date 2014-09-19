@@ -203,7 +203,8 @@ interface. Defaults to nil."
                  ui-specific-layout-js nil :settable)
                 
                 
-                (respondent (the bashee) :defaulting) 
+                ;;(respondent (the bashee) :defaulting) 
+		(respondent (the bashee))
                 
                 )
 

@@ -343,6 +343,11 @@ Defaults to the foreground color specified in <tt>*colors-default*</tt>. This me
                                                     :bounding-bbox
                                                     :beziers)
                                               (call-next-method)))
+
+   (half-width (half (the width)) )
+   (half-length (half (the length)))
+   (half-height (half (the height)))
+		
    
    )
 
@@ -618,9 +623,10 @@ based on the orientation and center of the object to which the local-to-global m
                                                  (the (face-center :rear))
                                                  (the (face-normal-vector :rear))) :rear))))
       (sort (remove nil (list top bottom left right front rear))
-            #'(lambda(p1 p2) (< (3d-distance p-line p1)(3d-distance p-line p2))))))
+            #'(lambda(p1 p2) (< (3d-distance p-line p1)(3d-distance p-line p2)))))))
    
-   
+  :functions
+  (
    ;;
    ;; FLAG -- performance -- if %face-ht% always has unit vectors pass optional T arg into translate-along-vector.
    ;;
@@ -630,9 +636,9 @@ based on the orientation and center of the object to which the local-to-global m
     (direction)
     (translate-along-vector (the :center) (gethash direction (the :%face-ht%))
                             (ecase direction
-                              ((:top :bottom) (half (the :height)))
-                              ((:left :right) (half (the :width)))
-                              ((:front :rear) (half (the :length))))))
+                              ((:top :bottom) (the half-height))
+                              ((:left :right) (the half-width))
+                              ((:front :rear) (the half-length)))))
 
    ("3D Point. Returns the center of the requested edge of this object's reference box.
 :arguments (direction-1 \"Keyword. One of the standard direction keywords: :right, :left, :rear, :front, :top, :bottom.\"
@@ -642,9 +648,9 @@ based on the orientation and center of the object to which the local-to-global m
     (translate-along-vector (the (:face-center direction-1))
                             (gethash direction-2 (the :%face-ht%))
                             (ecase direction-2
-                              ((:top :bottom) (half (the :height)))
-                              ((:left :right) (half (the :width)))
-                              ((:front :rear) (half (the :length))))))
+                              ((:top :bottom) (the half-height))
+                              ((:left :right) (the half-width))
+                              ((:front :rear) (the half-length)))))
 
    ("3D Point. Returns the center of the requested vertex (corner) of this object's reference box.
 :arguments (direction-1 \"Keyword. One of the standard direction keywords: :right, :left, :rear, :front, :top, :bottom.\"
@@ -655,9 +661,9 @@ based on the orientation and center of the object to which the local-to-global m
     (translate-along-vector (the (:edge-center direction-1 direction-2))
                             (gethash direction-3 (the :%face-ht%))
                             (ecase direction-3
-                              ((:top :bottom) (half (the :height)))
-                              ((:left :right) (half (the :width)))
-                              ((:front :rear) (half (the :length))))))
+                              ((:top :bottom) (the half-height))
+                              ((:left :right) (the half-width))
+                              ((:front :rear) (the half-length)))))
 
    ("3D Vector. Returns the vector pointing in the positive direction of the specified axis of this object's reference box.
 :arguments (axis \"Keyword. One of the standard axis keywords: :lateral, :longitudinal, :vertical.\")"

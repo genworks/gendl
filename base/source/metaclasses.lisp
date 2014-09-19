@@ -45,6 +45,7 @@
    (hidden-objects :accessor hidden-objects :initform nil)
    (quantified-hidden-objects :accessor quantified-hidden-objects :initform nil)
    (trickle-down-slots :accessor trickle-down-slots :initform nil)
+   (trickle-down-effective :accessor trickle-down-effective :initform nil)
    (settable-slots :accessor settable-slots :initform nil)
    (message-documentation :accessor message-documentation :initform nil)
    

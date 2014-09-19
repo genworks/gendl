@@ -23,7 +23,6 @@
 
 
 (gwl:define-package :ta2
-    (:documentation #.(glisp:system-description :ta2))
   (:export #:assembly))
 
 #+nil

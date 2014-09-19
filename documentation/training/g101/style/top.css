@@ -93,6 +93,16 @@ font-weight: bold;
 	}
 
 
+.lisp-return-value {
+color: green;
+whitespace: pre;
+font-family: Courier, fixed, serif;
+font-size: 18;
+font-weight: bold;
+
+	}
+
+
 
 #title {
 font-family: Arial, Helvetica, sans-serif;

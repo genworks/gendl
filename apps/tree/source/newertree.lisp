@@ -76,7 +76,12 @@
                             (or (ignore-errors (the target-object line-thickness)) 1)))
 
    
+   #+nil
    (local-display-controls (gethash (the target-object) (the display-controls-hash)))
+
+   (local-display-controls 
+    (or (gethash (the target-object) (the display-controls-hash))
+        (when (typep (the parent) 'newertree) (the parent local-display-controls))))
 
    (kids-error (when (typep (the safe-children) 'error) (the safe-children)))
    

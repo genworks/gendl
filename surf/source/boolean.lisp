@@ -181,10 +181,6 @@ for merged-solid where we default this to nil."  sew-and-orient? t)
 	     (print-variables count length)
 	     
 	     (let ((try-manifold? (= count (1- length))))
-	       (format t "Merging ~s into merge object ~s, ~a~%" 
-		       (cons 'the (reverse (the-object other-brep root-path)))
-		       (cons 'the (reverse (the root-path)))
-		       (if try-manifold? ", trying to make manifold..." ""))
 	       (setq current-brep (do-boolean-merge-operation  *geometry-kernel* merge-container
 							      (the operation) try-manifold?
 							      :make-manifold? try-manifold?
@@ -240,7 +236,11 @@ This occured in:
                                          :sew-and-orient? (the sew-and-orient?)
                                          :manifold? (the manifold?))))
           
-          (brep-assert-valid *geometry-kernel* result :warn? (not (the error-on-invalid?)))
+	  ;;
+	  ;; FLAG - try to put this back in on a more selective basis. It's too slow with SMLib8.69 and later.
+	  ;;
+          ;;(brep-assert-valid *geometry-kernel* result :warn? (not (the error-on-invalid?)))
+	  ;;
 
           result)))))
 

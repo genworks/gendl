@@ -116,3 +116,29 @@
             :name "iges-test-tree" :type "iges")))
       (format t "Writing test IGES file to ~a...~%" output-file)
       (with-format (iges output-file) (write-the cad-output-tree))))))
+
+
+
+(define-object set-of-points (base-object)
+  :input-slots ((centers (list (the center)
+			       (translate (the center) :right 1)
+			       (translate (the center) :left 1)
+			       (translate (the center) :rear 1)
+			       (translate (the center) :front 1)
+			       (translate (the center) :up 1)
+			       (translate (the center) :down 1))))
+
+  :objects
+  (
+   (points :type 'point
+	   :sequence (:size (length (the centers)))
+	   :center (nth (the-child index) (the centers)))
+
+
+   (surface :type 'test-b-spline-surface))
+
+  :functions
+  ((iges-out ()
+	     (let ((output-path (merge-pathnames "points.iges" (glisp:temporary-folder))))
+	     (with-format (iges output-path) (write-the cad-output-tree))
+	     output-path))))

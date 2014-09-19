@@ -1,6 +1,10 @@
 
 ##Gendl®
 
+Pre-built Distributions available here: 
+
+  http://gendl.com
+
 Gendl® is a Generative Programming and Knowledge Based Engineering
 framework, implementing concepts which date back to the 1980s and
 which cutting-edge companies have been quietly using to gain

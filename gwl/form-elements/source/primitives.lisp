@@ -300,7 +300,8 @@ and the error string will be appended to the html-string by default. </li>
                             ;;(list :validated-value value :error nil)
                             ))
    
-   (ajax-submit-on-change? nil)
+   ("Boolean. If set to non-nil, this field's value will be sent to server upon change. Default is nil." ajax-submit-on-change? nil)
+   ("Boolean. If set to non-nil, this field's value will be sent to server upon enter. Default is nil." ajax-submit-on-enter? nil)
    
    ("String. Text to place in the field by default, overwritten as soon as the field is selected. Works only in HTML5. Default is nil." placeholder nil)
    ("Boolean. Maps to HTML form control attribute of the same name. Default is nil." disabled? nil)
@@ -316,8 +317,10 @@ and the error string will be appended to the html-string by default. </li>
    ("String or nil. Maps to HTML form control attribute of the same name. Default is nil." onfocus nil)
    ("String or nil. Maps to HTML form control attribute of the same name. Default is nil." onblur nil)
    ("String or nil. Maps to HTML form control attribute of the same name. Default is nil." onselect nil)
-   ("String or nil. Maps to HTML form control attribute of the same name. Default is nil." 
+   ("String or nil. Maps to HTML form control attribute of the same name. Default is nil, unless ajax-submit-on-change? is non-nil, in which case it calls ajax to set current form value." 
     onchange (when (the ajax-submit-on-change?) (the parent (gdl-ajax-call :form-controls (list self)))))
+   ("String or nil. Maps to HTML form control attribute of the same name. Default is nil, unless ajax-submit-on-enter? is non-nil, in which case it calls ajax to set current form value." 
+    onenter (when (the ajax-submit-on-enter?) (the parent (gdl-ajax-call :form-controls (list self)))))
    ("String or nil. Maps to HTML form control attribute of the same name. Default is nil." onclick nil)
    ("String or nil. Maps to HTML form control attribute of the same name. Default is nil." ondblclick nil)
    ("String or nil. Maps to HTML form control attribute of the same name. Default is nil." onmousedown nil)
@@ -546,7 +549,8 @@ Defaults to nil. Use number-form-control to get a default of t."
 
 
 (define-object number-form-control (text-form-control)
-  :input-slots ((min nil) (max nil) (step nil))
+  :input-slots ((min nil) (max nil) (step nil)
+		(domain :number))
   :computed-slots ((number? t)))
 
 
@@ -804,7 +808,7 @@ Contact Genworks if you need this documented."
 (define-object button-form-control (base-form-control)
   
   :input-slots 
-  ((:label (the value))
+  ((label (the value))
    
    (content (the :label))
    

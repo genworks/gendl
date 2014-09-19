@@ -45,7 +45,7 @@
          (plist (gwl::assoc-list-to-plist query))
          (object (the root-object (follow-root-path 
                                    (read-safe-string 
-                                    (base64-decode-safe (getf plist :rootPath)))))))
+                                    (base64-decode-safe (getf plist :|rootPath|)))))))
     
     (the (perform-action! object))
     
@@ -63,7 +63,7 @@
            (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
            (self (reset-self self))
            (plist (gwl::assoc-list-to-plist query)))
-      (let ((root-path (getf plist :rootPath)))
+      (let ((root-path (getf plist :|rootPath|)))
         (setq root-path (base64-decode-safe root-path))
         
         (when *debug?* (print-variables self root-path))
@@ -85,8 +85,8 @@
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (self (reset-self self))
          (plist (gwl::assoc-list-to-plist query))
-         (message (make-keyword (base64-decode-safe (getf plist :message)))))
-    (print-variables plist message)
+         (message (make-keyword (base64-decode-safe (getf plist :|message|)))))
+
     (with-http-response (req ent :content-type "text/xml")
       (with-http-body (req ent)
         (with-html-output(*html-stream* nil )
@@ -106,9 +106,10 @@
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (self (reset-self self))
          (plist (gwl::assoc-list-to-plist query))
-         (slot (make-keyword (getf plist :control)))
-         (value (getf plist :value)))
+         (slot (make-keyword (getf plist :|control|)))
+         (value (getf plist :|value|)))
     
+
     (if (eql (read-safe-string value) 'gdl::restore-default)
         (the click-mode (restore-slot-default! slot))
       (the click-mode (set-slot-if-needed! slot value)))
@@ -126,13 +127,13 @@
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (self (reset-self self))
          (plist (gwl::assoc-list-to-plist query))
-         (root-path (base64-decode-list (getf plist :rootPath)))
+         (root-path (base64-decode-list (getf plist :|rootPath|)))
          (object (the root-object (follow-root-path root-path)))
-         (plist (remove-plist-key (remove-plist-key plist :iid) :rootPath)))
+         (plist (remove-plist-key (remove-plist-key plist :|iid|) :|rootPath|)))
 
     
-    (let ((keys (read-safe-string (getf plist :keys)))
-          (values (base64-decode-list (getf plist :values))))
+    (let ((keys (read-safe-string (getf plist :|keys|)))
+          (values (base64-decode-list (getf plist :|values|))))
       
       (mapc #'(lambda(key value)
                 (the-object object (set-slot-if-needed! key value :infer-types? nil))) keys values))
@@ -156,10 +157,10 @@
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (self (reset-self self))
          (plist (gwl::assoc-list-to-plist query))
-         (root-path (read-safe-string (getf plist :rootPath)))
+         (root-path (read-safe-string (getf plist :|rootPath|)))
          (object (the (follow-root-path root-path)))
-         (slot (read-safe-string (getf plist :control)))
-         (value (getf plist :value)))
+         (slot (read-safe-string (getf plist :|control|)))
+         (value (getf plist :|value|)))
     
     
     (if (eql (read-safe-string value) 'gdl::restore-default)
@@ -185,7 +186,7 @@
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (self (reset-self self))
          (plist (gwl::assoc-list-to-plist query))
-         (mode (make-keyword (getf plist :mode))))
+         (mode (make-keyword (getf plist :|mode|))))
 
     (the tree (set-slot! :expand-mode mode))
 
@@ -203,7 +204,7 @@
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (self (reset-self self))
          (plist (gwl::assoc-list-to-plist query))
-         (mode (getf plist :mode)))
+         (mode (getf plist :|mode|)))
 
     
     (setq self (the click-mode))
@@ -275,14 +276,15 @@
          (self (first (gethash (make-keyword iid) gwl:*instance-hash-table*)))
          (self (reset-self self))
          (plist (gwl::assoc-list-to-plist query))
-         (self (the (follow-root-path (read-safe-string (getf plist :rootPath))))))
+         (self (the (follow-root-path (read-safe-string (getf plist :|rootPath|))))))
     
     ;;
     ;; FLAG -- this is internal stuff, should be handled by a simple function on the self object.
     ;;
 
-    (let ((local-point (make-point (- (parse-integer (getf plist :x)) (half (the view-object width)))
-                                                          (let ((y (- (the view-object length) (parse-integer (getf plist :y)))))
+    (let ((local-point (make-point (- (parse-integer (getf plist :|x|)) 
+				      (half (the view-object width)))
+				   (let ((y (- (the view-object length) (parse-integer (getf plist :|y|)))))
                                                             (- y (half (the view-object length)))))))
       (let ((digitized-point 
              (add-vectors (the view-object user-center)

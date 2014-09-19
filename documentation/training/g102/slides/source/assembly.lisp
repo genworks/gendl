@@ -37,6 +37,7 @@
    (introduction :type 'introduction)
    (objects :type 'objects)
    (geometry :type 'geometry)
+   (tower-example :type 'tower-example)
    (user-interface :type 'user-interface)
    (outside-world :type 'outside-world)
    (debugging :type 'debugging)

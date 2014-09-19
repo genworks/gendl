@@ -66,15 +66,49 @@
       (when (and homedir-init? homedir-init-file) (load homedir-init-file)))))
 
 
+(defun quicklisp-copyright-string ()
+  (let ((ql-libs 
+	 (safe-sort 
+	  (set-difference *already-loaded-systems*
+			  (append (list "asdf" "crypt" "quicklisp" "base" "ent" "validate" "glisp" 
+					"monofasl" "pro" "enterprise")
+				  *packages-to-lock*)
+			  :key #'string :test #'string-equal) #'string-lessp))
+	(ql-version (with-open-file (in (or (probe-file 
+					     (merge-pathnames "quicklisp/dists/quicklisp/distinfo.txt"
+							      glisp:*gdl-home*))
+					    (probe-file 
+					     (merge-pathnames "quicklisp/dists/quicklisp/distinfo.txt"
+							      glisp:*genworks-source-home*))))
+		      (read-line in)
+		      (string-trim (list #\space) (second (glisp:split-regexp ":" (read-line in)))))))
+    (format nil "Also contains the following Common Lisp libraries
+from Quicklisp version ~a, whose source files are available in the
+Quicklisp repository at http://quicklisp.org, Copyright© their
+respective authors:
+
+~{~a~^, ~}.~%" 
+	    ql-version
+	    ql-libs)))
+
 
 (defun startup-banner ()
 
   (format t
-"
+	  "
+
+Gendl® Free Edition, version ~a
+Within ~a ~a 
+Copyright© 2002-2013, Genworks International, Birmingham MI, USA. 
+All Rights Reserved.
+
+~a
+
 
 Welcome to Gendl®
-Copyright© 2002-2013, Genworks® International, Birmingham MI, USA.
+Copyright© 2014, Genworks® International, Birmingham MI, USA.
 All Rights Reserved.
+
 This program contains free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
@@ -89,7 +123,11 @@ You should have received a copy of the GNU Affero General Public
 License along with the source code for this program. If not, see:
 
 http://www.gnu.org/licenses/
-
-"))
+"
+	  gendl:*gendl-version*
+	  (lisp-implementation-type)
+	  (lisp-implementation-version)
+	  (quicklisp-copyright-string)
+	  ))
 
 

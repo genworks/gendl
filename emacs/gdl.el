@@ -127,7 +127,6 @@
 
 (defun gendl (&optional exe) (interactive) 
   (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
-  ;;(add-hook 'slime-connected-hook 'load-base-ql)
   (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
   (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
@@ -199,18 +198,9 @@
 (defvar gdl-startup-string 
   (format 
    "(progn (unless (find-package :gendl)
-	    (let ((load-file (or (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))
-				 (probe-file \"c:/users/dcooper8/.load-gendl.lisp\"))))
+	    (let ((load-file (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))))
 	      (load load-file)))
-	  (when (and (find-package :gendl) (find-package :swank))
-            (load (compile-file \"%semacs/glime.lisp\"
-
-				:output-file 
-				(merge-pathnames 
-				 (make-pathname :name \"glime\" 
-						:type (symbol-value 
-						       (read-from-string \"glisp:*fasl-extension*\")))
-				 (funcall (symbol-function (read-from-string \"glisp:temporary-folder\")))))))
+          (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\")))
 	  (when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))
 	  (let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
 	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
@@ -257,12 +247,16 @@
 
 
 (defun load-user-emacs-glime ()
-  (when (file-exists-p "~/.emacs-glime") (load-file "~/.emacs-glime"))
-  (when (file-exists-p "~/.emacs-glime.el") (load-file "~/.emacs-glime.el"))
-  (when (file-exists-p "~/.emacs-gendl") (load-file "~/.emacs-gendl"))
-  (when (file-exists-p "~/.emacs-gendl.el") (load-file "~/.emacs-gendl.el")))
+  (dolist (file (list "~/.emacs-glime" "~/.emacs-glime.el"))
+    (when (file-exists-p file) (load-file file))))
 
-(load-user-emacs-glime)
+(defun load-user-emacs-gendl ()
+  (dolist (file (list "~/.emacs-gendl" "~/.emacs-gdl" 
+		      "~/.emacs-gendl.el" "~/.emacs-gdl.el"))
+    (when (file-exists-p file) (load-file file))))
+
+
+
 
 (ignore-errors 
   (require 'package)
@@ -339,18 +333,19 @@
     (fi:inferior-lisp-newline)
     (end-of-buffer)))
 
-
 ;;
-;; Establish input methodf I.A.S.T diacritics
+;; Establish input method for I.A.S.T diacritics
 ;;
+(let ((file (concat *gendl-home* "emacs/sa-translit.el"))) 
+  (when (file-exists-p file)
+    (load-file file)
+    (register-input-method
+     "sa-translit" "Sanskrit Transliteration" 'quail-use-package
+     "sa-translit" "Converts Harvard-Kyoto and ITRANS scheme to IAST diacritics."
+     file)))
 
-(load-file (concat *gendl-home* "emacs/sa-translit.el"))
 
-(register-input-method
- "sa-translit" "Sanskrit Transliteration" 'quail-use-package
- "sa-translit" "Converts Harvard-Kyoto and ITRANS scheme to IAST diacritics."
- (concat *gendl-home* "emacs/sa-translit.el"))
-
+(load-user-emacs-gendl)
 
 ;; A.  REFERENCES
 ;;

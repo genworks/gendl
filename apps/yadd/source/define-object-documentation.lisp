@@ -797,7 +797,9 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
    
    (pretty-definition 
     ()
-    (let ((*package* (find-package (the part-package))))
+    (let ((*package* (find-package (the part-package)))
+	  ;;(*print-case* :downcase)
+	  )
       (html-stream *stream*
                    (:pre
                     ((:div :class "gdl-object-def")
@@ -841,7 +843,8 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
      (:princ (if (and (the first?) (the parent first?))
                  "" "   "))
      (:princ (if (member (the section category) (list  :required-input-slots)) "" "("))
-     ((:span :class "gdl-message-name") (:princ (the message-name))))
+     ((:span :class "gdl-message-name")
+      (:princ (the message-name))))
 
     
     (if (the objects?)

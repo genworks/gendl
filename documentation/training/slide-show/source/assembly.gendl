@@ -254,13 +254,14 @@
    
    (sample-drawing
     (when (and (the define-object) (the have-sample-drawing?))
-      (let* ((image-name (format nil "~a.png" (the define-object)))
+      (let* ((image-name (format nil "~(~a~).png" (the define-object)))
              (output-file (merge-pathnames image-name (the images-path)))
              (temp-file (merge-pathnames (string-append image-name "-t")
                                          (the images-path))))
 
 	(ensure-directories-exist (the images-path))
 	
+
         (generate-sample-drawing 
          :page-width 500
          :page-length 350
@@ -301,14 +302,17 @@
        (html  ((:span :class "lisp-code")
 	       (:pre
 		(:princ-safe (with-output-to-string(ss)
-			       (let (*print-length* *print-level*
-						    (*print-right-margin* 50)
-						    (*package* (the slide-package)))
+			       (let (*print-length* 
+				     *print-level*
+				     (*print-case* :downcase)
+				     (*print-right-margin* 50)
+				     (*package* (the slide-package)))
 				 (pprint (the code) ss))))))))
      
      (when (the define-object)
        (let ((object-doc (the yadd (find-object-doc (the define-object)))))
-         (when object-doc (write-the-object object-doc pretty-definition))))
+         (when object-doc 
+	   (write-the-object object-doc pretty-definition))))
           
      (when (the print-string)
        (html ((:div :class "print-string")

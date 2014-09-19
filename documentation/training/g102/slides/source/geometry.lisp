@@ -212,7 +212,7 @@ tab in tasty)")))
       
       
       
-      
+      #+nil
       (:title 
        "Curves, Surfaces, and Solids"
        :bullet-points
@@ -231,6 +231,7 @@ means the curve (surface) is controlled by a list (grid) of 3D control-points.")
         (:description "Sometimes the control-points are combined with the weights
 and written as 4D  points.")))
       
+      #+nil
       (:title
        "Curve data structure in Gendl"        
        :bullet-points
@@ -246,6 +247,7 @@ polynomial curve function)</li>
 parameter values, affect the shape of the curve)</li>
 </ol>")))
       
+      #+nil
       (:title 
        "<span class=gdl-object-def style=\"font-size: 1em;\">b-spline-curve</span>"
        :bullet-points
@@ -259,6 +261,7 @@ parameter values, affect the shape of the curve)</li>
 and knot vector, this is a Cubic Bezier curve and interpolates (i.e. touches) 
 its end points.")))
 
+      #+nil
       (:title 
        "Probing the curve object"
        :bullet-points
@@ -289,7 +292,7 @@ its end points.")))
                     (:code (the curve (radius-of-curvature 0.5))
                            :return-value 3.375)))))
       
-      
+      #+nil
       (:title 
        "<i>Exercise</i> 6"
        :bullet-points
@@ -307,7 +310,7 @@ points and with each of the specified degree values?
 increasing degree?
 </ol>")))
       
-      
+      #+nil
       (:title
        "Surface data structure in Gendl"        
        :bullet-points
@@ -326,6 +329,7 @@ parameter values in u direction, affect the shape of the surface in u direction<
 parameter values in v direction, affect the shape of the surface in v direction</li>
 </ol>")))
       
+      #+nil
       (:title 
        "<span class=gdl-object-def>b-spline-surface</span>"
        :bullet-points
@@ -339,7 +343,8 @@ of surface data directly"
         (:description "Note that with default degree (3) and default weights
 and knot vector, this is a Cubic Bezier surface and interpolates (i.e. touches) 
 its control points at its corners.")))
-
+      
+      #+nil
       (:title 
        "Probing the surface object"
        :bullet-points
@@ -369,6 +374,7 @@ its control points at its corners.")))
                     (:code (the surface v-degree)
                            :return-value 3)))))
       
+      #+nil
       (:title 
        "Probing the surface object (cont'd)"
        :bullet-points
@@ -389,6 +395,7 @@ its control points at its corners.")))
                     (:code (the surface u-iso-curves first)
                            :return-value "#<curve @ #x74d5050a>")))))
       
+      #+nil
       (:title 
        "<i>Exercise</i> 7"
        :bullet-points
@@ -404,7 +411,8 @@ points and with each of the specified <span class=gdl-message-name>u-degree</spa
 <li>Ask each child for its <span class=gdl-message-name>area</span>.
 <li>Does the area increase or decrease with an increasing 
 <span class=gdl-message-name>u-degree</span>?</ol>")))
-      
+
+      #+nil
       (:title 
        "Transforming Curves and Surfaces"
        
@@ -424,6 +432,7 @@ and dimensions directly from global control points")
               :projection-direction :top
               )))))
       
+      #+nil
       (:title 
        "<i>Exercise</i> 8"
        :bullet-points
@@ -440,7 +449,7 @@ by a factor of 2 in the X, Y, and Z axes, respectively. </li>
 <span class=gdl-message-name>total-length</span>?</li>
 </ol>
 ")))
-      
+      #+nil
       (:title 
        "Solids and Booleans"
        
@@ -452,7 +461,8 @@ by a factor of 2 in the X, Y, and Z axes, respectively. </li>
         (:description "A <i>brep</i> can have zero or more shells and one or more regions")
         (:description "There is always the <i>infinite</i> 
 region (all of space outside the brep).")))
-      
+
+      #+nil
       (:title 
        "Boolean operations"
        :bullet-points 
@@ -478,7 +488,7 @@ get one or more breps out")
                         :include-sample-drawing? t
                         )))))
       
-      
+      #+nil
       (:title 
        "Non-manifold Breps"
        :bullet-points
@@ -506,6 +516,7 @@ faces into a solid, and get rid of extra pieces of faces, in one operation."
           (:code (setq *brep-isos-default* (list :n-u 8 :n-v 8))
                  :return-value (:n-u 8 :n-v 8))))))
       
+      #+nil
       (:title 
        "<i>Exercise 9</i>"
        

@@ -23,7 +23,7 @@
 (in-package :surf)
 
 
-(define-object brep (geometry-kernel-object-mixin base-object)
+(define-object brep (geometry-kernel-object-mixin ifs-output-mixin base-object)
   
   :documentation (:description "A general superclass for all boundary representation geometric entities. 
 This currently follows the smlib topology model, with breps containing regions, regions containing shells, 
@@ -187,6 +187,32 @@ Defaults to a list with keys:
 
   :computed-slots
   (
+   (ifs-array-and-indices (destructuring-bind (&key vertex-counts vertex-indices 3d-points
+						    &allow-other-keys)
+			      (the tessellation)
+
+			    (let ((coords-array (make-array (length 3d-points) 
+						     :initial-contents 3d-points))
+				  (indices-array (make-array (length vertex-indices)
+							     :initial-contents vertex-indices)))
+			      (list :array coords-array
+				    :indices
+				    (let ((position 0))
+				      (mapcar #'(lambda(count)
+						  (prog1
+						      (let (result)
+							(dotimes (n count (nreverse result))
+							  (push (aref indices-array (+ position n)) result)))
+						    (setq position (+ position count))))
+					      vertex-counts))))))
+			  
+				
+
+   (ifs-array (getf (the ifs-array-and-indices) :array))
+
+   (ifs-indices (getf (the ifs-array-and-indices) :indices))
+
+
    (bounding-box (brep-calculate-tight-bounding-box *geometry-kernel* (the %native-brep%)))
    
    (max-extent (apply #'3d-distance (the bounding-box)))

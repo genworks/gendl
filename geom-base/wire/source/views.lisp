@@ -62,12 +62,11 @@
   ((rgb-stroke-setting
     ()
     (let* ((display-controls (find-in-hash self *display-controls*))
-           (color-decimal (getf display-controls :color-decimal))
-           (color-decimal (or color-decimal (coerce (or (the color-decimal) 
-                                                        (format-slot foreground-color)
-                                                        (lookup-color (the color-decimal))) 'list)))
+           (color (or (getf display-controls :color)
+		      (getf (the display-controls) :color)
+		      :black))
+           (color-decimal (coerce (lookup-color (or color (format-slot foreground-color))) 'list))
            (fill-color-decimal (coerce (lookup-color (getf (the display-controls) :fill-color)) 'list)))
-
       
       (apply #'pdf:set-rgb-stroke color-decimal)
       (apply #'pdf:set-rgb-fill (or fill-color-decimal color-decimal))))

@@ -384,31 +384,31 @@ to call the :write-embedded-x3d-world function."))
                            (:big (:b "No Graphics Object Specified")))))))
           (t
 
-
-	   (with-cl-who ()
-	     (:p
-	      ((:span :style "cursor: pointer;")
-	       ((:|X3D| :id "the_element"
-		  :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		  ;;:width  "100%"
-		  ;;:height  "100%"
-		  :width (the view-object page-width)
-		  :height (the view-object page-length)
-		  )
-		(:|Scene|
-		  (with-format (x3d *stream*) 
-		    (let ((*onclick-function* (the onclick-function)))
-		      (write-the view-object cad-output)))))))
+	   (let ((*display-controls* (the display-controls-hash)))
+	     (with-cl-who ()
+	       (:p
+		((:span :style "cursor: pointer;")
+		 ((:|X3D| :id "the_element"
+		    :swfpath "/static/3rdpty/x3dom/x3dom.swf"
+		    ;;:width  "100%"
+		    ;;:height  "100%"
+		    :width (the view-object page-width)
+		    :height (the view-object page-length)
+		    )
+		  (:|Scene|
+		    (with-format (x3d *stream*) 
+		      (let ((*onclick-function* (the onclick-function)))
+			(write-the view-object cad-output)))))))
 	
-	     ((:script :type "text/javascript")
-	      "x3dom.reload();")
+	       ((:script :type "text/javascript")
+		"x3dom.reload();")
 	
 
-	     #+nil
-	     (when (the x3dom-view-controls?)
-	       (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-				      :onclick "document.getElementById('the_element').runtime.showAll();")
-			       "Show All")))))))
+	       #+nil
+	       (when (the x3dom-view-controls?)
+		 (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
+					:onclick "document.getElementById('the_element').runtime.showAll();")
+				 "Show All"))))))))
 
 
 
