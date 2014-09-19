@@ -1,5 +1,137 @@
-;;;; -*- coding: utf-8 -*- 
 
+          Welcome to the Genworks® GDL and Gendl® Environment
+
+Note: If you are new to GDL or Gendl, please see below for Welcome
+      Message and other information.
+
+This area will be used for the time being to list Release Notes, most
+recent first.
+
+
+                        Release Notes
+                       ===============
+
+========================================
+ GDL1587p008, Gendl1587p008 (2014-09-16)
+========================================
+
+FASL Incompatibility 
+====================
+
+Please note that 1587p008 does require compiling of fresh .fasl
+files. If you try to load fasl files compiled with 1587p004, you will
+probably get an error something like:
+
+  "attempt to take the cdr of eql hash table..."
+
+Normally we only allow fasl incompatibility with full releases, rather
+than point releases, but 1587p008 is an exception to this rule.
+
+Furthermore, GDL should be preparing the fasls so they give a proper
+"incompatible fasl" error in cases like this. This will be addressed
+in a future release. For now, please simply be sure to delete all
+existing fasl files which were compiled with previous GDL versions,
+before attempting to compile or run your application with 1587p008.
+
+
+Bug fixes:
+==========
+
+o Pressing <Enter> after changing a settable-slot in the settables
+  area of the tasty inspector was sending a duplicate request to the
+  server, which could cause unstable results, especially on SMP
+  Lisps. This is fixed.
+
+o The append-elements operator contained a bug which could cause
+  corrupted data structures. This has been fixed.  Also several subtle
+  fixes and cleanups.
+
+
+Quicklisp
+=========
+
+Quicklisp is a curated library manager which can automatically fetch
+CL libraries and their dependencies from the Internet. See
+http://quicklisp.org for more information on Quicklisp.
+
+We have now added the function
+
+  (load-quicklisp)
+
+which will load and initialize the supported version of quicklisp
+(which ships with the installation) and pre-register all Gendl-related
+packages so that Quicklisp will not try to fetch and reload these if
+you try to (ql:quickload ...) a system which depends on them. The
+version of quicklisp which ships with this release is the only
+supported version of Quicklisp (to ensure library compatibility, each
+GDL release is tied to a specific Quicklisp version).
+
+Note that depending on your installation, you may not have file
+permissions to write into the quicklisp directory in its default
+location, i.e.  
+
+  (merge-pathnames "quicklisp/" glisp:*gendl-home*)
+
+In this case, you can copy (copy, not move) the quicklisp directory to
+a writeable location of your choice, and specify a :path keyword
+argument to load-quicklisp, e.g:
+
+ (load-quicklisp :path "~/quicklisp/")
+
+Note that it is a good idea to include the trailing slash in the
+pathname.
+
+After doing (load-quicklisp), you can test whether Quicklisp is
+functional by trying something like:
+
+  (ql:quickload :cl-json)
+
+
+
+Emacs Initialization and Glime
+==============================
+
+We have divided the emacs user initialiazation file into two files:
+
+  ~/.emacs-gendl[.el] which is loaded when starting this emacs
+                      environment, and 
+
+  ~/.emacs-glime[.el] which is loaded only when starting the
+                      GDL-flavored Slime environment.
+
+We are currently studying Emacs initialization, so this may be
+modified more in future releases; please watch this space for
+notifications.
+
+In case you are wondering what "glime" actually is - this is Genworks'
+extension to Slime (Superior Lisp Interaction Mode for Emacs, which we
+use by default to interact with Gendl and GDL from Emacs). The idea of
+Glime is that when you type
+
+  "(the ..."  or 
+
+   ":objects ((my-object :type 'my-object ..."  
+
+then the emacs mini-buffer will give useful and context-sensitive
+completion information similar to what it does now for standard Lisp
+functions. Glime already works now to some extent, but we feel it
+needs to be polished a bit more before loading it by default.
+
+You can load Glime at any time with:
+
+  (load (merge-pathnames "emacs/glime.lisp" (glisp:*gdl-home*)))
+
+[glime needs to be loaded only on the Lisp (Swank) side, not on the
+ Emacs (Slime) side].
+
+In due course we intend to have Glime polished a bit more so it does a
+better job filtering and formatting the auto-completions for messages
+and object inputs, at which point it will be loaded by default in our
+standard emacs initialization and we will rightfully be able to call
+the whole environment "Glime."
+
+
+----------------------------------------------------------------------
 
           Welcome to the Genworks® GDL and Gendl® Environment
 
@@ -27,8 +159,8 @@ See "Troubleshooting" below if you experience trouble starting up.
 Authoring GDL Code
 ==================
 
-Option 1: Gnu Emacs
-===================
+Gnu Emacs
+==========
 
 All things considered, Gnu Emacs is the most powerful, portable, and
 risk-free IDE (Integrated Development Environment) available for
@@ -299,9 +431,5 @@ Webserver Fails to serve on Port 9000
 
  If this works, then you can put these commands into the gdlinit.cl
  initialization file in your home directory.
-
-
-
-
 
 
