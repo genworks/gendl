@@ -375,7 +375,7 @@ load the system using Quicklisp. To do this for our example, follow these steps:
 	((:list :style :enumerate)
 	 (:item (:verbatim "(cl-lite \"apps/yoyodyne/\" :create-asd-file? t)")
 	   " to generate the asdf file for the yoyodyne system. This only has to be done once after every time you add, remove, or rename a file or folder from the system.")
-	 (:item (:verbatim "(pushnew \"apps/yoyodyne/\" ql:*local-project-directories*)")
+	 (:item (:verbatim "(pushnew \"apps/yoyodyne/\" ql:*local-project-directories* :test #'equalp)")
 	   " This can be done in your "
 	   (:texttt "gdlinit.cl") 
 	   " for projects you want available during every development session. Note that you should include
@@ -417,19 +417,22 @@ To save a world, follow these steps:"
 
        ((:list :style :enumerate)
 	(:item "Load the base GDL code and (optionally) code for GDL
-modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For example:"
+modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved
+image. Note that in some implementations, this has step to be done in
+a plain session without multiprocessing (i.e. without an Emacs
+connection) - so you would do this loading step from a command shell
+e.g. Windows cmd prompt. For example:"
 	  (:verbatim "
  (ql:quickload :gdl-yadd) 
  (ql:quickload :gdl-tasty)"))
 	
-	:item (:verbatim "(ff:unload-foreign-library (merge-pathnames \"smlib.dll\" \"sys:smlib;\"))")
-
-	:item (:verbatim "(net.aserve:shutdown)")
-
-	:item (:verbatim "(setq excl:*restart-init-function* '(gdl:start-gdl :edition :trial))")
+	(:item "(needed only for full GDL):" (:verbatim "(ff:unload-foreign-library (merge-pathnames \"smlib.dll\" \"sys:smlib;\"))"))
+	
+	(:item (:verbatim "(net.aserve:shutdown)"))
 
 	(:item  " (to save an image named yoyodyne.dxl) Invoke the command "
-	  (:verbatim "(dumplisp :name \"yoyodyne.dxl\")")
+	  (:verbatim "(ensure-directories-exist \"~/gdl-images/\")")
+	  (:verbatim "(uiop:dump-image dumplisp \"~/gdl-images/yoyodyne\")")
 	  "Note that the standard extension for Allegro CL images is "
 	  (:texttt ".dxl")
 	  ". Prepend the file name with path information, to write the image to a specific location.")))
@@ -439,7 +442,7 @@ modules (e.g. gdl-yadd, gdl-tasty) you want to be in your saved image. For examp
        "In order to start up GDL using a custom saved image, or ``world,'' follow these steps"
        ((:list :style :enumerate)
 	(:item "Exit GDL")
-	(:item "Copy the supplied "
+	(:item "Copy the supplied image file, e.g."
 	  (:texttt "gdl.dxl")
 	  " to "
 	  (:texttt "gdl-orig.dxl")

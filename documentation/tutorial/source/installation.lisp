@@ -164,7 +164,8 @@ have open-source Gendl or a lite Trial version of Genworks GDL, these
 regression tests will not all function.
 
 In Emacs at the "
-	(:texttt "gdl-user>")
+	;;(:texttt "gdl-user>")
+	(:texttt "gdl-user")
 	" prompt in the "
 	(:texttt "*slime-repl...*") " buffer, type the following commands:"
 	((:list :style :enumerate)

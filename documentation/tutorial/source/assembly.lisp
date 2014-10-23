@@ -64,16 +64,33 @@ written consent from Genworks International.")
 	  ,*advanced-common-lisp*
 	  ,*advanced-gendl*
 	  ,*upgrade-notes*
-	  ,(the-object (make-self 'yadd::assy) dom-chapter)
+	  ;;,(the-object (make-self 'yadd::assy) dom-chapter)
 	  :backmatter
 	  ,*bibliography*      
 	  :printindex
 	  )))
 
 
+
+(defmacro run-prog (command)
+  `(multiple-value-bind (output error return-code)
+       (uiop:run-program ,command :output :string :error :string :ignore-error-status t)
+     (when (or error (not (zerop return-code)))
+       (format t "Command was: ~a~%" ,command)
+       (warn "Error was ~a, ~a and return-code was ~a" output error return-code))))
+
 (defun make (&optional (level 1))
 
-  (let ((pdf-path (merge-pathnames "pdf/" *system-home*)))
+  (let ((pdf-path (merge-pathnames "pdf/" *system-home*))
+
+	(pdftex-path (cond ((probe-file "/usr/texbin/pdflatex")
+			    "/usr/texbin/pdflatex")
+			   ((probe-file "/opt/local/bin/pdflatex")
+			    "/opt/local/bin/pdflatex")))
+	
+	(makeindex-path (or (probe-file "/usr/texbin/makeindex")
+			    (probe-file "/opt/local/bin/makeindex"))))
+
 
     (load (merge-pathnames "../source/assembly.lisp" pdf-path))
 
@@ -83,23 +100,13 @@ written consent from Genworks International.")
       (ensure-directories-exist (translate-logical-pathname pdf-path))
       (with-format (com.genworks.dom-writers:latex (merge-pathnames "pdf/tutorial.tex" *system-home*))
 	(write-the-object object (:base))))
-  
-    ;;
-    ;; FLAG - replace this asdf:run-shell-command with glisp:run-shell-command or uiop:run-program. 
-    ;;
+    
+    (run-prog (format nil "cd ~a; ~a -interaction=nonstopmode tutorial.tex"  pdf-path pdftex-path))
+    (run-prog (format nil "cd ~a; ~a tutorial" pdf-path makeindex-path))
 
-    (asdf:run-shell-command 
-     ;;(format nil "cd ~a; /opt/local/bin/pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
-     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)
-     )
-  
-  (asdf:run-shell-command 
-   (format nil "cd ~a; makeindex tutorial" pdf-path))
-  
-  (dotimes (n level)
-    (asdf:run-shell-command 
-     (format nil "cd ~a; pdflatex -interaction=nonstopmode tutorial.tex" pdf-path)))))
-
+    (dotimes (n level)
+      (run-prog (format nil "cd ~a; ~a -interaction=nonstopmode tutorial.tex" 
+			pdf-path pdftex-path)))))
 
 (define-object assembly (com.genworks.dom:assembly)
   :input-slots ((data *data*)))

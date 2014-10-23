@@ -360,7 +360,7 @@ the arguments to the "
 	    (:texttt "list")
 	    " function get evaluated, from left to right, before being
 processed by the function. For example:"
-	    (:verbatim "(list ’a ’b (+ 2 2))")
+	    (:verbatim "(list 'a 'b (+ 2 2))")
 	    "will return the list"
 	    (:verbatim "(a b 4)")
 	    "The two quoted symbols evaluate to symbols, and the function
