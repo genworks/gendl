@@ -25,6 +25,11 @@
 
 (defparameter *bug* nil)
 
+(defparameter *remote-hash-lock* (bt:make-lock "remote-hash-lock"))
+(defparameter *remote-proxy-lock* (bt:make-lock "remote-proxy-lock"))
+(defparameter *remote-evaluate-lock* (bt:make-lock "remote-evaluate-lock"))
+(defparameter *remote-fetch-input-lock* (bt:make-lock "remote-fetch-input-lock"))
+
 (with-all-servers (server)
   (publish-file :path "/favicon.ico"
                 :server server
@@ -38,48 +43,49 @@
 (publish :path "/fetch-remote-input"
          :function
          #'(lambda(req ent)
-             (let* ((query (request-query req))
-                    (args (rest (assoc "args" query :test #'string-equal)))
-                    (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
-               (let ((args-list (base64-decode-list args)))
-                 ;;
-                 ;; FLAG -- consider a warning if package not found
-                 ;;
-                 (let ((*package* (or (find-package (getf args-list :package)) *package*)))
-                   (let ((object (the-object (gethash (getf args-list :remote-id) *remote-objects-hash*)
-                                             (follow-root-path (getf args-list :remote-root-path))))
-                         (child (evaluate-object (first (getf args-list :child)) (rest (getf args-list :child))))
-                         (message (getf args-list :message))
-                         (gdl::*notify-cons* (decode-from-http (getf args-list :notify-cons)))
-                         (part-name (getf args-list :part-name))
-                         (args (getf args-list :args)))
-		     (glisp:with-heuristic-case-mode ()
-		       (with-http-response (req ent)
-			 (with-http-body (req ent)
-			   (let ((value (if object (multiple-value-bind (value error)
-						       (ignore-errors
-							 (apply (symbol-function (glisp:intern message :gdl-inputs))
-								object (glisp:intern part-name :gdl-acc) child args))
-						     (if (typep error 'error)
-							 (let ((error-string
-								(glisp:replace-regexp
-								 (format nil "~a" error) "\\n" " ")))
-							   (cond ((or (search "could not handle"
-									      error-string)
-								      #+nil
-								      (search "which is the root"
-									      error-string)
-								      (search "instances could handle"
-									      error-string))
-								  'gdl-rule:%not-handled%)
-								 (t (when *debug?*
-								      (format t "Throwing error on fetch-input server because gwl::*debug?* is set to non-nil~%")
-								      (error error))
-								    (list :error (format nil "~a" error)))))
-							 value))
-					    (list :error :no-such-object (getf args-list :remote-id)))))
-			     (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-			       (html (format *html-stream* encoded-value)))))))))))))
+	     (bt:with-lock-held (*remote-fetch-input-lock*)
+	       (let* ((query (request-query req))
+		      (args (rest (assoc "args" query :test #'string-equal)))
+		      (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
+		 (let ((args-list (base64-decode-list args)))
+		   ;;
+		   ;; FLAG -- consider a warning if package not found
+		   ;;
+		   (let ((*package* (or (find-package (getf args-list :package)) *package*)))
+		     (let ((object (the-object (gethash (getf args-list :remote-id) *remote-objects-hash*)
+					       (follow-root-path (getf args-list :remote-root-path))))
+			   (child (evaluate-object (first (getf args-list :child)) (rest (getf args-list :child))))
+			   (message (getf args-list :message))
+			   (gdl::*notify-cons* (decode-from-http (getf args-list :notify-cons)))
+			   (part-name (getf args-list :part-name))
+			   (args (getf args-list :args)))
+		       (glisp:with-heuristic-case-mode ()
+			 (with-http-response (req ent)
+			   (with-http-body (req ent)
+			     (let ((value (if object (multiple-value-bind (value error)
+							 (ignore-errors
+							   (apply (symbol-function (glisp:intern message :gdl-inputs))
+								  object (glisp:intern part-name :gdl-acc) child args))
+						       (if (typep error 'error)
+							   (let ((error-string
+								  (glisp:replace-regexp
+								   (format nil "~a" error) "\\n" " ")))
+							     (cond ((or (search "could not handle"
+										error-string)
+									#+nil
+									(search "which is the root"
+										error-string)
+									(search "instances could handle"
+										error-string))
+								    'gdl-rule:%not-handled%)
+								   (t (when *debug?*
+									(format t "Throwing error on fetch-input server because gwl::*debug?* is set to non-nil~%")
+									(error error))
+								      (list :error (format nil "~a" error)))))
+							   value))
+					      (list :error :no-such-object (getf args-list :remote-id)))))
+			       (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
+				 (html (format *html-stream* encoded-value))))))))))))))
 
 
 (publish :path "/unbind-slots"
@@ -125,7 +131,7 @@
           (with-http-response (req ent)
             (with-http-body (req ent)
               (let ((value (if object (multiple-value-bind (value error)
-                                          (glisp:w-o-interrupts
+                                          (bt:with-lock-held (*remote-evaluate-lock*)
                                             (ignore-errors (if args
                                                                (the-object object ((evaluate message)
                                                                                    (:apply args)))
@@ -180,67 +186,69 @@
 (publish :path "/make-remote-object"
          :function
          #'(lambda(req ent)
-             (let* ((query (request-query req))
-                    (ipaddr (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
-                    (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
-                    (args (rest (assoc "args" query :test #'string-equal))))
+	     (bt:with-lock-held (*remote-hash-lock*)
+	       (let* ((query (request-query req))
+		      (ipaddr (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
+		      (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
+		      (args (rest (assoc "args" query :test #'string-equal))))
 
-               (let ((args-list (base64-decode-list args)))
+		 (let ((args-list (base64-decode-list args)))
 
-		 (when *debug?*
-		   (format t "~%In make-remote-object response func:~%")
-		   (print-variables args-list))
+		   (when *debug?*
+		     (format t "~%In make-remote-object response func:~%")
+		     (print-variables args-list))
 
-                 (let ((*package* (or (find-package (getf args-list :package)) *package*))
-                       (name (getf args-list :name))
-                       (index (getf args-list :index))
-                       (rest-args (remove-plist-keys args-list
-                                                     (list :parent-form :current-id  :name :index
-                                                           :type :package :host :port)))
-                       (current-id (getf args-list :current-id))
-                       (parent-form (getf args-list :parent-form)))
+		   (let ((*package* (or (find-package (getf args-list :package)) *package*))
+			 (name (getf args-list :name))
+			 (index (getf args-list :index))
+			 (rest-args (remove-plist-keys args-list
+						       (list :parent-form :current-id  :name :index
+							     :type :package :host :port)))
+			 (current-id (getf args-list :current-id))
+			 (parent-form (getf args-list :parent-form)))
 
-                   (setf (getf (rest parent-form) :host) ipaddr)
+		     (setf (getf (rest parent-form) :host) ipaddr)
 
-                   (when current-id
-                     (let ((removed? (remhash current-id *remote-objects-hash*)))
-                       (when removed?
-                         (format t "~&~%Removed stale remote object with ID ~s.~%~%" current-id))))
-                   (let ((object (make-object (read-safe-string (getf args-list :type))
+		     (when current-id
+		       (let ((removed? (remhash current-id *remote-objects-hash*)))
+			 (when removed?
+			   (format t "~&~%Removed stale remote object with ID ~s.~%~%" current-id))))
+		     (let ((object (make-object (read-safe-string (getf args-list :type))
 
-                                              :type (read-safe-string (getf args-list :type))))
-                         (new-id (make-keyword (make-new-instance-id))))
+						:type (read-safe-string (getf args-list :type))))
+			   (new-id (make-keyword (make-new-instance-id))))
 
-                     (the-object object (set-slot! :%name% name :warn-on-non-toplevel? nil))
-                     (the-object object (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
-                     (the-object object (set-slot! :%index% index :warn-on-non-toplevel? nil))
-                     (setf (slot-value object 'gdl-acc::%parent%)
-			   (list (evaluate-object (first parent-form) (rest parent-form)) nil t))
-                     (setf (gethash new-id *remote-objects-hash*) object)
-                     (format t "~&~%Created new remote object with ID ~s and arglist:
+		       (the-object object (set-slot! :%name% name :warn-on-non-toplevel? nil))
+		       (the-object object (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
+		       (the-object object (set-slot! :%index% index :warn-on-non-toplevel? nil))
+		       (setf (slot-value object 'gdl-acc::%parent%)
+			     (list (evaluate-object (first parent-form) (rest parent-form)) nil t))
+		       (setf (gethash new-id *remote-objects-hash*) object)
+		       (format t "~&~%Created new remote object with ID ~s and arglist:
 ~s~%~%"
-                             new-id rest-args)
-                     (with-http-response(req ent)
-                       (with-http-body (req ent) (html (format *html-stream* "~s" new-id))))))))))
+			       new-id rest-args)
+		       (with-http-response(req ent)
+			 (with-http-body (req ent) (html (format *html-stream* "~s" new-id)))))))))))
 
 
 
 (defmethod evaluate-object ((category (eql :remote-gdl-instance)) args)
   (let ((hash-key (list (getf args :id) (getf args :root-path))))
-    (or (gethash hash-key gwl::*remote-proxies-hash* )
-        (progn
-          (format t "~%~%~s Not found in hash - creating fresh ~%~%" (getf args :id))
-          (setf (gethash hash-key *remote-proxies-hash*)
-            (gdl::make-object-internal 'remote-object
-                                       :%parent% (list nil nil t)
-                                       :%index% (list (getf args :index) nil t)
-                                       :remote-id (list (getf args :id) nil t)
-                                       :host (list (or *ipaddr* (getf args :host)) nil t)
-                                       :port (list (getf args :port) nil t)
-                                       :remote-root-path (list (getf args :root-path) nil t)
-                                       :remote-type (list (multiple-value-bind (result error)
-                                                              (ignore-errors (read-from-string (getf args :type)))
-                                                            (if (typep error 'error) :unknown result)) nil t)))))))
+    (bt:with-lock-held (*remote-proxy-lock*)
+      (or (gethash hash-key gwl::*remote-proxies-hash* )
+	  (progn
+	    (format t "~%~%~s Not found in hash - creating fresh ~%~%" (getf args :id))
+	    (setf (gethash hash-key *remote-proxies-hash*)
+		  (gdl::make-object-internal 'remote-object
+					     :%parent% (list nil nil t)
+					     :%index% (list (getf args :index) nil t)
+					     :remote-id (list (getf args :id) nil t)
+					     :host (list (or *ipaddr* (getf args :host)) nil t)
+					     :port (list (getf args :port) nil t)
+					     :remote-root-path (list (getf args :root-path) nil t)
+					     :remote-type (list (multiple-value-bind (result error)
+								    (ignore-errors (read-from-string (getf args :type)))
+								  (if (typep error 'error) :unknown result)) nil t))))))))
 
 
 

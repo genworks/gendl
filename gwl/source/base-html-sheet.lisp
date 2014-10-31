@@ -175,7 +175,7 @@ the browser in development mode). Defaults to NIL (the empty list)."
                          (the :instance-id) (the (compute-url))))))
           (publish
            :path url
-           :content-type "text/html"
+           :content-type "text/html; charset=UTF-8"
            :host (the host)
            :function #'(lambda (req ent) 
                          (the before-response!)

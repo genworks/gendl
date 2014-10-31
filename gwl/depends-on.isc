@@ -1,1 +1,1 @@
-(:glisp :aserve)
+(:bordeaux-threads :glisp :aserve)

@@ -22,16 +22,17 @@
 
 (in-package :gdl-user)
 
+#+nil
 (defun dmapcar (function list)
   (dmapc function list)
   (mapcar function list))
 
 
+#+nil
 (defun dmapc (function list)
   (let ((count -1))
-    (mapc #'(lambda(element)
-	      (let ((element element))
-		(bt:make-thread function :name (format nil "thread ~a from dmapcar" (incf count)))))
+    (mapc #'(lambda ()
+	      (bt:make-thread function :name (format nil "thread ~a from dmapcar" (incf count))))
 	  list)))
 
 
@@ -46,7 +47,7 @@
    (height 30)
    (hole-radius 2 :settable)
    (hole-length 35)
-   (quantity 3 :settable))
+   (quantity 2 :settable))
   
   
   :computed-slots 
@@ -79,7 +80,10 @@
   (
    
    (collect-volumes 
-    (&key remote?)
+    ()
+    ;;(&key remote?)
+
+    #+nil
     (dmapcar #'(lambda(drilled-block) (the-object drilled-block volume))
 	     (list-elements (if remote? (the remote-drilled) (the local-drilled)))))
    
@@ -98,11 +102,8 @@
    
    (global-gc
     ()
-    (gc t))
-   
-   (reload 
-    ()
-    (gdl-user::g105))))
+    (glisp:gc-full))))
+
 
 
 
@@ -113,17 +114,13 @@
    
    (quantity 50 :settable))
   
-  :computed-slots ((volume (sum-elements (the results) (the-element volume)))
-		   
-		   
-		   (c-of-g (the results center-of-gravity))
-		   
-		   )
+  :computed-slots ((volume (the result volume))
+		   (c-of-g (the result center-of-gravity)))
+
   
   :objects
-  ((results :type 'subtracted-solid
-	    ;;:sequence (:size (the quantity))
-	    :pass-down (brep other-brep))
+  ((result :type 'subtracted-solid
+	   :pass-down (brep other-brep))
    
    (brep :type 'box-solid
 	  :display-controls (list :color :green))
@@ -132,12 +129,7 @@
    (other-brep :type 'cylinder-solid
 	       :radius (the hole-radius)
 	       :length (the hole-length)
-	       :display-controls (list :color :green)))
-  
-  :functions
-  ((cl!
-    ()
-    (load (compile-file-if-needed "~/genworks/training/g105/examples/source/drilled-block.lisp")))))
+	       :display-controls (list :color :green))))
 
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
