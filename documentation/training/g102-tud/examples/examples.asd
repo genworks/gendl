@@ -3,7 +3,7 @@
 (asdf:defsystem #:examples :description
  "The Gendl\" examples Subsystem" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20140916" :depends-on (:gwl-graphics :surf)
+ :version "20141029" :depends-on (:gwl-graphics :surf)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
