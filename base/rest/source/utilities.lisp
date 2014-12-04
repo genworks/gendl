@@ -840,8 +840,39 @@ toplevel inputs as specified in the snapshot file.
 	(push (copy-list notify-cons) (second value)))))
 
 
+(defparameter *loaded-hotpatches* nil)
 
+(defun load-hotpatches (&key (directory (merge-pathnames "hotpatches/" (glisp:executable-homedir-pathname))))
 
+  (if (not (and (probe-file directory)
+		(glisp:file-directory-p directory)))
+      (warn "~s does not exist and/or is not a directory~%" directory)
+      (let* ((files (directory directory))
+	     (source-files (sort (remove-if-not #'(lambda(file) 
+						    (let ((type (pathname-type file)))
+						      (or (string-equal type "lisp")
+							  (string-equal type "gdl")
+							  (string-equal type "gendl")))) files)
+				 #'string-lessp :key #'namestring)))
+	(when (or (not (glisp:featurep :allegro))
+		  (glisp:featurep :compiler))
+	  (dolist (file source-files)
+	    (with-error-handling ()
+	      (#+allegro excl:compile-file-if-needed #-allegro compile-file file))))
 
+	(setq files (directory directory))
 
-
+	(let ((compiled-files (sort (let ((fasl-type (pathname-type (compile-file-pathname "foo"))))
+				      (remove-if-not #'(lambda(file)
+							 (string-equal (pathname-type file) fasl-type)) files))
+				    #'string-lessp :key #'namestring)))
+	  (dolist (file compiled-files)
+	    (unless (find file *loaded-hotpatches* :test #'equalp)
+	      (with-error-handling () 
+		(load file)
+		(pushnew file *loaded-hotpatches* :test #'equalp))))))))
+    
+    
+      
+    
+			       
