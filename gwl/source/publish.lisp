@@ -43,10 +43,14 @@
 (publish :path "/fetch-remote-input"
          :function
          #'(lambda(req ent)
-	     (bt:with-lock-held (*remote-fetch-input-lock*)
+	     (progn ;; bt:with-lock-held (*remote-fetch-input-lock*)
 	       (let* ((query (request-query req))
 		      (args (rest (assoc "args" query :test #'string-equal)))
 		      (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
+
+		 
+		 (print-variables query args *ipaddr*)
+
 		 (let ((args-list (base64-decode-list args)))
 		   ;;
 		   ;; FLAG -- consider a warning if package not found
@@ -131,7 +135,7 @@
           (with-http-response (req ent)
             (with-http-body (req ent)
               (let ((value (if object (multiple-value-bind (value error)
-                                          (bt:with-lock-held (*remote-evaluate-lock*)
+                                          (progn ;; bt:with-lock-held (*remote-evaluate-lock*)
                                             (ignore-errors (if args
                                                                (the-object object ((evaluate message)
                                                                                    (:apply args)))
@@ -186,7 +190,7 @@
 (publish :path "/make-remote-object"
          :function
          #'(lambda(req ent)
-	     (bt:with-lock-held (*remote-hash-lock*)
+	     (progn ;; bt:with-lock-held (*remote-hash-lock*)
 	       (let* ((query (request-query req))
 		      (ipaddr (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
 		      (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
@@ -234,7 +238,7 @@
 
 (defmethod evaluate-object ((category (eql :remote-gdl-instance)) args)
   (let ((hash-key (list (getf args :id) (getf args :root-path))))
-    (bt:with-lock-held (*remote-proxy-lock*)
+    (progn ;; bt:with-lock-held (*remote-proxy-lock*)
       (or (gethash hash-key gwl::*remote-proxies-hash* )
 	  (progn
 	    (format t "~%~%~s Not found in hash - creating fresh ~%~%" (getf args :id))
