@@ -30,7 +30,7 @@
 ;;(defparameter *gendl-version* "1587p007")
 ;;(defparameter *gendl-version* "1587p008")
 ;;(defparameter *gendl-version* "1587p009")
-(defparameter *gendl-version* "1587p010-dev")
+(defparameter *gendl-version* "1587p010")
 ;;(defparameter *gendl-version* "ql-2013-12")
 (defparameter *gendl-patch-level* nil)
 
