@@ -188,6 +188,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:list-of-numbers
            #:lookup-color
 	   #:load-quicklisp
+	   #:load-hotpatches
 	   #:*quicklisp-home*
            #:make-canonical-part
            #:make-keyword
@@ -281,6 +282,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:room-report
 	   #:*onclick-function*
 	   #:*already-loaded-systems*
+	   #:*loaded-hotpatches*
 	   #:*packages-to-lock*
 	   #:*warn-on-invalid-toplevel-inputs?))
 

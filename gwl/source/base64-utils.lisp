@@ -77,3 +77,24 @@
 
                            
 
+#+allegro
+(defun string-to-compressed-base64-string (string)
+  (excl:usb8-array-to-base64-string 
+   (let* ((vector (make-array 5 :element-type '(unsigned-byte 8)))
+	  (deflate-stream (make-instance 'util.zip:deflate-stream :target vector)))
+     (write-string string deflate-stream)
+     (close deflate-stream)
+     (util.zip:deflate-stream-vector-combined deflate-stream))))
+
+#+allegro
+(defun compressed-base64-string-to-string (string)
+  (let ((array (excl:base64-string-to-usb8-array string)))
+    (excl:with-input-from-buffer (in array)
+      (util.zip:skip-gzip-header in)
+      (let ((inflate-stream (make-instance 'util.zip:inflate-stream :input-handle in))
+	    (result nil) (newline (format nil "~%")))
+	(do ((line (read-line inflate-stream nil nil) (read-line inflate-stream nil nil)))
+	    ((null line) result)
+	  (setq result (if result (string-append result newline line) line)))))))
+
+

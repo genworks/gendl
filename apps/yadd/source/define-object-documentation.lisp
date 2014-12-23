@@ -313,12 +313,14 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 		(the part-full-symbol))
 
 	(the load-example)
+	
+	(print-variables (the part-full-symbol))
 
 	(setq pdf-file (merge-pathnames "example.pdf" (glisp:temporary-folder))
-	      named-pdf-file (merge-pathnames (format nil "example-~s.pdf" (the part-full-symbol))
+	      named-pdf-file (merge-pathnames (format nil "example-~(~a~).pdf" (the part-full-symbol))
 					      "~/genworks/gendl/documentation/tutorial/images/"))
 	  (uiop:copy-file pdf-file named-pdf-file))
-
+      
       `((:p (:textbf (:underline "Mixins:")) " " 
 	    ,(format nil "~{~a~^, ~}" (mapcar #'(lambda (sym) (string sym)) (the mixins-list))))
 	(:p ((:list :style :description)

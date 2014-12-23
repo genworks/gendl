@@ -60,9 +60,13 @@
   (
    (remote-utils :type 'remote-object
 		 :remote-type 'remote-utils
-		 :sequence (:size (the remote-drilled number-of-elements))
-		 :host (the (remote-drilled (the-child index)) host)
-		 :port (the (remote-drilled (the-child index)) port))
+		 ;;:sequence (:size (the remote-drilled number-of-elements))
+		 ;;:host (the (remote-drilled (the-child index)) host)
+		 ;;:port (the (remote-drilled (the-child index)) port)
+		 :slot-a "a"
+		 :host "seven" 
+		 :port "9000"
+		 )
    
    (local-drilled :type 'drilled-block
 		  :sequence (:size (the quantity))
@@ -95,6 +99,11 @@
 
 
 (define-object remote-utils ()
+  
+  :input-slots (slot-a)
+  
+  :computed-slots ((slot-b (string-append (the slot-a) " and b")))
+
   :functions
   ((clear-remotes 
     ()
@@ -102,6 +111,8 @@
    
    (global-gc
     ()
+
+    (format t "Hey now!~%")
     (glisp:gc-full))))
 
 
