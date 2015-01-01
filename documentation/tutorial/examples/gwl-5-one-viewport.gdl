@@ -1,6 +1,6 @@
 (in-package :gwl-user)
 
-(define-object box-with-inputs (base-ajax-sheet)
+(define-object x3dom-basic (base-ajax-sheet)
   
   :computed-slots
   ((use-raphael? t)
@@ -12,11 +12,12 @@
       (:p (str (the inputs-section main-div)))
       (:table
        (:tr
-        (dolist (viewport (list-elements (the viewport-sections)))
+        (dolist (viewport (list (the (viewport-sections 1))))
           (htm (:td (:td (str (the-object viewport main-div)))))))))))
   
   :objects
   ((box :type 'box
+	:display-controls (list :color :blue :transparency 0.2)
         :height (the inputs-section box-height value)
         :width (the inputs-section box-width value)
         :length (the inputs-section box-length value))
@@ -30,7 +31,7 @@
                               (0 :top) (1 :trimetric))
     :image-format-default :raphael
     :display-list-objects (list (the box))
-    :length 250 :width 250)))
+    :length 500 :width 500)))
   
 
  
@@ -54,8 +55,8 @@
                :ajax-submit-on-change? t)))
 
 
-(publish-gwl-app "/box-with-inputs" 
-                 "gwl-user::box-with-inputs")
+(publish-gwl-app "/x3dom-basic" 
+                 "gwl-user::box-one-viewport")
 
 ;;
 ;; Access the above example with 
