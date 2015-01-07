@@ -115,3 +115,14 @@ written consent from Genworks International.")
 (publish :path "/dom-doc"
 	 :function #'(lambda(req ent)
 		       (gwl-make-object req ent "gendl-doc:assembly")))
+
+
+(defun make-html (&key (output-directory (merge-pathnames "tmp/" (user-homedir-pathname)))
+		    (output-file-namestring "tutorial.html"))
+  (ensure-directories-exist output-directory) 
+  (initialize-data)
+  (let ((self (make-object 'assembly)))
+    (let ((output-path (merge-pathnames output-file-namestring output-directory)))
+      (with-format (html-format output-path) (write-the cl-who-out))
+      output-path)))
+  
