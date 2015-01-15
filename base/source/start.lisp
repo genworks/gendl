@@ -79,6 +79,9 @@
 							      glisp:*gdl-home*))
 					    (probe-file 
 					     (merge-pathnames "quicklisp/dists/quicklisp/distinfo.txt"
+							      glisp:*genworks-source-home*))
+					    (probe-file 
+					     (merge-pathnames "../distinfo.txt"
 							      glisp:*genworks-source-home*))))
 		      (read-line in)
 		      (string-trim (list #\space) (second (glisp:split-regexp ":" (read-line in)))))))

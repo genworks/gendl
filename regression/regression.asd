@@ -3,7 +3,7 @@
 (asdf:defsystem #:regression :description
  "The Gendl\" regression Subsystem" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20150109" :depends-on (:lift :surf :tasty)
+ :version "20150113" :depends-on (:lift :surf :tasty)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
