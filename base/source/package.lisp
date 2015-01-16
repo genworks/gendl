@@ -285,6 +285,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:*already-loaded-systems*
 	   #:*loaded-hotpatches*
 	   #:*packages-to-lock*
+	   #:*patch-url-base*
 	   #:*warn-on-invalid-toplevel-inputs?))
 
 
