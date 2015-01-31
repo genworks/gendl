@@ -626,7 +626,7 @@ otherwise it will be evaluated as a variable according to normal Lisp functional
           (mapcar #'(lambda (component) (list component 0)) reference-chain))))
 
 
-("List of Keyword Symbols. Returns the messages (slots, objects, and functions) of this object, according to the filtering criteria as specified by the arguments.
+   ("List of Keyword Symbols. Returns the messages (slots, objects, and functions) of this object, according to the filtering criteria as specified by the arguments.
 :&key ((category :all) \"Keyword. Either <tt>:all</tt> or the individual category of 
                          messages to be returned. This can be one of:
                            <tt><ul>
