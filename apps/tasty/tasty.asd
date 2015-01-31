@@ -1,10 +1,10 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:tasty :description
- "The Gendl\" Web-based Development Environment (tasty)" :author
+ "The Gendl™ Web-based Development Environment (tasty)" :author
  "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20141215" :depends-on (:tree :gwl-graphics)
+ :version "20150122" :depends-on (:tree :gwl-graphics)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components

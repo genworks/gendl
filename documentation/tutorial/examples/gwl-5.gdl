@@ -4,6 +4,7 @@
   
   :computed-slots
   ((use-raphael? t)
+   (use-x3dom? t)
    
    (main-sheet-body 
     (with-cl-who-string ()

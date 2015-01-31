@@ -220,8 +220,9 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:print-hash
            #:print-messages
            #:print-variables
-           quantification
+           #:quantification
            #:query-collect
+	   #:query-license-server
            #:read-safe-string
            #:read-snapshot
            #:readable-expression
@@ -284,6 +285,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:*already-loaded-systems*
 	   #:*loaded-hotpatches*
 	   #:*packages-to-lock*
+	   #:*patch-url-base*
 	   #:*warn-on-invalid-toplevel-inputs?))
 
 

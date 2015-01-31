@@ -48,7 +48,8 @@ Default is 1." viewport-border-default 1)
 </pre>"
     image-format-plist (list :png "PNG image"
                              :jpeg "jpeg image"
-                             :web3d "VRML/X3D"
+                             :x3dom "X3DOM"
+			     ;;:web3d "VRML/X3D"
                              :raphael "SVG/VML"))
 
    
@@ -166,6 +167,12 @@ include the VRML or X3D graphics of the geometry."
     web3d-graphics 
     (with-cl-who-string () (write-the web3d-graphics)))
    
+
+   ("String of valid HTML. This can be used to 
+include the x3dom tag content for the geometry."
+    x3dom-graphics 
+    (with-cl-who-string () 
+      (write-the embedded-x3dom-world)))
    
    ("String of valid HTML. This includes the image-format-selector, the reset-zoom-button, 
 and the view-selector, in a simple table layout. You can override this to make the view-controls
@@ -186,13 +193,14 @@ bottom of the graphics inside a table."
     (with-cl-who-string ()
       (:table (:tr ((:td :align :center)
                     (str (ecase (the image-format-selector value)
-			   ((:web3d :vrml) (the web3d-graphics))
+			   ;;((:web3d :vrml) (the web3d-graphics))
+			   (:x3dom (the x3dom-graphics))
 			   ((:png :jpeg :jpg) (the raster-graphics))
 			   (:raphael (the vector-graphics))))))
-	(when (and (member (the image-format) (list :jpeg :jpg :png :raphael))
+	(when (and (member (the image-format) (list :jpeg :jpg :png :raphael ))
 		   (the include-view-controls?))
 	  (htm (:tr (:td (str (the view-controls))))))
-	(when (and (member (the image-format) (list :vrml :web3d))
+	(when (and (member (the image-format) (list :vrml :web3d :x3dom))
 		   (the include-view-controls?))
 	  (htm (:tr (:td (str (the image-format-selector html-string))))))
 
@@ -368,73 +376,73 @@ The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>.
     
     (cl-who:with-html-output (*stream*)
       
-    (when (typep (the :view-object) 'null-part)
-      (error "A valid :view-object of type web-drawing is required in the sheet 
+      (when (typep (the :view-object) 'null-part)
+	(error "A valid :view-object of type web-drawing is required in the sheet 
 to call the :write-embedded-x3d-world function."))
     
-    (cond ((the no-graphics?)
-	   #+nil
-	   (and (null (the :view-object :object-roots))
-                (null (the :view-object :objects)))
-           (html-stream *stream* 
-                        ((:table :cellspacing 0 :cellpadding 0 :bgcolor :white)
-                         (:tr
-                          ((:td :width (the :view-object :width) :height
-                                (the :view-object :height) :align :center :valign :center)
-                           (:big (:b "No Graphics Object Specified")))))))
-          (t
+      (cond ((the no-graphics?)
+	     #+nil
+	     (and (null (the :view-object :object-roots))
+		  (null (the :view-object :objects)))
+	     (html-stream *stream* 
+			  ((:table :cellspacing 0 :cellpadding 0 :bgcolor :white)
+			   (:tr
+			    ((:td :width (the :view-object :width) :height
+				  (the :view-object :height) :align :center :valign :center)
+			     (:big (:b "No Graphics Object Specified")))))))
+	    (t
 
-	   (let ((*display-controls* (the display-controls-hash)))
-	     (with-cl-who ()
-	       (:p
-		((:span :style "cursor: pointer;")
-		 ((:|X3D| :id "the_element"
-		    :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		    ;;:width  "100%"
-		    ;;:height  "100%"
-		    :width (the view-object page-width)
-		    :height (the view-object page-length)
-		    )
-		  (:|Scene|
-		    (with-format (x3d *stream*) 
-		      (let ((*onclick-function* (the onclick-function)))
-			(write-the view-object cad-output)))))))
+	     (let ((*display-controls* (the display-controls-hash)))
+	       (with-cl-who ()
+		 (:p
+		  ((:span :style "cursor: pointer;")
+		   ((:|X3D| :id "the_element"
+		      :swfpath "/static/3rdpty/x3dom/x3dom.swf"
+		      ;;:width  "100%"
+		      ;;:height  "100%"
+		      :width (the view-object page-width)
+		      :height (the view-object page-length)
+		      )
+		    (:|Scene|
+		      (with-format (x3d *stream*) 
+			(let ((*onclick-function* (the onclick-function)))
+			  (write-the view-object cad-output)))))))
 	
-	       ((:script :type "text/javascript")
-		"x3dom.reload();")
+		 ((:script :type "text/javascript")
+		  "x3dom.reload();")
 	
 
-	       #+nil
+		 #+nil
+		 (when (the x3dom-view-controls?)
+		   (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
+					  :onclick "document.getElementById('the_element').runtime.showAll();")
+				   "Show All"))))))))
+
+
+
+	    #+nil
+	    (with-cl-who ()
+	      ((:table :cellspacing 0 :cellpadding 0)
+	       (:tr
+		(:td
+		 (:p
+		  ((:|X3D| :id "the_element"
+		     :swfpath "/static/3rdpty/x3dom/x3dom.swf"
+		     :width (the view-object page-width)
+		     :height (the view-object page-length))
+		  
+		   (:|Scene|
+		     (with-format (x3d *stream*) (write-the view-object cad-output)))))
+		
+		 ((:script :type "text/javascript" 
+			   :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))))
+
 	       (when (the x3dom-view-controls?)
 		 (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
 					:onclick "document.getElementById('the_element').runtime.showAll();")
-				 "Show All"))))))))
+				 "Show All")))))))
 
-
-
-	   #+nil
-           (with-cl-who ()
-             ((:table :cellspacing 0 :cellpadding 0)
-              (:tr
-               (:td
-		(:p
-		 ((:|X3D| :id "the_element"
-		    :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		    :width (the view-object page-width)
-		    :height (the view-object page-length))
-		  
-		  (:|Scene|
-		    (with-format (x3d *stream*) (write-the view-object cad-output)))))
-		
-		((:script :type "text/javascript" 
-			  :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))))
-
-	      (when (the x3dom-view-controls?)
-		(htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-				       :onclick "document.getElementById('the_element').runtime.showAll();")
-				"Show All")))))))
-
-	   )))
+	    )))
 
    (web3d-graphics
     ()
