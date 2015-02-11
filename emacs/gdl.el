@@ -210,6 +210,7 @@
 
 
 (defun load-and-or-start-gendl ()
+  (setq slime-enable-evaluate-in-emacs t)
   (slime-repl)
   (insert gdl-startup-string)
   (slime-repl-return)
