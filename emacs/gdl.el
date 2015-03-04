@@ -210,6 +210,7 @@
 
 
 (defun load-and-or-start-gendl ()
+  (setq slime-enable-evaluate-in-emacs t)
   (slime-repl)
   (insert gdl-startup-string)
   (slime-repl-return)
@@ -332,6 +333,28 @@
     (insert gdl-startup-string)
     (fi:inferior-lisp-newline)
     (end-of-buffer)))
+
+
+(defun timestamp ()
+  (insert (format-time-string "%Y-%m-%dT%H:%M:%S" (current-time))))
+
+;;
+;; See http://pomodorotechnique.com/
+;;
+(defun pomodoro ()
+  (timestamp)
+  (insert (format-time-string ";%Y-%m-%dT%H:%M:%S;" 
+			      (time-add (current-time) (seconds-to-time (* 25 60))))))
+(global-set-key "\C-t" '(lambda() (interactive) (pomodoro)))
+
+(defun post-pomodoro ()
+  (insert (format-time-string "%Y-%m-%dT%H:%M:%S" 
+			      (time-subtract (current-time) (seconds-to-time (* 25 60)))))
+  (insert (format-time-string ";%Y-%m-%dT%H:%M:%S;" (current-time))))
+
+(global-set-key "\M-t" '(lambda() (interactive) (post-pomodoro)))
+
+
 
 ;;
 ;; Establish input method for I.A.S.T diacritics
