@@ -22,6 +22,8 @@
 (in-package :com.genworks.dom-html)
 
 
+(defparameter *warn-on-unrecognized-tags?* t)
+
 (publish-directory :prefix "/gdl/style/"
 		   :destination (format nil "~a" (translate-logical-pathname "~/genworks/gwl-apps/training/g101/style/")))
 
@@ -169,7 +171,8 @@
 		(htm (:blockquote (dolist (element (list-elements (the elements)))
 				    (write-the-object element cl-who-base)))))
 
-	(otherwise (warn "Markup tag ~s was not recognized~%" (the markup-tag)))
+	(otherwise (when *warn-on-unrecognized-tags?*
+		     (warn "Markup tag ~s was not recognized~%" (the markup-tag))))
 	
 
 	)))))

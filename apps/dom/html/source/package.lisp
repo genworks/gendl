@@ -22,5 +22,6 @@
 (in-package :gdl-user)
 
 (gwl:define-package :com.genworks.dom-html
+    (:export #:*warn-on-unrecognized-tags?*)
     (:use :cl-who :com.genworks.dom :com.genworks.dom-writers))
 
