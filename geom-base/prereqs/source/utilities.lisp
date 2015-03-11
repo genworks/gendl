@@ -484,7 +484,39 @@ if given, must be orthogonal to the first two.
     (radians-to-degrees
      (angle-between-vectors vector-1 vector-2))))
 
-(defun angle-between-vectors (vector-1 vector-2 &optional reference-vector &key (epsilon *zero-epsilon*) -ve negative?)
+
+(defun angle-between-vectors (vector-1 vector-2 
+			      &optional reference-vector 
+			      &key (epsilon *zero-epsilon*) -ve negative?)
+  "Number. Returns the angle in radians between <b>vector-1</b> and <b>vector-2</b>. 
+   If no <b>reference-vector</b> given, the smallest possible angle is returned. 
+   If a <b>reference-vector</b> is given, computes according to the right-hand rule. 
+   If <b>-ve</b> is given,  returns a negative number for angle if it really is 
+   negative according to the right-hand rule.
+:arguments (vector-1 \"3D Vector\"
+            vector-2 \"3D Vector\")
+:&optional ((reference-vector nil) \"3D Vector\")
+:&key      ((epsilon *zero-epsilon*) \"Number. Determines how small of an angle is considered to be zero.\"
+            (-ve nil) \"Boolean\")"
+  (let ((vector-1 (unitize-vector vector-1 :epsilon epsilon))
+        (vector-2 (unitize-vector vector-2 :epsilon epsilon)))
+    (let ((dot-vector (dot-vectors vector-1 vector-2)))
+      (when (> dot-vector 1.0) (setq dot-vector 1.0))
+      (when (< dot-vector -1.0) (setq dot-vector -1.0))
+      (let ((smallest-angle (acos dot-vector)))
+        (when (< smallest-angle epsilon) (setq smallest-angle 0.0))
+        (let ((try (if (and reference-vector
+                            (minusp (dot-vectors reference-vector (cross-vectors vector-1 vector-2))))
+                       (- (twice pi) smallest-angle)
+                     smallest-angle)))
+          (if (and (or -ve negative?) (> try pi)) (- try (twice pi)) try))))))
+
+
+
+#+nil
+(defun angle-between-vectors (vector-1 vector-2 
+			      &optional reference-vector 
+			      &key (epsilon *zero-epsilon*) -ve negative?)
   "Number. Returns the angle in radians between <b>vector-1</b> and
    <b>vector-2</b>.  If no <b>reference-vector</b> given, the smallest
    possible angle is returned.  If a <b>reference-vector</b> is given,
@@ -513,6 +545,22 @@ if given, must be orthogonal to the first two.
           (if (and (or -ve negative?) (> try pi)) (- try (twice pi)) try))))))
 
 
+
+(defun unitize-vector (vector &key (epsilon *zero-epsilon*)) 
+  "Unit Vector. Returns the normalized unit-length vector corresponding to <b>vector</b>.
+:arguments (vector \"3D Vector\"
+:&key ((espsilon *zero-epsilon*) \"Number. How close vector should be to 1.0 to be considered unit-length.\")"
+
+  (when (and *zero-vector-checking?* (zero-vector? vector))
+    (error "~s has Euclidean length zero; cannot unitize." vector))
+
+  (if (near-to? (length-vector vector) 1.0 epsilon)
+      vector
+    (scalar*vector (/ (length-vector vector)) vector)))
+
+
+
+#+nil
 (defun unitize-vector  (vector)
   "Unit Vector. Returns the normalized unit-length vector corresponding to <b>vector</b>.
 
