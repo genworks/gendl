@@ -426,6 +426,43 @@ if given, must be orthogonal to the first two.
                                                     outer))
                                         list-of-lists)))
 
+
+(defparameter *print-deprecated-warnings?* nil)
+
+(defun angle-between-vectors-d (vector-1 vector-2 &optional reference-vector &rest args)
+  "Number. This function is identical to angle-between-vectors, but returns the angle in degrees.
+   Refer to angle-between-vectors for more information.
+
+   Technical note: the <b>more</b> argument has been introduced to support both
+   angle-between-vectors call conventions and the legacy signature:
+
+   (vector-1 vector-2 &optional reference-vector negative?)
+
+   Optionally, a deprecation warning is printed when code invokes this legacy pattern.."
+
+  ;; resolve &rest arguments.
+  (let ((arglist
+     (let ((length (length args)))
+       (cond ((= length 1)
+	      ;; legacy signature:
+	      ;; (vector-1 vector-2 &optional reference-vector negative?)
+	      (when *print-deprecated-warnings?*
+		(warn "negative? argument for angle-between-vectors-d is deprecated. Use :-ve instead."))
+	      (list vector-1 vector-2 reference-vector :-ve (first args)))
+	     ((evenp length)
+	      ;; angle-between-vectors signature:
+	      ;; (vector-1 vector-2 &optional reference-vector &key (epsilon *zero-epsilon*) -ve)
+	      (nconc (list vector-1 vector-2 reference-vector) args))
+	     (t
+	      ;; not allowed.
+	      (error (format nil "angle-between-vectors-d received invalid arguments: ~a"
+			     (nconc (list vector-1 vector-2 reference-vector) args))))))))
+  (radians-to-degrees
+   (apply #'angle-between-vectors arglist))
+  ))
+
+
+#+nil
 (defun angle-between-vectors-d (vector-1 vector-2 &optional reference-vector negative?)
   "Number. Returns the angle in degrees between <tt>vector-1</tt> and <tt>vector-2</tt>. 
    If no <tt>reference-vector</tt> is given, the smallest possible angle is returned. 
@@ -447,18 +484,20 @@ if given, must be orthogonal to the first two.
     (radians-to-degrees
      (angle-between-vectors vector-1 vector-2))))
 
-(defun angle-between-vectors (vector-1 vector-2 &optional reference-vector &key (epsilon *zero-epsilon*) -ve)
-  "Number. Returns the angle in radians between <b>vector-1</b> and <b>vector-2</b>. 
-   If no <b>reference-vector</b> given, the smallest possible angle is returned. 
-   If a <b>reference-vector</b> is given, computes according to the right-hand rule. 
-   If <b>-ve</b> is given,  returns a negative number for angle if it really is 
-   negative according to the right-hand rule.
+(defun angle-between-vectors (vector-1 vector-2 &optional reference-vector &key (epsilon *zero-epsilon*) -ve negative?)
+  "Number. Returns the angle in radians between <b>vector-1</b> and
+   <b>vector-2</b>.  If no <b>reference-vector</b> given, the smallest
+   possible angle is returned.  If a <b>reference-vector</b> is given,
+   computes according to the right-hand rule.  If <b>:-ve t</b> or
+   <b>:negative? t</b> is given, returns a negative number for angle
+   if it really is negative according to the right-hand rule.
 
 :arguments (vector-1 \"3D Vector\"
             vector-2 \"3D Vector\")
 :&optional ((reference-vector nil) \"3D Vector\")
 :&key      ((epsilon *zero-epsilon*) \"Number. Determines how small of an angle is considered to be zero.\"
-            (-ve nil) \"Boolean\")"
+            (-ve nil) \"Boolean\"
+            (negative? nil) \"Boolean (synonym to -ve)\")"
   (let ((vector-1 (unitize-vector vector-1))
         (vector-2 (unitize-vector vector-2)))
     
@@ -471,7 +510,7 @@ if given, must be orthogonal to the first two.
                             (minusp (dot-vectors reference-vector (cross-vectors vector-1 vector-2))))
                        (- (twice pi) smallest-angle)
                      smallest-angle)))
-          (if (and -ve (> try pi)) (- try (twice pi)) try))))))
+          (if (and (or -ve negative?) (> try pi)) (- try (twice pi)) try))))))
 
 
 (defun unitize-vector  (vector)
