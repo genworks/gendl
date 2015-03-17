@@ -166,6 +166,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:flatten
            #:format-slot
            #:fround-to-nearest
+	   #:gdl-app
            #:gdl-class
            #:gdl-format-class
            #:gdl-format-symbol
@@ -193,6 +194,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:make-canonical-part
            #:make-keyword
 	   #:ensure-keyword
+	   #:make-gdl-app
            #:make-keyword-sensitive
            #:make-object
            #:make-part
@@ -281,6 +283,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:xml-reader
            #:^2
 	   #:room-report
+	   #:*newspace*
+	   #:*oldspace*
 	   #:*onclick-function*
 	   #:*already-loaded-systems*
 	   #:*loaded-hotpatches*
