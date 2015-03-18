@@ -187,6 +187,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:list-elements
            #:list-hash
            #:list-of-numbers
+           #:list-of-n-numbers
            #:lookup-color
 	   #:load-quicklisp
 	   #:load-hotpatches

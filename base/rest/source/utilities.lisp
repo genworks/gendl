@@ -144,6 +144,14 @@ was contributed by Reinier van Dijk.
 		 ((or (funcall predicate num num2) (< (abs (- num2 num)) tolerance)) (nreverse (cons num2 result-list)))
 	       (push num result-list))))))
 
+
+(defun list-of-n-numbers (num1 num2 n)
+  "Returns a list of n numbers equally spaced between bounds num1 and num2, inclusive."
+  (let ((increment (/ (- num2 num1) (- n 1)))
+    (result-list nil))
+    (dotimes (i (- n 1) (nreverse (cons num2 result-list)))
+      (push (+ num1 (* i increment)) result-list))))
+
 ;;
 ;; FLAG -- remove this when above version is fully tested. 
 ;;
