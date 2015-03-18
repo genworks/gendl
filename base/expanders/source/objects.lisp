@@ -140,11 +140,16 @@ and then compile this again.~%"))
 		(safe-sort (set-difference attempted-inputs accepted-inputs)
 			   #'string-lessp :key #'string)))
                       
-                      
+	  
+	  ;;
+	  ;; FLAG -- do we really need to do this here? We are already
+	  ;; checking for non-inputs, and the reserved words will all
+	  ;; be non-inputs.
+	  ;;
 	  (reserved-word-warning-or-error part-type-symbol 
 					  (mapcar #'(lambda(symbol)
 						      (glisp:intern symbol :gdl-acc))
-						  attempted-inputs))
+						  attempted-inputs) (list part-type-symbol))
                       
 	  (when unrecognized-inputs 
 	    (let* ((singular? (= (length unrecognized-inputs) 1))

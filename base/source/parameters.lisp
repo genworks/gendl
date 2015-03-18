@@ -210,3 +210,6 @@ values are a color indicator for the default foreground and background of graphi
 				       :tasty :robot :tree :yadd :surf :smlib :genworks-gdl))
 
 (defvar *quicklisp-home* nil)
+
+(defvar *packages-to-lock* 
+  (list :gendl :geom-base :cl-lite :gwl :gwl-graphics :tasty :robot :tree :yadd :surf :smlib :genworks-gdl))

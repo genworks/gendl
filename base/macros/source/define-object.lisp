@@ -378,192 +378,196 @@ overview of <tt>define-object</tt> syntax."
 
   (with-gdl-message-symbols (:new t)
     
-    (reserved-word-warning-or-error name messages)               
+    (let ((mixins (if (or no-vanilla-mixin? 
+			  (some #'(lambda(mixin)
+				    (let ((class (find-class mixin nil)))
+				      (and class
+					   (member (find-class 'vanilla-mixin)
+						   (all-superclasses class))))) mixin-list))
+		      mixin-list (append mixin-list (list 'vanilla-mixin)))))
     
-    (let ((message-ht (make-hash-table :size (length messages))))
-      (dolist (message messages)
-        (push message (gethash message message-ht)))
-      (let ((duplicates (let (duplicates)
-                          (maphash #'(lambda(key val)(if (consp (rest val)) (push key duplicates))) message-ht) duplicates)))
-        (let ((duplicates (remove-if #'(lambda(dup) (member dup method-syms)) duplicates)))
-          (when duplicates
-            (error "duplicate slot name~p: ~{~a~^, ~}" (length duplicates) (sort duplicates #'string-lessp :key #'symbol-name))))))
+      (reserved-word-warning-or-error name messages mixins)
     
-    `(progn 
-       (defclass ,name ,(if (or no-vanilla-mixin? 
-                                (some #'(lambda(mixin)
-                                          (let ((class (find-class mixin nil)))
-                                            (and class
-                                                 (member (find-class 'vanilla-mixin)
-                                                         (all-superclasses class))))) mixin-list))
-                            mixin-list
-                          (append mixin-list (list 'vanilla-mixin)))
-         (,@(append (make-standard-slots) 
-                    (make-accessible-slots computed-slot-syms)
-                    (make-accessible-slots settable-computed-slot-syms)
-                    (make-accessible-slots uncached-computed-slot-syms)
-                    (make-accessible-slots query-slot-syms)                 
-                    (make-accessible-slots object-syms) 
-                    (make-accessible-slots quantified-object-syms)
-                    (make-accessible-slots hidden-object-syms)
-                    (make-accessible-slots quantified-hidden-object-syms)
-                    (make-accessible-slots cached-function-syms)
-                    (make-accessible-slots cached-method-syms)
-                    (make-accessible-slots required-input-slot-syms :inputs? t)
-                    (make-accessible-slots optional-input-slot-syms :inputs? t)
-                    (make-accessible-slots settable-input-slot-syms :inputs? t)
-                    (make-accessible-slots defaulted-input-slot-syms :inputs? t) 
-                    (make-accessible-slots settable-defaulted-input-slot-syms :inputs? t)))  (:metaclass gdl-class))
+      (let ((message-ht (make-hash-table :size (length messages))))
+	(dolist (message messages)
+	  (push message (gethash message message-ht)))
+	(let ((duplicates (let (duplicates)
+			    (maphash #'(lambda(key val)
+					 (if (consp (rest val)) 
+					     (push key duplicates))) message-ht) duplicates)))
+	  (let ((duplicates (remove-if #'(lambda(dup) (member dup method-syms)) duplicates)))
+	    (when duplicates
+	      (error "duplicate slot name~p: ~{~a~^, ~}" 
+		     (length duplicates) (sort duplicates #'string-lessp :key #'symbol-name))))))
+
+      `(progn 
+	 (defclass ,name ,mixins
+	   (,@(append (make-standard-slots) 
+		      (make-accessible-slots computed-slot-syms)
+		      (make-accessible-slots settable-computed-slot-syms)
+		      (make-accessible-slots uncached-computed-slot-syms)
+		      (make-accessible-slots query-slot-syms)                 
+		      (make-accessible-slots object-syms) 
+		      (make-accessible-slots quantified-object-syms)
+		      (make-accessible-slots hidden-object-syms)
+		      (make-accessible-slots quantified-hidden-object-syms)
+		      (make-accessible-slots cached-function-syms)
+		      (make-accessible-slots cached-method-syms)
+		      (make-accessible-slots required-input-slot-syms :inputs? t)
+		      (make-accessible-slots optional-input-slot-syms :inputs? t)
+		      (make-accessible-slots settable-input-slot-syms :inputs? t)
+		      (make-accessible-slots defaulted-input-slot-syms :inputs? t) 
+		      (make-accessible-slots settable-defaulted-input-slot-syms :inputs? t)))  (:metaclass gdl-class))
        
-       (let ((,class-arg (find-class ',name)))
+	 (let ((,class-arg (find-class ',name)))
          
-         (let ((,old-message-keys (messages ,class-arg))
-               (,new-message-keys ',messages))
-           (dolist (key (set-difference ,old-message-keys ,new-message-keys))
-             (let ((method (ignore-errors
-                            (find-method (symbol-function (glisp:intern (symbol-name key) :gdl-slots)) nil
-                                         (list ,class-arg) nil))))
-               (when method 
-		 (when *report-gdl-redefinitions?*
-		   (format t "~%Removing slot: ~a for object definition: ~s~%" key ',name))
-		 (remove-method (symbol-function (glisp:intern (symbol-name key) :gdl-slots)) method)))))
+	   (let ((,old-message-keys (messages ,class-arg))
+		 (,new-message-keys ',messages))
+	     (dolist (key (set-difference ,old-message-keys ,new-message-keys))
+	       (let ((method (ignore-errors
+			       (find-method (symbol-function (glisp:intern (symbol-name key) :gdl-slots)) nil
+					    (list ,class-arg) nil))))
+		 (when method 
+		   (when *report-gdl-redefinitions?*
+		     (format t "~%Removing slot: ~a for object definition: ~s~%" key ',name))
+		   (remove-method (symbol-function (glisp:intern (symbol-name key) :gdl-slots)) method)))))
        
-	 ,(when (and *compile-documentation-database?* documentation)
-		`(when *load-documentation-database?*
-		   (setf (gdl-documentation ,class-arg) ',documentation))))
+	   ,(when (and *compile-documentation-database?* documentation)
+		  `(when *load-documentation-database?*
+		     (setf (gdl-documentation ,class-arg) ',documentation))))
 
          
-       (when (message-documentation (find-class ',name)) (clrhash (message-documentation (find-class ',name))))
-       (when (message-source (find-class ',name))(clrhash (message-source (find-class ',name))))
-       (setf (messages (find-class ',name)) ',messages)
-       (setf (required-input-slots (find-class ',name)) ',required-input-slot-syms)
-       (setf (optional-input-slots (find-class ',name)) ',optional-input-slot-syms)
-       (setf (defaulted-input-slots (find-class ',name))  ',defaulted-input-slot-syms)
-       (setf (computed-slots (find-class ',name))  ',computed-slot-syms)
-       (setf (query-slots (find-class ',name))  ',query-slot-syms)
-       (setf (settable-computed-slots (find-class ',name)) ',settable-computed-slot-syms)
-       (setf (uncached-computed-slots (find-class ',name)) ',uncached-computed-slot-syms)
-       (setf (settable-optional-input-slots (find-class ',name)) ',settable-input-slot-syms)
-       (setf (settable-defaulted-input-slots (find-class ',name)) ',settable-defaulted-input-slot-syms)
-       (setf (functions (find-class ',name))  ',function-syms)
-       (setf (methods (find-class ',name))  ',method-syms)
-       (setf (cached-functions (find-class ',name))  ',cached-function-syms)
-       (setf (cached-methods (find-class ',name))  ',cached-method-syms)
-       (setf (objects (find-class ',name))  ',object-syms)
-       (setf (quantified-objects (find-class ',name)) ',quantified-object-syms)
-       (setf (hidden-objects (find-class ',name))  ',hidden-object-syms)
-       (setf (quantified-hidden-objects (find-class ',name)) ',quantified-hidden-object-syms)
-       (setf (trickle-down-slots (find-class ',name))
-         ',(append object-syms quantified-object-syms hidden-object-syms quantified-hidden-object-syms trickle-down-slot-syms))
-       (setf (settable-slots (find-class ',name)) ',(append required-input-slot-syms settable-input-slot-syms 
-                                                   settable-defaulted-input-slot-syms settable-computed-slot-syms))
+	 (when (message-documentation (find-class ',name)) (clrhash (message-documentation (find-class ',name))))
+	 (when (message-source (find-class ',name))(clrhash (message-source (find-class ',name))))
+	 (setf (messages (find-class ',name)) ',messages)
+	 (setf (required-input-slots (find-class ',name)) ',required-input-slot-syms)
+	 (setf (optional-input-slots (find-class ',name)) ',optional-input-slot-syms)
+	 (setf (defaulted-input-slots (find-class ',name))  ',defaulted-input-slot-syms)
+	 (setf (computed-slots (find-class ',name))  ',computed-slot-syms)
+	 (setf (query-slots (find-class ',name))  ',query-slot-syms)
+	 (setf (settable-computed-slots (find-class ',name)) ',settable-computed-slot-syms)
+	 (setf (uncached-computed-slots (find-class ',name)) ',uncached-computed-slot-syms)
+	 (setf (settable-optional-input-slots (find-class ',name)) ',settable-input-slot-syms)
+	 (setf (settable-defaulted-input-slots (find-class ',name)) ',settable-defaulted-input-slot-syms)
+	 (setf (functions (find-class ',name))  ',function-syms)
+	 (setf (methods (find-class ',name))  ',method-syms)
+	 (setf (cached-functions (find-class ',name))  ',cached-function-syms)
+	 (setf (cached-methods (find-class ',name))  ',cached-method-syms)
+	 (setf (objects (find-class ',name))  ',object-syms)
+	 (setf (quantified-objects (find-class ',name)) ',quantified-object-syms)
+	 (setf (hidden-objects (find-class ',name))  ',hidden-object-syms)
+	 (setf (quantified-hidden-objects (find-class ',name)) ',quantified-hidden-object-syms)
+	 (setf (trickle-down-slots (find-class ',name))
+	       ',(append object-syms quantified-object-syms hidden-object-syms quantified-hidden-object-syms trickle-down-slot-syms))
+	 (setf (settable-slots (find-class ',name)) ',(append required-input-slot-syms settable-input-slot-syms 
+							      settable-defaulted-input-slot-syms settable-computed-slot-syms))
        
-       ;; FLAG -- consider pre-cooking these expression lists
-       ;;
+	 ;; FLAG -- consider pre-cooking these expression lists
+	 ;;
        
        
-       ,@(message-generics (set-difference messages (append method-syms cached-method-syms)))
+	 ,@(message-generics (set-difference messages (append method-syms cached-method-syms)))
 
-       ,(input-slots-generics (append (group-remark-strings (remove-if-not #'(lambda(item)
-                                                                            (or (symbolp item) (stringp item)))
-                                                                        input-slots))
-				      (remove-if-not #'consp input-slots)))
+	 ,(input-slots-generics (append (group-remark-strings (remove-if-not #'(lambda(item)
+										 (or (symbolp item) (stringp item)))
+									     input-slots))
+					(remove-if-not #'consp input-slots)))
 
-       ,@(input-slots-section name (group-remark-strings (remove-if-not #'(lambda(item)
-                                                                            (or (symbolp item) (stringp item)))
-                                                                        input-slots)))
+	 ,@(input-slots-section name (group-remark-strings (remove-if-not #'(lambda(item)
+									      (or (symbolp item) (stringp item)))
+									  input-slots)))
 
-       ,@(optional-input-slots-section 
-          name (remove-if-not #'(lambda(slot) (and (consp slot) (null (rest (rest (strip-strings slot))))))
-                              input-slots))
+	 ,@(optional-input-slots-section 
+	    name (remove-if-not #'(lambda(slot) (and (consp slot) (null (rest (rest (strip-strings slot))))))
+				input-slots))
 
-       ,@(optional-input-slots-section 
-          name (remove-if-not 
-                #'(lambda(slot) 
-                    (and (consp slot) 
-                         (member :settable (rest (rest (strip-strings slot))))
-                         (not (member :defaulting (rest (rest (strip-strings slot)))))))
-                input-slots))
+	 ,@(optional-input-slots-section 
+	    name (remove-if-not 
+		  #'(lambda(slot) 
+		      (and (consp slot) 
+			   (member :settable (rest (rest (strip-strings slot))))
+			   (not (member :defaulting (rest (rest (strip-strings slot)))))))
+		  input-slots))
 
-       ,@(optional-input-slots-section 
-          name (remove-if-not #'(lambda(slot) 
-                                  (and (consp slot) 
-                                       (member :defaulting (rest (rest (strip-strings slot))))
-                                       (not (member :settable (rest (rest (strip-strings slot)))))))
-                              input-slots) t)
+	 ,@(optional-input-slots-section 
+	    name (remove-if-not #'(lambda(slot) 
+				    (and (consp slot) 
+					 (member :defaulting (rest (rest (strip-strings slot))))
+					 (not (member :settable (rest (rest (strip-strings slot)))))))
+				input-slots) t)
        
-       ,@(optional-input-slots-section
-          name (remove-if-not 
-                #'(lambda(slot) 
-                    (and (consp slot) 
-                         (member :settable (rest (rest (strip-strings slot))))
-                         (member :defaulting (rest (rest (strip-strings slot))))))
-                input-slots) t)
+	 ,@(optional-input-slots-section
+	    name (remove-if-not 
+		  #'(lambda(slot) 
+		      (and (consp slot) 
+			   (member :settable (rest (rest (strip-strings slot))))
+			   (member :defaulting (rest (rest (strip-strings slot))))))
+		  input-slots) t)
               
-       ,@(computed-slots-section 
-          name (remove-if-not #'(lambda(slot) (and (consp slot) (null (rest (rest (strip-strings slot))))))
-                              computed-slots))
+	 ,@(computed-slots-section 
+	    name (remove-if-not #'(lambda(slot) (and (consp slot) (null (rest (rest (strip-strings slot))))))
+				computed-slots))
        
-       ,@(computed-slots-section 
-          name (remove-if-not #'(lambda(slot)
-                                  (and (consp slot) (eql (first (rest (rest (strip-strings slot)))) 
-                                                         :settable)))
-                              computed-slots))
+	 ,@(computed-slots-section 
+	    name (remove-if-not #'(lambda(slot)
+				    (and (consp slot) (eql (first (rest (rest (strip-strings slot)))) 
+							   :settable)))
+				computed-slots))
        
-       ,@(computed-slots-section name query-slots :query? t)
+	 ,@(computed-slots-section name query-slots :query? t)
 
 
        
-       ,@(objects-section name (append objects hidden-objects))
+	 ,@(objects-section name (append objects hidden-objects))
        
        
-       ,@(functions-section 
-          name (mapcar #'(lambda(slot)
-                           (if (stringp (first slot))
-                               (list (first slot) (second slot) nil (third slot))
-                             (list (first slot) nil (second slot))))
-                       (remove-if-not #'(lambda(slot) (and (consp slot) (eql (first (rest (rest (strip-strings slot))))
-                                                                             :uncached)))
-                                      computed-slots)))
+	 ,@(functions-section 
+	    name (mapcar #'(lambda(slot)
+			     (if (stringp (first slot))
+				 (list (first slot) (second slot) nil (third slot))
+				 (list (first slot) nil (second slot))))
+			 (remove-if-not #'(lambda(slot) (and (consp slot) (eql (first (rest (rest (strip-strings slot))))
+									       :uncached)))
+					computed-slots)))
        
-       ,@(functions-section name functions)
+	 ,@(functions-section name functions)
        
-       ,@(methods-section name methods)
+	 ,@(methods-section name methods)
        
-       ,@(trickle-down-slots-section trickle-down-slot-syms)
+	 ,@(trickle-down-slots-section trickle-down-slot-syms)
        
-       ,@(trickle-down-slots-section (append object-syms quantified-object-syms hidden-object-syms quantified-hidden-object-syms)
-                                 :from-objects? t)
+	 ,@(trickle-down-slots-section (append object-syms quantified-object-syms hidden-object-syms quantified-hidden-object-syms)
+				       :from-objects? t)
        
        
        
-       #+nil
-       (defmethod gdl-rule::%object-keywords%
-           ((,self-arg ,name))
-         (remove-duplicates
-          (append ',object-syms ',quantified-object-syms
-                  (when (next-method-p) (call-next-method)))))
+	 #+nil
+	 (defmethod gdl-rule::%object-keywords%
+	     ((,self-arg ,name))
+	   (remove-duplicates
+	    (append ',object-syms ',quantified-object-syms
+		    (when (next-method-p) (call-next-method)))))
        
-       #+nil
-       (defmethod gdl-rule::%hidden-object-keywords%
-           ((,self-arg ,name))
-         (remove-duplicates
-          (append ',hidden-object-syms ',quantified-hidden-object-syms
-                  (when (next-method-p) (call-next-method)))))
+	 #+nil
+	 (defmethod gdl-rule::%hidden-object-keywords%
+	     ((,self-arg ,name))
+	   (remove-duplicates
+	    (append ',hidden-object-syms ',quantified-hidden-object-syms
+		    (when (next-method-p) (call-next-method)))))
        
-       ;;
-       ;; FLAG -- maybe some of these others can go away as well. 
-       ;;
+	 ;;
+	 ;; FLAG -- maybe some of these others can go away as well. 
+	 ;;
 
 
-       (let ((,self-arg (find-class ',name nil)))
-	 (when ,self-arg
-	   (setf (trickle-down-effective ,self-arg) nil)))
+	 (let ((,self-arg (find-class ',name nil)))
+	   (when ,self-arg
+	     (setf (trickle-down-effective ,self-arg) nil)))
 
-       ;;
-       ;; FLAG -- use uiop:list-to-hash-set
-       ;;
-       (defmethod gdl-rule::%trickle-down-slots% 
+	 ;;
+	 ;; FLAG -- use uiop:list-to-hash-set
+	 ;;
+	 (defmethod gdl-rule::%trickle-down-slots% 
            ((,self-arg ,name))
 	   (let ((class (class-of ,self-arg)))
 	     (or (trickle-down-effective class)
@@ -640,7 +644,7 @@ overview of <tt>define-object</tt> syntax."
                  (when (and (not (eql ,message-type-arg :local)) (next-method-p))
                    (call-next-method ,self-arg ,category-arg ,message-type-arg ,base-part-type-arg (1+ ,depth-arg)))))
        
-       (find-class ',name))))
+       (find-class ',name)))))
 
 
 

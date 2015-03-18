@@ -19,7 +19,7 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(in-package :gwl-user)
+(in-package :gwl)
 
 
 (publish :path "/color-map"

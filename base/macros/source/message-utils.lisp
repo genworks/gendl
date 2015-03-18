@@ -159,18 +159,44 @@
              (setq current-remark-string nil on-message? nil))))))
 
 
-(defparameter *reserved-word-protected-packages* (list (find-package :gdl)
-						       (find-package :geom-base)
-						       (find-package :surf)))
+(defparameter *reserved-words-hash* (make-hash-table))
 
-(defun reserved-word-warning-or-error (name messages)
-  (unless (and (atom name)
-               (or (member (symbol-package name) *reserved-word-protected-packages*)))
-    (let ((reserved-violations (intersection messages +reserved-words+)))
+
+;;
+;; FLAG -- consider a scheme for controlling the overriding of your
+;; own mixins as well, perhaps allowing for a list of
+;; overridable-slots.
+;;
+
+(defun reserved-words-for (mixins)
+  (apply #'append
+	 (mapcar 
+	  #'(lambda(mixin)
+	      (when (member (glisp:intern (package-name (symbol-package mixin)) :keyword) *packages-to-lock*)
+		(or (gethash mixin *reserved-words-hash*)
+		    (setf (gethash mixin *reserved-words-hash*)
+			  (mapcar 
+			   #'(lambda(word) (glisp:intern word :gdl-acc))
+			   (set-difference 
+			    (the-object (make-object mixin) message-list)
+			    (append
+			     (the-object (make-object mixin) (message-list :category :required-input-slots))
+			     (the-object (make-object mixin) (message-list :category :optional-input-slots))
+			     (the-object (make-object mixin) (message-list :category :settable-optional-input-slots))
+			     (the-object (make-object mixin) (message-list :category :defaulted-input-slots))
+			     (the-object (make-object mixin) (message-list :category :settable-defaulted-input-slots)))))))))
+	  mixins)))
+
+
+(defun reserved-word-warning-or-error (name messages mixins)
+  (unless (and (atom name) (member (glisp:intern (package-name (symbol-package name)) :keyword) *packages-to-lock*))
+    (let* ((reserved-words (reserved-words-for mixins))
+	   (reserved-violations (intersection messages reserved-words))
+	   (length (length reserved-violations)))
       (when reserved-violations 
-        (let ((is-or-are (if (= (length reserved-violations) 1) "is" "are"))
-              (s-or-blank (if (= (length reserved-violations) 1) "" "s"))
-              (a-or-blank (if (= (length reserved-violations) 1) "a " "")))
+        (let ((is-or-are (if (= length 1) "is" "are"))
+              (s-or-blank (if (= length 1) "" "s"))
+              (a-or-blank (if (= length 1) "a " "")))
                                
           (funcall (if *error-on-reserved-words?*
                        #'error
