@@ -132,9 +132,12 @@ view transforms, view scales, etc.
   (let ((flag (gensym)))
     `(let ((*%format%* (make-instance ',format ,@args)))
        (let ((*stream* (if (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))
-                         (open ,stream-or-file :if-does-not-exist :create 
-                               :if-exists :supersede :direction :output
-                               :external-format glisp:*external-text-format*)
+                         (open ,stream-or-file 
+			       :if-does-not-exist (or (format-slot if-does-not-exist) :create)
+			       :if-exists (or (format-slot if-exists) :error)
+			       :direction (or (format-slot direction) :output)
+			       :external-format (format-slot external-format)
+			       :element-type (format-slot element-type))
                          ,stream-or-file))
              (,flag t))
          (unwind-protect

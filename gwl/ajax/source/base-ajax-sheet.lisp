@@ -176,7 +176,10 @@ Default is the standard doctype for HTML5 and later."
 Default nil."  
                  use-jquery? nil :settable)
                 
-                
+                (use-raphael? nil)
+
+		(use-x3dom? nil)
+
                 
                 ("String. The title of the web page. Defaults to \"Genworks GDL -\"
 .followed by the strings-for-display."
@@ -212,9 +215,9 @@ interface. Defaults to nil."
   :trickle-down-slots (respondent)
   
   
-  :computed-slots ((use-raphael? nil)
+  :computed-slots (
 
-                   (use-x3dom? nil)
+                   
                    
                    ("String of HTML. Provides the developer control links for current sheet."
 		    development-links

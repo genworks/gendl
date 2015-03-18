@@ -288,3 +288,71 @@ set to nil to improve memory performance.")
 
 (defparameter *onclick-function* nil)
 
+
+(defparameter *with-format-if-exists* :supersede
+"keyword symbol. Establishes the default for the :if-exists
+ format-slot of the base-format. If you want to change this default
+ behavior, you can override this parameter globally or bind it
+ dynamically. Alternatively you can specify a different value
+ for :if-exists in the call to with-format. Valid keywords are the
+ same as for Common Lisp open or with-open-file. Default
+ is :supersede.
+:example
+<pre>
+
+  (let ((*with-format-if-exists* :error))
+    (with-format (x3d  \"/tmp/box.x3d\") 
+      (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output)))
+
+  (with-format (x3d \"/tmp/box.x3d\" :if-exists :error)
+    (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output) 
+
+</pre>
+ "
+
+)
+
+
+(defparameter *with-format-if-does-not-exist* :create
+"keyword symbol. Establishes the default for the :if-does-not-exist
+ format-slot of the base-format. If you want to change this default
+ behavior, you can override this parameter globally or bind it
+ dynamically. Alternatively you can specify a different value
+ for :if-does-not-exist in the call to with-format. Valid keywords are
+ the same as for Common Lisp open or with-open-file. Default
+ is :create.
+:example
+<pre>
+
+  (let ((*with-format-if-does-not-exist* :error))
+    (with-format (x3d  \"/tmp/box.x3d\") 
+      (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output)))
+
+  (with-format (x3d \"/tmp/box.x3d\" :if-does-not-exist :error)
+    (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output) 
+
+</pre>
+ "
+)
+
+(defparameter *with-format-direction :output
+"keyword symbol. Establishes the default for the :direction
+ format-slot of the base-format. If you want to change this default
+ behavior, you can override this parameter globally or bind it
+ dynamically. Alternatively you can specify a different value
+ for :direction in the call to with-format. Valid keywords are the
+ same as for Common Lisp open or with-open-file. Default
+ is :output. Normally this should not be changed in user code.")
+
+
+
+(defparameter *with-format-external-format* glisp:*external-text-format*
+  "External-format. The default for the :external-format format-slot
+  for the base format. Defaults to glisp:*external-text-format*.")
+
+;;
+;; FLAG -- determine what this should really be, i.e. establish a glisp:*element-type-default*
+;;
+(defparameter *with-format-element-type* nil
+"Element-type. The default for the :element-type format-slot
+  for the base format. Defaults to nil. Needs a better default.")

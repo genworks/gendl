@@ -106,8 +106,12 @@ supports a full range of output options such as page dimensions, view transforms
       `(let ((*%format%* (make-instance ',format ,@args))
 	     (file? (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))))
          (let ((*stream* (if file?
-                             (open ,stream-or-file :if-does-not-exist :create 
-                                   :if-exists :supersede :direction :output
+                             (open ,stream-or-file 
+				   :if-does-not-exist (or (format-slot if-does-not-exist) :create)
+                                   :if-exists (or (format-slot if-exists) :error)
+				   :direction (or (format-slot direction) :output)
+				   :external-format (format-slot external-format)
+				   :element-type (format-slot element-type) 
 				   ;; FLAG -- below element-type seems necessary for generate-sample-drawing 
 				   ;; from an aserve  thread on CCL (at least). Make this as a passable
 				   ;; arg for with-format png and other known binary types. 

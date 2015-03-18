@@ -991,7 +991,12 @@ a separate object hierarchy." object self)))
     
 
 (define-format base-format ()
-  :slots ((foreground-color nil) (background-color nil))
+  :slots ((foreground-color nil) (background-color nil) 
+	  (if-exists *with-format-if-exists*)
+	  (if-does-not-exist *with-format-if-does-not-exist*)
+	  (direction *with-format-direction)
+	  (external-format *with-format-external-format*)
+	  (element-type *with-format-element-type*))
   
   :functions
   ((initialize-output ())
