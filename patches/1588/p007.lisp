@@ -24,22 +24,26 @@
 (#+allegro 
  excl:without-package-locks #-allegro progn
 
+ (#+allegro 
+  excl:without-redefinition-warnings
+  #-allegro progn
 
- (define-object-amendment stitched-solid ()
+
+  (define-object-amendment stitched-solid ()
   
-   :input-slots
-   (("Number. The tolerance to use for creating the brep and for sewing. Larger number is looser tolerance 
+    :input-slots
+    (("Number. The tolerance to use for creating the brep and for sewing. Larger number is looser tolerance 
 and more likely to lead to success. Default is 0.0 which uses the SMLib defaults."
-     tolerance 0.0))
+      tolerance 0.0))
 
   
-   :computed-slots
-   ((%native-brep% (progn (when (or (the trimmed-surfaces) (the proper-faces))
-			    (error "stitched-solid is currently only implemented for plain untrimmed surfaces"))
-			  (make-stitched-solid-brep *geometry-kernel* 
-						    :tolerance (the tolerance)
-						    :surfaces (the plain-surfaces)
-						    :proper-faces nil)))))
+    :computed-slots
+    ((%native-brep% (progn (when (or (the trimmed-surfaces) (the proper-faces))
+			     (error "stitched-solid is currently only implemented for plain untrimmed surfaces"))
+			   (make-stitched-solid-brep *geometry-kernel* 
+						     :tolerance (the tolerance)
+						     :surfaces (the plain-surfaces)
+						     :proper-faces nil)))))
 
  (define-object-amendment boolean-merge ()
 
@@ -107,5 +111,5 @@ resulting brep. This defaults to t for merge operation and nil otherwise."
 	   ((:difference :union :intersection :merge) 
 	    (list :merge-container merge-container :native-brep current-brep))
                         
-	   (:extract_separate (list :merge-container merge-container :native-breps current-breps)))))))))
+	   (:extract_separate (list :merge-container merge-container :native-breps current-breps))))))))))
 
