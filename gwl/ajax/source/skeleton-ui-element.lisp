@@ -113,6 +113,19 @@ page section, then you do not have to generate the :div tag yourself - the main-
 will be a string of HTML which is wrapped in the correct :div tag already."
     dom-id (the base64-encoded-root-path))
 
+
+   ("List of keyword symbols. Messages corresponding to form fields which could 
+be missing from form submission (e.g. checkbox fields). Defaults to the names 
+of any children or hidden-children of type  menu-form-control or 
+checkbox-form-control."
+    possible-nils (mapcar #'(lambda(object) (the-object object field-name))
+                          (remove-if-not #'(lambda(child)
+                                             (or (and (typep child 'menu-form-control)
+                                                      (the-object child possible-nil?))
+                                                 (and (typep child 'checkbox-form-control)
+                                                      (the-object child possible-nil?))))
+                                         (append (the children) (the hidden-children)))))
+
    )
   
   
@@ -239,17 +252,7 @@ ignored. If this is specified as nil, then (the preset?) of individual
 form-controls (default of these is also nil) will be respected. Default is nil."
     preset-all? nil)
    
-   ("List of keyword symbols. Messages corresponding to form fields which could 
-be missing from form submission (e.g. checkbox fields). Defaults to the names 
-of any children or hidden-children of type  menu-form-control or 
-checkbox-form-control."
-    possible-nils (mapcar #'(lambda(object) (the-object object field-name))
-                          (remove-if-not #'(lambda(child)
-                                             (or (and (typep child 'menu-form-control)
-                                                      (the-object child possible-nil?))
-                                                 (and (typep child 'checkbox-form-control)
-                                                      (the-object child possible-nil?))))
-                                         (append (the children) (the hidden-children))))))
+   )
    
 
   
