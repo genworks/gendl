@@ -1,9 +1,9 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:gwl :description
- "The Gendl™ Generative Web Language (GWL)" :author "John McCarthy"
+ "The Gendl\" Generative Web Language (GWL)" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20150122" :depends-on
+ :serial t :version "20150330" :depends-on
  (:bordeaux-threads :glisp :aserve)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
