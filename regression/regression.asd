@@ -5,13 +5,13 @@
  :description
  "The Gendl™ regression Subsystem"
  :author
- "Genworks International"
+ "Dave Cooper"
  :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)"
  :serial
  t
  :version
- "20150311"
+ "20150330"
  :depends-on
  (:lift :surf :tasty)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
@@ -103,15 +103,20 @@
   (:file "assembly-output/source/bracket-test")
   (:file "assembly-output/source/bracket")
   (:file "dgdl/source/remote")
+  (:file "gdl/source/syntax-checker")
   (:file "geom-base/source/angle-between-vectors")
   (:file "geom-base/source/box-matrix")
   (:file "geom-base/source/drawing")
   (:file "geom-base/source/general-note")
   (:file "gwl/source/package")
   (:file "gwl/source/ajax-json")
+  (:file "gwl/source/form-element-tests")
+  (:file "gwl/source/form-element-validation")
   (:file "gwl/source/hey-now")
   (:file "gwl/source/large-data")
+  (:file "gwl/source/short-form-element-test")
   (:file "gwl/source/svg-error-handling")
+  (:file "gwl/source/test-seq")
   (:file "issues/source/issue-65")
   (:file "issues/source/issue-67")
   (:file "issues/source/issue-68")

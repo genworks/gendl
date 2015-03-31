@@ -22,7 +22,7 @@
 (in-package :gdl)
 
 
-(defparameter *gendl-version* "1588")
+(defparameter *gendl-version* "1588r001")
 
 (defparameter *gendl-patch-level* nil)
 
@@ -190,12 +190,6 @@ values are a color indicator for the default foreground and background of graphi
   in the base by itself, it requires the :gwl system as well. 
   Defaults to nil.")
 
-#+nil
-(defparameter *compile-for-dgdl?* t "Boolean. Determines whether
-  global methods are defined during compilation to allow calling any
-  message on a gdl remote-object. This functionality is not available
-  in the core GDL kernel and depends on additional web/networking
-  modules. Defaults to t.")
 
 (defparameter *gs-path* nil)
 
