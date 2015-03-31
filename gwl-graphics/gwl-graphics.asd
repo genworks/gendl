@@ -1,9 +1,9 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:gwl-graphics :description
- "The Gendl™ GWL embedded graphics support" :author "John McCarthy"
+ "The Gendl\" GWL embedded graphics support" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20150122" :depends-on (:geom-base :gwl)
+ :serial t :version "20150330" :depends-on (:geom-base :gwl)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
