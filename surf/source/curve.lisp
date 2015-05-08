@@ -23,8 +23,8 @@
 
 
 (defstruct surface-point 
-  (parameter nil :type double-float)
-  (other-parameter nil :type double-float)
+  (parameter 0.0 :type double-float)
+  (other-parameter 0.0 :type double-float)
   (uv-point nil #+allegro :type #+allegro (vector double-float))
   (3d-point nil #+allegro :type #+allegro (vector double-float)))
 
@@ -472,11 +472,12 @@ length approximation. Scaled to curve exent.\")"
             (u1 (the u1)) (u2 (the u2)) 
             (parameter-list (when (eql spacing :parametric) (list-of-numbers u1 u2 (/ (- u2 u1) (1- number)))))
             (percentage-list (when (eql spacing :arc-length) (list-of-numbers 0 1 (/ (1- number))))))
+
     (unless (> number 1) (error "Equi-spaced-points must be called with a number greater than 1."))
     (case spacing 
       (:parametric (mapcar #'(lambda(parameter) (the (point parameter))) parameter-list))
       (:arc-length (mapcar #'(lambda(percentage) 
-                               (the (point-at-arc-length percentage 
+                               (the (point-at-arc-length percentage
                                                          :tolerance arc-length-approximation-tolerance))) 
                              percentage-list))
       (otherwise 

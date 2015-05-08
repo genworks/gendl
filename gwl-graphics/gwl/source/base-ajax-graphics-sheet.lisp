@@ -409,7 +409,10 @@ to call the :write-embedded-x3d-world function."))
 			  (write-the view-object cad-output)))))))
 	
 		 ((:script :type "text/javascript")
-		  "x3dom.reload(); document.getElementById('the_element').runtime.debug(true); document.getElementById('the_element').runtime.statistics(true); ")
+		  ;;"x3dom.reload(); document.getElementById('the_element').runtime.debug(true); document.getElementById('the_element').runtime.statistics(true); "
+		  "x3dom.reload(); "
+		  
+		  )
 	
 
 		 #+nil
