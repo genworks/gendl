@@ -29,19 +29,19 @@
    (plane-normal (make-vector 0 0 -1))
    (distance 1)
    
-   (control-points (list (make-point 0 0 0)
-			 (make-point 2 3.0 0.0) 
-			 (make-point 4 2.0 0.0) 
-			 (make-point 5 0.0 0.0) 
-			 (make-point 4 -2.0 0.0) 
-			 (make-point 2 -3.0 0.0) 
-			 (make-point 0 0 0)))
+   (points (list (make-point 0 0 0)
+		 (make-point 2 3.0 0.0) 
+		 (make-point 4 2.0 0.0) 
+		 (make-point 5 0.0 0.0) 
+		 (make-point 4 -2.0 0.0) 
+		 (make-point 2 -3.0 0.0) 
+		 (make-point 0 0 0)))
    
    (regression-test-data (multiple-value-list (the b-spline-data))))
   
   :objects
   ((curve :type 'b-spline-curve
-           :control-points (the control-points)
+           :control-points (the points)
 	   :degree 4)))
 
 

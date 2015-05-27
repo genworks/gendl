@@ -149,10 +149,9 @@ the browser in development mode). Defaults to NIL (the empty list)."
    
    (host nil :defaulting)
    
-   (query-toplevel nil :settable)
-   
-   )
+   (query-toplevel nil :settable))
 
+  
   :computed-slots
   (
    

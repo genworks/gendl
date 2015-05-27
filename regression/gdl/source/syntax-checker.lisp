@@ -1,5 +1,3 @@
-(gwl:define-package :gdl-lift-tests)
-
 (in-package :gdl-lift-tests)
 
 (define-condition not-raised (error)

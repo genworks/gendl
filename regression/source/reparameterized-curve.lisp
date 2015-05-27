@@ -26,13 +26,13 @@
 (define-object reparameterized-curve-test (surf::reparameterized-curve)
   
   :input-slots
-  ((control-points (list (make-point 0 0 0)
-			 (make-point 2 3.0 0.0) 
-			 (make-point 4 2.0 0.0) 
-			 (make-point 5 0.0 0.0) 
-			 (make-point 4 -2.0 0.0) 
-			 (make-point 2 -3.0 0.0) 
-			 (make-point 0 0 0)))
+  ((points (list (make-point 0 0 0)
+		 (make-point 2 3.0 0.0) 
+		 (make-point 4 2.0 0.0) 
+		 (make-point 5 0.0 0.0) 
+		 (make-point 4 -2.0 0.0) 
+		 (make-point 2 -3.0 0.0) 
+		 (make-point 0 0 0)))
    
    (curve-in (the b-spline-curve)))
   
@@ -41,7 +41,7 @@
   
   :objects
   ((b-spline-curve :type 'b-spline-curve
-		   :control-points (the control-points))))
+		   :control-points (the points))))
 
 
 (register-test-definition 'reparameterized-curve-test)
