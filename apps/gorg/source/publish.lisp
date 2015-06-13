@@ -21,23 +21,33 @@
 
 (in-package :glsite)
 
-(let ((static (namestring 
-	       (make-pathname 
-		:name nil 
-		:type nil 
-		:defaults (merge-pathnames "../static/" 
-					   (translate-logical-pathname 
-					    (glisp:source-pathname)))))))
-  (publish-directory :prefix "/" :destination static))
 
-;;
-;; FLAG Put this back in when we get cookies working and lose the ugly
-;;   "/sessions/..." url
-;; 
-;;(publish-gwl-app "/" "glsite:landing")
-;;
+(defun initialize ()
 
-(publish-shared :path "/" :object-type 'landing)
+  (let ((static (namestring 
+		 (or 
+		  (probe-file 
+		   (make-pathname 
+		    :name nil 
+		    :type nil 
+		    :defaults (merge-pathnames "../static/" 
+					       (translate-logical-pathname 
+						(glisp:source-pathname)))))
+		  (probe-file (merge-pathnames "gorg-static/" glisp:*gdl-program-home*))))))
+    (dolist (host (list "gendl.org" "gendl.com"))
+      (publish-directory :prefix "/" :destination static :host host)))
+
+
+  ;;
+  ;; FLAG Put this back in when we get cookies working and lose the ugly
+  ;;   "/sessions/..." url
+  ;; 
+  ;;(publish-gwl-app "/" "glsite:landing")
+  ;;
+
+  (dolist (host (list "gendl.org" "gendl.com"))
+    (publish-shared  :host host :path "/" :object-type 'landing)))
+  
 
 
 
