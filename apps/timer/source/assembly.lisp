@@ -23,6 +23,7 @@
 			    (str (the timer-button main-div))
 			    (:hr)
 			    (str (the journal-form-name form-control))
+			    (:br)
 			    (str (the journal-form-descr form-control))
 			    (str (the journal-button main-div))
 			    (:br)
@@ -79,7 +80,7 @@
     (journal-entries-display :type 'sheet-section 
 			     :inner-html (progn (the force-update-flag) 
 						(with-cl-who-string () 
-						  (fmt "Previous entries: ~{~a<br>~}" 
+						  (fmt "Previous entries: ~{<p>~a</p>~}" 
 							  (the read-journal-entry))))))
 
   :functions 
@@ -90,7 +91,8 @@
 				   (concatenate 'string 
 						(namestring (merge-pathnames "../db/" *source-path*)) 
 						(the journal-form-name value))
-				   :direction :input)
+				   :direction :input
+				   :if-does-not-exist :create)
 				(read stream nil nil)))) 
 			 file-contents))
 		
