@@ -1,7 +1,5 @@
 (in-package :timer-journaler)
 
-;; meaningless change to test git.
-
 (defparameter *source-path* (make-pathname :directory (pathname-directory (glisp:source-pathname))
 					   :name nil :type nil))
 
