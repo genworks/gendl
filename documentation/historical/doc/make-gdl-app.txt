@@ -1,8 +1,0 @@
-
-
-         Instructions for Generating a Runtime 
-             GDL or GDL/GWL Application
- =======================================================
-
- Please see the YADD Reference Documentation for make-gdl-app in the
- GDL package.

@@ -1,3 +1,0 @@
-1. Allow a dictionary of registered trademarks so they can be tagged
-   automatically in the output.
-
