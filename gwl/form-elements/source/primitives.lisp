@@ -275,8 +275,8 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 :table-with-class (like :table-td, but adds a class \"form-control\" to the table), or
 :as-div (puts label and control inside a div of class \"form-control\").
 
-Default is :table-td"
-    label-position :table-td)
+Default is :as-div"
+    label-position :as-div)
    
    ("Function of one argument. The argument will be the submitted form value converted to the proper type. 
 The return value from this function can be nil, any non-nil value, or a plist with keys :validated-value 
@@ -481,17 +481,10 @@ and cleared when the error is gone." error nil :settable)
     (with-html-output (*stream* nil)
       (cond ((the prompt)
              (ecase (the label-position)
-               (:table-td (htm (:table (:tr (:td (write-the (:label :include-prompt? t)))
-                                            (:td (write-the form-control))))))
-               (:table-td-append (htm (:table (:tr (:td (write-the form-control))
-                                                   (:td (write-the (:label :include-prompt? t)))))))
                (:prepend (htm ((:label :for (the field-name)) (write-the prompt))
                               (write-the form-control)))
                (:append (htm (write-the form-control)
                              ((:label :for (the field-name)) (write-the prompt))))
-               (:table-with-class (htm ((:table :class "form-control") 
-                                        (:tr (:td (write-the (:label :include-prompt? t)))
-                                             (:td (write-the form-control))))))
                (:as-div (htm ((:div :class "form-control")
                               (write-the (:label :include-prompt? t))
                               (write-the form-control))))))
