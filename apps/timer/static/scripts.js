@@ -41,7 +41,7 @@ function countDown() {
         document.getElementById(min_id).value = start_min; 
         document.getElementById(sec_id).value = start_sec; 
         
-        timerStop(); 
+        alert('Please record your journal entry for this time.'); 
         
         return;
     }
