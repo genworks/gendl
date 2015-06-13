@@ -409,6 +409,9 @@ overview of <tt>define-object</tt> syntax."
   (check-syntax name input-slots computed-slots objects hidden-objects 
 		functions methods documentation trickle-down-slots query-slots)
 
+
+  (remhash name *reserved-words-hash*)
+  
   (with-gdl-message-symbols (:new t)
     
     (let ((mixins (if (or no-vanilla-mixin? 

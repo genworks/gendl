@@ -31,4 +31,7 @@
   (:file "rest/source/sequence") 
    
   (:file "zzinit/source/initialize")
-  (:file "zzinit/source/zzinit")))
+  (:file "zzinit/source/zzinit")
+
+  (:static-file "README")
+  ))

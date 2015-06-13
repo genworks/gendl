@@ -119,10 +119,19 @@ this is not a surface-curve, this will return an error."
    ("GDL Curve. Specify this if you want this curve to be a clone of
 an existing curve. (note - this uses a shared underlying curve object,
 it does not make a copy)" built-from nil)
-   
+
+   ;;
+   ;; FLAG -- made this not be :defaulting anymore because tolerance
+   ;; is not declared as trickle-down anywhere.
+   ;;
+   #+nil
    ("Number. Approximation tolerance for display purposes. Defaults to the tolerance of the 
 built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
     tolerance (if (the built-from) (the built-from tolerance) *display-tolerance*) :settable :defaulting)
+   
+   ("Number. Approximation tolerance for display purposes. Defaults to the tolerance of the 
+built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
+    tolerance (if (the built-from) (the built-from tolerance) *display-tolerance*) :settable)
    
    (surf nil)
    
@@ -147,9 +156,7 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
 
   
   :computed-slots
-  ((regression-test-data (multiple-value-list (the b-spline-data)))
-   
-   (measure (let ((tolerance (or (the tolerance)
+  ((measure (let ((tolerance (or (the tolerance)
                                  *display-tolerance*)))
               (* tolerance (curve-extent *geometry-kernel* (the native-curve)))))
 

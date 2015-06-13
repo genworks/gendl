@@ -73,9 +73,9 @@
    (width 10) 
    (height 10)
    (sew-and-orient? nil)
-   (other-brep (list (the faces top-face) (the faces bottom-face)
-		     (the faces right-face) (the faces left-face)
-		     (the faces rear-face) (the faces front-face)))
+   (other-brep (list (the box-faces top-face) (the box-faces bottom-face)
+		     (the box-faces right-face) (the box-faces left-face)
+		     (the box-faces rear-face) (the box-faces front-face)))
    
    (regression-test-data (append (multiple-value-list (the precise-properties))
 				 (the %curves-to-draw%)
@@ -84,7 +84,7 @@
   :hidden-objects
   ((box :type 'box)
    
-   (faces :type 'box-faces)))
+   (box-faces :type 'box-faces)))
 
 
 
@@ -98,9 +98,9 @@
    (width 10) 
    (height 10)
    (sew-and-orient? nil)
-   (breps (list (the faces top-face brep) (the faces bottom-face brep)
-		(the faces right-face brep) (the faces left-face brep)
-		(the faces rear-face brep) (the faces front-face brep)))
+   (breps (list (the box-faces top-face brep) (the box-faces bottom-face brep)
+		(the box-faces right-face brep) (the box-faces left-face brep)
+		(the box-faces rear-face brep) (the box-faces front-face brep)))
    
    (regression-test-data (append (multiple-value-list (the precise-properties))
 				 (the %curves-to-draw%)
@@ -109,7 +109,7 @@
   :hidden-objects
   ((box :type 'box)
    
-   (faces :type 'box-faces)))
+   (box-faces :type 'box-faces)))
 
 
 (register-test-definition 'merged-solid-test-bt)

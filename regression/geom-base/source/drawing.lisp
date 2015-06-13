@@ -4,14 +4,14 @@
 
   :objects      
   ((drawing :type 'box-annotated-drawing
-            :objects (list (the box)))
+            :dl-objects (list (the box)))
      
    (box :type 'box 
         :length 10 :width 20 :height 30)))
 
 
 (define-object box-annotated-drawing (base-drawing)
-  :input-slots (objects (character-size 15)
+  :input-slots (dl-objects (character-size 15)
                 (witness-line-gap 10)
                 (witness-line-length 15)
                 (witness-line-ext 5))
@@ -23,7 +23,7 @@
 	      :width (half (the width))
               :center (translate (the center) :rear (half (the-child length))
 				 :left (half (the-child width)))
-              :objects (the objects)
+              :objects (the dl-objects)
               :annotation-objects (list (the main-length-dim)))
    
 
@@ -34,7 +34,7 @@
 	     :width (half (the width))
 	     :center (translate (the center) :rear (half (the-child length))
 				:right (half (the-child width)))
-	     :objects (the objects)
+	     :objects (the dl-objects)
 	     :annotation-objects (list (the top-width-dim) (the top-length-dim)))
    
    
@@ -51,7 +51,7 @@
 	       :projection-vector (getf *standard-views* :front)
 	       :length (half (the length))
 	       :center (translate (the center) :front (half (the-child length)))
-	       :objects (the objects)
+	       :objects (the dl-objects)
 	       :annotation-objects (list (the bottom-length-dim)))
    
 

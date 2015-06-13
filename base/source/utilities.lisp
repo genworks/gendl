@@ -111,6 +111,26 @@ Optionally a different test than #'eql can be specified with the :test keyword a
       (first strings)
       (apply #'make-keyword strings)))
 
+
+;;
+;; FLAG - consider exporting.
+;; Notify CBI, as they have this in their codebase now. 
+;;
+
+(defparameter *keyword-package* (find-package :keyword))
+
+(defun make-key (item)
+  (intern (if (numberp item)
+	      (with-output-to-string (str) (princ item str))
+	      item) *keyword-package*))
+
+;;
+;;
+;;
+
+
+
+
 (defun make-keyword (&rest strings)
   "Keyword symbol. Converts given strings to a keyword.
 If any of the given arguments is not a string, it will be converted to one with 
@@ -118,7 +138,7 @@ If any of the given arguments is not a string, it will be converted to one with
 
 :arguments (strings \"&rest Strings\")"
   (%make-keyword (apply #'string-append (mapcar #'(lambda(string) (string (%make-keyword string))) strings))))
-  
+
 
 (defun make-keyword-sensitive (string) (glisp:intern string :keyword))
 

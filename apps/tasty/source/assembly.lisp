@@ -71,6 +71,8 @@ o allow input of required input-slots.
    (use-raphael? (the have-valid-instance-and-inputs?))
    (use-x3dom? (the have-valid-instance-and-inputs?))
 
+   (root-object-type 'null-part :settable)
+   
    )
 
   :computed-slots
@@ -103,7 +105,7 @@ o allow input of required input-slots.
 				(the menu-section)
 				)))
    
-   (root-object-type 'null-part :settable)
+   
    
    (at-true-root? (typep (the root-object parent) 'assembly))
 
