@@ -1,0 +1,149 @@
+html, body {
+    width: 100%; 
+    height: 100%; 
+    font-family: 'Open Sans', sans-serif; 
+    font-weight: 100; 
+    overflow-y: hidden; 
+}
+.title {
+    color: #fff; 
+    font-size: 20pt; 
+    margin: 5px; 
+    display: block; 
+    font-weight: bold; 
+}
+.footer {
+    position: fixed; 
+    bottom: 0px; 
+    height: 100%; 
+    width: 20%; 
+    overflow-y: auto; 
+    background-color: #333; 
+    text-align: center; 
+    font-family: 'Lato', sans-serif; 
+    font-weight: 300; 
+}
+.footer img {
+    margin-top: 10px; 
+    padding: 10px; 
+    background-color: #eee; 
+    border-radius: 10px; 
+}
+.footer a {
+    font-size: 14pt; 
+    width: 100%; 
+    box-sizing: border-box; 
+    color: #fff; 
+    display: block; 
+    text-align: center; 
+    padding: 5px; 
+    padding-left: 20px; 
+    padding-right: 20px; 
+}
+.footer a:hover {
+    cursor: pointer; 
+    text-decoration: none; 
+    background-color: #555; 
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif; 
+}
+p {
+    font-size: 1.3em; 
+    padding-top: 20px; 
+    padding-bottom: 0px; 
+    font-family: 'Open Sans', sans-serif; 
+}
+.download {
+    background-color: #999; 
+    color: #eeeee1; 
+    display: inline-block; 
+    text-align: center; 
+    padding: 20px; 
+    font-size: 25pt; 
+}
+.download:hover {
+    background-color: #eee; 
+    color: #333; 
+    cursor: pointer; 
+    text-decoration: underline; 
+}
+blockquote {
+    margin-left: 50px; 
+    margin-right: 50px; 
+    font-style: italic; 
+}
+blockquote p {
+    font-size: 14pt; 
+}
+.fullpage {
+    height: 100%; 
+    width: 80%; 
+    overflow: auto; 
+    margin: 0px; 
+    padding: 50px; 
+    position: fixed; 
+    right: 0; 
+    display: none; 
+}
+
+
+.showcase img {
+    height: 10%; 
+    margin: 20px; 
+    transition: height 1s; 
+    -webkit-box-shadow: -7px 6px 59px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -7px 6px 59px 0px rgba(0,0,0,0.75);
+    box-shadow: -7px 6px 59px 0px rgba(0,0,0,0.75);
+}
+.showcase img:hover {
+    height: 50%; 
+    transition: height 1s; 
+}
+.landing {
+    text-align: center; 
+    padding: 0px; 
+}
+
+.banner {
+    text-align: center; 
+    font-size: 2em; 
+    color: #000; 
+    font-family: 'Lato', sans-serif; 
+    font-weight: 300; 
+
+}
+.banner_img {
+    width: 55%; 
+    margin-bottom: 100px; 
+}
+.gendl {
+    font-size: 3em; 
+}
+
+.license img {
+    width: 200px; 
+}
+
+@media (max-width: 1000px) {
+
+    .footer {
+	width: 20%; 
+    }
+    .fullpage {
+	width: 80%; 
+    }
+}
+
+@media (max-width: 600px) {
+    .footer {
+	width: 30%; 
+    }
+    .fullpage {
+	width: 70%; 
+    }
+}
+
+.about img {
+    margin-right: 10px; 
+}
