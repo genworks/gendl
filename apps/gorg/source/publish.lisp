@@ -21,21 +21,35 @@
 
 (in-package :glsite)
 
+(defparameter *gorg-hosts* 
+  (list "localhost" "trusty" 
+	"gendlformacosx.com" "www.gendlformacosx.com"
+	"gendlformacos.com" "www.gendlformacos.com"
+	"gendlformacosx.org" "www.gendlformacosx.org"
+	"gendlformacos.org" "www.gendlformacos.org"
+	"macos.gendl.com" "www.macos.gendl.com"
+	"macos.gendl.org" "www.macos.gendl.org"
+	"macosx.gendl.com" "www.macosx.gendl.com"
+	"macosx.gendl.org"  "www.macosx.gendl.org"
+	"gendl.org" "www.gendl.org"
+	"gendl.com" "www.gendl.com"))
+
 
 (defun initialize ()
 
   (let ((static (namestring 
 		 (or 
-		  (probe-file 
-		   (make-pathname 
-		    :name nil 
-		    :type nil 
-		    :defaults (merge-pathnames "../static/" 
-					       (translate-logical-pathname 
-						(glisp:source-pathname)))))
+		  (when (glisp:source-pathname)
+		    (probe-file 
+		     (make-pathname 
+		      :name nil 
+		      :type nil 
+		      :defaults (merge-pathnames "../static/" 
+						 (translate-logical-pathname 
+						  (glisp:source-pathname))))))
 		  (probe-file (merge-pathnames "gorg-static/" glisp:*gdl-program-home*))))))
-    (dolist (host (list "gendl.org" "gendl.com"))
-      (publish-directory :prefix "/" :destination static :host host)))
+    (dolist (host *gorg-hosts*)
+      (publish-directory :prefix "/gorgstat/" :destination static :host host)))
 
 
   ;;
@@ -45,10 +59,8 @@
   ;;(publish-gwl-app "/" "glsite:landing")
   ;;
 
-  (dolist (host (list "gendl.org" "gendl.com"))
+  (dolist (host *gorg-hosts*)
     (publish-shared  :host host :path "/" :object-type 'landing)))
   
 
-
-
-
+(initialize)

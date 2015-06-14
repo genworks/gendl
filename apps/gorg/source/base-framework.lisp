@@ -15,9 +15,9 @@
 
 
 ;;
-;; In a production environment (where source directory might not be
-;; there) this parameter must be set at initialization/startup time to
-;; the correct location.
+;; FLAG -- In a production environment (where source directory might
+;; not be there) this parameter must be set at initialization/startup
+;; time to the correct location.
 ;;
 (defparameter *templates-folder* 
   (translate-logical-pathname

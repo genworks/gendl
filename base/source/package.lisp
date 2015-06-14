@@ -966,3 +966,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 (defpackage :gwl-graphics 
   (:use :common-lisp)
   (:documentation #.(gendl-boot:system-description :gwl-graphics)))
+
+(gdl:define-package :enterprise (:export #:gdl-app #:make-gdl-app #:*newspace* #:*oldspace*))
+
+
