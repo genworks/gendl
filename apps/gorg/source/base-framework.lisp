@@ -61,6 +61,8 @@
   :computed-slots 
    ((section-names (list "about" "license" "downloads" "documentation" "demos" "getinvolved")) 
 
+    (title "Gendl")
+    
     (main-sheet-body 
      (with-cl-who-string ()
        (str (read-static "header"))
