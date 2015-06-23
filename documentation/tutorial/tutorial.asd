@@ -17,5 +17,5 @@
   (:gdl "source/understanding-gendl")
   (:gdl "source/advanced-common-lisp") (:gdl "source/advanced-gendl")
   (:file "source/tasty-environment") (:file "source/gendl-geometry")
-  (:file "source/custom-user-interfaces")
+  (:file "source/custom-user-interfaces") (:file "source/styles")
   (:file "source/bibliography") (:file "source/assembly")))
