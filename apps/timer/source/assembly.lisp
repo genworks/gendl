@@ -17,28 +17,50 @@
 		      (:div :id "content" 
 			    (:script :src "/timer-static/scripts.js")
 			    (str (the timer-header main-div))
-			    (str (the timer-form-min form-control))
-			    (str (the timer-form-sec form-control))
-			    (:br)
-			    (str (the timer-button main-div))
-			    (:hr)
-			    (str (the journal-form-name form-control))
-			    (:br)
-			    (str (the journal-form-descr form-control))
-			    (str (the journal-button main-div))
+			    (str (the timer-section main-div))
+			    (str (the journal-section main-div))
 			    (:br)
 			    (str (the journal-entries-display main-div)))))
    (additional-header-content 
     (with-cl-who-string () 
       (:link :href "/timer-static/style/styles.css" 
 	     :rel "stylesheet"
-	     :type "text/css"))))
+	     :type "text/css")))
+
+
+   (report-to-mother (format nil "
+function reportToMother (seconds, minutes)
+ {~a}"
+			     (the (gdl-ajax-call :function-key :report-from-timer
+						 :arguments (list "seconds" "minutes"))))))
+
 
   :objects
   					; Header that says "TIMER"
    ((timer-header :type 'sheet-section 
 		 :inner-html (with-cl-who-string () 
 			       (:h1 :id "header" "timer")))
+
+
+    (timer-section :type 'sheet-section
+		   :inner-html (with-cl-who-string ()
+				 (str (the timer-form-min form-control-string))
+				 (str (the timer-form-sec form-control-string))
+				 (:br)
+				 (str (the start-button form-control-string))
+				 (str (the pause-button form-control-string))))
+
+
+    (journal-section :type 'sheet-section
+		     :inner-html (with-cl-who-string ()
+				   (:hr)
+				   (str (the journal-form-name form-control-string))
+				   (:br)
+				   (str (the journal-form-descr form-control-string))
+				   (:br)
+				   (str (the journal-button form-control-string))))
+
+				 
 
 					; Form for the timer. 
     (timer-form-min :type 'text-form-control
@@ -48,35 +70,37 @@
 		    :default "00"
 		    :size 2)
 
-					; Form for the name and description (journal)
+    (start-button :type 'button-form-control
+		  :onclick (format nil  "timerStart('~a','~a')"
+				   (symbol-name (the timer-form-min id))
+				   (symbol-name (the timer-form-sec id)))
+		  :label "Start")
+
+    (pause-button :type 'button-form-control
+		  :onclick (format nil  "timerPause()")
+		  :label "Pause")
+    
+    
+    ;; Form for the name and description (journal)
+    ;; FLAG  -- make these into lookup items (menu-form-control or combo box).
     (journal-form-name :type 'text-form-control 
 		       :default "Name")
     (journal-form-descr :type 'text-form-control 
 			:default "Description of task")
     
 					; Button that says "START"
-    (timer-button :type 'sheet-section 
-		  :inner-html (with-cl-who-string () 
-				((:button :onclick 
-					 (concatenate 'string 
-						      "timerStart('"
-						      (symbol-name (the timer-form-min id))
-						      "','"
-						      (symbol-name (the timer-form-sec id))
-						      "')"))
-					 "Start")))
+    
 
-    (journal-button :type 'sheet-section 
-		    :inner-html (with-cl-who-string () 
-				  ((:button :onclick (the (gdl-ajax-call
-							   :form-controls (list (the timer-form-min)
-										(the timer-form-sec)
-										(the journal-form-name)
-										(the journal-form-descr))
-										:function-key :record-journal-entry)))
-				   "Record entry")))
+    (journal-button :type 'button-form-control
+		    :onclick (the (gdl-ajax-call
+				   :form-controls (list (the timer-form-min)
+							(the timer-form-sec)
+							(the journal-form-name)
+							(the journal-form-descr))
+				   :function-key :record-journal-entry))
+		    :label "Record entry")
 
-					; Displays journal entries
+    ;; Displays journal entries
     (journal-entries-display :type 'sheet-section 
 			     :inner-html (progn (the force-update-flag) 
 						(with-cl-who-string () 

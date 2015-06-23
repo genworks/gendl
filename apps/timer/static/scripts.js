@@ -5,6 +5,8 @@ var timerStarted = false;
 var start_min, start_sec; 
 var min_id, sec_id; 
 
+function timerPause() {clearInterval(interval); timerStarted = false;}
+
 function timerStart(minid, secid) {
 
     if (timerStarted) {
@@ -34,6 +36,8 @@ function countDown() {
 	minutes--; 
     }
 
+    reportToMother(seconds, minutes);
+    
     if (minutes==0 && seconds==0) {
         clearInterval(interval); 
         timerStarted = false; 
