@@ -1,11 +1,15 @@
 body {
     padding: 0; 
-    margin: 0; 
+    margin-left: 10%; 
+    margin-right: 10%; 
     font-family: "Arial"; 
 }
 
 #content {
     text-align: center; 
+    width: 400px; 
+    margin-left: auto; 
+    margin-right: auto; 
 }
 
 input {
@@ -25,4 +29,21 @@ button {
 }
 button:hover {
     background-color: #ccc; 
+}
+
+.journal-entry {
+    padding: 10px; 
+    border-radius: 15px; 
+    border: 2px solid #eee; 
+    background-color: #eee; 
+    margin: 5px; 
+}
+.journal-time {
+    font-weight: bold; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+.journal-descr {
+    margin-left: auto; 
+    margin-right: auto; 
 }

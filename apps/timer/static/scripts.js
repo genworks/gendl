@@ -5,6 +5,7 @@ var timerStarted = false;
 var start_min, start_sec; 
 var min_id, sec_id; 
 
+
 function timerPause() {clearInterval(interval); timerStarted = false;}
 
 function timerStart(minid, secid) {
@@ -54,3 +55,24 @@ function countDown() {
     document.getElementById(sec_id).value = seconds; 
 
 }
+
+// Code for allowing journal entries to be repeated easily. 
+// Journal entry changes color on hover, 
+// contents get placed into the form on click. 
+
+$(document).ready(function(){
+    $(document).on("mouseenter", ".journal-entry", function(){ 
+	$(this).css('color', 'blue'); 
+	$(this).css('cursor', 'pointer'); 
+    });
+
+    $(document).on("mouseleave", ".journal-entry", function(){ 
+	$(this).css('color', '#000'); 
+    }); 
+    
+    $(document).on("click", ".journal-entry", function(){ 
+	alert($("#journal-descr").val()); 
+	$("#journal-descr").val($(this).find(".journal-descr").html()); 
+    }); 
+
+}); 

@@ -15,6 +15,7 @@
 
    (main-sheet-body (with-cl-who-string ()
 		      (:div :id "content" 
+			    (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
 			    (:script :src "/timer-static/scripts.js")
 			    (str (the timer-header main-div))
 			    (str (the timer-section main-div))
@@ -84,14 +85,17 @@ function reportToMother (seconds, minutes)
     ;; Form for the name and description (journal)
     ;; FLAG  -- make these into lookup items (menu-form-control or combo box).
     (journal-form-name :type 'text-form-control 
+		       :id "journal-name"
 		       :default "Name")
     (journal-form-descr :type 'text-form-control 
+			:id "journal-descr"
 			:default "Description of task")
     
 					; Button that says "START"
     
 
     (journal-button :type 'button-form-control
+		    :id "journal-button"
 		    :onclick (the (gdl-ajax-call
 				   :form-controls (list (the timer-form-min)
 							(the timer-form-sec)
@@ -104,7 +108,7 @@ function reportToMother (seconds, minutes)
     (journal-entries-display :type 'sheet-section 
 			     :inner-html (progn (the force-update-flag) 
 						(with-cl-who-string () 
-						  (fmt "Previous entries: ~{<p>~a</p>~}" 
+						  (fmt "Previous entries: ~{<div class='journal-entry'>~{<div class='journal-time'>~{~a min ~a secs~}</div>~%<div class='journal-descr'>~{~a ~}</div>~%~}</div>~}" 
 							  (the read-journal-entry))))))
 
   :functions 
