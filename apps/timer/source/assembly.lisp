@@ -18,6 +18,10 @@
 			    (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
 			    (:script :src "/timer-static/scripts.js")
 			    (str (the timer-header main-div))
+
+			    (str (the timer-form-min form-control-string))
+			    (str (the timer-form-sec form-control-string))
+			    
 			    (str (the timer-section main-div))
 			    (str (the journal-section main-div))
 			    (:br)
@@ -26,16 +30,18 @@
     (with-cl-who-string () 
       (:link :href "/timer-static/style/styles.css" 
 	     :rel "stylesheet"
-	     :type "text/css")))
+	     :type "text/css")
+      
+      ((:script :type "text/javascript") (str (the report-to-mother)))))
 
 
    (report-to-mother (format nil "
-function reportToMother (seconds, minutes)
+function reportToMother ()
  {~a}"
-			     (the (gdl-ajax-call :function-key :report-from-timer
-						 :arguments (list "seconds" "minutes"))))))
+			     (the (gdl-ajax-call :form-controls (list (the timer-form-min)
+								      (the timer-form-sec)))))))
 
-
+  
   :objects
   					; Header that says "TIMER"
    ((timer-header :type 'sheet-section 
@@ -45,8 +51,6 @@ function reportToMother (seconds, minutes)
 
     (timer-section :type 'sheet-section
 		   :inner-html (with-cl-who-string ()
-				 (str (the timer-form-min form-control-string))
-				 (str (the timer-form-sec form-control-string))
 				 (:br)
 				 (str (the start-button form-control-string))
 				 (str (the pause-button form-control-string))))

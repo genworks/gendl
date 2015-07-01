@@ -37,7 +37,7 @@ function countDown() {
 	minutes--; 
     }
 
-    reportToMother(seconds, minutes);
+    reportToMother();
     
     if (minutes==0 && seconds==0) {
         clearInterval(interval); 

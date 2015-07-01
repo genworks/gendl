@@ -34,7 +34,12 @@ Defaults to nil."
     primary? nil)
 
    ("String. You can use this to specify a user-defined class for the form-control. Defaults to nil, which means no class attribute will be generated."
-    class nil))
+    class nil)
+
+   ("Keyword symbol. The ID attribute for this tag. Defaults to (the field-name)." 
+    id (the field-name))
+
+   )
   
   :computed-slots
   (
@@ -66,8 +71,7 @@ Previously known as form-control-string. Default is the form-control-string."
 
                  
    
-   ("Keyword symbol. The ID attribute for this tag. Defaults to (the field-name)." 
-    id (the field-name))))
+   ))
 
 
 
