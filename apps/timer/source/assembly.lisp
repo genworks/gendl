@@ -8,7 +8,7 @@
  :destination (format nil "~a" (probe-file (merge-pathnames "../static/" *source-path*))))
 
 
-(define-object assembly (base-ajax-sheet)
+(define-object assembly (background-timer-mixin base-ajax-sheet)
 
   :input-slots ((timer-minutes-default 20)
 		(timer-seconds-default 0))
@@ -110,7 +110,8 @@ function reportToMother ()
 		  :label "Start")
 
     (pause-button :type 'button-form-control
-		  :onclick (format nil  "timerPause()")
+		  :onclick (string-append (format nil  "timerPause();")
+					  (the (gdl-ajax-call :function-key :cancel-background-timer)))
 		  :label "Pause")
 
     (reset-button :type 'button-form-control
@@ -148,11 +149,7 @@ function reportToMother ()
 							  (the read-journal-entry))))))
 
   :functions 
-  ((start-background-timer
-    ()
-
-    )
-
+  (
 
    (timer-reset ()
 		(the timer-form-min restore-defaults!)
