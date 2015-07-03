@@ -6,7 +6,7 @@ var start_min, start_sec;
 var min_id, sec_id; 
 
 
-function timerPause() {clearInterval(interval); timerStarted = false;}
+function timerPause() {clearInterval(interval); reportToMother(); timerStarted = false;}
 
 function timerStart(minid, secid) {
 
@@ -37,22 +37,25 @@ function countDown() {
 	minutes--; 
     }
 
-    reportToMother();
+    document.getElementById(min_id).value = minutes; 
+    document.getElementById(sec_id).value = seconds; 
     
     if (minutes==0 && seconds==0) {
-        clearInterval(interval); 
+        clearInterval(interval);
+	reportToMother();
         timerStarted = false; 
-        
-        document.getElementById(min_id).value = start_min; 
-        document.getElementById(sec_id).value = start_sec; 
+
+	//
+	//// Let user reset explicitly.
+	//
+        //document.getElementById(min_id).value = start_min; 
+        //document.getElementById(sec_id).value = start_sec; 
         
         alert('Please record your journal entry for this time.'); 
         
         return;
     }
 
-    document.getElementById(min_id).value = minutes; 
-    document.getElementById(sec_id).value = seconds; 
 
 }
 

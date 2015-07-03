@@ -9,18 +9,23 @@
 
 
 (define-object assembly (base-ajax-sheet)
+
+  :input-slots ((timer-minutes-default 20)
+		(timer-seconds-default 0))
   
   :computed-slots
   ((force-update-flag nil :settable)
 
    (main-sheet-body (with-cl-who-string ()
+		      
+		      (str (the development-links))
+		      
 		      (:div :id "content" 
 			    (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
 			    (:script :src "/timer-static/scripts.js")
 			    (str (the timer-header main-div))
 
-			    (str (the timer-form-min form-control-string))
-			    (str (the timer-form-sec form-control-string))
+
 			    
 			    (str (the timer-section main-div))
 			    (str (the journal-section main-div))
@@ -51,9 +56,18 @@ function reportToMother ()
 
     (timer-section :type 'sheet-section
 		   :inner-html (with-cl-who-string ()
+				 
+				 "Current: " (str (the timer-form-min form-control-string))
+				 (str (the timer-form-sec form-control-string))
 				 (:br)
 				 (str (the start-button form-control-string))
-				 (str (the pause-button form-control-string))))
+				 (str (the pause-button form-control-string))
+				 (str (the reset-button form-control-string))
+				 (:br)
+				 "Defaults: " (str (the timer-form-min-default form-control-string))
+				 (str (the timer-form-sec-default form-control-string))
+
+				 ))
 
 
     (journal-section :type 'sheet-section
@@ -65,25 +79,43 @@ function reportToMother ()
 				   (:br)
 				   (str (the journal-button form-control-string))))
 
-				 
+
+
+
+    (timer-form-min-default :type 'text-form-control
+			    :ajax-submit-on-change? t
+			    :default (format nil "~a" (the timer-minutes-default))
+			    :size 2)
+    
+    (timer-form-sec-default :type 'text-form-control
+			    :ajax-submit-on-change? t
+			    :default (format nil "~2,'0d" (the timer-seconds-default))
+			    :size 2)
+
+    
 
 					; Form for the timer. 
     (timer-form-min :type 'text-form-control
-		    :default "20"
+		    :default (format nil "~a" (the timer-form-min-default value))
 		    :size 2)
     (timer-form-sec :type 'text-form-control
-		    :default "00"
+		    :default (format nil "~2,'0d" (the timer-form-sec-default value))
 		    :size 2)
 
     (start-button :type 'button-form-control
-		  :onclick (format nil  "timerStart('~a','~a')"
-				   (symbol-name (the timer-form-min id))
-				   (symbol-name (the timer-form-sec id)))
+		  :onclick (string-append (format nil  "timerStart('~a','~a');"
+						  (symbol-name (the timer-form-min id))
+						  (symbol-name (the timer-form-sec id)))
+					  (the (gdl-ajax-call :function-key :start-background-timer)))
 		  :label "Start")
 
     (pause-button :type 'button-form-control
 		  :onclick (format nil  "timerPause()")
 		  :label "Pause")
+
+    (reset-button :type 'button-form-control
+		  :onclick (the (gdl-ajax-call :function-key :timer-reset))
+		  :label "Reset")
     
     
     ;; Form for the name and description (journal)
@@ -116,7 +148,18 @@ function reportToMother ()
 							  (the read-journal-entry))))))
 
   :functions 
-  ((read-journal-entry () 
+  ((start-background-timer
+    ()
+
+    )
+
+
+   (timer-reset ()
+		(the timer-form-min restore-defaults!)
+		(the timer-form-sec restore-defaults!))
+
+
+   (read-journal-entry () 
 		       (let ((file-contents
 			      (with-open-file 
 				  (stream 
