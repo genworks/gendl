@@ -5,13 +5,13 @@
  :description
  "The Gendl™ timer Subsystem"
  :author
- "Dave Cooper"
+ "Genworks International"
  :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)"
  :serial
  t
  :version
- "20150611"
+ "20150703"
  :depends-on
  nil
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
@@ -19,4 +19,5 @@
  :components
  ((:file "source/package")
   (:file "source/assembly")
+  (:file "source/background-timer")
   (:file "source/publish")))
