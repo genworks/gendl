@@ -209,12 +209,25 @@
 	  (when (find-package :gendl) (in-package :gdl-user)))" *gendl-home*))
 
 
+;;
+;; DAP -- user can also setq this in ~/.emacs-gdl
+;;
+(defvar user-startup-string "")
+
 (defun load-and-or-start-gendl ()
   (setq slime-enable-evaluate-in-emacs t)
   (slime-repl)
   (insert gdl-startup-string)
   (slime-repl-return)
-  (end-of-buffer))
+  (end-of-buffer)
+
+  ;;
+  ;; DAP  -- Added to support user-startup-string
+  ;;
+  (slime-repl-return)
+  (insert user-startup-string)
+  (slime-repl-return)
+  )
 
 
 
@@ -331,6 +344,16 @@
     (end-of-buffer)
     (goto-char (point-max))
     (insert gdl-startup-string)
+    (fi:inferior-lisp-newline)
+    (end-of-buffer)
+
+
+    ;;
+    ;; DAP - Added to support user-startup-string
+    ;;
+    (end-of-buffer)
+    (goto-char (point-max))
+    (insert user-startup-string)
     (fi:inferior-lisp-newline)
     (end-of-buffer)))
 
