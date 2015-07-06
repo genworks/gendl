@@ -71,5 +71,5 @@
 ;; FLAG -- for debug use only. 
 ;;
 (defun kill-bt ()
-  (let ((threads (remove-if-not #'(lambda(proc) (string-equal (slot-value proc 'mp:process-name) "Background timer")) (bt:all-threads))))
+  (let ((threads (remove-if-not #'(lambda(proc) (string-equal (bt:thread-name proc) "Background timer")) (bt:all-threads))))
     (mapc #'bt:destroy-thread threads)))
