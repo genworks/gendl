@@ -22,6 +22,7 @@
 		      
 		      (:div :id "content" 
 			    (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
+			    (:script :src "/timer-static/plugins/hideseek/jquery.hideseek.min.js")
 			    (:script :src "/timer-static/scripts.js")
 			    (str (the timer-header main-div))
 
@@ -57,14 +58,16 @@ function reportToMother ()
     (timer-section :type 'sheet-section
 		   :inner-html (with-cl-who-string ()
 				 
-				 "Current: " (str (the timer-form-min form-control-string))
+				 "Current: <br>" (str (the timer-form-min form-control-string))
+				 ":"
 				 (str (the timer-form-sec form-control-string))
 				 (:br)
 				 (str (the start-button form-control-string))
 				 (str (the pause-button form-control-string))
 				 (str (the reset-button form-control-string))
 				 (:br)
-				 "Defaults: " (str (the timer-form-min-default form-control-string))
+				 "Defaults: <br>" (str (the timer-form-min-default form-control-string))
+				 ":"
 				 (str (the timer-form-sec-default form-control-string))
 
 				 ))
@@ -120,7 +123,6 @@ function reportToMother ()
     
     
     ;; Form for the name and description (journal)
-    ;; FLAG  -- make these into lookup items (menu-form-control or combo box).
     (journal-form-name :type 'text-form-control 
 		       :id "journal-name"
 		       :default "Name")
@@ -145,7 +147,7 @@ function reportToMother ()
     (journal-entries-display :type 'sheet-section 
 			     :inner-html (progn (the force-update-flag) 
 						(with-cl-who-string () 
-						  (fmt "Previous entries: ~{<div class='journal-entry'>~{<div class='journal-time'>~{~a min ~a secs~}</div>~%<div class='journal-descr'>~{~a ~}</div>~%~}</div>~}" 
+						  (fmt "Previous entries: <ul class=\"journal\">~{<li class='journal-entry'>~{<div class='journal-time'>~{~a min ~a secs~}</div>~%<div class='journal-descr'>~{~a ~}</div>~%~}</li>~}</ul>" 
 							  (the read-journal-entry))))))
 
   :functions 

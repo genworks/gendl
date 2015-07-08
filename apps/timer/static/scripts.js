@@ -45,11 +45,9 @@ function countDown() {
 	reportToMother();
         timerStarted = false; 
 
-	//
-	//// Let user reset explicitly.
-	//
-        //document.getElementById(min_id).value = start_min; 
-        //document.getElementById(sec_id).value = start_sec; 
+	// Sorry, we have to keep these lines for now. 
+        document.getElementById(min_id).value = start_min; 
+        document.getElementById(sec_id).value = start_sec; 
         
         alert('Please record your journal entry for this time.'); 
         
@@ -59,23 +57,44 @@ function countDown() {
 
 }
 
+$(document).ready(function(){
+
 // Code for allowing journal entries to be repeated easily. 
 // Journal entry changes color on hover, 
 // contents get placed into the form on click. 
 
-$(document).ready(function(){
     $(document).on("mouseenter", ".journal-entry", function(){ 
-	$(this).css('color', 'blue'); 
+	$(this).css('background-color', 'rgba(255,255,255,0.5)'); 
 	$(this).css('cursor', 'pointer'); 
     });
 
     $(document).on("mouseleave", ".journal-entry", function(){ 
-	$(this).css('color', '#000'); 
+	$(this).css('background-color', 'rgba(255,255,255,0)'); 
     }); 
     
     $(document).on("click", ".journal-entry", function(){ 
-	alert($("#journal-descr").val()); 
 	$("#journal-descr").val($(this).find(".journal-descr").html()); 
     }); 
 
+// Code for disappearing default values in journal form fields onclick.
+
+    $(document).on("click", "#journal-name", function(){ 
+	if($(this).val()=="Name") {
+	    $(this).val(""); 
+	}
+    }); 
+
+    $(document).on("click", "#journal-descr", function(){
+	if($(this).val()=="Description of task") {
+	    $(this).val(""); 
+	}
+    }); 
+
+// HideSeek code for implementing the live search.
+
+    $("#journal-descr").data("list", ".journal"); 
+    $("#journal-descr").hideseek(); 
+
 }); 
+
+
