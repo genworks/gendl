@@ -3,10 +3,12 @@
 (defparameter *source-path* (make-pathname :directory (pathname-directory (glisp:source-pathname))
 					   :name nil :type nil))
 
-(publish-directory 
- :prefix "/timer-static/"
- :destination (format nil "~a" (probe-file (merge-pathnames "../static/" *source-path*))))
+(defun initialize ()
+  (publish-directory 
+   :prefix "/timer-static/"
+   :destination (format nil "~a" (probe-file (merge-pathnames "../static/" *source-path*)))))
 
+(initialize)
 
 (define-object assembly (background-timer-mixin base-ajax-sheet)
 
