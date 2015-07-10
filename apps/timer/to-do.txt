@@ -1,0 +1,5 @@
+
+
+1. Make it so you can't make another journal entry until the next timer period is up.
+
+

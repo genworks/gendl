@@ -11,7 +11,7 @@
  :serial
  t
  :version
- "20150703"
+ "20150710"
  :depends-on
  nil
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
@@ -20,4 +20,5 @@
  ((:file "source/package")
   (:file "source/assembly")
   (:file "source/background-timer")
+  (:file "source/parameters")
   (:file "source/publish")))

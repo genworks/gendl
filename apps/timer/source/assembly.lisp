@@ -147,10 +147,23 @@ function reportToMother ()
 
     ;; Displays journal entries
     (journal-entries-display :type 'sheet-section 
-			     :inner-html (progn (the force-update-flag) 
-						(with-cl-who-string () 
-						  (fmt "Previous entries: <ul class=\"journal\">~{<li class='journal-entry'>~{<div class='journal-time'>~{~a min ~a secs~}</div>~%<div class='journal-descr'>~{~a ~}</div>~%~}</li>~}</ul>" 
-							  (the read-journal-entry))))))
+			     :inner-html (let ((journal-entries (the read-journal-entry)))
+					   (the force-update-flag) 
+					   (with-cl-who-string ()
+
+					     
+					     "Previous entries: "
+					     ((:ul :class "journal")
+					      (dolist (entry journal-entries)
+						(htm ((:li :class "journal-entry")
+						      ((:div :class "journal-time") (fmt "~s" (first entry)))
+						      ((:div :class "journal-descr") (fmt "~a" (first (second entry))))))))
+
+					     #+nil
+					     (fmt "Previous entries: <ul class=\"journal\">~{<li class='journal-entry'>~{<div class='journal-time'>~{~a min ~a secs~}</div>~%<div class='journal-descr'>~{~a ~}</div>~%~}</li>~}</ul>" 
+						  journal-entries)
+
+					     ))))
 
   :functions 
   (
@@ -164,9 +177,8 @@ function reportToMother ()
 		       (let ((file-contents
 			      (with-open-file 
 				  (stream 
-				   (concatenate 'string 
-						(namestring (merge-pathnames "../db/" *source-path*)) 
-						(the journal-form-name value))
+				   (string-append (namestring (merge-pathnames "../db/" *source-path*)) 
+						  (the journal-form-name value))
 				   :direction :input
 				   :if-does-not-exist :create)
 				(read stream nil nil)))) 
@@ -181,18 +193,20 @@ function reportToMother ()
 			 (the toggle-update-flag!)
 			 (with-open-file 
 			     (stream 
-			      (concatenate 'string 
-					   (namestring (merge-pathnames "../db/" *source-path*))
-					   (the journal-form-name value))
+			      (string-append (namestring (merge-pathnames "../db/" *source-path*))
+					     (the journal-form-name value))
 			      :direction :output
 			      :if-does-not-exist :create
 			      :if-exists :overwrite)
 			   (write 
 			    (append 
 			     (list (list 
-				    (list (the timer-form-min value)
+				    (list (get-universal-time)
+					  (the timer-form-min-default value)
+					  (the timer-form-sec-default value)
+					  (the timer-form-min value)
 					  (the timer-form-sec value))
 				    (list (the journal-form-descr value))))
 			     (the read-journal-entry)) 
-			    :stream stream)))))
-
+			    :stream stream))
+			 (the cancel-background-timer))))

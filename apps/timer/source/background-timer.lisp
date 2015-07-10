@@ -21,12 +21,37 @@
 	    (the background-minutes)
 	    (the background-seconds)
 	    (the timer-form-min value)
-	    (the timer-form-sec value)))
+	    (the timer-form-sec value))
 
+    (sleep 120)
 
+    #+allegro
+    (net.post-office:send-letter 
+		       *smtp-server*
+		       "timer@gendl.org"
+		       "david.cooper@genworks.com"
+		       (format nil "Dear Citizen,
+
+Your latest time unit has expired and no journal entry has been
+received. Please take care of this matter immediately at the following
+location:
+ 
+ ~a
+
+Regards,
+
+ Bureau of Records Enforcement 
+ The Ministry of Time
+
+"
+			       (the url))
+		       :subject "Journal Entry needed"))
+
+   
    (cancel-background-timer
     ()
-    (bt:destroy-thread (the background-timer-thread))
+    (when (the background-timer-thread)
+      (bt:destroy-thread (the background-timer-thread)))
     (the (restore-slot-default! :background-timer-thread)))
     
 
@@ -59,7 +84,8 @@
 					 (the (set-slots! (list :background-seconds 59 :background-minutes (1- (the background-minutes)))))
 					 (the (set-slot! :background-seconds seconds))))
 
-				   (format t "~&~%Background Timer woke up, min: ~a, sec: ~a~%~%" (the background-minutes) (the background-seconds))
+				   (when *debug?*
+				     (format t "~&~%Background Timer woke up, min: ~a, sec: ~a~%~%" (the background-minutes) (the background-seconds)))
 
 				 
 				   )))
