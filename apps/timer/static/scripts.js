@@ -2,59 +2,61 @@ var minutes, seconds;
 var interval; 
 var timerStarted = false; 
 
-var start_min, start_sec; 
-var min_id, sec_id; 
+function timerStart() {
 
-
-function timerPause() {clearInterval(interval); reportToMother(); timerStarted = false;}
-
-function timerStart(minid, secid) {
-
-    if (timerStarted) {
-	return; 
-    }
+    if (timerStarted)
+        return; 
 
     timerStarted = true; 
 
-    minutes = parseInt(document.getElementById(minid).value); 
-    seconds = parseInt(document.getElementById(secid).value); 
-
-    min_id = minid; 
-    sec_id = secid; 
+    minutes = parseInt(document.getElementById("minutes").value); 
+    seconds = parseInt(document.getElementById("seconds").value); 
     
-    start_min = minutes; 
-    start_sec = seconds;
+    startTimerAjax(); 
     
     interval = setInterval(countDown, 1000); 
 
 }
 
-function countDown() {
+function timerPause() {
+    clearInterval(interval); 
+    timerStarted = false;
+}
 
+function timerReset() {
+    resetTimerAjax(); 
+    
+    clearInterval(interval);
+    timerStarted = false; 
+    
+    document.getElementById("minutes").value = "20"; 
+    document.getElementById("seconds").value = "00"; 
+}
+
+function recordJournal() {
+    recordJournalAjax(); 
+}
+
+function countDown() {
     seconds--; 
     if (seconds==-1) {
 	seconds = 59; 
 	minutes--; 
     }
 
-    document.getElementById(min_id).value = minutes; 
-    document.getElementById(sec_id).value = seconds; 
+    document.getElementById("minutes").value = minutes; 
+    document.getElementById("seconds").value = seconds; 
     
     if (minutes==0 && seconds==0) {
         clearInterval(interval);
-	reportToMother();
         timerStarted = false; 
-
-	// Sorry, we have to keep these lines for now. 
-        document.getElementById(min_id).value = start_min; 
-        document.getElementById(sec_id).value = start_sec; 
         
         alert('Please record your journal entry for this time.'); 
         
+        endTimerAjax(); 
+        
         return;
     }
-
-
 }
 
 $(document).ready(function(){
@@ -78,13 +80,19 @@ $(document).ready(function(){
 
 // Code for disappearing default values in journal form fields onclick.
 
-    $(document).on("click", "#journal-name", function(){ 
+    $(document).on("click", "#user-name", function(){ 
 	if($(this).val()=="Name") {
 	    $(this).val(""); 
 	}
     }); 
 
-    $(document).on("click", "#journal-descr", function(){
+    $(document).on("click", "#user-email", function(){ 
+        if($(this).val()=="Email") {
+            $(this).val(""); 
+        }
+    }); 
+    
+    $(document).on("click", "#journal-entry", function(){
 	if($(this).val()=="Description of task") {
 	    $(this).val(""); 
 	}
