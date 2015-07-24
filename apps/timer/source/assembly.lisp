@@ -83,9 +83,11 @@
 		       (str (the ajax-scripts))
 		       (str (the imported-scripts))
 		       ((:h1 :id "header") "timer")
+		       (str (the timer-defaults-form main-div))
 		       (str (the timer-form main-div))
 		       (str (the journal-form main-div))
-		       (str (the journal-entries-display main-div)))))
+		       ((:ul :id "journal") 
+			(str (the journal-entries-display main-div))))))
    (additional-header-content 
     (the imported-css))
    ; ------------------------------------------------------------------------------ ;
@@ -154,19 +156,21 @@
 		   :size 2)
    ; The default minutes field. 
    (timer-default-form-min :type 'text-form-control 
-		   :default (format nil "~a" (the timer-minutes-default))
-		   :id "default-minutes"
-		   :size 2)
+			   :ajax-submit-on-change? t
+			   :default (format nil "~a" (the timer-minutes-default))
+			   :id "default-minutes"
+			   :size 2)
    ; The default seconds field. 
-   (timer-default-form-sec :type 'text-form-control 
-		   :default (format nil "~2,'0d" (the timer-seconds-default)) 
-		   :id "default-seconds"
-		   :size 2)
+   (timer-default-form-sec :type 'text-form-control
+			   :ajax-submit-on-change? t
+			   :default (format nil "~2,'0d" (the timer-seconds-default)) 
+			   :id "default-seconds"
+			   :size 2)
    ; The field for your name. 
    (name-form :type 'text-form-control 
 	      :default "Name"
 	      :id "user-name")
-   ; The field for your email.
+					; The field for your email.
    (email-form :type 'text-form-control 
 	       :default "Email"
 	       :id "user-email")
@@ -233,6 +237,7 @@
    (timer-form 
     :type 'sheet-section 
     :inner-html (with-cl-who-string ()
+		  "Timer" (:br)
 		  (str (the timer-form-min form-control-string)) ":" 
 		  (str (the timer-form-sec form-control-string))
 		  (:br)
@@ -241,6 +246,13 @@
 		  (str (the timer-start-button form-control-string)) 
 		  (str (the timer-pause-button form-control-string))
 		  (str (the timer-reset-button form-control-string))))
+   ; The form for the timer defaults. 
+   (timer-defaults-form 
+    :type 'sheet-section 
+    :inner-html (with-cl-who-string () 
+		  "Defaults" (:br) 
+		  (str (the timer-default-form-min form-control-string)) ":" 
+		  (str (the timer-default-form-sec form-control-string))))
    ; The form for the journal entry. 
    (journal-form 
     :type 'sheet-section 
@@ -298,24 +310,30 @@
    ; Called when the reset button is pressed. Cancels the background timer. 
    (reset-timer-tasks 
     ()
-    (the cancel-background-timer))
+    (the cancel-background-timer)
+    (the timer-form-min restore-defaults!)
+    (the timer-form-sec restore-defaults!))
 
    ; Called when the button for recording the journal entry is pressed. 
    ; It records the journal entry's content and then writes it to a file.
    (record-journal-entry 
     () 
     (the toggle-update-flag!)
-    (the current-journal-entry (set-slot! :content 
+    (if (and (eq (the timer-form-min value) "0")
+	     (eq (the timer-form-sec value) "0"))
+	(progn (the current-journal-entry (set-slot! :content 
 					 (the journal-entry-form value)))
-    (with-open-file 
-	(stream 
-	 (string-append (namestring (merge-pathnames "../db/" *source-path*)) 
-			(the email-form value))
-	 :direction :output 
-	 :if-does-not-exist :create
-	 :if-exists :append) 
-      (write 
-       (the current-journal-entry to-serialization) 
-       :stream stream)))))
+	       (with-open-file 
+		   (stream 
+		    (string-append (namestring (merge-pathnames "../db/" *source-path*)) 
+				   (the email-form value))
+		    :direction :output 
+		    :if-does-not-exist :create
+		    :if-exists :append) 
+		 (write 
+		  (the current-journal-entry to-serialization) 
+		  :stream stream)))
+	nil))))
+
 
 

@@ -29,8 +29,8 @@ function timerReset() {
     clearInterval(interval);
     timerStarted = false; 
     
-    document.getElementById("minutes").value = "20"; 
-    document.getElementById("seconds").value = "00"; 
+    document.getElementById("minutes").value = document.getElementById("default-minutes").value; 
+    document.getElementById("seconds").value = document.getElementById("default-seconds").value; 
 }
 
 function recordJournal() {
@@ -75,7 +75,7 @@ $(document).ready(function(){
     }); 
     
     $(document).on("click", ".journal-entry", function(){ 
-	$("#journal-descr").val($(this).find(".journal-descr").html()); 
+	$("#journal-entry").val($(this).find(".journal-descr").html());  
     }); 
 
 // Code for disappearing default values in journal form fields onclick.
@@ -100,8 +100,8 @@ $(document).ready(function(){
 
 // HideSeek code for implementing the live search.
 
-    $("#journal-descr").data("list", ".journal"); 
-    $("#journal-descr").hideseek(); 
+    $("#journal-entry").data("list", "#journal"); 
+    $("#journal-entry").hideseek(); 
 
 }); 
 
