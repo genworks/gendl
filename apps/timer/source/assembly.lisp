@@ -2,7 +2,9 @@
 
 (defparameter *source-path* 
   (make-pathname :directory (pathname-directory (glisp:source-pathname))
-					   :name nil :type nil))
+		 :name nil :type nil))
+
+
 (defun initialize ()
   (publish-directory 
    :prefix "/timer-static/"
@@ -55,7 +57,7 @@
 	   :name :email :time-set :universal-time-start 
 	   :universal-time-end :content :id))) 
       (mapcar 
-       (lambda (x y) (the (set-slot! x y))) 
+       (lambda (x y) (the (set-slot! x y :warn-on-non-toplevel? nil))) 
        fields-list deserialization)))
    ; Creates the HTML representation of this journal entry
    (to-html
@@ -317,10 +319,13 @@
    ; Called when the button for recording the journal entry is pressed. 
    ; It records the journal entry's content and then writes it to a file.
    (record-journal-entry 
-    () 
+    ()
+
+    (print-variables (the background-minutes) (the background-seconds))
+    
     (the toggle-update-flag!)
-    (if (and (eq (the timer-form-min value) "0")
-	     (eq (the timer-form-sec value) "0"))
+    (if (and (zerop (the background-minutes))
+	     (zerop (the background-seconds)))
 	(progn (the current-journal-entry (set-slot! :content 
 					 (the journal-entry-form value)))
 	       (with-open-file 

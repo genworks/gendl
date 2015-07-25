@@ -339,7 +339,7 @@
   #+allegro excl:*source-pathname*
   #+lispworks dspec:*source-pathname*
   #+sbcl (error "need source-pathname in sbcl~%")
-  #+ccl ccl:*loading-file-source-file*
+  #+ccl (translate-logical-pathname ccl:*loading-file-source-file*)
   #+clisp (error "need source-pathname in ccl~%")
   #+abcl (extensions:source-pathname)
   )
