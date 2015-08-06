@@ -151,7 +151,9 @@ written consent from Genworks International.")
 			    :direction :output
 			    :if-exists :overwrite
 			    :if-does-not-exist :create)
-      (format stream css-string))))
+      (format stream css-string)
+      output-path)))
+
       
 (defun make-html-and-css (&key (output-directory (merge-pathnames "tmp/" (user-homedir-pathname)))
 		 (html-output-file-namestring "tutorial.html")
