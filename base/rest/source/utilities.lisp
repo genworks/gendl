@@ -817,6 +817,11 @@ toplevel inputs as specified in the snapshot file.
 
 (defparameter *dep-hash-threshhold* 1000)
 
+(defparameter *invalid-aggregate-behavior* :error)
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (export '*invalid-aggregate-behavior* :gdl))
+
 (defun add-notify-cons (notify-cons value &optional self message)
   ;;
   ;; FLAG -- this was added as a fix for github Issue #69, but causes
@@ -834,13 +839,39 @@ toplevel inputs as specified in the snapshot file.
     (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
       (when (and (consp aggregate)
 		 (not (consp (gdl-acc::%aggregate% self))))
-	(let ((num-value (gdl-acc::number-of-elements (first aggregate))))
-	  (when (and (consp num-value)
-		     (let ((value (funcall message self)))
-		       (not 
-			(and (consp value) 
-			     (typep (first value) 'gdl-basis)))))
-	    (add-notify-cons (list self message) num-value))))))
+	(let ((agg (first aggregate)))
+	  (if agg
+	      (let ((num-value (gdl-acc::number-of-elements agg)))
+		(when (and (consp num-value)
+			   (let ((value (funcall message self)))
+			     (not 
+			      (and (consp value) 
+				   (typep (first value) 'gdl-basis)))))
+		  (add-notify-cons (list self message) num-value)))
+
+	      (let ((error-message (format nil "
+!!! 
+
+ Invalid internal Gendl data structure detected. 
+
+  notify-cons = ~s
+
+  aggregate = ~a
+
+  value = ~s
+
+  self = ~a
+
+  message = ~s
+
+
+!!!
+"
+					   notify-cons aggregate value self message)))
+		(ecase *invalid-aggregate-behavior*
+		  (:error (error error-message))
+		  (:warn (warn error-message))
+		  (nil ))))))))
   (let ((second (second value)))
     (if (and (listp second) (< (length second) *dep-hash-threshhold*))
 	(let ((matching-sublist (assoc (first notify-cons) (second value))))

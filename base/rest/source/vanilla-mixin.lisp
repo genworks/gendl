@@ -354,32 +354,33 @@ or all mixins from the entire inheritance hierarchy.\")"
 reading from databases or external files). Defaults to nil.\")"
     restore-slot-default!
     (attribute &key (force? *force-restore-slot-default?*))
-    (when (or force? (eql (the (slot-status attribute)) :set))
-      (let (*leaf-resets*)
-        (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
-          (unless (eq (first (ensure-list (slot-value self slot))) 'gdl-rule::%unbound%)
-            (unbind-dependent-slots self slot) 
-            (setf (slot-value self slot) 
-              (if *remember-previous-slot-values?*
-                  (list 'gdl-rule::%unbound% nil nil (first (slot-value self slot)))
-                'gdl-rule::%unbound%))))
-        (let ((root (the :root)) 
+    (bt:with-lock-held (*binding-lock*)
+      (when (or force? (eql (the (slot-status attribute)) :set))
+	(let (*leaf-resets*)
+	  (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
+	    (unless (eq (first (ensure-list (slot-value self slot))) 'gdl-rule::%unbound%)
+	      (unbind-dependent-slots self slot) 
+	      (setf (slot-value self slot) 
+		    (if *remember-previous-slot-values?*
+			(list 'gdl-rule::%unbound% nil nil (first (slot-value self slot)))
+			'gdl-rule::%unbound%))))
+	  (let ((root (the :root)) 
               
-              (root-path (remove :root-object-object (the root-path)))
-              ;;(root-path (the root-path))
+		(root-path (remove :root-object-object (the root-path)))
+		;;(root-path (the root-path))
               
-              )
-          ;;
-          ;; FLAG -- this pushnew should never be necessary...
-          ;;
-          (pushnew (list root-path)
-                   (gdl-acc::%version-tree% root) :test #'equalp :key #'(lambda(item) (list (first item))))
-          (setf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) 
-            (remove-plist-key  (rest (assoc root-path
-                                            (gdl-acc::%version-tree% root) :test #'equalp)) attribute)))
-        (when *eager-setting-enabled?*
-          (dolist (reset *leaf-resets*)
-            (the-object (first reset) (evaluate (second reset))))))))
+		)
+	    ;;
+	    ;; FLAG -- this pushnew should never be necessary...
+	    ;;
+	    (pushnew (list root-path)
+		     (gdl-acc::%version-tree% root) :test #'equalp :key #'(lambda(item) (list (first item))))
+	    (setf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) 
+		  (remove-plist-key  (rest (assoc root-path
+						  (gdl-acc::%version-tree% root) :test #'equalp)) attribute)))
+	  (when *eager-setting-enabled?*
+	    (dolist (reset *leaf-resets*)
+	      (the-object (first reset) (evaluate (second reset)))))))))
    
    
    (restore-attribute-default! (attribute) (the (restore-slot-default! attribute)))
@@ -510,7 +511,7 @@ from
 			       value
 			       (cons 'the (append (reverse (the-object (first *notify-cons*) root-path))
 						  (list (make-keyword (second *notify-cons*)))))))
-    (progn ;; bt:with-lock-held (*binding-lock*) FLAG - bring in later in bootstrapping. 
+    (bt:with-lock-held (*binding-lock*)
       (unless (eql attribute :%primary?%)
 	(when (not *run-with-dependency-tracking?*)
 	  (error "Dependency Tracking must be enabled in order to forcibly
@@ -886,10 +887,7 @@ a separate object hierarchy." object self)))
 
 (defparameter *unbound-slots* nil)
 
-;;
-;; FLAG -- bring this in later in bootstrapping when we have bordeaux-threads. 
-;;
-;;(defparameter *binding-lock* (bt:make-lock "unbinding-lock"))
+(defparameter *binding-lock* (bt:make-lock "unbinding-lock"))
 
 (defun unbind-dependent-slots (object slot &key updating?)
   (let ((*unbound-slots* (glisp:make-sans-value-equalp-hash-table)))
