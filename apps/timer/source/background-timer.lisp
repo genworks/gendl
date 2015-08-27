@@ -28,7 +28,7 @@
     #+allegro
     (net.post-office:send-letter 
 		       *smtp-server*
-		       "timer@gendl.org"
+		       "support@genworks.com"
 		       "david.cooper@genworks.com"
 		       (format nil "Dear Citizen,
 

@@ -10,25 +10,66 @@
 		(content "" :settable))             ; content of the journal
 
   :computed-slots 
-  ((id (string-append (the name) "-"
-		      (write-to-string (random 10000)) "-"
-		      (write-to-string (the universal-time-start))))
+  ((id                                    ; unique identifier for this journal entry
+    (concatenate 'string 
+		 (the name) 
+		 (write-to-string 
+		  (the universal-time-start))))
+   (time-elapsed                          ; actual amount of time elapsed
+    (decode-universal-time 
+     (- (the universal-time-end) 
+	(the universal-time-start)))))
 
-   (inner-html (with-cl-who-string ()
-		 ((:li :class "journal-entry") 
-		  ((:div :class "journal-time") 
-		   (fmt "~a" (the time-set)))
-		  ((:div :class "journal-descr") 
-		   (fmt "~a" (the content))))))))
-
+  :functions
+  ; Creates the string serialization of the journal entry. 
+  ((to-serialization
+    ()
+    (write-to-string 
+     (list 
+      (the name) 
+      (the email) 
+      (the time-set)
+      (the universal-time-start)
+      (the universal-time-end)
+      (the content)
+      (the id))
+     :readably t))
+   ; Reads from the serialization of the journal entry.
+   ; Populates the fields of this journal entry object.
+   (from-serialization 
+    (serialized-string) 
+    (let 
+	((deserialization  
+	  (read-from-string serialized-string))
+	 (fields-list 
+	  (list 
+	   :name :email :time-set :universal-time-start 
+	   :universal-time-end :content :id))) 
+      (mapcar 
+       (lambda (x y) (the (set-slot! x y :warn-on-non-toplevel? nil))) 
+       fields-list deserialization)))
+   ; Creates the HTML representation of this journal entry
+   (to-html
+    ()
+    (with-cl-who-string ()
+      ((:li :class "journal-entry") 
+       ((:div :class "journal-time") 
+	(fmt "~a" (the time-set)))
+       ((:div :class "journal-descr") 
+	(fmt "~a" (the content))))))))
 
 (define-object assembly (background-timer-mixin base-ajax-sheet)
 
   :input-slots ((timer-minutes-default 20)
-		(timer-seconds-default 0))
+		(timer-seconds-default 0)
+		(current-journal-entry nil)
+		(timer-paused nil))
   
   :computed-slots
-  ((main-sheet-body (with-cl-who-string ()
+  ((force-update-flag nil :settable)
+   ; ------------------------------------------------------------------------------ ;
+   ; Main sheet body puts everything together. 
+   (main-sheet-body (with-cl-who-string ()
 		      ((:div :id "content") 
 		       (str (the ajax-scripts))
 		       (str (the imported-scripts))
