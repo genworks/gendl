@@ -70,7 +70,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
     (net.aserve:shutdown)
     (let ((wait-time 1))
       (block :outer
-	(do () ()
+	(do () (nil)
 	  (let ((port port))
 	    (block :inner
 	      (do ((port-free? (client-test port) (client-test port)))
