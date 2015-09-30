@@ -16,3 +16,6 @@ This is expected to be set at startup in a runtime application.")
   "Pathname or string. Points to the directory containing the static files. 
 This is expected to be set at startup in a runtime application.")
 
+
+(setq gwl:*developing?* t)
+(setq *debug?* t)

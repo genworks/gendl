@@ -62,10 +62,11 @@ Regards,
       (warn "Background timer already running. Terminating...~%")
       (the cancel-background-timer))
     
-    (the (set-slots! (list :background-seconds (parse-integer (the timer-form-sec value))
-			   :background-minutes (parse-integer (the timer-form-min value)))))
+    (the (set-slots! (list :background-seconds (the timer-form-sec value)
+			   :background-minutes (the timer-form-min value))))
 
-    (format t "~&~%Starting Background Timer, min: ~a, sec: ~a~%~%" (the background-minutes) (the background-seconds))
+    (format t "~&~%Starting Background Timer, min: ~a, sec: ~a~%~%"
+	    (the background-minutes) (the background-seconds))
     
 
     (let ((thread
