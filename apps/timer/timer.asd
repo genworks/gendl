@@ -8,6 +8,5 @@
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "source/package") (:file "source/parameters")
-  (:file "source/assembly-cherie") (:file "source/assembly")
-  (:file "source/background-timer") (:file "source/initialize")
-  (:file "source/publish")))
+  (:file "source/assembly") (:file "source/background-timer")
+  (:file "source/initialize") (:file "source/publish")))

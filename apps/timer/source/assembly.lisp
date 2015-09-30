@@ -10,11 +10,7 @@
 		(content "" :settable))             ; content of the journal
 
   :computed-slots 
-  ((id (string-append (the name) "-"
-		      (write-to-string (random 10000)) "-"
-		      (write-to-string (the universal-time-start))))
-
-   (inner-html (with-cl-who-string ()
+  ((inner-html (with-cl-who-string ()
 		 ((:li :class "journal-entry") 
 		  ((:div :class "journal-time") 
 		   (fmt "~a" (the time-set)))
@@ -24,11 +20,15 @@
 
 (define-object assembly (background-timer-mixin base-ajax-sheet)
 
-  :input-slots ((timer-minutes-default 20)
-		(timer-seconds-default 0))
+  :input-slots ((timer-minutes-default 0)
+		(timer-seconds-default 3))
   
   :computed-slots
-  ((main-sheet-body (with-cl-who-string ()
+  ((current-journal-entry nil :settable)
+   (timer-paused? nil :settable)
+
+   (main-sheet-body (with-cl-who-string ()
+		      (when gwl:*developing?* (str (the development-links)))
 		      ((:div :id "content") 
 		       (str (the ajax-scripts))
 		       (str (the imported-scripts))
@@ -38,24 +38,27 @@
 		       (str (the journal-form main-div))
 		       ((:ul :id "journal") 
 			(str (the journal-entries-display main-div))))))
-   (additional-header-content 
-    (the imported-css))
+   (additional-header-content (the imported-css))
+   
    ; ------------------------------------------------------------------------------ ;
-   ; Custom javascript and css sheet-sections and ajax calls. 
+   ;; Custom javascript and css sheet-sections and ajax calls. 
 
-   ; CSS that we are importing from the outside world. 
+   ;; CSS that we are importing from the outside world. 
    (imported-css 
     (with-cl-who-string () 
       (:link :href "/timer-static/style/styles.css" 
 	     :rel "stylesheet"
 	     :type "text/css")))
-   ; Scripts that we are importing from the outside world.
+   
+   ;; Scripts that we are importing from the outside world.
    (imported-scripts 
     (with-cl-who-string () 
       (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
       (:script :src "/timer-static/plugins/hideseek/jquery.hideseek.min.js")
       (:script :src "/timer-static/scripts.js")))
-   ; Ajax calls generated using gdl-ajax-call
+   
+   
+   ;; Ajax calls generated using gdl-ajax-call
    (ajax-scripts 
     (with-cl-who-string () 
       ((:script :type "text/javascript")
@@ -89,18 +92,27 @@
 			   :end-timer-tasks)))))))))
 
   :objects
-  (; This section is pretty heavy, so I'm commenting it as good as I can.
+  (
+					;
 
-   ; ------------------------------------------------------------------------------ ;
+   ;; This section is pretty heavy, so I'm commenting it as good as I can.
+
+
+   (entries :type 'journal-entry
+	    :sequence (:indices nil))
+				
+					;;; ------------------------------------------------------------------------------ ;
    ; Form field objects. 
 
    ; The minutes field. 
-   (timer-form-min :type 'text-form-control 
+   (timer-form-min :type 'text-form-control
+		   :domain :number
 		   :default (format nil "~a" (the timer-minutes-default))
 		   :id "minutes"
 		   :size 2)
    ; The seconds field. 
-   (timer-form-sec :type 'text-form-control 
+   (timer-form-sec :type 'text-form-control
+		   :domain :number
 		   :default (format nil "~2,'0d" (the timer-seconds-default)) 
 		   :id "seconds"
 		   :size 2)
@@ -150,39 +162,18 @@
 			  :onclick "recordJournal();"
 			  :label "Record")
 
-   ; ------------------------------------------------------------------------------ ;
-   ; Sheet section for displaying journal entries. There is a toggle flag that 
-   ; allows this section to refresh every time a journal entry is added. 
-   ; 
-   ; Note to developer: This opens the file using the email field, 
-   ; reads it into a list of serialized strings, and then does a mapcar 
-   ; over the serialized strings to turn them into HTML. 
-   ; Finally, it uses reduce over the mapcar to append all the HTML together. 
-   (journal-entries-display 
-    :type 'sheet-section 
-    :inner-html 
-    (let ((serialized-strings 
-	   (with-open-file (stream (string-append 
-				    (namestring *db-path*)
-				    (the email-form value))
-				   :direction :input
-				   :if-does-not-exist :create)
-	     (loop for str = (read stream nil) 
-		  while str collect str)))
-	  (temp-journal-object 
-	   (make-object 'journal-entry))) 
-      (the force-update-flag)
-      (reduce 'string-append 
-	      (mapcar 
-	       #'(lambda (s) 
-		 (the-object temp-journal-object (from-serialization s))
-		 (the-object temp-journal-object to-html)) 
-	       serialized-strings))))
 
-   ; ------------------------------------------------------------------------------ ;
-   ; Finally, some sheet-sections to put these pieces all together. 
+   (journal-entries-display :type 'sheet-section
+			    :inner-html (with-cl-who-string ()
+					  (dolist (entry (list-elements (the entries)))
+					    (str (the-object entry inner-html)))))
+    
 
-   ; The form for the timer. 
+   ;;
+   ;; ------------------------------------------------------------------------------ ;
+   ;; Finally, some sheet-sections to put these pieces all together.
+   
+   ;; The form for the timer. 
    (timer-form 
     :type 'sheet-section 
     :inner-html (with-cl-who-string ()
@@ -195,14 +186,16 @@
 		  (str (the timer-start-button form-control-string)) 
 		  (str (the timer-pause-button form-control-string))
 		  (str (the timer-reset-button form-control-string))))
-   ; The form for the timer defaults. 
+   
+   ;; The form for the timer defaults. 
    (timer-defaults-form 
     :type 'sheet-section 
     :inner-html (with-cl-who-string () 
 		  "Defaults" (:br) 
 		  (str (the timer-default-form-min form-control-string)) ":" 
 		  (str (the timer-default-form-sec form-control-string))))
-   ; The form for the journal entry. 
+   
+   ;; The form for the journal entry. 
    (journal-form 
     :type 'sheet-section 
     :inner-html (with-cl-who-string () 
@@ -214,11 +207,6 @@
    ; ------------------------------------------------------------------------------ ;
    ; Helper functions. 
 
-   ; Toggles the update flag for the journal entries display. 
-   (toggle-update-flag! 
-    () 
-    (the (set-slot! :force-update-flag 
-		    (not (the force-update-flag)))))
 
    ; ------------------------------------------------------------------------------ ;
    ; Main functions: one for starting the timer, one for stopping it. 
@@ -226,66 +214,66 @@
    ; Called when the start button is pressed. Creates and sets current-journal-entry 
    ; but only if the timer was not just paused. Starts the background timer. 
    (start-timer-tasks 
-    () 
-    (if (the timer-paused)
-	nil 
-	(progn 
-	  (the (set-slot! :current-journal-entry 
-			 (make-object 'journal-entry 
-				      :name (the name-form value)
-				      :email (the email-form value)
-				      :time-set (format nil "~a:~a" 
-							(the timer-form-min value)
-							(the timer-form-sec value))
-				      :universal-time-start (get-universal-time)))) 
-	  (the (set-slot! :timer-paused nil))))
+    ()
+
+    (when *debug?* (print-variables (the timer-paused?)))
+    
+    (unless (the timer-paused?)
+
+      (let* ((name (the name-form value))
+	     (gensym (subseq (write-to-string (gensym)) 2))
+	     (universal-time (get-universal-time))
+	     (start-minutes (the timer-form-min value))
+	     (start-seconds (the timer-form-sec value))
+	     (index (make-keyword (string-append  name "-" gensym "-"
+						  (write-to-string universal-time)))))
+
+	(when *debug?* (print-variables name gensym universal-time
+					start-minutes start-seconds index))
+	
+	(the entries (insert! index))
+	(the (entries index) (set-slots! (list :name name
+					       :email (the email-form value)
+					       :time-set (+ (* start-minutes 60) start-seconds)
+					       :universal-time-start universal-time)))
+	(the (set-slot! :current-journal-entry (the (entries index))))))
+
+    (when *debug?* (print-variables (the current-journal-entry)))
+    
     (the start-background-timer))
 
    ; Called when the timer runs down to zero. Cancels the background timer and fills in 
    ; the current journal entry's end timestamp. 
    (end-timer-tasks 
     () 
-    (the current-journal-entry (set-slot! :universal-time-end 
-					 (get-universal-time)))
+    (the current-journal-entry (set-slot! :universal-time-end (get-universal-time)))
     (the cancel-background-timer))
 
    ; Called when the pause button is pressed. Cancels the background timer, 
-   ; and sets the timer-paused flag to t. 
+   ; and sets the timer-paused? flag to t. 
    (pause-timer-tasks 
     () 
     (the cancel-background-timer) 
-    (the (set-slot! :timer-paused t)))
+    (the (set-slot! :timer-paused? t)))
 
    ; Called when the reset button is pressed. Cancels the background timer. 
    (reset-timer-tasks 
     ()
     (the cancel-background-timer)
     (the timer-form-min restore-defaults!)
-    (the timer-form-sec restore-defaults!))
+    (the timer-form-sec restore-defaults!)
+    (when (the current-journal-entry)
+      (the entries (delete! (the current-journal-entry index)))
+      (the (restore-slot-default! :current-journal-entry))))
 
    ; Called when the button for recording the journal entry is pressed. 
    ; It records the journal entry's content and then writes it to a file.
    (record-journal-entry 
     ()
-
-    (print-variables (the background-minutes) (the background-seconds))
-    
-    (the toggle-update-flag!)
-    (if (and (zerop (the background-minutes))
-	     (zerop (the background-seconds)))
-	(progn (the current-journal-entry (set-slot! :content 
-					 (the journal-entry-form value)))
-	       (with-open-file 
-		   (stream 
-		    (string-append (namestring *db-path*) 
-				   (the email-form value))
-		    :direction :output 
-		    :if-does-not-exist :create
-		    :if-exists :append) 
-		 (write 
-		  (the current-journal-entry to-serialization) 
-		  :stream stream)))
-	nil))))
+    (when (and (zerop (the background-minutes))
+	       (zerop (the background-seconds)))
+      (the current-journal-entry
+	   (set-slot! :content (the journal-entry-form value)))))))
 
 
 
