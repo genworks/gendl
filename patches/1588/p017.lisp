@@ -28,7 +28,10 @@
  (#+allegro
   excl:without-package-locks
   #-allegro progn
-  (defparameter *invalid-aggregate-behavior* :error)
+
+  (defparameter *invalid-aggregate-behavior* :error
+"Keyword symbol. Can be one of :error, :warn, or :ignore")
+
 
   (eval-when (:compile-toplevel :load-toplevel :execute)
     (export '*invalid-aggregate-behavior* :gdl))
@@ -82,7 +85,8 @@
 		  (ecase *invalid-aggregate-behavior*
 		    (:error (error error-message))
 		    (:warn (warn error-message))
-		    (nil ))))))))
+		    (:ignore nil))))))))
+
     (let ((second (second value)))
       (if (and (listp second) (< (length second) *dep-hash-threshhold*))
 	  (let ((matching-sublist (assoc (first notify-cons) (second value))))
