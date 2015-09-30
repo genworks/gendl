@@ -295,11 +295,11 @@ If you are interested in this effort we would love to hear from you at open-sour
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
-(defpackage :glisp
+(defpackage :com.genworks.lisp
   (:documentation #.(gendl-boot:system-description :glisp))
   (:use :common-lisp)
   (:shadow #:intern)
-  (:nicknames :com.genworks.lisp)
+  (:nicknames :glisp)
   (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+(or ecl clisp) :clos
 		#:validate-superclass)
   (:export 
