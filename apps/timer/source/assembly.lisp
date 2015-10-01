@@ -54,7 +54,7 @@
    (imported-scripts 
     (with-cl-who-string () 
       (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
-      (:script :src "/timer-static/plugins/hideseek/jquery.hideseek.min.js")
+      ;;(:script :src "/timer-static/plugins/hideseek/jquery.hideseek.min.js")
       (:script :src "/timer-static/scripts.js")))
    
    
@@ -273,7 +273,9 @@
     (when (and (zerop (the background-minutes))
 	       (zerop (the background-seconds)))
       (the current-journal-entry
-	   (set-slot! :content (the journal-entry-form value)))))))
+	   (set-slot! :content (the journal-entry-form value)))
+      (the (restore-slot-default! :current-journal-entry))
+      (the reset-timer-tasks)))))
 
 
 

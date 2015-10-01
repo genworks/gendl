@@ -100,8 +100,8 @@ $(document).ready(function(){
 
 // HideSeek code for implementing the live search.
 
-    $("#journal-entry").data("list", "#journal"); 
-    $("#journal-entry").hideseek(); 
+//    $("#journal-entry").data("list", "#journal"); 
+//    $("#journal-entry").hideseek(); 
 
 }); 
 
