@@ -163,6 +163,11 @@
         (*arglist-show-packages* nil))
     (punt raw-form :print-right-margin print-right-margin)))
 
+(def-wrap decoded-arglist-to-string (arglist &key operator highlight print-right-margin)
+  (if (message-list-arglist-p operator arglist)
+      (print-message-list-for-autodoc arglist print-right-margin)
+      (punt arglist :operator operator :highlight highlight)))
+
 (def-wrap form-path-to-arglist-path (form-path form arglist)
   (when *autodoc-highlighting*
     (punt form-path form arglist)))
@@ -768,6 +773,28 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
   (declare (ignore form))
   (when (eq (this-the-functionp this-the) :evaluate)
     (list (make-arglist :required-args '(expression)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar +message-list-operators+ '(gendl:the gendl:the-object gendl:the-child))
+
+(defun message-list-arglist-p (operator arglist)
+  (and (member operator +message-list-operators+)
+       (arglist.key-p arglist)
+       (eql (+ (length (arglist.required-args arglist)) (length (arglist.optional-args arglist)))
+	    (length (arglist.provided-args arglist)))))
+
+(defun print-message-list-for-autodoc (arglist print-right-margin)
+  (with-output-to-string (*standard-output*)
+    (with-arglist-io-syntax
+      (let ((*print-right-margin* print-right-margin))
+	(pprint-logical-block (nil nil)
+	  (loop for first = t then nil
+	     for keyarg in (arglist.keyword-args arglist)
+	     do (unless first
+		  (write-char #\space)
+		  (pprint-newline :fill))
+	     do (princ (keyword-arg.keyword keyarg))))))))
 
 
 ;; 10.  UTILITIES
