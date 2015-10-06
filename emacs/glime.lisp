@@ -629,6 +629,9 @@ defined by this form."
 (defparameter *messages-to-suppress-when-not-sequence-member*
   (list :first? :index :last? :next :previous))
 
+(defun gendl-source (class slot-sym)
+  (cadr (gendl:the-object (gendl-class-prototype class) (slot-source (glisp:intern slot-sym :keyword)))))
+
 (defun messages-from-classes (this-the form)
   "Use message-list to find out what the messages might be."
   (unless (eq (this-the-functionp this-the) :evaluate)
@@ -703,9 +706,7 @@ defined by this form."
           (consp reference)                         ; function call
           (eq reference '%cursor-marker%))
       class
-    (let* ((prototype (gendl-class-prototype class))
-           (slot-source (gendl:the-object prototype (slot-source (glisp:intern reference :keyword)))))
-      (object-slot-form-class (cadr slot-source)))))
+      (object-slot-form-class (gendl-source class reference))))
 
 ;; [gendl] make your own defparameter for now, but flag it that it
 ;; might be redundant with something we already have defined
@@ -749,12 +750,14 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
                                                                   :message-type :local))))
         ;; Preserve order
         (loop for message in all-messages
-              for functions-found = (and functions
-                                         (not (null (find message functions))))
               when (if (and sequences
                             (find message sequences))
                        (this-the-quantifiedp this-the)
-                     (eq functions-found functionp))
+		       (if functionp
+			   (find message functions)
+			   (or (not (find message functions))
+			       ;; include functions with no required args
+			       (not (required-args-p (car (gendl-source class message)))))))
               collect message)))))
 
 (defun filter-sequence-messages (this-the messages)
@@ -848,6 +851,14 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
             (null result)))))
 
 (test-active-keyword)
+
+(defun required-args-p (lambda-list)
+  (loop while lambda-list
+     for arg = (pop lambda-list)
+     do (if (memq arg '(&whole &environment))
+	    (pop lambda-list) ;; ignore
+	    (return (not (or (memq arg lambda-list-keywords)
+			     (and (symbolp arg) (string= (symbol-name arg) (string '#:&any)))))))))
 
 
 ;; A.  REFERENCES
