@@ -142,6 +142,7 @@
     (definition)
     (declare (ignore definition))
     (error "Sorry! This is supposed to do 'lisp-find-definition' in emacs, but not working yet... Please send email to support@genworks.com"))
+
    
    #+nil
    (visit-definition-in-emacs
@@ -150,7 +151,8 @@
       (print-variables emacs-lisp-command)
       #+allegro (lep::eval-in-emacs emacs-lisp-command)))
     
-    
+
+   #+nil
    (perform-action!
     (object)
     (the tatu-root (perform-action! object)))
@@ -262,7 +264,7 @@
                  (typecase (the value)
                    (list (when (consp (the value)) :list))
                    (gdl::quantification :gdl-sequence)
-                   (gdl::gdl-basis :gdl-atom))))
+                   (gdl::gdl-basis (when (eql (the value root) (the node root)) :gdl-atom)))))
 
 
    (value-cardinality (case (the value-type)
@@ -305,9 +307,13 @@
                                 (if (the clickable?) "cursor: pointer;" ""))
                  :onclick (case (the value-type)
                             (:gdl-atom
-                             (the (gdl-ajax-call 
+                             (the (gdl-ajax-call
+				   :bashee (the tatu-root)
                                    :function-key :perform-action!
-                                   :arguments (list value))))
+                                   :arguments
+				   (list nil
+					 :tasty-root (the tatu-root)
+					 :root-object-rootpath (the value root-path)))))
 
                             (:gdl-3d-point
                              (when (the clickable?)
@@ -451,6 +457,9 @@
                                     (progn
                                       (the node (set-slot-if-needed! 
                                                  (the-child keyword) value :infer-types? nil))
+
+				      (the tatu-root refresh-tasty-panes!)
+				      
                                       t))
 
                                 ;;

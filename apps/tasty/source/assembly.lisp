@@ -61,7 +61,15 @@ o allow input of required input-slots.
    
    (uri-style-sheet (when (the use-jquery?) (string-append (the uri-static-gwl-styles) "tasty-layout.css")))
    
+
+   #+nil
+   (tatu-update-function 
+    #'(lambda()
+	(format t "~%~%At 1~%~%")
+        (the root-object update!)
+	(mapsend (list (the tree) (the inspector) (the viewport)) :update!)))
    
+   #+nil
    (tatu-update-function 
     #'(lambda() 
         (the (set-slot! :root-object (the root-object)))
@@ -167,9 +175,13 @@ o allow input of required input-slots.
     ;;:show-onmouseover-buttons? nil
     :onclick-function 
     #'(lambda(object)
-        (the (gdl-ajax-call 
+        (the (gdl-ajax-call
+	      ;;:bashee (list :%rp% '(:root-object))
               :function-key :perform-action!
-              :arguments (list object)))))
+              :arguments (list nil
+			       :tasty-root self
+			       :root-object-rootpath (the-object object root-path))))))
+
    
    
    (viewport :type 'viewport
@@ -180,12 +192,14 @@ o allow input of required input-slots.
              :length (getf (the viewport-dimensions) 
                            :length (getf (the viewport-dimensions) :height))
              :width (getf (the viewport-dimensions) :width)
-             :onclick-function #'(lambda(object)
-                                   (the (gdl-ajax-call 
-                                         :function-key :perform-action!
-                                         :arguments (list object)
-					 :null-event? (member (the-child image-format) (list :x3d :x3dom))
-					 )))
+             :onclick-function
+	     #'(lambda(object)
+		 (the (gdl-ajax-call
+		       :function-key :perform-action!
+		       :arguments (list nil
+					:tasty-root self
+					:root-object-rootpath (the-object object root-path))
+		       :null-event? (member (the-child image-format) (list :x3d :x3dom)))))
              :tatu-root self)
    
    (inspector :type 'inspector
@@ -270,14 +284,31 @@ o allow input of required input-slots.
    (update-root-object!
     ()
     (the root-object update!)
-    (the tree update!)
+    (the refresh-tasty-panes!)
+    ;;(the root-object update!)
+    ;;(the tree update!)
     )
+
+   (refresh-tasty-panes!
+    ()
+    (mapsend (list (the tree) (the inspector) (the viewport)) :update!))
    
+
+   #+nil
    (make-root-instance
     (type)
     (the (set-slot! :root-object-type
                     (let ((*package* (find-package (the package-default))))
                       (read-safe-string type)))))
+
+
+   (make-root-instance
+    (type)
+    (let* ((type (let ((*package* (find-package (the package-default))))
+		   (read-safe-string type)))
+	   (object (make-object type :strings-for-display (format nil "~s" type))))
+      (the (set-root! object))))
+
 
    (set-root!
     (object)
@@ -314,35 +345,51 @@ o allow input of required input-slots.
       (the (set-slot! :root-object (the root-object-object)))))
    
    (perform-action!
-    (object &key kids-error (click-mode (the click-mode value)))
+    (&optional object &key tasty-root root-object-rootpath 
+	    kids-error (click-mode (the click-mode value)))
     (when *debug?* (print-variables (the-object object root-path) click-mode))
-    (ecase click-mode
-      (:inspect (the inspector (set-object! object)))
-      (:reset-root (the (reset-root! object)))
-      (:set-root (the (set-root! object)))
-      (:update-node (the (update-node! object)))
-      (:draw-leaves (the viewport (draw-leaves! object)))
-      (:draw-node (the viewport (draw-node! object)))
-      (:add-leaves (the viewport (add-leaves! object)))
-      (:add-leaves* (the viewport (add-leaves*! object)))
-      (:delete-leaves (the viewport (delete-leaves! object)))
-      (:add-node (the viewport (add-node! object)))
+
+    (let ((object (or object
+		      (the-object tasty-root root-object
+				  (follow-root-path root-object-rootpath)))))
+
+      (print-variables object click-mode)
+
+      (print-variables (the inspector node-root-path)
+		       (the inspector node))
+
+      (ecase click-mode
+	(:inspect (the inspector (set-object! object)))
+	(:reset-root (the (reset-root! object)))
+	(:set-root (the (set-root! object)))
+	(:update-node (the (update-node! object)))
+	(:draw-leaves (the viewport (draw-leaves! object)))
+	(:draw-node (the viewport (draw-node! object)))
+	(:add-leaves (the viewport (add-leaves! object)))
+	(:add-leaves* (the viewport (add-leaves*! object)))
+	(:delete-leaves (the viewport (delete-leaves! object)))
+	(:add-node (the viewport (add-node! object)))
       
-      (:break 
-       (set-self object)
-       (let ((*package* (symbol-package (the-object object root type))))
+	(:break 
+	 (set-self object)
+	 (let ((*package* (symbol-package (the-object object root type))))
                 
-         (format t "~&
+	   (format t "~&
 ~aSelf is now set to to ~s, you may use command-line interaction....~%~%" 
-                 (if kids-error
-                     (format nil "~&
+		   (if kids-error
+		       (format nil "~&
 NOTE: Children cannot expand -- evaluate (the children) to reproduce the error. 
 The error was: ~a
 
 " 
-                             kids-error) "") object)))
+			       kids-error) "") object)))
       
-      ;;(:uh (the viewport (set-sheet-object! object)))
+	;;(:uh (the viewport (set-sheet-object! object)))
+      
+	)
+
+      (print-variables (the inspector node-root-path)
+		       (the inspector node))
       
       ))))
 
