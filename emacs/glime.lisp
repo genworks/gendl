@@ -446,6 +446,17 @@ each returning a list of proposed messages.")
   (declare (ignorable arguments))
   (or (embedded-the-arglist) (call-next-method)))
 
+(defun compute-this-the-messages (this-the whole-form)
+  (declare (special gendl:self))
+  (let ((gendl:self (or (when-let (self-form (this-the-self-form this-the))
+			  (eval-form-to-object self-form))
+			gendl:self)))
+    (declare (special gendl:self))
+    (remove-duplicates
+     (loop for locator in *message-locators* append
+	  (funcall locator this-the whole-form))
+     :from-end t)))
+
 (defun embedded-the-arglist ()
   ;;DJC
   ;;
@@ -458,9 +469,7 @@ each returning a list of proposed messages.")
 			 ;; one of the gendl:the macros. Bail out.
 			 (return-from embedded-the-arglist
 			   nil))))
-      (when-let (messages (remove-duplicates (loop for locator in *message-locators* append
-						  (funcall locator this-the whole-form))
-					     :from-end t))
+      (when-let (messages (compute-this-the-messages this-the whole-form))
 	(values (or (loop for message in messages
 		       when (arglist-p message)
 		       return message)
@@ -476,7 +485,7 @@ each returning a list of proposed messages.")
 ;; 9.1. Analyse the current gendl:the form
 
 (defstruct (this-the
-            (:constructor make-this-the (operator the-form &optional section slot-form
+	     (:constructor make-this-the (operator the-form &key section slot-form self-form 
                                                   &aux
                                                   (functionp (when (consp the-form)
                                                                (the-form-functionp (cdr the-form))))
@@ -485,6 +494,7 @@ each returning a list of proposed messages.")
   the-form
   section
   slot-form
+  self-form
   functionp
   quantifiedp)
 
@@ -545,15 +555,13 @@ each returning a list of proposed messages.")
                      do
                      (when-let (form-with-cursor-marker (form-with-cursor-marker item))
                        (return-from this-the-from-form
-                         (make-this-the operator form-with-cursor-marker section-name item)))))))
+                         (make-this-the operator form-with-cursor-marker :section section-name :slot-form item)))))))
       ((gendl:the)
        (when-let (form-with-cursor-marker (cdr form))
          (make-this-the operator form-with-cursor-marker)))
       ((gendl:the-object)
        (when-let (form-with-cursor-marker (cddr form))
-         (let ((gendl:self (gendl:the-object (cadr form))))
-           (declare (special gendl:self))
-           (make-this-the operator form-with-cursor-marker)))))))
+	 (make-this-the operator form-with-cursor-marker :self-form (cadr form)))))))
 
 (defun form-with-cursor-marker (form)
   ;; Return, if any, the innermost (the ...) form containing the
@@ -859,6 +867,24 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	    (pop lambda-list) ;; ignore
 	    (return (not (or (memq arg lambda-list-keywords)
 			     (and (symbolp arg) (string= (symbol-name arg) (string '#:&any)))))))))
+
+(defvar *eval-the-object-form* t
+  "If true, attempt to evaluate the first argument to THE-OBJECT when looking for messages.  This opens up
+a security hole but is mighty convenient.")
+
+(defun eval-form-to-object (form)
+  (let ((object (ignore-errors (if *eval-the-object-form*
+				   (eval form)
+				   (labels ((eval-form (form)
+					      (cond ((symbolp form)
+						     (multiple-value-bind (exp win) (macroexpand form)
+						       (if win
+							   (eval-form exp)
+							   (symbol-value form))))
+						    ((atom form) form)
+						    (t (error "Form too complex: ~s" form)))))
+				     (eval-form form))))))
+    (and (typep object 'gendl:vanilla-mixin*) object)))
 
 
 ;; A.  REFERENCES
