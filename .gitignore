@@ -23,6 +23,8 @@ configure.el
 systems.txt
 system-index.txt
 
+*.pdf
+
 # Ignore (generated) html files,
 # *.html
 # except foo.html which is maintained by hand.
