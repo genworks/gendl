@@ -27,13 +27,14 @@
   ((current-journal-entry nil :settable)
    (timer-paused? nil :settable)
 
+   (title "Genworks Timer and Journaler")
+   
    (main-sheet-body (with-cl-who-string ()
 		      (when gwl:*developing?* (str (the development-links)))
 		      ((:div :id "content") 
 		       (str (the ajax-scripts))
 		       (str (the imported-scripts))
 		       ((:h1 :id "header") "timer")
-		       (str (the timer-defaults-form main-div))
 		       (str (the timer-form main-div))
 		       (str (the journal-form main-div))
 		       ((:ul :id "journal") 
@@ -53,9 +54,11 @@
    ;; Scripts that we are importing from the outside world.
    (imported-scripts 
     (with-cl-who-string () 
-      (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
+      ;;(:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
       ;;(:script :src "/timer-static/plugins/hideseek/jquery.hideseek.min.js")
-      (:script :src "/timer-static/scripts.js")))
+      (:script :src "/timer-static/scripts.js")
+      ;;(:script :src "/timer-static/jq-scripts.js")
+      ))
    
    
    ;; Ajax calls generated using gdl-ajax-call
@@ -70,14 +73,11 @@
 					   (the timer-form-sec)
 					   (the name-form)
 					   (the email-form)) 
-			   :function-key 
-			   :start-timer-tasks)))
+			   :function-key :start-timer-tasks)))
 	     (format nil "function recordJournalAjax () {~a}" 
 		     (the (gdl-ajax-call 
-			   :form-controls (list 
-					   (the journal-entry-form)) 
-			   :function-key 
-			   :record-journal-entry)))
+			   :form-controls (list (the journal-entry-form)) 
+			   :function-key :record-journal-entry)))
 	     (format nil "function pauseTimerAjax () {~a}" 
 		     (the (gdl-ajax-call 
 			   :function-key 
@@ -89,8 +89,16 @@
 	     (format nil "function endTimerAjax () {~a}" 
 		     (the (gdl-ajax-call 
 			   :function-key 
-			   :end-timer-tasks)))))))))
+			   :end-timer-tasks))))))))
 
+   (journal-recordable? (and (numberp (the background-minutes))
+			     (zerop (the background-minutes))
+			     (numberp (the background-seconds))
+			     (zerop (the background-seconds))
+			     (the current-journal-entry)))
+   )
+
+  
   :objects
   (
 					;
@@ -178,29 +186,41 @@
     :type 'sheet-section 
     :inner-html (with-cl-who-string ()
 		  "Timer" (:br)
+		  
 		  (str (the timer-form-min form-control-string)) ":" 
 		  (str (the timer-form-sec form-control-string))
+		  
 		  (:br)
-		  (str (the name-form form-control-string))
-		  (str (the email-form form-control-string))
-		  (str (the timer-start-button form-control-string)) 
-		  (str (the timer-pause-button form-control-string))
-		  (str (the timer-reset-button form-control-string))))
-   
-   ;; The form for the timer defaults. 
-   (timer-defaults-form 
-    :type 'sheet-section 
-    :inner-html (with-cl-who-string () 
-		  "Defaults" (:br) 
-		  (str (the timer-default-form-min form-control-string)) ":" 
-		  (str (the timer-default-form-sec form-control-string))))
+
+		  (unless (the current-journal-entry)
+		    (str (the name-form form-control-string))
+		    (str (the email-form form-control-string)))
+		  
+		  (when (or (not (the current-journal-entry))
+			    (the timer-paused?))
+		    (str (the timer-start-button form-control-string)))
+		  
+		  (when (and (the current-journal-entry)
+			     (not (the timer-paused?))
+			     (not (the journal-recordable?)))
+		    (str (the timer-pause-button form-control-string)))
+
+		  #+nil ;; put back in later 
+		  (when (or (not (the current-journal-entry))
+			    (the timer-paused?))
+		    (str (the timer-reset-button form-control-string))
+		    (htm "Defaults" (:br) )
+		    (str (the timer-default-form-min form-control-string)) ":" 
+		    (str (the timer-default-form-sec form-control-string)))))
+
    
    ;; The form for the journal entry. 
    (journal-form 
     :type 'sheet-section 
-    :inner-html (with-cl-who-string () 
-		  (str (the journal-entry-form form-control-string))
-		  (str (the record-journal-button form-control-string)))))
+    :inner-html (with-cl-who-string ()
+		  (when (the journal-recordable?)
+		    (str (the journal-entry-form form-control-string))
+		    (str (the record-journal-button form-control-string))))))
       
   :functions 
   (
@@ -254,7 +274,10 @@
    (pause-timer-tasks 
     () 
     (the cancel-background-timer) 
-    (the (set-slot! :timer-paused? t)))
+    (the (set-slot! :timer-paused? t))
+    (the timer-form-sec (set-slot! :value (the background-seconds)))
+    (the timer-form-min (set-slot! :value (the background-minutes)))
+    )
 
    ; Called when the reset button is pressed. Cancels the background timer. 
    (reset-timer-tasks 
@@ -270,8 +293,7 @@
    ; It records the journal entry's content and then writes it to a file.
    (record-journal-entry 
     ()
-    (when (and (zerop (the background-minutes))
-	       (zerop (the background-seconds)))
+    (when (the journal-recordable?)
       (the current-journal-entry
 	   (set-slot! :content (the journal-entry-form value)))
       (the (restore-slot-default! :current-journal-entry))
