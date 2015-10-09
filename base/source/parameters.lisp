@@ -22,7 +22,7 @@
 (in-package :gdl)
 
 
-(defparameter *gendl-version* "1588r003")
+(defparameter *gendl-version* "1588aodbc")
 
 (defparameter *gendl-patch-level* nil)
 
