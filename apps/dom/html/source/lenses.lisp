@@ -28,9 +28,12 @@
 		   :destination (format nil "~a" (translate-logical-pathname "~/genworks/gwl-apps/training/g101/style/")))
 
 
+(defparameter *index-hash* nil)
+
 (define-lens (html-format assembly) ()
   :output-functions
-  ((main-sheet
+  (
+   (main-sheet
     ()
     (html
      (:html (:head (:title (:princ (the title)))
@@ -38,7 +41,6 @@
 	    (:body (:p (write-the contents))
 		   (:p (write-the base)))))))
 
-    
    (base
     ()
     (dolist (element (list-elements (the elements)))
@@ -50,8 +52,16 @@
     (with-cl-who () 
       (:html (:head (:title (str (the title)))
 		    ((:link :href (the style-url) :rel "stylesheet" :type "text/css")))
-	     (:body (:div (write-the cl-who-contents-out))
-		    (:div (write-the cl-who-base))))))
+	     (let ((*index-hash* (make-hash-table :test #'equalp)))
+	       (:body (:div (write-the cl-who-contents-out))
+		      (:div (write-the cl-who-base))
+		      (:div (write-the cl-who-index)))))))
+   
+   (cl-who-index 
+    ()
+    ;; FLAG -- fill in!  If you access *index-hash* from here, it will
+    ;; be the dynamically bound one.
+    )
 
    (cl-who-base
     ()
@@ -162,6 +172,9 @@
 
 	(:emph (htm (:i (dolist (element (list-elements (the elements)))
 			  (write-the-object element cl-who-base)))))
+
+	(:textbf (htm (:b (dolist (element (list-elements (the elements)))
+			    (write-the-object element cl-who-base)))))
       
 	(:texttt (htm (:tt (dolist (element (list-elements (the elements)))
 			     (write-the-object element cl-who-base)))))
