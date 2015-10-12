@@ -70,27 +70,31 @@ Regards,
     
 
     (let ((thread
-	   (bt:make-thread #'(lambda()
-			       (let ((real-time (get-internal-real-time)))
-				 (do ()
-				     ((and (zerop (the background-minutes)) (zerop (the background-seconds)))
-				      (the timer-finished))
+	   (bt:make-thread
+	    #'(lambda()
+		(let ((real-time (get-internal-real-time)))
+		  (do ()
+		      ((and (zerop (the background-minutes)) (zerop (the background-seconds)))
+		       (the timer-finished))
 				 
-				   (sleep (/ (- 1000 (- (get-internal-real-time) real-time)) 1000))
+		    (sleep (/ (- 1000 (- (get-internal-real-time) real-time)) 1000))
 				 
-				   (setq real-time (get-internal-real-time))
+		    (setq real-time (get-internal-real-time))
 			  
-				   (let ((seconds (1- (the background-seconds))))
-				     (if (= seconds -1)
-					 (the (set-slots! (list :background-seconds 59 :background-minutes (1- (the background-minutes)))))
-					 (the (set-slot! :background-seconds seconds))))
+		    (let ((seconds (1- (the background-seconds))))
+		      (if (= seconds -1)
+			  (the (set-slots! (list :background-seconds 59
+						 :background-minutes (1- (the background-minutes)))))
+			  (the (set-slot! :background-seconds seconds))))
 
-				   (when *debug?*
-				     (format t "~&~%Background Timer woke up, min: ~a, sec: ~a~%~%" (the background-minutes) (the background-seconds)))
+		    (the timer-form-min (set-slot! :value (the background-minutes)))
+		    (the timer-form-sec (set-slot! :value (the background-seconds)))
+		    
 
-				 
-				   )))
-			   :name "Background timer")))
+		    (when *debug?*
+		      (format t "~&~%Background Timer woke up, min: ~a, sec: ~a~%~%"
+			      (the background-minutes) (the background-seconds))))))
+	    :name "Background timer")))
       (the (set-slot! :background-timer-thread thread))))))
    
 

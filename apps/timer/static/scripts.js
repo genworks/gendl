@@ -4,19 +4,15 @@ var timerStarted = false;
 
 function timerStart() {
 
-    if (timerStarted)
-        return; 
-
+    if (timerStarted) return; 
     timerStarted = true; 
-
     minutes = parseInt(document.getElementById("minutes").value); 
     seconds = parseInt(document.getElementById("seconds").value); 
-    
     startTimerAjax(); 
-    
     interval = setInterval(countDown, 1000); 
 
 }
+
 
 function timerPause() {
     
@@ -25,7 +21,7 @@ function timerPause() {
     clearInterval(interval); 
     timerStarted = false;
 
-    alert('Minutes = ' +  minutes + ' seconds = ' + seconds);
+    //alert('Minutes = ' +  minutes + ' seconds = ' + seconds);
 }
 
 function timerReset() {
