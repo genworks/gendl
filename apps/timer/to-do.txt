@@ -1,5 +1,11 @@
 
+1. Save snapshot on every modification and restore snap file for a
+   user upon log-in or authentication.
 
-1. Make it so you can't make another journal entry until the next timer period is up.
+2. Provide email-based authentication or simply name-based authentication (sans password).
 
+3. Add back the JQuery functionality, degrading gracefully if the
+   application is run from a standalone server without Internet
+   access.
+ 
 
