@@ -1326,13 +1326,7 @@ to the context provided by RAW-FORM."
 ;; This might be useful further down.
 (defvar *form-with-arglist*)
 
-;; There are two different paths which call find-subform-with-arglist. We
-;; want to know which one we're on and we do this by binding
-;; *grovelling-for-arglist*.
-(defvar *grovelling-for-arglist* nil)
-
-
-(defun find-subform-with-arglist (form)
+(defun find-subform-with-arglist (form &key for-completion?)
   "Returns four values:
 
      The appropriate subform of `form' which is closest to the
@@ -1405,7 +1399,7 @@ to the context provided by RAW-FORM."
 	     (grovel-form form '()))))
     (handling-whatever ()
       (let ((*form-with-arglist* form))
-	(if (and *grovelling-for-arglist*
+	(if (and for-completion?
 		 (eq (car form) 'gendl:define-object))
 	    (find-define-object-subform form #'punt)
 	    (punt form))))))
@@ -1500,8 +1494,7 @@ returned in that case."
              (when (and (arglist-p argl) (listp args))
                (values argl args)))))
     (multiple-value-bind (form arglist obj form-path)
-	(let ((*grovelling-for-arglist* t))
-	  (find-subform-with-arglist form))
+	(find-subform-with-arglist form :for-completion? t)
       (declare (ignore obj))
       (with-available-arglist (arglist) arglist
         ;; First try the form the cursor is in (in case of a normal
