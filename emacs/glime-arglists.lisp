@@ -1,18 +1,45 @@
-;;; swank-arglists.lisp --- arglist related code ??
-;;
+;;; Modified version of swank-arglists.lisp, copied from slime master repo as of Oct 13, 2015.
+;;;
+;; Original credits:
 ;; Authors: Matthias Koeppe  <mkoeppe@mail.math.uni-magdeburg.de>
 ;;          Tobias C. Rittweiler <tcr@freebits.de>
 ;;          and others
 ;;
 ;; License: Public Domain
-;;
-
-(in-package :swank)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (swank-require :swank-c-p-c))
+  (swank:swank-require :swank-c-p-c))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defpackage :gendl-swank
+    (:use :common-lisp) ;; clean package
+    ;; Internal swank symbols that we use
+    (:import-from :swank
+		  #:dcase #:match #:with-bindings #:with-struct #:with-buffer-syntax #:without-printing-errors
+		  #:debug-on-swank-error
+		  #:%cursor-marker%
+		  ;; #:arglist -- see below, we don't want to import the structure name.
+		  #:parse-symbol #:valid-function-name-p #:ensure-list #:call/truncated-output-to-string
+		  #:type-specifier-arglist #:declaration-arglist
+		  #:find-matching-symbols-in-list #:tokenize-symbol
+		  #:format-completion-set #:completion-output-symbol-converter
+		  #:longest-compound-prefix #:make-compound-prefix-matcher
+		  #:*echo-area-prefix*
+		  #:keyword-package)))
+
+(in-package :gendl-swank)
+
+(defmacro defslimefun (name &rest body)
+  (assert (eq :external (nth-value 1 (find-symbol (symbol-name name) :swank))))
+  `(progn
+     (defun ,name ,@body)
+     #+not-yet (maybe-redefine ',(find-symbol (symbol-name name) :swank) ',name)))
 
 ;;;; Utilities
+
+;; We don't want to import swank::arglist because then we'd be overwriting the swank::arglist structure.
+(defun arglist (fn)
+  (swank::arglist fn))
 
 (defun compose (&rest functions)
   "Compose FUNCTIONS right-associatively, returning a function"
@@ -997,7 +1024,7 @@ If the arglist is not available, return :NOT-AVAILABLE."))
       :not-available
       (arglist-dispatch (car form) (cdr form))))
 
-(export 'arglist-dispatch)
+;;;(export 'arglist-dispatch)
 (defgeneric arglist-dispatch (operator arguments)
   ;; Default method
   (:method (operator arguments)
