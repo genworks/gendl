@@ -29,17 +29,19 @@
 
 (in-package :gendl-swank)
 
-(defmacro defslimefun (name &rest body)
-  (assert (eq :external (nth-value 1 (find-symbol (symbol-name name) :swank))))
-  `(progn
-     (defun ,name ,@body)
-     #+not-yet (maybe-redefine ',(find-symbol (symbol-name name) :swank) ',name)))
+(defvar *enable-glime* t "If true, GLIME extensions are enabled. If false, run the unmodified original SWANK versions of everything.")
 
 ;;;; Utilities
 
 ;; We don't want to import swank::arglist because then we'd be overwriting the swank::arglist structure.
 (defun arglist (fn)
   (swank::arglist fn))
+
+(defmacro when-let (binding &body body)
+  (destructuring-bind (var val) binding
+    `(let ((,var ,val))
+       (when ,var
+	 ,@body))))
 
 (defun compose (&rest functions)
   "Compose FUNCTIONS right-associatively, returning a function"
@@ -102,6 +104,33 @@ Otherwise NIL is returned."
      (if (eql ,var :not-available)
          :not-available
          (progn ,@body))))
+
+(defmacro defslimefun (name &rest body)
+  (multiple-value-bind (swank-sym flag) (find-symbol (symbol-name name) :swank)
+    (assert (eq flag :external))
+    `(progn
+       (defun ,name ,@body)
+       (redefine-slimefun ',swank-sym ',name))))
+
+(defun redefine-slimefun (swank-sym new-fn)
+  (multiple-value-bind (sym flag) (find-symbol (symbol-name swank-sym) :swank)
+    (assert (and (eq sym swank-sym) (eq flag :external))))
+  (unless (get swank-sym 'gendl-unwrapped)
+    (setf (get swank-sym 'gendl-unwrapped) (symbol-function swank-sym)))
+  (setf (symbol-function swank-sym)
+	(lambda (&rest args)
+	  (declare (dynamic-extent args))
+	  (if *enable-glime*
+	      (apply new-fn args)
+	      (when-let (old-fn (get swank-sym 'gendl-unwrapped))
+		(apply old-fn args)))))
+  new-fn)
+
+(defun remove-glime ()
+  (do-external-symbols (swank-sym :swank)
+    (when-let (fn (get swank-sym 'gendl-unwrapped))
+      (setf (symbol-function swank-sym) fn)
+      (remprop swank-sym 'gendl-unwrapped))))
 
 
 ;;;; Arglist Definition
