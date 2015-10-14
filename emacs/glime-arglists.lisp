@@ -10,7 +10,7 @@
 ;; Original GENDL customizations for SLIME:  Nick Levine, Ravenbrook Limited, 2013-05-02
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (swank:swank-require :swank-c-p-c))
+  (swank:swank-require :swank-arglists))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defpackage :gendl-swank
@@ -2413,4 +2413,4 @@ a security hole but is mighty convenient.")
 
 
 
-(provide :glime-arglists)
+(provide :glime)
