@@ -3,8 +3,8 @@
 
 (define-object background-timer-mixin ()
 
-  :computed-slots ((background-seconds nil :settable)
-		   (background-minutes nil :settable)
+  :computed-slots ((background-seconds 0 :settable)
+		   (background-minutes 0 :settable)
 		   (background-timer-thread nil :settable))
   
   :functions
@@ -52,8 +52,9 @@ Regards,
     ()
     (when (the background-timer-thread)
       (bt:destroy-thread (the background-timer-thread)))
-    (the (restore-slot-default! :background-timer-thread)))
-    
+    (the (restore-slot-defaults! (list :background-timer-thread
+				       :background-minutes
+				       :background-seconds))))
 
    (start-background-timer
     ()
@@ -95,7 +96,7 @@ Regards,
 		      (format t "~&~%Background Timer woke up, min: ~a, sec: ~a~%~%"
 			      (the background-minutes) (the background-seconds))))))
 	    :name "Background timer")))
-      (the (set-slot! :background-timer-thread thread))))))
+      (the (set-slot! :background-timer-thread thread :remember? nil))))))
    
 
 ;;

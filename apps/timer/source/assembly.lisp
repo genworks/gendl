@@ -77,9 +77,8 @@
 		       ))
    
    
-   (journal-recordable? (and (numberp (the background-minutes))
+   (journal-recordable? (and (not (the timer-paused?))
 			     (zerop (the background-minutes))
-			     (numberp (the background-seconds))
 			     (zerop (the background-seconds))
 			     (the current-journal-entry))))
   
@@ -88,11 +87,11 @@
 				
    (timer-form-min :type 'text-form-control
 		   :domain :number :id "minutes" :size 2
-		   :default (format nil "~a" (the timer-minutes-default)))
+		   :default (format nil "~2,'0d" (the timer-default-form-min value)))
 
    (timer-form-sec :type 'text-form-control
 		   :domain :number :id "seconds" :size 2
-		   :default (format nil "~2,'0d" (the timer-seconds-default)))
+		   :default (format nil "~2,'0d" (the timer-default-form-sec value)))
 
    (timer-default-form-min :type 'text-form-control 
 			   :ajax-submit-on-change? t :id "default-minutes" :size 2
@@ -117,7 +116,7 @@
 
    (timer-reset-button :type 'button-form-control :onclick "timerReset();" :label "Reset")
 
-   (record-journal-button :type'button-form-control :onclick "recordJournal();" :label "Record")
+   (record-journal-button :type 'button-form-control :onclick "recordJournal();" :label "Record")
 
    (ajax-scripts-section
     :type 'sheet-section
@@ -174,7 +173,6 @@
     ()
     (if (the timer-paused?)
 	(the (set-slot! :timer-paused? nil))
-
 	(let* ((name (the name-form value))
 	       (gensym (subseq (write-to-string (gensym)) 2))
 	       (universal-time (get-universal-time))
@@ -187,25 +185,37 @@
 	       (set-slots! (list :name name :email (the email-form value)
 				 :time-set (+ (* start-minutes 60) start-seconds)
 				 :universal-time-start universal-time)))
-	  (the (set-slot! :current-journal-entry (the (entries index))))))
-
+	  (the (set-slot! :current-journal-entry (the (entries index))))
+	  (the timer-default-form-min (set-slot! :value start-minutes))
+	  (the timer-default-form-sec (set-slot! :value start-seconds))))
     (the start-background-timer))
 
    (end-timer-tasks 
     ()
     (the current-journal-entry (set-slot! :universal-time-end (get-universal-time)))
-    (the cancel-background-timer))
+    (the cancel-background-timer)
+    (the zero!))
+
+   (zero!
+    ()
+    (unless (and (zerop (the timer-form-min value))
+		 (<= (the timer-form-sec value) 1))
+      (warn "Web page timer and background timer have drifted more than one second: ~a:~a~%" 
+	    (the timer-form-min value) (the timer-form-sec)))
+    (the timer-form-min (set-slot! :value 0))
+    (the timer-form-sec (set-slot! :value 0)))
 
    (pause-timer-tasks 
     () 
-    (the cancel-background-timer) (the (set-slot! :timer-paused? t))
     (the timer-form-sec (set-slot! :value (the background-seconds)))
-    (the timer-form-min (set-slot! :value (the background-minutes))))
+    (the timer-form-min (set-slot! :value (the background-minutes)))
+    (the cancel-background-timer) 
+    (the (set-slot! :timer-paused? t)))
 
 
    (reset-timer-tasks 
     ()
-    (the cancel-background-timer) (the timer-form-min restore-defaults!)
+    (the timer-form-min restore-defaults!)
     (the timer-form-sec restore-defaults!)
     (when (the current-journal-entry)
       (the entries (delete! (the current-journal-entry index)))
