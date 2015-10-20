@@ -194,18 +194,20 @@
   (insert "(load (merge-pathnames \".load-base-ql.lisp\" (user-homedir-pathname)))")
   (slime-repl-return))
 
+(defvar gdl-startup-string nil)
 
-(defvar gdl-startup-string 
+(setq gdl-startup-string 
   (format 
    "(progn (unless (find-package :gendl)
-	    (let ((load-file (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))))
+	    (let ((load-file (probe-file (merge-pathnames \"../gdl/dot-files/.load-gendl.lisp\" \"%s\"))))
 	      (load load-file)))
           (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\")))
 	  (when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))
 	  (let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
 	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
-		  (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
-		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
+		  ;;(gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
+		  ;;(t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))
+))
 	  (when (find-package :gendl) (in-package :gdl-user)))" *gendl-home*))
 
 
