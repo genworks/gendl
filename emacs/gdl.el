@@ -199,7 +199,7 @@
 (setq gdl-startup-string 
   (format 
    "(progn (unless (find-package :gendl)
-	    (let ((load-file (probe-file (merge-pathnames \"../gdl/dot-files/.load-gendl.lisp\" \"%s\"))))
+	    (let ((load-file (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))))
 	      (load load-file)))
           (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\")))
 	  (when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))

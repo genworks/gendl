@@ -17,5 +17,7 @@ This is expected to be set at startup in a runtime application.")
 This is expected to be set at startup in a runtime application.")
 
 
+(defparameter *smtp-server* "localhost")
+
 (setq gwl:*developing?* t)
 (setq *debug?* t)
