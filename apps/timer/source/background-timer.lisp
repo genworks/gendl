@@ -25,27 +25,25 @@
 
     (sleep 120)
 
-    #+allegro
-    (net.post-office:send-letter 
-		       *smtp-server*
-		       "support@genworks.com"
-		       "david.cooper@genworks.com"
-		       (format nil "Dear Citizen,
+    (cl-smtp:send-email *smtp-server*
+			"support@genworks.com"
+			"david.cooper@genworks.com"
+			"Journal Entry needed"
+			(format nil "Dear Citizen,
 
 Your latest time unit has expired and no journal entry has been
 received. Please take care of this matter immediately at the following
 location:
  
- ~a
+ http://genworks.com~a
 
 Regards,
 
  Bureau of Records Enforcement 
  The Ministry of Time
 
-"
-			       (the url))
-		       :subject "Journal Entry needed"))
+" (the url))))
+
 
    
    (cancel-background-timer

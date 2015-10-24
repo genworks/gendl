@@ -28,29 +28,61 @@
 		  "This object makes a Cardinal Spline, which defaults to a Catmull-Rom Spline for nil tension-params (which means they all default to 0.0)"
 		  :author "Dave Cooper, Genworks International")
 
-  :input-slots (control-points
+  :input-slots (through-points
 		(tension-params nil)
-		(periodic? nil))
+		(periodic? nil)
+		(alpha 0))
 
   :computed-slots ((native-curve-iw (make-cardinal-spline *geometry-kernel* 
 							  :periodic? (the periodic?)
 							  :tension-params (the tension-params)
+							  
 							  :control-points (if (and (the periodic?)
-										   (coincident-point? (first (the control-points))
-												      (lastcar (the control-points))))
-									      (butlast (the control-points))
-									      (the control-points))))))
-
+										   (coincident-point? (first (the through-points))
+												      (lastcar (the through-points))))
+									      (butlast (the through-points))
+									      (the through-points))
+							  :alpha (the alpha)))))
 							  
 
 
-(define-object test-cardinal-spline (cardinal-spline)
+(define-object test-uniform-cr (cardinal-spline)
 
   :computed-slots 
-  ((control-points (list (make-point 0 0 0)
-			 (make-point 1 0 0)
+  ((through-points (list (make-point 0 0 0)
 			 (make-point 1 1 0)
-			 (make-point 0 1 0)))
+			 (make-point 1.1 1 0)
+			 (make-point 2 0 0)))
 
 
    (periodic? t)))
+
+(define-object test-centripetal-cr (cardinal-spline)
+
+  :computed-slots 
+  ((alpha 0.5)
+   (through-points (list (make-point 0 0 0)
+			 (make-point 1 1 0)
+			 (make-point 1.1 1 0)
+			 (make-point 2 0 0)))
+
+
+   (periodic? t)))
+
+(define-object test-chordal-cr (cardinal-spline)
+
+  :computed-slots 
+  ((alpha 1)
+   (through-points (list (make-point 0 0 0)
+			 (make-point 1 1 0)
+			 (make-point 1.1 1 0)
+			 (make-point 2 0 0)))
+
+
+   (periodic? t)))
+
+
+
+
+
+

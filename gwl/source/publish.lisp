@@ -48,9 +48,6 @@
 		      (args (rest (assoc "args" query :test #'string-equal)))
 		      (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
 
-		 
-		 (print-variables query args *ipaddr*)
-
 		 (let ((args-list (base64-decode-list args)))
 		   ;;
 		   ;; FLAG -- consider a warning if package not found

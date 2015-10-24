@@ -193,9 +193,12 @@
    (end-timer-tasks 
     ()
     (the current-journal-entry (set-slot! :universal-time-end (get-universal-time)))
-    (the cancel-background-timer)
-    (the zero!))
 
+    (the zero!))
+   
+   ;;
+   ;; FLAG -- split this into separate drift-check and zeroing of the values. 
+   ;;
    (zero!
     ()
     (unless (and (zerop (the timer-form-min value))
@@ -217,6 +220,7 @@
     ()
     (the timer-form-min restore-defaults!)
     (the timer-form-sec restore-defaults!)
+    (the cancel-background-timer)
     (when (the current-journal-entry)
       (the entries (delete! (the current-journal-entry index)))
       (the (restore-slot-default! :current-journal-entry))))
