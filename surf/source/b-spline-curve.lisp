@@ -114,8 +114,6 @@ If any of the weights are different from 1.0, it is Rational."
   
   
   
-  
-  
     :input-slots
     ("List of 3D Points. The control points."
      control-points 
