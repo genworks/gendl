@@ -147,6 +147,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:define-object
            #:define-object-amendment
            #:define-object-documentation
+	   #:define-object-macro-toplevel
            #:define-package
            #:define-skin
            #:define-view

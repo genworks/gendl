@@ -124,6 +124,12 @@ compared to applications compiled with it set to T. Defaults to NIL.")
           :objects :quantified-objects :hidden-objects :quantified-hidden-objects :functions
           :query-slots))
 
+(defparameter *allowed-define-object-toplevel-keywords*
+  (list :input-slots :computed-slots :objects :hidden-objects :functions
+	:methods :trickle-down-slots :cached-functions :cached-methods))
+
+(defparameter *define-object-toplevel-macros* (make-hash-table))
+
 (defparameter *stream* nil)
 
 (defparameter *colors-default* (list :foreground :black :background :white)
