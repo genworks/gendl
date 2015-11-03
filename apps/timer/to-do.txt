@@ -8,4 +8,4 @@
    application is run from a standalone server without Internet
    access.
  
-
+4. Start counting down negative after end of timer period before journal entry is recorded. 
