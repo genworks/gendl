@@ -390,8 +390,6 @@ You have a dependency on caffeine. Your children are your dependants.
   ;; FLAG - call recursively until no more non-standard keywords remain.
   (setq plist (expand-define-object-macros-toplevel plist))
 
-  (print-variables plist)
-  
   (let ((ht (make-hash-table)) result)
     (mapc #'(lambda(key value) (let ((current (gethash key ht)))
 				 ;; FLAG consider nconc here. 

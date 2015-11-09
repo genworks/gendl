@@ -121,12 +121,13 @@ compared to applications compiled with it set to T. Defaults to NIL.")
     (list :required-input-slots :optional-input-slots :settable-optional-input-slots
           :defaulted-input-slots :settable-defaulted-input-slots :computed-slots :settable-computed-slots 
           :uncached-computed-slots
-          :objects :quantified-objects :hidden-objects :quantified-hidden-objects :functions
-          :query-slots))
+          :objects :quantified-objects :hidden-objects :quantified-hidden-objects 
+	  :functions :query-slots))
 
 (defparameter *allowed-define-object-toplevel-keywords*
   (list :input-slots :computed-slots :objects :hidden-objects :functions
-	:methods :trickle-down-slots :cached-functions :cached-methods))
+	:methods :trickle-down-slots :cached-functions :cached-methods 
+	:documentation :no-vanilla-mixin?))
 
 (defparameter *define-object-toplevel-macros* (make-hash-table))
 
