@@ -612,6 +612,17 @@ CL \"fround\" function.
                                                    (truncate (* (second color) 255))
                                                    (truncate (* (third color) 255))) t)))))
 
+
+;;
+;; FLAG -- remove this defunct version. 
+;;
+#+nil
+(defmethod lookup-color ((color null) &key (format :decimal) (ground :foreground))
+  (unless (and (eql ground :foreground)
+	       (eql (getf *colors-default* :foreground) :black))
+    (values (lookup-color (getf *colors-default* ground) :format format) nil)))
+
+
 (defmethod lookup-color ((color null) &key (format :decimal) (ground :foreground))
   (values (lookup-color (getf *colors-default* ground) :format format) nil))
      
@@ -696,6 +707,81 @@ an iso-8601 date, optionally with time, e.g. 2012-07-08 or 2012-07-08T13:33 or 2
   (apply #'make-object (the-object object type) make-object-args))
   
 
+
+
+(defun read-snapshot (&key (filename "/tmp/snap.gdl") object keep-bashed-values? make-object-args 
+			   keys-to-ignore
+			   (keys-to-ignore-default (list :query-plist :view-toggle :cookies-received)))
+    
+  "GDL Instance. Reads the snapshot file indicated by filename. If no optional keyword <tt>object</tt>
+argument is given, a new GDL instance based on the data in the snapshot file is returned. If an
+<tt>object</tt> is given, the object should be compatible in type to that specified in the 
+snapshot file, and this existing object will be modified to contain the set slot values and
+toplevel inputs as specified in the snapshot file.
+
+:&key ((filename \"/tmp/snap.gdl\") \"String or pathname. File to be read.\"
+       (keep-bashed-values? nil) \"Boolean. Indicates whether to keep the currently bashed values in object before reading snap values into it.\"
+       (object nil) \"GDL object. Existing object to be modified with restored values.\")"
+  
+  (let ((keys-to-ignore (append keys-to-ignore keys-to-ignore-default)))
+    
+  
+    (with-open-file (in filename)
+      (let ((package-form (read in)))
+	(when (or (null package-form) (not (find-package (second package-form))))
+	  (error "Invalid package specification at beginning of ~a.~%" filename))
+	(let* ((*package* (find-package (second package-form))) (root-form (read in)))
+	  (when (or (null root-form) 
+		    (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class))))
+	    (error "Invalid object type specifier as first element of second form in ~a.~%" root-form))
+
+        
+	  (let* ((object (cond ((and object keep-bashed-values?) object)
+			       (object (the-object object restore-tree!) object)
+			       (t (progn
+				    (apply #'make-object (first root-form) make-object-args))))))
+
+	    
+	    (let ((self object) (value-plist (rest root-form)))
+
+	      (mapc #'(lambda(key expression) 
+			(unless (member key keys-to-ignore)
+			  (when self (the-object self (set-slot! key (eval expression) :re-sort? nil)))))
+		    (plist-keys value-plist) (plist-values value-plist)))
+          
+	    (let (forms)
+	      (do ((form (read in nil nil) (read in nil nil)))
+		  ((null form) forms)
+		(push form forms))
+	    
+	      (setq forms (nreverse forms))
+	    
+	      (let* ((forms (double-length-sort forms))
+		     
+		     (primaries (remove-if-not #'(lambda(item) (or (getf (rest item) :%primary?%)
+								   (getf (rest item) :element-index-list))) forms))
+		     (non-primaries (remove-if #'(lambda(item) (or (getf (rest item) :%primary?%)
+								   (getf (rest item) :element-index-list))) forms))
+		     (forms (append primaries non-primaries)))
+              
+		(dolist (form forms)
+            
+		  (let ((root-path (first form)) (value-plist (rest form)))
+		    (let ((self 
+			   (with-error-handling (:timeout nil)
+			     (the-object object (follow-root-path root-path)))))
+		      (when self
+			(mapc #'(lambda(key expression) 
+				  (unless (member key keys-to-ignore)
+				    (the-object self (set-slot! key (eval `(let ((self ,self)) ,expression)) :re-sort? nil))))
+			      (plist-keys value-plist) (plist-values value-plist))))))))
+	    object))))))
+
+
+;;
+;; FLAG -- remove this defunction version. 
+;;
+#+nil
 (defun read-snapshot (&key (filename "/tmp/snap.gdl") object keep-bashed-values? make-object-args keys-to-ignore)
   "GDL Instance. Reads the snapshot file indicated by filename. If no optional keyword <tt>object</tt>
 argument is given, a new GDL instance based on the data in the snapshot file is returned. If an
@@ -819,8 +905,6 @@ toplevel inputs as specified in the snapshot file.
 
 (defparameter *invalid-aggregate-behavior* :error)
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (export '*invalid-aggregate-behavior* :gdl))
 
 (defun add-notify-cons (notify-cons value &optional self message)
   ;;
@@ -939,3 +1023,14 @@ toplevel inputs as specified in the snapshot file.
       
     
 			       
+(defun double-length-sort (&optional (list))
+  (let ((first (safe-sort list #'(lambda(item1 item2)
+				   (let ((first1 (first (first item1)))
+					 (first2 (first (first item2))))
+				     (< (if (consp first1) (length first1) 0)
+					(if (consp first2) (length first2) 0)))))))
+    (stable-sort first #'(lambda(x  y) (< (length (first x)) (length (first y)))))))
+
+
+
+

@@ -1,0 +1,43 @@
+
+p019: removed superfluous ht (hash-table) from showing up in
+      variable-sequence for saved snapshot files.
+
+
+p018: Implement random back-off strategy for starting webserver in
+      gwl:start-gwl, when port is already busy.
+
+p017: Add explanatory error message in add-notify-cons for the case
+      when aggregate is nil (which should not normally happen).
+
+p016: Improve sort ordering for input forms from snap files and stored
+      in version-tree root data structure"
+
+
+p015: Adds overridable initialize-instance! function to vanilla-mixin
+      and calls this from make-object and make-object-internal.
+
+
+p014: improve definition of glisp:temporary-folder, establish
+      glisp:*temporary-folder-function* which can be overridden by
+      user code.
+
+
+p012: Improve definition of write-snapshot. 
+
+p009: Makes web-drawing and tasty respect background and foreground in *colors-default*.
+
+
+p008: Make gdlAjax work with SSL by publishing through with-all-servers. 
+
+p007: Make sew-and-orient default to t only for merge operation. 
+
+p006: Improve behavior of restore-slot-default!
+
+p005: Fix the order of the returned u,v point for the point function of uv-iso-curve.
+
+
+p004: Fix restore-tree to restore to true root, and protect root-object-object
+      (the object of tasty or ta2) from being blown away and replaced with new object.
+
+
+p001: Make the respondent default to the bashee for base-html-sheet, same as for base-ajax-sheet.

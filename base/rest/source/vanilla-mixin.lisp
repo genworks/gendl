@@ -285,7 +285,7 @@ the <tt>follow-root-path</tt> GDL function to return the actual instance."
    )
 
   :functions
-  (
+  ((initialize-instance! ())
       
    (ignore-messages-from ())
    
@@ -307,7 +307,35 @@ the <tt>follow-root-path</tt> GDL function to return the actual instance."
 		       (nreverse result))))
       (the (restore-slot-defaults! settables))))
 
+   
+   ("Void. Restores all settable-slots in this instance, and
+recursively in all descendant instances, to their default values."
+     restore-tree!
+     (&key (quick? t)
+	   (keep-function #'always)
+	   (prune-function #'never)
+	   (child-function (lambda(node) (the-object node safe-children))))
 
+     (let ((node (if (and (the parent) (the parent root?)
+			  (defaulting (the parent root-object-object))
+			  (eql (the parent root-object-object) self))
+		     (the parent) self)))
+       (if quick?
+	   (progn
+	     (setf (gdl-acc::%version-tree% node) nil)
+	     (the-object node (update! :immune-message-keys (list :root-object-object
+								  :root-object-type)))
+	     (unless (eql self node) (the-object node root-object-object update!)))
+	   (maptree  self 
+		     (lambda(node) (when (typep node 'gdl::gdl-basis) (the-object node restore-node!)))
+		     keep-function
+		     prune-function
+		     child-function))))
+   
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;; 
+   #+nil
    ("Void. Restores all settable-slots in this instance, and recursively in all descendant instances,
 to their default values."
       restore-tree!
@@ -344,7 +372,54 @@ or all mixins from the entire inheritance hierarchy.\")"
     mixins (&key (local? t)) 
     (mapcar #'class-name (find-all-superclasses (class-of self) local?)))
       
+
+   ("NIL. Restores the value of the given slot to its default, thus ``undoing'' any forcibly set value
+ in the slot. Any dependent slots in the tree will respond accordingly when they are next demanded. 
+ Note that the slot must be specified as a keyword symbol (i.e. prepended with a colon (``:'')), 
+ otherwise it will be evaluated as a variable according to normal Lisp functional evaluation rules.
+ :arguments (slot \"Keyword Symbol\")
+ :key (force? \"Boolean. Specify as t if you want to force non-settable slots to recompute (e.g. 
+reading from databases or external files). Defaults to nil.\")"
+     restore-slot-default!
+     (attribute &key (force? *force-restore-slot-default?*))
+     (when (or force? (eql (the (slot-status attribute)) :set))
+       (let (*leaf-resets*)
+	 (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
+	   (unless (eq (first (ensure-list (slot-value self slot))) 'gdl-rule::%unbound%)
+	     (unbind-dependent-slots self slot) 
+	     (setf (slot-value self slot) 
+		   (if *remember-previous-slot-values?*
+		       (list 'gdl-rule::%unbound% nil nil (first (slot-value self slot)))
+		       'gdl-rule::%unbound%))))
+	 (let ((root (let ((maybe-root (the :root)))
+		       (if (the-object maybe-root root?)
+			   maybe-root
+			   (the-object maybe-root parent))))
+              
+	       ;;(root-path (remove :root-object-object (the root-path)))
+	       (root-path (the root-path))
+              
+	       )
+	   ;;
+	   ;; FLAG -- this pushnew should never be necessary...
+	   ;;
+	   (pushnew (list root-path)
+		    (gdl-acc::%version-tree% root) :test #'equalp :key #'(lambda(item) (list (first item))))
+	   (setf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) 
+		 (remove-plist-key  (rest (assoc root-path
+						 (gdl-acc::%version-tree% root) :test #'equalp)) attribute))
+
+	   (setf (gdl-acc::%version-tree% root)
+		 (double-length-sort (gdl-acc::%version-tree% root))))
+
+	 (when *eager-setting-enabled?*
+	   (dolist (reset *leaf-resets*)
+	     (the-object (first reset) (evaluate (second reset))))))))
    
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
    ("NIL. Restores the value of the given slot to its default, thus ``undoing'' any forcibly set value
  in the slot. Any dependent slots in the tree will respond accordingly when they are next demanded. 
  Note that the slot must be specified as a keyword symbol (i.e. prepended with a colon (``:'')), 
@@ -449,8 +524,139 @@ reading from databases or external files). Defaults to nil.\")"
 ;;
 ;; FLAG -- notify trobertson@whitebox.com if any changes to %version-tree% structure!!
 ;;
-   
 
+
+
+   ("NIL. Forcibly sets the value of the given slot to the given value. The slot must be defined
+as <tt>:settable</tt> for this to work properly. Any dependent slots in the tree will 
+respond accordingly when they are next demanded. Note that the slot must be specified as a keyword 
+symbol (i.e. prepended with a colon (``:'')), otherwise it will be evaluated as a variable according 
+to normal Lisp functional evaluation rules.
+
+<p>
+Note also that this must not be called (either directly or indirectly)
+from within the body of a Gendl computed-slot. The caching and
+dependency tracking mechanism in Gendl will not work properly if this
+is called from the body of a computed-slot, and furthermore a runtime
+error will be generated.
+</p>
+ :arguments (slot \"Keyword Symbol\"
+             value \"Lisp Object. (e.g. Number, String, List, etc.)\")
+
+ :&key ((remember? t) \"Boolean. Determines whether to save in current version-tree.\"
+        (warn-on-non-toplevel? t) \"Boolean. Determines whether to warn if this is called from the body of a cached slot.\" )"
+    set-slot!
+    (attribute value &key (remember? t) (warn-on-non-toplevel? t) (override-non-settable? *override-non-settables?*)
+	       (re-sort? t) (keys-to-ignore (list :%primary?%)) (keys-to-forget (list :query-plist :cookies-received :view-toggle)))
+
+    (when (member attribute keys-to-forget) (setq remember? nil))
+    
+    (unless (member attribute keys-to-ignore)
+      (unless (or (gethash attribute (the %settable-slots%))
+		  (member attribute (the (message-list :category :required-input-slots))))
+	(let ((message (format nil "The slot ~s is not settable in ~a of type ~a." 
+			       attribute
+			       (cons 'the (reverse (the root-path))) 
+			       (the type))))
+	  (if override-non-settable? 
+	      (warn (format nil "~a Setting it anyway... 
+To get a continuable error instead, use :override-non-settable? t or 
+globally (setq *override-non-settables?* t).
+
+Note that this behavior may change to error by default in a future GDL release.
+
+" 
+			    message))
+	    (cerror  "Set the slot anyway." message))))
+    
+      (when (and warn-on-non-toplevel?
+		 *notify-cons*)
+	(warn "It is not recommended to call set-slot! from within dependency-tracking context, e.g. from the body of a computed-slot. 
+
+THIS CAN LEAD TO INCONSISTENT DEPENDENCY-TRACKING!!!
+
+Set-slot was called on 
+
+  ~s 
+
+with value 
+
+  ~s
+
+from 
+
+  ~s.~%"
+	      (cons 'the (append (reverse (the root-path))
+				 (list (make-keyword attribute))))
+	      value
+	      (cons 'the (append (reverse (the-object (first *notify-cons*) root-path))
+				 (list (make-keyword (second *notify-cons*)))))))
+      (progn ;; bt:with-lock-held (*binding-lock*) FLAG - bring in later in bootstrapping. 
+	(unless (eql attribute :%primary?%)
+	  (when (not *run-with-dependency-tracking?*)
+	    (error "Dependency Tracking must be enabled in order to forcibly
+set slot values. 
+
+Please setq the variable `*run-with-dependency-tracking?*' to T,
+make a fresh root-level object, and start again."))
+	  (let (*leaf-resets*)
+	    (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
+	      (unbind-dependent-slots self slot)
+	      (setf (slot-value self slot) 
+		(list value nil t)))
+	    (when remember?
+	      (let ((root (let ((maybe-root (the :root)))
+			    (if (the-object maybe-root root?)
+				maybe-root
+			      (the-object maybe-root parent))))
+		    (root-path (the root-path)
+			       ;;(remove :root-object-object (the root-path))
+			       ;;(the root-path)
+			       ))
+
+		(cond ((and (gdl-acc::%version-tree% root)
+			    (not (find root-path (gdl-acc::%version-tree% root)
+				       :test #'equalp :key #'first)))
+		       (nconc (gdl-acc::%version-tree% root)
+			      (list (list root-path))))
+		      ((null (gdl-acc::%version-tree% root))
+		       (setf (gdl-acc::%version-tree% root) 
+			 (list (list root-path)))))
+
+		(when (the primary?)
+		  (setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) :%primary?%)
+		    t))
+	      
+		(when re-sort?
+		  
+		  (setf (gdl-acc::%version-tree% root)
+		    (double-length-sort (gdl-acc::%version-tree% root)))
+		
+		  (let ((non-root (remove nil (gdl-acc::%version-tree% root) :key #'first))
+			(root-list (find nil (gdl-acc::%version-tree% root) :key #'first)))
+		    (let ((primaries (remove-if-not #'(lambda(item)
+							(or (getf (rest item) :%primary?%)
+							    (getf (rest item) :element-index-list)))
+						    non-root))
+			  (non-primaries (remove-if #'(lambda(item)
+							(or (getf (rest item) :%primary?%)
+							    (getf (rest item) :element-index-list)))
+						    non-root)))
+		      (setf (gdl-acc::%version-tree% root)
+			(cons (or root-list (list nil))
+			      (append primaries non-primaries))))))
+            
+		(setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) attribute)
+		  value)))
+      
+	    (when *eager-setting-enabled?*
+	      (dolist (reset *leaf-resets*)
+		(the-object (first reset) (evaluate (second reset))))))))))
+   
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
    ("NIL. Forcibly sets the value of the given slot to the given value. The slot must be defined
 as <tt>:settable</tt> for this to work properly. Any dependent slots in the tree will 
 respond accordingly when they are next demanded. Note that the slot must be specified as a keyword 
@@ -677,66 +883,117 @@ the function returns NIL. If <tt>:normal</tt> (the default), then no filtering i
           (if return-category? (flatten-pairs sorted) (mapcar #'first sorted))))))
 
 
-   
+
    ("Void. Uncaches all cached data in slots and objects throughout the instance 
 tree from this node, forcing all code to run again the next time values are 
 demanded. This is useful for updating an existing model or part of an existing 
 model after making changes and recompiling/reloading the code of the underlying 
 definitions.  Any set (modified) slot values will, however, be preserved 
 by the update."
-    update!
-    (&key (replace-bashed-values? t))
-    (let ((all-messages (the (:message-list)))
-          (methods (the (:message-list :category :functions)))
-          (immune-messages (list :$$ta2 :$$ta2-object 
-                                 :$$tatu :$$tatu-object))
-	  ;;
-	  ;; FLAG -- get rid of special-casing and ignore-errors for root-object-object.
-	  ;;
-          (root-object-object-vt 
-           (when (ignore-errors (the root-object-object))
-             (mapcar #'(lambda(path) 
-                         (when (consp (rest path))
-                           (cons (append (first path) (list :root-object-object))
-                                 (rest path))))
-                     (gdl-acc::%version-tree% (ignore-errors (the root-object-object)))))))
-      (let ((cached-messages 
-             (set-difference all-messages (append methods immune-messages))))
+     update!
+     (&key (replace-bashed-values? t) immune-message-keys)
+     (let ((all-messages (the (:message-list)))
+	   (methods (the (:message-list :category :functions)))
+	   (immune-messages (append (list :$$ta2 :$$ta2-object 
+					  :$$tatu :$$tatu-object)
+				    (ensure-list immune-message-keys)))
+	   (true-root (if (and (the root parent) (the root parent root?)
+			       (defaulting (the root parent root-object-object))
+			       (eql (the root parent root-object-object) self))
+			  (the root parent) (the root))))
+       (let ((cached-messages 
+	      (set-difference all-messages (append methods immune-messages))))
         
-        (dolist (key cached-messages)
-          (let ((key (glisp:intern (symbol-name key) :gdl-acc)))
-            (unbind-dependent-slots self key :updating? t))))
-      (let* ((root-path (remove :root-object-object (the root-path))) 
-             ;;(root-path (the root-path))
-             (root-path-length (length root-path))
-             (version-tree
-              (when replace-bashed-values?
-                (append
-                (remove-if-not #'(lambda(node) 
-                                   (let ((local-root-path (first node)))
-                                     (and (> (length local-root-path) root-path-length)
-                                          (equalp (subseq local-root-path
-                                                          (- (length local-root-path) 
-                                                             root-path-length))
-                                                  root-path))))
-                               (gdl-acc::%version-tree% (the root)))
-                root-object-object-vt))))
+	 (dolist (key cached-messages)
+	   (let ((key (glisp:intern (symbol-name key) :gdl-acc)))
+	     (unbind-dependent-slots self key :updating? t))))
+       (let* ( ;;(root-path (remove :root-object-object (the root-path))) 
+	      (root-path (the root-path))
+	      (root-path-length (length root-path))
+	      (version-tree
+	       (when replace-bashed-values?
+		 (remove-if-not #'(lambda(node) 
+				    (let ((local-root-path (first node)))
+				      (and (> (length local-root-path) root-path-length)
+					   (equalp (subseq local-root-path
+							   (- (length local-root-path) 
+							      root-path-length))
+						   root-path))))
+				(gdl-acc::%version-tree% true-root)))))
 
-        (when *debug?* (print-variables version-tree))
-        (dolist (version-node version-tree (values))
-          (let ((root (the root))
-                (root-path (first version-node)) (value-plist (rest version-node)))
-            (mapc #'(lambda(key value)
+	 (dolist (version-node version-tree (values))
+	   (let ((root true-root)
+		 (root-path (first version-node)) (value-plist (rest version-node)))
+	     (mapc #'(lambda(key value)
                       
-                      (when (not (eql value 'gdl-acc::%default%))
-                        ;;
-                        ;; FLAG - make this into a more specific error check for 
-                        ;;        nonexistence of the object (e.g. not handled error).
-                        ;;
-                        (with-error-handling (:timeout nil)
-                          (the-object root (:follow-root-path root-path) 
-                                      (:set-slot! key value)))))
-                  (plist-keys value-plist) (plist-values value-plist)))))))
+		       (when (not (eql value 'gdl-acc::%default%))
+			 ;;
+			 ;; FLAG - make this into a more specific error check for 
+			 ;;        nonexistence of the object (e.g. not handled error).
+			 ;;
+			 
+			 (with-error-handling (:timeout nil)
+			   (the-object root (:follow-root-path root-path) 
+				       (:set-slot! key value :re-sort? nil)))))
+		   (plist-keys value-plist) (plist-values value-plist)))))))
+   
+
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
+   ("Void. Uncaches all cached data in slots and objects throughout the instance 
+tree from this node, forcing all code to run again the next time values are 
+demanded. This is useful for updating an existing model or part of an existing 
+model after making changes and recompiling/reloading the code of the underlying 
+definitions.  Any set (modified) slot values will, however, be preserved 
+by the update."
+     update!
+     (&key (replace-bashed-values? t) immune-message-keys)
+     (let ((all-messages (the (:message-list)))
+	   (methods (the (:message-list :category :functions)))
+	   (immune-messages (append (list :$$ta2 :$$ta2-object 
+					  :$$tatu :$$tatu-object)
+				    (ensure-list immune-message-keys)))
+	   (true-root (if (and (the root parent) (the root parent root?)
+			       (defaulting (the root parent root-object-object))
+			       (eql (the root parent root-object-object) self))
+			  (the root parent) (the root))))
+       (let ((cached-messages 
+	      (set-difference all-messages (append methods immune-messages))))
+        
+	 (dolist (key cached-messages)
+	   (let ((key (glisp:intern (symbol-name key) :gdl-acc)))
+	     (unbind-dependent-slots self key :updating? t))))
+       (let* ( ;;(root-path (remove :root-object-object (the root-path))) 
+	      (root-path (the root-path))
+	      (root-path-length (length root-path))
+	      (version-tree
+	       (when replace-bashed-values?
+		 (remove-if-not #'(lambda(node) 
+				    (let ((local-root-path (first node)))
+				      (and (> (length local-root-path) root-path-length)
+					   (equalp (subseq local-root-path
+							   (- (length local-root-path) 
+							      root-path-length))
+						   root-path))))
+				(gdl-acc::%version-tree% true-root)))))
+
+	 (dolist (version-node version-tree (values))
+	   (let ((root true-root)
+		 (root-path (first version-node)) (value-plist (rest version-node)))
+	     (mapc #'(lambda(key value)
+                      
+		       (when (not (eql value 'gdl-acc::%default%))
+			 ;;
+			 ;; FLAG - make this into a more specific error check for 
+			 ;;        nonexistence of the object (e.g. not handled error).
+			 ;;
+			 
+			 (with-error-handling (:timeout nil)
+			   (the-object root (:follow-root-path root-path) 
+				       (:set-slot! key value :re-sort? nil)))))
+		   (plist-keys value-plist) (plist-values value-plist)))))))
 
    
    (active-inputs
@@ -754,7 +1011,86 @@ by the update."
       (nreverse result)))
    
 
+
+   ("Void. Writes a file containing the toplevel inputs and modified settable-slots starting from the root of the 
+ current instance. Typically this file can be read back into the system using the <tt>read-snapshot</tt> function.
+
+ :&key ((filename \"/tmp/snap.gdl\") \"String or pathname. The target file to be written.\"
+       (root-paths-to-ignore nil) \"List of root-paths or nil. Any objects with matching root-path will be ignored for the snapshot write.\"
+       )"
+    write-snapshot
+    (&key (filename "/tmp/snap.gdl") (root-paths-to-ignore nil))
+
+    
+    (let (*print-level*
+	  (root-object-object? (and (the parent) (the parent root?)
+				    (defaulting (the parent root-object-object))
+				    (eql (the parent root-object-object) self))))
+       
+      (let ((root (if root-object-object? (the root parent) (the root))))
+
+	;;
+	;; Should always be sorted now. 
+	;;
+	#+nil
+	(setf (gdl-acc::%version-tree% root)
+	      (sort (gdl-acc::%version-tree% root)
+		    #'(lambda(item1 item2)
+			(< (length (first item1)) (length (first item2))))))
+	 
+	(let* ((root-object-entry (when root-object-object?
+				    (find :root-object-object (gdl-acc::%version-tree% root) 
+					  :key #'(lambda(item) (first (first item))))))
+	       (version-tree (if root-object-entry
+				 (cons root-object-entry
+				       (remove :root-object-object (gdl-acc::%version-tree% root) 
+					       :key #'(lambda(item) (first (first item)))))
+				 (gdl-acc::%version-tree% root))))
+	 
+	  (with-open-file (out filename :direction :output :if-exists :supersede :if-does-not-exist :create)
+	    (print `(in-package ,(make-keyword (package-name *package*))) out)
+	    (mapcar #'(lambda(node)
+			(let ((root-path (first node)) (value-plist (rest node)))
+			 
+			  (unless (or (member root-path root-paths-to-ignore :test #'equalp)
+				      (and root-object-object? 
+					   (not (eql (lastcar root-path) :root-object-object))))
+
+			    (when (or (and root-object-object? (null (rest root-path)))
+				      (and (not root-object-object?) (null root-path)))
+			      (setq root-path (the type)))
+
+			    (when (and root-object-object? (consp root-path) (consp (rest root-path)))
+			      (setq root-path (butlast root-path)))
+			   
+			    (let ((keys (plist-keys value-plist)) (values (plist-values value-plist)))
+			      (let ((snap (cons root-path 
+						(append (when (atom root-path)
+							  (let (result)
+							    (let* ((toplevel-inputs 
+								    (remove-plist-key (the root active-inputs)
+										      :remote-id))
+								   (toplevel-input-keys (plist-keys toplevel-inputs))
+								   (toplevel-input-values (plist-values toplevel-inputs)))
+							      (mapc #'(lambda(key value) 
+									(when (not (member key keys)) 
+									  (push key result) (push value result)))
+								    toplevel-input-keys toplevel-input-values))
+							    (nreverse result)))
+							(mapcan #'(lambda(key val)
+								    (let ((expression (readable-expression val self)))
+								      (unless (eql expression :%unreadable%)
+									(list key expression))))
+								keys values))))) (print snap out))))))
+		
+		    (or version-tree (list nil)))))))
+    filename)
    
+
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
    ("Void. Writes a file containing the toplevel inputs and modified settable-slots starting from the root of the 
 current instance. Typically this file can be read back into the system using the <tt>read-snapshot</tt> function.
 

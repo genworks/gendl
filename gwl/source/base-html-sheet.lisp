@@ -102,7 +102,9 @@ mixes  this in, or in a <tt>main-sheet</tt> output-function in an html-format vi
 object.")
 
   :input-slots
-  (("GDL object. Default object to which control will return with the write-back-link method"
+  ((respondent (the bashee))
+
+   ("GDL object. Default object to which control will return with the write-back-link method"
     return-object (the :parent))
    ("String. Name of a browser frame or window to display this page. Default of NIL indicates to use the same window."
     target nil)

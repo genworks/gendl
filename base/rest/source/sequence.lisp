@@ -238,7 +238,7 @@ re-evaluates the expression to compute the original list of indices)"
     delete!
     (index)
     (bt:with-lock-held ((the lock))
-      (the (:set-slot! :ht (the :ht)))
+      (the (:set-slot! :ht (the :ht) :remember? nil))
       (remhash index (the ht))
       (the (:modify-attribute! :element-index-list
 			       (remove index (the :element-index-list))))))
@@ -258,7 +258,7 @@ re-evaluates the expression to compute the original list of indices)"
       (if (not found?)
 	  (bt:with-lock-held ((the lock))
 	    (setf (gethash index (the ht)) nil)
-	    (the (set-slot! :ht (the ht)))
+	    (the (set-slot! :ht (the ht) :remember? nil))
 	    (the (set-slot! :element-index-list
 			    (append (the element-index-list) (list index)))))
 	  (error "The element ~a is already active in ~s" index self))))))

@@ -63,6 +63,8 @@
                                      :port (the port))
                                (the input-parameters)))
 
+   ;;(remote-object-args-json (cl-json: ) ;; FLAG -- fill in!
+
    (parent-form (encode-for-http (the parent)))
    
    (local-remote-id nil :settable)

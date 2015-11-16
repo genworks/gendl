@@ -205,9 +205,9 @@
 	  (when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))
 	  (let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
 	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
-		  ;;(gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
-		  ;;(t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))
-))
+		  (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
+		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully 
+from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
 	  (when (find-package :gendl) (in-package :gdl-user)))" *gendl-home*))
 
 

@@ -22,7 +22,7 @@
 (in-package :gdl)
 
 
-(defparameter *gendl-version* "1590devo")
+(defparameter *gendl-version* "1590devo001")
 
 (defparameter *gendl-patch-level* nil)
 

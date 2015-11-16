@@ -296,6 +296,15 @@ with this matrix will always result in the absolute orientation for this part.
                          (setf (gethash ob-key *standard-face-hts*)
                            ht))))))
 
+
+   ("Vector of three real numbers. The RBG color of this object specified in :display-controls. 
+Defaults to the foreground color specified in <tt>*colors-default*</tt>. This message should not normally be overridden in user application code."
+    color-decimal (lookup-color (getf (the display-controls) :color)))
+   
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
    ("Vector of three real numbers. The RBG color of this object specified in :display-controls. 
 Defaults to the foreground color specified in <tt>*colors-default*</tt>. This message should not normally be overridden in user application code."
     color-decimal (multiple-value-bind (result found?) 

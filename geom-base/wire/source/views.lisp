@@ -60,6 +60,25 @@
 (define-lens (pdf base-object)()
   :output-functions
   ((rgb-stroke-setting
+      ()
+      (let* ((display-controls (find-in-hash self *display-controls*))
+	     (color (or (getf display-controls :color)
+			(the color-decimal)))
+	     (color-decimal (if (consp color) color 
+				(coerce (lookup-color (or color (format-slot foreground-color))) 'list)))
+	     (fill-color-decimal (coerce (lookup-color (getf (the display-controls) :fill-color)) 'list)))
+      
+	(print-variables color color-decimal)
+
+	(apply #'pdf:set-rgb-stroke color-decimal)
+	(apply #'pdf:set-rgb-fill (or fill-color-decimal color-decimal))))
+
+
+   ;;
+   ;; FLAG -- remove this defunct version.
+   ;;
+   #+nil 
+   (rgb-stroke-setting
     ()
     (let* ((display-controls (find-in-hash self *display-controls*))
            (color (or (getf display-controls :color)

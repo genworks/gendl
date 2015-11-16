@@ -157,6 +157,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:distribute
            #:distribute-dir
            #:div
+	   #:dumplisp
+	   #:dump-image
            #:encode-for-http
            #:ensure-list
            #:evaluate
@@ -238,6 +240,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:remove-plist-keys
            #:replace-substring
            #:restore-ui-object
+	   #:reset-glm
            #:retitle-emacs
            #:retrieve
            #:rgb-cube-colors
@@ -292,7 +295,9 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:*loaded-hotpatches*
 	   #:*packages-to-lock*
 	   #:*patch-url-base*
-	   #:*warn-on-invalid-toplevel-inputs?))
+	   #:*warn-on-invalid-toplevel-inputs?
+	   #:*invalid-aggregate-behavior*
+	   ))
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
@@ -366,6 +371,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:file-directory-p
    #:run-command
    #:temporary-folder
+   #:*temporary-folder-function*
    #:temporary-file
 
    #:find-gs-path
@@ -970,4 +976,6 @@ If you are interested in this effort we would love to hear from you at open-sour
 
 
 (gdl:define-package :enterprise (:export #:gdl-app #:make-gdl-app #:*newspace* #:*oldspace*))
+
+(gdl:define-package :glm (:export #:assembly))
 

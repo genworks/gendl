@@ -2,21 +2,23 @@
           Welcome to the Genworks® GDL and Gendl® Environment
 
 
-             ===========================
-                     GDL1588
-             ===========================
+             ================================================
+                     GDL1590-devo (nightly pre-release build)
+             ================================================
 
 
 Release Schedule
 ================
 
 
-2015-01-15: GDL1588 release
+2016-01-15: GDL1590 release
 
-2016-01-15: The next major GDL release will be made available (number
+2016-12-15: GDL1588 will be sunsetted.
+
+2017-01-15: The next major GDL release will be made available (number
             TBD).
 
-2017-01-14: Support for GDL1588 will be sunsetted.
+2017-12-15: Support for GDL1590 will be sunsetted.
 
 
 ----------------------------------------------------------------------
@@ -49,7 +51,7 @@ Updating
 
 The function (update-gdl) will pull down a bootstrap file which knows
 how to fetch and install the currently available patches for this
-version of GDL.
+version of GDL. (Note: this is not yet functional in this release).
 
 
 Documentation
@@ -58,8 +60,6 @@ Documentation
  The following manual is currently available in PDF format: 
    
    http://genworks.com/downloads/tutorial.pdf
-
-
 
 
 ==================

@@ -30,7 +30,11 @@
   this so we can consider documenting/testing it better.")
 
   :input-slots
-  ("List of GDL Surface or Face objects. These will be stitched together into an open shell or possibly a Solid" faces-in)
+  ("List of GDL Surface or Face objects. These will be stitched together into an open shell or possibly a Solid" 
+   faces-in
+   ("Number. The tolerance to use for creating the brep and for sewing. Larger number is looser tolerance 
+and more likely to lead to success. Default is 0.0 which uses the SMLib defaults."
+    tolerance 0.0))
   
   :computed-slots
   ((plain-surfaces (remove-if #'(lambda (object)(typep object 'trimmed-surface))
@@ -40,6 +44,19 @@
 
    (proper-faces (remove-if-not #'(lambda(object) (typep object 'face)) (the faces-in)))
    
+
+
+   (%native-brep% (progn (when (or (the trimmed-surfaces) (the proper-faces))
+			     (error "stitched-solid is currently only implemented for plain untrimmed surfaces"))
+			   (make-stitched-solid-brep *geometry-kernel* 
+						     :tolerance (the tolerance)
+						     :surfaces (the plain-surfaces)
+						     :proper-faces nil)))
+
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
    (%native-brep% (progn (when (or (the trimmed-surfaces) (the proper-faces))
                            (error "stitched-solid is currently only implemented for plain untrimmed surfaces"))
                          (make-stitched-solid-brep *geometry-kernel* 
