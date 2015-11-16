@@ -30,7 +30,7 @@ default for merged-solid."
 
  "Fix temporary-folder to respect glisp::*temporary-folder-function*, overridable by user code." 
 
- "Adds overridable initialize-instance! function to vanilla-mixin and
+ "Added overridable initialize-instance! function to vanilla-mixin and
   calls this from make-object and make-object-internal."
 
  "Improve sort ordering for input forms from snap files and stored in version-tree root data structure"
@@ -45,4 +45,16 @@ default for merged-solid."
   "Prevent ht (hashtable) information from variable sequences from
   showing up superfluously in snapshot files."
 
+  "Added define-object-macro-toplevel macro."
+  
+  "Upgraded to Allegro CL 10"
+
+  "Upgraded to SMLib 8.8.13"
+
+  "Upgraded to Quicklisp 2015-10"
+
+  "Added stricter reserved-word checking."
+
+  "Updated and enhanced glime auto-completion as implemented in emacs/glime.lisp"
+  
  )
