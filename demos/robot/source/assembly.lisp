@@ -48,7 +48,7 @@ to the src/ directory distributed with GDL.
    (torso-type 'box :settable)
    (height 10 :settable)
    (head-angle 0 :settable)
-   (body-angle 0 :settable)
+   (body-angle 20 :settable)
    (arm-angle-right 0 :settable)
    (arm-angle-left 0 :settable)
    (pincer-distance-right (number-round (* .15 3/5 (the width)) 3) :settable)

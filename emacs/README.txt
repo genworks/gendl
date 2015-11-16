@@ -381,7 +381,7 @@ needs to be polished a bit more before loading it by default.
 
 You can load Glime at any time with:
 
-  (load (merge-pathnames "emacs/glime.lisp" (glisp:*gdl-home*)))
+  (load (merge-pathnames "emacs/glime.lisp" glisp:*gdl-home*))
 
 [glime needs to be loaded only on the Lisp (Swank) side, not on the
  Emacs (Slime) side].

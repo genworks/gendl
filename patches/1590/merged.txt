@@ -1,6 +1,3 @@
-
-
-
 ("Make the respondent default to the bashee for base-html-sheet, same as for base-ajax-sheet."
 
  "Fix restore-slot-default to blank out version information at the true root 
@@ -42,10 +39,10 @@ default for merged-solid."
   add-notify-cons call (which should not normally happen --- internal
   error reported with user code explicitly calling (the aggregate)"
 
- "Implement random back-off strategy for gwl:start-gwl, for when
+  "Implement random back-off strategy for gwl:start-gwl, for when
   default port 9000 and subsequent ports are busy."
 
- "Prevent ht (hashtable) information from variable sequences from
+  "Prevent ht (hashtable) information from variable sequences from
   showing up superfluously in snapshot files."
 
  )
