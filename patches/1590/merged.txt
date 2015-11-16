@@ -1,0 +1,51 @@
+
+
+
+("Make the respondent default to the bashee for base-html-sheet, same as for base-ajax-sheet."
+
+ "Fix restore-slot-default to blank out version information at the true root 
+in the case that we are a root-object-object child of true parent."
+
+ "Fix restore-tree to restore to true root, and protect root-object-object
+ (the object of tasty or ta2) from being blown away and replaced with new object."
+
+ "Make write-snapshot remove the root-object-object from root-paths if called on 
+   root-object-object below toplevel parent."
+
+ "Update the update! method to retrieve the version information from
+   the true root, in the case we are working on a root-object-object
+   below the toplevel parent."
+ 
+ "Fix the order of the returned u,v point for the point function of uv-iso-curve." 
+
+ "Keep the items in internal %version-tree% sorted based on root-path length."
+
+ "Add a tolerance for stitched-solid, and add sew-and-orient by
+default for merged-solid."
+
+ "Publish gdlAjax for all servers (including gwl:*ssl-server* if it exists)."
+
+ "Makes web-drawing and tasty respect background and foreground in *colors-default*."
+
+ "Correct snapshot output for objects not made with root-object-object."
+
+ "Remove superfluous debug statements for x3d output" 
+
+ "Fix temporary-folder to respect glisp::*temporary-folder-function*, overridable by user code." 
+
+ "Adds overridable initialize-instance! function to vanilla-mixin and
+  calls this from make-object and make-object-internal."
+
+ "Improve sort ordering for input forms from snap files and stored in version-tree root data structure"
+
+ "Add descriptive error message in case of missing aggregate in
+  add-notify-cons call (internal error reported with user code
+  explicitly calling (the aggregate)"
+
+ "Implement random back-off strategy for gwl:start-gwl, for when
+  default port 9000 and subsequent ports are busy."
+
+ "Prevent ht (hashtable) information from variable sequences from
+  showing up superfluously in snapshot files."
+
+ )
