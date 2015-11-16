@@ -57,4 +57,10 @@ default for merged-solid."
 
   "Updated and enhanced glime auto-completion as implemented in emacs/glime.lisp"
   
+  "Detached the toplevel object being inspected in tasty from the
+ tasty root itself -- so no more :root-object-object in the
+ root-path."  
+ 
+ 
+
  )
