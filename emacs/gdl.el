@@ -392,6 +392,7 @@ from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
      "sa-translit" "Converts Harvard-Kyoto and ITRANS scheme to IAST diacritics."
      file)))
 
+(maximize-frame)
 
 (load-user-emacs-gendl)
 

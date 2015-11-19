@@ -1,5 +1,5 @@
 
-          Welcome to the GenworksÂ® GDL and GendlÂ® Environment
+          Welcome to the Genworks® GDL and Gendl® Environment
 
 
              ================================================
