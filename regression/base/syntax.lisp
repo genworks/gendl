@@ -8,3 +8,5 @@
   :super-inputs (hey now))
 
 
+(define-object broken ()
+  :silly-inputs (hey now))
