@@ -399,38 +399,16 @@ from a saved snapshot file."
     (with-cl-who (:indent t)
       (when (the use-jquery?)
         (htm 
-
          ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery-current.min.js"))
-         ;; JB-090813 using the patched rc2 of layout 1.3 for ta2.0 alpha
-         ;; updating to 1.3 when it becomes available.
-         
+                   :src "/static/3rdpty/jquery/js/jquery.min.js"))
          ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery-ui-current.min.js"))
-
-	 
-	 ;;
-	 ;; FLAG -- put this back after re-arranging tasty color schemes to avoid the invisible menus. 
-	 ;; 
-	 #+nil
-	 ((:link :rel "stylesheet" :href "http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" :media "all"))
-
+                   :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
          ((:script :type "text/javascript"
-                   :src "/static/3rdpty/jquery/js/jquery.layout-current.min.js"))
-
-
+                   :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
          ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery-superfish.js"))
+                   :src "/static/3rdpty/jquery/js/superfish.min.js"))
          ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery.bgiframe.min.js"))
-         
-
-         ;; FLAG 090909-JB: added the dataTables plugin for the inspector
-         ;; FLAG -- is this still needed? 
-         #+nil
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery.dataTables.min.js"))
-         ))
+                   :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
       
       
       (when (the use-x3dom?)
@@ -443,17 +421,11 @@ from a saved snapshot file."
 
       (when (the use-raphael?)
         (htm ((:script :type "text/javascript" 
-                       :src 
-                       ;;"/static/3rdpty/raphael/js/raphael-1.2-min.js"
-		       "/static/3rdpty/raphael/js/raphael-2.1-min.js"
+                       :src "/static/3rdpty/raphael/js/raphael-min.js"
 		       ))))
       
-      #+nil
       ((:script :type "text/javascript"
-                :src "/static/gwl/js/base64.js"))
-
-      ((:script :type "text/javascript"
-                :src "/static/gwl/js/gdlajax1585.js"))
+                :src "/static/gwl/js/gdlajax1590.js"))
       
       ((:script :type "text/javascript")
        (fmt "~%var gdliid = '~a';" (the instance-id)))

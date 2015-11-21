@@ -53,14 +53,20 @@ default for merged-solid."
 
   "Upgraded to Quicklisp 2015-10"
 
+  "Upgraded to jquery 1.11.3"
+
   "Added stricter reserved-word checking."
 
   "Updated and enhanced glime auto-completion as implemented in emacs/glime.lisp"
+
+  "Upgrade Raphael to 2.1.2"
+
+  "Change Raphael line join to 'round' "
   
   "Detached the toplevel object being inspected in tasty from the
  tasty root itself -- so no more :root-object-object in the
  root-path."  
  
- 
+ "Cleaned up redundant and outdated jquery files." 
 
  )

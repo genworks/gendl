@@ -298,7 +298,7 @@ function decode64(input) {
 
 function gdlResize()
 {
- gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (InnerLayout.state.center.innerWidth -20 ) +  ' :length ' + (InnerLayout.state.center.innerHeight - 75) + ')))'));
+ gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (InnerLayout.state.center.innerWidth  ) +  ' :length ' + (InnerLayout.state.center.innerHeight - 40) + ')))'));
 }
 
 

@@ -333,6 +333,9 @@
 						     (number-round (get-x component) 4)
 						     (number-round (get-y component) 4)))) path-info)))
 
+
+		      (fmt "~a.attr({'stroke-linejoin': 'round'});" name)
+		      
 		      (fmt "~a.attr({stroke: '~a'});" 
 			   name (or (when (getf display-controls :color)
 				      (lookup-color (getf display-controls :color) :format :hex))
