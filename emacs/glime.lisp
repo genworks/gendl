@@ -536,7 +536,7 @@ Otherwise NIL is returned."
       nil
       form))
 
-(defun make-keyword-arg (keyword arg-name default-arg)
+(defun make-keyword-arg (keyword &optional (arg-name keyword) (default-arg nil))
   (%make-keyword-arg :keyword keyword
                      :arg-name arg-name
                      :default-arg (canonicalize-default-arg default-arg)))
@@ -558,7 +558,7 @@ Otherwise NIL is returned."
 Return three values: keyword, argument name, default arg."
   (flet ((intern-as-keyword (arg) (intern-arg arg keyword-package)))
     (cond ((or (symbolp arg) (arglist-dummy-p arg))
-           (make-keyword-arg (intern-as-keyword arg) arg nil))
+           (make-keyword-arg (intern-as-keyword arg) arg))
           ((and (consp arg)
                 (consp (car arg)))
            (make-keyword-arg (caar arg)
@@ -1260,6 +1260,7 @@ Second, a boolean value telling whether the returned string can be cached."
             (format s "~A ~A~S" symbol *echo-area-prefix* value))))))
 
 
+;; used by slime-complete-form, c-c c-s
 (defslimefun complete-form (raw-form)
   "Read FORM-STRING in the current buffer package, then complete it
   by adding a template for the missing arguments."
@@ -1276,6 +1277,7 @@ Second, a boolean value telling whether the returned string can be cached."
                                        :from-end t :count 1))
          :prefix "" :suffix "")))))
 
+;; used by slime-complete-symbol, m-t, c-c c-i 
 (defslimefun completions-for-keyword (keyword-string raw-form)
   "Return a list of possible completions for KEYWORD-STRING relative
 to the context provided by RAW-FORM."
@@ -1328,17 +1330,16 @@ to the context provided by RAW-FORM."
 		      ((or (not keys) (empty-arg-p mixins)) ;; entering mixins
 		       (make-object-defn :classname classname))
 		      (t
-		       (loop for (key section . next) = keys then next
-			  when (null next)
-			  return (if (and (consp section) (memq key +define-object-sections+))
-				     (let ((slot-form (car (last section))))
-				       (make-object-defn
-					:classname classname :mixins mixins :keys keys
-					:section key
-					;; NIL if between slots e.g. ((slot-1) ^ )
-					:slot-form (and (consp slot-form) slot-form)))
-				     (make-object-defn
-				      :classname classname :mixins mixins :keys keys)))))))
+		       (destructuring-bind (key &optional section) (plist-tail keys)
+			 (if (and (consp section) (memq key +define-object-sections+))
+			     (let ((slot-form (car (last section))))
+			       (make-object-defn
+				:classname classname :mixins mixins :keys keys
+				:section key
+				;; NIL if between slots e.g. ((slot-1) ^ )
+				:slot-form (and (consp slot-form) slot-form)))
+			     (make-object-defn
+			      :classname classname :mixins mixins :keys keys)))))))
       (when defn (list (cons +object-marker+ defn))))))
 
 (defun augment-env (operator args env)
@@ -1497,14 +1498,48 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
        (t ())))))
 
 ;; If parent is a THE form, get the arglist of functional message named by operator.
-(defun message-arglist (operator env parent)
-  (when-let (class (the-class-in-env (car parent) (cdr parent) env))
+(defun message-arglist (operator env the-form)
+  (when-let (class (the-class-in-env (car the-form) (cdr the-form) env))
     (or (when (or (eq operator 'gendl:evaluate)
 		  (and (consp operator) (eq (car operator) 'gendl:evaluate)))
 	  (decode-arglist '(gendl::expression)))
 	(when-let (defn (object-definition-in-env env class))
 	  (message-arglist-from-defn defn operator))
 	(message-arglist-from-class class operator))))
+
+(defparameter *extra-object-slot-keywords* '(:type :sequence :parameters :pass-down :pseudo-inputs))
+
+(defun slot-form-arglist (key slot-form env)
+  (or (and (memq key '(:objects :hidden-objects))
+	   (object-slot-form-arglist slot-form env))
+      (when-let (source (case key
+			  ((:objects :hidden-objects)
+			   `(slot-name &key ,@*extra-object-slot-keywords* &allow-other-keys))
+			  ((:functions)
+			   `(slot-name lambda-list &body body))
+			  ((:input-slots)
+			   '(slot-name default-value &rest properties))
+			  ((:computed-slots)
+			   '(slot-name default-value &rest properties))))
+	;; If have slot-name, don't include it.
+	(when (and (cdr slot-form) (not (empty-arg-p (car slot-form))))
+	  (pop source))
+	(decode-arglist source))))
+
+(defun object-slot-form-arglist (slot-form env)
+  (multiple-value-bind (key classname-form) (find-key :type (cdr slot-form))
+    (when key
+      (with-available-arglist (arglist)
+	  (operator-arglist 'gendl:make-object (cons classname-form (cdr slot-form)) env)
+	(pop (arglist.required-args arglist)) ;; remove the type arg.
+	(setf (arglist.rest arglist) nil)
+	(unless	(arglist.key-p arglist)
+	  (setf (arglist.allow-other-keys-p arglist) t))
+	(setf (arglist.key-p arglist) t)
+	(setf (arglist.keyword-args arglist)
+	      (nconc (mapcar #'make-keyword-arg *extra-object-slot-keywords*)
+		     (arglist.keyword-args arglist)))
+	arglist))))
 
 (defun local-function-arglist (operator env)
   (when-let (entry (assoc operator env :test (lambda (op1 op2)
@@ -1515,34 +1550,90 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 							       (arglist-dummy.string-representation op2)))))))
     (decode-arglist (cdr entry))))
 
+(defun operator-arglist (operator arguments env)
+  (or (local-function-arglist operator env)
+      (arglist-dispatch operator arguments env)
+      :not-available))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun grovel-for-cursor (form env parent)
+(defun grovel-for-cursor (form env)
   "Returns two values: the innermost functional form containing the +CURSOR-MARKER+, and the
   decoded arglist for the form.
 
   Descend FORM top-down, always taking the rightmost branch, until +CURSOR-MARKER+. Then
   climb up to first form with a known operator."
   (when (consp form) ;; fail if we're inside a vector or something weird like that
-    (let ((operator (car form)))
-      (multiple-value-bind (inner-form arglist)
-	  ;; TODO: need a protocol for the form to tell us if the subform is an operator expression,
-	  ;; so don't try to interpret e.g. slot forms as function calls.
-	  (let ((last-subform (car (last form))))
-	    (unless (or (eq last-subform +cursor-marker+) ;; nothing to descend
-			;; Don't descend QUOTE because it's just data, and don't descend
-			;; declarations because some typespecs clash with function names.
-			(memq operator '(cl:quote cl:declare cl:declaim)))
-	      (grovel-for-cursor last-subform (augment-env operator (cdr form) env) form)))
+    (let ((operator (car form))
+	  (arguments (cdr form)))
+      (multiple-value-bind (inner-form arglist) (grovel-for-inner-cursor operator form env)
 	(if inner-form
 	    (values inner-form arglist)
-	    ;; Nothing interesting deeper in, so we're the lowest level.  See if we're interesting.
-	    (let ((arglist (or (message-arglist operator env parent)
-			       (local-function-arglist operator env)
-			       (arglist-dispatch operator (cdr form) env)
-			       :not-available)))
+	    ;; Nothing known deeper in, so we're the lowest level.  See if OPERATOR is known.
+	    (let ((arglist (operator-arglist operator arguments env)))
 	      (when (arglist-available-p arglist)
 		(values form arglist))))))))
+
+;; Return the subform/arglist for the innermost subform of FORM with known arglist, or NIL if there
+;; aren't any, i.e. it returns NIL if FORM itself maybe the innermost potentially-known subform.
+(defmethod grovel-for-inner-cursor ((operator t) form env)
+  (let ((env (augment-env operator (cdr form) env)))
+    (and (consp form) (grovel-for-cursor (car (last form)) env))))
+
+;; Don't descend QUOTE because it's just data
+(defmethod grovel-for-inner-cursor ((operator (eql 'cl:quote)) form env)
+  (declare (ignore form env))
+  nil)
+
+;; Don't descend declarations because some typespecs clash with function names.
+(defmethod grovel-for-inner-cursor ((operator (eql 'cl:declare)) form env)
+  (declare (ignore form env))
+  nil)
+(defmethod grovel-for-inner-cursor ((operator (eql 'cl:declaim)) form env)
+  (declare (ignore form env))
+  nil)
+
+;; exit BLOCK if FORM is or contains a known subform.
+(defmacro exit-grovel-if-known (block form env)
+  `(multiple-value-bind (_inner-form _inner-arglist) (grovel-for-cursor ,form ,env)
+     (when _inner-form
+       (return-from ,block (values _inner-form _inner-arglist)))))
+
+(defmethod grovel-for-inner-cursor ((operator (eql 'gendl:define-object)) form env)
+  (when-let (keys (cdddr form))
+    (destructuring-bind (key &optional section) (plist-tail keys)
+      (when (consp section)
+	(let ((slot-form (car (last section))))
+	  (when (consp slot-form)
+	    ;; TODO: augment-env inline since already did all the destructuring.
+	    (let ((env (augment-env operator (cdr form) env)))
+	      (exit-grovel-if-known grovel-for-inner-cursor (car (last slot-form)) env)
+	      (let ((arglist (slot-form-arglist key slot-form env)))
+		(when (arglist-available-p arglist)
+		  (values slot-form arglist))))))))))
+
+(defmethod grovel-for-inner-cursor ((operator (eql 'gendl:the)) form env)
+  (grovel-for-inner-cursor-in-THE form env))
+
+(defmethod grovel-for-inner-cursor ((operator (eql 'gendl:the-object)) form env)
+  (grovel-for-inner-cursor-in-THE form env))
+
+(defmethod grovel-for-inner-cursor ((operator (eql 'gendl:the-child)) form env)
+  (grovel-for-inner-cursor-in-THE form env))
+
+(defun grovel-for-inner-cursor-in-THE (the-form env)
+  (let ((message-form (car (last the-form))))
+    (when (consp message-form)
+      (exit-grovel-if-known grovel-for-inner-cursor-in-THE (car (last message-form)) env)
+      (let* ((message (car message-form))
+	     (arglist (or (message-arglist message env the-form)
+			  (operator-arglist message (cdr message-form) env))))
+	(when (arglist-available-p arglist)
+	  (values message-form arglist))))))
+
+(defun plist-tail (plist)
+  (loop for last = plist then next for next = (cddr last)
+     when (null next) return last))
 
 (defun find-subform-with-arglist (form &key for-completion?)
   "Returns four values:
@@ -1568,7 +1659,7 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
        (yield-failure ()
          (values nil :not-available))
        (grovel (form)
-	 (multiple-value-bind (subform arglist) (grovel-for-cursor form nil nil)
+	 (multiple-value-bind (subform arglist) (grovel-for-cursor form nil)
 	   (if subform
 	       (yield-success subform arglist)
 	       (yield-failure)))))
@@ -1925,8 +2016,7 @@ datum for subsequent logics to rely on."
       (multiple-value-bind (proceed input-slots)
           (class-input-slots classname)
         (when proceed
-          (loop for slot in input-slots collect
-                (make-keyword-arg slot slot nil)))))))
+	  (mapcar #'make-keyword-arg input-slots))))))
 
 ;; 6.  HELP ON SPECIFIC DEFINE-OBJECT KEYWORDS
 ;;
@@ -2051,7 +2141,7 @@ datum for subsequent logics to rely on."
                                                              (values '(gendl:make-self)
                                                                      (make-arglist :key-p t
                                                                                    :keyword-args (unless (find :type keywords)
-                                                                                                   (list (make-keyword-arg :type :type nil)))
+                                                                                                   (list (make-keyword-arg :type)))
                                                                                    :allow-other-keys-p t)))))))))
               ;; Apply original defintion of find-subform-with-arglist to gendl:make-self form.
               (return-from find-define-object-subform
@@ -2344,6 +2434,11 @@ datum for subsequent logics to rely on."
 (defmethod safe-class-name ((self symbol)) self)
 (defmethod safe-class-name ((self class)) (class-name self))
 (defmethod safe-class-name ((self t)) nil)
+
+;; Return the last non-empty tail of plist.
+(defun plist-tail (plist)
+  (loop for last = plist then next for next = (cddr last)
+     when (null next) return last))
 
 ;; Look graciously for key: don't assume list is correctly formed for destructuring-bind.
 (defun find-key (key plist)
