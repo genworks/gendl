@@ -536,7 +536,12 @@ Otherwise NIL is returned."
       nil
       form))
 
-(defun make-keyword-arg (keyword &optional (arg-name keyword) (default-arg nil))
+(defun make-keyword-arg (keyword &optional (arg-name nil) (default-arg nil))
+  (unless arg-name
+    (if (keywordp keyword)
+	(setq arg-name (make-symbol (symbol-name keyword)))
+	(setq arg-name keyword
+	      keyword (intern-arg keyword keyword-package))))
   (%make-keyword-arg :keyword keyword
                      :arg-name arg-name
                      :default-arg (canonicalize-default-arg default-arg)))
@@ -1507,20 +1512,20 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	  (message-arglist-from-defn defn operator))
 	(message-arglist-from-class class operator))))
 
-(defparameter *extra-object-slot-keywords* '(:type :sequence :parameters :pass-down :pseudo-inputs))
+(defparameter *extra-object-slot-keyword-args* '(gendl::type gendl::sequence gendl::parameters gendl::pass-down gendl::pseudo-inputs))
 
 (defun slot-form-arglist (key slot-form env)
   (or (and (memq key '(:objects :hidden-objects))
 	   (object-slot-form-arglist slot-form env))
       (when-let (source (case key
 			  ((:objects :hidden-objects)
-			   `(slot-name &key ,@*extra-object-slot-keywords* &allow-other-keys))
+			   `(slot-name &key ,@*extra-object-slot-keyword-args* &allow-other-keys))
 			  ((:functions)
 			   `(slot-name lambda-list &body body))
 			  ((:input-slots)
-			   '(slot-name default-value &rest properties))
+			   '(slot-name &optional default-value &rest properties))
 			  ((:computed-slots)
-			   '(slot-name default-value &rest properties))))
+			   '(slot-name &optional default-value &rest properties))))
 	;; If have slot-name, don't include it.
 	(when (and (cdr slot-form) (not (empty-arg-p (car slot-form))))
 	  (pop source))
@@ -1537,7 +1542,7 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	  (setf (arglist.allow-other-keys-p arglist) t))
 	(setf (arglist.key-p arglist) t)
 	(setf (arglist.keyword-args arglist)
-	      (nconc (mapcar #'make-keyword-arg *extra-object-slot-keywords*)
+	      (nconc (mapcar #'make-keyword-arg *extra-object-slot-keyword-args*)
 		     (arglist.keyword-args arglist)))
 	arglist))))
 
@@ -1635,7 +1640,7 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
   (loop for last = plist then next for next = (cddr last)
      when (null next) return last))
 
-(defun find-subform-with-arglist (form &key for-completion?)
+(defun find-subform-with-arglist (form)
   "Returns four values:
 
      The appropriate subform of `form' which is closest to the
@@ -1648,27 +1653,16 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
      Third value is the object in front of +CURSOR-MARKER+.
 
      Fourth value is a form path to that object."
-  (labels
-      ((yield-success (form arglist)
-         (multiple-value-bind (extracted-form obj-at-cursor form-path)
-             (extract-cursor-marker form)
-           (values extracted-form
-		   arglist
-                   obj-at-cursor
-                   form-path)))
-       (yield-failure ()
-         (values nil :not-available))
-       (grovel (form)
-	 (multiple-value-bind (subform arglist) (grovel-for-cursor form nil)
-	   (if subform
-	       (yield-success subform arglist)
-	       (yield-failure)))))
-    (handling-whatever ()
-      (if (and for-completion?
-	       (eq (car form) 'gendl:define-object))
-	  ;; TODO: what is this about?
-	  (find-define-object-subform form #'grovel)
-	  (grovel form)))))
+  (handling-whatever ()
+    (multiple-value-bind (subform arglist) (grovel-for-cursor form nil)
+      (if subform
+	  (multiple-value-bind (extracted-form obj-at-cursor form-path)
+	      (extract-cursor-marker subform)
+	    (values extracted-form
+		    arglist
+		    obj-at-cursor
+		    form-path))
+	  (values nil :not-available)))))
 
 (defun extract-cursor-marker (form)
   "Returns three values: normalized `form' without +CURSOR-MARKER+,
@@ -1758,15 +1752,15 @@ returned in that case."
                                arglist-path)))
              (when (and (arglist-p argl) (listp args))
                (values argl args)))))
-    (multiple-value-bind (form arglist obj form-path)
-	(find-subform-with-arglist form :for-completion? t)
+    (multiple-value-bind (subform arglist obj form-path)
+	(find-subform-with-arglist form)
       (declare (ignore obj))
       (with-available-arglist (arglist) arglist
         ;; First try the form the cursor is in (in case of a normal
         ;; form), then try the surrounding form (in case of a nested
         ;; macro form).
-        (multiple-value-or (try form-path form arglist)
-                           (try (butlast form-path) form arglist)
+        (multiple-value-or (try form-path subform arglist)
+                           (try (butlast form-path) subform arglist)
                            :not-available)))))
 
 (defun form-path-to-arglist-path (form-path form arglist)
@@ -1792,15 +1786,12 @@ indices."
                           (cons idx* (convert (cdr path) args* arglist*)))
                          (t
                           (list idx*)))))))
-    (convert
-     ;; FORM contains irrelevant operator. Adjust FORM-PATH.
-     (cond ((null form-path) nil)
-           ((equal form-path '(0)) nil)
-           (t
-            (destructuring-bind (car . cdr) form-path
-              (cons (1- car) cdr))))
-     (cdr form)
-     arglist)))
+    (when form-path
+      ;; FORM contains irrelevant operator. Adjust FORM-PATH.
+      (destructuring-bind (car . cdr) form-path
+	(if (eql car 0)  ;; The cursor is inside the operator (perhaps nested)
+	    nil
+	    (convert (cons (1- car) cdr) (cdr form) arglist))))))
 
 (defun arglist-index (provided-argument-index provided-arguments arglist)
   "Return the arglist index into `arglist' for the parameter belonging
@@ -2112,45 +2103,6 @@ datum for subsequent logics to rely on."
       `((,(cautious-intern "NAME") &key type &allow-other-keys) &rest ,(cautious-intern "MORE-OBJECTS"))))
 
 
-;; 7.  KEYWORD COMPLETION
-
-;; TODO: would be useful to get rid of the FINDER arg
-(defun find-define-object-subform (form finder)
-  (destructuring-bind (&optional name mixins &rest spec-pairs)
-      (cdr form)
-    (declare (ignore name mixins))
-    ;; Has the user got onto the keyword list yet?
-    (when spec-pairs
-      ;; Which keyword are they working on?
-      (multiple-value-bind (key values)
-          (active-keyword spec-pairs)
-        (when key
-          (let ((value (car (last values))))
-            ;; Can we do anything with this keyword?
-            (when-let (new-form ;; (To do: hive this off as a separate GF.)
-                                (case key
-                                  ((:objects
-                                    :hidden-objects) (let ((keywords (loop for x in (cdr value) until (arglist-dummy-p x) collect x)))
-                                                       (multiple-value-bind (proceed type input-slots)
-                                                           (destructure-implicit-make-object keywords)
-                                                         (declare (ignore input-slots))
-                                                         (if proceed
-                                                             `(gendl:make-self ,type)
-                                                           ;; Nothing useful found. Bail out.
-                                                           (return-from find-define-object-subform
-                                                             (values '(gendl:make-self)
-                                                                     (make-arglist :key-p t
-                                                                                   :keyword-args (unless (find :type keywords)
-                                                                                                   (list (make-keyword-arg :type)))
-                                                                                   :allow-other-keys-p t)))))))))
-              ;; Apply original defintion of find-subform-with-arglist to gendl:make-self form.
-              (return-from find-define-object-subform
-                (funcall finder new-form))))))))
-  ;; No? Apply original defintion of find-subform-with-arglist to original
-  (funcall finder form))
-
-
-
 ;; 8.  DESTRUCTURING IMPLICIT MAKE-OBJECT FORMS
 
 (defun destructure-implicit-make-object (keys)
@@ -2236,7 +2188,7 @@ datum for subsequent logics to rely on."
   (assert (or (null section) (null category)) () "Mutually exclusive args")
   (%make-message-arg
    :keyword keyword
-   :arg-name (or (car slot-form) keyword)
+   :arg-name (or (car slot-form) (make-symbol (string keyword)))
    :default-arg nil
    :classname classname
    :%slot-form slot-form
