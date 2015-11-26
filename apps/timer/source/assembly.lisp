@@ -51,6 +51,7 @@
 
    (title "Genworks Timer and Journaler")
    
+
    (main-sheet-body (with-cl-who-string ()
 		      (when gwl:*developing?* (str (the development-links)))
 		      ((:div :id "content") 
@@ -61,12 +62,11 @@
 		       (str (the journal-form main-div))
 		       ((:ul :id "journal") 
 			(str (the journal-entries-display main-div))))))
-   (additional-header-content (the imported-css))
-   
-   (imported-css (with-cl-who-string () 
-		   (:link :href "/timer-static/style/styles.css" 
-			  :rel "stylesheet"
-			  :type "text/css")))
+
+   (additional-header-content (with-cl-who-string () 
+				(:link :href "/timer-static/style/styles.css" 
+				       :rel "stylesheet"
+				       :type "text/css")))
    
 
    (imported-scripts (with-cl-who-string () 
@@ -122,6 +122,9 @@
     :type 'sheet-section
     :inner-html (with-cl-who-string () 
 		  ((:script :type "text/javascript")
+		   
+		   "function visibilityChanged () {if !(document.hidden) {alert('vis. changed not hidden event')}};"
+
 		   (fmt "function startTimerAjax () {~a}" 
 			(the (gdl-ajax-call 
 			      :form-controls (list (the timer-form-min)

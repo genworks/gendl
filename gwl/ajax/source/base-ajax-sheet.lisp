@@ -166,6 +166,10 @@ in the applicable lens for  html-format."
                 ("String of Javascript or nil. This Javascript will go into the :onload event of the body.
 Default is nil."
 		 body-onload nil)
+
+		("String of Javascript or nil. This Javascript will go into the :onpageshow event of the body.
+Default is nil."
+		 body-onpageshow nil)
                 
                 ("String or nil. Contains the string for the doctype at the top of the document. 
 Default is the standard doctype for HTML5 and later."
@@ -296,6 +300,7 @@ from a saved snapshot file."
                 (str (the additional-header-js-content))))
        
        ((:body :class (the body-class)
+	       :onpageshow (the body-onpageshow)
                :onload (the body-onload))
         (the reset-html-sections!)
 
