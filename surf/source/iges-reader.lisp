@@ -59,6 +59,7 @@ If some trimmed surfaces or B-reps are blanked, they are grouped into a second, 
   
   :computed-slots
   ((data (read-iges-file* *geometry-kernel* (format nil "~a" (translate-logical-pathname (the file-name)) )
+
                           :finalize-on self
                           :make-all-surfaces-trimmed? (the make-all-surfaces-trimmed?)
                           ;;:break-up-breps-into-trimmed-surfaces? (the break-up-breps-into-trimmed-surfaces?)
