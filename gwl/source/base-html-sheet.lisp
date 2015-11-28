@@ -102,7 +102,7 @@ mixes  this in, or in a <tt>main-sheet</tt> output-function in an html-format vi
 object.")
 
   :input-slots
-  ((respondent (the bashee))
+  ((respondent (the bashee) :defaulting)
 
    ("GDL object. Default object to which control will return with the write-back-link method"
     return-object (the :parent))

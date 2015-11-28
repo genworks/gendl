@@ -422,7 +422,8 @@
    
    (control-view (with-cl-who-string ()
                    ((:span :style "cursor: pointer; color: blue; font-style: oblique;"
-                           :onclick (the (gdl-ajax-call 
+                           :onclick (the (gdl-ajax-call
+					  ;;:respondent (the tatu-root)
                                           :bashee self
                                           :function-key :set-slot!
                                           :arguments (list :show-settables? (not (the show-settables?))))))

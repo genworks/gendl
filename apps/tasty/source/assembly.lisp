@@ -88,7 +88,7 @@ o allow input of required input-slots.
    (use-cookie? nil)
    (fixed-url-prefix nil)
 
-   (ui-specific-layout-js (when (the use-jquery?) "/static/gwl/js/tasty-initlayout-3.js"))
+   (ui-specific-layout-js (when (the use-jquery?) "/static/gwl/js/tasty-initlayout.js"))
    
    (have-valid-instance? (not (typep (the root-object) 'null-part)))
 
