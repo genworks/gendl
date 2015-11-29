@@ -69,7 +69,10 @@ nil "~a~a~a" (the :name-for-display)
     root (if (the :parent) (the :parent :root) self))
    
    ("Boolean. Indicates whether the object should effectively be a hidden-object even if specified in :objects. Default is nil." 
-    hidden? nil))
+    hidden? nil)
+
+   (display-controls nil)
+   )
 
 
   :computed-slots
@@ -276,7 +279,7 @@ the <tt>follow-root-path</tt> GDL function to return the actual instance."
    
    ;;(finalization #'vanilla-finalization)
    
-   (display-controls nil)
+   
    
    (color-hex (let ((color-symbol (getf (the display-controls) :color)))
                 (when color-symbol (if (eql (aref (format nil "~a" color-symbol) 0) #\#)

@@ -47,12 +47,25 @@
   :input-slots ((timer-minutes-default 0) (timer-seconds-default 3))
   
   :computed-slots
-  ((current-journal-entry nil :settable) (timer-paused? nil :settable)
+  ((use-jquery? t)
+
+   (current-journal-entry nil :settable) (timer-paused? nil :settable)
 
    (title "Genworks Timer and Journaler")
    
    (main-sheet-body (with-cl-who-string ()
 		      (when gwl:*developing?* (str (the development-links)))
+
+		      ((:script :type "text/javascript")
+		       "$(window).focus(function() {
+   timerStart();
+   // console.log('welcome (back)');
+});
+
+$(window).blur(function() {
+   console.log('bye bye');
+});")
+		      
 		      ((:div :id "content") 
 		       (str (the ajax-scripts-section main-div))
 		       (str (the imported-scripts))
@@ -61,7 +74,12 @@
 		       (str (the journal-form main-div))
 		       ((:ul :id "journal") 
 			(str (the journal-entries-display main-div))))))
+
+
+   
+   
    (additional-header-content (the imported-css))
+
    
    (imported-css (with-cl-who-string () 
 		   (:link :href "/timer-static/style/styles.css" 
@@ -123,7 +141,8 @@
     :inner-html (with-cl-who-string () 
 		  ((:script :type "text/javascript")
 		   (fmt "function startTimerAjax () {~a}" 
-			(the (gdl-ajax-call 
+			(the (gdl-ajax-call
+			      :null-event? t
 			      :form-controls (list (the timer-form-min)
 						   (the timer-form-sec))
 			      :function-key :start-timer-tasks)))
