@@ -59,4 +59,4 @@
      (regioned :type 'regioned-solid
                :brep (the subtracted))))
 
-(register-test-definition 'regioned-solid-test)
+;;(register-test-definition 'regioned-solid-test)

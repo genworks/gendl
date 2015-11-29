@@ -31,13 +31,14 @@
       (with-format (iges output) (write-the test-part (breps 0) cad-output))
       output))
 
-   
+
+    #+nil   
    (regression-test-data
     (progn
       (warn "Iges-writer-test is failing, check input of type iges-reader")
       nil))
-   
-   #+nil
+
+   ;;#+nil
    (regression-test-data
     (append (multiple-value-list (the input (breps 0) precise-properties))
             (the input (breps 0) %curves-to-draw%)
@@ -49,7 +50,7 @@
 
    (input :type 'iges-reader
           :file-name (the output-file-name)
-          ;;:make-single-brep? t
+          :make-single-brep? t
           )))
 
 
@@ -77,6 +78,7 @@
 
 
 (register-test-definition 'iges-writer-test)
+(register-test-definition 'iges-writer-test-2)
 
 
 ;;
