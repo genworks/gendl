@@ -1384,7 +1384,10 @@ to the context provided by RAW-FORM."
 (defun sequence-slot-form-p (key slot-form)
   (when-let (cell (assoc key '((:objects . :quantified-objects)
 			       (:hidden-objects . :quantified-hidden-objects))))
-    (and (consp slot-form) (find-key :sequence (cdr slot-form)) (cdr cell))))
+    (and (consp slot-form)
+	 (or (find-key :sequence (cdr slot-form))
+	     (find-key :quantify (cdr slot-form)))
+	 (cdr cell))))
 
 (defun messages-from-defn (defn &key functionp sequencedp)
   (loop with classname = (object-defn-classname defn)
@@ -1523,9 +1526,9 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 			  ((:functions)
 			   `(slot-name lambda-list &body body))
 			  ((:input-slots)
-			   '(slot-name &optional default-value &rest properties))
+			   '(slot-name &optional default-value &any settable defaulting))
 			  ((:computed-slots)
-			   '(slot-name &optional default-value &rest properties))))
+			   '(slot-name &optional default-value &any settable))))
 	;; If have slot-name, don't include it.
 	(when (and (cdr slot-form) (not (empty-arg-p (car slot-form))))
 	  (pop source))
