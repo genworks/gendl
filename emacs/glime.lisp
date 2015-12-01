@@ -1369,10 +1369,11 @@ to the context provided by RAW-FORM."
 	 (the-reference-chain-class class arguments)))
       (gendl:the-child
        (when defn ;; only meaningful inside define-object
-	 (when-let (class (when-let (slot-form (object-defn-slot-form defn))
-			    (and (memq (object-defn-section defn) '(:objects :hidden-objects))
-				 (object-slot-form-class (cdr slot-form)))))
-	   (the-reference-chain-class class arguments))))
+	 (when-let (slot-form (and (memq (object-defn-section defn) '(:objects :hidden-objects))
+				   (object-defn-slot-form defn)))
+	   (when-let (classname-form (slot-form-type-form slot-form))
+	     (when (quoted-symbol-p classname-form)
+	       (the-reference-chain-class (cadr classname-form) arguments))))))
       (gendl:the-object
        ;; TODO: should we try to handle this inside define-object? seems like in practice it
        ;; always refers to something in the lexical environment, so it wouldn't work anyway.
@@ -1535,19 +1536,18 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	(decode-arglist source))))
 
 (defun object-slot-form-arglist (slot-form env)
-  (multiple-value-bind (key classname-form) (find-key :type (cdr slot-form))
-    (when key
-      (with-available-arglist (arglist)
-	  (operator-arglist 'gendl:make-object (cons classname-form (cdr slot-form)) env)
-	(pop (arglist.required-args arglist)) ;; remove the type arg.
-	(setf (arglist.rest arglist) nil)
-	(unless	(arglist.key-p arglist)
-	  (setf (arglist.allow-other-keys-p arglist) t))
-	(setf (arglist.key-p arglist) t)
-	(setf (arglist.keyword-args arglist)
-	      (nconc (mapcar #'make-keyword-arg *extra-object-slot-keyword-args*)
-		     (arglist.keyword-args arglist)))
-	arglist))))
+  (when-let (classname-form (slot-form-type-form slot-form))
+    (with-available-arglist (arglist)
+	(operator-arglist 'gendl:make-object (cons classname-form (cdr slot-form)) env)
+      (pop (arglist.required-args arglist)) ;; remove the type arg.
+      (setf (arglist.rest arglist) nil)
+      (unless	(arglist.key-p arglist)
+	(setf (arglist.allow-other-keys-p arglist) t))
+      (setf (arglist.key-p arglist) t)
+      (setf (arglist.keyword-args arglist)
+	    (nconc (mapcar #'make-keyword-arg *extra-object-slot-keyword-args*)
+		   (arglist.keyword-args arglist)))
+      arglist)))
 
 (defun local-function-arglist (operator env)
   (when-let (entry (assoc operator env :test (lambda (op1 op2)
@@ -2096,7 +2096,7 @@ datum for subsequent logics to rely on."
 (defun implicit-make-object (value)
   (or (let ((name (car value)))
 	(multiple-value-bind (proceed type input-slots)
-          (destructure-implicit-make-object (cdr value))
+          (destructure-implicit-make-object value)
 	  (when proceed
 	    (let ((safe-name (let ((*read-eval* nil))
 			       (read-from-string (undummy name)))))
@@ -2108,15 +2108,14 @@ datum for subsequent logics to rely on."
 
 ;; 8.  DESTRUCTURING IMPLICIT MAKE-OBJECT FORMS
 
-(defun destructure-implicit-make-object (keys)
+(defun destructure-implicit-make-object (form)
   "If FORM destructures as (SLOTNAME (quote CLASSNAME) ...) and CLASSNAME
    names a subclass of gendl:vanilla-mixin* then return three values: t,
    (quote CLASSNAME), and the class's init-slots. Otherwise
    return nil."
-  (multiple-value-bind (foundp classname-form) (find-key :type keys)
-    (let ((classname (and foundp
-			  (quoted-symbol-p classname-form)
-			  (cadr classname-form))))
+  (when-let (classname-form (slot-form-type-form form))
+    (when-let (classname (and (quoted-symbol-p classname-form)
+			      (cadr classname-form)))
       (multiple-value-bind (proceed input-slots)
 	  (class-input-slots classname)
 	(values proceed classname-form input-slots)))))
@@ -2327,10 +2326,16 @@ datum for subsequent logics to rely on."
 			       (message-list :return-category? t :category :all))))
 	(getf message-plist message)))))
 
+(defun slot-form-type-form (slot-form)
+  ;; If :type is not specified, default to the slot name, but only if it names a known gendl class.
+  (multiple-value-bind (key classname-form) (find-key :type (cdr slot-form))
+    (if key
+	classname-form
+	(and (gendl-class-prototype (car slot-form)) `',(car slot-form)))))
+
 (defun object-slot-form-class (slot-plist)
   (multiple-value-bind (typep quoted-type) (find-key :type slot-plist)
-    (declare (ignore typep))
-    (and (quoted-symbol-p quoted-type) (cadr quoted-type))))
+    (and typep (quoted-symbol-p quoted-type) (cadr quoted-type))))
 
  (defun reference-class (reference class)
    (when (consp reference) ;; could be quantified object reference...
