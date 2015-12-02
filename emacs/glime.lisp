@@ -832,10 +832,10 @@ reference packages."
     #'(lambda (p1 p2)
 	(let ((bfn1 (gethash p1 package-use-table))
 	      (bfn2 (gethash p2 package-use-table)))
-	  (cond ((and bfn1 bfn2) (<= bfn1 bfn2))
+	  (cond ((and bfn1 bfn2) (< bfn1 bfn2))
 		(bfn1            bfn1)
 		(bfn2            nil)	; p2 is used, p1 not
-		(t (string<= (package-name p1) (package-name p2))))))))
+		(t (string< (package-name p1) (package-name p2))))))))
 
 (defun sort-extra-keywords (kwds)
   (stable-sort kwds (make-package-comparator (list keyword-package *package*))
