@@ -1208,12 +1208,6 @@ If the arglist is not available, return :NOT-AVAILABLE."))
 ;;; %CURSOR-MARKER%)). Only the forms up to point should be
 ;;; considered.
 
-;; We use *autodoc-highlighting* to disable runaway hightlighting when
-;; we're showing init-slots in the modeline. The method on
-;; compute-enriched-decoded-arglist below might set *autodoc-highlighting*
-;; to nil.
-(defvar *autodoc-highlighting* t)
-
 (defslimefun autodoc (raw-form &key print-right-margin)
   "Return a list of two elements.
 First, a string representing the arglist for the deepest subform in
@@ -1228,23 +1222,21 @@ Second, a boolean value telling whether the returned string can be cached."
                           (return-from autodoc
                             (format nil "Arglist Error: \"~A\"" c)))))))
     (with-buffer-syntax ()
-      (let ((*autodoc-highlighting* *autodoc-highlighting*))
-	(multiple-value-bind (form arglist obj-at-cursor form-path)
-	    (find-subform-with-arglist (parse-raw-form raw-form))
-	  (cond ((boundp-and-interesting obj-at-cursor)
-		 (list (print-variable-to-string obj-at-cursor) nil))
-		(t
-		 (list
-		  (with-available-arglist (arglist) arglist
-		    (decoded-arglist-to-string
-		     arglist
-		     :print-right-margin print-right-margin
-		     :operator (car form)
-		     :highlight (when *autodoc-highlighting*
-				  (form-path-to-arglist-path form-path
-							     form
-							     arglist))))
-		  t))))))))
+      (multiple-value-bind (form arglist obj-at-cursor form-path)
+	  (find-subform-with-arglist (parse-raw-form raw-form))
+	(cond ((boundp-and-interesting obj-at-cursor)
+	       (list (print-variable-to-string obj-at-cursor) nil))
+	      (t
+	       (list
+		(with-available-arglist (arglist) arglist
+		  (decoded-arglist-to-string
+		   arglist
+		   :print-right-margin print-right-margin
+		   :operator (car form)
+		   :highlight (form-path-to-arglist-path form-path
+							 form
+							 arglist)))
+		t)))))))
 
 (defun boundp-and-interesting (symbol)
   (and symbol
@@ -2012,114 +2004,6 @@ datum for subsequent logics to rely on."
         (when proceed
 	  (mapcar #'make-keyword-arg input-slots))))))
 
-;; 6.  HELP ON SPECIFIC DEFINE-OBJECT KEYWORDS
-;;
-;; We use the swank interface for "enriching" an arglist. The method
-;; below determines whether we're working on a specific keyword
-
-;; A call might look like this:
-;; (compute-enriched-decoded-arglist define-object (empty nil :objects (#s(swank::arglist-dummy :string-representation ""))))
-;; Note that SLIME has already chopped everything to the right of the
-;; cursor maker; editing
-;;     (define-object empty () :objects ( ) :documentation ())
-;; with the cursor here:              -->^<--
-;; is the same as editing (define-object empty () :objects ()).
-;;
-;; See (defgeneric compute-enriched-decoded-arglist) in swank-arglists.lisp
-(defmethod compute-enriched-decoded-arglist ((operator (eql 'gendl:define-object)) arguments env)
-  (declare (ignore env))
-  (multiple-value-bind (decoded-arglist determining-args any-enrichment)
-      (call-next-method)
-    (destructuring-bind (&optional name mixins &rest spec-pairs)
-        arguments
-      (declare (ignore name mixins))
-      ;; Has the user got as far as the keyword list yet?
-      (when spec-pairs
-	;; Which keyword are they working on?
-        (multiple-value-bind (key values)
-            (active-keyword spec-pairs)
-          (when key
-            (when-let (this-keyword-arg (find key (arglist.keyword-args decoded-arglist)
-                                              :key 'keyword-arg.keyword))
-              ;; Mangle the arglist structure: only show the keyword we're working on.
-              (let ((local-arglist (copy-arglist decoded-arglist)))
-                (setf (arglist.keyword-args local-arglist) (list this-keyword-arg)
-                      (arglist.rest local-arglist) nil
-                      (arglist.allow-other-keys-p local-arglist) t
-                      ;; Disable highlighting.
-                      *autodoc-highlighting* nil)
-                (return-from compute-enriched-decoded-arglist
-                  ;; If we can, make the init-slots for this keyword appear to be
-                  ;; its default initargs. Behold! That makes them look just right.
-                  (values (augment-gendl-define-object (keyword-arg.keyword this-keyword-arg)
-                                                       local-arglist
-                                                       values)
-                          determining-args t))))))))
-    ;; &allow-other-keys and &rest don't contribute anything here.
-    (setf (arglist.rest decoded-arglist) nil
-	  (arglist.allow-other-keys-p decoded-arglist) nil)
-    (values decoded-arglist determining-args any-enrichment)))
-
-(defgeneric augment-gendl-define-object (keyword arglist values)
-  (:documentation
-   "We're editing the value for gendl:define-object keyword KEYWORD. Return
-    an arglist based on ARGLIST which conveys more information about the
-    VALUES being edited."
-   )
-  (:method (keyword arglist values)
-   (declare (ignore keyword values))
-   arglist))
-
-
-;; 6.1. Keyword support for :objects & :hidden-objects
-
-(defmethod augment-gendl-define-object ((keyword (eql :objects)) arglist values)
-  (augment-gendl-define-object-for-objects keyword arglist values))
-
-(defmethod augment-gendl-define-object ((keyword (eql :hidden-objects)) arglist values)
-  (augment-gendl-define-object-for-objects keyword arglist values))
-
-;; Perform basic checks and then treat this as an implicit make-object.
-(defun augment-gendl-define-object-for-objects (keyword arglist values)
-  (let ((keyword-arg (or (find keyword (arglist.keyword-args arglist) :key 'keyword-arg.keyword)
-                         ;; Shouldn't get here; playing it safe.
-                         (return-from augment-gendl-define-object-for-objects arglist)))
-        (value (let ((value (car (last values))))
-                 (if (consp value)
-                     value
-                   (return-from augment-gendl-define-object-for-objects arglist)))))
-    (setf (keyword-arg.default-arg keyword-arg) (implicit-make-object value)))
-  arglist)
-
-;; Value is the object-form on which the user is working. It'll be a
-;; list consisting of lisp objects interspersed with SWANK arglist-dummies.
-(defun implicit-make-object (value)
-  (or (let ((name (car value)))
-	(multiple-value-bind (proceed type input-slots)
-          (destructure-implicit-make-object value)
-	  (when proceed
-	    (let ((safe-name (let ((*read-eval* nil))
-			       (read-from-string (undummy name)))))
-	      ;; Note use of intern, to ensure hardwired symbols arrive in *package*.
-	      `((,safe-name :type ,type &key ,@input-slots) &rest ,(cautious-intern "MORE-OBJECTS"))))))
-      ;; We haven't got far enough to say anything yet.
-      `((,(cautious-intern "NAME") &key type &allow-other-keys) &rest ,(cautious-intern "MORE-OBJECTS"))))
-
-
-;; 8.  DESTRUCTURING IMPLICIT MAKE-OBJECT FORMS
-
-(defun destructure-implicit-make-object (form)
-  "If FORM destructures as (SLOTNAME (quote CLASSNAME) ...) and CLASSNAME
-   names a subclass of gendl:vanilla-mixin* then return three values: t,
-   (quote CLASSNAME), and the class's init-slots. Otherwise
-   return nil."
-  (when-let (classname-form (slot-form-type-form form))
-    (when-let (classname (and (quoted-symbol-p classname-form)
-			      (cadr classname-form)))
-      (multiple-value-bind (proceed input-slots)
-	  (class-input-slots classname)
-	(values proceed classname-form input-slots)))))
-
 (defun class-input-slots (classname)
   "Use message-list on a prototype instance of CLASSNAME to determine its
    required and optional input-slots. Return two values: t and the slots.
@@ -2406,39 +2290,6 @@ datum for subsequent logics to rely on."
     (loop for (k v) on plist by #'cddr
           when (eq k key)
           do (return (values k v)))))
-
-;; List is of form (:keyword stuff :keyword stuff ...); the final stuff may be missing.
-;; Return the final (:keyword stuff) pair as two values, provided stuff is a list.
-;; Otherwise return nil.
-(defun active-keyword (list)
-  (let ((key nil)
-        (stuff nil))
-    (loop (setf key (pop list))
-          (if list
-              (setf stuff (pop list))
-            (return-from active-keyword
-              nil))
-          (unless list
-            (return)))
-    (when (listp stuff)
-      (values key stuff))))
-
-(defun test-active-keyword ()
-  (loop for (list . result) in '((() . nil)
-                                 ((:foo) . nil)
-                                 ((:foo bar) . nil)
-                                 ((:foo (bar)) . (:foo (bar)))
-                                 ((:foo (bar) :baz) . nil)
-                                 ((:foo (bar) :baz ()) . (:baz nil))
-                                 )
-        do
-        (multiple-value-bind (keyword stuff)
-            (active-keyword list)
-          (if keyword
-              (assert (equal (list keyword stuff) result))
-            (null result)))))
-
-(test-active-keyword)
 
 (defun required-args-p (lambda-list)
   (loop while lambda-list
