@@ -284,7 +284,7 @@ Otherwise NIL is returned."
 			 ,@(when init
                              `((,init (optional-arg.default-arg ,optarg)))))
 		     ,@body))))
-	     ((&key (&optional keyword arg init) . body)
+	     ((&key (&optional keyword arg init type) . body)
 	      (let ((keyarg (gensym "KEY-ARG+")))
 		`(dolist (,keyarg (arglist.keyword-args ,arglist))
 		   (declare (ignorable ,keyarg))
@@ -293,7 +293,9 @@ Otherwise NIL is returned."
 			 ,@(when arg
                              `((,arg (keyword-arg.arg-name ,keyarg))))
 			 ,@(when init
-                             `((,init (keyword-arg.default-arg ,keyarg)))))
+                             `((,init (keyword-arg.default-arg ,keyarg))))
+			 ,@(when type
+			     `((,type (keyword-arg.key-type ,keyarg)))))
 		     ,@body))))
 	     ((&rest (&optional arg body-p) . body)
 	      `(when (arglist.rest ,arglist)
@@ -345,7 +347,8 @@ Otherwise NIL is returned."
                  `(if (eql ,index (car highlight))
                       (print-decoded-arglist ,argl :highlight (cdr highlight))
                       (print-decoded-arglist ,argl))))
-      (let ((index 0))
+      (let ((index 0)
+	    (key-type nil))
         (pprint-logical-block (nil nil :prefix "(" :suffix ")")
           (when operator
             (print-arg operator)
@@ -377,10 +380,14 @@ Otherwise NIL is returned."
                                          (undummy arg) (undummy init-value)))))
                        (incf index))
             (&key :initially
-                  (when (arglist.key-p arglist)
+                  (when (and (arglist.key-p arglist)
+			     (null (arglist.keyword-args arglist)))
                     (space)
                     (princ '&key)))
-            (&key (keyword arg init)
+            (&key (keyword arg init new-type)
+		  (unless (eq key-type new-type)
+		    (space)
+		    (princ (setq key-type new-type)))
                   (space)
                   (if (arglist-p arg)
                       (pprint-logical-block (nil nil :prefix "(" :suffix ")")
@@ -545,6 +552,19 @@ Otherwise NIL is returned."
   (%make-keyword-arg :keyword keyword
                      :arg-name arg-name
                      :default-arg (canonicalize-default-arg default-arg)))
+
+(defstruct (slot-keyword-arg (:include keyword-arg)
+			     (:conc-name slot-keyword-arg.)
+			     (:constructor %make-slot-keyword-arg))
+  key-type)
+
+(defun make-slot-keyword-arg (keyword key-type)
+  (%make-slot-keyword-arg :keyword keyword
+			  :arg-name (make-symbol (symbol-name keyword))
+			  :key-type key-type))
+
+(defun keyword-arg.key-type (arg)
+  (if (slot-keyword-arg-p arg) (slot-keyword-arg.key-type arg) '&key))
 
 ;; Interns arg if it's symbol-like, otherwise returns nil
 (defun intern-arg (arg package)
@@ -1222,21 +1242,21 @@ Second, a boolean value telling whether the returned string can be cached."
                           (return-from autodoc
                             (format nil "Arglist Error: \"~A\"" c)))))))
     (with-buffer-syntax ()
-      (multiple-value-bind (form arglist obj-at-cursor form-path)
-	  (find-subform-with-arglist (parse-raw-form raw-form))
-	(cond ((boundp-and-interesting obj-at-cursor)
-	       (list (print-variable-to-string obj-at-cursor) nil))
-	      (t
-	       (list
-		(with-available-arglist (arglist) arglist
-		  (decoded-arglist-to-string
-		   arglist
-		   :print-right-margin print-right-margin
-		   :operator (car form)
-		   :highlight (form-path-to-arglist-path form-path
-							 form
-							 arglist)))
-		t)))))))
+	(multiple-value-bind (form arglist obj-at-cursor form-path)
+	    (find-subform-with-arglist (parse-raw-form raw-form))
+	  (cond ((boundp-and-interesting obj-at-cursor)
+		 (list (print-variable-to-string obj-at-cursor) nil))
+		(t
+		 (list
+		  (with-available-arglist (arglist) arglist
+		    (decoded-arglist-to-string
+		     arglist
+		     :print-right-margin print-right-margin
+		     :operator (car form)
+		     :highlight (form-path-to-arglist-path form-path
+							   form
+							   arglist)))
+		  t)))))))
 
 (defun boundp-and-interesting (symbol)
   (and symbol
@@ -1525,7 +1545,8 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	;; If have slot-name, don't include it.
 	(when (and (cdr slot-form) (not (empty-arg-p (car slot-form))))
 	  (pop source))
-	(decode-arglist source))))
+	(decode-arglist source))
+      :not-available))
 
 (defun object-slot-form-arglist (slot-form env)
   (when-let (classname-form (slot-form-type-form slot-form))
@@ -1533,12 +1554,12 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	(operator-arglist 'gendl:make-object (cons classname-form (cdr slot-form)) env)
       (pop (arglist.required-args arglist)) ;; remove the type arg.
       (setf (arglist.rest arglist) nil)
-      (unless	(arglist.key-p arglist)
+      (unless (arglist.key-p arglist)
 	(setf (arglist.allow-other-keys-p arglist) t))
       (setf (arglist.key-p arglist) t)
       (setf (arglist.keyword-args arglist)
-	    (nconc (mapcar #'make-keyword-arg *extra-object-slot-keyword-args*)
-		   (arglist.keyword-args arglist)))
+	    (nconc (arglist.keyword-args arglist)
+		   (mapcar #'make-keyword-arg *extra-object-slot-keyword-args*)))
       arglist)))
 
 (defun local-function-arglist (operator env)
@@ -1997,22 +2018,15 @@ datum for subsequent logics to rely on."
       (call-next-method)))
 
 (defun keyword-args-from-class-input-slots (classname-form)
-  (when (quoted-symbol-p classname-form)
-    (let ((classname (cadr classname-form)))
-      (multiple-value-bind (proceed input-slots)
-          (class-input-slots classname)
-        (when proceed
-	  (mapcar #'make-keyword-arg input-slots))))))
+  (when-let (prototype (and (quoted-symbol-p classname-form)
+			    (gendl-class-prototype (cadr classname-form))))
+    (let ((required (gendl:the-object prototype (:message-list :category :required-input-slots)))
+	  (optional (gendl:the-object prototype (:message-list :category :optional-input-slots))))
+      (nconc (loop for key in required
+		collect (make-slot-keyword-arg key '&required))
+	     (loop for key in optional
+		unless (internal-name-p key) collect (make-slot-keyword-arg key '&optional))))))
 
-(defun class-input-slots (classname)
-  "Use message-list on a prototype instance of CLASSNAME to determine its
-   required and optional input-slots. Return two values: t and the slots.
-   If the class wasn't a subclass of gendl:vanilla-mixin* then return nil"
-  (when-let (prototype (gendl-class-prototype classname))
-    (values t
-	    (append (gendl:the-object prototype (:message-list :category :required-input-slots))
-		    (remove-if 'internal-name-p
-			       (gendl:the-object prototype (:message-list :category :optional-input-slots)))))))
 
 (defun gendl-class-prototype (class)
   "Return a prototype instance of CLASS if CLASS refers to a known gendl class, otherwise NIL"
