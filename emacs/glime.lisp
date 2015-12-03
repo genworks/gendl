@@ -553,19 +553,6 @@ Otherwise NIL is returned."
                      :arg-name arg-name
                      :default-arg (canonicalize-default-arg default-arg)))
 
-(defstruct (slot-keyword-arg (:include keyword-arg)
-			     (:conc-name slot-keyword-arg.)
-			     (:constructor %make-slot-keyword-arg))
-  key-type)
-
-(defun make-slot-keyword-arg (keyword key-type)
-  (%make-slot-keyword-arg :keyword keyword
-			  :arg-name (make-symbol (symbol-name keyword))
-			  :key-type key-type))
-
-(defun keyword-arg.key-type (arg)
-  (if (slot-keyword-arg-p arg) (slot-keyword-arg.key-type arg) '&key))
-
 ;; Interns arg if it's symbol-like, otherwise returns nil
 (defun intern-arg (arg package)
   (typecase arg
@@ -1475,9 +1462,15 @@ to the context provided by RAW-FORM."
   (list* :first? :index :last? :next :previous
 	 *messages-to-suppress*))
 
-(defun messages-from-class (class &key functionp sequencedp)
+(defun direct-messages-from-class (class requiredp optionalp functionp sequencedp)
   "Return a list of messages. Take anything from a user-defined class (not
-in one of the *internal-packages*), otherwise filter for non-nil message-remarks."
+in one of the *internal-packages*), otherwise filter for non-nil message-remarks.
+If requiredp is true, only return required input slots
+else if optionalp is true, only return optional input slots
+else if functionp is true, only return function and quantified object messages.
+else eliminate any function messages with required keywords, and
+    then furthermore, if sequencep is false, eliminate quantified object as well.
+"
   (let* ((classname (safe-class-name class))
 	 (suppress (and (find (symbol-package classname) *internal-packages*)
 			(if sequencedp
@@ -1489,17 +1482,21 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	       (when (or (null suppress) ;; following restrictions only for internal classes
 			 (and (not (memq keyword suppress))
 			      (gendl:the-object prototype (message-remarks keyword))))
-		 ;; TODO: should we filter out the current keyword?  Why? Is that not allowed?
-		 (if functionp
-		     (memq category '(:function :quantified-objects :quantified-hidden-objects))
-		     (unless (and (eq category :functions)
-				  (required-args-p (car (gendl-source classname keyword))))
-		       ;; TODO: This is copied from what old code did, but is it right?
-		       ;;   This makes it so inside THE-CHILD of a sequenced object, we can
-		       ;;   refer to other quantified objects without a quantifier.
-		       ;; see also messages-from-defn
-		       (or sequencedp
-			   (not (memq category '(:quantified-objects :quantified-hidden-objects)))))))))
+		 (cond (requiredp (eq category :required-input-slots))
+		       (optionalp
+			(and (memq category '(:optional-input-slots :settable-optional-input-slots
+					       :defaulted-input-slots :settable-defaulted-input-slots))
+			     (or (null suppress) (not (internal-name-p keyword)))))
+		       (functionp (memq category '(:function :quantified-objects :quantified-hidden-objects)))
+		       (t 
+			(unless (and (eq category :functions)
+				     (required-args-p (car (gendl-source classname keyword))))
+			  ;; TODO: This is copied from what old code did, but is it right?
+			  ;;   This makes it so inside THE-CHILD of a sequenced object, we can
+			  ;;   refer to other quantified objects without a quantifier.
+			  ;; see also messages-from-defn
+			  (or sequencedp
+			      (not (memq category '(:quantified-objects :quantified-hidden-objects))))))))))
 	(let* ((plist (gendl:the-object prototype (:message-list :message-type :local
 								 :return-category? t
 								 :filter #'filter)))
@@ -1509,6 +1506,12 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 						      :category category))))
 	  (sort messages #'string< :key #'message-arg-keyword))))))
 
+(defun all-messages-from-class (class env &key requiredp optionalp functionp sequencedp)
+  (delete-duplicates
+   (loop for class in (gendl-superclasses-in-env class env)
+      nconc (direct-messages-from-class class requiredp optionalp functionp sequencedp))
+   :key #'keyword-arg.keyword
+   :from-end t))
 
 (defun message-arglist-from-class (class message)
   (when-let (category (gendl-category class message))
@@ -1528,14 +1531,15 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
 	  (message-arglist-from-defn defn operator))
 	(message-arglist-from-class class operator))))
 
-(defparameter *extra-object-slot-keyword-args* '(gendl::type gendl::sequence gendl::parameters gendl::pass-down gendl::pseudo-inputs))
+(defparameter *extra-object-slot-keyword-args*
+  (mapcar #'make-keyword-arg '(gendl::type gendl::sequence gendl::parameters gendl::pass-down gendl::pseudo-inputs)))
 
 (defun slot-form-arglist (key slot-form env)
   (or (and (memq key '(:objects :hidden-objects))
 	   (object-slot-form-arglist slot-form env))
       (when-let (source (case key
 			  ((:objects :hidden-objects)
-			   `(slot-name &key ,@*extra-object-slot-keyword-args* &allow-other-keys))
+			   `(slot-name &key ,.(mapcar #'keyword-arg.arg-name *extra-object-slot-keyword-args*) &allow-other-keys))
 			  ((:functions)
 			   `(slot-name lambda-list &body body))
 			  ((:input-slots)
@@ -1555,11 +1559,16 @@ in one of the *internal-packages*), otherwise filter for non-nil message-remarks
       (pop (arglist.required-args arglist)) ;; remove the type arg.
       (setf (arglist.rest arglist) nil)
       (unless (arglist.key-p arglist)
-	(setf (arglist.allow-other-keys-p arglist) t))
-      (setf (arglist.key-p arglist) t)
-      (setf (arglist.keyword-args arglist)
-	    (nconc (arglist.keyword-args arglist)
-		   (mapcar #'make-keyword-arg *extra-object-slot-keyword-args*)))
+	(setf (arglist.allow-other-keys-p arglist) t)
+	(setf (arglist.key-p arglist) t))
+      (let ((provided-keys (loop for (key val . rest) = (cdr slot-form) then rest
+			      while (and rest (not (empty-arg-p val)))
+			      when (keywordp key) collect key)))
+	(setf (arglist.keyword-args arglist)
+	      (remove-if (lambda (key-arg)
+			   (memq (keyword-arg.keyword key-arg) provided-keys))
+			 (nconc (arglist.keyword-args arglist)
+				*extra-object-slot-keyword-args*))))
       arglist)))
 
 (defun local-function-arglist (operator env)
@@ -2018,15 +2027,11 @@ datum for subsequent logics to rely on."
       (call-next-method)))
 
 (defun keyword-args-from-class-input-slots (classname-form)
-  (when-let (prototype (and (quoted-symbol-p classname-form)
-			    (gendl-class-prototype (cadr classname-form))))
-    (let ((required (gendl:the-object prototype (:message-list :category :required-input-slots)))
-	  (optional (gendl:the-object prototype (:message-list :category :optional-input-slots))))
-      (nconc (loop for key in required
-		collect (make-slot-keyword-arg key '&required))
-	     (loop for key in optional
-		unless (internal-name-p key) collect (make-slot-keyword-arg key '&optional))))))
-
+  (when-let (class (and (quoted-symbol-p classname-form)
+			(gendl-class-prototype (cadr classname-form))
+			(cadr classname-form)))
+    (nconc (all-messages-from-class class nil :requiredp t)
+	   (all-messages-from-class class nil :optionalp t))))
 
 (defun gendl-class-prototype (class)
   "Return a prototype instance of CLASS if CLASS refers to a known gendl class, otherwise NIL"
@@ -2111,6 +2116,14 @@ datum for subsequent logics to rely on."
 	    (cons (message-arg-keyword arg)
 		  (gendl-source (message-arg-classname arg) (message-arg-keyword arg))))))
 
+(defun keyword-arg.key-type (arg)
+  (if (message-arg-p arg)
+      (case (message-arg-category arg)
+	(:required-input-slots '&required)
+	((:optional-input-slots :settable-optional-input-slots :defaulted-input-slots :settable-defaulted-input-slots) '&optional)
+	(t '&key))
+      '&key))
+
 (defun compute-message-list (operator arguments env)
   (let ((form (car (last arguments))))
     (when (or (eq form +cursor-marker+)
@@ -2126,8 +2139,7 @@ datum for subsequent logics to rely on."
 	  (delete-duplicates
 	   (nconc (when (and defn (eq (object-defn-classname defn) class-name))
 		    (messages-from-defn defn :functionp functionp :sequencedp sequencedp))
-		  (loop for class in (gendl-superclasses-in-env class env)
-		     nconc (messages-from-class class :functionp functionp :sequencedp sequencedp)))
+		  (all-messages-from-class class env :functionp functionp :sequencedp sequencedp))
 	   :key #'message-arg-keyword
 	   :from-end t))))))
 
