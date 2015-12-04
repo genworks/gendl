@@ -2030,8 +2030,9 @@ datum for subsequent logics to rely on."
   (when-let (class (and (quoted-symbol-p classname-form)
 			(gendl-class-prototype (cadr classname-form))
 			(cadr classname-form)))
-    (nconc (all-messages-from-class class nil :requiredp t)
-	   (all-messages-from-class class nil :optionalp t))))
+    ;; These can't be intermingled so sort them separately
+    (nconc (sort-message-list class (all-messages-from-class class nil :requiredp t))
+	   (sort-message-list class (all-messages-from-class class nil :optionalp t)))))
 
 (defun gendl-class-prototype (class)
   "Return a prototype instance of CLASS if CLASS refers to a known gendl class, otherwise NIL"
@@ -2084,7 +2085,7 @@ datum for subsequent logics to rely on."
 (defstruct (message-arg (:include keyword-arg)
 			(:constructor %make-message-arg))
   classname
-  %category
+  category
   %slot-form)
 
 ;; Slot form and section given when get message from a define-object form, otherwise will be
@@ -2097,18 +2098,11 @@ datum for subsequent logics to rely on."
    :default-arg nil
    :classname classname
    :%slot-form slot-form
-   :%category (or category (sequence-slot-form-p section slot-form) section)))
-
-(defun message-arg-category (arg)
-  (or (message-arg-%category arg)
-      (let* ((message (message-arg-keyword arg))
-	     (prototype (gendl-class-prototype (message-arg-classname arg)))
-	     ;; TODO: use :filter
-	     (plist (and prototype
-			 (gendl:the-object prototype
-					   (:message-list :return-category? t :category :all))))
-	     (category (getf plist message)))
-	(setf (message-arg-%category arg) (or category :unknown)))))
+   :category (or category
+		 ;; Otherwise getting message from define-object
+		 ;; TODO: need to compute real category same as compiler.
+		  (sequence-slot-form-p section slot-form)
+		  section)))
 
 (defun message-arg-slot-form (arg)
   (or (message-arg-%slot-form arg)
@@ -2135,13 +2129,33 @@ datum for subsequent logics to rely on."
 				(eq operator 'gendl:the-child)
 				(sequence-slot-form-p (object-defn-section defn) (object-defn-slot-form defn))))
 	       (functionp (consp form)))
-	  ;; TODO: let the user sort them.  Will want to pass in class-name so knows which class is the base class.
-	  (delete-duplicates
-	   (nconc (when (and defn (eq (object-defn-classname defn) class-name))
-		    (messages-from-defn defn :functionp functionp :sequencedp sequencedp))
-		  (all-messages-from-class class env :functionp functionp :sequencedp sequencedp))
-	   :key #'message-arg-keyword
-	   :from-end t))))))
+	  (sort-message-list
+	   class-name
+	   (delete-duplicates
+	    (nconc (when (and defn (eq (object-defn-classname defn) class-name))
+		     (messages-from-defn defn :functionp functionp :sequencedp sequencedp))
+		   (all-messages-from-class class env :functionp functionp :sequencedp sequencedp))
+	    :key #'message-arg-keyword
+	    :from-end t)))))))
+
+(defvar *message-sort-function* nil
+  "If non-NIL, must be a function of two arguments, the CLASS-NAME (a symbol) and a list of messages
+   applicable to the named class.  Should return a sorted (and perhaps trimmed) list of messages.
+
+   Each message in the list is a MESSAGE-ARG object with the following properties, which can be
+   used to determine the sort order:
+     (MESSAGE-ARG-KEYWORD arg) - then name of the message as a keyword symbol.
+     (MESSAGE-ARG-CLASSNAME arg) - the name of the class that owns the message directly (this may
+        be the same as the CLASS-NAME argument to the sort function, or it may be the name of a
+        superclass if the slot is inherited from a mixin).
+     (MESSAGE-ARG-CATEGORY arg) - the GDL category of the message, e.g. :FUNCTIONS.
+     (MESSAGE-ARG-SLOT-FORM arg) - the slot form used to define this message.
+")
+
+(defun sort-message-list (class-name messages)
+  (if *message-sort-function*
+      (funcall *message-sort-function* class-name messages)
+      messages))
 
 (defun gendl-superclasses-in-env (class env)
   (let* ((defn (object-definition-in-env env))
