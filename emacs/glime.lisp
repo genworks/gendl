@@ -1487,7 +1487,7 @@ else eliminate any function messages with required keywords, and
 			(and (memq category '(:optional-input-slots :settable-optional-input-slots
 					       :defaulted-input-slots :settable-defaulted-input-slots))
 			     (or (null suppress) (not (internal-name-p keyword)))))
-		       (functionp (memq category '(:function :quantified-objects :quantified-hidden-objects)))
+		       (functionp (memq category '(:functions :quantified-objects :quantified-hidden-objects)))
 		       (t 
 			(unless (and (eq category :functions)
 				     (required-args-p (car (gendl-source classname keyword))))
