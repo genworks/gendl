@@ -87,6 +87,10 @@ Otherwise NIL is returned."
                   (setq found v))))
     found))
 
+(defun string-starts-with-p (start string)
+  (let ((n (length start)))
+    (and (<= n (length string)) (string-equal start string :end1 n :end2 n))))
+
 (defun valid-operator-symbol-p (symbol)
   "Is SYMBOL the name of a function, a macro, or a special-operator?"
   (and (symbolp symbol)
@@ -1357,7 +1361,7 @@ to the context provided by RAW-FORM."
 	      (eq (object-defn-classname defn) (safe-class-name class)))
       defn)))
 
-;; Returns class name or actual class.
+;; Returns the class (name or actual class) and the message-in-progress
 (defun the-class-in-env (operator arguments env)
   (let ((defn (object-definition-in-env env)))
     (case operator
@@ -2119,24 +2123,31 @@ datum for subsequent logics to rely on."
       '&key))
 
 (defun compute-message-list (operator arguments env)
-  (let ((form (car (last arguments))))
-    (when (or (eq form +cursor-marker+)
-	      (and (consp form) (or (eq (car form) +cursor-marker+) (empty-arg-p (car form)))))
-      (when-let (class (the-class-in-env operator arguments env))
-	(let* ((defn (object-definition-in-env env))
-	       (class-name (safe-class-name class))
-	       (sequencedp (and defn
-				(eq operator 'gendl:the-child)
-				(sequence-slot-form-p (object-defn-section defn) (object-defn-slot-form defn))))
-	       (functionp (consp form)))
-	  (sort-message-list
-	   class-name
-	   (delete-duplicates
-	    (nconc (when (and defn (eq (object-defn-classname defn) class-name))
-		     (messages-from-defn defn :functionp functionp :sequencedp sequencedp))
-		   (all-messages-from-class class env :functionp functionp :sequencedp sequencedp))
-	    :key #'message-arg-keyword
-	    :from-end t)))))))
+  (multiple-value-bind (class msg) (the-class-in-env operator arguments env)
+    (when (and class (or (atom msg)
+			 ;;  punt if well within the msg
+			 (eq (car msg) +cursor-marker+) (eq (cadr msg) +cursor-marker+)))
+      (let* ((defn (object-definition-in-env env))
+	     (sequencedp (and defn
+			      (eq operator 'gendl:the-child)
+			      (sequence-slot-form-p (object-defn-section defn) (object-defn-slot-form defn))))
+	     (class-name (safe-class-name class))
+	     (functionp (consp msg))
+	     (messages (delete-duplicates
+			(nconc (when (and defn (eq (object-defn-classname defn) class-name))
+				 (messages-from-defn defn :functionp functionp :sequencedp sequencedp))
+			       (all-messages-from-class class env :functionp functionp :sequencedp sequencedp))
+			:key #'message-arg-keyword
+			:from-end t)))
+	(when-let (start (if functionp (and (cdr msg) (car msg)) msg))
+	  (when-let (filter (cond ((symbolp start) (symbol-name start))
+				  ((and (arglist-dummy-p start) (not (empty-arg-p start)))
+				   (arglist-dummy.string-representation start))))
+	    (setq messages
+		  (delete-if-not (lambda (arg)
+				   (string-starts-with-p filter (symbol-name (message-arg-keyword arg))))
+				 messages))))
+	(sort-message-list class-name messages)))))
 
 (defvar *message-sort-function* nil
   "If non-NIL, must be a function of two arguments, the CLASS-NAME (a symbol) and a list of messages
@@ -2270,10 +2281,19 @@ datum for subsequent logics to rely on."
 		 '(:objects :hidden-objects :quantified-objects :quantified-hidden-objects))
        (object-slot-form-class (gendl-source class reference)))))
 
-;; Return the class for the message at cursor in reference-chain
+;; Return the class for the message at cursor in reference-chain.  The message in progress is second value.
 (defun the-reference-chain-class (class reference-chain)
   (loop for reference = (pop reference-chain)
-     when (or (null reference-chain) (empty-arg-p reference)) return class
+     when (or (null reference-chain) (eq +cursor-marker+ (car reference-chain)))
+     return (values class
+		    (if reference-chain
+			;; Emacs doesn't make a distinction between ^(foo) and (foo)^.  For our purposes
+			;; assume the former, because the user can get the kind of info they'd want for the
+			;; latter by typing a space, whereas there is no way to force the former.  So just
+			;; treat it as if it wasn't there.
+			(and (atom reference) reference)
+			(and (consp reference) reference))
+		    (null reference-chain))
      ;; Return NIL if can't get *all* the classes in the chain -- it's confusing, and
      ;; not useful, to show the messages for some random point failure point in the
      ;; middle of the chain, especially since we're not giving any indication that
