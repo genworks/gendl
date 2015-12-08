@@ -2383,4 +2383,102 @@ a security hole but is mighty convenient.")
       (and object (class-of object)))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;  doc
+
+(defvar *symbol-documentation-types* '((variable . "Variable")
+				       (function . "Function")
+				       (compiler-macro . "Compiler Macro")
+				       (method-combination "Method Combination")
+				       (setf . "Setf Function")
+				       (type . "Type")
+				       (structure . "Structure")
+				       (gdl-class . "GDL Class")))
+
+(defmethod slime-documentation ((sym symbol) type)
+  (documentation sym type))
+
+(defmethod slime-documentation ((sym symbol) (type (eql 'function)))
+  (let ((arglist (arglist sym))
+	(fdoc (documentation sym type)))
+    (when (or fdoc (arglist-available-p arglist))
+      (with-output-to-string (string)
+	(when (arglist-available-p arglist)
+	  (format string " Arglist: ~a" arglist))
+	(when fdoc
+	  (format string "~& ~a" fdoc))))))
+
+(defun gdl-clean-doc (string)
+  ;; GDL doc is html.  For now, we just interpret the most problematic cases.
+  ;; Also, it seems to contain embedded returns, ignore those TODO: verify how it looks on windows..
+  (let ((len (length string))
+	(indentation " "))
+    (when (> len 0)
+      (if (and (> len 11)
+	       (string-equal string "<pre>" :end1 5)
+	       (string-equal string "</pre>" :start1 (- len 6)))
+	  ;; Indent everything by one space, and delete #\return's.
+	  (with-output-to-string (s)
+	    (loop for i from 5 below (- len 6) as ch = (aref string i)
+	       do (unless (eql ch #\Return)
+		    (write-char ch s)
+		    (when (eql ch #\Newline) (write-string indentation s)))))
+	  ;; If not <pre>, just make it be one long line, let emacs manage it.  Except that treat totally
+	  ;; blank lines as paragraph separators, and indent each para.
+	  (if (find #\Newline string)
+	      (with-output-to-string (s)
+		(loop with (on-blank-line last-line-blank last-space) = '(t t nil)
+		   for ch across string
+		   do (cond ((eql ch #\Newline)
+			     (cond (on-blank-line
+				    (unless last-line-blank (write-char #\newline s))
+				    (write-char ch s))
+				   (t (unless last-space (write-char #\space s))))
+			     (setq last-line-blank on-blank-line)
+			     (setq on-blank-line t))
+			    ((eql ch #\Space)
+			     (unless on-blank-line
+			       (unless last-space (write-char ch s))
+			       (setq last-space t)))
+			    (t
+			     (unless (eq ch #\Return)
+			       (when (and on-blank-line last-line-blank)
+				 (write-string indentation s))
+			       (write-char ch s)
+			       (setq on-blank-line nil last-space nil))))))
+	      string)))))
+
+
+(defmethod slime-documentation ((sym symbol) (type (eql 'gdl-class)))
+  (when-let (prototype (gendl-class-prototype sym))
+    (when-let (doc (gendl:the-object prototype documentation))
+      (let* ((description (gdl-clean-doc (getf doc :description)))
+	     (examples (gdl-clean-doc (getf doc :examples))))
+	(when (or description examples)
+	  (with-output-to-string (string)
+	    (when description
+	      (format string " ~a~%" description))
+	    (when (and description examples)
+	      (terpri string))
+	    (when examples
+	      (format string " Examples:~%~a" examples))))))))
+
+;; m-x slime-documentation
+(defslimefun documentation-symbol (symbol-name)
+  (with-buffer-syntax ()
+    (multiple-value-bind (sym foundp) (parse-symbol symbol-name)
+      (if foundp
+	  (with-output-to-string (string)
+	    (format string "Documentation for the symbol ~a:~2%" sym)
+	    (loop with found = nil
+	       for (type . prompt) in *symbol-documentation-types*
+	       as doc = (slime-documentation sym type)
+	       do (when (> (length doc) 0)
+		    (setq found t)
+		    (format string "~a:~% ~a~2%" prompt doc))
+	       finally (unless found
+			 (format string "Not documented."))))
+          (format nil "No such symbol, ~a." symbol-name)))))
+
 (provide :glime)
