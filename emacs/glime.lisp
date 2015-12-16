@@ -64,6 +64,9 @@
                (and (zerop i) (null list)))))
     (sequence (= (length seq) n))))
 
+(defun whitespacep (c)
+  (memq c '(#\Return #\Linefeed #\space #\tab)))
+
 (declaim (inline memq))
 (defun memq (item list)
   (member item list :test #'eq))
@@ -191,7 +194,8 @@ Otherwise NIL is returned."
   any-p                 ; whether &any appeared
   any-args              ; list of &any arguments  [*]
   known-junk            ; &whole, &environment
-  unknown-junk)         ; unparsed stuff
+  unknown-junk          ; unparsed stuff
+  doc-plist)		; arg documentation
 
 ;;;
 ;;; [*] The &ANY lambda keyword is an extension to ANSI Common Lisp,
@@ -429,16 +433,20 @@ Otherwise NIL is returned."
             ;; FIXME: add &UNKNOWN-JUNK?
             ))))))
 
+;; Print symbol without package prefix (but escaping any special chars as usual).
+(defun write-symbol-name (sym)
+  (let ((*print-gensym* nil))
+    (prin1 (if (or (keywordp sym) (null (symbol-package sym))) sym (make-symbol (symbol-name sym))))))
+
 (defun print-arg (arg &key literal-strings)
-  (let ((arg (if (arglist-dummy-p arg)
-                 (arglist-dummy.string-representation arg)
-                 arg)))
-    (if (or
-         (and literal-strings
-              (stringp arg))
-         (keywordp arg))
-        (prin1 arg)
-        (princ arg))))
+  (declare (ignore literal-strings))
+  (if (arglist-dummy-p arg)
+      (princ (arglist-dummy.string-representation arg))
+      (if (symbolp arg)
+	  (write-symbol-name arg)
+	  (let ((*print-length* 10)
+		(*print-level* 3))
+	    (prin1 arg)))))
 
 (defun print-decoded-arglist-as-template (decoded-arglist &key
                                           (prefix "(") (suffix ")"))
@@ -506,12 +514,13 @@ Otherwise NIL is returned."
                                   print-right-margin)
   (if (message-list-arglist-p operator decoded-arglist)
       (print-message-list-for-autodoc decoded-arglist print-right-margin)
-      (with-output-to-string (*standard-output*)
-	(with-arglist-io-syntax
-	  (let ((*print-right-margin* print-right-margin))
-	    (print-decoded-arglist decoded-arglist
-				   :operator operator
-				   :highlight highlight))))))
+      (or (find-current-argdoc decoded-arglist highlight)
+	  (with-output-to-string (*standard-output*)
+	    (with-arglist-io-syntax
+	      (let ((*print-right-margin* print-right-margin))
+		(print-decoded-arglist decoded-arglist
+				       :operator operator
+				       :highlight highlight)))))))
 
 (defun decoded-arglist-to-template-string (decoded-arglist
                                            &key (prefix "(") (suffix ")"))
@@ -558,15 +567,19 @@ Otherwise NIL is returned."
                      :default-arg (canonicalize-default-arg default-arg)))
 
 ;; Interns arg if it's symbol-like, otherwise returns nil
-(defun intern-arg (arg package)
+(defun intern-arg (arg package &optional (createp t))
   (typecase arg
     (symbol (unless (or (null arg) (eq arg +cursor-marker+))
-	      (intern (symbol-name arg) package)))
+	      (if createp
+		  (intern (symbol-name arg) package)
+		  (find-symbol (symbol-name arg) package))))
     (arglist-dummy (let ((string (arglist-dummy.string-representation arg)))
 		     (unless (string= string "")
 		       (unless (eq (readtable-case *readtable*) :preserve)
 			 (setq string (string-upcase string)))
-		       (intern string package))))
+		       (if createp
+			   (intern string package)
+			   (find-symbol string package)))))
     (t nil)))
 
 (defun decode-keyword-arg (arg)
@@ -1393,14 +1406,20 @@ to the context provided by RAW-FORM."
 	     (find-key :quantify (cdr slot-form)))
 	 (cdr cell))))
 
+(defun destrung-slot-form (slot-form)
+  (loop while (and (consp slot-form) (stringp (car slot-form)))
+     do (setq slot-form (cdr slot-form)))
+  slot-form)
+       
 (defun messages-from-defn (defn &key functionp sequencedp)
   (loop with classname = (object-defn-classname defn)
      with keys = (object-defn-keys defn) while keys
      for key = (pop keys) for section = (pop keys)
      when (and (memq key +define-object-sections+) (consp section))
-     nconc (loop for slot-form in section
+     nconc (loop for raw-slot-form in section
+	      for slot-form = (destrung-slot-form raw-slot-form)
 	      as symbol = (if (consp slot-form)
-			      (gendl::first-symbol slot-form)
+			      (car slot-form)
 			      slot-form)
 	      as message = (intern-arg symbol keyword-package)
 	      when (and message
@@ -1427,12 +1446,13 @@ to the context provided by RAW-FORM."
        for key = (pop keys) for section = (pop keys)
        thereis (and (memq key +define-object-sections+)
 		    (consp section)
-		    (loop for slot-form in section
+		    (loop for raw-slot-form in section
+		       as slot-form = (destrung-slot-form raw-slot-form)
 		       as symbol = (if (consp slot-form)
-				       (gendl::first-symbol slot-form)
+				       (car slot-form)
 				       slot-form)
 		       when (eq message (intern-arg symbol keyword-package))
-		       return (unless (and (eq slot-form (object-defn-slot-form defn))
+		       return (unless (and (eq raw-slot-form (object-defn-slot-form defn))
 					   (eq key :functions)
 					   (or (null (cddr slot-form))
 					       (not (listp (cadr slot-form)))))
@@ -1519,11 +1539,121 @@ else eliminate any function messages with required keywords, and
 
 (defun message-arglist-from-class (class message)
   (when-let (category (gendl-category class message))
-    (decode-arglist
-     (case category
-       (:functions (car (gendl-source class message)))
-       ((:quantified-objects :quantified-hidden-objects) '(gendl::index))
-       (t ())))))
+    (with-available-arglist (arglist)
+	(decode-arglist
+	 (case category
+	   (:functions (car (gendl-source class message)))
+	   ((:quantified-objects :quantified-hidden-objects) '(gendl::index))
+	   (t '())))
+      (setf (arglist.doc-plist arglist) (gendl-arglist-doc class message))
+      arglist)))
+
+(defun parse-gendl-arglist-doc (string &optional (keywords '(:arguments :&optional :&key :&rest :&body)))
+  (let ((revplist nil)
+	(in-pre? nil)
+	(key nil)
+	(key-end nil))
+    (flet ((collect (key start &optional (end (length string)))
+	     (when (eq key :args) (setq key :arguments))
+	     (when (and key (or (null keywords) (member key keywords)))
+	       (let ((val (if (member key '(:arguments :&optional :&key :&rest :&body))
+			      (loop while (< start end)
+				 as val = (multiple-value-bind (val idx)
+					      (read-from-string string nil string :start start :end end)
+					    (setq start idx)
+					    val)
+				 unless (eq val string) collect val)
+			      (subseq string start end))))
+		 ;; Sometimes the surrounding parens are there, sometimes not...
+		 (when (and (consp val) (null (cdr val))) (setq val (car val)))
+		 (setq revplist (list* val key revplist))))))
+      (loop
+	 for start = 0 then (1+ end)
+	 for end = (position #\newline string :start start)
+	 do (cond ((search "<pre>" string :start2 start :end2 end) (setq in-pre? t))
+		  ((search "</pre>" string :start2 start :end2 end) (setq in-pre? nil)))
+	 do (unless in-pre?
+	      (when-let (pos (position-if-not #'whitespacep string :start start :end end))
+		;; non-blank line.
+		(when (or (eql (aref string pos) #\:)
+			  (let ((epos (position-if-not #'upper-case-p string :start pos :end end)))
+			    (and (or (null epos) (whitespacep (aref string epos)))
+				 (> (or epos (length string)) (+ pos 3)))))
+		  (collect key key-end start)
+		  (let ((*package* keyword-package))
+		    (multiple-value-setq (key key-end)
+		      (read-from-string string t nil :start start :end end))))))
+	 do (when (null end)
+	      (collect key key-end)
+	      (return)))
+      (nreverse revplist))))
+
+(defun gendl-arglist-doc (class arg)
+  (when-let (proto (gendl-class-prototype class))
+    (when-let (message (intern-arg arg keyword-package nil))
+      (when-let (doc (cadr (gendl:the-object proto (:slot-documentation message))))
+	(when (stringp doc)
+	  (parse-gendl-arglist-doc doc))))))
+
+(defun find-argdoc-by-name (arg doc-plist)
+  (let ((string (if (arglist-dummy-p arg)
+		    (arglist-dummy.string-representation arg)
+		    (symbol-name arg))))
+    (flet ((match (arg)
+	     (loop while (consp arg) do (setq arg (car arg)))
+	     (and (symbolp arg) (string-equal (symbol-name arg) string))))
+      (loop for (nil arg-info) on doc-plist by #'cddr
+	 ;; It looks like sometimes we get a plist and sometimes an alist
+	 thereis (if (every #'consp arg-info)
+		     (loop for (arg doc) in arg-info when (match arg) return doc)
+		     (loop for (arg doc) on arg-info by #'cddr when (match arg) return doc))))))
+
+(defun find-argdoc-by-position (index doc-plist)
+  (flet ((fetch (list)
+	   (let ((len (length list)))
+	     (cond ((every #'consp list)
+		    (when (< index len)
+		      (return-from find-argdoc-by-position (cadr (nth index list))))
+		    (decf index len))
+		   (t (let ((pindex (1+ (* index 2))))
+			(when (< pindex len)
+			  (return-from find-argdoc-by-position (nth pindex list))))
+		      (decf index (ceiling len 2)))))))
+    (fetch (getf doc-plist :arguments))
+    (fetch (getf doc-plist :&optional))
+    nil))
+
+(defun find-current-argdoc (arglist highlight)
+  (when-let (cur-index (car highlight))
+    (when-let (doc-plist (arglist.doc-plist arglist))
+      (let* ((index 0)
+	     (arg (do-decoded-arglist arglist
+		    (&provided () (incf index))
+		    (&required (arg)
+			       (when (eql index cur-index)
+				 (return-from do-decoded-arglist arg))
+			       (incf index))
+		    (&optional (arg)
+			       (when (eql index cur-index)
+				 (return-from do-decoded-arglist arg))
+			       (incf index))
+		    (&key (keyword)
+			  (when (eql keyword cur-index)
+			    (setq index nil)
+			    (return-from do-decoded-arglist keyword)))
+		    (&rest (arg)
+			   (when (eq index cur-index)
+			     (setq index nil)
+			     (return-from do-decoded-arglist arg))))))
+	(when-let (doc (and arg
+			    ;; we don't have doc for structured arglists, so just punt
+			    (not (arglist-p arg))
+			    (or (find-argdoc-by-name arg doc-plist)
+				(and index (find-argdoc-by-position index doc-plist)))))
+	  (concatenate 'string
+		       (with-output-to-string (*standard-output*) (print-arg arg))
+		       " - "
+		       (gdl-clean-doc doc)))))))
 
 ;; If parent is a THE form, get the arglist of functional message named by operator.
 (defun message-arglist (operator env the-form)
