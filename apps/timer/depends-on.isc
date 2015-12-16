@@ -1,8 +1,4 @@
 ;;
 ;; FLAG -- put smtp functions into glisp.
 ;;
-;;
-;; FLAG -- sleazy hack of returning :gendl after side-effect requir'ing smtp on allegro.
-;;
-;;
-"(:cl-smtp)"
+(:cl-smtp :gwl)

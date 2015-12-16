@@ -83,10 +83,4 @@
             (the unweighted-points)))))
 
 
-(define-object test-transformed-surface (transformed-surface)
-  
-  :input-slots
-  (surface-in (the trimmed surf))
-   
-   :objects
-   ((trimmed :type 'surf::test-trimmed-from-projected)))
+

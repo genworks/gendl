@@ -23,7 +23,7 @@
 
 (defparameter *source-dir*  (glisp:system-home :ledger))
 
-(define-object assembly (base-object)
+(define-object assembly ()
   
   :input-slots
   ((account-data-file (merge-pathnames "data/accounts.lisp" *source-dir*))
@@ -147,7 +147,7 @@
 	(print (the-object account data) out))))))
 
   
-(define-object account (base-object)
+(define-object account ()
   :input-slots
   (data headings current-balance)
   
@@ -163,7 +163,7 @@
 
    (beginning-balance (seventh (the data)))))
 
-(define-object transaction (base-object)
+(define-object transaction ()
   :input-slots
   (data headings)
   

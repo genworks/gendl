@@ -72,7 +72,11 @@ nil "~a~a~a" (the :name-for-display)
     hidden? nil)
 
    (display-controls nil)
-   )
+
+   (color-hex (let ((color-symbol (getf (the display-controls) :color)))
+                (when color-symbol (if (eql (aref (format nil "~a" color-symbol) 0) #\#)
+                                       color-symbol
+                                     (gethash color-symbol *color-table*))))))
 
 
   :computed-slots
@@ -281,10 +285,7 @@ the <tt>follow-root-path</tt> GDL function to return the actual instance."
    
    
    
-   (color-hex (let ((color-symbol (getf (the display-controls) :color)))
-                (when color-symbol (if (eql (aref (format nil "~a" color-symbol) 0) #\#)
-                                       color-symbol
-                                     (gethash color-symbol *color-table*)))))
+   
    )
 
   :functions
