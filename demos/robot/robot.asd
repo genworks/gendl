@@ -2,9 +2,9 @@
 
 (asdf:defsystem #:robot :description
  "The Gendl\" Simplified Android Robot example " :author
- "John McCarthy" :license
+ "Dave Cooper" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20150330" :depends-on nil
+ :version "20151206" :depends-on nil
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components

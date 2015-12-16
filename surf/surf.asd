@@ -2,9 +2,9 @@
 
 (asdf:defsystem #:surf :description
  "The Gendl\" NURBS Surface and Solids Geometry Primitives" :author
- "John McCarthy" :license
+ "Dave Cooper" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20150330" :depends-on (:geom-base)
+ :version "20151206" :depends-on (:geom-base)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
@@ -18,11 +18,14 @@
   (:file "source/boolean") (:file "source/box-intersection ")
   (:file "source/box-solid") (:file "source/brep-reader")
   (:file "source/breps-display") (:file "source/cad-assembly")
-  (:file "source/cardinal-spline") (:file "source/compatible-curves")
-  (:file "source/composed-curve") (:file "source/cone-solid")
-  (:file "source/conic-curve") (:file "source/coons-surface")
-  (:file "source/csets") (:file "source/decomposed-curves")
-  (:file "source/dropped-curve") (:file "source/dual-blend-surface")
+  (:file "source/cardinal-spline") (:file "source/circular-curve")
+  (:file "source/circular-surface")
+  (:file "source/compatible-curves") (:file "source/composed-curve")
+  (:file "source/cone-solid") (:file "source/conic-curve")
+  (:file "source/coons-surface") (:file "source/csets")
+  (:file "source/decomposed-curves")
+  (:file "source/degenerate-curve") (:file "source/dropped-curve")
+  (:file "source/dual-blend-surface")
   (:file "source/edge-blend-surface") (:file "source/edge")
   (:file "source/elliptical-curve") (:file "source/extended-curve")
   (:file "source/extended-surface") (:file "source/extruded-solid")
@@ -48,7 +51,8 @@
   (:file "source/planar-section-curve")
   (:file "source/planar-surface") (:file "source/poly-brep")
   (:file "source/projected-curve")
-  (:file "source/rectangular-surface") (:file "source/region")
+  (:file "source/rectangular-surface")
+  (:file "source/redirected-surface") (:file "source/region")
   (:file "source/reparameterized-curve")
   (:file "source/revolved-surface") (:file "source/ruled-surface")
   (:file "source/sequenced-curves") (:file "source/sewn-solid")

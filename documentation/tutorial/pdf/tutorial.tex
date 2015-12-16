@@ -4097,6 +4097,7 @@ can be controlled with other optional input-slots.
   
   :computed-slots
   ((use-raphael? t)
+   (use-x3dom? t)
    
    (main-sheet-body 
     (with-cl-who-string ()
@@ -4291,7 +4292,7 @@ system.
 
 
 
-\section{CL-LITE (Compile-and-Load Lite Utility)}
+\section{cl-lite (Compile-and-Load Lite Utility)}
 
 \label{sec:cl-lite(compile-and-loadliteutility)}
 
@@ -4307,13 +4308,13 @@ system.
 
 \begin{itemize}
 
-\item \index{CODEBASE-DIRECTORY-NODE}
+\item \index{codebase-directory-node}
 \label{prim:codebase-directory-node}
-\textbf{CODEBASE-DIRECTORY-NODE}
+\textbf{codebase-directory-node}
 
 
 \textbf{
-\underline{Mixins:}} DIRECTORY-NODE
+\underline{Mixins:}} directory-node
 
 
 
@@ -4477,9 +4478,9 @@ sequence.
 
 \begin{itemize}
 
-\item \index{CL-PATCH}
+\item \index{cl-patch}
 \label{prim:cl-patch}
-\textbf{CL-PATCH}
+\textbf{cl-patch}
 
 
 
@@ -4491,7 +4492,107 @@ sequence.
 
 
 
-\section{GENDL (Base Core Kernel Engine) Nicknames: Gdl, Genworks, Base}
+\section{com.genworks.dom }
+
+\label{sec:com.genworks.dom}
+
+
+
+
+
+
+
+\section{com.genworks.dom-html }
+
+\label{sec:com.genworks.dom-html}
+
+
+
+
+
+
+
+\section{com.genworks.dom-latex }
+
+\label{sec:com.genworks.dom-latex}
+
+
+
+
+
+
+
+\section{com.genworks.dom-writers }
+
+\label{sec:com.genworks.dom-writers}
+
+
+
+
+
+
+
+\section{com.yoyodyne.booster-rocket }
+
+\label{sec:com.yoyodyne.booster-rocket}
+
+
+
+
+
+
+
+\section{crypt }
+
+\label{sec:crypt}
+
+
+
+
+
+
+
+\section{ent  Nicknames: Ent}
+
+\label{sec:entnicknames:ent}
+
+
+
+
+
+\subsection{Function and Macro Definitions}
+
+\label{subsec:functionandmacrodefinitions}
+
+
+
+\begin{itemize}
+
+\item \index{code-str}
+\label{prim:code-str}
+\textbf{code-str}
+
+
+
+
+
+\end{itemize}
+
+
+
+
+
+\section{enterprise }
+
+\label{sec:enterprise}
+
+
+
+
+
+
+
+\section{gendl (Base Core Kernel Engine) Nicknames: Gdl, Genworks, Base}
 
 \label{sec:gendl(basecorekernelengine)nicknames:gdl,genworks,base}
 
@@ -4507,13 +4608,13 @@ sequence.
 
 \begin{itemize}
 
-\item \index{BASE-RULE-OBJECT}
+\item \index{base-rule-object}
 \label{prim:base-rule-object}
-\textbf{BASE-RULE-OBJECT}
+\textbf{base-rule-object}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -4626,13 +4727,13 @@ the \texttt{rule-title}, or "Unnamed Rule" if \texttt{rule-title} is NIL.
 
 
 
-\item \index{MATRIX-SEQUENCE}
+\item \index{matrix-sequence}
 \label{prim:matrix-sequence}
-\textbf{MATRIX-SEQUENCE}
+\textbf{matrix-sequence}
 
 
 \textbf{
-\underline{Mixins:}} STANDARD-SEQUENCE
+\underline{Mixins:}} standard-sequence, vanilla-mixin
 
 
 
@@ -4696,13 +4797,13 @@ a single number as with a normal sequence.
 
 
 
-\item \index{NULL-OBJECT}
+\item \index{null-object}
 \label{prim:null-object}
-\textbf{NULL-OBJECT}
+\textbf{null-object}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -4729,13 +4830,13 @@ conditional \texttt{:type} expression if you want to turn off a branch of the tr
 
 
 
-\item \index{QUANTIFICATION}
+\item \index{quantification}
 \label{prim:quantification}
-\textbf{QUANTIFICATION}
+\textbf{quantification}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -4795,13 +4896,13 @@ internal. It can be used, and returns an integer representing the cardinality of
 
 
 
-\item \index{RADIAL-SEQUENCE}
+\item \index{radial-sequence}
 \label{prim:radial-sequence}
-\textbf{RADIAL-SEQUENCE}
+\textbf{radial-sequence}
 
 
 \textbf{
-\underline{Mixins:}} STANDARD-SEQUENCE
+\underline{Mixins:}} standard-sequence, vanilla-mixin
 
 
 
@@ -4828,13 +4929,13 @@ A radial sequence quantification is generated as a result of specifying
 
 
 
-\item \index{STANDARD-QUERY-ROW}
+\item \index{standard-query-row}
 \label{prim:standard-query-row}
-\textbf{STANDARD-QUERY-ROW}
+\textbf{standard-query-row}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -4881,13 +4982,13 @@ Represents a row of data.
 
 
 
-\item \index{STANDARD-SEQUENCE}
+\item \index{standard-sequence}
 \label{prim:standard-sequence}
-\textbf{STANDARD-SEQUENCE}
+\textbf{standard-sequence}
 
 
 \textbf{
-\underline{Mixins:}} QUANTIFICATION
+\underline{Mixins:}} quantification
 
 
 
@@ -4947,13 +5048,13 @@ each member of the sequence will be reinstantiated as it is demanded.
 
 
 
-\item \index{VANILLA-MIXIN*}
+\item \index{vanilla-mixin*}
 \label{prim:vanilla-mixin*}
-\textbf{VANILLA-MIXIN*}
+\textbf{vanilla-mixin*}
 
 
 \textbf{
-\underline{Mixins:}} STANDARD-OBJECT
+\underline{Mixins:}} standard-object
 
 
 
@@ -5326,8 +5427,8 @@ otherwise they will be evaluated as variables according to normal Lisp functiona
 \index{Restore-tree!
 [vanilla-mixin*]}\emph{Void}
 
- Restores all settable-slots in this instance, and recursively in all descendant instances,
-to their default values.
+ Restores all settable-slots in this instance, and
+recursively in all descendant instances, to their default values.
 
 
 
@@ -5453,13 +5554,13 @@ current instance. Typically this file can be read back into the system using the
 
 
 
-\item \index{VARIABLE-SEQUENCE}
+\item \index{variable-sequence}
 \label{prim:variable-sequence}
-\textbf{VARIABLE-SEQUENCE}
+\textbf{variable-sequence}
 
 
 \textbf{
-\underline{Mixins:}} QUANTIFICATION
+\underline{Mixins:}} quantification
 
 
 
@@ -5569,561 +5670,641 @@ re-evaluates the expression to compute the original list of indices)
 
 \begin{itemize}
 
-\item \index{ALIST2PLIST}
+\item \index{alist2plist}
 \label{prim:alist2plist}
-\textbf{ALIST2PLIST}
+\textbf{alist2plist}
 
 
 
 
 
-\item \index{ALWAYS}
+\item \index{always}
 \label{prim:always}
-\textbf{ALWAYS}
+\textbf{always}
 
 
 
 
 
-\item \index{APPEND-ELEMENTS}
+\item \index{append-elements}
 \label{prim:append-elements}
-\textbf{APPEND-ELEMENTS [Macro]}
+\textbf{append-elements [Macro]}
 
 
 
 
 
-\item \index{CL-LITE}
+\item \index{check-computed-slots}
+\label{prim:check-computed-slots}
+\textbf{check-computed-slots}
+
+
+
+
+
+\item \index{check-documentation}
+\label{prim:check-documentation}
+\textbf{check-documentation}
+
+
+
+
+
+\item \index{check-floating-string}
+\label{prim:check-floating-string}
+\textbf{check-floating-string}
+
+
+
+
+
+\item \index{check-form}
+\label{prim:check-form}
+\textbf{check-form}
+
+
+
+
+
+\item \index{check-functions}
+\label{prim:check-functions}
+\textbf{check-functions}
+
+
+
+
+
+\item \index{check-input-slots}
+\label{prim:check-input-slots}
+\textbf{check-input-slots}
+
+
+
+
+
+\item \index{check-objects}
+\label{prim:check-objects}
+\textbf{check-objects}
+
+
+
+
+
+\item \index{check-query-slots}
+\label{prim:check-query-slots}
+\textbf{check-query-slots}
+
+
+
+
+
+\item \index{check-trickle-down-slots}
+\label{prim:check-trickle-down-slots}
+\textbf{check-trickle-down-slots}
+
+
+
+
+
+\item \index{cl-lite}
 \label{prim:cl-lite}
-\textbf{CL-LITE}
+\textbf{cl-lite}
 
 
 
 
 
-\item \index{CYCLIC-NTH}
+\item \index{cyclic-nth}
 \label{prim:cyclic-nth}
-\textbf{CYCLIC-NTH}
+\textbf{cyclic-nth}
 
 
 
 
 
-\item \index{DEFAULTING}
+\item \index{defaulting}
 \label{prim:defaulting}
-\textbf{DEFAULTING [Macro]}
+\textbf{defaulting [Macro]}
 
 
 
 
 
-\item \index{DEFINE-FORMAT}
+\item \index{define-format}
 \label{prim:define-format}
-\textbf{DEFINE-FORMAT [Macro]}
+\textbf{define-format [Macro]}
 
 
 
 
 
-\item \index{DEFINE-LENS}
+\item \index{define-lens}
 \label{prim:define-lens}
-\textbf{DEFINE-LENS [Macro]}
+\textbf{define-lens [Macro]}
 
 
 
 
 
-\item \index{DEFINE-OBJECT}
+\item \index{define-object}
 \label{prim:define-object}
-\textbf{DEFINE-OBJECT [Macro]}
+\textbf{define-object [Macro]}
 
 
 
 
 
-\item \index{DEFINE-OBJECT-AMENDMENT}
+\item \index{define-object-amendment}
 \label{prim:define-object-amendment}
-\textbf{DEFINE-OBJECT-AMENDMENT [Macro]}
+\textbf{define-object-amendment [Macro]}
 
 
 
 
 
-\item \index{DIV}
+\item \index{div}
 \label{prim:div}
-\textbf{DIV}
+\textbf{div}
 
 
 
 
 
-\item \index{ENSURE-LIST}
+\item \index{ensure-list}
 \label{prim:ensure-list}
-\textbf{ENSURE-LIST}
+\textbf{ensure-list}
 
 
 
 
 
-\item \index{FIND-DEPENDANTS}
+\item \index{find-dependants}
 \label{prim:find-dependants}
-\textbf{FIND-DEPENDANTS}
+\textbf{find-dependants}
 
 
 
 
 
-\item \index{FIND-DEPENDENCIES}
+\item \index{find-dependencies}
 \label{prim:find-dependencies}
-\textbf{FIND-DEPENDENCIES}
+\textbf{find-dependencies}
 
 
 
 
 
-\item \index{FIND-MESSAGES-USED-BY}
+\item \index{find-messages-used-by}
 \label{prim:find-messages-used-by}
-\textbf{FIND-MESSAGES-USED-BY}
+\textbf{find-messages-used-by}
 
 
 
 
 
-\item \index{FIND-MESSAGES-WHICH-USE}
+\item \index{find-messages-which-use}
 \label{prim:find-messages-which-use}
-\textbf{FIND-MESSAGES-WHICH-USE}
+\textbf{find-messages-which-use}
 
 
 
 
 
-\item \index{FLATTEN}
+\item \index{flatten}
 \label{prim:flatten}
-\textbf{FLATTEN}
+\textbf{flatten}
 
 
 
 
 
-\item \index{FORMAT-SLOT}
+\item \index{format-slot}
 \label{prim:format-slot}
-\textbf{FORMAT-SLOT [Macro]}
+\textbf{format-slot [Macro]}
 
 
 
 
 
-\item \index{FROUND-TO-NEAREST}
+\item \index{fround-to-nearest}
 \label{prim:fround-to-nearest}
-\textbf{FROUND-TO-NEAREST}
+\textbf{fround-to-nearest}
 
 
 
 
 
-\item \index{HALF}
+\item \index{half}
 \label{prim:half}
-\textbf{HALF}
+\textbf{half}
 
 
 
 
 
-\item \index{IGNORE-ERRORS-WITH-BACKTRACE}
+\item \index{ignore-errors-with-backtrace}
 \label{prim:ignore-errors-with-backtrace}
-\textbf{IGNORE-ERRORS-WITH-BACKTRACE [Macro]}
+\textbf{ignore-errors-with-backtrace [Macro]}
 
 
 
 
 
-\item \index{INDEX-FILTER}
+\item \index{index-filter}
 \label{prim:index-filter}
-\textbf{INDEX-FILTER}
+\textbf{index-filter}
 
 
 
 
 
-\item \index{ISO-8601-DATE}
+\item \index{iso-8601-date}
 \label{prim:iso-8601-date}
-\textbf{ISO-8601-DATE}
+\textbf{iso-8601-date}
 
 
 
 
 
-\item \index{LASTCAR}
+\item \index{lastcar}
 \label{prim:lastcar}
-\textbf{LASTCAR}
+\textbf{lastcar}
 
 
 
 
 
-\item \index{LEAST}
+\item \index{least}
 \label{prim:least}
-\textbf{LEAST}
+\textbf{least}
 
 
 
 
 
-\item \index{LIST-ELEMENTS}
+\item \index{list-elements}
 \label{prim:list-elements}
-\textbf{LIST-ELEMENTS [Macro]}
+\textbf{list-elements [Macro]}
 
 
 
 
 
-\item \index{LIST-OF-NUMBERS}
+\item \index{list-of-n-numbers}
+\label{prim:list-of-n-numbers}
+\textbf{list-of-n-numbers}
+
+
+
+
+
+\item \index{list-of-numbers}
 \label{prim:list-of-numbers}
-\textbf{LIST-OF-NUMBERS}
+\textbf{list-of-numbers}
 
 
 
 
 
-\item \index{LOAD-QUICKLISP}
+\item \index{load-quicklisp}
 \label{prim:load-quicklisp}
-\textbf{LOAD-QUICKLISP}
+\textbf{load-quicklisp}
 
 
 
 
 
-\item \index{MAKE-KEYWORD}
+\item \index{make-keyword}
 \label{prim:make-keyword}
-\textbf{MAKE-KEYWORD}
+\textbf{make-keyword}
 
 
 
 
 
-\item \index{MAKE-OBJECT}
+\item \index{make-object}
 \label{prim:make-object}
-\textbf{MAKE-OBJECT}
+\textbf{make-object}
 
 
 
 
 
-\item \index{MAPSEND}
+\item \index{mapsend}
 \label{prim:mapsend}
-\textbf{MAPSEND}
+\textbf{mapsend}
 
 
 
 
 
-\item \index{MAPTREE}
+\item \index{maptree}
 \label{prim:maptree}
-\textbf{MAPTREE}
+\textbf{maptree}
 
 
 
 
 
-\item \index{MAX-OF-ELEMENTS}
+\item \index{max-of-elements}
 \label{prim:max-of-elements}
-\textbf{MAX-OF-ELEMENTS [Macro]}
+\textbf{max-of-elements [Macro]}
 
 
 
 
 
-\item \index{MIN-OF-ELEMENTS}
+\item \index{min-of-elements}
 \label{prim:min-of-elements}
-\textbf{MIN-OF-ELEMENTS [Macro]}
+\textbf{min-of-elements [Macro]}
 
 
 
 
 
-\item \index{MOST}
+\item \index{most}
 \label{prim:most}
-\textbf{MOST}
+\textbf{most}
 
 
 
 
 
-\item \index{NEAR-TO?}
+\item \index{near-to?}
 \label{prim:near-to?}
-\textbf{NEAR-TO?}
+\textbf{near-to?}
 
 
 
 
 
-\item \index{NEAR-ZERO?}
+\item \index{near-zero?}
 \label{prim:near-zero?}
-\textbf{NEAR-ZERO?}
+\textbf{near-zero?}
 
 
 
 
 
-\item \index{NEVER}
+\item \index{never}
 \label{prim:never}
-\textbf{NEVER}
+\textbf{never}
 
 
 
 
 
-\item \index{NUMBER-FORMAT}
+\item \index{number-format}
 \label{prim:number-format}
-\textbf{NUMBER-FORMAT}
+\textbf{number-format}
 
 
 
 
 
-\item \index{NUMBER-ROUND}
+\item \index{number-round}
 \label{prim:number-round}
-\textbf{NUMBER-ROUND}
+\textbf{number-round}
 
 
 
 
 
-\item \index{PLIST-KEYS}
+\item \index{plist-keys}
 \label{prim:plist-keys}
-\textbf{PLIST-KEYS}
+\textbf{plist-keys}
 
 
 
 
 
-\item \index{PLIST-VALUES}
+\item \index{plist-values}
 \label{prim:plist-values}
-\textbf{PLIST-VALUES}
+\textbf{plist-values}
 
 
 
 
 
-\item \index{PRINT-MESSAGES}
+\item \index{print-messages}
 \label{prim:print-messages}
-\textbf{PRINT-MESSAGES [Macro]}
+\textbf{print-messages [Macro]}
 
 
 
 
 
-\item \index{PRINT-VARIABLES}
+\item \index{print-variables}
 \label{prim:print-variables}
-\textbf{PRINT-VARIABLES [Macro]}
+\textbf{print-variables [Macro]}
 
 
 
 
 
-\item \index{QUERY-COLLECT}
+\item \index{query-collect}
 \label{prim:query-collect}
-\textbf{QUERY-COLLECT}
+\textbf{query-collect}
 
 
 
 
 
-\item \index{READ-SAFE-STRING}
+\item \index{read-safe-string}
 \label{prim:read-safe-string}
-\textbf{READ-SAFE-STRING}
+\textbf{read-safe-string}
 
 
 
 
 
-\item \index{READ-SNAPSHOT}
+\item \index{read-snapshot}
 \label{prim:read-snapshot}
-\textbf{READ-SNAPSHOT}
+\textbf{read-snapshot}
 
 
 
 
 
-\item \index{REMOVE-PLIST-ENTRY}
+\item \index{remove-plist-entry}
 \label{prim:remove-plist-entry}
-\textbf{REMOVE-PLIST-ENTRY}
+\textbf{remove-plist-entry}
 
 
 
 
 
-\item \index{ROUND-TO-NEAREST}
+\item \index{round-to-nearest}
 \label{prim:round-to-nearest}
-\textbf{ROUND-TO-NEAREST}
+\textbf{round-to-nearest}
 
 
 
 
 
-\item \index{SAFE-FLOAT}
+\item \index{safe-float}
 \label{prim:safe-float}
-\textbf{SAFE-FLOAT}
+\textbf{safe-float}
 
 
 
 
 
-\item \index{SAFE-SORT}
+\item \index{safe-sort}
 \label{prim:safe-sort}
-\textbf{SAFE-SORT}
+\textbf{safe-sort}
 
 
 
 
 
-\item \index{SET-FORMAT-SLOT}
+\item \index{set-format-slot}
 \label{prim:set-format-slot}
-\textbf{SET-FORMAT-SLOT [Macro]}
+\textbf{set-format-slot [Macro]}
 
 
 
 
 
-\item \index{SPLIT}
+\item \index{split}
 \label{prim:split}
-\textbf{SPLIT}
+\textbf{split}
 
 
 
 
 
-\item \index{STATUS-MESSAGE}
+\item \index{status-message}
 \label{prim:status-message}
-\textbf{STATUS-MESSAGE}
+\textbf{status-message}
 
 
 
 
 
-\item \index{STRING-APPEND}
+\item \index{string-append}
 \label{prim:string-append}
-\textbf{STRING-APPEND}
+\textbf{string-append}
 
 
 
 
 
-\item \index{SUM-ELEMENTS}
+\item \index{sum-elements}
 \label{prim:sum-elements}
-\textbf{SUM-ELEMENTS [Macro]}
+\textbf{sum-elements [Macro]}
 
 
 
 
 
-\item \index{THE}
+\item \index{the}
 \label{prim:the}
-\textbf{THE [Macro]}
+\textbf{the [Macro]}
 
 
 
 
 
-\item \index{THE-CHILD}
+\item \index{the-child}
 \label{prim:the-child}
-\textbf{THE-CHILD [Macro]}
+\textbf{the-child [Macro]}
 
 
 
 
 
-\item \index{THE-ELEMENT}
+\item \index{the-element}
 \label{prim:the-element}
-\textbf{THE-ELEMENT [Macro]}
+\textbf{the-element [Macro]}
 
 
 
 
 
-\item \index{THE-OBJECT}
+\item \index{the-object}
 \label{prim:the-object}
-\textbf{THE-OBJECT [Macro]}
+\textbf{the-object [Macro]}
 
 
 
 
 
-\item \index{TWICE}
+\item \index{twice}
 \label{prim:twice}
-\textbf{TWICE}
+\textbf{twice}
 
 
 
 
 
-\item \index{UNDEFINE-OBJECT}
+\item \index{undefine-object}
 \label{prim:undefine-object}
-\textbf{UNDEFINE-OBJECT}
+\textbf{undefine-object}
 
 
 
 
 
-\item \index{UNIVERSAL-TIME-FROM-ISO-8601}
+\item \index{universal-time-from-iso-8601}
 \label{prim:universal-time-from-iso-8601}
-\textbf{UNIVERSAL-TIME-FROM-ISO-8601}
+\textbf{universal-time-from-iso-8601}
 
 
 
 
 
-\item \index{WITH-ERROR-HANDLING}
+\item \index{with-error-handling}
 \label{prim:with-error-handling}
-\textbf{WITH-ERROR-HANDLING [Macro]}
+\textbf{with-error-handling [Macro]}
 
 
 
 
 
-\item \index{WITH-FORMAT}
+\item \index{with-format}
 \label{prim:with-format}
-\textbf{WITH-FORMAT [Macro]}
+\textbf{with-format [Macro]}
 
 
 
 
 
-\item \index{WITH-FORMAT-SLOTS}
+\item \index{with-format-slots}
 \label{prim:with-format-slots}
-\textbf{WITH-FORMAT-SLOTS [Macro]}
+\textbf{with-format-slots [Macro]}
 
 
 
 
 
-\item \index{WRITE-ENV}
+\item \index{write-env}
 \label{prim:write-env}
-\textbf{WRITE-ENV [Macro]}
+\textbf{write-env [Macro]}
 
 
 
 
 
-\item \index{WRITE-PLIST}
+\item \index{write-plist}
 \label{prim:write-plist}
-\textbf{WRITE-PLIST}
+\textbf{write-plist}
 
 
 
 
 
-\item \index{WRITE-THE}
+\item \index{write-the}
 \label{prim:write-the}
-\textbf{WRITE-THE [Macro]}
+\textbf{write-the [Macro]}
 
 
 
 
 
-\item \index{WRITE-THE-OBJECT}
+\item \index{write-the-object}
 \label{prim:write-the-object}
-\textbf{WRITE-THE-OBJECT [Macro]}
+\textbf{write-the-object [Macro]}
 
 
 
@@ -6149,193 +6330,241 @@ re-evaluates the expression to compute the original list of indices)
 
 \begin{itemize}
 
-\item \index{*COLOR-PLIST*}
+\item \index{*color-plist*}
 \label{prim:*color-plist*}
-\textbf{*COLOR-PLIST*}
+\textbf{*color-plist*}
 
 
 
 
 
-\item \index{*COLOR-TABLE*}
+\item \index{*color-table*}
 \label{prim:*color-table*}
-\textbf{*COLOR-TABLE*}
+\textbf{*color-table*}
 
 
 
 
 
-\item \index{*COLOR-TABLE-DECIMAL*}
+\item \index{*color-table-decimal*}
 \label{prim:*color-table-decimal*}
-\textbf{*COLOR-TABLE-DECIMAL*}
+\textbf{*color-table-decimal*}
 
 
 
 
 
-\item \index{*COLORS-DEFAULT*}
+\item \index{*colors-default*}
 \label{prim:*colors-default*}
-\textbf{*COLORS-DEFAULT*}
+\textbf{*colors-default*}
 
 
 
 
 
-\item \index{*COMPILE-CIRCULAR-REFERENCE-DETECTION?*}
+\item \index{*compile-circular-reference-detection?*}
 \label{prim:*compile-circular-reference-detection?*}
-\textbf{*COMPILE-CIRCULAR-REFERENCE-DETECTION?*}
+\textbf{*compile-circular-reference-detection?*}
 
 
 
 
 
-\item \index{*COMPILE-DEPENDENCY-TRACKING?*}
+\item \index{*compile-dependency-tracking?*}
 \label{prim:*compile-dependency-tracking?*}
-\textbf{*COMPILE-DEPENDENCY-TRACKING?*}
+\textbf{*compile-dependency-tracking?*}
 
 
 
 
 
-\item \index{*COMPILE-DOCUMENTATION-DATABASE?*}
+\item \index{*compile-documentation-database?*}
 \label{prim:*compile-documentation-database?*}
-\textbf{*COMPILE-DOCUMENTATION-DATABASE?*}
+\textbf{*compile-documentation-database?*}
 
 
 
 
 
-\item \index{*COMPILE-FOR-DGDL?*}
+\item \index{*compile-for-dgdl?*}
 \label{prim:*compile-for-dgdl?*}
-\textbf{*COMPILE-FOR-DGDL?*}
+\textbf{*compile-for-dgdl?*}
 
 
 
 
 
-\item \index{*COMPILE-SOURCE-CODE-DATABASE?*}
+\item \index{*compile-source-code-database?*}
 \label{prim:*compile-source-code-database?*}
-\textbf{*COMPILE-SOURCE-CODE-DATABASE?*}
+\textbf{*compile-source-code-database?*}
 
 
 
 
 
-\item \index{*CURVE-CHORDS*}
+\item \index{*curve-chords*}
 \label{prim:*curve-chords*}
-\textbf{*CURVE-CHORDS*}
+\textbf{*curve-chords*}
 
 
 
 
 
-\item \index{*ENSURE-LISTS-WHEN-BASHING?*}
+\item \index{*ensure-lists-when-bashing?*}
 \label{prim:*ensure-lists-when-bashing?*}
-\textbf{*ENSURE-LISTS-WHEN-BASHING?*}
+\textbf{*ensure-lists-when-bashing?*}
 
 
 
 
 
-\item \index{*LOAD-DOCUMENTATION-DATABASE?*}
+\item \index{*load-documentation-database?*}
 \label{prim:*load-documentation-database?*}
-\textbf{*LOAD-DOCUMENTATION-DATABASE?*}
+\textbf{*load-documentation-database?*}
 
 
 
 
 
-\item \index{*LOAD-SOURCE-CODE-DATABASE?*}
+\item \index{*load-source-code-database?*}
 \label{prim:*load-source-code-database?*}
-\textbf{*LOAD-SOURCE-CODE-DATABASE?*}
+\textbf{*load-source-code-database?*}
 
 
 
 
 
-\item \index{*OUT-OF-BOUNDS-SEQUENCE-REFERENCE-ACTION*}
+\item \index{*on-syntax-error*}
+\label{prim:*on-syntax-error*}
+\textbf{*on-syntax-error*}
+
+
+
+
+
+\item \index{*out-of-bounds-sequence-reference-action*}
 \label{prim:*out-of-bounds-sequence-reference-action*}
-\textbf{*OUT-OF-BOUNDS-SEQUENCE-REFERENCE-ACTION*}
+\textbf{*out-of-bounds-sequence-reference-action*}
 
 
 
 
 
-\item \index{*REMEMBER-PREVIOUS-SLOT-VALUES?*}
+\item \index{*remember-previous-slot-values?*}
 \label{prim:*remember-previous-slot-values?*}
-\textbf{*REMEMBER-PREVIOUS-SLOT-VALUES?*}
+\textbf{*remember-previous-slot-values?*}
 
 
 
 
 
-\item \index{*ROOT-CHECKING-ENABLED?*}
+\item \index{*root-checking-enabled?*}
 \label{prim:*root-checking-enabled?*}
-\textbf{*ROOT-CHECKING-ENABLED?*}
+\textbf{*root-checking-enabled?*}
 
 
 
 
 
-\item \index{*RUN-WITH-CIRCULAR-REFERENCE-DETECTION?*}
+\item \index{*run-with-circular-reference-detection?*}
 \label{prim:*run-with-circular-reference-detection?*}
-\textbf{*RUN-WITH-CIRCULAR-REFERENCE-DETECTION?*}
+\textbf{*run-with-circular-reference-detection?*}
 
 
 
 
 
-\item \index{*RUN-WITH-DEPENDENCY-TRACKING?*}
+\item \index{*run-with-dependency-tracking?*}
 \label{prim:*run-with-dependency-tracking?*}
-\textbf{*RUN-WITH-DEPENDENCY-TRACKING?*}
+\textbf{*run-with-dependency-tracking?*}
 
 
 
 
 
-\item \index{*SORT-CHILDREN?*}
+\item \index{*sort-children?*}
 \label{prim:*sort-children?*}
-\textbf{*SORT-CHILDREN?*}
+\textbf{*sort-children?*}
 
 
 
 
 
-\item \index{*UNDECLARED-PARAMETERS-ENABLED?*}
+\item \index{*undeclared-parameters-enabled?*}
 \label{prim:*undeclared-parameters-enabled?*}
-\textbf{*UNDECLARED-PARAMETERS-ENABLED?*}
+\textbf{*undeclared-parameters-enabled?*}
 
 
 
 
 
-\item \index{*ZERO-EPSILON*}
+\item \index{*with-format-direction}
+\label{prim:*with-format-direction}
+\textbf{*with-format-direction}
+
+
+
+
+
+\item \index{*with-format-element-type*}
+\label{prim:*with-format-element-type*}
+\textbf{*with-format-element-type*}
+
+
+
+
+
+\item \index{*with-format-external-format*}
+\label{prim:*with-format-external-format*}
+\textbf{*with-format-external-format*}
+
+
+
+
+
+\item \index{*with-format-if-does-not-exist*}
+\label{prim:*with-format-if-does-not-exist*}
+\textbf{*with-format-if-does-not-exist*}
+
+
+
+
+
+\item \index{*with-format-if-exists*}
+\label{prim:*with-format-if-exists*}
+\textbf{*with-format-if-exists*}
+
+
+
+
+
+\item \index{*zero-epsilon*}
 \label{prim:*zero-epsilon*}
-\textbf{*ZERO-EPSILON*}
+\textbf{*zero-epsilon*}
 
 
 
 
 
-\item \index{+PHI+}
+\item \index{+phi+}
 \label{prim:+phi+}
-\textbf{+PHI+}
+\textbf{+phi+}
 
 
 
 
 
-\item \index{2PI}
+\item \index{2pi}
 \label{prim:2pi}
-\textbf{2PI}
+\textbf{2pi}
 
 
 
 
 
-\item \index{PI/2}
+\item \index{pi/2}
 \label{prim:pi/2}
-\textbf{PI/2}
+\textbf{pi/2}
 
 
 
@@ -6347,7 +6576,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 
-\section{GDL-USER }
+\section{gdl-user }
 
 \label{sec:gdl-user}
 
@@ -6357,7 +6586,7 @@ re-evaluates the expression to compute the original list of indices)
 
 
 
-\section{GENDL-DOC }
+\section{gendl-doc }
 
 \label{sec:gendl-doc}
 
@@ -6367,17 +6596,17 @@ re-evaluates the expression to compute the original list of indices)
 
 
 
-\section{GENWORKS-GDL (GenworksÂ® GDL)}
+\section{genworks-gdl (Genworks® GDL)}
 
-\label{sec:genworks-gdl(genworksâ®gdl)}
-
-
+\label{sec:genworks-gdl(genworks®gdl)}
 
 
 
 
 
-\section{GEOM-BASE (Wireframe Geometry)}
+
+
+\section{geom-base (Wireframe Geometry)}
 
 \label{sec:geom-base(wireframegeometry)}
 
@@ -6393,13 +6622,13 @@ re-evaluates the expression to compute the original list of indices)
 
 \begin{itemize}
 
-\item \index{ANGULAR-DIMENSION}
+\item \index{angular-dimension}
 \label{prim:angular-dimension}
-\textbf{ANGULAR-DIMENSION}
+\textbf{angular-dimension}
 
 
 \textbf{
-\underline{Mixins:}} LINEAR-DIMENSION, VANILLA-MIXIN
+\underline{Mixins:}} linear-dimension, vanilla-mixin
 
 
 
@@ -6459,9 +6688,9 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for ANGULAR-DIMENSION}
+\caption{Example Code for angular-dimension}
 
-\label{fig:example-code-ANGULAR-DIMENSION}
+\label{fig:example-code-angular-dimension}
 
 \end{figure}
 
@@ -6470,9 +6699,9 @@ This dimensional object produces a clear and concise arc dimensional annotation.
 \includegraphics[width=3in,height=3in]{../images/example-angular-dimension.pdf}
 \end{center}
 
-\caption{ANGULAR-DIMENSION example}
+\caption{angular-dimension example}
 
-\label{fig:ANGULAR-DIMENSION}
+\label{fig:angular-dimension}
 
 \end{figure}
 
@@ -6610,13 +6839,13 @@ Defaults to nil.
 
 
 
-\item \index{ARC}
+\item \index{arc}
 \label{prim:arc}
-\textbf{ARC}
+\textbf{arc}
 
 
 \textbf{
-\underline{Mixins:}} ARCOID-MIXIN, BASE-OBJECT
+\underline{Mixins:}} arcoid-mixin, base-object
 
 
 
@@ -6659,9 +6888,9 @@ angles are measured anti-clockwise.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for ARC}
+\caption{Example Code for arc}
 
-\label{fig:example-code-ARC}
+\label{fig:example-code-arc}
 
 \end{figure}
 
@@ -6670,9 +6899,9 @@ angles are measured anti-clockwise.
 \includegraphics[width=3in,height=3in]{../images/example-arc.pdf}
 \end{center}
 
-\caption{ARC example}
+\caption{arc example}
 
-\label{fig:ARC}
+\label{fig:arc}
 
 \end{figure}
 
@@ -6829,13 +7058,13 @@ the start and end point of the arc.
 
 
 
-\item \index{ARCOID-MIXIN}
+\item \index{arcoid-mixin}
 \label{prim:arcoid-mixin}
-\textbf{ARCOID-MIXIN}
+\textbf{arcoid-mixin}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -6914,13 +7143,13 @@ For developers it should be used as a mixin.
 
 
 
-\item \index{BASE-COORDINATE-SYSTEM}
+\item \index{base-coordinate-system}
 \label{prim:base-coordinate-system}
-\textbf{BASE-COORDINATE-SYSTEM}
+\textbf{base-coordinate-system}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object, vanilla-mixin
 
 
 
@@ -6950,13 +7179,13 @@ This provides a default 3D Cartesian
 
 
 
-\item \index{BASE-DRAWING}
+\item \index{base-drawing}
 \label{prim:base-drawing}
-\textbf{BASE-DRAWING}
+\textbf{base-drawing}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -7019,9 +7248,9 @@ makes sense for viewing it.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BASE-DRAWING}
+\caption{Example Code for base-drawing}
 
-\label{fig:example-code-BASE-DRAWING}
+\label{fig:example-code-base-drawing}
 
 \end{figure}
 
@@ -7030,9 +7259,9 @@ makes sense for viewing it.
 \includegraphics[width=3in,height=3in]{../images/example-base-drawing.pdf}
 \end{center}
 
-\caption{BASE-DRAWING example}
+\caption{base-drawing example}
 
-\label{fig:BASE-DRAWING}
+\label{fig:base-drawing}
 
 \end{figure}
 
@@ -7101,13 +7330,13 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
 
 
 
-\item \index{BASE-OBJECT}
+\item \index{base-object}
 \label{prim:base-object}
-\textbf{BASE-OBJECT}
+\textbf{base-object}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -7197,9 +7426,9 @@ gdl-user(53):
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BASE-OBJECT}
+\caption{Example Code for base-object}
 
-\label{fig:example-code-BASE-OBJECT}
+\label{fig:example-code-base-object}
 
 \end{figure}
 
@@ -7555,13 +7784,13 @@ based on the orientation and center of the object to which the local-to-global m
 
 
 
-\item \index{BASE-VIEW}
+\item \index{base-view}
 \label{prim:base-view}
-\textbf{BASE-VIEW}
+\textbf{base-view}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -7642,9 +7871,9 @@ makes sense for viewing it.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BASE-VIEW}
+\caption{Example Code for base-view}
 
-\label{fig:example-code-BASE-VIEW}
+\label{fig:example-code-base-view}
 
 \end{figure}
 
@@ -7653,9 +7882,9 @@ makes sense for viewing it.
 \includegraphics[width=3in,height=3in]{../images/example-base-view.pdf}
 \end{center}
 
-\caption{BASE-VIEW example}
+\caption{base-view example}
 
-\label{fig:BASE-VIEW}
+\label{fig:base-view}
 
 \end{figure}
 
@@ -7832,13 +8061,13 @@ the box should be facing. Defaults to \texttt{*nominal-y-vector*}.
 
 
 
-\item \index{BEZIER-CURVE}
+\item \index{bezier-curve}
 \label{prim:bezier-curve}
-\textbf{BEZIER-CURVE}
+\textbf{bezier-curve}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -7892,9 +8121,9 @@ vector pointing from the end point to the third control point.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BEZIER-CURVE}
+\caption{Example Code for bezier-curve}
 
-\label{fig:example-code-BEZIER-CURVE}
+\label{fig:example-code-bezier-curve}
 
 \end{figure}
 
@@ -7903,9 +8132,9 @@ vector pointing from the end point to the third control point.
 \includegraphics[width=3in,height=3in]{../images/example-bezier-curve.pdf}
 \end{center}
 
-\caption{BEZIER-CURVE example}
+\caption{bezier-curve example}
 
-\label{fig:BEZIER-CURVE}
+\label{fig:bezier-curve}
 
 \end{figure}
 
@@ -8001,13 +8230,13 @@ which should be between 0 and 1.
 
 
 
-\item \index{BOX}
+\item \index{box}
 \label{prim:box}
-\textbf{BOX}
+\textbf{box}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -8052,9 +8281,9 @@ messages as base-object, which knows how to output itself in various formats.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BOX}
+\caption{Example Code for box}
 
-\label{fig:example-code-BOX}
+\label{fig:example-code-box}
 
 \end{figure}
 
@@ -8063,9 +8292,9 @@ messages as base-object, which knows how to output itself in various formats.
 \includegraphics[width=3in,height=3in]{../images/example-box.pdf}
 \end{center}
 
-\caption{BOX example}
+\caption{box example}
 
-\label{fig:BOX}
+\label{fig:box}
 
 \end{figure}
 
@@ -8095,13 +8324,13 @@ messages as base-object, which knows how to output itself in various formats.
 
 
 
-\item \index{C-CYLINDER}
+\item \index{c-cylinder}
 \label{prim:c-cylinder}
-\textbf{C-CYLINDER}
+\textbf{c-cylinder}
 
 
 \textbf{
-\underline{Mixins:}} CYLINDER
+\underline{Mixins:}} cylinder
 
 
 
@@ -8149,9 +8378,9 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for C-CYLINDER}
+\caption{Example Code for c-cylinder}
 
-\label{fig:example-code-C-CYLINDER}
+\label{fig:example-code-c-cylinder}
 
 \end{figure}
 
@@ -8160,9 +8389,9 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 \includegraphics[width=3in,height=3in]{../images/example-c-cylinder.pdf}
 \end{center}
 
-\caption{C-CYLINDER example}
+\caption{c-cylinder example}
 
-\label{fig:C-CYLINDER}
+\label{fig:c-cylinder}
 
 \end{figure}
 
@@ -8249,13 +8478,13 @@ Provides a simple way to create a cylinder, by specifying a start point and an e
 
 
 
-\item \index{CENTER-LINE}
+\item \index{center-line}
 \label{prim:center-line}
-\textbf{CENTER-LINE}
+\textbf{center-line}
 
 
 \textbf{
-\underline{Mixins:}} OUTLINE-SPECIALIZATION-MIXIN, BASE-OBJECT
+\underline{Mixins:}} outline-specialization-mixin, base-object
 
 
 
@@ -8311,9 +8540,9 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CENTER-LINE}
+\caption{Example Code for center-line}
 
-\label{fig:example-code-CENTER-LINE}
+\label{fig:example-code-center-line}
 
 \end{figure}
 
@@ -8322,9 +8551,9 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 \includegraphics[width=3in,height=3in]{../images/example-center-line.pdf}
 \end{center}
 
-\caption{CENTER-LINE example}
+\caption{center-line example}
 
-\label{fig:CENTER-LINE}
+\label{fig:center-line}
 
 \end{figure}
 
@@ -8453,13 +8682,13 @@ Creates a dashed single centerline or crosshair centerline on a circle.
 
 
 
-\item \index{CIRCLE}
+\item \index{circle}
 \label{prim:circle}
-\textbf{CIRCLE}
+\textbf{circle}
 
 
 \textbf{
-\underline{Mixins:}} ARC
+\underline{Mixins:}} arc
 
 
 
@@ -8505,9 +8734,9 @@ angles are measured anti-clockwise.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CIRCLE}
+\caption{Example Code for circle}
 
-\label{fig:example-code-CIRCLE}
+\label{fig:example-code-circle}
 
 \end{figure}
 
@@ -8516,9 +8745,9 @@ angles are measured anti-clockwise.
 \includegraphics[width=3in,height=3in]{../images/example-circle.pdf}
 \end{center}
 
-\caption{CIRCLE example}
+\caption{circle example}
 
-\label{fig:CIRCLE}
+\label{fig:circle}
 
 \end{figure}
 
@@ -8575,13 +8804,13 @@ angles are measured anti-clockwise.
 
 
 
-\item \index{CONE}
+\item \index{cone}
 \label{prim:cone}
-\textbf{CONE}
+\textbf{cone}
 
 
 \textbf{
-\underline{Mixins:}} CYLINDER
+\underline{Mixins:}} cylinder
 
 
 
@@ -8629,9 +8858,9 @@ the center of its base. Partial cones and hollow cones are supported.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CONE}
+\caption{Example Code for cone}
 
-\label{fig:example-code-CONE}
+\label{fig:example-code-cone}
 
 \end{figure}
 
@@ -8640,9 +8869,9 @@ the center of its base. Partial cones and hollow cones are supported.
 \includegraphics[width=3in,height=3in]{../images/example-cone.pdf}
 \end{center}
 
-\caption{CONE example}
+\caption{cone example}
 
-\label{fig:CONE}
+\label{fig:cone}
 
 \end{figure}
 
@@ -8729,13 +8958,13 @@ the center of its base. Partial cones and hollow cones are supported.
 
 
 
-\item \index{CONSTRAINED-ARC}
+\item \index{constrained-arc}
 \label{prim:constrained-arc}
-\textbf{CONSTRAINED-ARC}
+\textbf{constrained-arc}
 
 
 \textbf{
-\underline{Mixins:}} ARC
+\underline{Mixins:}} arc
 
 
 
@@ -8810,13 +9039,13 @@ of one (1.0).
 
 
 
-\item \index{CONSTRAINED-FILLET}
+\item \index{constrained-fillet}
 \label{prim:constrained-fillet}
-\textbf{CONSTRAINED-FILLET}
+\textbf{constrained-fillet}
 
 
 \textbf{
-\underline{Mixins:}} CONSTRAINED-ARC
+\underline{Mixins:}} constrained-arc, vanilla-mixin
 
 
 
@@ -8874,13 +9103,13 @@ and it automatically trims the result to each point of tangency
 
 
 
-\item \index{CONSTRAINED-LINE}
+\item \index{constrained-line}
 \label{prim:constrained-line}
-\textbf{CONSTRAINED-LINE}
+\textbf{constrained-line}
 
 
 \textbf{
-\underline{Mixins:}} LINE
+\underline{Mixins:}} line
 
 
 
@@ -8961,13 +9190,13 @@ Icad Compat function
 
 
 
-\item \index{CYLINDER}
+\item \index{cylinder}
 \label{prim:cylinder}
-\textbf{CYLINDER}
+\textbf{cylinder}
 
 
 \textbf{
-\underline{Mixins:}} IFS-OUTPUT-MIXIN, ARCOID-MIXIN, BASE-OBJECT
+\underline{Mixins:}} ifs-output-mixin, arcoid-mixin, base-object
 
 
 
@@ -9017,9 +9246,9 @@ Partial cylinders and hollow cylinders are supported.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CYLINDER}
+\caption{Example Code for cylinder}
 
-\label{fig:example-code-CYLINDER}
+\label{fig:example-code-cylinder}
 
 \end{figure}
 
@@ -9028,9 +9257,9 @@ Partial cylinders and hollow cylinders are supported.
 \includegraphics[width=3in,height=3in]{../images/example-cylinder.pdf}
 \end{center}
 
-\caption{CYLINDER example}
+\caption{cylinder example}
 
-\label{fig:CYLINDER}
+\label{fig:cylinder}
 
 \end{figure}
 
@@ -9192,13 +9421,13 @@ Partial cylinders and hollow cylinders are supported.
 
 
 
-\item \index{ELLIPSE}
+\item \index{ellipse}
 \label{prim:ellipse}
-\textbf{ELLIPSE}
+\textbf{ellipse}
 
 
 \textbf{
-\underline{Mixins:}} ARCOID-MIXIN, BASE-OBJECT
+\underline{Mixins:}} arcoid-mixin, base-object
 
 
 
@@ -9246,9 +9475,9 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for ELLIPSE}
+\caption{Example Code for ellipse}
 
-\label{fig:example-code-ELLIPSE}
+\label{fig:example-code-ellipse}
 
 \end{figure}
 
@@ -9257,9 +9486,9 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 \includegraphics[width=3in,height=3in]{../images/example-ellipse.pdf}
 \end{center}
 
-\caption{ELLIPSE example}
+\caption{ellipse example}
 
-\label{fig:ELLIPSE}
+\label{fig:ellipse}
 
 \end{figure}
 
@@ -9367,13 +9596,13 @@ partial ellipse. For a full ellipse, do not specify start-angle or end-angle.
 
 
 
-\item \index{GENERAL-NOTE}
+\item \index{general-note}
 \label{prim:general-note}
-\textbf{GENERAL-NOTE}
+\textbf{general-note}
 
 
 \textbf{
-\underline{Mixins:}} OUTLINE-SPECIALIZATION-MIXIN, BASE-OBJECT
+\underline{Mixins:}} outline-specialization-mixin, base-object
 
 
 
@@ -9443,9 +9672,9 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GENERAL-NOTE}
+\caption{Example Code for general-note}
 
-\label{fig:example-code-GENERAL-NOTE}
+\label{fig:example-code-general-note}
 
 \end{figure}
 
@@ -9454,9 +9683,9 @@ Creates a text note in the graphical view port and in a PDF DXF output file.
 \includegraphics[width=3in,height=3in]{../images/example-general-note.pdf}
 \end{center}
 
-\caption{GENERAL-NOTE example}
+\caption{general-note example}
 
-\label{fig:GENERAL-NOTE}
+\label{fig:general-note}
 
 \end{figure}
 
@@ -9687,13 +9916,13 @@ Defaults to "Courier".
 
 
 
-\item \index{GLOBAL-FILLETED-POLYGON-PROJECTION}
+\item \index{global-filleted-polygon-projection}
 \label{prim:global-filleted-polygon-projection}
-\textbf{GLOBAL-FILLETED-POLYGON-PROJECTION}
+\textbf{global-filleted-polygon-projection}
 
 
 \textbf{
-\underline{Mixins:}} GLOBAL-POLYGON-PROJECTION
+\underline{Mixins:}} global-polygon-projection
 
 
 
@@ -9754,9 +9983,9 @@ as with global-filleted-polygon.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GLOBAL-FILLETED-POLYGON-PROJECTION}
+\caption{Example Code for global-filleted-polygon-projection}
 
-\label{fig:example-code-GLOBAL-FILLETED-POLYGON-PROJECTION}
+\label{fig:example-code-global-filleted-polygon-projection}
 
 \end{figure}
 
@@ -9765,9 +9994,9 @@ as with global-filleted-polygon.
 \includegraphics[width=3in,height=3in]{../images/example-global-filleted-polygon-projection.pdf}
 \end{center}
 
-\caption{GLOBAL-FILLETED-POLYGON-PROJECTION example}
+\caption{global-filleted-polygon-projection example}
 
-\label{fig:GLOBAL-FILLETED-POLYGON-PROJECTION}
+\label{fig:global-filleted-polygon-projection}
 
 \end{figure}
 
@@ -9806,13 +10035,13 @@ as with global-filleted-polygon.
 
 
 
-\item \index{GLOBAL-FILLETED-POLYLINE}
+\item \index{global-filleted-polyline}
 \label{prim:global-filleted-polyline}
-\textbf{GLOBAL-FILLETED-POLYLINE}
+\textbf{global-filleted-polyline}
 
 
 \textbf{
-\underline{Mixins:}} GLOBAL-FILLETED-POLYLINE-MIXIN
+\underline{Mixins:}} global-filleted-polyline-mixin, vanilla-mixin
 
 
 
@@ -9863,9 +10092,9 @@ for documentation on the messages.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GLOBAL-FILLETED-POLYLINE}
+\caption{Example Code for global-filleted-polyline}
 
-\label{fig:example-code-GLOBAL-FILLETED-POLYLINE}
+\label{fig:example-code-global-filleted-polyline}
 
 \end{figure}
 
@@ -9874,9 +10103,9 @@ for documentation on the messages.
 \includegraphics[width=3in,height=3in]{../images/example-global-filleted-polyline.pdf}
 \end{center}
 
-\caption{GLOBAL-FILLETED-POLYLINE example}
+\caption{global-filleted-polyline example}
 
-\label{fig:GLOBAL-FILLETED-POLYLINE}
+\label{fig:global-filleted-polyline}
 
 \end{figure}
 
@@ -9885,13 +10114,13 @@ for documentation on the messages.
 
 
 
-\item \index{GLOBAL-FILLETED-POLYLINE-MIXIN}
+\item \index{global-filleted-polyline-mixin}
 \label{prim:global-filleted-polyline-mixin}
-\textbf{GLOBAL-FILLETED-POLYLINE-MIXIN}
+\textbf{global-filleted-polyline-mixin}
 
 
 \textbf{
-\underline{Mixins:}} GLOBAL-POLYLINE-MIXIN
+\underline{Mixins:}} global-polyline-mixin
 
 
 
@@ -10021,13 +10250,13 @@ of the filleted-polyline.
 
 
 
-\item \index{GLOBAL-POLYGON-PROJECTION}
+\item \index{global-polygon-projection}
 \label{prim:global-polygon-projection}
-\textbf{GLOBAL-POLYGON-PROJECTION}
+\textbf{global-polygon-projection}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT, IFS-OUTPUT-MIXIN
+\underline{Mixins:}} base-object, ifs-output-mixin
 
 
 
@@ -10081,9 +10310,9 @@ the local center and orientation do not affect the positioning or orientation of
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GLOBAL-POLYGON-PROJECTION}
+\caption{Example Code for global-polygon-projection}
 
-\label{fig:example-code-GLOBAL-POLYGON-PROJECTION}
+\label{fig:example-code-global-polygon-projection}
 
 \end{figure}
 
@@ -10092,9 +10321,9 @@ the local center and orientation do not affect the positioning or orientation of
 \includegraphics[width=3in,height=3in]{../images/example-global-polygon-projection.pdf}
 \end{center}
 
-\caption{GLOBAL-POLYGON-PROJECTION example}
+\caption{global-polygon-projection example}
 
-\label{fig:GLOBAL-POLYGON-PROJECTION}
+\label{fig:global-polygon-projection}
 
 \end{figure}
 
@@ -10206,13 +10435,13 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 
-\item \index{GLOBAL-POLYLINE}
+\item \index{global-polyline}
 \label{prim:global-polyline}
-\textbf{GLOBAL-POLYLINE}
+\textbf{global-polyline}
 
 
 \textbf{
-\underline{Mixins:}} GLOBAL-POLYLINE-MIXIN
+\underline{Mixins:}} global-polyline-mixin, vanilla-mixin
 
 
 
@@ -10260,9 +10489,9 @@ global-polyline-mixin for documentation on the messages.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GLOBAL-POLYLINE}
+\caption{Example Code for global-polyline}
 
-\label{fig:example-code-GLOBAL-POLYLINE}
+\label{fig:example-code-global-polyline}
 
 \end{figure}
 
@@ -10271,9 +10500,9 @@ global-polyline-mixin for documentation on the messages.
 \includegraphics[width=3in,height=3in]{../images/example-global-polyline.pdf}
 \end{center}
 
-\caption{GLOBAL-POLYLINE example}
+\caption{global-polyline example}
 
-\label{fig:GLOBAL-POLYLINE}
+\label{fig:global-polyline}
 
 \end{figure}
 
@@ -10282,13 +10511,13 @@ global-polyline-mixin for documentation on the messages.
 
 
 
-\item \index{GLOBAL-POLYLINE-MIXIN}
+\item \index{global-polyline-mixin}
 \label{prim:global-polyline-mixin}
-\textbf{GLOBAL-POLYLINE-MIXIN}
+\textbf{global-polyline-mixin}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -10366,13 +10595,13 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 
-\item \index{HORIZONTAL-DIMENSION}
+\item \index{horizontal-dimension}
 \label{prim:horizontal-dimension}
-\textbf{HORIZONTAL-DIMENSION}
+\textbf{horizontal-dimension}
 
 
 \textbf{
-\underline{Mixins:}} LINEAR-DIMENSION, VANILLA-MIXIN
+\underline{Mixins:}} linear-dimension, vanilla-mixin
 
 
 
@@ -10420,9 +10649,9 @@ Creates a dimension annotation along the horizontal axis.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for HORIZONTAL-DIMENSION}
+\caption{Example Code for horizontal-dimension}
 
-\label{fig:example-code-HORIZONTAL-DIMENSION}
+\label{fig:example-code-horizontal-dimension}
 
 \end{figure}
 
@@ -10431,9 +10660,9 @@ Creates a dimension annotation along the horizontal axis.
 \includegraphics[width=3in,height=3in]{../images/example-horizontal-dimension.pdf}
 \end{center}
 
-\caption{HORIZONTAL-DIMENSION example}
+\caption{horizontal-dimension example}
 
-\label{fig:HORIZONTAL-DIMENSION}
+\label{fig:horizontal-dimension}
 
 \end{figure}
 
@@ -10512,13 +10741,13 @@ Must be specified in the subclass except for angular
 
 
 
-\item \index{LABEL}
+\item \index{label}
 \label{prim:label}
-\textbf{LABEL}
+\textbf{label}
 
 
 \textbf{
-\underline{Mixins:}} OUTLINE-SPECIALIZATION-MIXIN, BASE-OBJECT
+\underline{Mixins:}} outline-specialization-mixin, base-object
 
 
 
@@ -10574,9 +10803,9 @@ Produces a text label for graphical output
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for LABEL}
+\caption{Example Code for label}
 
-\label{fig:example-code-LABEL}
+\label{fig:example-code-label}
 
 \end{figure}
 
@@ -10585,9 +10814,9 @@ Produces a text label for graphical output
 \includegraphics[width=3in,height=3in]{../images/example-label.pdf}
 \end{center}
 
-\caption{LABEL example}
+\caption{label example}
 
-\label{fig:LABEL}
+\label{fig:label}
 
 \end{figure}
 
@@ -10805,13 +11034,13 @@ of one (1.0).
 
 
 
-\item \index{LEADER-LINE}
+\item \index{leader-line}
 \label{prim:leader-line}
-\textbf{LEADER-LINE}
+\textbf{leader-line}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -10963,13 +11192,13 @@ indicates how far into the line or curve to start the dash pattern.
 
 
 
-\item \index{LINE}
+\item \index{line}
 \label{prim:line}
-\textbf{LINE}
+\textbf{line}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -11013,9 +11242,9 @@ by specifying a start point and an end point.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for LINE}
+\caption{Example Code for line}
 
-\label{fig:example-code-LINE}
+\label{fig:example-code-line}
 
 \end{figure}
 
@@ -11024,9 +11253,9 @@ by specifying a start point and an end point.
 \includegraphics[width=3in,height=3in]{../images/example-line.pdf}
 \end{center}
 
-\caption{LINE example}
+\caption{line example}
 
-\label{fig:LINE}
+\label{fig:line}
 
 \end{figure}
 
@@ -11114,13 +11343,13 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 
-\item \index{LINEAR-DIMENSION}
+\item \index{linear-dimension}
 \label{prim:linear-dimension}
-\textbf{LINEAR-DIMENSION}
+\textbf{linear-dimension}
 
 
 \textbf{
-\underline{Mixins:}} OUTLINE-SPECIALIZATION-MIXIN, BASE-OBJECT
+\underline{Mixins:}} outline-specialization-mixin, base-object
 
 
 
@@ -11578,13 +11807,13 @@ GDL
 
 
 
-\item \index{PARALLEL-DIMENSION}
+\item \index{parallel-dimension}
 \label{prim:parallel-dimension}
-\textbf{PARALLEL-DIMENSION}
+\textbf{parallel-dimension}
 
 
 \textbf{
-\underline{Mixins:}} LINEAR-DIMENSION
+\underline{Mixins:}} linear-dimension
 
 
 
@@ -11635,9 +11864,9 @@ Creates a dimension annotation along an axis from a start point to an end point.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for PARALLEL-DIMENSION}
+\caption{Example Code for parallel-dimension}
 
-\label{fig:example-code-PARALLEL-DIMENSION}
+\label{fig:example-code-parallel-dimension}
 
 \end{figure}
 
@@ -11646,9 +11875,9 @@ Creates a dimension annotation along an axis from a start point to an end point.
 \includegraphics[width=3in,height=3in]{../images/example-parallel-dimension.pdf}
 \end{center}
 
-\caption{PARALLEL-DIMENSION example}
+\caption{parallel-dimension example}
 
-\label{fig:PARALLEL-DIMENSION}
+\label{fig:parallel-dimension}
 
 \end{figure}
 
@@ -11727,13 +11956,13 @@ Must be specified in the subclass except for angular
 
 
 
-\item \index{PIE-CHART}
+\item \index{pie-chart}
 \label{prim:pie-chart}
-\textbf{PIE-CHART}
+\textbf{pie-chart}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -11784,9 +12013,9 @@ cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch).
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for PIE-CHART}
+\caption{Example Code for pie-chart}
 
-\label{fig:example-code-PIE-CHART}
+\label{fig:example-code-pie-chart}
 
 \end{figure}
 
@@ -11795,9 +12024,9 @@ cl-pdf, with contributions from Carlos Ungil (Carlos.Ungil(at)cern.ch).
 \includegraphics[width=3in,height=3in]{../images/example-pie-chart.pdf}
 \end{center}
 
-\caption{PIE-CHART example}
+\caption{pie-chart example}
 
-\label{fig:PIE-CHART}
+\label{fig:pie-chart}
 
 \end{figure}
 
@@ -11904,13 +12133,13 @@ Color of title text. Defaults to :black.
 
 
 
-\item \index{POINT}
+\item \index{point}
 \label{prim:point}
-\textbf{POINT}
+\textbf{point}
 
 
 \textbf{
-\underline{Mixins:}} SPHERE
+\underline{Mixins:}} sphere
 
 
 
@@ -11966,9 +12195,9 @@ color for the crosshairs is a light grey (:grey-light-very in the *color-table*)
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for POINT}
+\caption{Example Code for point}
 
-\label{fig:example-code-POINT}
+\label{fig:example-code-point}
 
 \end{figure}
 
@@ -11977,9 +12206,9 @@ color for the crosshairs is a light grey (:grey-light-very in the *color-table*)
 \includegraphics[width=3in,height=3in]{../images/example-point.pdf}
 \end{center}
 
-\caption{POINT example}
+\caption{point example}
 
-\label{fig:POINT}
+\label{fig:point}
 
 \end{figure}
 
@@ -12051,13 +12280,13 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 
-\item \index{RENDERER-MIXIN}
+\item \index{renderer-mixin}
 \label{prim:renderer-mixin}
-\textbf{RENDERER-MIXIN}
+\textbf{renderer-mixin}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -12204,13 +12433,13 @@ the \texttt{bounding-sphere}
 
 
 
-\item \index{ROUTE-PIPE}
+\item \index{route-pipe}
 \label{prim:route-pipe}
-\textbf{ROUTE-PIPE}
+\textbf{route-pipe}
 
 
 \textbf{
-\underline{Mixins:}} GLOBAL-FILLETED-POLYLINE-MIXIN, OUTLINE-SPECIALIZATION-MIXIN
+\underline{Mixins:}} global-filleted-polyline-mixin, outline-specialization-mixin
 
 
 
@@ -12271,9 +12500,9 @@ Defines an alternating set of cylinders and torus sections for the elbows
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for ROUTE-PIPE}
+\caption{Example Code for route-pipe}
 
-\label{fig:example-code-ROUTE-PIPE}
+\label{fig:example-code-route-pipe}
 
 \end{figure}
 
@@ -12282,9 +12511,9 @@ Defines an alternating set of cylinders and torus sections for the elbows
 \includegraphics[width=3in,height=3in]{../images/example-route-pipe.pdf}
 \end{center}
 
-\caption{ROUTE-PIPE example}
+\caption{route-pipe example}
 
-\label{fig:ROUTE-PIPE}
+\label{fig:route-pipe}
 
 \end{figure}
 
@@ -12407,13 +12636,13 @@ of one (1.0).
 
 
 
-\item \index{SAMPLE-DRAWING}
+\item \index{sample-drawing}
 \label{prim:sample-drawing}
-\textbf{SAMPLE-DRAWING}
+\textbf{sample-drawing}
 
 
 \textbf{
-\underline{Mixins:}} BASE-DRAWING, VANILLA-MIXIN
+\underline{Mixins:}} base-drawing, vanilla-mixin
 
 
 
@@ -12472,13 +12701,13 @@ The default is (* 8.5 72) points, or 8.5 inches, corresponding to US standard le
 
 
 
-\item \index{SPHERE}
+\item \index{sphere}
 \label{prim:sphere}
-\textbf{SPHERE}
+\textbf{sphere}
 
 
 \textbf{
-\underline{Mixins:}} IFS-OUTPUT-MIXIN, ARCOID-MIXIN, BASE-OBJECT
+\underline{Mixins:}} ifs-output-mixin, arcoid-mixin, base-object
 
 
 
@@ -12531,9 +12760,9 @@ The set of points equidistant from a given center point.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SPHERE}
+\caption{Example Code for sphere}
 
-\label{fig:example-code-SPHERE}
+\label{fig:example-code-sphere}
 
 \end{figure}
 
@@ -12542,9 +12771,9 @@ The set of points equidistant from a given center point.
 \includegraphics[width=3in,height=3in]{../images/example-sphere.pdf}
 \end{center}
 
-\caption{SPHERE example}
+\caption{sphere example}
 
-\label{fig:SPHERE}
+\label{fig:sphere}
 
 \end{figure}
 
@@ -12688,13 +12917,13 @@ The set of points equidistant from a given center point.
 
 
 
-\item \index{SPHERICAL-CAP}
+\item \index{spherical-cap}
 \label{prim:spherical-cap}
-\textbf{SPHERICAL-CAP}
+\textbf{spherical-cap}
 
 
 \textbf{
-\underline{Mixins:}} IFS-OUTPUT-MIXIN, ARCOID-MIXIN, BASE-OBJECT
+\underline{Mixins:}} ifs-output-mixin, arcoid-mixin, base-object
 
 
 
@@ -12747,9 +12976,9 @@ construction and positioning since the actual center of the spherical cap is the
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SPHERICAL-CAP}
+\caption{Example Code for spherical-cap}
 
-\label{fig:example-code-SPHERICAL-CAP}
+\label{fig:example-code-spherical-cap}
 
 \end{figure}
 
@@ -12758,9 +12987,9 @@ construction and positioning since the actual center of the spherical cap is the
 \includegraphics[width=3in,height=3in]{../images/example-spherical-cap.pdf}
 \end{center}
 
-\caption{SPHERICAL-CAP example}
+\caption{spherical-cap example}
 
-\label{fig:SPHERICAL-CAP}
+\label{fig:spherical-cap}
 
 \end{figure}
 
@@ -12924,13 +13153,13 @@ or cap-thickness, not both.
 
 
 
-\item \index{TEXT-LINE}
+\item \index{text-line}
 \label{prim:text-line}
-\textbf{TEXT-LINE}
+\textbf{text-line}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -13016,13 +13245,13 @@ Outputs a single line of text for graphical display.
 
 
 
-\item \index{TORUS}
+\item \index{torus}
 \label{prim:torus}
-\textbf{TORUS}
+\textbf{torus}
 
 
 \textbf{
-\underline{Mixins:}} IFS-OUTPUT-MIXIN, ARCOID-MIXIN, BASE-OBJECT
+\underline{Mixins:}} ifs-output-mixin, arcoid-mixin, base-object
 
 
 
@@ -13078,9 +13307,9 @@ Partial ``bent'' cylinders are not currently supported.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for TORUS}
+\caption{Example Code for torus}
 
-\label{fig:example-code-TORUS}
+\label{fig:example-code-torus}
 
 \end{figure}
 
@@ -13089,9 +13318,9 @@ Partial ``bent'' cylinders are not currently supported.
 \includegraphics[width=3in,height=3in]{../images/example-torus.pdf}
 \end{center}
 
-\caption{TORUS example}
+\caption{torus example}
 
-\label{fig:TORUS}
+\label{fig:torus}
 
 \end{figure}
 
@@ -13247,13 +13476,13 @@ Partial ``bent'' cylinders are not currently supported.
 
 
 
-\item \index{TYPESET-BLOCK}
+\item \index{typeset-block}
 \label{prim:typeset-block}
-\textbf{TYPESET-BLOCK}
+\textbf{typeset-block}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -13372,13 +13601,13 @@ than this default, the content will be cropped.
 
 
 
-\item \index{VERTICAL-DIMENSION}
+\item \index{vertical-dimension}
 \label{prim:vertical-dimension}
-\textbf{VERTICAL-DIMENSION}
+\textbf{vertical-dimension}
 
 
 \textbf{
-\underline{Mixins:}} LINEAR-DIMENSION
+\underline{Mixins:}} linear-dimension
 
 
 
@@ -13430,9 +13659,9 @@ Creates a dimension annotation along the vertical axis.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for VERTICAL-DIMENSION}
+\caption{Example Code for vertical-dimension}
 
-\label{fig:example-code-VERTICAL-DIMENSION}
+\label{fig:example-code-vertical-dimension}
 
 \end{figure}
 
@@ -13441,9 +13670,9 @@ Creates a dimension annotation along the vertical axis.
 \includegraphics[width=3in,height=3in]{../images/example-vertical-dimension.pdf}
 \end{center}
 
-\caption{VERTICAL-DIMENSION example}
+\caption{vertical-dimension example}
 
-\label{fig:VERTICAL-DIMENSION}
+\label{fig:vertical-dimension}
 
 \end{figure}
 
@@ -13534,537 +13763,537 @@ Must be specified in the subclass except for angular
 
 \begin{itemize}
 
-\item \index{3D-DISTANCE}
+\item \index{3d-distance}
 \label{prim:3d-distance}
-\textbf{3D-DISTANCE}
+\textbf{3d-distance}
 
 
 
 
 
-\item \index{3D-VECTOR-TO-ARRAY}
+\item \index{3d-vector-to-array}
 \label{prim:3d-vector-to-array}
-\textbf{3D-VECTOR-TO-ARRAY}
+\textbf{3d-vector-to-array}
 
 
 
 
 
-\item \index{ACOSD}
+\item \index{acosd}
 \label{prim:acosd}
-\textbf{ACOSD}
+\textbf{acosd}
 
 
 
 
 
-\item \index{ADD-MATRICES}
+\item \index{add-matrices}
 \label{prim:add-matrices}
-\textbf{ADD-MATRICES}
+\textbf{add-matrices}
 
 
 
 
 
-\item \index{ADD-VECTORS}
+\item \index{add-vectors}
 \label{prim:add-vectors}
-\textbf{ADD-VECTORS}
+\textbf{add-vectors}
 
 
 
 
 
-\item \index{ALIGNMENT}
+\item \index{alignment}
 \label{prim:alignment}
-\textbf{ALIGNMENT}
+\textbf{alignment}
 
 
 
 
 
-\item \index{ANGLE-BETWEEN-VECTORS}
+\item \index{angle-between-vectors}
 \label{prim:angle-between-vectors}
-\textbf{ANGLE-BETWEEN-VECTORS}
+\textbf{angle-between-vectors}
 
 
 
 
 
-\item \index{ANGLE-BETWEEN-VECTORS-D}
+\item \index{angle-between-vectors-d}
 \label{prim:angle-between-vectors-d}
-\textbf{ANGLE-BETWEEN-VECTORS-D}
+\textbf{angle-between-vectors-d}
 
 
 
 
 
-\item \index{APPLY-MAKE-POINT}
+\item \index{apply-make-point}
 \label{prim:apply-make-point}
-\textbf{APPLY-MAKE-POINT}
+\textbf{apply-make-point}
 
 
 
 
 
-\item \index{ARRAY-TO-3D-VECTOR}
+\item \index{array-to-3d-vector}
 \label{prim:array-to-3d-vector}
-\textbf{ARRAY-TO-3D-VECTOR}
+\textbf{array-to-3d-vector}
 
 
 
 
 
-\item \index{ARRAY-TO-LIST}
+\item \index{array-to-list}
 \label{prim:array-to-list}
-\textbf{ARRAY-TO-LIST}
+\textbf{array-to-list}
 
 
 
 
 
-\item \index{ASIND}
+\item \index{asind}
 \label{prim:asind}
-\textbf{ASIND}
+\textbf{asind}
 
 
 
 
 
-\item \index{ATAND}
+\item \index{atand}
 \label{prim:atand}
-\textbf{ATAND}
+\textbf{atand}
 
 
 
 
 
-\item \index{COINCIDENT-POINT?}
+\item \index{coincident-point?}
 \label{prim:coincident-point?}
-\textbf{COINCIDENT-POINT?}
+\textbf{coincident-point?}
 
 
 
 
 
-\item \index{CREATE-OBLIQUENESS}
+\item \index{create-obliqueness}
 \label{prim:create-obliqueness}
-\textbf{CREATE-OBLIQUENESS}
+\textbf{create-obliqueness}
 
 
 
 
 
-\item \index{CROSS-VECTORS}
+\item \index{cross-vectors}
 \label{prim:cross-vectors}
-\textbf{CROSS-VECTORS}
+\textbf{cross-vectors}
 
 
 
 
 
-\item \index{DEGREE}
+\item \index{degree}
 \label{prim:degree}
-\textbf{DEGREE}
+\textbf{degree}
 
 
 
 
 
-\item \index{DEGREES-TO-RADIANS}
+\item \index{degrees-to-radians}
 \label{prim:degrees-to-radians}
-\textbf{DEGREES-TO-RADIANS}
+\textbf{degrees-to-radians}
 
 
 
 
 
-\item \index{DISTANCE-TO-LINE}
+\item \index{distance-to-line}
 \label{prim:distance-to-line}
-\textbf{DISTANCE-TO-LINE}
+\textbf{distance-to-line}
 
 
 
 
 
-\item \index{DOT-VECTORS}
+\item \index{dot-vectors}
 \label{prim:dot-vectors}
-\textbf{DOT-VECTORS}
+\textbf{dot-vectors}
 
 
 
 
 
-\item \index{EQUI-SPACE-POINTS}
+\item \index{equi-space-points}
 \label{prim:equi-space-points}
-\textbf{EQUI-SPACE-POINTS}
+\textbf{equi-space-points}
 
 
 
 
 
-\item \index{GET-U}
+\item \index{get-u}
 \label{prim:get-u}
-\textbf{GET-U}
+\textbf{get-u}
 
 
 
 
 
-\item \index{GET-V}
+\item \index{get-v}
 \label{prim:get-v}
-\textbf{GET-V}
+\textbf{get-v}
 
 
 
 
 
-\item \index{GET-W}
+\item \index{get-w}
 \label{prim:get-w}
-\textbf{GET-W}
+\textbf{get-w}
 
 
 
 
 
-\item \index{GET-X}
+\item \index{get-x}
 \label{prim:get-x}
-\textbf{GET-X}
+\textbf{get-x}
 
 
 
 
 
-\item \index{GET-Y}
+\item \index{get-y}
 \label{prim:get-y}
-\textbf{GET-Y}
+\textbf{get-y}
 
 
 
 
 
-\item \index{GET-Z}
+\item \index{get-z}
 \label{prim:get-z}
-\textbf{GET-Z}
+\textbf{get-z}
 
 
 
 
 
-\item \index{INTER-CIRCLE-SPHERE}
+\item \index{inter-circle-sphere}
 \label{prim:inter-circle-sphere}
-\textbf{INTER-CIRCLE-SPHERE}
+\textbf{inter-circle-sphere}
 
 
 
 
 
-\item \index{INTER-LINE-PLANE}
+\item \index{inter-line-plane}
 \label{prim:inter-line-plane}
-\textbf{INTER-LINE-PLANE}
+\textbf{inter-line-plane}
 
 
 
 
 
-\item \index{INTER-LINE-SPHERE}
+\item \index{inter-line-sphere}
 \label{prim:inter-line-sphere}
-\textbf{INTER-LINE-SPHERE}
+\textbf{inter-line-sphere}
 
 
 
 
 
-\item \index{LENGTH-VECTOR}
+\item \index{length-vector}
 \label{prim:length-vector}
-\textbf{LENGTH-VECTOR}
+\textbf{length-vector}
 
 
 
 
 
-\item \index{MAKE-POINT}
+\item \index{make-point}
 \label{prim:make-point}
-\textbf{MAKE-POINT [Macro]}
+\textbf{make-point [Macro]}
 
 
 
 
 
-\item \index{MAKE-TRANSFORM}
+\item \index{make-transform}
 \label{prim:make-transform}
-\textbf{MAKE-TRANSFORM}
+\textbf{make-transform}
 
 
 
 
 
-\item \index{MAKE-VECTOR}
+\item \index{make-vector}
 \label{prim:make-vector}
-\textbf{MAKE-VECTOR [Macro]}
+\textbf{make-vector [Macro]}
 
 
 
 
 
-\item \index{MATRIX*VECTOR}
+\item \index{matrix*vector}
 \label{prim:matrix*vector}
-\textbf{MATRIX*VECTOR}
+\textbf{matrix*vector}
 
 
 
 
 
-\item \index{MATRIX-TO-QUATERNION}
+\item \index{matrix-to-quaternion}
 \label{prim:matrix-to-quaternion}
-\textbf{MATRIX-TO-QUATERNION}
+\textbf{matrix-to-quaternion}
 
 
 
 
 
-\item \index{MERGE-DISPLAY-CONTROLS}
+\item \index{merge-display-controls}
 \label{prim:merge-display-controls}
-\textbf{MERGE-DISPLAY-CONTROLS [Macro]}
+\textbf{merge-display-controls [Macro]}
 
 
 
 
 
-\item \index{MIDPOINT}
+\item \index{midpoint}
 \label{prim:midpoint}
-\textbf{MIDPOINT}
+\textbf{midpoint}
 
 
 
 
 
-\item \index{MULTIPLY-MATRICES}
+\item \index{multiply-matrices}
 \label{prim:multiply-matrices}
-\textbf{MULTIPLY-MATRICES}
+\textbf{multiply-matrices}
 
 
 
 
 
-\item \index{ORTHOGONAL-COMPONENT}
+\item \index{orthogonal-component}
 \label{prim:orthogonal-component}
-\textbf{ORTHOGONAL-COMPONENT}
+\textbf{orthogonal-component}
 
 
 
 
 
-\item \index{PARALLEL-VECTORS?}
+\item \index{parallel-vectors?}
 \label{prim:parallel-vectors?}
-\textbf{PARALLEL-VECTORS?}
+\textbf{parallel-vectors?}
 
 
 
 
 
-\item \index{PROJ-POINT-ON-LINE}
+\item \index{proj-point-on-line}
 \label{prim:proj-point-on-line}
-\textbf{PROJ-POINT-ON-LINE}
+\textbf{proj-point-on-line}
 
 
 
 
 
-\item \index{PROJECTED-VECTOR}
+\item \index{projected-vector}
 \label{prim:projected-vector}
-\textbf{PROJECTED-VECTOR}
+\textbf{projected-vector}
 
 
 
 
 
-\item \index{PYTHAGORIZE}
+\item \index{pythagorize}
 \label{prim:pythagorize}
-\textbf{PYTHAGORIZE}
+\textbf{pythagorize}
 
 
 
 
 
-\item \index{QUATERNION-TO-MATRIX}
+\item \index{quaternion-to-matrix}
 \label{prim:quaternion-to-matrix}
-\textbf{QUATERNION-TO-MATRIX}
+\textbf{quaternion-to-matrix}
 
 
 
 
 
-\item \index{QUATERNION-TO-ROTATION}
+\item \index{quaternion-to-rotation}
 \label{prim:quaternion-to-rotation}
-\textbf{QUATERNION-TO-ROTATION}
+\textbf{quaternion-to-rotation}
 
 
 
 
 
-\item \index{RADIANS-TO-DEGREES}
+\item \index{radians-to-degrees}
 \label{prim:radians-to-degrees}
-\textbf{RADIANS-TO-DEGREES}
+\textbf{radians-to-degrees}
 
 
 
 
 
-\item \index{RADIANS-TO-GRADS}
+\item \index{radians-to-grads}
 \label{prim:radians-to-grads}
-\textbf{RADIANS-TO-GRADS}
+\textbf{radians-to-grads}
 
 
 
 
 
-\item \index{REVERSE-VECTOR}
+\item \index{reverse-vector}
 \label{prim:reverse-vector}
-\textbf{REVERSE-VECTOR}
+\textbf{reverse-vector}
 
 
 
 
 
-\item \index{ROLL}
+\item \index{roll}
 \label{prim:roll}
-\textbf{ROLL [Macro]}
+\textbf{roll [Macro]}
 
 
 
 
 
-\item \index{ROTATE-POINT}
+\item \index{rotate-point}
 \label{prim:rotate-point}
-\textbf{ROTATE-POINT}
+\textbf{rotate-point}
 
 
 
 
 
-\item \index{ROTATE-POINT-D}
+\item \index{rotate-point-d}
 \label{prim:rotate-point-d}
-\textbf{ROTATE-POINT-D}
+\textbf{rotate-point-d}
 
 
 
 
 
-\item \index{ROTATE-VECTOR}
+\item \index{rotate-vector}
 \label{prim:rotate-vector}
-\textbf{ROTATE-VECTOR}
+\textbf{rotate-vector}
 
 
 
 
 
-\item \index{ROTATE-VECTOR-D}
+\item \index{rotate-vector-d}
 \label{prim:rotate-vector-d}
-\textbf{ROTATE-VECTOR-D}
+\textbf{rotate-vector-d}
 
 
 
 
 
-\item \index{ROTATION}
+\item \index{rotation}
 \label{prim:rotation}
-\textbf{ROTATION}
+\textbf{rotation}
 
 
 
 
 
-\item \index{SAME-DIRECTION-VECTORS?}
+\item \index{same-direction-vectors?}
 \label{prim:same-direction-vectors?}
-\textbf{SAME-DIRECTION-VECTORS?}
+\textbf{same-direction-vectors?}
 
 
 
 
 
-\item \index{SCALAR*MATRIX}
+\item \index{scalar*matrix}
 \label{prim:scalar*matrix}
-\textbf{SCALAR*MATRIX}
+\textbf{scalar*matrix}
 
 
 
 
 
-\item \index{SCALAR*VECTOR}
+\item \index{scalar*vector}
 \label{prim:scalar*vector}
-\textbf{SCALAR*VECTOR}
+\textbf{scalar*vector}
 
 
 
 
 
-\item \index{SORT-POINTS-ALONG-VECTOR}
+\item \index{sort-points-along-vector}
 \label{prim:sort-points-along-vector}
-\textbf{SORT-POINTS-ALONG-VECTOR}
+\textbf{sort-points-along-vector}
 
 
 
 
 
-\item \index{SUBTRACT-VECTORS}
+\item \index{subtract-vectors}
 \label{prim:subtract-vectors}
-\textbf{SUBTRACT-VECTORS}
+\textbf{subtract-vectors}
 
 
 
 
 
-\item \index{TRANSFORM-AND-TRANSLATE-POINT}
+\item \index{transform-and-translate-point}
 \label{prim:transform-and-translate-point}
-\textbf{TRANSFORM-AND-TRANSLATE-POINT}
+\textbf{transform-and-translate-point}
 
 
 
 
 
-\item \index{TRANSFORM-NUMERIC-POINT}
+\item \index{transform-numeric-point}
 \label{prim:transform-numeric-point}
-\textbf{TRANSFORM-NUMERIC-POINT}
+\textbf{transform-numeric-point}
 
 
 
 
 
-\item \index{TRANSLATE}
+\item \index{translate}
 \label{prim:translate}
-\textbf{TRANSLATE [Macro]}
+\textbf{translate [Macro]}
 
 
 
 
 
-\item \index{TRANSLATE-ALONG-VECTOR}
+\item \index{translate-along-vector}
 \label{prim:translate-along-vector}
-\textbf{TRANSLATE-ALONG-VECTOR}
+\textbf{translate-along-vector}
 
 
 
 
 
-\item \index{TRANSPOSE-MATRIX}
+\item \index{transpose-matrix}
 \label{prim:transpose-matrix}
-\textbf{TRANSPOSE-MATRIX}
+\textbf{transpose-matrix}
 
 
 
 
 
-\item \index{UNITIZE-VECTOR}
+\item \index{unitize-vector}
 \label{prim:unitize-vector}
-\textbf{UNITIZE-VECTOR}
+\textbf{unitize-vector}
 
 
 
 
 
-\item \index{ZERO-VECTOR?}
+\item \index{zero-vector?}
 \label{prim:zero-vector?}
-\textbf{ZERO-VECTOR?}
+\textbf{zero-vector?}
 
 
 
@@ -14082,49 +14311,49 @@ Must be specified in the subclass except for angular
 
 \begin{itemize}
 
-\item \index{*BREAK-LEADERS?*}
+\item \index{*break-leaders?*}
 \label{prim:*break-leaders?*}
-\textbf{*BREAK-LEADERS?*}
+\textbf{*break-leaders?*}
 
 
 
 
 
-\item \index{*GS-GRAPHICS-ALPHA-BITS*}
+\item \index{*gs-graphics-alpha-bits*}
 \label{prim:*gs-graphics-alpha-bits*}
-\textbf{*GS-GRAPHICS-ALPHA-BITS*}
+\textbf{*gs-graphics-alpha-bits*}
 
 
 
 
 
-\item \index{*GS-TEXT-ALPHA-BITS*}
+\item \index{*gs-text-alpha-bits*}
 \label{prim:*gs-text-alpha-bits*}
-\textbf{*GS-TEXT-ALPHA-BITS*}
+\textbf{*gs-text-alpha-bits*}
 
 
 
 
 
-\item \index{*HASH-TRANSFORMS?*}
+\item \index{*hash-transforms?*}
 \label{prim:*hash-transforms?*}
-\textbf{*HASH-TRANSFORMS?*}
+\textbf{*hash-transforms?*}
 
 
 
 
 
-\item \index{*ZERO-VECTOR-CHECKING?*}
+\item \index{*zero-vector-checking?*}
 \label{prim:*zero-vector-checking?*}
-\textbf{*ZERO-VECTOR-CHECKING?*}
+\textbf{*zero-vector-checking?*}
 
 
 
 
 
-\item \index{+POSTNET-BITS+}
+\item \index{+postnet-bits+}
 \label{prim:+postnet-bits+}
-\textbf{+POSTNET-BITS+}
+\textbf{+postnet-bits+}
 
 
 
@@ -14136,7 +14365,17 @@ Must be specified in the subclass except for angular
 
 
 
-\section{GWL (Generative Web Language (GWL))}
+\section{glm }
+
+\label{sec:glm}
+
+
+
+
+
+
+
+\section{gwl (Generative Web Language (GWL))}
 
 \label{sec:gwl(generativeweblanguage(gwl))}
 
@@ -14152,13 +14391,13 @@ Must be specified in the subclass except for angular
 
 \begin{itemize}
 
-\item \index{APPLICATION-MIXIN}
+\item \index{application-mixin}
 \label{prim:application-mixin}
-\textbf{APPLICATION-MIXIN}
+\textbf{application-mixin}
 
 
 \textbf{
-\underline{Mixins:}} LAYOUT-MIXIN, VANILLA-MIXIN
+\underline{Mixins:}} layout-mixin, vanilla-mixin
 
 
 
@@ -14186,13 +14425,13 @@ or \texttt{application-mixin}
 
 
 
-\item \index{BASE-AJAX-GRAPHICS-SHEET}
+\item \index{base-ajax-graphics-sheet}
 \label{prim:base-ajax-graphics-sheet}
-\textbf{BASE-AJAX-GRAPHICS-SHEET}
+\textbf{base-ajax-graphics-sheet}
 
 
 \textbf{
-\underline{Mixins:}} BASE-AJAX-SHEET, BASE-HTML-GRAPHICS-SHEET
+\underline{Mixins:}} base-ajax-sheet, base-html-graphics-sheet
 
 
 
@@ -14505,6 +14744,16 @@ include the VRML or X3D graphics of the geometry.
 
 
 
+\item [X3dom-graphics]
+\index{X3dom-graphics
+[base-ajax-graphics-sheet]}\emph{String of valid HTML}
+
+ This can be used to
+include the x3dom tag content for the geometry.
+
+
+
+
 \end{description}
 
 
@@ -14522,6 +14771,15 @@ include the VRML or X3D graphics of the geometry.
 [base-ajax-graphics-sheet]}\emph{Object of type menu-form-control}
 
  Its value slot can be used to determine the format of image displayed.
+
+
+
+
+\item [View-object]
+\index{View-object
+[base-ajax-graphics-sheet]}\emph{GDL web-drawing object}
+
+ This must be overridden in the specialized class.
 
 
 
@@ -14556,13 +14814,13 @@ The \texttt{view-object} child should exist and be of type \texttt{web-drawing}.
 
 
 
-\item \index{BASE-AJAX-SHEET}
+\item \index{base-ajax-sheet}
 \label{prim:base-ajax-sheet}
-\textbf{BASE-AJAX-SHEET}
+\textbf{base-ajax-sheet}
 
 
 \textbf{
-\underline{Mixins:}} BASE-HTML-SHEET
+\underline{Mixins:}} base-html-sheet
 
 
 
@@ -14715,9 +14973,9 @@ but which you can fill in your own specific lens to do something useful for the 
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GWL:BASE-AJAX-SHEET}
+\caption{Example Code for gwl:base-ajax-sheet}
 
-\label{fig:example-code-GWL:BASE-AJAX-SHEET}
+\label{fig:example-code-gwl:base-ajax-sheet}
 
 \end{figure}
 
@@ -14744,6 +15002,16 @@ but which you can fill in your own specific lens to do something useful for the 
 [base-ajax-sheet]}\emph{String of Javascript or nil}
 
  This Javascript will go into the :onload event of the body.
+Default is nil.
+
+
+
+
+\item [Body-onpageshow]
+\index{Body-onpageshow
+[base-ajax-sheet]}\emph{String of Javascript or nil}
+
+ This Javascript will go into the :onpageshow event of the body.
 Default is nil.
 
 
@@ -14894,13 +15162,13 @@ from a saved snapshot file.
 
 
 
-\item \index{BASE-FORM-CONTROL}
+\item \index{base-form-control}
 \label{prim:base-form-control}
-\textbf{BASE-FORM-CONTROL}
+\textbf{base-form-control}
 
 
 \textbf{
-\underline{Mixins:}} SKELETON-FORM-CONTROL
+\underline{Mixins:}} skeleton-form-control, vanilla-mixin
 
 
 
@@ -15106,9 +15374,9 @@ Capitol Hill.")
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GWL:BASE-FORM-CONTROL}
+\caption{Example Code for gwl:base-form-control}
 
-\label{fig:example-code-GWL:BASE-FORM-CONTROL}
+\label{fig:example-code-gwl:base-form-control}
 
 \end{figure}
 
@@ -15617,13 +15885,13 @@ and cleared when the error is gone.
 
 
 
-\item \index{BASE-HTML-GRAPHICS-SHEET}
+\item \index{base-html-graphics-sheet}
 \label{prim:base-html-graphics-sheet}
-\textbf{BASE-HTML-GRAPHICS-SHEET}
+\textbf{base-html-graphics-sheet}
 
 
 \textbf{
-\underline{Mixins:}} BASE-HTML-SHEET, GEOMETRY-VIEW-MIXIN, BASE-OBJECT
+\underline{Mixins:}} base-html-sheet, geometry-view-mixin, base-object
 
 
 
@@ -15843,13 +16111,13 @@ display geometric parts in a GWL application.
 
 
 
-\item \index{BASE-HTML-SHEET}
+\item \index{base-html-sheet}
 \label{prim:base-html-sheet}
-\textbf{BASE-HTML-SHEET}
+\textbf{base-html-sheet}
 
 
 \textbf{
-\underline{Mixins:}} SHEET-SECTION, VANILLA-MIXIN
+\underline{Mixins:}} sheet-section, vanilla-mixin
 
 
 
@@ -15882,12 +16150,86 @@ object.
 
 \begin{description}
 
+\item [After-present!]
+\index{After-present!
+[base-html-sheet]}\emph{Void}
+
+ This is an empty function by default, but can be overridden in
+the respondent of a form, to do some processing after the respondent's
+\texttt{write-html-sheet} function runs to present the object.
+
+
+
+
+\item [After-set!]
+\index{After-set!
+[base-html-sheet]}\emph{Void}
+
+ This is an empty function by default, but can be overridden in
+the requestor of a form, to do some processing after the requestor's form
+values are set into the specified bashee.
+
+
+
+
+\item [Before-present!]
+\index{Before-present!
+[base-html-sheet]}\emph{Void}
+
+ This is an empty function by default, but can be overridden in
+the respondent of a form, to do some processing before the respondent's
+\texttt{write-html-sheet} function runs to present the object. This can be
+useful especially for objects which are subclasses of higher-level mixins such as
+\texttt{application-mixin} and \texttt{node-mixin}, where you do not have
+direct access to the \texttt{write-html-sheet} function and typically only define
+the \texttt{model-inputs} function. It is not always reliable to do processing
+in the \texttt{model-inputs} function, since some slots which depend on your
+intended modifications may already have been evaluated by the time the
+\texttt{model-inputs} function runs.
+
+
+
+
+\item [Before-response!]
+\index{Before-response!
+[base-html-sheet]}\emph{Void}
+
+ This is an empty function by default, but can be overridden in
+a user specialization of base-html-sheet, to do some processing before the
+header-plist is evaluated and before the HTTP response is actually initiated.
+
+
+
+
+\item [Before-set!]
+\index{Before-set!
+[base-html-sheet]}\emph{Void}
+
+ This is an empty function by default, but can be overridden in
+the requestor of a form, to do some processing before the requestor's form
+values are set into the specified bashee.
+
+
+
+
 \item [Check-sanity?]
 \index{Check-sanity?
 [base-html-sheet]}\emph{Boolean}
 
  Determines whether a a sanity check is done (with the \texttt{check-sanity} function) before
 presenting the response page if this page is a respondent. Default is NIL.
+
+
+
+
+\item [Process-cookies!]
+\index{Process-cookies!
+[base-html-sheet]}\emph{Void}
+
+ This is an empty function by default, but can be overridden in
+a user specialization of base-html-sheet, to do some processing before the
+header-plist is evaluated and before the HTTP response is actually initiated, but after
+the cookies-received have been set.
 
 
 
@@ -15917,6 +16259,27 @@ presenting the response page if this page is a respondent. Default is NIL.
  Messages corresponding to form fields which should not be retained
 against Updates to the model (e.g. calls to the update! function or hitting the Update button or link in
 the browser in development mode). Defaults to NIL (the empty list).
+
+
+
+
+\end{description}
+
+
+
+
+
+
+\textbf{
+\underline{Input slots (optional, defaulting):}}
+
+\begin{description}
+
+\item [Respondent]
+\index{Respondent
+[base-html-sheet]}\emph{GDL Object}
+
+ Object to respond to the form submission. Defaults to self.
 
 
 
@@ -15986,68 +16349,6 @@ the submitted form fields automatically.
 
 \begin{description}
 
-\item [After-present!]
-\index{After-present!
-[base-html-sheet]}\emph{Void}
-
- This is an empty function by default, but can be overridden in
-the respondent of a form, to do some processing after the respondent's
-\texttt{write-html-sheet} function runs to present the object.
-
-
-
-
-\item [After-set!]
-\index{After-set!
-[base-html-sheet]}\emph{Void}
-
- This is an empty function by default, but can be overridden in
-the requestor of a form, to do some processing after the requestor's form
-values are set into the specified bashee.
-
-
-
-
-\item [Before-present!]
-\index{Before-present!
-[base-html-sheet]}\emph{Void}
-
- This is an empty function by default, but can be overridden in
-the respondent of a form, to do some processing before the respondent's
-\texttt{write-html-sheet} function runs to present the object. This can be
-useful especially for objects which are subclasses of higher-level mixins such as
-\texttt{application-mixin} and \texttt{node-mixin}, where you do not have
-direct access to the \texttt{write-html-sheet} function and typically only define
-the \texttt{model-inputs} function. It is not always reliable to do processing
-in the \texttt{model-inputs} function, since some slots which depend on your
-intended modifications may already have been evaluated by the time the
-\texttt{model-inputs} function runs.
-
-
-
-
-\item [Before-response!]
-\index{Before-response!
-[base-html-sheet]}\emph{Void}
-
- This is an empty function by default, but can be overridden in
-a user specialization of base-html-sheet, to do some processing before the
-header-plist is evaluated and before the HTTP response is actually initiated.
-
-
-
-
-\item [Before-set!]
-\index{Before-set!
-[base-html-sheet]}\emph{Void}
-
- This is an empty function by default, but can be overridden in
-the requestor of a form, to do some processing before the requestor's form
-values are set into the specified bashee.
-
-
-
-
 \item [Check-sanity]
 \index{Check-sanity
 [base-html-sheet]}\emph{NIL or error object}
@@ -16063,18 +16364,6 @@ an error otherwise.
 If check-sanity? is set to T in this object, this function will be invoked automatically
 within an ignore-errors by the function handling the GWL "/answer" form action URI
 when this object is a respondent, before the main-sheet is presented.
-
-
-
-
-\item [Process-cookies!]
-\index{Process-cookies!
-[base-html-sheet]}\emph{Void}
-
- This is an empty function by default, but can be overridden in
-a user specialization of base-html-sheet, to do some processing before the
-header-plist is evaluated and before the HTTP response is actually initiated, but after
-the cookies-received have been set.
 
 
 
@@ -16171,13 +16460,13 @@ link to the vendor on public web pages.
 
 
 
-\item \index{CHECKBOX-FORM-CONTROL}
+\item \index{checkbox-form-control}
 \label{prim:checkbox-form-control}
-\textbf{CHECKBOX-FORM-CONTROL}
+\textbf{checkbox-form-control}
 
 
 \textbf{
-\underline{Mixins:}} BASE-FORM-CONTROL
+\underline{Mixins:}} base-form-control, vanilla-mixin
 
 
 
@@ -16244,13 +16533,69 @@ the same name, where each can return a different value).
 
 
 
-\item \index{GEOMETRY-VIEW-MIXIN}
-\label{prim:geometry-view-mixin}
-\textbf{GEOMETRY-VIEW-MIXIN}
+\item \index{color-map}
+\label{prim:color-map}
+\textbf{color-map}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} base-html-sheet
+
+
+
+
+
+\begin{description}
+
+\item [
+\underline{Description}]
+
+
+Shows a list of the default colors. This is published as the URI "/color-map" of the running GWL webserver.
+
+
+
+\end{description}
+
+
+
+
+
+
+
+
+\textbf{
+\underline{Gdl functions:}}
+
+\begin{description}
+
+\item [Write-html-sheet]
+\index{Write-html-sheet
+[color-map]}\emph{Void}
+
+ This GDL function should be redefined to generate the HTML page corresponding to this object.
+It can be specified here, or as the \texttt{main-sheet} output-function in an html-format lens for this
+object's type. This \texttt{write-html-sheet} function, if defined,  will override any \texttt{main-sheet}
+function defined in the lens. Typically a \texttt{write-html-sheet} function would look as follows:
+
+
+
+
+\end{description}
+
+
+
+
+
+
+
+\item \index{geometry-view-mixin}
+\label{prim:geometry-view-mixin}
+\textbf{geometry-view-mixin}
+
+
+\textbf{
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -16289,6 +16634,15 @@ Internal mixin for use inside e.g. base-html-graphics-sheet.
 
 
 
+\item [View-object]
+\index{View-object
+[geometry-view-mixin]}\emph{GDL web-drawing object}
+
+ This must be overridden in the specialized class.
+
+
+
+
 \item [Width]
 \index{Width
 [geometry-view-mixin]}\emph{Number}
@@ -16306,13 +16660,13 @@ Internal mixin for use inside e.g. base-html-graphics-sheet.
 
 
 
-\item \index{GRID-FORM-CONTROL}
+\item \index{grid-form-control}
 \label{prim:grid-form-control}
-\textbf{GRID-FORM-CONTROL}
+\textbf{grid-form-control}
 
 
 \textbf{
-\underline{Mixins:}} SKELETON-FORM-CONTROL, VANILLA-MIXIN
+\underline{Mixins:}} skeleton-form-control, vanilla-mixin
 
 
 
@@ -16444,13 +16798,13 @@ of type base-form-control.
 
 
 
-\item \index{GWL-RULE-OBJECT}
+\item \index{gwl-rule-object}
 \label{prim:gwl-rule-object}
-\textbf{GWL-RULE-OBJECT}
+\textbf{gwl-rule-object}
 
 
 \textbf{
-\underline{Mixins:}} BASE-HTML-GRAPHICS-SHEET, BASE-RULE-OBJECT
+\underline{Mixins:}} base-html-graphics-sheet, base-rule-object
 
 
 
@@ -16477,13 +16831,13 @@ Mixes together \texttt{base-html-sheet} and \texttt{base-rule-object}.
 
 
 
-\item \index{LAYOUT-MIXIN}
+\item \index{layout-mixin}
 \label{prim:layout-mixin}
-\textbf{LAYOUT-MIXIN}
+\textbf{layout-mixin}
 
 
 \textbf{
-\underline{Mixins:}} BASE-HTML-GRAPHICS-SHEET
+\underline{Mixins:}} base-html-graphics-sheet
 
 
 
@@ -16822,6 +17176,27 @@ inputs with the saved-slots, you should explicitly append them to this list when
 
 
 \textbf{
+\underline{Hidden objects:}}
+
+\begin{description}
+
+\item [View-object]
+\index{View-object
+[layout-mixin]}\emph{GDL web-drawing object}
+
+ This must be overridden in the specialized class.
+
+
+
+
+\end{description}
+
+
+
+
+
+
+\textbf{
 \underline{Gdl functions:}}
 
 \begin{description}
@@ -16868,13 +17243,13 @@ descendants which are of type node-mixin or application-mixin.
 
 
 
-\item \index{MENU-FORM-CONTROL}
+\item \index{menu-form-control}
 \label{prim:menu-form-control}
-\textbf{MENU-FORM-CONTROL}
+\textbf{menu-form-control}
 
 
 \textbf{
-\underline{Mixins:}} BASE-FORM-CONTROL
+\underline{Mixins:}} base-form-control, vanilla-mixin
 
 
 
@@ -16925,9 +17300,9 @@ OPTIONGROUP is not yet implemented, but will be.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GWL:MENU-FORM-CONTROL}
+\caption{Example Code for gwl:menu-form-control}
 
-\label{fig:example-code-GWL:MENU-FORM-CONTROL}
+\label{fig:example-code-gwl:menu-form-control}
 
 \end{figure}
 
@@ -17023,13 +17398,13 @@ eql for keywords, string-equal for strings, and equalp otherwise.
 
 
 
-\item \index{NODE-MIXIN}
+\item \index{node-mixin}
 \label{prim:node-mixin}
-\textbf{NODE-MIXIN}
+\textbf{node-mixin}
 
 
 \textbf{
-\underline{Mixins:}} LAYOUT-MIXIN, VANILLA-MIXIN
+\underline{Mixins:}} layout-mixin, vanilla-mixin
 
 
 
@@ -17125,13 +17500,13 @@ displayed in the graphics. Defaults to the appended result of children's
 
 
 
-\item \index{RADIO-FORM-CONTROL}
+\item \index{radio-form-control}
 \label{prim:radio-form-control}
-\textbf{RADIO-FORM-CONTROL}
+\textbf{radio-form-control}
 
 
 \textbf{
-\underline{Mixins:}} MENU-FORM-CONTROL
+\underline{Mixins:}} menu-form-control, vanilla-mixin
 
 
 
@@ -17247,13 +17622,13 @@ Default is :paragraph-append.
 
 
 
-\item \index{SESSION-CONTROL-MIXIN}
+\item \index{session-control-mixin}
 \label{prim:session-control-mixin}
-\textbf{SESSION-CONTROL-MIXIN}
+\textbf{session-control-mixin}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -17414,13 +17789,13 @@ Method which will set the expires-at slot to the current time + the session-dura
 
 
 
-\item \index{SHEET-SECTION}
+\item \index{sheet-section}
 \label{prim:sheet-section}
-\textbf{SHEET-SECTION}
+\textbf{sheet-section}
 
 
 \textbf{
-\underline{Mixins:}} SKELETON-UI-ELEMENT, VANILLA-MIXIN
+\underline{Mixins:}} skeleton-ui-element, vanilla-mixin
 
 
 
@@ -17464,9 +17839,9 @@ are the child of a base-ajax-sheet.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GWL:SHEET-SECTION}
+\caption{Example Code for gwl:sheet-section}
 
-\label{fig:example-code-GWL:SHEET-SECTION}
+\label{fig:example-code-gwl:sheet-section}
 
 \end{figure}
 
@@ -17475,13 +17850,13 @@ are the child of a base-ajax-sheet.
 
 
 
-\item \index{SKELETON-FORM-CONTROL}
+\item \index{skeleton-form-control}
 \label{prim:skeleton-form-control}
-\textbf{SKELETON-FORM-CONTROL}
+\textbf{skeleton-form-control}
 
 
 \textbf{
-\underline{Mixins:}} SKELETON-UI-ELEMENT, VANILLA-MIXIN
+\underline{Mixins:}} skeleton-ui-element, vanilla-mixin
 
 
 
@@ -17526,6 +17901,15 @@ Does not perform the actual bashing and computation of result value, should be m
 [skeleton-form-control]}\emph{String}
 
  You can use this to specify a user-defined class for the form-control. Defaults to nil, which means no class attribute will be generated.
+
+
+
+
+\item [Id]
+\index{Id
+[skeleton-form-control]}\emph{Keyword symbol}
+
+ The ID attribute for this tag. Defaults to (the field-name).
 
 
 
@@ -17602,15 +17986,6 @@ of type base-form-control.
 
 
 
-\item [Id]
-\index{Id
-[skeleton-form-control]}\emph{Keyword symbol}
-
- The ID attribute for this tag. Defaults to (the field-name).
-
-
-
-
 \end{description}
 
 
@@ -17619,13 +17994,13 @@ of type base-form-control.
 
 
 
-\item \index{SKELETON-UI-ELEMENT}
+\item \index{skeleton-ui-element}
 \label{prim:skeleton-ui-element}
-\textbf{SKELETON-UI-ELEMENT}
+\textbf{skeleton-ui-element}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -17674,9 +18049,9 @@ server.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GWL:SKELETON-UI-ELEMENT}
+\caption{Example Code for gwl:skeleton-ui-element}
 
-\label{fig:example-code-GWL:SKELETON-UI-ELEMENT}
+\label{fig:example-code-gwl:skeleton-ui-element}
 
 \end{figure}
 
@@ -17722,6 +18097,19 @@ not happen to be included in the values submitted with the form. Defaults to nil
 
 
 
+\item [Html-sections]
+\index{Html-sections
+[skeleton-ui-element]}
+
+List of HTML sections to be scanned and possibly replaced in response to
+GDL Ajax calls. Override this slot at your own risk. The default is all
+sections who are most recently laid out on the respondent sheet, and
+this is set programmatically every time the sheet section's main-div
+is demanded.
+
+
+
+
 \item [Inner-html]
 \index{Inner-html
 [skeleton-ui-element]}\emph{String}
@@ -17739,6 +18127,38 @@ your code would be responsible for wrapping the :div tag with :id (the dom-id).]
 
  This Javascript will be send with the Ajax response,
 and evaluated after the innerHTML for this section has been replaced.
+
+
+
+
+\item [Ordered-form-controls]
+\index{Ordered-form-controls
+[skeleton-ui-element]}\emph{List of GDL objects, which should be of type 'base-form-control}
+
+.
+
+
+
+[Note -- this slot is not really necessary for protecting out-of-bounds sequence references
+anymore, the form-control processor protects against this by itself now].
+
+
+
+These objects are validated and bashed first, in the order given. If the cardinality
+of one form-control depends on another as in the example below, then you should list
+those dependent objects first. Default is nil.
+
+
+
+
+\item [Possible-nils]
+\index{Possible-nils
+[skeleton-ui-element]}\emph{List of keyword symbols}
+
+ Messages corresponding to form fields which could
+be missing from form submission (e.g. checkbox fields). Defaults to the names
+of any children or hidden-children of type  menu-form-control or
+checkbox-form-control.
 
 
 
@@ -17795,57 +18215,12 @@ of type base-form-control.
 
 
 
-\item [Html-sections]
-\index{Html-sections
-[skeleton-ui-element]}
-
-List of HTML sections to be scanned and possibly replaced in response to
-GDL Ajax calls. Override this slot at your own risk. The default is all
-sections who are most recently laid out on the respondent sheet, and
-this is set programmatically every time the sheet section's main-div
-is demanded.
-
-
-
-
 \item [Main-div\%]
 \index{Main-div\%
 [skeleton-ui-element]}\emph{String}
 
  This should be used with (str .) [in cl-who] or (:princ .)
 [in htmlGen] to output this section of the page, including the wrapping :div tag.
-
-
-
-
-\item [Ordered-form-controls]
-\index{Ordered-form-controls
-[skeleton-ui-element]}\emph{List of GDL objects, which should be of type 'base-form-control}
-
-.
-
-
-
-[Note -- this slot is not really necessary for protecting out-of-bounds sequence references
-anymore, the form-control processor protects against this by itself now].
-
-
-
-These objects are validated and bashed first, in the order given. If the cardinality
-of one form-control depends on another as in the example below, then you should list
-those dependent objects first. Default is nil.
-
-
-
-
-\item [Possible-nils]
-\index{Possible-nils
-[skeleton-ui-element]}\emph{List of keyword symbols}
-
- Messages corresponding to form fields which could
-be missing from form submission (e.g. checkbox fields). Defaults to the names
-of any children or hidden-children of type  menu-form-control or
-checkbox-form-control.
 
 
 
@@ -17897,13 +18272,13 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 
 
 
-\item \index{TEXT-FORM-CONTROL}
+\item \index{text-form-control}
 \label{prim:text-form-control}
-\textbf{TEXT-FORM-CONTROL}
+\textbf{text-form-control}
 
 
 \textbf{
-\underline{Mixins:}} BASE-FORM-CONTROL
+\underline{Mixins:}} base-form-control, vanilla-mixin
 
 
 
@@ -17988,13 +18363,13 @@ for that. Defaults to nil. Use password-form-control to get a default of t.
 
 
 
-\item \index{WEB-DRAWING}
+\item \index{web-drawing}
 \label{prim:web-drawing}
-\textbf{WEB-DRAWING}
+\textbf{web-drawing}
 
 
 \textbf{
-\underline{Mixins:}} RENDERER-MIXIN, BASE-DRAWING
+\underline{Mixins:}} renderer-mixin, base-drawing
 
 
 
@@ -18122,9 +18497,9 @@ application-mixin, you can include one object of this type in the ui-display-lis
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GWL:WEB-DRAWING}
+\caption{Example Code for gwl:web-drawing}
 
-\label{fig:example-code-GWL:WEB-DRAWING}
+\label{fig:example-code-gwl:web-drawing}
 
 \end{figure}
 
@@ -18257,137 +18632,145 @@ internally-computed object, this should not be overridden in user code.
 
 \begin{itemize}
 
-\item \index{BASE64-DECODE-LIST}
+\item \index{base64-decode-list}
 \label{prim:base64-decode-list}
-\textbf{BASE64-DECODE-LIST}
+\textbf{base64-decode-list}
 
 
 
 
 
-\item \index{BASE64-DECODE-SAFE}
+\item \index{base64-decode-safe}
 \label{prim:base64-decode-safe}
-\textbf{BASE64-DECODE-SAFE}
+\textbf{base64-decode-safe}
 
 
 
 
 
-\item \index{BASE64-ENCODE-LIST}
+\item \index{base64-encode-list}
 \label{prim:base64-encode-list}
-\textbf{BASE64-ENCODE-LIST}
+\textbf{base64-encode-list}
 
 
 
 
 
-\item \index{BASE64-ENCODE-SAFE}
+\item \index{base64-encode-safe}
 \label{prim:base64-encode-safe}
-\textbf{BASE64-ENCODE-SAFE}
+\textbf{base64-encode-safe}
 
 
 
 
 
-\item \index{CLEAR-ALL-INSTANCES}
+\item \index{clear-all-instances}
 \label{prim:clear-all-instances}
-\textbf{CLEAR-ALL-INSTANCES}
+\textbf{clear-all-instances}
 
 
 
 
 
-\item \index{CLEAR-INSTANCE}
+\item \index{clear-instance}
 \label{prim:clear-instance}
-\textbf{CLEAR-INSTANCE}
+\textbf{clear-instance}
 
 
 
 
 
-\item \index{CLEAR-OLD-TIMERS}
+\item \index{clear-old-timers}
 \label{prim:clear-old-timers}
-\textbf{CLEAR-OLD-TIMERS}
+\textbf{clear-old-timers}
 
 
 
 
 
-\item \index{GWL-MAKE-OBJECT}
+\item \index{crawl}
+\label{prim:crawl}
+\textbf{crawl}
+
+
+
+
+
+\item \index{gwl-make-object}
 \label{prim:gwl-make-object}
-\textbf{GWL-MAKE-OBJECT}
+\textbf{gwl-make-object}
 
 
 
 
 
-\item \index{PUBLISH-GWL-APP}
+\item \index{publish-gwl-app}
 \label{prim:publish-gwl-app}
-\textbf{PUBLISH-GWL-APP}
+\textbf{publish-gwl-app}
 
 
 
 
 
-\item \index{PUBLISH-SHARED}
+\item \index{publish-shared}
 \label{prim:publish-shared}
-\textbf{PUBLISH-SHARED}
+\textbf{publish-shared}
 
 
 
 
 
-\item \index{PUBLISH-STRING-CONTENT}
+\item \index{publish-string-content}
 \label{prim:publish-string-content}
-\textbf{PUBLISH-STRING-CONTENT}
+\textbf{publish-string-content}
 
 
 
 
 
-\item \index{RELATIVIZE-PATHNAME}
+\item \index{relativize-pathname}
 \label{prim:relativize-pathname}
-\textbf{RELATIVIZE-PATHNAME}
+\textbf{relativize-pathname}
 
 
 
 
 
-\item \index{SESSION-CONTROL-AUTO-REFRESH}
+\item \index{session-control-auto-refresh}
 \label{prim:session-control-auto-refresh}
-\textbf{SESSION-CONTROL-AUTO-REFRESH}
+\textbf{session-control-auto-refresh}
 
 
 
 
 
-\item \index{SESSION-REPORT}
+\item \index{session-report}
 \label{prim:session-report}
-\textbf{SESSION-REPORT}
+\textbf{session-report}
 
 
 
 
 
-\item \index{WITH-CL-WHO}
+\item \index{with-cl-who}
 \label{prim:with-cl-who}
-\textbf{WITH-CL-WHO [Macro]}
+\textbf{with-cl-who [Macro]}
 
 
 
 
 
-\item \index{WITH-CL-WHO-STRING}
+\item \index{with-cl-who-string}
 \label{prim:with-cl-who-string}
-\textbf{WITH-CL-WHO-STRING [Macro]}
+\textbf{with-cl-who-string [Macro]}
 
 
 
 
 
-\item \index{WITH-HTML-FORM}
+\item \index{with-html-form}
 \label{prim:with-html-form}
-\textbf{WITH-HTML-FORM [Macro]}
+\textbf{with-html-form [Macro]}
 
 
 
@@ -18405,105 +18788,105 @@ internally-computed object, this should not be overridden in user code.
 
 \begin{itemize}
 
-\item \index{*BREAK-ON-SET-SELF?*}
+\item \index{*break-on-set-self?*}
 \label{prim:*break-on-set-self?*}
-\textbf{*BREAK-ON-SET-SELF?*}
+\textbf{*break-on-set-self?*}
 
 
 
 
 
-\item \index{*BYPASS-SECURITY-CHECK?*}
+\item \index{*bypass-security-check?*}
 \label{prim:*bypass-security-check?*}
-\textbf{*BYPASS-SECURITY-CHECK?*}
+\textbf{*bypass-security-check?*}
 
 
 
 
 
-\item \index{*DEVELOPING?*}
+\item \index{*developing?*}
 \label{prim:*developing?*}
-\textbf{*DEVELOPING?*}
+\textbf{*developing?*}
 
 
 
 
 
-\item \index{*ENT*}
+\item \index{*ent*}
 \label{prim:*ent*}
-\textbf{*ENT*}
+\textbf{*ent*}
 
 
 
 
 
-\item \index{*FAILED-REQUEST-URL*}
+\item \index{*failed-request-url*}
 \label{prim:*failed-request-url*}
-\textbf{*FAILED-REQUEST-URL*}
+\textbf{*failed-request-url*}
 
 
 
 
 
-\item \index{*INSTANCE-FINALIZERS*}
+\item \index{*instance-finalizers*}
 \label{prim:*instance-finalizers*}
-\textbf{*INSTANCE-FINALIZERS*}
+\textbf{*instance-finalizers*}
 
 
 
 
 
-\item \index{*INSTANCE-HASH-TABLE*}
+\item \index{*instance-hash-table*}
 \label{prim:*instance-hash-table*}
-\textbf{*INSTANCE-HASH-TABLE*}
+\textbf{*instance-hash-table*}
 
 
 
 
 
-\item \index{*JUMP-TO-TOPLEVEL-ON-SET-SELF?*}
+\item \index{*jump-to-toplevel-on-set-self?*}
 \label{prim:*jump-to-toplevel-on-set-self?*}
-\textbf{*JUMP-TO-TOPLEVEL-ON-SET-SELF?*}
+\textbf{*jump-to-toplevel-on-set-self?*}
 
 
 
 
 
-\item \index{*MAX-ID-VALUE*}
+\item \index{*max-id-value*}
 \label{prim:*max-id-value*}
-\textbf{*MAX-ID-VALUE*}
+\textbf{*max-id-value*}
 
 
 
 
 
-\item \index{*QUERY*}
+\item \index{*query*}
 \label{prim:*query*}
-\textbf{*QUERY*}
+\textbf{*query*}
 
 
 
 
 
-\item \index{*REAP-EXPIRED-SESSIONS?*}
+\item \index{*reap-expired-sessions?*}
 \label{prim:*reap-expired-sessions?*}
-\textbf{*REAP-EXPIRED-SESSIONS?*}
+\textbf{*reap-expired-sessions?*}
 
 
 
 
 
-\item \index{*RECOVERY-URL-DEFAULT*}
+\item \index{*recovery-url-default*}
 \label{prim:*recovery-url-default*}
-\textbf{*RECOVERY-URL-DEFAULT*}
+\textbf{*recovery-url-default*}
 
 
 
 
 
-\item \index{*REQ*}
+\item \index{*req*}
 \label{prim:*req*}
-\textbf{*REQ*}
+\textbf{*req*}
 
 
 
@@ -18515,7 +18898,27 @@ internally-computed object, this should not be overridden in user code.
 
 
 
-\section{RAPHAEL }
+\section{iq }
+
+\label{sec:iq}
+
+
+
+
+
+
+
+\section{jquery }
+
+\label{sec:jquery}
+
+
+
+
+
+
+
+\section{raphael }
 
 \label{sec:raphael}
 
@@ -18525,7 +18928,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 
-\section{ROBOT (Simplified Android Robot example )}
+\section{robot (Simplified Android Robot example )}
 
 \label{sec:robot(simplifiedandroidrobotexample)}
 
@@ -18535,7 +18938,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 
-\section{SMLIB (Interface to SMLib Geometry Engine)}
+\section{smlib (Interface to SMLib Geometry Engine)}
 
 \label{sec:smlib(interfacetosmlibgeometryengine)}
 
@@ -18545,7 +18948,7 @@ internally-computed object, this should not be overridden in user code.
 
 
 
-\section{SURF (NURBS Surface and Solids Geometry Primitives)}
+\section{surf (NURBS Surface and Solids Geometry Primitives)}
 
 \label{sec:surf(nurbssurfaceandsolidsgeometryprimitives)}
 
@@ -18561,13 +18964,13 @@ internally-computed object, this should not be overridden in user code.
 
 \begin{itemize}
 
-\item \index{3D-APPROXIMATED}
+\item \index{3d-approximated}
 \label{prim:3d-approximated}
-\textbf{3D-APPROXIMATED}
+\textbf{3d-approximated}
 
 
 \textbf{
-\underline{Mixins:}} APPROXIMATED-CURVE, VANILLA-MIXIN
+\underline{Mixins:}} approximated-curve, vanilla-mixin
 
 
 
@@ -18689,13 +19092,13 @@ Defaults to 1.0e-5 times the diagonal of the bounding box of the input curve.
 
 
 
-\item \index{3D-CURVE}
+\item \index{3d-curve}
 \label{prim:3d-curve}
-\textbf{3D-CURVE}
+\textbf{3d-curve}
 
 
 \textbf{
-\underline{Mixins:}} B-SPLINE-CURVE, VANILLA-MIXIN
+\underline{Mixins:}} b-spline-curve, vanilla-mixin
 
 
 
@@ -18805,13 +19208,13 @@ Default is a value of 1.0 for each weight, resulting in a nonrational curve.
 
 
 
-\item \index{APPROXIMATED-CURVE}
+\item \index{approximated-curve}
 \label{prim:approximated-curve}
-\textbf{APPROXIMATED-CURVE}
+\textbf{approximated-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -19209,9 +19612,9 @@ re-activated in GDL 1585.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for APPROXIMATED-CURVE}
+\caption{Example Code for approximated-curve}
 
-\label{fig:example-code-APPROXIMATED-CURVE}
+\label{fig:example-code-approximated-curve}
 
 \end{figure}
 
@@ -19220,9 +19623,9 @@ re-activated in GDL 1585.
 \includegraphics[width=3in,height=3in]{../images/example-approximated-curve.pdf}
 \end{center}
 
-\caption{APPROXIMATED-CURVE example}
+\caption{approximated-curve example}
 
-\label{fig:APPROXIMATED-CURVE}
+\label{fig:approximated-curve}
 
 \end{figure}
 
@@ -19322,13 +19725,13 @@ close to 0.0 indicate a loose approximation..
 
 
 
-\item \index{ARC-CURVE}
+\item \index{arc-curve}
 \label{prim:arc-curve}
-\textbf{ARC-CURVE}
+\textbf{arc-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE, ARC
+\underline{Mixins:}} curve, arc
 
 
 
@@ -19378,9 +19781,9 @@ Messages are the union of those for arc and those for curve.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for ARC-CURVE}
+\caption{Example Code for arc-curve}
 
-\label{fig:example-code-ARC-CURVE}
+\label{fig:example-code-arc-curve}
 
 \end{figure}
 
@@ -19389,9 +19792,9 @@ Messages are the union of those for arc and those for curve.
 \includegraphics[width=3in,height=3in]{../images/example-arc-curve.pdf}
 \end{center}
 
-\caption{ARC-CURVE example}
+\caption{arc-curve example}
 
-\label{fig:ARC-CURVE}
+\label{fig:arc-curve}
 
 \end{figure}
 
@@ -19400,13 +19803,13 @@ Messages are the union of those for arc and those for curve.
 
 
 
-\item \index{B-SPLINE-CURVE}
+\item \index{b-spline-curve}
 \label{prim:b-spline-curve}
-\textbf{B-SPLINE-CURVE}
+\textbf{b-spline-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -19518,9 +19921,9 @@ If any of the weights are different from 1.0, it is Rational.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for B-SPLINE-CURVE}
+\caption{Example Code for b-spline-curve}
 
-\label{fig:example-code-B-SPLINE-CURVE}
+\label{fig:example-code-b-spline-curve}
 
 \end{figure}
 
@@ -19529,9 +19932,9 @@ If any of the weights are different from 1.0, it is Rational.
 \includegraphics[width=3in,height=3in]{../images/example-b-spline-curve.pdf}
 \end{center}
 
-\caption{B-SPLINE-CURVE example}
+\caption{b-spline-curve example}
 
-\label{fig:B-SPLINE-CURVE}
+\label{fig:b-spline-curve}
 
 \end{figure}
 
@@ -19610,13 +20013,13 @@ Default is a value of 1.0 for each weight, resulting in a nonrational curve.
 
 
 
-\item \index{B-SPLINE-SURFACE}
+\item \index{b-spline-surface}
 \label{prim:b-spline-surface}
-\textbf{B-SPLINE-SURFACE}
+\textbf{b-spline-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -19668,9 +20071,9 @@ A general b-spline surface specified with control points, weights, knots, and de
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for B-SPLINE-SURFACE}
+\caption{Example Code for b-spline-surface}
 
-\label{fig:example-code-B-SPLINE-SURFACE}
+\label{fig:example-code-b-spline-surface}
 
 \end{figure}
 
@@ -19679,9 +20082,9 @@ A general b-spline surface specified with control points, weights, knots, and de
 \includegraphics[width=3in,height=3in]{../images/example-b-spline-surface.pdf}
 \end{center}
 
-\caption{B-SPLINE-SURFACE example}
+\caption{b-spline-surface example}
 
-\label{fig:B-SPLINE-SURFACE}
+\label{fig:b-spline-surface}
 
 \end{figure}
 
@@ -19769,13 +20172,13 @@ A general b-spline surface specified with control points, weights, knots, and de
 
 
 
-\item \index{BASIC-SURFACE}
+\item \index{basic-surface}
 \label{prim:basic-surface}
-\textbf{BASIC-SURFACE}
+\textbf{basic-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -19907,9 +20310,9 @@ This routine constructs a 3D surface by interpolating
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BASIC-SURFACE}
+\caption{Example Code for basic-surface}
 
-\label{fig:example-code-BASIC-SURFACE}
+\label{fig:example-code-basic-surface}
 
 \end{figure}
 
@@ -19918,9 +20321,9 @@ This routine constructs a 3D surface by interpolating
 \includegraphics[width=3in,height=3in]{../images/example-basic-surface.pdf}
 \end{center}
 
-\caption{BASIC-SURFACE example}
+\caption{basic-surface example}
 
-\label{fig:BASIC-SURFACE}
+\label{fig:basic-surface}
 
 \end{figure}
 
@@ -19977,13 +20380,13 @@ This routine constructs a 3D surface by interpolating
 
 
 
-\item \index{BLENDED-SOLID}
+\item \index{blended-solid}
 \label{prim:blended-solid}
-\textbf{BLENDED-SOLID}
+\textbf{blended-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -20032,9 +20435,9 @@ This primitive attempts to fillet one or more edges of a brep solid.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BLENDED-SOLID}
+\caption{Example Code for blended-solid}
 
-\label{fig:example-code-BLENDED-SOLID}
+\label{fig:example-code-blended-solid}
 
 \end{figure}
 
@@ -20043,9 +20446,9 @@ This primitive attempts to fillet one or more edges of a brep solid.
 \includegraphics[width=3in,height=3in]{../images/example-blended-solid.pdf}
 \end{center}
 
-\caption{BLENDED-SOLID example}
+\caption{blended-solid example}
 
-\label{fig:BLENDED-SOLID}
+\label{fig:blended-solid}
 
 \end{figure}
 
@@ -20106,13 +20509,13 @@ means that all edges should be filleted.
 
 
 
-\item \index{BOOLEAN-MERGE}
+\item \index{boolean-merge}
 \label{prim:boolean-merge}
-\textbf{BOOLEAN-MERGE}
+\textbf{boolean-merge}
 
 
 \textbf{
-\underline{Mixins:}} BOOLEAN-TOLERANCE-MIXIN, BREP
+\underline{Mixins:}} boolean-tolerance-mixin, brep
 
 
 
@@ -20216,8 +20619,7 @@ defaults to t.
 [boolean-merge]}\emph{Boolean}
 
  Indicates whether we should try to sew and orient the
-resulting brep. Usually a good idea and this is defaulted to t, except
-for merged-solid where we default this to nil.
+resulting brep. This defaults to t for merge operation and nil otherwise.
 
 
 
@@ -20230,13 +20632,13 @@ for merged-solid where we default this to nil.
 
 
 
-\item \index{BOOLEAN-TOLERANCE-MIXIN}
+\item \index{boolean-tolerance-mixin}
 \label{prim:boolean-tolerance-mixin}
-\textbf{BOOLEAN-TOLERANCE-MIXIN}
+\textbf{boolean-tolerance-mixin}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -20306,13 +20708,13 @@ adaptive-tolerance of any of the input breps to produce the approximation-tolera
 
 
 
-\item \index{BOX-SOLID}
+\item \index{box-solid}
 \label{prim:box-solid}
-\textbf{BOX-SOLID}
+\textbf{box-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP, BOX
+\underline{Mixins:}} brep, box
 
 
 
@@ -20354,9 +20756,9 @@ from brep and box.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BOX-SOLID}
+\caption{Example Code for box-solid}
 
-\label{fig:example-code-BOX-SOLID}
+\label{fig:example-code-box-solid}
 
 \end{figure}
 
@@ -20365,9 +20767,9 @@ from brep and box.
 \includegraphics[width=3in,height=3in]{../images/example-box-solid.pdf}
 \end{center}
 
-\caption{BOX-SOLID example}
+\caption{box-solid example}
 
-\label{fig:BOX-SOLID}
+\label{fig:box-solid}
 
 \end{figure}
 
@@ -20376,13 +20778,13 @@ from brep and box.
 
 
 
-\item \index{BOXED-CURVE}
+\item \index{boxed-curve}
 \label{prim:boxed-curve}
-\textbf{BOXED-CURVE}
+\textbf{boxed-curve}
 
 
 \textbf{
-\underline{Mixins:}} OUTLINE-SPECIALIZATION-MIXIN, B-SPLINE-CURVE
+\underline{Mixins:}} outline-specialization-mixin, b-spline-curve
 
 
 
@@ -20530,9 +20932,9 @@ a transformed-curve.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BOXED-CURVE}
+\caption{Example Code for boxed-curve}
 
-\label{fig:example-code-BOXED-CURVE}
+\label{fig:example-code-boxed-curve}
 
 \end{figure}
 
@@ -20794,13 +21196,13 @@ Default is a value of 1.0 for each weight, resulting in a nonrational curve.
 
 
 
-\item \index{BOXED-SURFACE}
+\item \index{boxed-surface}
 \label{prim:boxed-surface}
-\textbf{BOXED-SURFACE}
+\textbf{boxed-surface}
 
 
 \textbf{
-\underline{Mixins:}} B-SPLINE-SURFACE
+\underline{Mixins:}} b-spline-surface
 
 
 
@@ -20945,9 +21347,9 @@ a transformed-surface.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for BOXED-SURFACE}
+\caption{Example Code for boxed-surface}
 
-\label{fig:example-code-BOXED-SURFACE}
+\label{fig:example-code-boxed-surface}
 
 \end{figure}
 
@@ -21215,13 +21617,13 @@ unless you explicitly pass in a different center. Default is nil.
 
 
 
-\item \index{BREP}
+\item \index{brep}
 \label{prim:brep}
-\textbf{BREP}
+\textbf{brep}
 
 
 \textbf{
-\underline{Mixins:}} GEOMETRY-KERNEL-OBJECT-MIXIN, IFS-OUTPUT-MIXIN, BASE-OBJECT
+\underline{Mixins:}} geometry-kernel-object-mixin, ifs-output-mixin, base-object
 
 
 
@@ -21881,13 +22283,13 @@ e. 3D Point). Returns the Volume Static Moments of the brep.
 
 
 
-\item \index{BREP-INTERSECT}
+\item \index{brep-intersect}
 \label{prim:brep-intersect}
-\textbf{BREP-INTERSECT}
+\textbf{brep-intersect}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -21996,13 +22398,13 @@ Defaults to nil which makes them display as children.
 
 
 
-\item \index{CAD-ASSEMBLY}
+\item \index{cad-assembly}
 \label{prim:cad-assembly}
-\textbf{CAD-ASSEMBLY}
+\textbf{cad-assembly}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -22120,13 +22522,13 @@ sequence.
 
 
 
-\item \index{CARDINAL-SPLINE}
+\item \index{cardinal-spline}
 \label{prim:cardinal-spline}
-\textbf{CARDINAL-SPLINE}
+\textbf{cardinal-spline}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -22146,7 +22548,9 @@ Dave Cooper, Genworks International
 \underline{Description}]
 
 
-This object makes a Cardinal Spline, which defaults to a Catmull-Rom Spline for nil tension-params (which means they all default to 0.0)
+This object makes a Cardinal Spline, which defaults
+to a Catmull-Rom Spline for nil tension-params (which means they all
+default to 0.0).
 
 
 
@@ -22159,14 +22563,240 @@ This object makes a Cardinal Spline, which defaults to a Catmull-Rom Spline for 
 
 
 
+\textbf{
+\underline{Input slots (optional):}}
 
-\item \index{COMPATIBLE-CURVES}
-\label{prim:compatible-curves}
-\textbf{COMPATIBLE-CURVES}
+\begin{description}
+
+\item [Alpha]
+\index{Alpha
+[cardinal-spline]}\emph{Alpha value to control parameterization}
+
+.
+See \texttt{parameterization} input-slot for keyword equivalents.
+Default is 0
+
+
+
+
+\item [Parameterization]
+\index{Parameterization
+[cardinal-spline]}\emph{Keyword symbol}
+
+\texttt{uniform} gives alpha 0, \texttt{centripetal} gives alpha 0.5,
+\texttt{:chordal} gives alpha 1. Default is nil, which lets alpha defer to its default, which is 0 (uniform).
+
+
+
+
+\end{description}
+
+
+
+
+
+
+
+\item \index{circular-curve}
+\label{prim:circular-curve}
+\textbf{circular-curve}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} arc-curve
+
+
+
+
+
+\begin{description}
+
+\item [
+\underline{Description}]
+
+
+An full circule represented exactly as a quadratic NURBS
+    curve. Inputs and messages are the same as for arc-curve.
+
+
+
+\end{description}
+
+
+
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+
+  (in-package :surf)
+
+  (define-object test-circular-curve (circular-curve)
+    :computed-slots
+    ((center (make-point 0 0 0)) (radius 10)))
+
+  (generate-sample-drawing :objects (make-object 'test-circular-curve))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for circular-curve}
+
+\label{fig:example-code-circular-curve}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-circular-curve.pdf}
+\end{center}
+
+\caption{circular-curve example}
+
+\label{fig:circular-curve}
+
+\end{figure}
+
+
+
+
+
+
+\item \index{circular-surface}
+\label{prim:circular-surface}
+\textbf{circular-surface}
+
+
+\textbf{
+\underline{Mixins:}} trimmed-surface, vanilla-mixin
+
+
+
+
+
+\begin{description}
+
+\item [
+\underline{Description}]
+
+
+Represents a planar, full-circular surface controlled
+    by a radius, and the normal center and orientation
+    for base-object.
+
+
+
+\end{description}
+
+
+
+
+\begin{figure}
+\begin{lrbox}{\boxedverb}
+\begin{minipage}{\linewidth}
+{\small
+
+\begin{verbatim}
+ (in-package :gdl-user)
+
+ (define-object circular-surface-test (surf::circular-surface)
+  :computed-slots ((radius 108)))
+
+ (generate-sample-drawing :objects (make-object 'circular-surface-test))
+
+
+\end{verbatim}}
+\end{minipage}
+\end{lrbox}
+\fbox{\usebox{\boxedverb}}
+
+\caption{Example Code for circular-surface}
+
+\label{fig:example-code-circular-surface}
+
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=3in,height=3in]{../images/example-circular-surface.pdf}
+\end{center}
+
+\caption{circular-surface example}
+
+\label{fig:circular-surface}
+
+\end{figure}
+
+
+
+
+
+\textbf{
+\underline{Input slots (required):}}
+
+\begin{description}
+
+\item [Radius]
+\index{Radius
+[circular-surface]}\emph{Number}
+
+ The radius of the resulting trimmed-surface.
+
+
+
+
+\end{description}
+
+
+
+
+
+
+\textbf{
+\underline{Hidden objects:}}
+
+\begin{description}
+
+\item [Basis-surface]
+\index{Basis-surface
+[circular-surface]}\emph{GDL NURBS Surface}
+
+ The underlying surface to be trimmed.
+
+
+
+
+\item [Island]
+\index{Island
+[circular-surface]}\emph{Single GDL NURBS Curve or list of same}
+
+ These curves make up the outer trimming loop. Normally should
+be in counter-clockwise orientation; if not, please specify \texttt{reverse-island?} as non-NIL.
+
+
+
+
+\end{description}
+
+
+
+
+
+
+
+\item \index{compatible-curves}
+\label{prim:compatible-curves}
+\textbf{compatible-curves}
+
+
+\textbf{
+\underline{Mixins:}} base-object
 
 
 
@@ -22231,9 +22861,9 @@ to be compatible in terms of number of control points, knot vectors, and degree.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for COMPATIBLE-CURVES}
+\caption{Example Code for compatible-curves}
 
-\label{fig:example-code-COMPATIBLE-CURVES}
+\label{fig:example-code-compatible-curves}
 
 \end{figure}
 
@@ -22242,9 +22872,9 @@ to be compatible in terms of number of control points, knot vectors, and degree.
 \includegraphics[width=3in,height=3in]{../images/example-compatible-curves.pdf}
 \end{center}
 
-\caption{COMPATIBLE-CURVES example}
+\caption{compatible-curves example}
 
-\label{fig:COMPATIBLE-CURVES}
+\label{fig:compatible-curves}
 
 \end{figure}
 
@@ -22306,13 +22936,13 @@ are supposed to be compatible.
 
 
 
-\item \index{COMPATIBLE-SURFACES}
+\item \index{compatible-surfaces}
 \label{prim:compatible-surfaces}
-\textbf{COMPATIBLE-SURFACES}
+\textbf{compatible-surfaces}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -22372,9 +23002,9 @@ This routine makes compatible a list of GDL surface, minimum 2 surfaces is requi
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for COMPATIBLE-SURFACES}
+\caption{Example Code for compatible-surfaces}
 
-\label{fig:example-code-COMPATIBLE-SURFACES}
+\label{fig:example-code-compatible-surfaces}
 
 \end{figure}
 
@@ -22383,9 +23013,9 @@ This routine makes compatible a list of GDL surface, minimum 2 surfaces is requi
 \includegraphics[width=3in,height=3in]{../images/example-compatible-surfaces.pdf}
 \end{center}
 
-\caption{COMPATIBLE-SURFACES example}
+\caption{compatible-surfaces example}
 
-\label{fig:COMPATIBLE-SURFACES}
+\label{fig:compatible-surfaces}
 
 \end{figure}
 
@@ -22415,13 +23045,13 @@ This routine makes compatible a list of GDL surface, minimum 2 surfaces is requi
 
 
 
-\item \index{COMPOSED-CURVE}
+\item \index{composed-curve}
 \label{prim:composed-curve}
-\textbf{COMPOSED-CURVE}
+\textbf{composed-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -22489,9 +23119,9 @@ instead.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for COMPOSED-CURVE}
+\caption{Example Code for composed-curve}
 
-\label{fig:example-code-COMPOSED-CURVE}
+\label{fig:example-code-composed-curve}
 
 \end{figure}
 
@@ -22500,9 +23130,9 @@ instead.
 \includegraphics[width=3in,height=3in]{../images/example-composed-curve.pdf}
 \end{center}
 
-\caption{COMPOSED-CURVE example}
+\caption{composed-curve example}
 
-\label{fig:COMPOSED-CURVE}
+\label{fig:composed-curve}
 
 \end{figure}
 
@@ -22563,13 +23193,13 @@ without doing anything to the endpoints. Default is 0.01. Note: This input-slot 
 
 
 
-\item \index{COMPOSED-CURVES}
+\item \index{composed-curves}
 \label{prim:composed-curves}
-\textbf{COMPOSED-CURVES}
+\textbf{composed-curves}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -22669,13 +23299,13 @@ without doing anything to the endpoints. Default is 0.01. Note: This input-slot 
 
 
 
-\item \index{CONE-SOLID}
+\item \index{cone-solid}
 \label{prim:cone-solid}
-\textbf{CONE-SOLID}
+\textbf{cone-solid}
 
 
 \textbf{
-\underline{Mixins:}} CYLINDER-SOLID, CONE
+\underline{Mixins:}} cylinder-solid, cone
 
 
 
@@ -22726,9 +23356,9 @@ from brep and cone.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CONE-SOLID}
+\caption{Example Code for cone-solid}
 
-\label{fig:example-code-CONE-SOLID}
+\label{fig:example-code-cone-solid}
 
 \end{figure}
 
@@ -22737,9 +23367,9 @@ from brep and cone.
 \includegraphics[width=3in,height=3in]{../images/example-cone-solid.pdf}
 \end{center}
 
-\caption{CONE-SOLID example}
+\caption{cone-solid example}
 
-\label{fig:CONE-SOLID}
+\label{fig:cone-solid}
 
 \end{figure}
 
@@ -22748,13 +23378,13 @@ from brep and cone.
 
 
 
-\item \index{CONIC-CURVE}
+\item \index{conic-curve}
 \label{prim:conic-curve}
-\textbf{CONIC-CURVE}
+\textbf{conic-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -22802,9 +23432,9 @@ and a point on the curve.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CONIC-CURVE}
+\caption{Example Code for conic-curve}
 
-\label{fig:example-code-CONIC-CURVE}
+\label{fig:example-code-conic-curve}
 
 \end{figure}
 
@@ -22813,9 +23443,9 @@ and a point on the curve.
 \includegraphics[width=3in,height=3in]{../images/example-conic-curve.pdf}
 \end{center}
 
-\caption{CONIC-CURVE example}
+\caption{conic-curve example}
 
-\label{fig:CONIC-CURVE}
+\label{fig:conic-curve}
 
 \end{figure}
 
@@ -22881,13 +23511,13 @@ and a point on the curve.
 
 
 
-\item \index{CURVE}
+\item \index{curve}
 \label{prim:curve}
-\textbf{CURVE}
+\textbf{curve}
 
 
 \textbf{
-\underline{Mixins:}} GEOMETRY-KERNEL-OBJECT-MIXIN, BASE-OBJECT
+\underline{Mixins:}} geometry-kernel-object-mixin, base-object
 
 
 
@@ -22943,9 +23573,9 @@ A generalized NURBS curve. Usually used as a mixin in more specific curves.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CURVE}
+\caption{Example Code for curve}
 
-\label{fig:example-code-CURVE}
+\label{fig:example-code-curve}
 
 \end{figure}
 
@@ -22954,9 +23584,9 @@ A generalized NURBS curve. Usually used as a mixin in more specific curves.
 \includegraphics[width=3in,height=3in]{../images/example-curve.pdf}
 \end{center}
 
-\caption{CURVE example}
+\caption{curve example}
 
-\label{fig:CURVE}
+\label{fig:curve}
 
 \end{figure}
 
@@ -22998,7 +23628,7 @@ this is not a surface-curve, this will return an error.
 
 
 \textbf{
-\underline{Input slots (optional, defaulting, settable):}}
+\underline{Input slots (optional, settable):}}
 
 \begin{description}
 
@@ -23492,13 +24122,13 @@ are equal.
 
 
 
-\item \index{CYLINDER-SOLID}
+\item \index{cylinder-solid}
 \label{prim:cylinder-solid}
-\textbf{CYLINDER-SOLID}
+\textbf{cylinder-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP, CYLINDER
+\underline{Mixins:}} brep, cylinder
 
 
 
@@ -23542,9 +24172,9 @@ from brep and cylinder
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for CYLINDER-SOLID}
+\caption{Example Code for cylinder-solid}
 
-\label{fig:example-code-CYLINDER-SOLID}
+\label{fig:example-code-cylinder-solid}
 
 \end{figure}
 
@@ -23553,9 +24183,9 @@ from brep and cylinder
 \includegraphics[width=3in,height=3in]{../images/example-cylinder-solid.pdf}
 \end{center}
 
-\caption{CYLINDER-SOLID example}
+\caption{cylinder-solid example}
 
-\label{fig:CYLINDER-SOLID}
+\label{fig:cylinder-solid}
 
 \end{figure}
 
@@ -23564,13 +24194,13 @@ from brep and cylinder
 
 
 
-\item \index{DECOMPOSED-CURVES}
+\item \index{decomposed-curves}
 \label{prim:decomposed-curves}
-\textbf{DECOMPOSED-CURVES}
+\textbf{decomposed-curves}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -23640,9 +24270,9 @@ knots with degree-fold mutiplicity.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for DECOMPOSED-CURVES}
+\caption{Example Code for decomposed-curves}
 
-\label{fig:example-code-DECOMPOSED-CURVES}
+\label{fig:example-code-decomposed-curves}
 
 \end{figure}
 
@@ -23651,9 +24281,9 @@ knots with degree-fold mutiplicity.
 \includegraphics[width=3in,height=3in]{../images/example-decomposed-curves.pdf}
 \end{center}
 
-\caption{DECOMPOSED-CURVES example}
+\caption{decomposed-curves example}
 
-\label{fig:DECOMPOSED-CURVES}
+\label{fig:decomposed-curves}
 
 \end{figure}
 
@@ -23704,13 +24334,13 @@ knots with degree-fold mutiplicity.
 
 
 
-\item \index{DROPPED-CURVE}
+\item \index{dropped-curve}
 \label{prim:dropped-curve}
-\textbf{DROPPED-CURVE}
+\textbf{dropped-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -23804,9 +24434,9 @@ was the actual dropped-curve.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for DROPPED-CURVE}
+\caption{Example Code for dropped-curve}
 
-\label{fig:example-code-DROPPED-CURVE}
+\label{fig:example-code-dropped-curve}
 
 \end{figure}
 
@@ -23815,9 +24445,9 @@ was the actual dropped-curve.
 \includegraphics[width=3in,height=3in]{../images/example-dropped-curve.pdf}
 \end{center}
 
-\caption{DROPPED-CURVE example}
+\caption{dropped-curve example}
 
-\label{fig:DROPPED-CURVE}
+\label{fig:dropped-curve}
 
 \end{figure}
 
@@ -23901,13 +24531,13 @@ this is not a surface-curve, this will return an error.
 
 
 
-\item \index{DUAL-BLEND-SURFACE}
+\item \index{dual-blend-surface}
 \label{prim:dual-blend-surface}
-\textbf{DUAL-BLEND-SURFACE}
+\textbf{dual-blend-surface}
 
 
 \textbf{
-\underline{Mixins:}} GENERAL-DUAL-BLEND-SURFACE, VANILLA-MIXIN
+\underline{Mixins:}} general-dual-blend-surface, vanilla-mixin
 
 
 
@@ -23994,9 +24624,9 @@ Creates a smooth blend-surface between curve-1, lying on surface-1 and curve-2 o
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SURF::DUAL-BLEND-SURFACE}
+\caption{Example Code for surf::dual-blend-surface}
 
-\label{fig:example-code-SURF::DUAL-BLEND-SURFACE}
+\label{fig:example-code-surf::dual-blend-surface}
 
 \end{figure}
 
@@ -24005,9 +24635,9 @@ Creates a smooth blend-surface between curve-1, lying on surface-1 and curve-2 o
 \includegraphics[width=3in,height=3in]{../images/example-dual-blend-surface.pdf}
 \end{center}
 
-\caption{SURF::DUAL-BLEND-SURFACE example}
+\caption{surf::dual-blend-surface example}
 
-\label{fig:SURF::DUAL-BLEND-SURFACE}
+\label{fig:surf::dual-blend-surface}
 
 \end{figure}
 
@@ -24046,13 +24676,13 @@ Creates a smooth blend-surface between curve-1, lying on surface-1 and curve-2 o
 
 
 
-\item \index{EDGE}
+\item \index{edge}
 \label{prim:edge}
-\textbf{EDGE}
+\textbf{edge}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -24123,13 +24753,13 @@ with this edge.
 
 
 
-\item \index{EDGE-BLEND-SURFACE}
+\item \index{edge-blend-surface}
 \label{prim:edge-blend-surface}
-\textbf{EDGE-BLEND-SURFACE}
+\textbf{edge-blend-surface}
 
 
 \textbf{
-\underline{Mixins:}} GENERAL-DUAL-BLEND-SURFACE, VANILLA-MIXIN
+\underline{Mixins:}} general-dual-blend-surface, vanilla-mixin
 
 
 
@@ -24223,9 +24853,9 @@ The local start and end directions of this surface at any point along curve-1 an
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for EDGE-BLEND-SURFACE}
+\caption{Example Code for edge-blend-surface}
 
-\label{fig:example-code-EDGE-BLEND-SURFACE}
+\label{fig:example-code-edge-blend-surface}
 
 \end{figure}
 
@@ -24234,9 +24864,9 @@ The local start and end directions of this surface at any point along curve-1 an
 \includegraphics[width=3in,height=3in]{../images/example-edge-blend-surface.pdf}
 \end{center}
 
-\caption{EDGE-BLEND-SURFACE example}
+\caption{edge-blend-surface example}
 
-\label{fig:EDGE-BLEND-SURFACE}
+\label{fig:edge-blend-surface}
 
 \end{figure}
 
@@ -24323,13 +24953,13 @@ The local start and end directions of this surface at any point along curve-1 an
 
 
 
-\item \index{ELLIPTICAL-CURVE}
+\item \index{elliptical-curve}
 \label{prim:elliptical-curve}
-\textbf{ELLIPTICAL-CURVE}
+\textbf{elliptical-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE, ELLIPSE
+\underline{Mixins:}} curve, ellipse
 
 
 
@@ -24377,9 +25007,9 @@ Messages are the union of those for ellipse and those for curve.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for ELLIPTICAL-CURVE}
+\caption{Example Code for elliptical-curve}
 
-\label{fig:example-code-ELLIPTICAL-CURVE}
+\label{fig:example-code-elliptical-curve}
 
 \end{figure}
 
@@ -24388,9 +25018,9 @@ Messages are the union of those for ellipse and those for curve.
 \includegraphics[width=3in,height=3in]{../images/example-elliptical-curve.pdf}
 \end{center}
 
-\caption{ELLIPTICAL-CURVE example}
+\caption{elliptical-curve example}
 
-\label{fig:ELLIPTICAL-CURVE}
+\label{fig:elliptical-curve}
 
 \end{figure}
 
@@ -24399,13 +25029,13 @@ Messages are the union of those for ellipse and those for curve.
 
 
 
-\item \index{EXTENDED-CURVE}
+\item \index{extended-curve}
 \label{prim:extended-curve}
-\textbf{EXTENDED-CURVE}
+\textbf{extended-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -24478,9 +25108,9 @@ Creates an extended curve extending its start or end  (\texttt{u1} and \texttt{u
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for EXTENDED-CURVE}
+\caption{Example Code for extended-curve}
 
-\label{fig:example-code-EXTENDED-CURVE}
+\label{fig:example-code-extended-curve}
 
 \end{figure}
 
@@ -24489,9 +25119,9 @@ Creates an extended curve extending its start or end  (\texttt{u1} and \texttt{u
 \includegraphics[width=3in,height=3in]{../images/example-extended-curve.pdf}
 \end{center}
 
-\caption{EXTENDED-CURVE example}
+\caption{extended-curve example}
 
-\label{fig:EXTENDED-CURVE}
+\label{fig:extended-curve}
 
 \end{figure}
 
@@ -24573,13 +25203,13 @@ If :end the the curve is extended forward from its end point. Defaults to the \t
 
 
 
-\item \index{EXTENDED-SURFACE}
+\item \index{extended-surface}
 \label{prim:extended-surface}
-\textbf{EXTENDED-SURFACE}
+\textbf{extended-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -24713,9 +25343,9 @@ is only degree 1 in the direction of extension.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for EXTENDED-SURFACE}
+\caption{Example Code for extended-surface}
 
-\label{fig:example-code-EXTENDED-SURFACE}
+\label{fig:example-code-extended-surface}
 
 \end{figure}
 
@@ -24724,9 +25354,9 @@ is only degree 1 in the direction of extension.
 \includegraphics[width=3in,height=3in]{../images/example-extended-surface.pdf}
 \end{center}
 
-\caption{EXTENDED-SURFACE example}
+\caption{extended-surface example}
 
-\label{fig:EXTENDED-SURFACE}
+\label{fig:extended-surface}
 
 \end{figure}
 
@@ -24823,13 +25453,13 @@ and a V parameter if this input is :v. Default is :u.
 
 
 
-\item \index{EXTRUDED-SOLID}
+\item \index{extruded-solid}
 \label{prim:extruded-solid}
-\textbf{EXTRUDED-SOLID}
+\textbf{extruded-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -24919,13 +25549,13 @@ Defaults to (the height).
 
 
 
-\item \index{FACE}
+\item \index{face}
 \label{prim:face}
-\textbf{FACE}
+\textbf{face}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -25181,13 +25811,13 @@ The moments are labeled as: :area-static-moments, :area-moments-of-inertia, :are
 
 
 
-\item \index{FITTED-CURVE}
+\item \index{fitted-curve}
 \label{prim:fitted-curve}
-\textbf{FITTED-CURVE}
+\textbf{fitted-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -25240,9 +25870,9 @@ and parameterization.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for FITTED-CURVE}
+\caption{Example Code for fitted-curve}
 
-\label{fig:example-code-FITTED-CURVE}
+\label{fig:example-code-fitted-curve}
 
 \end{figure}
 
@@ -25251,9 +25881,9 @@ and parameterization.
 \includegraphics[width=3in,height=3in]{../images/example-fitted-curve.pdf}
 \end{center}
 
-\caption{FITTED-CURVE example}
+\caption{fitted-curve example}
 
-\label{fig:FITTED-CURVE}
+\label{fig:fitted-curve}
 
 \end{figure}
 
@@ -25368,13 +25998,13 @@ tangent (in this case there should be two vectors in the \texttt{:vectors} list.
 
 
 
-\item \index{FITTED-SURFACE}
+\item \index{fitted-surface}
 \label{prim:fitted-surface}
-\textbf{FITTED-SURFACE}
+\textbf{fitted-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -25513,9 +26143,9 @@ interpolating (going through) each of the points.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for FITTED-SURFACE}
+\caption{Example Code for fitted-surface}
 
-\label{fig:example-code-FITTED-SURFACE}
+\label{fig:example-code-fitted-surface}
 
 \end{figure}
 
@@ -25524,9 +26154,9 @@ interpolating (going through) each of the points.
 \includegraphics[width=3in,height=3in]{../images/example-fitted-surface.pdf}
 \end{center}
 
-\caption{FITTED-SURFACE example}
+\caption{fitted-surface example}
 
-\label{fig:FITTED-SURFACE}
+\label{fig:fitted-surface}
 
 \end{figure}
 
@@ -25681,13 +26311,13 @@ of the rectangular volume bounding the tree of geometric objects rooted at this 
 
 
 
-\item \index{GENERAL-DUAL-BLEND-SURFACE}
+\item \index{general-dual-blend-surface}
 \label{prim:general-dual-blend-surface}
-\textbf{GENERAL-DUAL-BLEND-SURFACE}
+\textbf{general-dual-blend-surface}
 
 
 \textbf{
-\underline{Mixins:}} B-SPLINE-SURFACE
+\underline{Mixins:}} b-spline-surface
 
 
 
@@ -25797,9 +26427,9 @@ Creates a smooth blend-surface between curve-1, lying on surface-1 and curve-2 o
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SURF::GENERAL-DUAL-BLEND-SURFACE}
+\caption{Example Code for surf::general-dual-blend-surface}
 
-\label{fig:example-code-SURF::GENERAL-DUAL-BLEND-SURFACE}
+\label{fig:example-code-surf::general-dual-blend-surface}
 
 \end{figure}
 
@@ -25808,9 +26438,9 @@ Creates a smooth blend-surface between curve-1, lying on surface-1 and curve-2 o
 \includegraphics[width=3in,height=3in]{../images/example-general-dual-blend-surface.pdf}
 \end{center}
 
-\caption{SURF::GENERAL-DUAL-BLEND-SURFACE example}
+\caption{surf::general-dual-blend-surface example}
 
-\label{fig:SURF::GENERAL-DUAL-BLEND-SURFACE}
+\label{fig:surf::general-dual-blend-surface}
 
 \end{figure}
 
@@ -25972,13 +26602,13 @@ Creates a smooth blend-surface between curve-1, lying on surface-1 and curve-2 o
 
 
 
-\item \index{GEOMETRY-KERNEL-OBJECT-MIXIN}
+\item \index{geometry-kernel-object-mixin}
 \label{prim:geometry-kernel-object-mixin}
-\textbf{GEOMETRY-KERNEL-OBJECT-MIXIN}
+\textbf{geometry-kernel-object-mixin}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -26058,13 +26688,13 @@ the IGES output-format (please contact Genworks if you need all levels (layers) 
 
 
 
-\item \index{GLOBAL-FILLETED-POLYLINE-CURVE}
+\item \index{global-filleted-polyline-curve}
 \label{prim:global-filleted-polyline-curve}
-\textbf{GLOBAL-FILLETED-POLYLINE-CURVE}
+\textbf{global-filleted-polyline-curve}
 
 
 \textbf{
-\underline{Mixins:}} GLOBAL-FILLETED-POLYLINE-CURVES, COMPOSED-CURVE
+\underline{Mixins:}} global-filleted-polyline-curves, composed-curve
 
 
 
@@ -26112,13 +26742,13 @@ from a global-filleted-polyline-curves object
 
 
 
-\item \index{GLOBAL-FILLETED-POLYLINE-CURVES}
+\item \index{global-filleted-polyline-curves}
 \label{prim:global-filleted-polyline-curves}
-\textbf{GLOBAL-FILLETED-POLYLINE-CURVES}
+\textbf{global-filleted-polyline-curves}
 
 
 \textbf{
-\underline{Mixins:}} GLOBAL-FILLETED-POLYLINE
+\underline{Mixins:}} global-filleted-polyline
 
 
 
@@ -26180,9 +26810,9 @@ into a single curve.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for GLOBAL-FILLETED-POLYLINE-CURVES}
+\caption{Example Code for global-filleted-polyline-curves}
 
-\label{fig:example-code-GLOBAL-FILLETED-POLYLINE-CURVES}
+\label{fig:example-code-global-filleted-polyline-curves}
 
 \end{figure}
 
@@ -26191,9 +26821,9 @@ into a single curve.
 \includegraphics[width=3in,height=3in]{../images/example-global-filleted-polyline-curves.pdf}
 \end{center}
 
-\caption{GLOBAL-FILLETED-POLYLINE-CURVES example}
+\caption{global-filleted-polyline-curves example}
 
-\label{fig:GLOBAL-FILLETED-POLYLINE-CURVES}
+\label{fig:global-filleted-polyline-curves}
 
 \end{figure}
 
@@ -26253,13 +26883,13 @@ into a single curve.
 
 
 
-\item \index{IGES-READER}
+\item \index{iges-reader}
 \label{prim:iges-reader}
-\textbf{IGES-READER}
+\textbf{iges-reader}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -26413,13 +27043,13 @@ If some trimmed surfaces or B-reps are blanked, they are grouped into a second, 
 
 
 
-\item \index{INTERSECTED-SOLID}
+\item \index{intersected-solid}
 \label{prim:intersected-solid}
-\textbf{INTERSECTED-SOLID}
+\textbf{intersected-solid}
 
 
 \textbf{
-\underline{Mixins:}} BOOLEAN-MERGE
+\underline{Mixins:}} boolean-merge, vanilla-mixin
 
 
 
@@ -26445,13 +27075,13 @@ Given two brep solids, performs the intersect Boolean between the brep and the o
 
 
 
-\item \index{ISO-CURVE}
+\item \index{iso-curve}
 \label{prim:iso-curve}
-\textbf{ISO-CURVE}
+\textbf{iso-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -26503,9 +27133,9 @@ Represents an exact iso curve on the given surface in given direction at given p
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for ISO-CURVE}
+\caption{Example Code for iso-curve}
 
-\label{fig:example-code-ISO-CURVE}
+\label{fig:example-code-iso-curve}
 
 \end{figure}
 
@@ -26514,9 +27144,9 @@ Represents an exact iso curve on the given surface in given direction at given p
 \includegraphics[width=3in,height=3in]{../images/example-iso-curve.pdf}
 \end{center}
 
-\caption{ISO-CURVE example}
+\caption{iso-curve example}
 
-\label{fig:ISO-CURVE}
+\label{fig:iso-curve}
 
 \end{figure}
 
@@ -26631,13 +27261,13 @@ be fixed on the surface at the given parameter value.
 
 
 
-\item \index{JOINED-SURFACES}
+\item \index{joined-surfaces}
 \label{prim:joined-surfaces}
-\textbf{JOINED-SURFACES}
+\textbf{joined-surfaces}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -26700,9 +27330,9 @@ This  routine joins two surfaces at a common boundary. The surfaces must already
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for JOINED-SURFACES}
+\caption{Example Code for joined-surfaces}
 
-\label{fig:example-code-JOINED-SURFACES}
+\label{fig:example-code-joined-surfaces}
 
 \end{figure}
 
@@ -26711,9 +27341,9 @@ This  routine joins two surfaces at a common boundary. The surfaces must already
 \includegraphics[width=3in,height=3in]{../images/example-joined-surfaces.pdf}
 \end{center}
 
-\caption{JOINED-SURFACES example}
+\caption{joined-surfaces example}
 
-\label{fig:JOINED-SURFACES}
+\label{fig:joined-surfaces}
 
 \end{figure}
 
@@ -26788,13 +27418,13 @@ v-direction. Default is :u.
 
 
 
-\item \index{LINEAR-CURVE}
+\item \index{linear-curve}
 \label{prim:linear-curve}
-\textbf{LINEAR-CURVE}
+\textbf{linear-curve}
 
 
 \textbf{
-\underline{Mixins:}} \%LINEAR-CURVE\%, VANILLA-MIXIN
+\underline{Mixins:}} \%linear-curve\%, vanilla-mixin
 
 
 
@@ -26836,9 +27466,9 @@ for l-line, namely \texttt{start} and \texttt{end} (3d points).
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for LINEAR-CURVE}
+\caption{Example Code for linear-curve}
 
-\label{fig:example-code-LINEAR-CURVE}
+\label{fig:example-code-linear-curve}
 
 \end{figure}
 
@@ -26847,9 +27477,9 @@ for l-line, namely \texttt{start} and \texttt{end} (3d points).
 \includegraphics[width=3in,height=3in]{../images/example-linear-curve.pdf}
 \end{center}
 
-\caption{LINEAR-CURVE example}
+\caption{linear-curve example}
 
-\label{fig:LINEAR-CURVE}
+\label{fig:linear-curve}
 
 \end{figure}
 
@@ -26888,13 +27518,13 @@ for l-line, namely \texttt{start} and \texttt{end} (3d points).
 
 
 
-\item \index{LOFTED-SURFACE}
+\item \index{lofted-surface}
 \label{prim:lofted-surface}
-\textbf{LOFTED-SURFACE}
+\textbf{lofted-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -26971,9 +27601,9 @@ various controls.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for LOFTED-SURFACE}
+\caption{Example Code for lofted-surface}
 
-\label{fig:example-code-LOFTED-SURFACE}
+\label{fig:example-code-lofted-surface}
 
 \end{figure}
 
@@ -26982,9 +27612,9 @@ various controls.
 \includegraphics[width=3in,height=3in]{../images/example-lofted-surface.pdf}
 \end{center}
 
-\caption{LOFTED-SURFACE example}
+\caption{lofted-surface example}
 
-\label{fig:LOFTED-SURFACE}
+\label{fig:lofted-surface}
 
 \end{figure}
 
@@ -27120,13 +27750,13 @@ the SMLib make-skinned-surface routine. Default is nil
 
 
 
-\item \index{MANIFOLD-SOLID}
+\item \index{manifold-solid}
 \label{prim:manifold-solid}
-\textbf{MANIFOLD-SOLID}
+\textbf{manifold-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -27195,13 +27825,13 @@ Defaults to nil.
 
 
 
-\item \index{MERGED-SOLID}
+\item \index{merged-solid}
 \label{prim:merged-solid}
-\textbf{MERGED-SOLID}
+\textbf{merged-solid}
 
 
 \textbf{
-\underline{Mixins:}} BOOLEAN-MERGE
+\underline{Mixins:}} boolean-merge, vanilla-mixin
 
 
 
@@ -27260,13 +27890,13 @@ and this is defaulted to t, except for merged-solid where we default this to nil
 
 
 
-\item \index{NATIVE-READER}
+\item \index{native-reader}
 \label{prim:native-reader}
-\textbf{NATIVE-READER}
+\textbf{native-reader}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -27365,13 +27995,13 @@ file-name, the file-name will take precedence.
 
 
 
-\item \index{NON-RATIONAL-CURVE}
+\item \index{non-rational-curve}
 \label{prim:non-rational-curve}
-\textbf{NON-RATIONAL-CURVE}
+\textbf{non-rational-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -27484,13 +28114,13 @@ Defaults to the curve-in's total length divided by the tolerance-divisor.
 
 
 
-\item \index{NORMALIZED-CURVE}
+\item \index{normalized-curve}
 \label{prim:normalized-curve}
-\textbf{NORMALIZED-CURVE}
+\textbf{normalized-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -27570,13 +28200,13 @@ for this parametric curve
 
 
 
-\item \index{OFFSET-SOLID}
+\item \index{offset-solid}
 \label{prim:offset-solid}
-\textbf{OFFSET-SOLID}
+\textbf{offset-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -27654,13 +28284,13 @@ Defaults to (the adaptive-tolerance) of the input brep.
 
 
 
-\item \index{OFFSET-SURFACE}
+\item \index{offset-surface}
 \label{prim:offset-surface}
-\textbf{OFFSET-SURFACE}
+\textbf{offset-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -27767,13 +28397,13 @@ method used to re-fit the points after offsetting. Defaults to :uniform.
 
 
 
-\item \index{PLANAR-OFFSET-CURVE}
+\item \index{planar-offset-curve}
 \label{prim:planar-offset-curve}
-\textbf{PLANAR-OFFSET-CURVE}
+\textbf{planar-offset-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -27833,9 +28463,9 @@ Creates a curve which is the result of offsetting a curve by its normals along a
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for PLANAR-OFFSET-CURVE}
+\caption{Example Code for planar-offset-curve}
 
-\label{fig:example-code-PLANAR-OFFSET-CURVE}
+\label{fig:example-code-planar-offset-curve}
 
 \end{figure}
 
@@ -27844,9 +28474,9 @@ Creates a curve which is the result of offsetting a curve by its normals along a
 \includegraphics[width=3in,height=3in]{../images/example-planar-offset-curve.pdf}
 \end{center}
 
-\caption{PLANAR-OFFSET-CURVE example}
+\caption{planar-offset-curve example}
 
-\label{fig:PLANAR-OFFSET-CURVE}
+\label{fig:planar-offset-curve}
 
 \end{figure}
 
@@ -27917,13 +28547,13 @@ Defaults to *3d-approximation-tolerance-default*.
 
 
 
-\item \index{PLANAR-SECTION-CURVE}
+\item \index{planar-section-curve}
 \label{prim:planar-section-curve}
-\textbf{PLANAR-SECTION-CURVE}
+\textbf{planar-section-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -27974,9 +28604,9 @@ use planar-section-curves instead.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for PLANAR-SECTION-CURVE}
+\caption{Example Code for planar-section-curve}
 
-\label{fig:example-code-PLANAR-SECTION-CURVE}
+\label{fig:example-code-planar-section-curve}
 
 \end{figure}
 
@@ -27985,9 +28615,9 @@ use planar-section-curves instead.
 \includegraphics[width=3in,height=3in]{../images/example-planar-section-curve.pdf}
 \end{center}
 
-\caption{PLANAR-SECTION-CURVE example}
+\caption{planar-section-curve example}
 
-\label{fig:PLANAR-SECTION-CURVE}
+\label{fig:planar-section-curve}
 
 \end{figure}
 
@@ -28118,13 +28748,13 @@ Default is *angle-tolerance-radians-default*.
 
 
 
-\item \index{PLANAR-SECTION-CURVES}
+\item \index{planar-section-curves}
 \label{prim:planar-section-curves}
-\textbf{PLANAR-SECTION-CURVES}
+\textbf{planar-section-curves}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -28187,9 +28817,9 @@ If a single result is expected, use planar-section-curve instead.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for PLANAR-SECTION-CURVES}
+\caption{Example Code for planar-section-curves}
 
-\label{fig:example-code-PLANAR-SECTION-CURVES}
+\label{fig:example-code-planar-section-curves}
 
 \end{figure}
 
@@ -28198,9 +28828,9 @@ If a single result is expected, use planar-section-curve instead.
 \includegraphics[width=3in,height=3in]{../images/example-planar-section-curves.pdf}
 \end{center}
 
-\caption{PLANAR-SECTION-CURVES example}
+\caption{planar-section-curves example}
 
-\label{fig:PLANAR-SECTION-CURVES}
+\label{fig:planar-section-curves}
 
 \end{figure}
 
@@ -28338,13 +28968,13 @@ curve object and available from there.
 
 
 
-\item \index{PLANAR-SURFACE}
+\item \index{planar-surface}
 \label{prim:planar-surface}
-\textbf{PLANAR-SURFACE}
+\textbf{planar-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -28392,9 +29022,9 @@ Creates a flat quadrilateral surface specified by its four corner points.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for PLANAR-SURFACE}
+\caption{Example Code for planar-surface}
 
-\label{fig:example-code-PLANAR-SURFACE}
+\label{fig:example-code-planar-surface}
 
 \end{figure}
 
@@ -28403,9 +29033,9 @@ Creates a flat quadrilateral surface specified by its four corner points.
 \includegraphics[width=3in,height=3in]{../images/example-planar-surface.pdf}
 \end{center}
 
-\caption{PLANAR-SURFACE example}
+\caption{planar-surface example}
 
-\label{fig:PLANAR-SURFACE}
+\label{fig:planar-surface}
 
 \end{figure}
 
@@ -28462,13 +29092,13 @@ Creates a flat quadrilateral surface specified by its four corner points.
 
 
 
-\item \index{POLY-BREP}
+\item \index{poly-brep}
 \label{prim:poly-brep}
-\textbf{POLY-BREP}
+\textbf{poly-brep}
 
 
 \textbf{
-\underline{Mixins:}} GEOMETRY-KERNEL-OBJECT-MIXIN, BASE-OBJECT
+\underline{Mixins:}} geometry-kernel-object-mixin, base-object
 
 
 
@@ -28515,13 +29145,13 @@ A polygonal representation for a boundary representation geometric entity.
 
 
 
-\item \index{PROJECTED-CURVE}
+\item \index{projected-curve}
 \label{prim:projected-curve}
-\textbf{PROJECTED-CURVE}
+\textbf{projected-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -28617,9 +29247,9 @@ was the actual projected-curve.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for PROJECTED-CURVE}
+\caption{Example Code for projected-curve}
 
-\label{fig:example-code-PROJECTED-CURVE}
+\label{fig:example-code-projected-curve}
 
 \end{figure}
 
@@ -28628,9 +29258,9 @@ was the actual projected-curve.
 \includegraphics[width=3in,height=3in]{../images/example-projected-curve.pdf}
 \end{center}
 
-\caption{PROJECTED-CURVE example}
+\caption{projected-curve example}
 
-\label{fig:PROJECTED-CURVE}
+\label{fig:projected-curve}
 
 \end{figure}
 
@@ -28754,13 +29384,13 @@ it does not make a copy)
 
 
 
-\item \index{RECTANGULAR-SURFACE}
+\item \index{rectangular-surface}
 \label{prim:rectangular-surface}
-\textbf{RECTANGULAR-SURFACE}
+\textbf{rectangular-surface}
 
 
 \textbf{
-\underline{Mixins:}} PLANAR-SURFACE
+\underline{Mixins:}} planar-surface
 
 
 
@@ -28804,9 +29434,9 @@ Creates a flat rectangular surface specified by the same inputs as box or base-o
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for RECTANGULAR-SURFACE}
+\caption{Example Code for rectangular-surface}
 
-\label{fig:example-code-RECTANGULAR-SURFACE}
+\label{fig:example-code-rectangular-surface}
 
 \end{figure}
 
@@ -28815,9 +29445,9 @@ Creates a flat rectangular surface specified by the same inputs as box or base-o
 \includegraphics[width=3in,height=3in]{../images/example-rectangular-surface.pdf}
 \end{center}
 
-\caption{RECTANGULAR-SURFACE example}
+\caption{rectangular-surface example}
 
-\label{fig:RECTANGULAR-SURFACE}
+\label{fig:rectangular-surface}
 
 \end{figure}
 
@@ -28935,13 +29565,173 @@ box of this object should be located.
 
 
 
-\item \index{REGIONED-SOLID}
-\label{prim:regioned-solid}
-\textbf{REGIONED-SOLID}
+\item \index{redirected-surface}
+\label{prim:redirected-surface}
+\textbf{redirected-surface}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} b-spline-surface
+
+
+
+
+
+\begin{description}
+
+\item [
+\underline{Description}]
+
+
+Generates a new surface with U and V parameters swapped and/or
+   reversed in their direction.
+
+
+
+\end{description}
+
+
+
+
+
+
+
+
+\textbf{
+\underline{Input slots (required):}}
+
+\begin{description}
+
+\item [Surface-in]
+\index{Surface-in
+[redirected-surface]}
+
+GDL surface object
+
+
+
+
+\end{description}
+
+
+
+
+
+
+\textbf{
+\underline{Input slots (optional):}}
+
+\begin{description}
+
+\item [Reverse-u?]
+\index{Reverse-u?
+[redirected-surface]}\emph{Boolean}
+
+ Specifies whether resulting U parameter space should be reversed. Defaults to nil.
+
+
+
+
+\item [Reverse-v?]
+\index{Reverse-v?
+[redirected-surface]}\emph{Boolean}
+
+ Specifies whether resulting V parameter space should be reversed. Defaults to nil.
+
+
+
+
+\item [Swap-uv?]
+\index{Swap-uv?
+[redirected-surface]}\emph{Boolean}
+
+ Specifies whether existing U and V should be swapped before possibly reversing. Defaults to nil.
+
+
+
+
+\end{description}
+
+
+
+
+
+
+\textbf{
+\underline{Computed slots:}}
+
+\begin{description}
+
+\item [Control-points]
+\index{Control-points
+[redirected-surface]}\emph{List of lists of 3D Points}
+
+ The control net.
+
+
+
+
+\item [U-degree]
+\index{U-degree
+[redirected-surface]}\emph{Integer}
+
+ Degree of surface in U direction. Defaults to 3.
+
+
+
+
+\item [U-knot-vector]
+\index{U-knot-vector
+[redirected-surface]}\emph{List of Numbers}
+
+ Knots in U direction. Default is NIL, which indicates a uniform knot vector in U direction.
+
+
+
+
+\item [V-degree]
+\index{V-degree
+[redirected-surface]}\emph{Integer}
+
+ Degree of surface in V direction. Defaults to 3.
+
+
+
+
+\item [V-knot-vector]
+\index{V-knot-vector
+[redirected-surface]}\emph{List of Numbers}
+
+ Knots in V direction. Default is NIL, which indicates a uniform knot vector in V direction.
+
+
+
+
+\item [Weights]
+\index{Weights
+[redirected-surface]}\emph{List of lists of numbers}
+
+ A weight to match each control point. Should be congruent with control-points
+(i.e. same number of rows and columns). Default is a value of 1.0 for each weight, resulting in a nonrational surface.
+
+
+
+
+\end{description}
+
+
+
+
+
+
+
+\item \index{regioned-solid}
+\label{prim:regioned-solid}
+\textbf{regioned-solid}
+
+
+\textbf{
+\underline{Mixins:}} base-object
 
 
 
@@ -29028,13 +29818,13 @@ multiple solids. Defaults to a repeating (circular) list with keys:
 
 
 
-\item \index{REVOLVED-SURFACE}
+\item \index{revolved-surface}
 \label{prim:revolved-surface}
-\textbf{REVOLVED-SURFACE}
+\textbf{revolved-surface}
 
 
 \textbf{
-\underline{Mixins:}} BREP, SURFACE
+\underline{Mixins:}} brep, surface
 
 
 
@@ -29086,9 +29876,9 @@ a central axis and axis point.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for REVOLVED-SURFACE}
+\caption{Example Code for revolved-surface}
 
-\label{fig:example-code-REVOLVED-SURFACE}
+\label{fig:example-code-revolved-surface}
 
 \end{figure}
 
@@ -29097,9 +29887,9 @@ a central axis and axis point.
 \includegraphics[width=3in,height=3in]{../images/example-revolved-surface.pdf}
 \end{center}
 
-\caption{REVOLVED-SURFACE example}
+\caption{revolved-surface example}
 
-\label{fig:REVOLVED-SURFACE}
+\label{fig:revolved-surface}
 
 \end{figure}
 
@@ -29190,13 +29980,13 @@ box of this object should be located.
 
 
 
-\item \index{REVOLVED-SURFACES}
+\item \index{revolved-surfaces}
 \label{prim:revolved-surfaces}
-\textbf{REVOLVED-SURFACES}
+\textbf{revolved-surfaces}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -29262,9 +30052,9 @@ a central axis and axis point.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for REVOLVED-SURFACES}
+\caption{Example Code for revolved-surfaces}
 
-\label{fig:example-code-REVOLVED-SURFACES}
+\label{fig:example-code-revolved-surfaces}
 
 \end{figure}
 
@@ -29273,9 +30063,9 @@ a central axis and axis point.
 \includegraphics[width=3in,height=3in]{../images/example-revolved-surfaces.pdf}
 \end{center}
 
-\caption{REVOLVED-SURFACES example}
+\caption{revolved-surfaces example}
 
-\label{fig:REVOLVED-SURFACES}
+\label{fig:revolved-surfaces}
 
 \end{figure}
 
@@ -29365,13 +30155,13 @@ a central axis and axis point.
 
 
 
-\item \index{RULED-SURFACE}
+\item \index{ruled-surface}
 \label{prim:ruled-surface}
-\textbf{RULED-SURFACE}
+\textbf{ruled-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -29424,9 +30214,9 @@ Creates a surface between two NURBS curves.:
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for RULED-SURFACE}
+\caption{Example Code for ruled-surface}
 
-\label{fig:example-code-RULED-SURFACE}
+\label{fig:example-code-ruled-surface}
 
 \end{figure}
 
@@ -29435,9 +30225,9 @@ Creates a surface between two NURBS curves.:
 \includegraphics[width=3in,height=3in]{../images/example-ruled-surface.pdf}
 \end{center}
 
-\caption{RULED-SURFACE example}
+\caption{ruled-surface example}
 
-\label{fig:RULED-SURFACE}
+\label{fig:ruled-surface}
 
 \end{figure}
 
@@ -29497,13 +30287,13 @@ Creates a surface between two NURBS curves.:
 
 
 
-\item \index{SEPARATED-SOLID}
+\item \index{separated-solid}
 \label{prim:separated-solid}
-\textbf{SEPARATED-SOLID}
+\textbf{separated-solid}
 
 
 \textbf{
-\underline{Mixins:}} BOOLEAN-MERGE
+\underline{Mixins:}} boolean-merge, vanilla-mixin
 
 
 
@@ -29601,13 +30391,13 @@ repeated in order. Defaults to a list with keys:
 
 
 
-\item \index{SHELLED-SOLID}
+\item \index{shelled-solid}
 \label{prim:shelled-solid}
-\textbf{SHELLED-SOLID}
+\textbf{shelled-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -29686,13 +30476,13 @@ Defaults to (the adaptive-tolerance) of the input brep.
 
 
 
-\item \index{SPHERICAL-SURFACE}
+\item \index{spherical-surface}
 \label{prim:spherical-surface}
-\textbf{SPHERICAL-SURFACE}
+\textbf{spherical-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE, SPHERE
+\underline{Mixins:}} surface, sphere
 
 
 
@@ -29737,9 +30527,9 @@ created as spherical surfaces. BS Contact does not appear to have this problem.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SPHERICAL-SURFACE}
+\caption{Example Code for spherical-surface}
 
-\label{fig:example-code-SPHERICAL-SURFACE}
+\label{fig:example-code-spherical-surface}
 
 \end{figure}
 
@@ -29748,9 +30538,9 @@ created as spherical surfaces. BS Contact does not appear to have this problem.
 \includegraphics[width=3in,height=3in]{../images/example-spherical-surface.pdf}
 \end{center}
 
-\caption{SPHERICAL-SURFACE example}
+\caption{spherical-surface example}
 
-\label{fig:SPHERICAL-SURFACE}
+\label{fig:spherical-surface}
 
 \end{figure}
 
@@ -29781,13 +30571,13 @@ box of this object should be located.
 
 
 
-\item \index{SPIRAL-CURVE}
+\item \index{spiral-curve}
 \label{prim:spiral-curve}
-\textbf{SPIRAL-CURVE}
+\textbf{spiral-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -29909,13 +30699,13 @@ Defaults to the height divided by the tolerance-divisor.
 
 
 
-\item \index{SPLIT-SURFACE}
+\item \index{split-surface}
 \label{prim:split-surface}
-\textbf{SPLIT-SURFACE}
+\textbf{split-surface}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -29982,9 +30772,9 @@ will be used as the parameter.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SPLIT-SURFACE}
+\caption{Example Code for split-surface}
 
-\label{fig:example-code-SPLIT-SURFACE}
+\label{fig:example-code-split-surface}
 
 \end{figure}
 
@@ -29993,9 +30783,9 @@ will be used as the parameter.
 \includegraphics[width=3in,height=3in]{../images/example-split-surface.pdf}
 \end{center}
 
-\caption{SPLIT-SURFACE example}
+\caption{split-surface example}
 
-\label{fig:SPLIT-SURFACE}
+\label{fig:split-surface}
 
 \end{figure}
 
@@ -30114,13 +30904,13 @@ the given vector intersected with the surface.
 
 
 
-\item \index{STEP-READER}
+\item \index{step-reader}
 \label{prim:step-reader}
-\textbf{STEP-READER}
+\textbf{step-reader}
 
 
 \textbf{
-\underline{Mixins:}} BASE-OBJECT
+\underline{Mixins:}} base-object
 
 
 
@@ -30279,13 +31069,13 @@ If some trimmed surfaces or B-reps are blanked, they are grouped into a second, 
 
 
 
-\item \index{STITCHED-SOLID}
+\item \index{stitched-solid}
 \label{prim:stitched-solid}
-\textbf{STITCHED-SOLID}
+\textbf{stitched-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -30335,14 +31125,36 @@ Attempts to stitch together a list of
 
 
 
+\textbf{
+\underline{Input slots (optional):}}
 
-\item \index{SUBTRACTED-SOLID}
+\begin{description}
+
+\item [Tolerance]
+\index{Tolerance
+[stitched-solid]}\emph{Number}
+
+ The tolerance to use for creating the brep and for sewing. Larger number is looser tolerance
+and more likely to lead to success. Default is 0.0 which uses the SMLib defaults.
+
+
+
+
+\end{description}
+
+
+
+
+
+
+
+\item \index{subtracted-solid}
 \label{prim:subtracted-solid}
-\textbf{SUBTRACTED-SOLID}
+\textbf{subtracted-solid}
 
 
 \textbf{
-\underline{Mixins:}} BOOLEAN-MERGE
+\underline{Mixins:}} boolean-merge, vanilla-mixin
 
 
 
@@ -30368,13 +31180,13 @@ Given two brep solids, performs the subtract Boolean of the other-brep from the 
 
 
 
-\item \index{SURFACE}
+\item \index{surface}
 \label{prim:surface}
-\textbf{SURFACE}
+\textbf{surface}
 
 
 \textbf{
-\underline{Mixins:}} GEOMETRY-KERNEL-OBJECT-MIXIN, OUTLINE-SPECIALIZATION-MIXIN, BASE-OBJECT
+\underline{Mixins:}} geometry-kernel-object-mixin, outline-specialization-mixin, base-object
 
 
 
@@ -30688,12 +31500,51 @@ the v-knots, the u-degree, and the v-degree of the surface.
 
 
 
+\item [Curve-intersection-point]
+\index{Curve-intersection-point
+[surface]}\emph{Surface point}
+
+ Returns the first point of intersection between
+this surface and the curve given as an argument.
+
+
+
+
+\item [Curve-intersection-points]
+\index{Curve-intersection-points
+[surface]}\emph{List of Surface points}
+
+ Returns the point(s) of intersection between
+this surface and the curve given as an argument.
+
+
+
+
 \item [Domain]
 \index{Domain
 [surface]}\emph{Plist}
 
  Returns plist containing :min and :max indicating min and max UV points
 for parameter space for this surface.
+
+
+
+
+\item [Dropped-point]
+\index{Dropped-point
+[surface]}\emph{Surface point}
+
+ Returns the given 3D point dropped normally to this
+surface, as close as possible to the given 3D point.
+
+
+
+
+\item [Dropped-points]
+\index{Dropped-points
+[surface]}\emph{List of Surface points}
+
+ Returns the given 3D point dropped normally to this surface.
 
 
 
@@ -30705,6 +31556,26 @@ for parameter space for this surface.
 Returns a bbox object, answering xmin, ymin, zmin, xmax, ymax, and zmax,
 for a box containing the convex hull (i.e. the control points) of this
 surface and oriented according to the given \texttt{center} and \texttt{orientation}.
+
+
+
+
+\item [Maximum-distance-to-curve]
+\index{Maximum-distance-to-curve
+[surface]}\emph{Plist}
+
+ The returned plist contains information about the maximum
+distance from this surface to the curve given as the argument.
+
+
+
+
+\item [Maximum-distance-to-surface]
+\index{Maximum-distance-to-surface
+[surface]}\emph{Plist}
+
+ The returned plist contains information about the maximum
+distance from this surface to the surface given as the argument.
 
 
 
@@ -30848,13 +31719,13 @@ second Fundamental Principle Curvature.
 
 
 
-\item \index{SURFACE-KNOT-REDUCTION}
+\item \index{surface-knot-reduction}
 \label{prim:surface-knot-reduction}
-\textbf{SURFACE-KNOT-REDUCTION}
+\textbf{surface-knot-reduction}
 
 
 \textbf{
-\underline{Mixins:}} SURFACE
+\underline{Mixins:}} surface
 
 
 
@@ -30945,9 +31816,9 @@ This routine  removes  all  removable  knots  from a GDL surface.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SURFACE-KNOT-REDUCTION}
+\caption{Example Code for surface-knot-reduction}
 
-\label{fig:example-code-SURFACE-KNOT-REDUCTION}
+\label{fig:example-code-surface-knot-reduction}
 
 \end{figure}
 
@@ -30995,13 +31866,13 @@ This routine  removes  all  removable  knots  from a GDL surface.
 
 
 
-\item \index{SWEPT-SOLID}
+\item \index{swept-solid}
 \label{prim:swept-solid}
-\textbf{SWEPT-SOLID}
+\textbf{swept-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -31067,9 +31938,9 @@ to produce another brep.
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for SWEPT-SOLID}
+\caption{Example Code for swept-solid}
 
-\label{fig:example-code-SWEPT-SOLID}
+\label{fig:example-code-swept-solid}
 
 \end{figure}
 
@@ -31078,9 +31949,9 @@ to produce another brep.
 \includegraphics[width=3in,height=3in]{../images/example-swept-solid.pdf}
 \end{center}
 
-\caption{SWEPT-SOLID example}
+\caption{swept-solid example}
 
-\label{fig:SWEPT-SOLID}
+\label{fig:swept-solid}
 
 \end{figure}
 
@@ -31128,13 +31999,13 @@ to produce another brep.
 
 
 
-\item \index{TRANSFORMED-SOLID}
+\item \index{transformed-solid}
 \label{prim:transformed-solid}
-\textbf{TRANSFORMED-SOLID}
+\textbf{transformed-solid}
 
 
 \textbf{
-\underline{Mixins:}} BREP
+\underline{Mixins:}} brep
 
 
 
@@ -31265,13 +32136,13 @@ This primitive Translates, Orients, and optionally Scales a brep solid into anot
 
 
 
-\item \index{TRIMMED-CURVE}
+\item \index{trimmed-curve}
 \label{prim:trimmed-curve}
-\textbf{TRIMMED-CURVE}
+\textbf{trimmed-curve}
 
 
 \textbf{
-\underline{Mixins:}} CURVE
+\underline{Mixins:}} curve
 
 
 
@@ -31327,9 +32198,9 @@ Creates a curve based on an existing curve but possibly with new start and end p
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for TRIMMED-CURVE}
+\caption{Example Code for trimmed-curve}
 
-\label{fig:example-code-TRIMMED-CURVE}
+\label{fig:example-code-trimmed-curve}
 
 \end{figure}
 
@@ -31338,9 +32209,9 @@ Creates a curve based on an existing curve but possibly with new start and end p
 \includegraphics[width=3in,height=3in]{../images/example-trimmed-curve.pdf}
 \end{center}
 
-\caption{TRIMMED-CURVE example}
+\caption{trimmed-curve example}
 
-\label{fig:TRIMMED-CURVE}
+\label{fig:trimmed-curve}
 
 \end{figure}
 
@@ -31421,13 +32292,13 @@ Creates a curve based on an existing curve but possibly with new start and end p
 
 
 
-\item \index{TRIMMED-SURFACE}
+\item \index{trimmed-surface}
 \label{prim:trimmed-surface}
-\textbf{TRIMMED-SURFACE}
+\textbf{trimmed-surface}
 
 
 \textbf{
-\underline{Mixins:}} FACE
+\underline{Mixins:}} face
 
 
 
@@ -31521,9 +32392,9 @@ NOTE: the interface for this object is still under development so please stay ap
 \end{lrbox}
 \fbox{\usebox{\boxedverb}}
 
-\caption{Example Code for TRIMMED-SURFACE}
+\caption{Example Code for trimmed-surface}
 
-\label{fig:example-code-TRIMMED-SURFACE}
+\label{fig:example-code-trimmed-surface}
 
 \end{figure}
 
@@ -31532,9 +32403,9 @@ NOTE: the interface for this object is still under development so please stay ap
 \includegraphics[width=3in,height=3in]{../images/example-trimmed-surface.pdf}
 \end{center}
 
-\caption{TRIMMED-SURFACE example}
+\caption{trimmed-surface example}
 
-\label{fig:TRIMMED-SURFACE}
+\label{fig:trimmed-surface}
 
 \end{figure}
 
@@ -31668,13 +32539,13 @@ the \texttt{result-island} should return a non-NIL value while the \texttt{islan
 
 
 
-\item \index{UNITED-SOLID}
+\item \index{united-solid}
 \label{prim:united-solid}
-\textbf{UNITED-SOLID}
+\textbf{united-solid}
 
 
 \textbf{
-\underline{Mixins:}} BOOLEAN-MERGE
+\underline{Mixins:}} boolean-merge, vanilla-mixin
 
 
 
@@ -31700,13 +32571,13 @@ Given two brep solids, performs the union Boolean between the brep and the other
 
 
 
-\item \index{UV-ISO-CURVE}
+\item \index{uv-iso-curve}
 \label{prim:uv-iso-curve}
-\textbf{UV-ISO-CURVE}
+\textbf{uv-iso-curve}
 
 
 \textbf{
-\underline{Mixins:}} VANILLA-MIXIN
+\underline{Mixins:}} vanilla-mixin
 
 
 
@@ -31765,33 +32636,33 @@ Convenience object to return UV parameter values on surface.
 
 \begin{itemize}
 
-\item \index{GET-POINT-ON-CURVE}
+\item \index{get-point-on-curve}
 \label{prim:get-point-on-curve}
-\textbf{GET-POINT-ON-CURVE}
+\textbf{get-point-on-curve}
 
 
 
 
 
-\item \index{GET-POINT-ON-OTHER-CURVE}
+\item \index{get-point-on-other-curve}
 \label{prim:get-point-on-other-curve}
-\textbf{GET-POINT-ON-OTHER-CURVE}
+\textbf{get-point-on-other-curve}
 
 
 
 
 
-\item \index{GET-POINT-ON-SURFACE}
+\item \index{get-point-on-surface}
 \label{prim:get-point-on-surface}
-\textbf{GET-POINT-ON-SURFACE}
+\textbf{get-point-on-surface}
 
 
 
 
 
-\item \index{WITH-PINNED-VALUES}
+\item \index{with-pinned-values}
 \label{prim:with-pinned-values}
-\textbf{WITH-PINNED-VALUES [Macro]}
+\textbf{with-pinned-values [Macro]}
 
 
 
@@ -31809,201 +32680,201 @@ Convenience object to return UV parameter values on surface.
 
 \begin{itemize}
 
-\item \index{*3D-APPROXIMATION-TOLERANCE-DEFAULT*}
+\item \index{*3d-approximation-tolerance-default*}
 \label{prim:*3d-approximation-tolerance-default*}
-\textbf{*3D-APPROXIMATION-TOLERANCE-DEFAULT*}
+\textbf{*3d-approximation-tolerance-default*}
 
 
 
 
 
-\item \index{*3D-TOLERANCE-DEFAULT*}
+\item \index{*3d-tolerance-default*}
 \label{prim:*3d-tolerance-default*}
-\textbf{*3D-TOLERANCE-DEFAULT*}
+\textbf{*3d-tolerance-default*}
 
 
 
 
 
-\item \index{*ANGLE-TOLERANCE-RADIANS-DEFAULT*}
+\item \index{*angle-tolerance-radians-default*}
 \label{prim:*angle-tolerance-radians-default*}
-\textbf{*ANGLE-TOLERANCE-RADIANS-DEFAULT*}
+\textbf{*angle-tolerance-radians-default*}
 
 
 
 
 
-\item \index{*APPROXIMATION-TOLERANCE-FACTOR*}
+\item \index{*approximation-tolerance-factor*}
 \label{prim:*approximation-tolerance-factor*}
-\textbf{*APPROXIMATION-TOLERANCE-FACTOR*}
+\textbf{*approximation-tolerance-factor*}
 
 
 
 
 
-\item \index{*BOOLEAN-ALLOW-MULTIPLE-REGIONS?*}
+\item \index{*boolean-allow-multiple-regions?*}
 \label{prim:*boolean-allow-multiple-regions?*}
-\textbf{*BOOLEAN-ALLOW-MULTIPLE-REGIONS?*}
+\textbf{*boolean-allow-multiple-regions?*}
 
 
 
 
 
-\item \index{*BOOLEAN-ERROR-ON-INVALID-BREP?*}
+\item \index{*boolean-error-on-invalid-brep?*}
 \label{prim:*boolean-error-on-invalid-brep?*}
-\textbf{*BOOLEAN-ERROR-ON-INVALID-BREP?*}
+\textbf{*boolean-error-on-invalid-brep?*}
 
 
 
 
 
-\item \index{*BOOLEAN-OPERATION-TOLERANCE-DEFAULT*}
+\item \index{*boolean-operation-tolerance-default*}
 \label{prim:*boolean-operation-tolerance-default*}
-\textbf{*BOOLEAN-OPERATION-TOLERANCE-DEFAULT*}
+\textbf{*boolean-operation-tolerance-default*}
 
 
 
 
 
-\item \index{*BREP-ISOS-DEFAULT*}
+\item \index{*brep-isos-default*}
 \label{prim:*brep-isos-default*}
-\textbf{*BREP-ISOS-DEFAULT*}
+\textbf{*brep-isos-default*}
 
 
 
 
 
-\item \index{*BREP-TOLERANCE-DEFAULT*}
+\item \index{*brep-tolerance-default*}
 \label{prim:*brep-tolerance-default*}
-\textbf{*BREP-TOLERANCE-DEFAULT*}
+\textbf{*brep-tolerance-default*}
 
 
 
 
 
-\item \index{*CHAIN-BEZIERS-FOR-DISPLAY?*}
+\item \index{*chain-beziers-for-display?*}
 \label{prim:*chain-beziers-for-display?*}
-\textbf{*CHAIN-BEZIERS-FOR-DISPLAY?*}
+\textbf{*chain-beziers-for-display?*}
 
 
 
 
 
-\item \index{*CREASE-ANGLE-DEFAULT*}
+\item \index{*crease-angle-default*}
 \label{prim:*crease-angle-default*}
-\textbf{*CREASE-ANGLE-DEFAULT*}
+\textbf{*crease-angle-default*}
 
 
 
 
 
-\item \index{*DISPLAY-TOLERANCE*}
+\item \index{*display-tolerance*}
 \label{prim:*display-tolerance*}
-\textbf{*DISPLAY-TOLERANCE*}
+\textbf{*display-tolerance*}
 
 
 
 
 
-\item \index{*FINALIZE-LOFTED-SURFACES?*}
+\item \index{*finalize-lofted-surfaces?*}
 \label{prim:*finalize-lofted-surfaces?*}
-\textbf{*FINALIZE-LOFTED-SURFACES?*}
+\textbf{*finalize-lofted-surfaces?*}
 
 
 
 
 
-\item \index{*INCLUDE-VRML-NORMALS?*}
+\item \index{*include-vrml-normals?*}
 \label{prim:*include-vrml-normals?*}
-\textbf{*INCLUDE-VRML-NORMALS?*}
+\textbf{*include-vrml-normals?*}
 
 
 
 
 
-\item \index{*ISOS-DEFAULT*}
+\item \index{*isos-default*}
 \label{prim:*isos-default*}
-\textbf{*ISOS-DEFAULT*}
+\textbf{*isos-default*}
 
 
 
 
 
-\item \index{*OUTPUT-UNITS-DEFAULT*}
+\item \index{*output-units-default*}
 \label{prim:*output-units-default*}
-\textbf{*OUTPUT-UNITS-DEFAULT*}
+\textbf{*output-units-default*}
 
 
 
 
 
-\item \index{*SEPARATE-BREP-FACES-FOR-VRML?*}
+\item \index{*separate-brep-faces-for-vrml?*}
 \label{prim:*separate-brep-faces-for-vrml?*}
-\textbf{*SEPARATE-BREP-FACES-FOR-VRML?*}
+\textbf{*separate-brep-faces-for-vrml?*}
 
 
 
 
 
-\item \index{*TESS-MAX-3D-EDGE-FACTOR*}
+\item \index{*tess-max-3d-edge-factor*}
 \label{prim:*tess-max-3d-edge-factor*}
-\textbf{*TESS-MAX-3D-EDGE-FACTOR*}
+\textbf{*tess-max-3d-edge-factor*}
 
 
 
 
 
-\item \index{*TESS-MAX-ANGLE-DEGREES*}
+\item \index{*tess-max-angle-degrees*}
 \label{prim:*tess-max-angle-degrees*}
-\textbf{*TESS-MAX-ANGLE-DEGREES*}
+\textbf{*tess-max-angle-degrees*}
 
 
 
 
 
-\item \index{*TESS-MAX-ASPECT-RATIO*}
+\item \index{*tess-max-aspect-ratio*}
 \label{prim:*tess-max-aspect-ratio*}
-\textbf{*TESS-MAX-ASPECT-RATIO*}
+\textbf{*tess-max-aspect-ratio*}
 
 
 
 
 
-\item \index{*TESS-MAX-CHORD-HEIGHT*}
+\item \index{*tess-max-chord-height*}
 \label{prim:*tess-max-chord-height*}
-\textbf{*TESS-MAX-CHORD-HEIGHT*}
+\textbf{*tess-max-chord-height*}
 
 
 
 
 
-\item \index{*TESS-MIN-3D-EDGE*}
+\item \index{*tess-min-3d-edge*}
 \label{prim:*tess-min-3d-edge*}
-\textbf{*TESS-MIN-3D-EDGE*}
+\textbf{*tess-min-3d-edge*}
 
 
 
 
 
-\item \index{*TESS-MIN-EDGE-RATIO-UV*}
+\item \index{*tess-min-edge-ratio-uv*}
 \label{prim:*tess-min-edge-ratio-uv*}
-\textbf{*TESS-MIN-EDGE-RATIO-UV*}
+\textbf{*tess-min-edge-ratio-uv*}
 
 
 
 
 
-\item \index{*TESS-MIN-NUMBER-OF-SEGMENTS*}
+\item \index{*tess-min-number-of-segments*}
 \label{prim:*tess-min-number-of-segments*}
-\textbf{*TESS-MIN-NUMBER-OF-SEGMENTS*}
+\textbf{*tess-min-number-of-segments*}
 
 
 
 
 
-\item \index{*TESS-MIN-PARAMETRIC-RATIO*}
+\item \index{*tess-min-parametric-ratio*}
 \label{prim:*tess-min-parametric-ratio*}
-\textbf{*TESS-MIN-PARAMETRIC-RATIO*}
+\textbf{*tess-min-parametric-ratio*}
 
 
 
@@ -32015,7 +32886,7 @@ Convenience object to return UV parameter values on surface.
 
 
 
-\section{TASTY (Web-based Development Environment (tasty))}
+\section{tasty (Web-based Development Environment (tasty))}
 
 \label{sec:tasty(web-baseddevelopmentenvironment(tasty))}
 
@@ -32025,7 +32896,7 @@ Convenience object to return UV parameter values on surface.
 
 
 
-\section{TREE (Tree component used by Tasty and potentially as a UI component on its own)}
+\section{tree (Tree component used by Tasty and potentially as a UI component on its own)}
 
 \label{sec:tree(treecomponentusedbytastyandpotentiallyasauicomponentonitsown)}
 
@@ -32041,13 +32912,13 @@ Convenience object to return UV parameter values on surface.
 
 \begin{itemize}
 
-\item \index{NEWERTREE}
+\item \index{newertree}
 \label{prim:newertree}
-\textbf{NEWERTREE}
+\textbf{newertree}
 
 
 \textbf{
-\underline{Mixins:}} SHEET-SECTION
+\underline{Mixins:}} sheet-section
 
 
 
@@ -32138,13 +33009,13 @@ as flat lists. Any children which throw errors come back as a plist with error i
 
 
 
-\item \index{TREE}
+\item \index{tree}
 \label{prim:tree}
-\textbf{TREE}
+\textbf{tree}
 
 
 \textbf{
-\underline{Mixins:}} SHEET-SECTION, TREE-NODE-MIXIN
+\underline{Mixins:}} sheet-section, tree-node-mixin
 
 
 
@@ -32225,7 +33096,7 @@ String
 
 
 
-\section{YADD (Yet Another Definition Documenter (yadd))}
+\section{yadd (Yet Another Definition Documenter (yadd))}
 
 \label{sec:yadd(yetanotherdefinitiondocumenter(yadd))}
 
@@ -32241,13 +33112,13 @@ String
 
 \begin{itemize}
 
-\item \index{ASSEMBLY}
+\item \index{assembly}
 \label{prim:assembly}
-\textbf{ASSEMBLY}
+\textbf{assembly}
 
 
 \textbf{
-\underline{Mixins:}} BASE-YADD-SHEET
+\underline{Mixins:}} base-yadd-sheet
 
 
 
@@ -32414,13 +33285,13 @@ in the applicable lens for  html-format.
 
 
 
-\item \index{BASE-YADD-SHEET}
+\item \index{base-yadd-sheet}
 \label{prim:base-yadd-sheet}
-\textbf{BASE-YADD-SHEET}
+\textbf{base-yadd-sheet}
 
 
 \textbf{
-\underline{Mixins:}} BASE-AJAX-SHEET
+\underline{Mixins:}} base-ajax-sheet
 
 
 
@@ -32493,13 +33364,13 @@ link to a default CSS sheet. All these elements can be found in the
 
 
 
-\item \index{MASTER-INDEX}
+\item \index{master-index}
 \label{prim:master-index}
-\textbf{MASTER-INDEX}
+\textbf{master-index}
 
 
 \textbf{
-\underline{Mixins:}} BASE-YADD-SHEET
+\underline{Mixins:}} base-yadd-sheet
 
 
 
@@ -32599,13 +33470,13 @@ Default nil.
 
 
 
-\item \index{PACKAGE-DOKUMENTATION}
+\item \index{package-dokumentation}
 \label{prim:package-dokumentation}
-\textbf{PACKAGE-DOKUMENTATION}
+\textbf{package-dokumentation}
 
 
 \textbf{
-\underline{Mixins:}} BASE-YADD-SHEET
+\underline{Mixins:}} base-yadd-sheet
 
 
 
@@ -32804,13 +33675,13 @@ sequence.
 
 
 
-\item \index{PACKAGE-FORM}
+\item \index{package-form}
 \label{prim:package-form}
-\textbf{PACKAGE-FORM}
+\textbf{package-form}
 
 
 \textbf{
-\underline{Mixins:}} BASE-YADD-SHEET
+\underline{Mixins:}} base-yadd-sheet
 
 
 

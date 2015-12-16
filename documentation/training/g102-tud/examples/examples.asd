@@ -1,9 +1,9 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:examples :description
- "The Gendl\" examples Subsystem" :author "John McCarthy" :license
+ "The Gendl\" examples Subsystem" :author "Dave Cooper" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20150330" :depends-on (:gwl-graphics :surf)
+ :version "20151206" :depends-on (:gwl-graphics :surf)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
