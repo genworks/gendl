@@ -180,6 +180,7 @@
 			   (set-difference 
 			    (the-object (make-object mixin) message-list)
 			    (append
+			     (the-object (make-object mixin) (message-list :category :functions))
 			     (the-object (make-object mixin) (message-list :category :required-input-slots))
 			     (the-object (make-object mixin) (message-list :category :optional-input-slots))
 			     (the-object (make-object mixin) (message-list :category :settable-optional-input-slots))

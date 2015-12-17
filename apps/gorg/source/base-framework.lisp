@@ -1,29 +1,18 @@
 (in-package :glsite)
 
-;;
-;; FLAG -- this is built-in in gdl1587p006 and later. 
-;;
-
-(defun glisp:source-pathname ()
-  #+allegro excl:*source-pathname*
-  #+lispworks dspec:*source-pathname*
-  #+sbcl (error "need source-pathname in sbcl~%")
-  #+ccl ccl:*loading-file-source-file*
-  #+clisp (error "need source-pathname in ccl~%")
-  #+abcl (extensions:source-pathname)
-  )
-
 
 ;;
 ;; FLAG -- In a production environment (where source directory might
 ;; not be there) this parameter must be set at initialization/startup
 ;; time to the correct location.
 ;;
+(defparameter *system-home* (glisp:system-home :gorg))
+
 (defparameter *templates-folder* 
   (translate-logical-pathname
    (make-pathname :name nil :type nil
-		  :defaults (merge-pathnames "../static/templates/"
-					     (glisp:source-pathname)))))
+		  :defaults (merge-pathnames "static/templates/" *system-home*))))
+
 
 (defparameter *cache-static-content?* nil)
 ;;

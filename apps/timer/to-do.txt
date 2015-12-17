@@ -1,4 +1,7 @@
 
+
+0. Get it calling the right functions on page redisplay event. 
+
 1. Save snapshot on every modification and restore snap file for a
    user upon log-in or authentication.
 

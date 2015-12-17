@@ -76,7 +76,26 @@ nil "~a~a~a" (the :name-for-display)
    (color-hex (let ((color-symbol (getf (the display-controls) :color)))
                 (when color-symbol (if (eql (aref (format nil "~a" color-symbol) 0) #\#)
                                        color-symbol
-                                     (gethash color-symbol *color-table*))))))
+                                     (gethash color-symbol *color-table*)))))
+
+   
+
+   ("List of GDL Instances. All objects from the :objects specification, including elements of sequences
+ as flat lists. Any children which throw errors come back as a plist with error information"
+    safe-children (remove-if #'(lambda(obj) 
+                                 (and (typep obj 'vanilla-mixin) (the-object obj hidden?)))
+                             (mapcan #'(lambda (part-keyword)
+                                         (multiple-value-bind (part error)
+                                             (ignore-errors (the (evaluate part-keyword)))
+                                           (cond ((typep error 'error)
+                                                  (list (list :object-key part-keyword :error error)))
+                                                 (;;(typep part 'null-object)
+                                                  (the-object part null-part?)
+                                                  nil)
+                                                 ((typep part 'quantification)
+                                                  (copy-list (the-object part safe-list-elements)))
+                                                 (t (list part)))))
+                                     (the :%object-keywords%)))))
 
 
   :computed-slots
@@ -183,22 +202,7 @@ nil "~a~a~a" (the :name-for-display)
                                 (the :%object-keywords%))))
    
    
-   ("List of GDL Instances. All objects from the :objects specification, including elements of sequences
- as flat lists. Any children which throw errors come back as a plist with error information"
-    safe-children (remove-if #'(lambda(obj) 
-                                 (and (typep obj 'vanilla-mixin) (the-object obj hidden?)))
-                             (mapcan #'(lambda (part-keyword)
-                                         (multiple-value-bind (part error)
-                                             (ignore-errors (the (evaluate part-keyword)))
-                                           (cond ((typep error 'error)
-                                                  (list (list :object-key part-keyword :error error)))
-                                                 (;;(typep part 'null-object)
-                                                  (the-object part null-part?)
-                                                  nil)
-                                                 ((typep part 'quantification)
-                                                  (copy-list (the-object part safe-list-elements)))
-                                                 (t (list part)))))
-                                     (the :%object-keywords%))))
+   
    
    #+nil
    ("Boolean. T if this object has no children, NIL otherwise."
