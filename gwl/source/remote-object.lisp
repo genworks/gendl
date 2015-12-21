@@ -25,6 +25,7 @@
 
 (defparameter *send-plist* nil)
 (defparameter *make-object-plist* nil)
+(defparameter *fetch-plist* nil)
 
 
 (defun encode64-downcase (item)
@@ -93,14 +94,18 @@
     ;; FLAG -- *notify-cons* is going to be broken now... have to unmarshal/marshal from hash table. 
     ;;         hold off on doing this until we switch to an Abstract Associative Map. 
     ;;
-    (let ((encoded-args (encode64-downcase (encode-plist-args (list :message (make-keyword message)
-                                                                         :part-name (make-keyword part-name)
-                                                                         :child (encode-for-http child)
-                                                                         :notify-cons (encode-for-http gdl::*notify-cons*)
-                                                                         :args args
-                                                                         :remote-id (the remote-id)
-                                                                         :remote-root-path (the remote-root-path)
-                                                                         :package *package*)))))
+    (let* ((plist (encode-plist-args (list :message (make-keyword message)
+					   :part-name (make-keyword part-name)
+					   :child (encode-for-http child)
+					   :notify-cons (encode-for-http gdl::*notify-cons*)
+					   :args args
+					   :remote-id (the remote-id)
+					   :remote-root-path (the remote-root-path)
+					   :package *package*)))
+	   (encoded-args (encode64-downcase plist)))
+
+      (when *agile-debug?* (setq *fetch-plist* plist))
+      
 
       (multiple-value-bind 
           (result length)
