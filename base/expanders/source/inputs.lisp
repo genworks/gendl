@@ -21,9 +21,9 @@
 
 (in-package :gdl)
 
-(defun not-handled (object message)
+(defun not-handled (object message &optional args)
   (if *error-on-not-handled?*
-      (not-handled-error object message)
+      (not-handled-error object message args)
     'gdl-rule:%not-handled%))
       
 
@@ -98,7 +98,7 @@
 		  (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg)))))
 
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
-              (declare (ignore ,args-arg))
+              ;;(declare (ignore ,args-arg))
               (let ((*error-on-not-handled?* t))
                 (with-dependency-tracking (,attr-sym self)
                   (let ((,parent-arg (the-object self %parent%)))
@@ -114,7 +114,7 @@
 			      (gethash ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
 			      (,(glisp:intern (symbol-name attr-sym) :gdl-slots) ,parent-arg)
 			      (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))
-                            (t (not-handled self ,(make-keyword attr-sym))))))))))))) input-slots))
+                            (t (not-handled self ,(make-keyword attr-sym) ,args-arg)))))))))))) input-slots))
 
 (defun optional-input-slots-section (name input-slots &optional (defaulted? nil))
   (mapcan 

@@ -81,12 +81,12 @@ set of arms contained in the body which is contained in the robot which is conta
                                    (let ((,new-object (getf (gdl-slots::%parameters% ,object) 
                                                             (make-keyword ,message) 'gdl-rule:%not-handled%)))
                                      (if (eql ,new-object 'gdl-rule:%not-handled%)
-                                         (not-handled-error ,object ',message) ,new-object)))
+                                         (not-handled-error ,object ',message ',args) ,new-object)))
                               `(if (fboundp ',message) (,message ,object ,@args)
                                  (let ((,new-object (getf (gdl-slots::%parameters% ,object) 
                                                           ,(make-keyword message) 'gdl-rule:%not-handled%)))
                                    (if (eql ,new-object 'gdl-rule:%not-handled%)
-                                       (not-handled-error ,object ',message) ,new-object))))
+                                       (not-handled-error ,object ',message ',args) ,new-object))))
 			    (cond ((and evaluate? apply?)
 				   `(apply (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
                                            ,args))
@@ -111,13 +111,17 @@ This is often used for sending the <tt>index</tt> message to an element of a qua
   `(the-object child ,@reference-chain))
 
 
-(defun not-handled-error (object message)
-  (if (the-object object root?)
-      (error "~s, which is the root object, could not handle the ~s message." object (make-keyword message))
-    (error "Neither ~s nor any of its ancestor instances could handle the ~s message
+(defun not-handled-error (object message &optional args)
+      (if (the-object object root?)
+	  (error "~s, which is the root object, could not handle the ~s message~a." 
+		 object (make-keyword message)
+		 (if args (format nil "~%with args: ~s " args) ""))
+	  (error "Neither ~s nor any of its ancestor instances could handle the ~s message~a
 The path to the containing object is: ~s" 
-           object (make-keyword message) (append '(the :root) (symbols-as-keywords
-                                                               (reverse (the-object object :root-path)))))))
+		 object (make-keyword message) 
+		 (if args (format nil "~%with args: ~s " args) "")
+		 (append '(the :root) (symbols-as-keywords
+				       (reverse (the-object object :root-path)))))))
 
 (defmacro with-format ((format stream-or-file &rest args) &body body)
   "Void [Macro]. Used to establish an output format and a stream to which data is to be sent. This is the experimental

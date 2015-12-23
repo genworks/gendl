@@ -93,13 +93,13 @@
 	   `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
 				 nil (list (find-class 'gdl-basis)) nil)
 	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
-		(declare (ignore ,args-arg))
+		;;(declare (ignore ,args-arg))
 		(let ((,parent-arg (the-object ,self-arg %parent%)))
-		  (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword attr-sym))
+		  (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword attr-sym) ,args-arg)
 		      (let ((,val-arg (let (*error-on-not-handled?*)
 					(,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
 					  ,parent-arg (the-object ,self-arg :%name%) ,self-arg))))
-			(if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym)) ,val-arg)))))))))) 
+			(if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym) ,args-arg) ,val-arg)))))))))) 
    computed-slots))
 
 
