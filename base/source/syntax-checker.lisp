@@ -111,9 +111,9 @@
 	))))
 
 (defun check-functions (name form &optional (methods t))
-  ":functions|:methods grammar:
+  "Void. Checks :functions or :methods grammar according to following BNF:
 
-   <form>  = :functions|:methods (<token>*)
+   <form>  = :functions | :methods (<token>*)
    <token> = (<string>* <symbol> <behavior>+ <list> <body>)
    <behavior> = :cached | :cached-eql | :cached-= | :cached-eq | :cached-equal | :cached-equalp"
 
@@ -130,14 +130,11 @@
 		      (and (symbolp (first token))
 			   (or (listp (second token))
 			       (and (member (second token) behavior)
-				    (listp (third token))))
-			   )))))
-      
-	(check-form name form #'valid-token grammar)
-	))))
+				    (listp (third token)))))))))
+	(check-form name form #'valid-token grammar)))))
 
 (defun check-trickle-down-slots (name form)
-  ":functions|:methods grammar:
+  ":functions | :methods grammar:
 
    <form>  = :trickle-down-slots (<symbol>*)
 "

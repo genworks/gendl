@@ -68,8 +68,6 @@
 				(coerce (lookup-color (or color (format-slot foreground-color))) 'list)))
 	     (fill-color-decimal (coerce (lookup-color (getf (the display-controls) :fill-color)) 'list)))
       
-	(print-variables color color-decimal)
-
 	(apply #'pdf:set-rgb-stroke color-decimal)
 	(apply #'pdf:set-rgb-fill (or fill-color-decimal color-decimal))))
 

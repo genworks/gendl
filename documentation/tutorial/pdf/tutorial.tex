@@ -4542,46 +4542,6 @@ sequence.
 
 
 
-\section{crypt }
-
-\label{sec:crypt}
-
-
-
-
-
-
-
-\section{ent  Nicknames: Ent}
-
-\label{sec:entnicknames:ent}
-
-
-
-
-
-\subsection{Function and Macro Definitions}
-
-\label{subsec:functionandmacrodefinitions}
-
-
-
-\begin{itemize}
-
-\item \index{code-str}
-\label{prim:code-str}
-\textbf{code-str}
-
-
-
-
-
-\end{itemize}
-
-
-
-
-
 \section{enterprise }
 
 \label{sec:enterprise}
@@ -5106,6 +5066,16 @@ toplevel of the define-object form.
 
 
 
+\item [Safe-children]
+\index{Safe-children
+[vanilla-mixin*]}\emph{List of GDL Instances}
+
+ All objects from the :objects specification, including elements of sequences
+as flat lists. Any children which throw errors come back as a plist with error information
+
+
+
+
 \item [Strings-for-display]
 \index{Strings-for-display
 [vanilla-mixin*]}\emph{String or List of Strings}
@@ -5298,16 +5268,6 @@ the \texttt{follow-root-path} GDL function to return the actual instance.
 [vanilla-mixin*]}\emph{Boolean}
 
  T iff this part has NIL as its parent and therefore is the root node.
-
-
-
-
-\item [Safe-children]
-\index{Safe-children
-[vanilla-mixin*]}\emph{List of GDL Instances}
-
- All objects from the :objects specification, including elements of sequences
-as flat lists. Any children which throw errors come back as a plist with error information
 
 
 
@@ -7833,7 +7793,7 @@ makes sense for viewing it.
   
    :objects
    ((drawing :type 'two-viewed-drawing
-             :objects (list (the box) (the length-dim)))
+             :objects-to-draw (list (the box) (the length-dim)))
     
     (length-dim :type 'horizontal-dimension
                 :hidden? t
@@ -7846,7 +7806,7 @@ makes sense for viewing it.
 
  (define-object two-viewed-drawing (base-drawing)
    
-   :input-slots (objects)
+   :input-slots (objects-to-draw)
    
    :objects
   
@@ -7855,12 +7815,12 @@ makes sense for viewing it.
                :length (half (the length))
                :center (translate (the center)
                                   :rear (half (the-child length)))
-               :objects (the objects))
+               :objects (the objects-to-draw))
    
     (top-view :type 'base-view
               :projection-vector (getf *standard-views* :top)
               :length (* 0.30 (the length))
-              :objects (the objects))))
+              :objects (the objects-to-draw))))
 
    (generate-sample-drawing :objects 
     (the-object (make-object 'box-with-two-viewed-drawing) drawing top-view))

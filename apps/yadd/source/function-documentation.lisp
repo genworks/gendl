@@ -66,7 +66,11 @@
   :computed-slots
   ((strings-for-display (format nil "~a" (the symbol)))
    (doc-string (glisp:function-documentation (the symbol)))
-   (macro? (macro-function (the symbol))))
+   (macro? (macro-function (the symbol)))
+
+
+   (dom-body (progn (print-variables (the root-path)) `((:p ,(format nil "~a" (the section-plist))))))
+   )
 
   :functions
   ((write-html-sheet

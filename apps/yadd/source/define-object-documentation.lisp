@@ -281,7 +281,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                           (with-input-from-string (ss (the example-code)) 
                             (let ((*package* (find-package (second (read ss)))))
                               (intern (symbol-name (second (read ss))) *package*)))
-                        'null-part))
+			  'null-part))
    
    (vrml-view :type (if (the show-vrml?) 'web-drawing 'null-part)
               ;;:view-default (getf (the instance %renderer-info%) :view-default :trimetric)

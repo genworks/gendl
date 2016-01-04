@@ -548,7 +548,7 @@ if given, must be orthogonal to the first two.
 
 (defun unitize-vector (vector &key (epsilon *zero-epsilon*)) 
   "Unit Vector. Returns the normalized unit-length vector corresponding to <b>vector</b>.
-:arguments (vector \"3D Vector\"
+:arguments (vector \"3D Vector\")
 :&key ((espsilon *zero-epsilon*) \"Number. How close vector should be to 1.0 to be considered unit-length.\")"
 
   (when (and *zero-vector-checking?* (zero-vector? vector))

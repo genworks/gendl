@@ -315,28 +315,7 @@ loaderImg: '/static/gwl/tasty-unpix/loader.gif',loaderText: 'Narrowing Down...'}
     ()
     (mapcar #'(lambda(child)
 		(the-object child dom-subsections))
-	  (the children))
-
-    #+nil
-    (html (:html
-	    (:head
-	     (the default-header-content)
-	     (:title "The " (:princ (the strings-for-display-verbose)) " Package"))
-	    (:body
-	     (when *developing?* (html (:p (the (write-development-links)))))
-	     (:p (the (:write-back-link :display-string "Documentation Home")))
-	     (:p
-	      (:center (:h2 (:princ (the :title)))
-		       (when (package-nicknames (the :package-key))
-			 (html (:i
-				(format *html-stream* "a.k.a. ~{~:(~a~)~^, ~}"
-					(package-nicknames (the :package-key)))))))
-	      (mapc #'(lambda (child)
-			(the-object child (:write-documentation-links)))
-		    (the :children)))
-	     (:p (the (:write-back-link :display-string "Documentation Home")))
-	     (:p (the :write-footer))))))
-
+	  (the children)))
 
 
    ("Void. Prints to *html-stream* a bulleted list for each of the three categories of docs in the package."
