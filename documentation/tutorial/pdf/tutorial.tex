@@ -4482,7 +4482,14 @@ sequence.
 \label{prim:cl-patch}
 \textbf{cl-patch}
 
-
+(type nil intro 
+Traverses pathname in a manner identical to cl-lite, but only those
+files for which the source is newer than the corresponding fasl
+binary file (or for which the corresponding fasl binary file does
+not exist) will be loaded. Use this for incremental updates where
+the unmodified source files do not depend on the modified source
+files.
+)
 
 
 
@@ -5634,7 +5641,8 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:alist2plist}
 \textbf{alist2plist}
 
-
+(type Plist intro  Converts an assoc-list to a plist.
+ arguments (alist Assoc-List))
 
 
 
@@ -5642,7 +5650,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:always}
 \textbf{always}
 
-
+(type T intro
+  Always returns the value <tt>T</tt> regardless of <b>arg</b>.
+ arguments (arg Lisp object. Ignored))
 
 
 
@@ -5650,7 +5660,15 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:append-elements}
 \textbf{append-elements [Macro]}
 
-
+(type List of Objects [Macro] intro
+  Returns an appended list of <tt>expression</tt> from each element of an aggregate,
+with an optional filter.
+ arguments
+ (aggregate
+  GDL aggregate object. (e.g. from a <tt>:sequence (:size ..)</tt> <tt>:object</tt> specification).)
+ \&optional
+ (expression
+  Expression using <tt>the-element</tt>. Similar to a <tt>the-object</tt> reference, which should return a list.))
 
 
 
@@ -5658,7 +5676,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-computed-slots}
 \textbf{check-computed-slots}
 
-
+(type nil intro  computed-slots grammar: 
+<form>     = :computed-slots (<token>*)
+<token>    = <string> | (<string>* <symbol> <expression>+ <behavior>+)
+<behavior> = :settable | :uncached
+Also check for special case in which only strings without a symbol following.
+)
 
 
 
@@ -5666,7 +5689,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-documentation}
 \textbf{check-documentation}
 
-
+(type nil intro
+ plist containing keys :description :author :examples :date :version
+)
 
 
 
@@ -5674,7 +5699,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-floating-string}
 \textbf{check-floating-string}
 
-
+(type nil intro
+ check for special case in which documentation isn't followed by symbol spec
+)
 
 
 
@@ -5682,7 +5709,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-form}
 \textbf{check-form}
 
-
+(type nil intro
+ general function that, given a predicate, validates all tokens in a slot declaration form
+)
 
 
 
@@ -5690,7 +5719,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-functions}
 \textbf{check-functions}
 
-
+(type Void intro
+  Checks :functions or :methods grammar according to following BNF:
+<form>  = :functions | :methods (<token>*)
+<token> = (<string>* <symbol> <behavior>+ <list> <body>)
+<behavior> = :cached | :cached-eql | :cached-= | :cached-eq | :cached-equal | :cached-equalp
+)
 
 
 
@@ -5698,7 +5732,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-input-slots}
 \textbf{check-input-slots}
 
-
+(type nil intro  input-slots grammar: 
+<form>     = :input-slots (<token>*)
+<token>    = <string> | <symbol> | (<string>* <symbol> <expression>+ <behavior>*)
+<behavior> = :settable | :defaulting
+Also check for special case in which only strings without a symbol following.
+)
 
 
 
@@ -5706,7 +5745,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-objects}
 \textbf{check-objects}
 
-
+(type nil intro  (hidden-) grammar: 
+<form>  = (hidden-):objects (<token>*)
+<token> = (<string>* <symbol> <rule>*)
+<rule>  = <keyword> <expression>
+)
 
 
 
@@ -5714,7 +5757,8 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-query-slots}
 \textbf{check-query-slots}
 
-
+(type nil intro unknown what is is
+)
 
 
 
@@ -5722,7 +5766,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:check-trickle-down-slots}
 \textbf{check-trickle-down-slots}
 
-
+(type nil intro  functions | :methods grammar: 
+<form>  = :trickle-down-slots (<symbol>*)
+)
 
 
 
@@ -5730,7 +5776,42 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:cl-lite}
 \textbf{cl-lite}
 
-
+(type nil intro
+ Traverses pathname in an alphabetical depth-first order, compiling
+and loading any lisp files found in source/ subdirectories. A lisp
+source file will only be compiled if it is newer than the
+corresponding compiled fasl binary file, or if the corresponding
+compiled fasl binary file does not exist. A bin/source/ will be
+created, as a sibling to each source/ subdirectory, to contain the
+compiled fasl files.
+If the :create-fasl? keyword argument is specified as non-nil, a
+concatenated fasl file, named after the last directory component of
+pathname, will be created in the (glisp:temporary-directory).
+[Note: this new documentation still needs proper formatting]
+If the :create-asd-file? keyword argument is specified as non-nil,
+a .asd file suitable for use with ASDF will be emitted into the
+directory indicated by the pathname argument. Note that
+ ASDF (Another System Definition Utility), possibly with help of 
+Quicklisp, is (as of 2013-03-12) the recommended way for handling
+Common Lisp system modules. As of version 2.31.9, ASDF is also
+capable of generating fasl "bundle" files as with
+the :create-fasl? argument to cl-lite.
+For the :author, :version, and :license arguments in the generated
+.asd file, the files author.isc, version.isc, and license.isc,
+respectively, are consulted, if they exist. They are searched for
+first in the codebase toplevel directory (the pathname argument to
+this function), then in the (user-homedir-pathname). The version
+defaults to the current ISO-8601 date without dashes,
+e.g. "20130312".
+Please see the Genworks Documentation for an overview of Quicklisp
+and ASDF, and see the Quicklisp and ASDF project documentation for
+detailed information. The source code for Quicklisp and ASDF should
+also be included with your Gendl distribution, and these are
+typically loaded by default into the development environment.
+For additional inputs to the cl-lite function, please see
+codebase-directory-node object for additional inputs (which can be
+given as keyword args to this function).
+)
 
 
 
@@ -5738,7 +5819,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:cyclic-nth}
 \textbf{cyclic-nth}
 
-
+(type Lisp object intro
+  Returns nth from the list, or wraps around if nth is greater than the length of the list.
+)
 
 
 
@@ -5746,7 +5829,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:defaulting}
 \textbf{defaulting [Macro]}
 
-
+(type Lisp object intro
+  Returns a default value if the reference-chain is not handled.
+ arguments
+ (form Reference-chain with the or the-object default
+  Lisp expression. Default value to return if reference-chain cannot be handled.))
 
 
 
@@ -5754,7 +5841,15 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:define-format}
 \textbf{define-format [Macro]}
 
-
+(type Standard-class [Macro] intro
+  Defines a standard GDL output format for use with GDL views.
+ arguments (name Symbol. mixin-list List of symbols.) \&key
+ (documentation Plist containing keys and strings for author, description, etc.
+                slots
+                List of lists or symbols. If a list, the list should contain a symbol, a default value, and optionally a documentation string. If
+a symbol, this is the name of the slot and there will be no default value.
+                functions
+                List of format-function definitions. Each definition is made up of a symbol, an argument-list, and a body.))
 
 
 
@@ -5762,7 +5857,17 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:define-lens}
 \textbf{define-lens [Macro]}
 
-
+(type Void [Macro] intro
+  Defines output-functions for the combination of the given output-format and GDL object.
+ arguments
+ (format-and-object
+  List of two symbols. The first should name an output-format previously 
+defined with <tt>define-format</tt>, and the second should name a GDL object previously defined with <tt>define-object</tt>.
+  mixin-list
+  NIL. This is not supported and should be left as NIL or an empty list for now.)
+ \&key
+ ((skin t)
+  Name of a skin defined with define-skin. This allows a class hierarchy of look and feel for each view combination. Defaults to T, a generic skin.))
 
 
 
@@ -5770,7 +5875,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:define-object}
 \textbf{define-object [Macro]}
 
-
+(type Defines a standard GDL object intro
+  Please see the document USAGE.TXT for an
+overview of <tt>define-object</tt> syntax.
+)
 
 
 
@@ -5778,7 +5886,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:define-object-amendment}
 \textbf{define-object-amendment [Macro]}
 
-
+(type Supplements or alters an existing GDL object definition intro
+  Syntax is similar to that for <tt>define-object</tt>.
+Note that there is currently no way to undefine messages defined with this macro, other than redefining the
+original object or restarting the GDL session. Support for surgically removing messages will be added in a
+future GenDL release.
+)
 
 
 
@@ -5786,7 +5899,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:div}
 \textbf{div}
 
-
+(type Floating-point number intro
+  Divides using rational division and converts the result (which may be a pure rational number)
+to a floating-point number.
+ arguments (numerator Number. denominator Number.) \&optional
+ (more-denominators (\&rest). More numbers to divide by.))
 
 
 
@@ -5794,7 +5911,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:ensure-list}
 \textbf{ensure-list}
 
-
+(type List intro
+  If argument is not list, returns it in a list. If argument is
+a list, returns it unchanged.
+ arguments (possible-list Lisp object))
 
 
 
@@ -5802,7 +5922,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:find-dependants}
 \textbf{find-dependants}
 
-
+(type List of pairs of instance/keyword intro
+  Synonymous with find-messages-used-by.
+)
 
 
 
@@ -5810,7 +5932,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:find-dependencies}
 \textbf{find-dependencies}
 
-
+(type List of pairs of instance/keyword intro
+  Synonymous with find-messages-which-use.
+)
 
 
 
@@ -5818,7 +5942,13 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:find-messages-used-by}
 \textbf{find-messages-used-by}
 
-
+(type List of pairs of instance/keyword intro
+  This returns the list of direct dependants of a given
+message in a given instance. Note that this is not recursive; if you want to generate a tree,
+then you have to call this recursively yourself.
+If you want an easy way to remember the meaning of dependant and dependency:
+You have a dependency on caffeine. Your children are your dependants.
+)
 
 
 
@@ -5826,7 +5956,13 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:find-messages-which-use}
 \textbf{find-messages-which-use}
 
-
+(type List of pairs of instance/keyword intro
+  This returns the list of direct dependencies of a given
+message in a given instance. Note that this is not recursive; if you want to generate a tree,
+then you have to call this recursively yourself.
+If you want an easy way to remember the meaning of dependant and dependency:
+You have a dependency on caffeine. Your children are your dependants.
+)
 
 
 
@@ -5834,7 +5970,20 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:flatten}
 \textbf{flatten}
 
-
+(type List intro
+  Returns a new list consisting of only the leaf-level atoms from <b>list</b>.
+Since nil is technically a list, <tt>flatten</tt> also has the effect of removing
+nils from <b>list</b>, but may be inefficient if used only for this purpose. For
+removing nil values from a list, consider using <tt>remove nil ...</tt> instead.
+ note from On Lisp by Paul Graham, code as follows: 
+  <pre>
+  (if (atom tree)
+      (ensure-list tree)
+    (nconc (flatten (car tree))
+           (if (cdr tree) (flatten (cdr tree)))))
+</pre>
+ arguments (list List) see-also <tt>remove</tt> 
+)
 
 
 
@@ -5842,7 +5991,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:format-slot}
 \textbf{format-slot [Macro]}
 
-
+(type Lisp object [Macro] intro
+  Returns the value of the given slot within the context of the current
+<tt>with-format</tt> output format object.
+ arguments (slot-name Symbol.))
 
 
 
@@ -5850,7 +6002,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:fround-to-nearest}
 \textbf{fround-to-nearest}
 
-
+(type Number intro  Rounds <b>number</b> to the nearest <b>interval</b>,
+using type contagion rules for floating-point similar to the
+CL "fround" function.
+ arguments (number Number interval Number))
 
 
 
@@ -5858,7 +6013,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:half}
 \textbf{half}
 
-
+(type Number intro
+  Returns the result of dividing <b>num</b> by the integer <tt>2</tt>.
+The type of the returned number will depend on the type of <b>num</b>.
+ arguments (num Number))
 
 
 
@@ -5866,7 +6024,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:ignore-errors-with-backtrace}
 \textbf{ignore-errors-with-backtrace [Macro]}
 
-
+(type
+ Like IGNORE-ERRORS, but in case of failure, return backtrace string as third value
+ intro .
+)
 
 
 
@@ -5874,7 +6035,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:index-filter}
 \textbf{index-filter}
 
-
+(type List intro
+  Returns all elements of <b>list</b> for whose index (starting at zero) the
+function <b>fn</b> returns non-NIL.
+ arguments (fn Function object (e.g. a lambda expression) list List))
 
 
 
@@ -5882,7 +6046,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:iso-8601-date}
 \textbf{iso-8601-date}
 
-
+(type String intro
+  Returns the ISO8601 formatted date and possibly time from a
+Common Lisp universal time integer, e.g. 2007-11-30 or
+2007-11-30T13:45:10
+)
 
 
 
@@ -5890,7 +6058,8 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:lastcar}
 \textbf{lastcar}
 
-
+(type Lisp Object intro  Returns the last element of <b>list</b>.
+ arguments (list List))
 
 
 
@@ -5898,7 +6067,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:least}
 \textbf{least}
 
-
+(type List intro
+  Returns the member of <b>list</b> which returns the minimum numerical value
+when <b>function</b> is applied to it. As second value is returned which is the
+actual minimum value (the return-value of <b>function</b> as applied). This function
+comes from the Paul Graham book <u>ANSI Common Lisp</u>.
+ arguments (function Function list List))
 
 
 
@@ -5906,7 +6080,19 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:list-elements}
 \textbf{list-elements [Macro]}
 
-
+(type List of GDL Objects [Macro] intro
+  Returns a listing of the elements of an aggregate,
+with an optional <tt>the-element</tt> expression and filter. If an expression is given,
+the list of results from the expressions is returned. If no expression is given, a list
+of the objects themselves is returned.
+ arguments
+ (aggregate
+  GDL aggregate object. (e.g. from a <tt>:sequence (:size ..)</tt> <tt>:object</tt> specification).)
+ \&optional
+ (expression
+  Expression using <tt>the-element</tt>. Similar to a <tt>the-object</tt> reference.
+  filter
+  Function of one argument. Can be used to filter the result list.))
 
 
 
@@ -5914,7 +6100,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:list-of-n-numbers}
 \textbf{list-of-n-numbers}
 
-
+(type
+ Returns a list of n numbers equally spaced between bounds num1 and num2, inclusive
+ intro .
+)
 
 
 
@@ -5922,7 +6111,15 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:list-of-numbers}
 \textbf{list-of-numbers}
 
-
+(type List of Numbers intro
+  Returns a list of incrementing numbers starting
+from <b>num1</b> and ending with <b>num2</b>, inclusive. Increment can
+be positive for num1 < num2, or negative for num1 > num2. This version
+was contributed by Reinier van Dijk.
+ arguments (num1 Number num2 Number) \&optional
+ ((increment 1)
+  Number. The distance between the returned listed numbers.
+  (tolerance (/ increment 10)) Number. tolerance for increment.))
 
 
 
@@ -5930,7 +6127,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:load-quicklisp}
 \textbf{load-quicklisp}
 
-
+(type Void intro
+  This is intended for pre-built Gendl or GDL images. If the
+preconfigured quicklisp load file exists, load it. You can customize
+quicklisp location by setting global *quicklisp-home* or passing :path
+keyword argument to this function.
+ \&key ((path *quicklisp-home*) Pathname or string. Quicklisp location.))
 
 
 
@@ -5938,7 +6140,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:make-keyword}
 \textbf{make-keyword}
 
-
+(type Keyword symbol intro  Converts given strings to a keyword.
+If any of the given arguments is not a string, it will be converted to one with
+(format nil "~a" string).
+ arguments (strings \&rest Strings))
 
 
 
@@ -5946,7 +6151,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:make-object}
 \textbf{make-object}
 
-
+(type GDL Object intro
+  Instantiates an object with specified initial values for input-slots.
+ arguments
+ (object-name Symbol. Should name a GDL object type. arguments
+  spliced-in plist. A plist of keyword symbols and values for initial <tt>input-slots</tt>.))
 
 
 
@@ -5954,7 +6163,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:mapsend}
 \textbf{mapsend}
 
-
+(type List intro
+  Returns a new list which is the result of sending <b>message</b> to each GDL
+object in <b>object-list</b>.
+ arguments (object-list List of GDL objects. message Keyword symbol.))
 
 
 
@@ -5962,7 +6174,21 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:maptree}
 \textbf{maptree}
 
-
+(type List intro
+  Returns the results of applying <b>fn</b> to each GDL object in the object
+tree rooted at <b>node</b> in a ``depth-first'' tree traversal.
+ arguments
+ (node GDL object fn
+  Function. Operates on a single argument which is a GDL object)
+ \&optional
+ ((accept? \#'always)
+  Function. Determines which nodes to accept in the final result
+  (prune? \#'never)
+  Function. Determines which nodes to prune from the tree traversal
+  (get-children children)
+  Keyword symbol :children or Function. Function applied to
+a given node to get its children. The default, keyword symbol :children, uses the node's normal
+children as returned by (the-object node children).))
 
 
 
@@ -5970,7 +6196,15 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:max-of-elements}
 \textbf{max-of-elements [Macro]}
 
-
+(type Number [Macro] intro
+  Returns the maximum of <tt>expression</tt> from each element of an aggregate,
+with an optional filter.
+ arguments
+ (aggregate
+  GDL aggregate object. (e.g. from a <tt>:sequence (:size ..)</tt> <tt>:object</tt> specification).)
+ \&optional
+ (expression
+  Expression using <tt>the-element</tt>. Similar to a <tt>the-object</tt> reference, which should return a number.))
 
 
 
@@ -5978,7 +6212,15 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:min-of-elements}
 \textbf{min-of-elements [Macro]}
 
-
+(type Number [Macro] intro
+  Returns the minimum of <tt>expression</tt> from each element of an aggregate,
+with an optional filter.
+ arguments
+ (aggregate
+  GDL aggregate object. (e.g. from a <tt>:sequence (:size ..)</tt> <tt>:object</tt> specification).)
+ \&optional
+ (expression
+  Expression using <tt>the-element</tt>. Similar to a <tt>the-object</tt> reference, which should return a number.))
 
 
 
@@ -5986,7 +6228,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:most}
 \textbf{most}
 
-
+(type List intro
+  Returns the member of <b>list</b> which returns the maximum numerical value
+when <b>function</b> is applied to it. As second value is returned which is the
+actual maximum value (the return-value of <b>function</b> as applied). This function
+comes from the Paul Graham book <u>ANSI Common Lisp</u>.
+ arguments (function Function list List))
 
 
 
@@ -5994,7 +6241,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:near-to?}
 \textbf{near-to?}
 
-
+(type Boolean intro  Predicate to test if number is within tolerance of
+<b>near-to</b>. The default tolerance is the value of the parameter
+<tt>*zero-epsilon*</tt>.
+ arguments (number Number near-to Number) \&optional
+ ((tolerance *zero-epsilon*) Number))
 
 
 
@@ -6002,7 +6253,13 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:near-zero?}
 \textbf{near-zero?}
 
-
+(type Boolean intro
+  Returns non-NIL iff <b>number</b> is greater than <b>tolerance</b> different
+from zero.
+ arguments (number Number) \&optional
+ ((tolerance *zero-epsilon*) Number) see-also
+ <tt>zerop</tt> (Common Lisp function) 
+)
 
 
 
@@ -6010,7 +6267,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:never}
 \textbf{never}
 
-
+(type NIL intro
+  Always returns the value <tt>NIL</tt> regardless of <b>arg</b>.
+ arguments (arg Lisp object. Ignored))
 
 
 
@@ -6018,7 +6277,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:number-format}
 \textbf{number-format}
 
-
+(type String intro
+  Returns a string displaying <b>number</b> rounded to <b>decimal-places</b> decimal places.
+ arguments (number Number decimal-places Integer))
 
 
 
@@ -6026,7 +6287,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:number-round}
 \textbf{number-round}
 
-
+(type Number intro
+  Returns <b>number</b> rounded to <b>decimal-places</b> decimal places.
+ arguments (number Number decimal-places Integer))
 
 
 
@@ -6034,7 +6297,8 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:plist-keys}
 \textbf{plist-keys}
 
-
+(type List of keyword symbols intro  Returns the keys from a plist.
+ arguments (plist Plist))
 
 
 
@@ -6042,7 +6306,8 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:plist-values}
 \textbf{plist-values}
 
-
+(type List of Lisp objects intro  Returns the values from a plist.
+ arguments (plist Plist))
 
 
 
@@ -6050,7 +6315,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:print-messages}
 \textbf{print-messages [Macro]}
 
-
+(type [Macro] Void intro
+  Prints the specified GDL object messages (i.e. slots) and their current values to standard output.
+ arguments (vars unquoted symbols (\&rest argument)))
 
 
 
@@ -6058,7 +6325,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:print-variables}
 \textbf{print-variables [Macro]}
 
-
+(type [Macro] Void intro
+  Prints the specified variables and current values to standard output.
+ arguments (vars unquoted symbols (\&rest argument)))
 
 
 
@@ -6066,7 +6335,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:query-collect}
 \textbf{query-collect}
 
-
+(type List of row objects intro
+  Returns all the rows from a query, or if a key is given, returns the values from the column named with the key.
+ \&optional
+ (key
+  Keyword symbol. If given, the values from this named column will be returned, rather than the entire row objects.))
 
 
 
@@ -6074,7 +6347,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:read-safe-string}
 \textbf{read-safe-string}
 
-
+(type Lisp object intro
+  Reads an item from string, protecting against lisp evaluation with
+the `\#.' reader macro. Throws an error if evaluation would have occured.
+ arguments (string string))
 
 
 
@@ -6082,7 +6358,26 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:read-snapshot}
 \textbf{read-snapshot}
 
-
+(type GDL Instance intro
+  Reads the snapshot data from stream, from the string,
+or from file indicated by filename. If no optional keyword
+<tt>object</tt> argument is given, a new GDL instance based on the
+data in the snapshot file is returned. If an <tt>object</tt> is given,
+the object should be compatible in type to that specified in the
+snapshot file, and this existing object will be modified to contain
+the set slot values and toplevel inputs as specified in the snapshot
+file.
+ \&key
+ ((filename /tmp/snap.gdl)
+  String or pathname. File to be read. If either string or stream is specified, this will not be used.
+  (string nil)
+  String of data. The actual snapshot contents, stored in a string. If stream is specified, this will not be used.
+  (stream nil)
+  Stream open for input. A stream from which the snapshot data can be read.
+  (keep-bashed-values? nil)
+  Boolean. Indicates whether to keep the currently bashed values in object before reading snap values into it.
+  (object nil)
+  GDL object. Existing object to be modified with restored values.))
 
 
 
@@ -6090,7 +6385,17 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:remove-plist-entry}
 \textbf{remove-plist-entry}
 
-
+(type Plist intro
+  Returns a new plist sans any key/value pairs where the plist key is eql to the given key.
+Optionally a different test than \#'eql can be specified with the :test keyword argument.
+ arguments
+ (plist Plist. The source plist. key
+  matching key, typically a keyword symbol. The key to target for removal.)
+ \&key
+ ((test \#'eql)
+  predicate equality function taking two arguments. The function to use for matching.)
+ examples (remove-plist-entry (list :a "a" :b :a) :a) 
+)
 
 
 
@@ -6098,7 +6403,8 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:round-to-nearest}
 \textbf{round-to-nearest}
 
-
+(type Number intro  Rounds <b>number</b> to the nearest <b>interval</b>.
+ arguments (number Number interval Number))
 
 
 
@@ -6106,7 +6412,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:safe-float}
 \textbf{safe-float}
 
-
+(type Double-float Number intro
+  Coerces <b>number</b> to a double-precision floating-point
+number if possible. If this is not possible, returns <tt>0.0d0</tt> (i.e. zero in the form
+of a double-precision floating-point number).
+ arguments (number Number))
 
 
 
@@ -6114,7 +6424,12 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:safe-sort}
 \textbf{safe-sort}
 
-
+(type List intro
+  Nondestructive analog of the Common Lisp <tt>sort</tt> function.
+Returns a freshly created list.
+ arguments (list List. The list to be sorted.) \&rest
+ (args
+  Argument list. Identical to the arguments for Common Lisp <tt>sort</tt>.))
 
 
 
@@ -6122,7 +6437,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:set-format-slot}
 \textbf{set-format-slot [Macro]}
 
-
+(type Void [Macro] intro
+  Sets the value of the given slot within the context of the current
+<tt>with-format</tt> output format object.
+ arguments (slot-name Symbol. value Lisp Value))
 
 
 
@@ -6130,7 +6448,16 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:split}
 \textbf{split}
 
-
+(type List of Strings intro
+  Returns a list containing the elements of <b>string</b> after having
+been split according to <b>split-chars</b> as delimiting characters.
+ arguments (string String) \&optional
+ ((split-chars
+   (list   
+  	))
+  List of characters)
+ see-also <tt>glisp:split-regexp</tt> 
+)
 
 
 
@@ -6138,7 +6465,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:status-message}
 \textbf{status-message}
 
-
+(type NIL intro
+  Prints <b>string</b>, followed by a newline, to <tt>*trace-output*</tt>,
+which is generally the system console.
+ arguments (string String))
 
 
 
@@ -6146,7 +6476,9 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:string-append}
 \textbf{string-append}
 
-
+(type String intro
+  Returns a new string made up of concatenating the arguments.
+ arguments (\&rest (args strings)))
 
 
 
@@ -6154,7 +6486,15 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:sum-elements}
 \textbf{sum-elements [Macro]}
 
-
+(type Number [Macro] intro
+  Returns the sum of <tt>expression</tt> from each element of an aggregate,
+with an optional filter.
+ arguments
+ (aggregate
+  GDL aggregate object. (e.g. from a <tt>:sequence (:size ..)</tt> <tt>:object</tt> specification).)
+ \&optional
+ (expression
+  Expression using <tt>the-element</tt>. Similar to a <tt>the-object</tt> reference, which should return a number.))
 
 
 
@@ -6162,7 +6502,23 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:the}
 \textbf{the [Macro]}
 
-
+(type Lisp object intro
+  Sends the <tt>reference-chain</tt> to <tt>self</tt>, which typically means it is
+used within the context of a define-object where self is automatically lexically bound.
+ arguments
+ (reference-chain
+  (\&rest). A spliced-in list of symbols naming messages, which can 
+be slots or objects starting from <tt>self</tt>. For referring to elements of a quantified set,
+or for passing arguments to GDL functions which take arguments, use parentheses around the
+message name and enclose the quantified element index or function arguments after the message
+name.)
+ example 
+This example sends the <tt>length</tt> message to the ``zeroth'' element of the quantified
+set of arms contained in the body which is contained in the robot which is contained in self:
+<pre>
+ (the robot body (arms 0) length)
+</pre>
+)
 
 
 
@@ -6170,7 +6526,13 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:the-child}
 \textbf{the-child [Macro]}
 
-
+(type
+ similar to ``the,'' but used to refer to the child part from within an :objects or :hidden-objects specification
+ intro .
+This is often used for sending the <tt>index</tt> message to an element of a quantified set.
+ arguments
+ (reference-chain
+  (\&rest). A spliced-in list of symbols naming messages relative to the child object.))
 
 
 
@@ -6178,7 +6540,13 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:the-element}
 \textbf{the-element [Macro]}
 
-
+(type Lisp Object [Macro] intro
+  Acts similarly to <tt>the-object</tt> for each element of an aggregate,
+within the context of a <tt>list-elements</tt>, <tt>append-elements</tt>, <tt>max-of-elements</tt>,
+<tt>min-of-elements</tt>, <tt>sum-elements</tt>, or a query operator (query operators are not
+yet documented).
+ arguments
+ (args (\&rest). Standard reference chain applicable to the element.))
 
 
 
@@ -6186,7 +6554,23 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:the-object}
 \textbf{the-object [Macro]}
 
-
+(type Lisp object intro
+  Sends the <tt>reference-chain</tt> to <tt>object</tt>, which must be specified
+as a Lisp expression (e.g. a variable) which evaluates to a GDL object.
+ arguments
+ (reference-chain
+  (\&rest). A spliced-in list of symbols naming messages, which can 
+be slots or objects starting from <tt>object</tt>. For referring to elements of a quantified set,
+or for passing arguments to GDL functions which take arguments, use parentheses around the
+message name and enclose the quantified element index or function arguments after the message
+name.)
+ example 
+This example sends the <tt>length</tt> message to the ``zeroth'' element of the quantified
+set of arms contained in the body which is contained in the robot which is contained in <tt>object</tt>:
+<pre>
+ (the-object object robot body (arms 0) length)
+</pre>
+)
 
 
 
@@ -6194,7 +6578,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:twice}
 \textbf{twice}
 
-
+(type Number intro
+  Returns the result of multiplying <b>num</b> by the integer <tt>2</tt>.
+The type of the returned number will depend on the type of <b>num</b>.
+ arguments (num Number))
 
 
 
@@ -6202,7 +6589,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:undefine-object}
 \textbf{undefine-object}
 
-
+(type NIL intro
+  Clears all definitions associated with <b>object-name</b> from the
+currently running GDL session.
+ arguments (object-name Non-keyword Symbol naming a GDL object type))
 
 
 
@@ -6210,7 +6600,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:universal-time-from-iso-8601}
 \textbf{universal-time-from-iso-8601}
 
-
+(type Integer representing Common Lisp Universal Time intro
+  Returns the universal time from a date formatted as
+an iso-8601 date, optionally with time, e.g. 2012-07-08 or 2012-07-08T13:33 or 2012-07-08T13:33:00
+)
 
 
 
@@ -6218,7 +6611,14 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:with-error-handling}
 \textbf{with-error-handling [Macro]}
 
-
+(type [Macro] intro
+  Wraps the <b>body</b> of code with error-trapping and system timeout.
+A warning is given if an error condition occurs with <b>body</b>.
+ \&key
+ ((timeout 2) Timeout in Seconds. timeout-body
+  Body of code to evaluate if timeout occurs.
+Default is to print a warning and return nil.)
+ \&rest (body Body of code to be wrapped))
 
 
 
@@ -6226,7 +6626,15 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:with-format}
 \textbf{with-format [Macro]}
 
-
+(type Void [Macro] intro
+  Used to establish an output format and a stream to which data is to be sent. This
+supports a full range of output options such as page dimensions, view transforms, view scales, etc.
+ example 
+<pre>
+ (gdl::with-format (pdf "/tmp/box.pdf" :view-transform (getf *standard-views* :trimetric)) 
+    (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output))
+</pre>
+)
 
 
 
@@ -6234,7 +6642,10 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:with-format-slots}
 \textbf{with-format-slots [Macro]}
 
-
+(type Void [Macro] intro
+  Wrap this around a body of code which should have access to multiple slots from the context
+of the current <tt>with-format</tt> output format object.
+ arguments (slots List of Symbols.))
 
 
 
@@ -6242,7 +6653,19 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:write-env}
 \textbf{write-env [Macro]}
 
-
+(type Void [Macro] (usually used just for outputting) intro
+  Within the context of a <tt>with-format</tt>, calls functions of
+the format object, optionally with arguments. Typically these functions will output data to the
+<tt>stream</tt> established by the <tt>with-format</tt>.
+ arguments
+ (function-calls
+  (\&rest). Functions on the named output-format to be called.)
+ example 
+<pre>
+ (with-format (base-format my-object) (write-env (:a "Hello World, my object's length is: ")
+                                                 (:a (the length))))
+</pre>
+)
 
 
 
@@ -6250,7 +6673,11 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:write-plist}
 \textbf{write-plist}
 
-
+(type Pretty-prints a plist to a file with standard I/O syntax intro .
+ \&key
+ ((plist nil) List. The list to be printed to the file
+  (output-path nil)
+  Pathname of a file. The file to be created or superseded.))
 
 
 
@@ -6258,7 +6685,21 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:write-the}
 \textbf{write-the [Macro]}
 
-
+(type Lisp object [Macro] intro
+  Typcially used only to send output, not for the return value. This macro
+is used within the body of a <tt>with-format</tt>. It sends the <tt>reference-chain</tt> to
+<tt>self</tt>, which typically means it is used within the context of a define-object where
+self is automatically lexically bound.
+The reference-chain must terminate with an output-function defined for
+the combination of the output-format specified in the enclosing
+<tt>with-format</tt>, and the object identified by <tt>self</tt>.
+ arguments
+ (reference-chain
+  (\&rest). A spliced-in list of symbols naming messages, which can 
+be slots or objects starting from <tt>self</tt>, terminating with the name of an output-function.
+For referring to elements of a quantified set, or for passing arguments to GDL functions which
+take arguments, use parentheses around the message name and enclose the quantified element index
+or function arguments after the message name.))
 
 
 
@@ -6266,7 +6707,21 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:write-the-object}
 \textbf{write-the-object [Macro]}
 
-
+(type Lisp object [Macro] intro
+  Typcially used only to send output, not for the return value. This macro
+is used within the body of a <tt>with-format</tt>. It sends the <tt>reference-chain</tt> to
+<tt>object</tt>, which must be specified as a Lisp expression (e.g. a variable) which
+evaluates to a GDL object.
+The reference-chain must terminate with an output-function defined for the combination of
+the output-format specified in the enclosing <tt>with-format</tt>, and the object
+identified by <tt>object</tt>.
+ arguments
+ (reference-chain
+  (\&rest). A spliced-in list of symbols naming messages, which can 
+be slots or objects starting from <tt>object</tt>, terminating with the name of an output-function.
+For referring to elements of a quantified set, or for passing arguments to GDL functions which
+take arguments, use parentheses around the message name and enclose the quantified element index
+or function arguments after the message name.))
 
 
 
@@ -6274,7 +6729,8 @@ re-evaluates the expression to compute the original list of indices)
 \label{prim:hat-2}
 \textbf{hat-2}
 
-
+(type Number intro  Return <b>number</b> raised to the power two (2).
+ arguments (number Number))
 
 
 
@@ -13727,7 +14183,9 @@ Must be specified in the subclass except for angular
 \label{prim:3d-distance}
 \textbf{3d-distance}
 
-
+(type Number intro  The three-dimensional distance from
+point-1 to point-2.
+ arguments (point-1 3D point point-1 3D point))
 
 
 
@@ -13735,7 +14193,12 @@ Must be specified in the subclass except for angular
 \label{prim:3d-vector-to-array}
 \textbf{3d-vector-to-array}
 
-
+(type 3-by-1 Lisp array of double-floats intro
+  Returns a 3-by-1 Lisp array of double-float numbers
+built from a 3D-Vector of double-floats. This can be useful for example for multiplying
+a GDL 3d-point (which is a 1-d vector) by a 3x3 matrix represented as a 2D Lisp array.
+ arguments
+ (vector 3D-Vector of double-floats (e.g. created with make-vector macro)))
 
 
 
@@ -13743,7 +14206,9 @@ Must be specified in the subclass except for angular
 \label{prim:acosd}
 \textbf{acosd}
 
-
+(type Number intro
+  Returns the arc cosine of <b>theta</b>, converted into degrees.
+ arguments (theta Number. An angle in radians))
 
 
 
@@ -13751,7 +14216,9 @@ Must be specified in the subclass except for angular
 \label{prim:add-matrices}
 \textbf{add-matrices}
 
-
+(type Lisp Array intro  Adds two matrices element-by-element.
+ rest (matrics "Lisp Arrays of same dimensions") 
+)
 
 
 
@@ -13759,7 +14226,9 @@ Must be specified in the subclass except for angular
 \label{prim:add-vectors}
 \textbf{add-vectors}
 
-
+(type Vector intro
+  Return a new vector, the result of affine vector addition.
+ arguments (v1 2D, 3D, or 4D Vector v2 2D, 3D, or 4D Vector))
 
 
 
@@ -13767,7 +14236,30 @@ Must be specified in the subclass except for angular
 \label{prim:alignment}
 \textbf{alignment}
 
-
+(type 3x3 Orthonormal Rotation Matrix intro  Constructs a rotation
+matrix from the given axes and vectors. Up to three
+pairs of axis and vector can be given.
+If only one pair is given, then the orthogonal component of its vector with respect to
+the other two global axes is used.
+If a second pair is given, then the orthogonal component of its vector
+with respect to the first vector is used.
+A third pair is only required if a left-handed coordinate system
+is desired (right-handed is the default). The third vector will
+always be converted to the cross of the first two, unless it is
+given as the reverse of this, which will force a left-handed
+coordinate system.
+Axes are direction keywords which can be one of:
+<ul><li><tt>:right</tt></li>
+<li><tt>:left</tt></li>
+<li><tt>:rear</tt></li>
+<li><tt>:front</tt></li>
+<li><tt>:top</tt></li>
+<li><tt>:bottom</tt></li></ul>
+The second axis keyword, if given, must be orthogonal to the first, and the third,
+if given, must be orthogonal to the first two.
+ arguments (axis-1 Direction Keyword vector1 3D Vector) \&optional
+ (axis-2 Direction Keyword vector2 3D Vector axis-3 Direction Keyword
+  vector3 3D Vector))
 
 
 
@@ -13775,7 +14267,17 @@ Must be specified in the subclass except for angular
 \label{prim:angle-between-vectors}
 \textbf{angle-between-vectors}
 
-
+(type Number intro
+  Returns the angle in radians between <b>vector-1</b> and <b>vector-2</b>.
+If no <b>reference-vector</b> given, the smallest possible angle is returned.
+If a <b>reference-vector</b> is given, computes according to the right-hand rule.
+If <b>-ve</b> is given,  returns a negative number for angle if it really is
+negative according to the right-hand rule.
+ arguments (vector-1 3D Vector vector-2 3D Vector) \&optional
+ ((reference-vector nil) 3D Vector) \&key
+ ((epsilon *zero-epsilon*)
+  Number. Determines how small of an angle is considered to be zero.
+  (-ve nil) Boolean))
 
 
 
@@ -13783,7 +14285,14 @@ Must be specified in the subclass except for angular
 \label{prim:angle-between-vectors-d}
 \textbf{angle-between-vectors-d}
 
-
+(type Number intro
+  This function is identical to angle-between-vectors, but returns the angle in degrees.
+Refer to angle-between-vectors for more information.
+Technical note: the <b>more</b> argument has been introduced to support both
+angle-between-vectors call conventions and the legacy signature:
+(vector-1 vector-2 \&optional reference-vector negative?)
+Optionally, a deprecation warning is printed when code invokes this legacy pattern..
+)
 
 
 
@@ -13791,7 +14300,12 @@ Must be specified in the subclass except for angular
 \label{prim:apply-make-point}
 \textbf{apply-make-point}
 
-
+(type 2D, 3D, or 4D point intro
+  This function takes a list of two, three, or four numbers rather
+than multiple arguments as with the make-point and make-vector macro. This is equivalent
+to calling the make-point or make-vector macro on the elements of this list.
+ arguments
+ (list List of 2, 3, or 4 numbers. The coordinates for the point.))
 
 
 
@@ -13799,7 +14313,9 @@ Must be specified in the subclass except for angular
 \label{prim:array-to-3d-vector}
 \textbf{array-to-3d-vector}
 
-
+(type 3D Vector intro
+  Returns a 3D-Vector of double-floats built from a 3-by-1 Lisp array of numbers.
+ arguments (array 3-by-1 Lisp array of numbers))
 
 
 
@@ -13807,7 +14323,10 @@ Must be specified in the subclass except for angular
 \label{prim:array-to-list}
 \textbf{array-to-list}
 
-
+(type List intro  Converts <b>array</b> to a list.
+ arguments (array Lisp Array of Numbers) \&optional
+ ((decimal-places 2)
+  Integer. Numbers will be rounded to this many decimal places.))
 
 
 
@@ -13815,7 +14334,9 @@ Must be specified in the subclass except for angular
 \label{prim:asind}
 \textbf{asind}
 
-
+(type Number intro
+  Returns the arc sine of <b>theta</b>, converted into degrees.
+ arguments (theta Number. An angle in radians))
 
 
 
@@ -13823,7 +14344,9 @@ Must be specified in the subclass except for angular
 \label{prim:atand}
 \textbf{atand}
 
-
+(type Number intro
+  Returns the arc tangent of <b>theta</b>, converted into degrees.
+ arguments (theta Number. An angle in radians))
 
 
 
@@ -13831,7 +14354,11 @@ Must be specified in the subclass except for angular
 \label{prim:coincident-point?}
 \textbf{coincident-point?}
 
-
+(type Boolean intro
+  Returns non-NIL iff the distance between <b>point-1</b> and <b>point-2</b>
+is less than <b>tolerance</b>.
+ arguments (point-1 3D Point point-2 3D Point) \&key
+ ((tolerance *zero-epsilon*) Number))
 
 
 
@@ -13839,7 +14366,15 @@ Must be specified in the subclass except for angular
 \label{prim:create-obliqueness}
 \textbf{create-obliqueness}
 
-
+(type 3x3 Orthonormal Rotation Matrix intro
+  Gives the transform required
+to be applied to the parent's orientation to achieve alignment
+indicated by the arguments. The direction keywords are the same
+as those used with the GDL <tt>alignment</tt> function.
+ arguments
+ (vector-1 3D Vector direction-1 Direction Keyword vector-2 3D Vector
+  direction-2 Direction Keyword self
+  GDL object inheriting from <tt>base-object</tt>))
 
 
 
@@ -13847,7 +14382,11 @@ Must be specified in the subclass except for angular
 \label{prim:cross-vectors}
 \textbf{cross-vectors}
 
-
+(type 3D Vector intro
+  Returns the cross product of vector-1 and vector-2. According to
+the definition of cross product, this resultant vector should be orthogonal
+to both <b>vector-1</b> and <b>vector-2</b>.
+ arguments (vector-1 3D Vector vector-2 3D Vector))
 
 
 
@@ -13855,7 +14394,9 @@ Must be specified in the subclass except for angular
 \label{prim:degree}
 \textbf{degree}
 
-
+(type Number intro
+  Converts angle in degrees, minutes, and seconds into radians.
+ arguments (degrees Number) \&optional ((minutes 0) Number))
 
 
 
@@ -13863,7 +14404,8 @@ Must be specified in the subclass except for angular
 \label{prim:degrees-to-radians}
 \textbf{degrees-to-radians}
 
-
+(type Number intro  Converts <b>degrees</b> to radians.
+ arguments (degrees Number))
 
 
 
@@ -13871,7 +14413,8 @@ Must be specified in the subclass except for angular
 \label{prim:distance-to-line}
 \textbf{distance-to-line}
 
-
+(type Number intro  Returns shortest distance from point to line.
+)
 
 
 
@@ -13879,7 +14422,9 @@ Must be specified in the subclass except for angular
 \label{prim:dot-vectors}
 \textbf{dot-vectors}
 
-
+(type Number intro  Returns the dot product of vector-1 and vector-2.
+ arguments
+ (vector-1 2D, 3D, or 4D Vector vector-2 2D, 3D, or 4D Vector))
 
 
 
@@ -13887,7 +14432,9 @@ Must be specified in the subclass except for angular
 \label{prim:equi-space-points}
 \textbf{equi-space-points}
 
-
+(type List of points intro
+  Returns a list of equally spaced points between start and end.
+)
 
 
 
@@ -13895,7 +14442,9 @@ Must be specified in the subclass except for angular
 \label{prim:get-u}
 \textbf{get-u}
 
-
+(type Double-float number intro
+  Returns U component of 2D parameter value.
+ arguments (point 2D point))
 
 
 
@@ -13903,7 +14452,10 @@ Must be specified in the subclass except for angular
 \label{prim:get-v}
 \textbf{get-v}
 
-
+(type Double-float number intro
+  Returns V component of 2D parameter value.
+n:arguments (point "2D point")
+)
 
 
 
@@ -13911,7 +14463,9 @@ Must be specified in the subclass except for angular
 \label{prim:get-w}
 \textbf{get-w}
 
-
+(type Double-float number intro  Returns W component of point or vector
+ arguments
+ (quaternion 4D point, Quaternion, or Axis-Angle style rotation spec))
 
 
 
@@ -13919,7 +14473,8 @@ Must be specified in the subclass except for angular
 \label{prim:get-x}
 \textbf{get-x}
 
-
+(type Double-float number intro  Returns X component of point or vector
+ arguments (point 2D, 3D, or 4D point))
 
 
 
@@ -13927,7 +14482,8 @@ Must be specified in the subclass except for angular
 \label{prim:get-y}
 \textbf{get-y}
 
-
+(type Double-float number intro  Returns Y component of point or vector
+ arguments (point 2D, 3D, or 4D point))
 
 
 
@@ -13935,7 +14491,8 @@ Must be specified in the subclass except for angular
 \label{prim:get-z}
 \textbf{get-z}
 
-
+(type Double-float number intro  Returns Z component of point or vector
+ arguments (point 3D or 4D point))
 
 
 
@@ -13943,7 +14500,18 @@ Must be specified in the subclass except for angular
 \label{prim:inter-circle-sphere}
 \textbf{inter-circle-sphere}
 
-
+(type 3D Point or NIL intro
+  Returns point of intersection between the circle described by <b>circle-center</b>,
+<b>circle-radius</b>, and <b>circle-plane-normal</b>, and the sphere described by <b>sphere-center</b>
+and <b>sphere-radius</b>. Iff the circle and sphere do not intersect at all, NIL is returned.
+ arguments
+ (circle-center 3D Point circle-radius Number circle-plane-normal
+  3D Vector sphere-center 3D Point sphere-radius Number positive-angle?
+  Boolean. Controls which of two intersection points is returned)
+ \&key
+ ((tolerance *zero-epsilon*)
+  Controls how close the entities must come to touching to be 
+considered as intersecting.))
 
 
 
@@ -13951,7 +14519,16 @@ Must be specified in the subclass except for angular
 \label{prim:inter-line-plane}
 \textbf{inter-line-plane}
 
-
+(type 3D Point or NIL intro
+  Returns one point of intersection between line described by
+point <b>p-line</b> and direction-vector <b>u-line</b>, and plane described by
+<b>p-plane</b> and <b>u-plane</b>. Iff the line and plane do not intersect at
+all (i.e. they are parallel), NIL is returned.
+ arguments
+ (p-line 3D Point. Any point on the line. u-line
+  3D Vector. Direction of the line. p-plane
+  3D Point. Any point on the plane. u-plane
+  3D Vector. Normal of the plane.))
 
 
 
@@ -13959,7 +14536,17 @@ Must be specified in the subclass except for angular
 \label{prim:inter-line-sphere}
 \textbf{inter-line-sphere}
 
-
+(type 3D Point or NIL intro
+  Returns one point of intersection between line described by
+point <b>p-line</b> and direction-vector <b>u-line</b>, and sphere described by
+<b>center</b> and <b>radius</b>. Iff the line and sphere do not intersect at
+all, NIL is returned.
+ arguments
+ (p-line 3D Point. Any point on the line. u-line
+  3D Vector. Direction of the line. center
+  3D Point. Center of the sphere. radius
+  Number. The radius of the sphere. side-vector
+  3D Vector. Controls which of two possible intersection points is returned.))
 
 
 
@@ -13967,7 +14554,8 @@ Must be specified in the subclass except for angular
 \label{prim:length-vector}
 \textbf{length-vector}
 
-
+(type Number intro  Return the vector's magnitude
+ arguments (vector 3D Vector))
 
 
 
@@ -13975,7 +14563,9 @@ Must be specified in the subclass except for angular
 \label{prim:make-point}
 \textbf{make-point [Macro]}
 
-
+(type 3D Point intro
+  (Internally this is the same as a 3D Vector) Returns a vector of double-floats from up to 4 numbers.
+)
 
 
 
@@ -13983,7 +14573,8 @@ Must be specified in the subclass except for angular
 \label{prim:make-transform}
 \textbf{make-transform}
 
-
+(type Lisp array intro  Builds a matrix from <b>list-of lists</b>.
+ arguments (list-of-lists List of lists of numbers))
 
 
 
@@ -13991,7 +14582,10 @@ Must be specified in the subclass except for angular
 \label{prim:make-vector}
 \textbf{make-vector [Macro]}
 
-
+(type 0D, 1D, 2D, 3D, or 4D Vector intro
+  (Internally this is the same as a Point)
+Returns a vector of double-floats from up to 4 numbers.
+)
 
 
 
@@ -13999,7 +14593,9 @@ Must be specified in the subclass except for angular
 \label{prim:matrix*vector}
 \textbf{matrix*vector}
 
-
+(type Lisp array intro
+  Multiplies matrix by column vector of compatible dimension.
+ arguments (matrix Lisp Array of Numbers vector Vector))
 
 
 
@@ -14007,7 +14603,10 @@ Must be specified in the subclass except for angular
 \label{prim:matrix-to-quaternion}
 \textbf{matrix-to-quaternion}
 
-
+(type Quaternion represented as a 4D Vector intro
+  Transforms rotation <b>matrix</b> into the corresponding quaternion.
+ arguments
+ (matrix 3x3 Orthonormal Rotation Matrix (as a Lisp Array of Numbers)))
 
 
 
@@ -14015,7 +14614,13 @@ Must be specified in the subclass except for angular
 \label{prim:merge-display-controls}
 \textbf{merge-display-controls [Macro]}
 
-
+(type Plist of display controls intro
+  This macro "merges" the given display controls list with
+that coming as a trickle-down slot from the parent. It will replace any common keys and
+add any new keys.
+ arguments
+ (display-controls
+  Plist. The new display controls to be merged with the defaults from the parent))
 
 
 
@@ -14023,7 +14628,9 @@ Must be specified in the subclass except for angular
 \label{prim:midpoint}
 \textbf{midpoint}
 
-
+(type 3D Point intro  Returns the barycentric average (i.e. midpoint)
+of <b>point1</b> and <b>point2</b>.
+ arguments (point1 3D Point point2 3D Point))
 
 
 
@@ -14031,7 +14638,10 @@ Must be specified in the subclass except for angular
 \label{prim:multiply-matrices}
 \textbf{multiply-matrices}
 
-
+(type Lisp Array intro
+  Multiplies compatible-size matrices according to normal matrix math.
+ arguments
+ (matrix-1 Lisp Array of Numbers matrix-2 Lisp Array of Numbers))
 
 
 
@@ -14039,7 +14649,10 @@ Must be specified in the subclass except for angular
 \label{prim:orthogonal-component}
 \textbf{orthogonal-component}
 
-
+(type 3D Unit Vector intro
+  Returns the unit vector orthogonal to <b>reference-vector</b> which
+is as close as possible to <b>vector</b>.
+ arguments (vector 3D Vector reference-vector 3D Vector))
 
 
 
@@ -14047,7 +14660,11 @@ Must be specified in the subclass except for angular
 \label{prim:parallel-vectors?}
 \textbf{parallel-vectors?}
 
-
+(type Boolean intro
+  Returns non-nil iff <b>vector-1</b> and <b>vector-2</b> are pointing in the
+same direction or opposite directions.
+ arguments (vector-1 3D Vector vector-2 3D Vector) \&key
+ ((tolerance *zero-epsilon*) Number))
 
 
 
@@ -14055,7 +14672,12 @@ Must be specified in the subclass except for angular
 \label{prim:proj-point-on-line}
 \textbf{proj-point-on-line}
 
+(type 3D-Point intro
+  Drops <b>3d-point</b> onto line containing <b>line-point</b>
+and whose direction-vector is <b>vector</b>.
 
+ arguments
+ (3D-point 3D Point Line-point 3D Point vector 3D Unit Vector))
 
 
 
@@ -14063,7 +14685,10 @@ Must be specified in the subclass except for angular
 \label{prim:projected-vector}
 \textbf{projected-vector}
 
-
+(type 3D Vector intro
+  Returns result of projecting <b>vector</b> onto the plane whose normal
+is <b>plane-normal</b>.
+ arguments (vector 3D Vector plane-normal 3D Vector))
 
 
 
@@ -14071,7 +14696,9 @@ Must be specified in the subclass except for angular
 \label{prim:pythagorize}
 \textbf{pythagorize}
 
-
+(type Number intro
+  Returns the square root of the sum of the squares of <i>numbers</i>.
+ \&rest (numbers List of Numbers))
 
 
 
@@ -14079,7 +14706,9 @@ Must be specified in the subclass except for angular
 \label{prim:quaternion-to-matrix}
 \textbf{quaternion-to-matrix}
 
-
+(type 3x3 Orthonormal Rotation Matrix intro
+  Transforms <b>quaternion</b> into a 3x3 rotation matrix.
+ arguments (quaternion Quaternion, represented as a 4D Vector))
 
 
 
@@ -14087,7 +14716,11 @@ Must be specified in the subclass except for angular
 \label{prim:quaternion-to-rotation}
 \textbf{quaternion-to-rotation}
 
-
+(type Euler rotation represented as a 4D Vector intro
+  Transforms <b>quaternion</b> into a
+Euler angle rotation consisting of an arbitrary axis and an angle of rotation about
+that axis.
+ arguments (quaternion Quaternion, represented as a 4D Vector))
 
 
 
@@ -14095,7 +14728,8 @@ Must be specified in the subclass except for angular
 \label{prim:radians-to-degrees}
 \textbf{radians-to-degrees}
 
-
+(type Number intro  Converts angle in radians to degrees.
+ arguments (radians Number))
 
 
 
@@ -14103,7 +14737,8 @@ Must be specified in the subclass except for angular
 \label{prim:radians-to-grads}
 \textbf{radians-to-grads}
 
-
+(type Number intro  Converts angle in radians to grads.
+ arguments (radians Number))
 
 
 
@@ -14111,7 +14746,9 @@ Must be specified in the subclass except for angular
 \label{prim:reverse-vector}
 \textbf{reverse-vector}
 
-
+(type Vector intro
+  Return the vector pointing in the opposite direction.
+ arguments (vector 2D, 3D, or 4D Vector))
 
 
 
@@ -14119,7 +14756,19 @@ Must be specified in the subclass except for angular
 \label{prim:roll}
 \textbf{roll [Macro]}
 
-
+(type [macro] Transformation matrix intro
+  In the context of a GDL object
+definition (i.e. in a <tt>define-object</tt>), returns a transformation
+matrix based on rotation about <b>axis</b> by some <b>angle</b>.
+<b>Axis</b> is a keyword symbol, one of:
+<ul><li><tt>:lateral</tt></li>
+<li><tt>:longitudinal</tt></li>
+<li><tt>:vertical</tt></li></ul>
+<b>Angle</b> is specified in radians. Any number of axis-angle
+pairs can be specified.
+ arguments (axis Keyword Symbol angle Number) \&rest
+ (other-axes-and-angles
+  Plist made from axis keyword symbols and numbers))
 
 
 
@@ -14127,7 +14776,14 @@ Must be specified in the subclass except for angular
 \label{prim:rotate-point}
 \textbf{rotate-point}
 
-
+(type 3D Point intro
+  Returns the 3D Point resulting from rotating <b>point</b> about
+<b>center</b> in the plane defined by <b>normal</b>. The rotation can specified
+either by an arc length (<b>arc-length</b>) or an angle in radians (<b>angle</b>).
+A second value is returned, which is the resulting angle of rotation in radians (this
+is of possible use if <b>arc-length</b> is used to specify the rotation).
+ arguments (point 3D Point center 3D Point normal 3D Vector) \&key
+ ((arc-length nil) Number (angle nil) Number))
 
 
 
@@ -14135,7 +14791,14 @@ Must be specified in the subclass except for angular
 \label{prim:rotate-point-d}
 \textbf{rotate-point-d}
 
-
+(type 3D Point intro
+  Returns the 3D Point resulting from rotating <b>point</b> about
+<b>center</b> in the plane defined by <b>normal</b>. The rotation can specified
+either by an arc length (<b>arc-length</b>) or an angle in degrees (<b>angle</b>).
+A second value is returned, which is the resulting angle of rotation in degrees (this
+is of possible use if <b>arc-length</b> is used to specify the rotation).
+ arguments (point 3D Point center 3D Point normal 3D Vector) \&key
+ ((arc-length nil) Number (angle nil) Number))
 
 
 
@@ -14143,7 +14806,10 @@ Must be specified in the subclass except for angular
 \label{prim:rotate-vector}
 \textbf{rotate-vector}
 
-
+(type Number intro
+  Rotates <b>vector</b> around <b>normal</b> by an amount of rotation
+specified by <b>angle</b>, which is an angle measured in radians.
+ arguments (vector 3D Vector angle Number normal 3D Vector))
 
 
 
@@ -14151,7 +14817,10 @@ Must be specified in the subclass except for angular
 \label{prim:rotate-vector-d}
 \textbf{rotate-vector-d}
 
-
+(type Number intro
+  Rotates <b>vector</b> around <b>normal</b> by an amount of rotation
+specified by <b>degrees</b>.
+ arguments (vector 3D Vector degrees Number normal 3D Vector))
 
 
 
@@ -14159,7 +14828,11 @@ Must be specified in the subclass except for angular
 \label{prim:rotation}
 \textbf{rotation}
 
-
+(type 3x3 orthonormal rotation matrix (as a Lisp Array of Numbers)
+ intro .
+Returns a transformation matrix based on a rotation by <b>angle</b>,
+specified in radians, about an arbitrary <b>vector</b>.
+ arguments (vector 3D Vector angle Number))
 
 
 
@@ -14167,7 +14840,11 @@ Must be specified in the subclass except for angular
 \label{prim:same-direction-vectors?}
 \textbf{same-direction-vectors?}
 
-
+(type Boolean intro
+  Returns non-NIL iff <b>vector-1</b> and <b>vector-2</b> are pointing in the
+same direction.
+ arguments (vector-1 3D Vector vector-2 3D Vector) \&key
+ ((tolerance *zero-epsilon*) Number))
 
 
 
@@ -14175,7 +14852,9 @@ Must be specified in the subclass except for angular
 \label{prim:scalar*matrix}
 \textbf{scalar*matrix}
 
-
+(type Lisp Array intro
+  Returns result of multiplying the scalar number by the matrix.
+ arguments (scalar Number matrix Lisp Array of Numbers))
 
 
 
@@ -14183,7 +14862,9 @@ Must be specified in the subclass except for angular
 \label{prim:scalar*vector}
 \textbf{scalar*vector}
 
-
+(type Vector intro
+  Returns result of multiplying the scalar number by the vector
+ arguments (scalar Number vector 2D, 3D, or 4D Vector))
 
 
 
@@ -14191,7 +14872,8 @@ Must be specified in the subclass except for angular
 \label{prim:sort-points-along-vector}
 \textbf{sort-points-along-vector}
 
-
+(type List of points intro  Returns points in order along given vector.
+)
 
 
 
@@ -14199,7 +14881,9 @@ Must be specified in the subclass except for angular
 \label{prim:subtract-vectors}
 \textbf{subtract-vectors}
 
-
+(type Vector intro
+  Return a new vector, the result of affine vector subtraction.
+ arguments (v1 2D, 3D, or 4D Vector v2 2D, 3D, or 4D Vector))
 
 
 
@@ -14207,7 +14891,23 @@ Must be specified in the subclass except for angular
 \label{prim:transform-and-translate-point}
 \textbf{transform-and-translate-point}
 
-
+(type 3D-Point intro
+  Returns the product of <b>vector</b> and <b>transform</b>,
+translated by (i.e. added to) <i>trans-vector</i>.
+ arguments
+ (vector 3D Vector transform 3x3 Rotation Matrix trans-vector
+         3D Vector)
+ examples 
+<pre>
+(let ((transform (make-transform '((0.0 0.0 1.0)
+                                    (0.0 1.0 0.0)
+                                    (1.0 0.0 0.0))))
+       (v (make-vector 1.0 2.0 3.0))
+       (t-v (make-vector 3.0 0.0 0.0)))
+   (transform-and-translate-point v transform t-v))
+ ---> \#(6.0 2.0 1.0)
+</pre>
+)
 
 
 
@@ -14215,7 +14915,18 @@ Must be specified in the subclass except for angular
 \label{prim:transform-numeric-point}
 \textbf{transform-numeric-point}
 
-
+(type 3D-Point intro
+  Returns the product of <b>vector</b> and <i>transform</i>.
+ arguments (vector 3D Vector transform 3x3 Rotation Matrix) examples 
+<pre>
+(let ((transform (make-transform '((0.0 0.0 1.0)
+                                    (1.0 0.0 0.0)
+                                    (0.0 1.0 0.0))))
+       (v (make-vector 1.0 2.0 3.0)))
+   (transform-numeric-point v transform))
+  ---> \#(2.0 3.0 1.0)
+</pre>
+)
 
 
 
@@ -14223,7 +14934,18 @@ Must be specified in the subclass except for angular
 \label{prim:translate}
 \textbf{translate [Macro]}
 
-
+(type [Macro] 3D Point intro
+  Within the context of a GDL object definition (i.e. a <tt>define-object</tt>),
+translate <b>origin</b> by any number of <b>offsets</b>.
+ arguments (origin 3D Point) \&rest
+ (offsets
+  Plist consisting of direction keywords and numbers. A direction keyword can be 
+one of: <ul><li><tt>:top</tt> (or <tt>:up</tt>)</li>
+<li><tt>:bottom</tt> (or <tt>:down</tt>)</li>
+<li><tt>:left</tt></li>
+<li><tt>:right</tt></li>
+<li><tt>:front</tt></li>
+<li><tt>:rear</tt> (or <tt>:back</tt>)</li></ul>))
 
 
 
@@ -14231,7 +14953,10 @@ Must be specified in the subclass except for angular
 \label{prim:translate-along-vector}
 \textbf{translate-along-vector}
 
-
+(type 3D Point intro
+  Returns a new point which is <b>point</b> translated
+along <b>vector</b> by <b>distance</b>
+ arguments (point 3D Point vector 3D Vector distance Number))
 
 
 
@@ -14239,7 +14964,8 @@ Must be specified in the subclass except for angular
 \label{prim:transpose-matrix}
 \textbf{transpose-matrix}
 
-
+(type Lisp array intro  Transposes rows and columns of <b>matrix</b>.
+ arguments (matrix Lisp Array))
 
 
 
@@ -14247,7 +14973,11 @@ Must be specified in the subclass except for angular
 \label{prim:unitize-vector}
 \textbf{unitize-vector}
 
-
+(type Unit Vector intro
+  Returns the normalized unit-length vector corresponding to <b>vector</b>.
+ arguments (vector 3D Vector) \&key
+ ((espsilon *zero-epsilon*)
+  Number. How close vector should be to 1.0 to be considered unit-length.))
 
 
 
@@ -14255,7 +14985,9 @@ Must be specified in the subclass except for angular
 \label{prim:zero-vector?}
 \textbf{zero-vector?}
 
-
+(type Boolean intro
+  Returns non-NIL iff the vector has zero length according to Common Lisp <tt>zerop</tt> function.
+ arguments (vector 3D Vector))
 
 
 
@@ -14357,7 +15089,7 @@ Must be specified in the subclass except for angular
 
 
 \textbf{
-\underline{Mixins:}} layout-mixin, vanilla-mixin
+\underline{Mixins:}} layout-mixin
 
 
 
@@ -17364,7 +18096,7 @@ eql for keywords, string-equal for strings, and equalp otherwise.
 
 
 \textbf{
-\underline{Mixins:}} layout-mixin, vanilla-mixin
+\underline{Mixins:}} layout-mixin
 
 
 
@@ -18596,7 +19328,8 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:base64-decode-list}
 \textbf{base64-decode-list}
 
-
+(type List intro  Decodes a base64 string into a Lisp list.
+ arguments (string string))
 
 
 
@@ -18604,7 +19337,9 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:base64-decode-safe}
 \textbf{base64-decode-safe}
 
-
+(type String intro
+  Decodes a base64 string without need for trailing = signs into a decoded string.
+ arguments (string string))
 
 
 
@@ -18612,7 +19347,9 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:base64-encode-list}
 \textbf{base64-encode-list}
 
-
+(type String intro
+  Encodes a list into base64 without the trailing = signs.
+ arguments (list list))
 
 
 
@@ -18620,7 +19357,9 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:base64-encode-safe}
 \textbf{base64-encode-safe}
 
-
+(type String intro
+  Encodes a string into base64 without the trailing = signs.
+ arguments (string string))
 
 
 
@@ -18628,7 +19367,16 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:clear-all-instances}
 \textbf{clear-all-instances}
 
-
+(type Void intro
+  Clears all instances from GWL's master table of root-level instances.
+The instance IDs are the numbers you see in published GWL URIs, and are available
+as the "instance-id" message within each GWL object which inherit from base-html-sheet.
+Clearing all the instances makes available for garbage collection all memory used by
+the object hierarchies rooted at the instances, as well as all associated published URIs.
+ example <pre> 
+  (clear-all-instance)
+</pre>
+)
 
 
 
@@ -18636,7 +19384,19 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:clear-instance}
 \textbf{clear-instance}
 
-
+(type Void intro
+  Clears the specified instance from GWL's master table of root-level instances.
+The instance ID is the same number you see in published GWL URIs, and is available
+as the "instance-id" message within all GWL objects which inherit from base-html-sheet.
+Clearing the specified instance makes available for garbage collection all memory used by
+the object hierarchy rooted at the instance, as well as all associated published URIs.
+ arguments
+ (id
+  Integer or Keyword Symbol. The key whose entry you wish to clear from the *instance-hash-table*.)
+ example <pre> 
+  (clear-instance 639)
+</pre>
+)
 
 
 
@@ -18644,7 +19404,12 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:clear-old-timers}
 \textbf{clear-old-timers}
 
-
+(type Void intro
+  This is a lighter-weight alternative to the session-object-mixin for timing out instances
+in a web application.
+ \&key
+ ((idle-time-required 600)
+  Time in seconds. The maximum age of a session for timeout.))
 
 
 
@@ -18652,7 +19417,25 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:crawl}
 \textbf{crawl}
 
-
+(type Void intro
+  Instantiates and ``Crawls'' a given object instance and creates static HTML pages reflecting
+the instance tree. This means it will recursively follow all the links for the object. By default
+the files are written into "/tmp/sites/".
+ arguments
+ (part
+  String. Names a package-qualified part which should mix in <tt>base-html-sheet</tt>.)
+ \&key
+ ((host localhost) String. Host on which the server is running.
+  (port 9000) Integer. Port on which the server is running.
+  (output-root /tmp/sites/[non-package-qualified-part-name]/)
+  String or pathname. Directory where filfes will be written
+  make-part-args
+  Plist. Other make-instance arguments to use to initialize the object.)
+ example 
+<pre>
+    (gwl:crawl "yadd:assembly")
+</pre>
+)
 
 
 
@@ -18660,7 +19443,26 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:gwl-make-object}
 \textbf{gwl-make-object}
 
-
+(type Void intro
+  Used within the context of the body of a :function argument to Allegroserve's
+publish function, makes an instance of the specified part and responds to the request
+with a redirect to a URI representing the instance.
+ arguments
+ (req Allegroserve request object, as used in the function of a publish
+  ent Allegroserve entity object, as used in the function of a publish
+  package-and-part
+  String. Should name the colon- (or double-colon)-separated
+package-qualified object name)
+ \&key
+ ((make-object-args nil)
+  Plist of keys and values. These are passed to the object upon instantiation.
+  (share? nil)
+  Boolean. If non-nil, the instance ID will be the constant string ``share'' rather than a real instance id.)
+ example <pre> 
+  (publish :path "/calendar"
+           :function \#'(lambda(req ent) (gwl-make-object req ent "calendar:assembly")))
+</pre>
+)
 
 
 
@@ -18668,7 +19470,12 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:publish-gwl-app}
 \textbf{publish-gwl-app}
 
-
+(type Void intro
+  Publishes an application, optionally with some initial arguments to be passed in as input-slots.
+ arguments
+ (path String. The URL pathname component to be published.
+  string-or-symbol String or symbol. The object type to insantiate.)
+ \&key (make-object-args Plist. Extra arguments to pass to make-object.))
 
 
 
@@ -18676,7 +19483,23 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:publish-shared}
 \textbf{publish-shared}
 
-
+(type Void intro
+  Used to publish a site which is to have a shared toplevel instance tree,
+and no URI rewriting (i.e. no "/sessions/XXX/" at the beginning of the path). So,
+this site will appear to be a normal non-dynamic site even though the pages are
+being generated dynamically.
+ \&key
+ ((path nil) String. The URI path to be published. (object-type nil)
+  Symbol. The type of the toplevel object to be instantiated.
+  (host nil) hostname for the URI to be published. (server *wserver*)
+  Allegroserve server object. If you have additional servers other than the default
+<tt>*wserver*</tt> (e.g. an SSL server) you may want to call this function for each server.)
+ example <pre> 
+  (publish-shared :path "/"
+                  :object-type 'site:assembly
+                  :host (list "www.genworks.com" "ww2.genworks.com" "mccarthy.genworks.com"))
+</pre>
+)
 
 
 
@@ -18684,7 +19507,15 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:publish-string-content}
 \textbf{publish-string-content}
 
-
+(type String (representing a url path) intro
+  Publishes given url to respond with text content as
+specified by given string.
+ arguments
+ (url String. The url to be published. string
+  String. The content to be emitted when the url is requested.)
+ \&rest
+ (publish-args
+  plist. Arguments to be passed on to publish function, e.g. :content-type.))
 
 
 
@@ -18692,7 +19523,10 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:relativize-pathname}
 \textbf{relativize-pathname}
 
-
+(type nil intro
+ Return a relative pathname for TARGET-PATHNAME that can be reached
+from the directory that TARGET-PATHNAME refers to.
+)
 
 
 
@@ -18700,7 +19534,15 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:session-control-auto-refresh}
 \textbf{session-control-auto-refresh}
 
-
+(type
+ Adding this javascript function into the header of a web page will cause the page to timeout and reload repeatedly
+ intro  This is intended to be used such that when
+an instance is open in an active browser the page will automatically update the expires-at function even if the operator takes an extended break from the application.
+It works by checking if any forms exist on this page. If they do it will submit the first form on the page when the timeout value is reached. This is done to avoid
+the Post Data confirmation warning that most browser present. If no forms are found it will use the reload(true) function to reload the page.
+ arguments (timeout Time in seconds between page reloads) \&optional
+ (html-stream
+  Stream which the output should be sent to. Default is *html-stream*))
 
 
 
@@ -18708,7 +19550,9 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:session-report}
 \textbf{session-report}
 
-
+(type Returns list of instances in a runtime environment intro
+  Those that are of type session-control-mixin, it provides more detailed information, that can be useful in tracking the session life. Currently, this is intended to run from the lisp command prompt.
+)
 
 
 
@@ -18716,7 +19560,17 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:with-cl-who}
 \textbf{with-cl-who [Macro]}
 
-
+(type Form intro
+  Sets up body to be evaluated with cl-who and output the resulting string to the default *stream*
+Note that the args are spliced into cl-who:with-html-output after *stream* nil, so for example you can do <pre>
+    (with-cl-who (:indent t) ...)
+</pre>
+and it will expand into:
+<pre>
+    (with-html-output (*stream* nil :indent t) ...)
+</pre>
+.
+)
 
 
 
@@ -18724,7 +19578,10 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:with-cl-who-string}
 \textbf{with-cl-who-string [Macro]}
 
-
+(type Form intro
+  Sets up body to be evaluated with our with-cl-who return the resulting string instead
+of side-effecting anything at all to the default *stream*.
+)
 
 
 
@@ -18732,7 +19589,9 @@ internally-computed object, this should not be overridden in user code.
 \label{prim:with-html-form}
 \textbf{with-html-form [Macro]}
 
-
+(type Enclose a body of code with a form intro .
+ FLAG -- fill in. 
+)
 
 
 
@@ -32600,7 +33459,9 @@ Convenience object to return UV parameter values on surface.
 \label{prim:get-point-on-curve}
 \textbf{get-point-on-curve}
 
-
+(type 3D point intro
+  Returns the point found from a minimum or maximum distance computation involving a curve.
+)
 
 
 
@@ -32608,7 +33469,9 @@ Convenience object to return UV parameter values on surface.
 \label{prim:get-point-on-other-curve}
 \textbf{get-point-on-other-curve}
 
-
+(type 3D point intro
+  Returns the other point found from a minimum or maximum distance computation involving a curve.
+)
 
 
 
@@ -32616,7 +33479,9 @@ Convenience object to return UV parameter values on surface.
 \label{prim:get-point-on-surface}
 \textbf{get-point-on-surface}
 
-
+(type 3D point intro
+  Returns the point found from a minimum or maximum distance computation involving a surface.
+)
 
 
 
@@ -32624,7 +33489,13 @@ Convenience object to return UV parameter values on surface.
 \label{prim:with-pinned-values}
 \textbf{with-pinned-values [Macro]}
 
-
+(type Macro intro
+  Takes a list of bindings and body similar to let, but each binding
+contains a variable, which must already exist in this context, followed by a
+min and a max value to which its inner binding will be pinned. If the
+value of the outer binding falls outside the range, a warning will be
+issued.
+)
 
 
 

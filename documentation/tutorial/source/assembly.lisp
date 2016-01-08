@@ -86,10 +86,13 @@ written consent from Genworks International.")
 	(pdftex-path (cond ((probe-file "/usr/texbin/pdflatex")
 			    "/usr/texbin/pdflatex")
 			   ((probe-file "/opt/local/bin/pdflatex")
-			    "/opt/local/bin/pdflatex")))
-	
+			    "/opt/local/bin/pdflatex")
+			   ((probe-file "/Library/TeX/texbin/pdflatex")
+			    "/Library/TeX/texbin/pdflatex")))
 	(makeindex-path (or (probe-file "/usr/texbin/makeindex")
-			    (probe-file "/opt/local/bin/makeindex"))))
+			    (probe-file "/opt/local/bin/makeindex")
+			    (probe-file "/Library/TeX/texbin/makeindex"))))
+			    
 
 
     (load (merge-pathnames "../source/assembly.lisp" pdf-path))
