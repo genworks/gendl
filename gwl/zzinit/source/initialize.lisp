@@ -26,7 +26,7 @@
 (defun ensure-static-relative-pathname (relative)
   (let ((pathname (merge-pathnames relative *static-home*)))
     (or (probe-file pathname)
-	(error "Required static subdirectory ~a does not appear to exist.~%" pathname))))
+	(warn "Required static subdirectory ~a does not appear to exist.~%" pathname))))
 
 (defun publish-images ()
   (with-all-servers (server)
