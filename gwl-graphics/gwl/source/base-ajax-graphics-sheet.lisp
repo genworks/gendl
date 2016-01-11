@@ -34,7 +34,9 @@ Raphael vector graphics."
 			       :examples "FLAG -- Fill in!!!")
   
   :input-slots 
-  (("Number. Thickness of default border around graphics viewport. 
+  ((respondent (the bashee) :defaulting)
+
+   ("Number. Thickness of default border around graphics viewport. 
 Default is 1." viewport-border-default 1)
    
    (vector-graphics-onclick? t)

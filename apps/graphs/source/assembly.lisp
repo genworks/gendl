@@ -53,7 +53,7 @@
    (y-axis :type (if (the show-axes?) 'line 'null-object)
 	   :start (make-point 0 (the domain-min) 0)
 	   :end (make-point 0 (the domain-max) 0)
-	   :display-controls (list :color :red :line-style :dashed))
+	   :display-controls (list :color :green :line-style :dashed))
 
    (y-grid :type (if (the show-grid?) 'line 'null-object)
 	   :sequence (:size (floor (/ (the range-interval) (the grid-increment))))

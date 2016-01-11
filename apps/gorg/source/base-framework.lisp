@@ -6,7 +6,7 @@
 ;; not be there) this parameter must be set at initialization/startup
 ;; time to the correct location.
 ;;
-(defparameter *system-home* (glisp:system-home :gorg))
+(defparameter *system-home* "~dcooper8/genworks/gendl/apps/gorg/")
 
 (defparameter *templates-folder* 
   (translate-logical-pathname

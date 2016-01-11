@@ -1,6 +1,6 @@
 (in-package :graph-plot)
 
-(setq *developing?* t)
+;;(setq *developing?* t)
 
 (define-object ui (base-ajax-sheet)
 
@@ -10,10 +10,12 @@
 
    (function-specs (list (list :function-body
 			       (the (function-bodies 0) value)
+			       :domain-min -5 :domain-max 5)
+			 (list :function-body
+			       (the (function-bodies 1) value)
 			       :domain-min -5 :domain-max 5)))
 
-
-   (number-of-functions 1)
+   (number-of-functions 2)
 
    #+nil
    (html-sections (list (the inputs-section)
@@ -32,12 +34,17 @@
 
    (domain-min (apply #'min (mapsend (the graphs) :domain-min)))
    (domain-max (apply #'max (mapsend (the graphs) :domain-max)))
+
+
+   (solutions (the (graphs 0) curve (curve-intersection-points (the (graphs 1) curve))))
+
    )
 
   
   :hidden-objects
   ((graphs :type 'assembly
 	   :sequence (:size (length (the function-specs)))
+	   :display-controls (list :color (if (zerop (the-child index)) :black :magenta))
 	   :pseudo-inputs (specs)
 	   :specs (nth (the-child index) (the function-specs))
 	   :function (let ((form (getf (the-child specs) :function-body)))
@@ -46,10 +53,11 @@
 
 
    (function-bodies :type 'text-form-control
+		    :prompt (format nil "Function ~a" (the-child index))
 		    :sequence (:size (the number-of-functions))
 		    :ajax-submit-on-change? t
 		    :domain :pass-thru
-		    :default '(* gdl-user::x 2)))
+		    :default 'gdl-user::x))
 
 
   :objects
@@ -60,14 +68,24 @@
 
    (results-section :type 'sheet-section
 		    :inner-html (with-cl-who-string ()
-				  (fmt "~s" (the (graphs 0) function))))
+				  (unless (equalp (the (graphs 0) function)
+						  (the (graphs 1) function))
+				    (fmt "Solutions: ~{~a~^, ~}" 
+					 (mapcar #'(lambda(3d-point)
+						     (format nil "[~a, ~a]" (get-x 3d-point) (get-y 3d-point)))
+						 (mapcar #'(lambda(point)
+							     (make-point (number-round (get-x point) 3)
+									 (number-round (get-y point) 3)))
+							 (mapcar #'(lambda(point) 
+								     (get-3d-point-of point))
+								 (the solutions))))))))
 
    (box :type 'box
 	:width (twice (apply #'max (mapcar #'abs (list (the range-min) (the range-max)))))
 	:length (twice (apply #'max (mapcar #'abs (list (the domain-min) (the domain-max))))))
 
    (viewport :type 'base-ajax-graphics-sheet
-	     :respondent self
+	     ;;:respondent self
 	     :view-direction-default :top
 	     :image-format-default :raphael
 	     :display-list-object-roots (list-elements (the graphs))
