@@ -103,7 +103,10 @@
   </pre>")
   
   :input-slots
-  ((native-curve (when (the native-curve-iw)
+  ((%decomposed?% nil)
+   (%copy?% nil)
+
+   (native-curve (when (the native-curve-iw)
                    (get-nurbs-from-curve *geometry-kernel* (the native-curve-iw))))
    
    
@@ -217,7 +220,7 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
                 (near-to? (the total-length) 0))
       (if (typep self 'arc-curve)
 	  (call-next-method)
-	  (if (= (the decomposed curves number-of-elements) 1)
+	  (if (= (the %decomposed% curves number-of-elements) 1)
 	      (unless (and (= (the degree) 1) (not (the rational?)))
 		(when (list-elements (the beziers))
 		  (let (result)
@@ -229,7 +232,7 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
 		      (if (null result)
 			  (setq result (the-object bezier %curves-to-draw%))
 			  (nconc result (the-object bezier %curves-to-draw%)))))))
-	      (append-elements (the decomposed curves) 
+	      (append-elements (the %decomposed% curves) 
 			       (the-element %curves-to-draw%))))))
    
    
@@ -308,21 +311,20 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
 
   
   :hidden-objects
-  ((decomposed :type 'decomposed-curves :curve-in self 
-               :tolerance (the tolerance)
-               :tolerance-for-native-beziers (the tolerance-for-native-beziers))
+  ((%decomposed% :type (if (the %decomposed?%) 'null-object 'decomposed-curves)
+		 :curve-in self 
+		 :tolerance (the tolerance)
+		 :tolerance-for-native-beziers (the tolerance-for-native-beziers))
 
    
    ("GDL Curve. The first derivative of this curve. The degree will be one less than the degree of this curve."
-    first-derivative :type 'curve :native-curve (the first-derivative-native-curve))
+    first-derivative :type (if (>= (the degree) 1) 'curve 'null-object) :native-curve (the first-derivative-native-curve))
    
    ("GDL Curve. The second derivative of this curve. The degree will be two less than the degree of this curve."
-    second-derivative :type 'curve :native-curve (the second-derivative-native-curve)))
+    second-derivative :type (if (>= (the degree) 2) 'curve 'null-object) :native-curve (the second-derivative-native-curve))
 
   
-  :hidden-objects
-   
-  ((beziers :type 'bezier-curve
+   (beziers :type 'bezier-curve
             :sequence (:size (length (the native-beziers)))
             :weights nil
             :knots nil
@@ -331,13 +333,14 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
                               (ecase (length result)
                                 (4 result)
                                 (3 (list (first result) (second result) (third result) (third result)))
-                                (2 (list (first result) (first result) (second result) (second result)))))))
+                                (2 (list (first result) (first result) (second result) (second result))))))
 
-  :hidden-objects
-  ((reverse :type 'curve
-            :native-curve (curve-reverse *geometry-kernel* (the native-curve)))
+   (reverse :type (if (the %reversed?%) 'null-object 'curve)
+            :native-curve (curve-reverse *geometry-kernel* (the native-curve))
+	    :%reversed?% t)
    
-   (copy :type 'b-spline-curve
+   (copy :type (if (the %copy?%) 'null-object 'b-spline-curve)
+	 :%copy?% t
          :data (multiple-value-list (the b-spline-data))
          :pseudo-inputs (data)
          :control-points (first (the-child data))
@@ -688,7 +691,7 @@ parameters where similar minimum radii occur."
     (&key (3d-tolerance *3d-tolerance-default*)
           (angle-tolerance *angle-tolerance-radians-default*)
           (minimum-segment-length *minimum-segment-length-default*))
-    (let ((decomposed (list-elements (the decomposed))))
+    (let ((decomposed (list-elements (the %decomposed%))))
       (let ((result (list :distance nil :angle nil :length nil)))
         (mapc #'(lambda(c1 c2)
                   (let ((tan1 (the-object c1 (tangent (the-object c1 u-max))))
