@@ -65,5 +65,7 @@
   (dolist (host *gorg-hosts*)
     (publish-shared  :host host :path "/" :object-type 'landing)))
   
-
-(initialize)
+;;
+;; FLAG -- arrange to call this on production startup. 
+;;
+;;(initialize)
