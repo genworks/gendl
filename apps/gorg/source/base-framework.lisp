@@ -9,9 +9,10 @@
 (defparameter *system-home* "~dcooper8/genworks/gendl/apps/gorg/")
 
 (defparameter *templates-folder* 
-  (translate-logical-pathname
-   (make-pathname :name nil :type nil
-		  :defaults (merge-pathnames "static/templates/" *system-home*))))
+  (let ((static (merge-pathnames "static/templates/" *system-home*)))
+    (translate-logical-pathname
+     (make-pathname :name nil :type nil
+		    :defaults static))))
 
 
 (defparameter *cache-static-content?* nil)
