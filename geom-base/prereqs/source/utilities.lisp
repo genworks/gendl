@@ -637,7 +637,10 @@ to both <b>vector-1</b> and <b>vector-2</b>.
 
 :arguments (vector \"3D Vector\")"
 
-  (3d-distance vector +nominal-origin+))
+  (3d-distance (if (= (array-dimension vector 0) 3) 
+                   vector 
+                   (make-vector (get-x vector) (get-y vector) 0))
+               +nominal-origin+))
 
 
 (defun zero-vector? (vector)

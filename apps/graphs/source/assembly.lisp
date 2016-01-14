@@ -27,6 +27,7 @@
   :objects
   (
    (points-display :type 'points-display
+		   
 		   :hidden? t
 		   :points (the curve-sample-points))
 
