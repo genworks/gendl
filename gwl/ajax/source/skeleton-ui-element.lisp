@@ -270,6 +270,7 @@ form-controls (default of these is also nil) will be respected. Default is nil."
    (register-html-section!
     (section)
 
+    #+gwl-debug
     (progn
       (format *trace-output* "~&Before:~%")
       (print-variables self)
@@ -282,7 +283,8 @@ form-controls (default of these is also nil) will be respected. Default is nil."
                       ;;:remember? nil
 		      :warn-on-non-toplevel? nil)))
 
-    (when t
+    #+gwl-debug
+    (progn
       (format *trace-output* "~&After:~%")
       (print-messages %html-section-root-paths%)))
 
