@@ -105,6 +105,7 @@
   :input-slots
   ((%decomposed?% nil)
    (%copy?% nil)
+   (%reversed?% nil)
 
    (native-curve (when (the native-curve-iw)
                    (get-nurbs-from-curve *geometry-kernel* (the native-curve-iw))))

@@ -73,6 +73,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:%view-plane-normal%
            #:*%format%*
            #:*allowed-part-documentation-keywords*
+	   #:*bias-to-double-float?*
            #:*color-table*
            #:*color-table-decimal*
            #:*colors-default*

@@ -174,8 +174,8 @@ was contributed by Reinier van Dijk.
 The type of the returned number will depend on the type of <b>num</b>.
 
 :arguments (num \"Number\")"
-
-  (/ num 2))
+  (let ((result (/ num 2)))
+    (if *bias-to-double-float?* (to-double-float result) result)))
 
 (defun twice (num)
   "Number. Returns the result of multiplying <b>num</b> by the integer <tt>2</tt>.
@@ -183,7 +183,9 @@ The type of the returned number will depend on the type of <b>num</b>.
 
 :arguments (num \"Number\")"
   
-  (+ num num))
+  (let ((result (+ num num)))
+    (if *bias-to-double-float?* (to-double-float result) result)))
+
 
 (defun index-filter (fn list)
   "List. Returns all elements of <b>list</b> for whose index (starting at zero) the 

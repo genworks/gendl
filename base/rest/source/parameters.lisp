@@ -41,6 +41,17 @@
 
 (defparameter *override-non-settables?* t)
 
+(defparameter *bias-to-double-float?* nil 
+  "Boolean. Indicates whether the following functions should always return double-floats: 
+<ul>
+<li><tt>half</tt>
+<li><tt>twice</tt>
+</ul>.
+
+Defaults to nil.
+")
+
+
 (defparameter *color-plist*
     (list :periwinkle "#aaaaff"
           :aqua "#00ffff"
