@@ -526,6 +526,8 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:bounding-box-from-points
 	   #:flatten-lines
 	   #:flatten-curves
+	   #:point-on-plane? 
+	   #:point-on-vector?
 
 	   #:arc
 	   #:base-object

@@ -1628,3 +1628,33 @@ add any new keys.
 		 (the-child %matrix-vector-2%)
 		 (* (second (the-child index)) (the-child %matrix-increment-2%)))))))
 						
+
+(defun point-on-plane? (3d-point plane-point plane-normal &key (tolerance *zero-epsilon*))
+
+  "Boolean. Determines whether or not the <tt>3d-point</tt> lies on the plane specified by <tt>plane-point</tt> 
+ and <tt>plane-normal</tt>, within <tt>tolerance</tt>.
+
+:arguments (3d-point \"Point in question\"
+            plane-point \"point on the known plane\"
+            plane-normal \"normal to the known plane\")
+:&key      ((tolerance *zero-epsilon*) \"Tolerance for points to be considered coincident.\")
+"
+
+  (let ((intersect-point (inter-line-plane 3d-point plane-normal plane-point plane-normal)))
+    (coincident-point? 3d-point intersect-point :tolerance tolerance)))
+
+
+(defun point-on-vector? (first-point second-point unknown-point &key (tolerance *zero-epsilon*))
+
+  "Boolean. Determines whether or not the <tt>unknown-point</tt> lies on the ray specified by the vector
+pointing from <tt>first-point</tt> to <tt>second-point</tt>, within <tt>tolerance</tt>.
+
+:arguments (first-point \"first point of vector\"
+            second-point \"second point of vector\"
+            unknown-point \"point in question\")
+:&key      ((tolerance *zero-epsilon*) \"Tolerance for vectors to be considered same-direction.\")
+"
+
+  (let ((known-vector (subtract-vectors second-point first-point))
+        (unknown-vector (subtract-vectors unknown-point first-point)))
+    (same-direction-vectors? known-vector unknown-vector :tolerance tolerance)))
