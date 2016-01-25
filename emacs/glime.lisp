@@ -1371,7 +1371,7 @@ to the context provided by RAW-FORM."
 (defun object-definition-in-env (env &optional class)
   (when-let (defn (cdr (assoc +object-marker+ env)))
     (when (or (null class)
-	      (eq (object-defn-classname defn) (safe-class-name class)))
+	      (eq (object-defn-classname defn) (class-name-or-dummy class)))
       defn)))
 
 ;; Returns the class (name or actual class) and the message-in-progress
@@ -2261,7 +2261,7 @@ datum for subsequent logics to rely on."
 	     (sequencedp (and defn
 			      (eq operator 'gendl:the-child)
 			      (sequence-slot-form-p (object-defn-section defn) (object-defn-slot-form defn))))
-	     (class-name (safe-class-name class))
+	     (class-name (class-name-or-dummy class))
 	     (functionp (consp msg))
 	     (messages (delete-duplicates
 			(nconc (when (and defn (eq (object-defn-classname defn) class-name))
@@ -2300,7 +2300,7 @@ datum for subsequent logics to rely on."
 
 (defun gendl-superclasses-in-env (class env)
   (let* ((defn (object-definition-in-env env))
-	 (class-name (safe-class-name class))
+	 (class-name (class-name-or-dummy class))
 	 (class-defn (and defn
 			  (eq (object-defn-classname defn) class-name)
 			  defn))
@@ -2468,6 +2468,9 @@ datum for subsequent logics to rely on."
 (defmethod safe-class-name ((self symbol)) self)
 (defmethod safe-class-name ((self class)) (class-name self))
 (defmethod safe-class-name ((self t)) nil)
+
+(defun class-name-or-dummy (self)
+  (if (arglist-dummy-p self) self (safe-class-name self)))
 
 ;; Return the last non-empty tail of plist.
 (defun plist-tail (plist)
