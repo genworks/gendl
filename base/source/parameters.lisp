@@ -128,7 +128,7 @@ compared to applications compiled with it set to T. Defaults to NIL.")
 (defparameter *allowed-define-object-toplevel-keywords*
   (list :input-slots :computed-slots :objects :hidden-objects :functions
 	:methods :trickle-down-slots :cached-functions :cached-methods 
-	:documentation :no-vanilla-mixin?))
+	:documentation :no-vanilla-mixin? :query-slots))
 
 (defparameter *define-object-toplevel-macros* (make-hash-table))
 
