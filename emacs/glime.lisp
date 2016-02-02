@@ -1663,7 +1663,10 @@ else eliminate any function messages with required keywords, and
 	  (decode-arglist '(gendl::expression)))
 	(when-let (defn (object-definition-in-env env class))
 	  (message-arglist-from-defn defn operator))
-	(message-arglist-from-class class operator))))
+	(message-arglist-from-class class operator)
+	(when-let (defn (object-definition-in-env env class))
+	  (loop for superclass in (object-defn-mixins defn)
+	     thereis (message-arglist-from-class superclass operator))))))
 
 (defparameter *extra-object-slot-keyword-args*
   (mapcar #'make-keyword-arg '(gendl::type gendl::sequence gendl::parameters gendl::pass-down gendl::pseudo-inputs)))
@@ -2378,14 +2381,14 @@ datum for subsequent logics to rely on."
 
 ;; Returns cdr of the slot form (i.e. without the slot name)
 (defun gendl-source (class slot-name)
-  (when-let (message (intern-arg slot-name keyword-package))
-    (when-let (prototype (gendl-class-prototype class))
+  (when-let (prototype (gendl-class-prototype class))
+    (when-let (message (intern-arg slot-name keyword-package nil))
       ;; CAR of slot-source is the class it's defined in, CADR is the cdr of the slot form.
       (cadr (gendl:the-object prototype (slot-source message))))))
 
 (defun gendl-category (class slot-name)
-  (when-let (message (intern-arg slot-name keyword-package))
-    (when-let (prototype (gendl-class-prototype class))
+  (when-let (prototype (gendl-class-prototype class))
+    (when-let (message (intern-arg slot-name keyword-package nil))
       (let ((message-plist
 	     (gendl:the-object prototype
 			       (message-list :return-category? t :category :all))))
