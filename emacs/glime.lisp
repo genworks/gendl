@@ -2643,18 +2643,25 @@ a security hole but is mighty convenient.")
 ;; m-x slime-documentation
 (defslimefun documentation-symbol (symbol-name)
   (with-buffer-syntax ()
-    (multiple-value-bind (sym foundp) (parse-symbol symbol-name)
-      (if foundp
-	  (with-output-to-string (string)
-	    (format string "Documentation for the symbol ~a:~2%" sym)
-	    (loop with found = nil
-	       for (type . prompt) in *symbol-documentation-types*
+    (multiple-value-bind (sym foundp sname) (parse-symbol symbol-name)
+      (with-output-to-string (string)
+	(let ((heading
+	       (if foundp
+		   "Documentation for the symbol ~s:~2%"
+		   ;; If symbol is not found, try the keyword version of it, so we can document messages.
+		   (and (not (find #\: symbol-name))
+			(setq sym (find-symbol sname keyword-package))
+			"Documentation for the keyword ~s:~2%"))))
+	  (if heading
+	    (loop for (type . prompt) in *symbol-documentation-types*
 	       as doc = (slime-documentation sym type)
 	       do (when (> (length doc) 0)
-		    (setq found t)
+		    (when heading
+		      (format string heading sym)
+		      (setq heading nil))
 		    (format string "~a:~% ~a~2%" prompt doc))
-	       finally (unless found
-			 (format string "Not documented."))))
-          (format nil "No such symbol, ~a." symbol-name)))))
+	       finally (when heading ;; didn't find any documentation
+			 (format string "No documentation found for ~a" symbol-name)))
+	    (format string "Symbol not found, ~a" symbol-name)))))))
 
 (provide :glime)
