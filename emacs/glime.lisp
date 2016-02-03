@@ -1663,7 +1663,10 @@ else eliminate any function messages with required keywords, and
 	  (decode-arglist '(gendl::expression)))
 	(when-let (defn (object-definition-in-env env class))
 	  (message-arglist-from-defn defn operator))
-	(message-arglist-from-class class operator))))
+	(message-arglist-from-class class operator)
+	(when-let (defn (object-definition-in-env env class))
+	  (loop for superclass in (object-defn-mixins defn)
+	     thereis (message-arglist-from-class superclass operator))))))
 
 (defparameter *extra-object-slot-keyword-args*
   (mapcar #'make-keyword-arg '(gendl::type gendl::sequence gendl::parameters gendl::pass-down gendl::pseudo-inputs)))
@@ -2378,14 +2381,14 @@ datum for subsequent logics to rely on."
 
 ;; Returns cdr of the slot form (i.e. without the slot name)
 (defun gendl-source (class slot-name)
-  (when-let (message (intern-arg slot-name keyword-package))
-    (when-let (prototype (gendl-class-prototype class))
+  (when-let (prototype (gendl-class-prototype class))
+    (when-let (message (intern-arg slot-name keyword-package nil))
       ;; CAR of slot-source is the class it's defined in, CADR is the cdr of the slot form.
       (cadr (gendl:the-object prototype (slot-source message))))))
 
 (defun gendl-category (class slot-name)
-  (when-let (message (intern-arg slot-name keyword-package))
-    (when-let (prototype (gendl-class-prototype class))
+  (when-let (prototype (gendl-class-prototype class))
+    (when-let (message (intern-arg slot-name keyword-package nil))
       (let ((message-plist
 	     (gendl:the-object prototype
 			       (message-list :return-category? t :category :all))))
@@ -2640,18 +2643,25 @@ a security hole but is mighty convenient.")
 ;; m-x slime-documentation
 (defslimefun documentation-symbol (symbol-name)
   (with-buffer-syntax ()
-    (multiple-value-bind (sym foundp) (parse-symbol symbol-name)
-      (if foundp
-	  (with-output-to-string (string)
-	    (format string "Documentation for the symbol ~a:~2%" sym)
-	    (loop with found = nil
-	       for (type . prompt) in *symbol-documentation-types*
+    (multiple-value-bind (sym foundp sname) (parse-symbol symbol-name)
+      (with-output-to-string (string)
+	(let ((heading
+	       (if foundp
+		   "Documentation for the symbol ~s:~2%"
+		   ;; If symbol is not found, try the keyword version of it, so we can document messages.
+		   (and (not (find #\: symbol-name))
+			(setq sym (find-symbol sname keyword-package))
+			"Documentation for the keyword ~s:~2%"))))
+	  (if heading
+	    (loop for (type . prompt) in *symbol-documentation-types*
 	       as doc = (slime-documentation sym type)
 	       do (when (> (length doc) 0)
-		    (setq found t)
+		    (when heading
+		      (format string heading sym)
+		      (setq heading nil))
 		    (format string "~a:~% ~a~2%" prompt doc))
-	       finally (unless found
-			 (format string "Not documented."))))
-          (format nil "No such symbol, ~a." symbol-name)))))
+	       finally (when heading ;; didn't find any documentation
+			 (format string "No documentation found for ~a" symbol-name)))
+	    (format string "Symbol not found, ~a" symbol-name)))))))
 
 (provide :glime)
