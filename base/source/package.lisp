@@ -193,6 +193,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:list-of-numbers
            #:list-of-n-numbers
            #:lookup-color
+	   #:load-glime
 	   #:load-quicklisp
 	   #:load-hotpatches
 	   #:*quicklisp-home*

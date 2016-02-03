@@ -444,3 +444,14 @@ keyword argument to this function.
 	(warn "~s does not exist.~%" ql-loader))))
 
 
+(defun load-glime ()
+  "Void.  If the Glime (Slime Gendl auto-completion extensions) file exists, load it. 
+Path is currently hardcoded to <tt>(merge-pathnames \"emacs/glime.lisp\" glime:*gdl-home*)</tt>
+or <tt>~/genworks/gendl/emacs/glime.lisp</tt>.
+
+"
+  (let ((glime-source (or (probe-file (merge-pathnames "emacs/glime.lisp" glisp:*gendl-home*))
+			  (probe-file (merge-pathnames "genworks/gendl/emacs/glime.lisp" (user-homedir-pathname))))))
+    (if (probe-file glime-source) 
+	(load (compile-file glime-source :output-file (make-pathname :defaults (glisp:temporary-file) :type glisp:*fasl-extension*)))
+	(warn "Glime source not found at ~s.~%" glime-source))))
