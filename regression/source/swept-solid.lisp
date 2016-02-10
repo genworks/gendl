@@ -76,7 +76,6 @@
 					(make-point 5 0 1) 
 					(make-point 3 5 1)))))
 
-
 (register-test-definition 'swept-solid-test)
 
 

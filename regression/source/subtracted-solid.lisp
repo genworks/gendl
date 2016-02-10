@@ -42,5 +42,4 @@
 	  :width 30)))
 
 
-
 (register-test-definition 'subtracted-solid-test)

@@ -226,8 +226,8 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
 		(when (list-elements (the beziers))
 		  (let (result)
 		    (dolist (bezier 
-                              (if t ;;*chain-beziers-for-display?*
-                                  (chain-nurbs-curves (list-elements (the beziers)))
+			      (if t ;;*chain-beziers-for-display?*
+				  (chain-nurbs-curves (list-elements (the beziers)))
 				  (list-elements (the beziers)))
 			     result)
 		      (if (null result)
@@ -312,7 +312,7 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
 
   
   :hidden-objects
-  ((%decomposed% :type (if (the %decomposed?%) 'null-object 'decomposed-curves)
+  ((%decomposed% :type (if (the %decomposed?%) 'null-decomposed-curves 'decomposed-curves)
 		 :curve-in self 
 		 :tolerance (the tolerance)
 		 :tolerance-for-native-beziers (the tolerance-for-native-beziers))
@@ -829,4 +829,8 @@ are equal.
           (list :point-on-curve point-on-curve :point-on-other-curve point-on-other-curve :distance distance)))))))
 
 
+
+(define-object null-decomposed-curves (null-object)
+  :objects
+  ((curves :type 'curve :sequence (:size 0))))
 

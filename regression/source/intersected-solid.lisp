@@ -56,5 +56,4 @@
 		:brep (the cylinder)
 		:other-brep (the plane brep))))
 
-
 (register-test-definition 'intersected-solid-test)
