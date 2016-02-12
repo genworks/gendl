@@ -91,10 +91,7 @@
                                                             ,args-arg)))))))
            
 
-	   ;;
-	   ;; FLAG unwind the changes here and hunt down where the actual lookup-parameters is coming from
-	   ;;
-	   `(unless nil #+nil (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
+	   `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
 				 nil (list (find-class 'gdl-basis)) nil)
 	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 		;;(declare (ignore ,args-arg))
