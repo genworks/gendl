@@ -44,7 +44,7 @@
 		       (defmethod ,(glisp:intern key :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 			 ;;(declare (ignore ,args-arg))
 			 (let ((,parent-arg (the-object ,self-arg %parent%)))
-			   (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword key) ,args-arg)
+			   (if (or (null ,parent-arg) ,args-arg) (not-handled ,self-arg ,(make-keyword key) ,args-arg)
 			       (,(glisp:intern key :gdl-inputs) 
 				 ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))) object-input-keys))))
 

@@ -99,9 +99,6 @@
 	      (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
 		;;(declare (ignore ,args-arg))
 		(let ((,parent-arg (the-object ,self-arg %parent%)))
-
-		  (print-variables ,args-arg)
-
 		  (if (or (null ,parent-arg) ,args-arg) (not-handled ,self-arg ,(make-keyword attr-sym) ,args-arg)
 		      (let ((,val-arg (let (*error-on-not-handled?*)
 					(,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
