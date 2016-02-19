@@ -588,7 +588,7 @@ is as close as possible to <b>vector</b>.
          (cross-vectors reference-vector normal))))))
 
 
-(defun parallel-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*))
+(defun parallel-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*) directed?)
     "Boolean. Returns non-nil iff <b>vector-1</b> and <b>vector-2</b> are pointing in the 
 same direction or opposite directions. 
 
@@ -596,7 +596,7 @@ same direction or opposite directions.
             vector-2 \"3D Vector\")
 :&key ((tolerance *zero-epsilon*) \"Number\")"
   (or (same-direction-vectors? vector-1 vector-2 :tolerance tolerance)
-      (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance)))
+      (unless directed? (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance))))
   
 
 (defun same-direction-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*))

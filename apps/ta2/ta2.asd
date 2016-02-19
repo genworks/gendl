@@ -1,8 +1,8 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:ta2 :description
- "The Gendl™ (legacy) Testing and Tracking Utility, version 2 (using Ajax but pre-gdlAjax, and no JQuery or CSS)"
- :author "Dave Cooper" :license
+ "The Gendl\" (legacy) Testing and Tracking Utility, version 2 (using Ajax but pre-gdlAjax, and no JQuery or CSS)"
+ :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
  :version "20160211" :depends-on (:gwl-graphics)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
