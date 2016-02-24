@@ -50,13 +50,14 @@
       (print (get-regression-data symbol) out))))
 
 
-#+nil
+
 (defun seed-all-test-data ()
   (dolist (symbol *gdl-test-definitions*)
     (format t "Seeding data with stress-test of 10 iterations for ~s...~%" symbol)
     (dotimes (n 10) (seed-test-data symbol) (glisp:gc-full))))
 
 
+#+nil
 (defun seed-all-test-data ()
   (dolist (symbol *gdl-test-definitions*)
     (format t "Seeding data for ~s...~%" symbol)
