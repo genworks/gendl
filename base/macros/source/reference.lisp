@@ -71,7 +71,9 @@ set of arms contained in the body which is contained in the robot which is conta
                                 (eql (first (first (rest first))) :apply))
                            (setq apply? t)(second (first (rest first))))
                           ((listp first) (rest first))))
-              (new-object (gensym)))
+              ;;(new-object (gensym))
+	      (new-object '+new-object+)
+	      )
           
           
           `(the-object ,(if *undeclared-parameters-enabled?*
@@ -133,7 +135,11 @@ view transforms, view scales, etc.
  (gdl::with-format (pdf \"/tmp/box.pdf\" :view-transform (getf *standard-views* :trimetric)) 
     (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output))
 </pre>"
-  (let ((flag (gensym)))
+  (let (;;(flag (gensym))
+	(flag '+flag+)
+	)
+	
+	
     `(let ((*%format%* (make-instance ',format ,@args)))
        (let ((*stream* (if (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))
                          (open ,stream-or-file 

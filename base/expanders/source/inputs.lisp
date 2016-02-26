@@ -40,7 +40,7 @@
 
 
 (defun input-methods (name attr-sym keys expressions special-keys)
-  (let ((input (gensym)))
+  (let ((input '+input+ #+nil(gensym)))
     (let ((remove-defunct-expressions
            (list
             `(dolist (,input (set-difference (getf (child-inputs (find-class ',name)) ',attr-sym) ',keys))
@@ -127,7 +127,7 @@
                              'gdl-rule:%not-handled%)))
                       (cond ((not (eql ,val-arg 'gdl-rule:%not-handled%)) ,val-arg)
                             ((and ,parent-arg (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)))
-                             (if ;;(member ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
+                             (if ;;(member ,(make-key attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
 			      (gethash ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
 			      (,(glisp:intern (symbol-name attr-sym) :gdl-slots) ,parent-arg)
 			      (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))

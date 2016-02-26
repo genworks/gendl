@@ -27,7 +27,7 @@
 
 :arguments (form \"Reference-chain with the or the-object\"
             default \"Lisp expression. Default value to return if reference-chain cannot be handled.\")"
-  (let ((value (gensym)) (error (gensym)))
+  (let ((value '+value+ #+nil (gensym)) (error '+error+ #+nil (gensym)))
     `(multiple-value-bind (,value ,error) (ignore-errors ,form)
        (cond ((and ,error (typep ,error 'error)
                    (let ((string (glisp:replace-regexp (format nil "~a" ,error)

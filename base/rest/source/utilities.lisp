@@ -39,7 +39,7 @@ A warning is given if an error condition occurs with <b>body</b>.
   (declare (ignore timeout-body))
   
   (if error? `(progn ,@body)
-    (let ((values (gensym)) (error (gensym)))
+    (let ((values '+values+ #+nil (gensym)) (error '+error+ #+nil (gensym)))
       (let ((code `(let* ((,values (multiple-value-list (ignore-errors ,@body)))
 
                           (,error (second ,values)))

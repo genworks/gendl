@@ -231,7 +231,7 @@ You have a dependency on caffeine. Your children are your dependants.
 
 
 
-(let ((value (gensym)) (need? (gensym)))
+(let ((value '+value+ #+nil(gensym)) (need? '+need?+ #+nil (gensym)))
   (defmacro with-dependency-tracking ((message-symbol &optional (self-sym 'self)) &rest body)
     `(let ((,value (,message-symbol ,self-sym))
 	   ;;

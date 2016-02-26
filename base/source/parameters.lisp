@@ -142,11 +142,18 @@ values are a color indicator for the default foreground and background of graphi
 
 (defparameter *%format%* nil)
 
-(defvar args-arg (gensym))
-(defvar parent-arg (gensym))
-(defvar part-arg (gensym))
-(defvar val-arg (gensym))
-(defvar self-arg (gensym))
+;;(defvar args-arg (gensym))
+;;(defvar parent-arg (gensym))
+;;(defvar part-arg (gensym))
+;;(defvar val-arg (gensym))
+;;(defvar self-arg (gensym))
+
+(defvar args-arg '+args-arg+)
+(defvar parent-arg '+parent-arg+)
+(defvar part-arg '+part-arg+)
+(defvar val-arg '+val-arg+)
+(defvar self-arg '+self-arg+)
+
 
 
 (defparameter *error-on-not-handled?* t)

@@ -131,7 +131,7 @@
            ;; add checks for *root-checking-enabled?*
            ;;
            
-           (let ((value (gensym)))
+           (let ((value '+value+ #+nil (gensym)))
              `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
                 (let ((,value (,attr-sym self)))
                   (if (not (eq (first (ensure-list ,value)) 'gdl-rule::%unbound%))

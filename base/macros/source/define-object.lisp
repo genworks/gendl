@@ -158,7 +158,26 @@
                                      )
                                  hidden-objects)))
          
-         ,@(when (getf specs :new)
+
+	 ,@(when (getf specs :new)
+             `((old-message-keys '+old-message-keys+)
+               (new-message-keys '+new-message-keys+)
+               (symbol-arg '+symbol-arg+)
+               (symbols-arg '+symbols-arg+)
+               (non-settables-arg '+non-settables-arg+)
+               (ht-arg '+ht-arg+)
+               (message-arg '+message-arg+)
+               (depth-arg '+depth-arg+)
+               (category-arg '+category-arg+)
+               (message-type-arg '+message-type-arg+)
+               (base-part-type-arg '+base-part-type-arg+)
+               (class-arg '+class-arg+)))
+
+
+	 
+         ;;,@
+	 #+nil
+	 (when (getf specs :new)
              `((old-message-keys (gensym))
                (new-message-keys (gensym))
                (symbol-arg (gensym))
