@@ -19,6 +19,11 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
+
+These changes have been merged into codebase.
+
+#|
+
 (in-package :gdl)
 
 
@@ -292,3 +297,5 @@ The path to the containing object is: ~s"
 			       (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword key) ,args-arg)
 				   (,(glisp:intern key :gdl-inputs) 
 				     ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))) object-input-keys))))))
+
+|#

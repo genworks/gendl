@@ -48,14 +48,14 @@
 				(gethash keyword (the-object parent %trickle-down-slots%))
 				(apply (symbol-function slot-symbol) parent args))
 			       (t (apply (symbol-function (glisp:intern slot-symbol :gdl-trickle-downs)) parent args))))))
-		  (if (eql result 'gdl-rule:%not-handled%) (not-handled self keyword) result))
+		  (if (eql result 'gdl-rule:%not-handled%) (not-handled self keyword args) result))
 		result))))))
 
 
 (defun trickle-down-basis (self slot args)
   (let ((keyword (make-keyword slot)))
     (let (*error-on-not-handled?* (parent (the parent)))
-      (cond ((null parent) (not-handled self keyword))
+      (cond ((null parent) (not-handled self keyword args))
 	    (;;(member keyword (the-object parent %trickle-down-slots%))
 	     (gethash keyword (the-object parent %trickle-down-slots%))
 	     (apply (symbol-function (glisp:intern slot :gdl-slots)) parent args))
