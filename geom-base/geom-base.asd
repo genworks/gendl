@@ -1,15 +1,16 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:geom-base :description
- "The Gendl\" Wireframe Geometry" :author "John McCarthy" :license
+ "The Gendl™ Wireframe Geometry" :author "Dave Cooper" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20160211" :depends-on (:glisp)
+ :version "20160302" :depends-on (:glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "prereqs/source/presets")
   (:file "prereqs/source/cl-pdf-patches")
   (:file "prereqs/source/matrix") (:file "prereqs/source/parameters")
+  (:file "prereqs/source/3d-point-vector-data-types")
   (:file "prereqs/source/utilities")
   (:file "formats/source/2d-output") (:file "formats/source/dxf")
   (:file "formats/source/macro-redefs") (:file "formats/source/obj")

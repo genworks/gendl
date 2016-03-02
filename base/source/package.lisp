@@ -628,6 +628,17 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   ;;
 	   ;;#:3d-vector-to-array
 	   ;;#:array-to-3d-vector
+
+
+	   ;;
+	   ;; types and predicates
+	   ;;
+	   #:3d-point?
+	   #:3d-vector?
+	   #:3d-point
+	   #:3d-vector
+	   #:3d-point-p
+	   #:3d-vector-p
            
 	   ))
 

@@ -23,7 +23,7 @@
 
 
 
-(defparameter *gendl-version* "1590pre004")
+(defparameter *gendl-version* "1590pre005")
 
 (defparameter *gendl-patch-level* nil)
 
@@ -220,5 +220,4 @@ values are a color indicator for the default foreground and background of graphi
 
 (defvar *quicklisp-home* nil)
 
-(defvar *packages-to-lock* 
-  (list :gendl :geom-base :cl-lite :gwl :gwl-graphics :tasty :robot :tree :yadd :surf :smlib :genworks-gdl))
+

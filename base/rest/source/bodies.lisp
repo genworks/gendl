@@ -37,7 +37,7 @@
 (defun chase-up-trickle-down (slot-symbol self args)
   (let ((keyword (make-keyword slot-symbol)))
     (let ((parent (the-object self parent)))
-      (if (null parent) (not-handled self keyword)
+      (if (null parent) (not-handled self keyword args)
 	  (let ((result
 		 (let (*error-on-not-handled?*)
 		   (funcall (symbol-function (glisp:intern slot-symbol :gdl-inputs)) parent (the %name%) self))))

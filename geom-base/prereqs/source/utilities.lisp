@@ -594,7 +594,8 @@ same direction or opposite directions.
 
 :arguments (vector-1 \"3D Vector\"
             vector-2 \"3D Vector\")
-:&key ((tolerance *zero-epsilon*) \"Number\")"
+:&key ((tolerance *zero-epsilon*) \"Number\"
+       (directed? nil) \"Boolean. Indicates whether opposite direction vectors will return a non-nil result as well.\")"
   (or (same-direction-vectors? vector-1 vector-2 :tolerance tolerance)
       (unless directed? (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance))))
   
