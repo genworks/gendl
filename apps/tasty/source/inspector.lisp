@@ -40,7 +40,9 @@
 (defun one-line (string)
   (glisp:replace-regexp (glisp:replace-regexp string (format nil "~%") " ") "'" "\\'" ))
 
-(defparameter *suppress-%%-messages?* t)
+(defparameter *suppress-%%-messages?* t "Boolean. Set to nil if you want to see messages starting and ending with %% in tasty inspector. Defaults to t.")
+
+(defparameter *suppress-$$-messages?* t "Boolean. Set to nil if you want to see messages starting with $$ in tasty inspector. Defaults to t.")
 
 ;;
 ;; FLAG -- replace with abstract associative map
@@ -95,16 +97,19 @@
               (remove-if
                #'(lambda (keyword)
                    (or (member keyword *internal-keywords*)
+		       (and *suppress-$$-messages?*
+			    (let ((string (string keyword)))
+                              (and
+                               (> (length string) 2) (string-equal (subseq string 0 2) "$$"))))
                        (and *suppress-%%-messages?*
                             (let ((string (string keyword)))
                               (and
                                (> (length string) 2)
-                               (or (string-equal (subseq string 0 2) "$$")
-                                   (and (eql (aref string 0) #\%)
-                                        (or (eql (aref string 1) #\%)
-                                            (eql
-                                             (aref string (1- (length string)))
-                                             #\%)))))))))
+			       (and (eql (aref string 0) #\%)
+				    (or (eql (aref string 1) #\%)
+					(eql
+					 (aref string (1- (length string)))
+					 #\%))))))))
                (set-difference (the :node (:message-list))
                                (append (the
                                            :node
