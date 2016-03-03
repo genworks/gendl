@@ -303,9 +303,12 @@
    (value-display
     (ignore-errors-with-warning
      (let* ((value (the value))
-            (gdl-object? (eql (class-of (class-of value))
-                              (find-class 'gdl-class))))
-
+            (gdl-object? (or (eql (class-of (class-of value))
+				  (find-class 'gdl-class))
+			     (let ((printed (with-output-to-string (ss) (print-object value ss))))
+			       (and (>= (length printed) 2)
+				    (eql (aref printed 0) #\#)
+				    (eql (aref printed 1) #\<))))))
        (with-cl-who-string ()
          ((:span :style (format nil "color: ~a; ~a" 
                                 (if (the clickable?) "blue" "black")
