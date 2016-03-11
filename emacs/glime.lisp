@@ -1798,10 +1798,6 @@ else eliminate any function messages with required keywords, and
 	(when (arglist-available-p arglist)
 	  (values message-form arglist))))))
 
-(defun plist-tail (plist)
-  (loop for last = plist then next for next = (cddr last)
-     when (null next) return last))
-
 (defun find-subform-with-arglist (form)
   "Returns four values:
 
@@ -2350,9 +2346,6 @@ datum for subsequent logics to rely on."
 
 
 ;; 9.2. Messages which we can deduce from the current form.
-
-(defparameter +define-object-sections+
-  '(:input-slots :computed-slots :objects :hidden-objects :functions :methods))
 
 (defun current-section-in-object-defn (defn)
   (destructuring-bind (classname &optional mixins &rest keys) (cdr defn)
