@@ -37,7 +37,7 @@ toplevel of the define-object form.")
   :input-slots
   (
    
-   (remote-id nil)
+   (remote-id nil :settable)
    
    (quantify-box (or (the parent) self))
    

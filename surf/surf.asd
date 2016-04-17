@@ -2,9 +2,9 @@
 
 (asdf:defsystem #:surf :description
  "The Gendl\" NURBS Surface and Solids Geometry Primitives" :author
- "John McCarthy" :license
+ "Dave Cooper" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20160307" :depends-on (:geom-base)
+ :version "20160417" :depends-on (:geom-base)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
@@ -44,8 +44,10 @@
   (:file "source/linear-curve") (:file "source/lofted-surface")
   (:file "source/merged-brep") (:file "source/native-reader")
   (:file "source/nonrational-curve")
-  (:file "source/normalized-curve") (:file "source/offset-solid")
-  (:file "source/offset-surface") (:file "source/ordered-curves")
+  (:file "source/normalized-curve")
+  (:file "source/normally-projected-curve")
+  (:file "source/offset-solid") (:file "source/offset-surface")
+  (:file "source/ordered-curves")
   (:file "source/planar-contour-surface")
   (:file "source/planar-offset-curve")
   (:file "source/planar-section-curve")

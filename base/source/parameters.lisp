@@ -23,7 +23,7 @@
 
 
 
-(defparameter *gendl-version* "1590pre006")
+(defparameter *gendl-version* "1590pre007")
 
 (defparameter *gendl-patch-level* nil)
 

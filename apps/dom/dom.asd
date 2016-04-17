@@ -1,9 +1,9 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:dom :description
- "The Gendl\" dom Subsystem" :author "John McCarthy" :license
+ "The Gendl\" dom Subsystem" :author "Dave Cooper" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20160307" :depends-on (:cl-who :yadd)
+ :version "20160417" :depends-on (:cl-who :yadd)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components

@@ -667,6 +667,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:iso-curve
            #:trimmed-curve
            #:b-spline-curve 
+	   #:circular-curve
+	   #:circular-surface
            #:arc-curve
            #:elliptical-curve
            #:linear-curve
@@ -684,6 +686,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:offset-solid
            #:shelled-solid
            #:manifold-solid
+	   #:normally-projected-curve
            #:fitted-surface
            #:coons-surface
            #:surface-knot-reduction

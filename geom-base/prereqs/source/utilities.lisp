@@ -595,7 +595,7 @@ same direction or opposite directions.
 :arguments (vector-1 \"3D Vector\"
             vector-2 \"3D Vector\")
 :&key ((tolerance *zero-epsilon*) \"Number\"
-       (directed? nil) \"Boolean. Indicates whether opposite direction vectors will return a non-nil result as well.\")"
+       (directed? nil) \"Boolean.  If :directed? is t, the function returns t if the vectors are both parallel and point in the same direction.  The default is nil, meaning that the function will return t regardless of which way the vectors point, as long as they are parallel.\")"
   (or (same-direction-vectors? vector-1 vector-2 :tolerance tolerance)
       (unless directed? (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance))))
   

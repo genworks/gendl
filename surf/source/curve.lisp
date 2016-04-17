@@ -106,6 +106,7 @@
   ((%decomposed?% nil)
    (%copy?% nil)
    (%reversed?% nil)
+   (%derivative?% nil)
 
    (native-curve (when (the native-curve-iw)
                    (get-nurbs-from-curve *geometry-kernel* (the native-curve-iw))))
@@ -312,17 +313,24 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
 
   
   :hidden-objects
-  ((%decomposed% :type (if (the %decomposed?%) 'null-decomposed-curves 'decomposed-curves)
+  (
+
+   (%decomposed% :type (if (the %decomposed?%) 'null-decomposed-curves 'decomposed-curves)
 		 :curve-in self 
 		 :tolerance (the tolerance)
 		 :tolerance-for-native-beziers (the tolerance-for-native-beziers))
+   
 
-   
    ("GDL Curve. The first derivative of this curve. The degree will be one less than the degree of this curve."
-    first-derivative :type (if (>= (the degree) 1) 'curve 'null-object) :native-curve (the first-derivative-native-curve))
-   
+    first-derivative :type (if (and (not (the %decomposed?%)) (not (the %copy?%)) (not (the %reversed?%)) (> (the degree) 1)) 'curve 'null-object)
+    :%derivative?% t
+    :native-curve (if (and (not (the %decomposed?%)) (not (the %copy?%)) (not (the %reversed?%)) (> (the degree) 1)) (the first-derivative-native-curve) nil))
+
+
    ("GDL Curve. The second derivative of this curve. The degree will be two less than the degree of this curve."
-    second-derivative :type (if (>= (the degree) 2) 'curve 'null-object) :native-curve (the second-derivative-native-curve))
+    second-derivative :type (if (and (not (the %decomposed?%)) (not (the %copy?%)) (not (the %reversed?%)) (> (the degree) 2)) 'curve 'null-object) 
+    :%derivative?% t
+    :native-curve (if (and (not (the %decomposed?%)) (not (the %copy?%)) (not (the %reversed?%)) (> (the degree) 2)) (the second-derivative-native-curve) nil))
 
   
    (beziers :type 'bezier-curve
@@ -336,11 +344,13 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
                                 (3 (list (first result) (second result) (third result) (third result)))
                                 (2 (list (first result) (first result) (second result) (second result))))))
 
-   (reverse :type (if (the %reversed?%) 'null-object 'curve)
+
+   (reverse :type (if (or (the %copy?%) (the %decomposed?%) (the %reversed?%) (the %derivative?%)) 'null-object 'curve)
             :native-curve (curve-reverse *geometry-kernel* (the native-curve))
 	    :%reversed?% t)
    
-   (copy :type (if (the %copy?%) 'null-object 'b-spline-curve)
+
+   (copy :type (if (or (the %reversed?%) (the %decomposed?%) (the %copy?%) (the %derivative?%)) 'null-object 'b-spline-curve)
 	 :%copy?% t
          :data (multiple-value-list (the b-spline-data))
          :pseudo-inputs (data)
@@ -832,5 +842,5 @@ are equal.
 
 (define-object null-decomposed-curves (null-object)
   :objects
-  ((curves :type 'curve :sequence (:size 0))))
+  ((curves :type 'null-object :sequence (:size 0))))
 
