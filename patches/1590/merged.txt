@@ -69,4 +69,31 @@ default for merged-solid."
  
  "Cleaned up redundant and outdated jquery files." 
 
+ "Added 3d-point and 3d-vector data types"
+
+ "Fixed outdated features in *features* list."
+
+ "Added query-slots to *allowed-define-object-toplevel-keywords"
+
+ "Added define-object-macro-toplevel facility"
+
+ "Added user-selectable continuation for existing destination directory in make-gdl-app"
+
+ "Added point-on-plane? and point-on-vector? functions"
+
+ "Added *bias-to-double-float?* parameter to determine whether half
+ and twice always return double-floats."
+
+ "Added args argument to not-handled error functions, so that wrappers
+ can be added which have access to the arguments passed to the
+ not-handled message."
+
+
+
+
+ "Applied Allegro CL patch to fix memory leak where repeated compiles
+ of same define-object would continually consume more heap."
+
+  
+
  )
