@@ -1,7 +1,7 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:cl-lite :description
- "The Gendl\" Compile-and-Load Lite Utility" :author "Dave Cooper"
+ "The Gendl\" Compile-and-Load Lite Utility" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
  :serial t :version "20160417" :depends-on (:glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)

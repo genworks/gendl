@@ -1,7 +1,7 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:regression :description
- "The Gendl\" regression Subsystem" :author "Dave Cooper" :license
+ "The Gendl\" regression Subsystem" :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
  :version "20160417" :depends-on (:lift :surf :tasty)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)

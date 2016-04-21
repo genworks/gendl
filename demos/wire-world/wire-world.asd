@@ -2,7 +2,7 @@
 
 (asdf:defsystem #:wire-world :description
  "The Gendl\" Wire-World demo and test-case for wireframe tessellation and X3D output"
- :author "Dave Cooper" :license
+ :author "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
  :version "20160417" :depends-on
  (#-gwl-graphics :gwl-graphics)

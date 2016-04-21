@@ -1,7 +1,7 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:gwl :description
- "The Gendl\" Generative Web Language (GWL)" :author "Dave Cooper"
+ "The Gendl\" Generative Web Language (GWL)" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
  :serial t :version "20160417" :depends-on
  (:bordeaux-threads :glisp :aserve :yason)

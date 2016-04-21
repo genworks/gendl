@@ -2,7 +2,7 @@
 
 (asdf:defsystem #:yadd :description
  "The Gendl\" Yet Another Definition Documenter (yadd)" :author
- "Dave Cooper" :license
+ "John McCarthy" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
  :version "20160417" :depends-on
  (:gwl-graphics #-allegro :cl-html-parse)
