@@ -89,11 +89,9 @@ default for merged-solid."
  not-handled message."
 
 
-
-
  "Applied Allegro CL patch to fix memory leak where repeated compiles
  of same define-object would continually consume more heap."
 
-  
+ "Fixed SMLib bug where nonrational curves were being seen by SMLib as rational."
 
  )
