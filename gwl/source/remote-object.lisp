@@ -251,6 +251,15 @@
                   new-id))))
     (encode-object-for-http item id)))
 
+(defun gwl-host ()
+  ;; FIXME: better way to get this ?
+  (when (boundp '*wserver*)
+    (let ((sock (wserver-socket *wserver*)))
+      (when sock
+        #+allegro
+        (socket:local-host sock)
+        #-allegro
+        (acl-compat.socket:local-host sock)))))
 
 (defun encode-object-for-http (item id)
   (list :remote-gdl-instance
@@ -258,7 +267,7 @@
         :index (the-object item index)
         :type (format nil "~s" (the-object item type))
         :root-path (the-object item root-path) 
-        :host :unknown
+        :host (or *request-server-ipaddr* :unknown)
         :port (glisp:local-port 
 	       (slot-value (symbol-value (read-from-string "net.aserve:*wserver*"))
 			   (read-from-string "net.aserve::socket")))))
