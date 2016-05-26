@@ -91,7 +91,7 @@
 							   value))
 					      (list :error :no-such-object (getf args-list :remote-id)))))
 			       (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-				 (html (format *html-stream* encoded-value))))))))))))))
+				 (html (format *html-stream* "~a" encoded-value))))))))))))))
 
 
 (publish :path "/unbind-slots"
@@ -113,7 +113,7 @@
                      (with-http-body (req ent)
                        (let ((value nil))
                          (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-                           (html (format *html-stream* encoded-value)))))))))))
+                           (html (format *html-stream* "~a" encoded-value)))))))))))
 
 
 (defun send-remote-message (req ent)
@@ -154,7 +154,7 @@
 		
                 (let ((encoded-value (with-standard-io-syntax (base64-encode-safe (format nil "~s" (encode-for-http value))))))
 
-                  (html (format *html-stream* encoded-value)))))))))))
+                  (html (format *html-stream* "~a" encoded-value)))))))))))
 
 
 (publish :path "/send-remote-message"
@@ -186,7 +186,7 @@
                                                    args))))
                                      (let ((encoded-value
                                             (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-                                       (html (format *html-stream* encoded-value))))))))))))
+                                       (html (format *html-stream* "~a" encoded-value))))))))))))
 
 
 ;;
