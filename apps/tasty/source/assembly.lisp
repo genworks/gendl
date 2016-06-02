@@ -433,53 +433,54 @@ The error was: ~a
       ((:div :id "tabs" :class "page-layout-center")
        
        
+
        ((:ul :id "TabButtons" :class "pane")
-        (:li ((:a :href "#ApplicationLayout")(:span "Application")))
-        (:li ((:a :href "#Documentation")(:span "Documentation")))
+        ;;(:li ((:a :href "#ApplicationLayout")(:span "Application")))
+        ;;(:li ((:a :href "#Documentation")(:span "Documentation")))
         )
        
        ;; wrap tab-panels in ui-layout-content div 
        ((:div :id "TabPanelsContainer" :class "pane")
         
         ;; TAB #1 
-        ((:div :id "ApplicationLayout")
+	((:div :id "ApplicationLayout")
          
-         ((:div :id "InnerLayout" :class "outer-center pane")
+	 ((:div :id "InnerLayout" :class "outer-center pane")
           
-          ((:div :class "inner-center ui-widget pane")
-           ((:div :class "header ui-widget-header")"Viewport")
-           ((:div :class "ui-widget-content")(str (the viewport main-div)))
-           ((:div :class "footer ui-widget-header")
+	  ((:div :class "inner-center ui-widget pane")
+	   ((:div :class "header ui-widget-header")"Viewport")
+	   ((:div :class "ui-widget-content")(str (the viewport main-div)))
+	   ((:div :class "footer ui-widget-header")
                     
-            (str (the footer-ui-widget-header main-div))))
+	    (str (the footer-ui-widget-header main-div))))
           
           
-          ((:div :class "inner-west ui-widget pane")
-           ((:div :class "header ui-widget-header")"Inspector")
-           ((:div :class "ui-widget-content")
-            (str (the inspector main-div))))
+	  ((:div :class "inner-west ui-widget pane")
+	   ((:div :class "header ui-widget-header")"Inspector")
+	   ((:div :class "ui-widget-content")
+	    (str (the inspector main-div))))
           
-          ((:div :class "inner-north ui-widget pane")
-           ((:div :class "header ui-widget-header")"Inner North")
-           ((:div :class "ui-widget-content")(:span "Inner North"))))
+	  ((:div :class "inner-north ui-widget pane")
+	   ((:div :class "header ui-widget-header")"Inner North")
+	   ((:div :class "ui-widget-content")(:span "Inner North"))))
          
-         ((:div :class "outer-west ui-widget pane")
-          ((:div :class "header ui-widget-header")"Tree")
-          ((:div :class "ui-widget-content" 
+	 ((:div :class "outer-west ui-widget pane")
+	  ((:div :class "header ui-widget-header")"Tree")
+	  ((:div :class "ui-widget-content" 
 		 :style (format nil "background-color: ~a" (or (getf *colors-default* :background) "#fafafa")))
-		 (str (the tree main-div)))
-          ((:div :class "footer ui-widget-header") 
-           "Click-mode:" (str (the tree-status-object main-div)))
-          )
+	   (str (the tree main-div)))
+	  ((:div :class "footer ui-widget-header") 
+	   "Click-mode:" (str (the tree-status-object main-div)))
+	  )
          
-         ((:div :class "outer-north ui-widget pane")
+	 ((:div :class "outer-north ui-widget pane")
 	  ((:div :onmouseover "InnerLayout.allowOverflow(this)")
 	   (str (the menu-section main-div))))
          
-         ((:div :class "outer-south ui-widget pane")
-          ((:div :class "footer ui-widget-header")
-           ((:span :class "fltrt") 
-            "powered by " 
+	 ((:div :class "outer-south ui-widget pane")
+	  ((:div :class "footer ui-widget-header")
+	   ((:span :class "fltrt") 
+	    "powered by " 
 	    ((:a :href "http://www.genworks.com" :target "_new") "Genworks GDL")
 	    (str (if (glisp:featurep :smlib) ", " " and "))
 	    ((:a :href "http://www.quicklisp.org" :target "_new")"Quicklisp")
@@ -488,52 +489,53 @@ The error was: ~a
 		  (str ", and ")
 		  (htm ((:a :href "http://www.smlib.com" :target "_new") "SMLib")))
 		""))
-           ((:span) "GDL status: ")
-           ((:span :id "gdlStatus")"Done.")
-           (when *tasty-developing?*
-             (htm            
-              (:span " | ")
-              (:span
+	   ((:span) "GDL status: ")
+	   ((:span :id "gdlStatus")"Done.")
+	   (when *tasty-developing?*
+	     (htm            
+	      (:span " | ")
+	      (:span
 
-               ((:span :onclick (the (gdl-ajax-call :function-key :update-object!
-                                                    :arguments (list self)))
-                       :title "Full Update of Tasty Browser and Object in Tree (for tasty development)"
-                       :style "color: blue; cursor: pointer;") "Update!")
-               " | "
-               ((:span :onclick (the (gdl-ajax-call :function-key :set-self!
-                                                    :arguments (list self)))
-                       :title "Set self to this tasty object (for tasty development)"
-                       :style "color: blue; cursor: pointer;") "Set Self!"))
+	       ((:span :onclick (the (gdl-ajax-call :function-key :update-object!
+						    :arguments (list self)))
+		       :title "Full Update of Tasty Browser and Object in Tree (for tasty development)"
+		       :style "color: blue; cursor: pointer;") "Update!")
+	       " | "
+	       ((:span :onclick (the (gdl-ajax-call :function-key :set-self!
+						    :arguments (list self)))
+		       :title "Set self to this tasty object (for tasty development)"
+		       :style "color: blue; cursor: pointer;") "Set Self!"))
 
               
-              ;;(write-the development-links)
+	      ;;(write-the development-links)
               
-              ;;(write-the break-link) (htm " | ")(write-the update-full-link)
+	      ;;(write-the break-link) (htm " | ")(write-the update-full-link)
 
-              ))
+	      ))
            
-           #+nil
-           (when (typep (the root-object) 'base-html-sheet)
-             (htm (:span " | ")
-                  ((:a :href (the root-object url)) "Visit UI")))))
+	   #+nil
+	   (when (typep (the root-object) 'base-html-sheet)
+	     (htm (:span " | ")
+		  ((:a :href (the root-object url)) "Visit UI")))))
 
          
-         ((:div :class "outer-east ui-widget pane")
-          ((:div :class "header ui-widget-header")"Auxiliary")
-          ((:div :class "ui-widget-content")(:span "Auxiliary Pane Content"))
+	 ((:div :class "outer-east ui-widget pane")
+	  ((:div :class "header ui-widget-header")"Auxiliary")
+	  ((:div :class "ui-widget-content")(:span "Auxiliary Pane Content"))
           
-          )
+	  )
          
-         );; #ApplicationLayout 
+	 ) ;; #ApplicationLayout 
         
         ;; TAB #2 
+	#+nil
         ((:div :id "Documentation" :class "ui-tabs-hide pane")
          ((:iframe :class "ui-widget-content" :src "/yadd" :width "100%" :height "500px"))
          )
         
-        );; END TabPanelsContainer 
+        ) ;; END TabPanelsContainer 
        
-       )
+	)
       
       ))))
 

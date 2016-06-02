@@ -222,7 +222,7 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
                 (near-to? (the total-length) 0))
       (if (typep self 'arc-curve)
 	  (call-next-method)
-	  (if (= (the %decomposed% curves number-of-elements) 1)
+	  (if (or (the %decomposed?%) (= (the %decomposed% curves number-of-elements) 1))
 	      (unless (and (= (the degree) 1) (not (the rational?)))
 		(when (list-elements (the beziers))
 		  (let (result)
