@@ -79,16 +79,20 @@ filleted-polyline."
    (%renderer-info% (list :vrml? t :view-default :top))
 
 
-   (path-info (let ((first? t))
-		(mapcan #'(lambda(straight curve-set)
-			    (append (if first? (progn (setq first? nil)
-						      (list :move (first straight) :line (second straight)))
-					(list :line (second straight)))
+   (path-info (append
+	       (let ((first? t))
+		 (mapcan #'(lambda(straight curve-set)
+			     (append (if first? (progn (setq first? nil)
+						       (list :move (first straight) :line (second straight)))
+					 (list :line (second straight)))
 
-				    (apply #'append
-					   (mapcar #'(lambda(curve) (cons :curve (rest (reverse curve))))
-						   (reverse (the-object curve-set %curves-to-draw%))))))
-			(the straights) (list-elements (the fillets)))))
+				     (apply #'append
+					    (mapcar #'(lambda(curve) (cons :curve (rest (reverse curve))))
+						    (reverse (the-object curve-set %curves-to-draw%))))))
+			 (the straights) (list-elements (the fillets))))
+
+	       (when (> (length (the straights)) (the fillets number-of-elements))
+		 (list :line (second (lastcar (the straights)))))))
 				
 
 

@@ -311,7 +311,7 @@
 					      (number-round (get-y end) 4)
                                                      
 					      ))) coords)))))))
-		
+	    
 		  (when (or path-info line-path-string curve-path-string)
 		    (who:with-html-output (*stream*) 
 		      (fmt "var ~a;~%" name)
