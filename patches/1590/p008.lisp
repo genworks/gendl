@@ -1,5 +1,13 @@
 (in-package :geom-base)
 
+;;
+;; FLAG -- update compiler to do proper eval-when for gdl-output::
+;; methods, to make the following unecessary to avoid warning.
+;;
+(defgeneric gdl-output::pdf-command (format object skin &rest args))
+
+
+
 (#+allegro 
  excl:without-package-locks #-allegro progn
  (#+allegro 

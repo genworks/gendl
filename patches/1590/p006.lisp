@@ -21,98 +21,101 @@
 
 (in-package :surf)
 
-(excl:without-package-locks
-  (excl:without-redefinition-warnings
-    (define-object edge (curve)
+#+(or allegro lispworks)
+(#+allegro
+ excl:without-package-locks #-allegro progn
+ (#+allegro
+  excl:without-redefinition-warnings #-allegro progn
+  (define-object edge (curve)
   
-      :documentation (:description "Represents one edge in a brep. This object is a type of curve and answers all curve messages.")
+    :documentation (:description "Represents one edge in a brep. This object is a type of curve and answers all curve messages.")
 
-      :input-slots (%native-edge%
-		    %native-brep% 
-		    brep 
-		    )
+    :input-slots (%native-edge%
+		  %native-brep% 
+		  brep 
+		  )
   
   
-      :computed-slots ((native-curve-iw 
+    :computed-slots ((native-curve-iw 
                     
-			(get-bspline-curve-from-edge *geometry-kernel* (the %native-edge%)))
+		      (get-bspline-curve-from-edge *geometry-kernel* (the %native-edge%)))
                    
                    
-		       ("List of GDL Face objects. The faces connected to this edge."
-			faces (let ((faces-ht (the brep faces-ht)))
-				(mapcar #'(lambda(native-face) (gethash native-face faces-ht))
-					(the %native-faces%))))
+		     ("List of GDL Face objects. The faces connected to this edge."
+		      faces (let ((faces-ht (the brep faces-ht)))
+			      (mapcar #'(lambda(native-face) (gethash native-face faces-ht))
+				      (the %native-faces%))))
                    
                    
-		       (%native-faces% (get-faces-from-edge *geometry-kernel* (the %native-edge%)))
+		     (%native-faces% (get-faces-from-edge *geometry-kernel* (the %native-edge%)))
                             
                             
                    
                    
-		       (%unique-id% (get-long *geometry-kernel* self)))
+		     (%unique-id% (get-long *geometry-kernel* self)))
   
-      :functions (("GDL Curve object. This represents the UV curve for this edge on the given surface. 
+    :functions (("GDL Curve object. This represents the UV curve for this edge on the given surface. 
 Note that you  have to pass in the surface, which should be the basis-surface of a face connected
 to this edge. The GDL edge object will be supplemented with a sequence of faces which are connected
 with this edge."
-		   uv-curve 
-		   (surface)
-		   (make-object 'curve 
-				:native-curve-iw 
-				(get-uv-curve-from-edge *geometry-kernel* (the %native-edge%) 
-							(the-object surface native-surface-iw))))))
+		 uv-curve 
+		 (surface)
+		 (make-object 'curve 
+			      :native-curve-iw 
+			      (get-uv-curve-from-edge *geometry-kernel* (the %native-edge%) 
+						      (the-object surface native-surface-iw))))))
 
 
 
-    (define-object-amendment face ()
-      :computed-slots 
-      ((brep-id (the brep %unique-id%))))
+  (define-object-amendment face ()
+    :computed-slots 
+    ((brep-id (the brep %unique-id%))))
 
     
-    (define-object geometry-kernel-object-mixin ()
+(define-object geometry-kernel-object-mixin ()
   
-      :documentation (:description "This mixin provides messages common to all NURBS-based objects whose underlying implementation
+  :documentation (:description "This mixin provides messages common to all NURBS-based objects whose underlying implementation
 comes from a modular geometry kernel such as SMLib.")
   
-      :input-slots ((from-iges? nil))
+  :input-slots ((from-iges? nil))
   
-      :input-slots
-      (
-       ("List of integers. The IGES-compatible levels (layers) on which this object resides. GDL does not currently support writing
+  :input-slots
+  (
+   ("List of integers. The IGES-compatible levels (layers) on which this object resides. GDL does not currently support writing
 out multiple levels (layers) through the IGES writer ; only the first of these will be output if the object is exported with
 the IGES output-format (please contact Genworks if you need all levels (layers) to be written out)."
-	levels (get-levels *geometry-kernel* self))
+    levels (get-levels *geometry-kernel* self))
    
-       ("Integer. The primary IGES-compatible level (layer) on which this object resides. Defaults to the first of the levels. This 
+   ("Integer. The primary IGES-compatible level (layer) on which this object resides. Defaults to the first of the levels. This 
 slot can be overridden in user code to specify a new layer which will be written out when this object is exported with the IGES
 output-format."
-	layer (first (the levels)))
+    layer (first (the levels)))
    
-       ("Integer. Synonym for the layer."
-	iges-level (the layer))
+   ("Integer. Synonym for the layer."
+    iges-level (the layer))
    
-       (color-hex (lookup-color (the color-decimal) :format :hex))
+   (color-hex (lookup-color (the color-decimal) :format :hex))
 
    
-       ("Vector of three real numbers. The RGB color of this object as imported from an external format (e.g. IGES) or as specified in :display-controls. 
+   ("Vector of three real numbers. The RGB color of this object as imported from an external format (e.g. IGES) or as specified in :display-controls. 
 Defaults to the foreground color specified in <tt>*colors-default*</tt>. This message should not normally be overridden in user application code."
-	color-decimal (let ((color (when (the from-iges?) (get-color *geometry-kernel* self))))
-			(or color (multiple-value-bind (result found?) (lookup-color (getf (the display-controls) :color))
-				    (when found? result))))))
+    color-decimal (let ((color (when (the from-iges?) (get-color *geometry-kernel* self))))
+                    (or color (multiple-value-bind (result found?) (lookup-color (getf (the display-controls) :color))
+                                (when found? result))))))
   
-      :computed-slots
-      ((%line-vertex-indices% (let ((count -1))
-				(mapcar #'(lambda(line)
-					    (declare (ignore line))
-					    (list (incf count) (incf count)))
-					(the %lines-to-draw%))))
+  :computed-slots
+  ((%line-vertex-indices% (let ((count -1))
+                            (mapcar #'(lambda(line)
+                                        (declare (ignore line))
+                                        (list (incf count) (incf count)))
+                                    (the %lines-to-draw%))))
 
-       (%vertex-array% (append (flatten-lines (the %lines-to-draw%)) (flatten-curves (the %curves-to-draw%))))
+   (%vertex-array% (append (flatten-lines (the %lines-to-draw%)) (flatten-curves (the %curves-to-draw%))))
 
 
-       (%unique-id% (or (get-long *geometry-kernel* self)
-			(let ((id (read-from-string (subseq (string (gensym)) 1))))
-			  (format t "Setting object unique-id on-demand for object ~s.~%" self)
-			  (set-long *geometry-kernel* self id)
-			  id)))))))
+   (%unique-id% (or (get-long *geometry-kernel* self)
+                    (let ((id (read-from-string (subseq (string (gensym)) 1))))
+                      (format t "Setting object unique-id on-demand for object ~s.~%" self)
+                      (set-long *geometry-kernel* self id)
+                      id)))))))
     
