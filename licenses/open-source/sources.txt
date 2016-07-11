@@ -1,0 +1,11 @@
+alexandria: http://gitlab.common-lisp.net/alexandria/alexandria.git
+bordeaux-threads: http://github.com/sionescu/bordeaux-threads.git
+cl-pdf: http://github.com/mbattyani/cl-pdf
+cl-ppcre: http://github.com/edicl/cl-ppcre
+cl-typesetting: http://github.com/mbattyani/cl-typesetting
+cl-who: http://github.com/edicl/cl-who
+iterate: https://common-lisp.net/project/iterate/
+uffi: http://git.kpe.io/?p=uffi.git;a=summary
+uiop: https://gitlab.common-lisp.net/asdf/asdf
+
+

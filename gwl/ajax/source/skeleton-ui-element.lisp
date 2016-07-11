@@ -113,38 +113,19 @@ page section, then you do not have to generate the :div tag yourself - the main-
 will be a string of HTML which is wrapped in the correct :div tag already."
     dom-id (the base64-encoded-root-path))
 
-   )
-  
-  
-  :trickle-down-slots (respondent)
 
-  
-  :computed-slots 
-  ((view-toggle nil :settable)
-   
-   (base64-encoded-root-path 
-    (base64-encode-safe 
-     (format nil "~s" (remove :root-object-object (the root-path)))))
-   
-   
-   
-   
-   (main-div (progn (when *debug?* (print-variables (the respondent)))
-                    (the respondent (register-html-section! self))
-                    (the main-div%))
-             :uncached)
-   
-   ("String. This should be used with (str ...) [in cl-who] or (:princ ...) 
-[in htmlGen] to output this section of the page, including the wrapping :div tag."
-    main-div% (with-cl-who-string ()
-               (write-the main-div)))
-   
-   (url-encoded-root-path (root-path-to-query-arg (the :root-path)))
-   
-   
-   (%html-section-root-paths% nil :settable)
-   
-   
+   ("List of keyword symbols. Messages corresponding to form fields which could 
+be missing from form submission (e.g. checkbox fields). Defaults to the names 
+of any children or hidden-children of type  menu-form-control or 
+checkbox-form-control."
+    possible-nils (mapcar #'(lambda(object) (the-object object field-name))
+                          (remove-if-not #'(lambda(child)
+                                             (or (and (typep child 'menu-form-control)
+                                                      (the-object child possible-nil?))
+                                                 (and (typep child 'checkbox-form-control)
+                                                      (the-object child possible-nil?))))
+                                         (append (the children) (the hidden-children)))))
+
    ("List of HTML sections to be scanned and possibly replaced in response to 
 GDL Ajax calls. Override this slot at your own risk. The default is all 
 sections who are most recently laid out on the respondent sheet, and 
@@ -154,42 +135,9 @@ is demanded."
     (mapcar #'(lambda(section-root-path)
                 (the root (follow-root-path section-root-path)))
             (the %html-section-root-paths%)))
-   
-   
-   ("List of GDL objects. All the children or hidden-children 
-of type base-form-control." 
-    form-controls 
-    (remove-duplicates 
-     (remove-if-not 
-      #'(lambda(child) (typep child 'base-form-control))
-      (append (the ordered-form-controls)
-              (the children)
-                                          
-              (with-error-handling ()
-                (apply #'append
-                       (mapcar 
-                        #'(lambda(child)
-                            (when (typep child 'skeleton-form-control)
-                              (the-object child form-controls)))
-                        (the children))))
-                                          
-              (the hidden-children)
-                                          
-              (with-error-handling ()
-                (apply #'append
-                       (mapcar #'(lambda(child)
-                                   (when (typep child 'skeleton-form-control)
-                                     (the-object child form-controls)))
-                               (the hidden-children))))))
-     :from-end t))
-   
-   ("List of GDL objects. All the form-controls which do not pass validation."
-    failed-form-controls 
-    (remove-if-not #'(lambda(form-control) (the-object form-control error))
-                   (the form-controls)))
-   
-   
-   
+
+
+
    ("List of GDL objects, which should be of type 'base-form-control. 
 
 <p>
@@ -230,6 +178,77 @@ those dependent objects first. Default is nil.
 
 "
     ordered-form-controls nil)
+
+   )
+  
+  
+  :trickle-down-slots (respondent)
+
+  
+  :computed-slots 
+  ((view-toggle nil :settable)
+   
+   (base64-encoded-root-path 
+    (base64-encode-safe 
+     (format nil "~s" (remove :root-object-object (the root-path)))))
+   
+   
+   
+   
+   (main-div (progn (when *debug?* (print-variables (the respondent)))
+                    (the respondent (register-html-section! self))
+                    (the main-div%))
+             :uncached)
+   
+   ("String. This should be used with (str ...) [in cl-who] or (:princ ...) 
+[in htmlGen] to output this section of the page, including the wrapping :div tag."
+    main-div% (with-cl-who-string ()
+               (write-the main-div)))
+   
+   (url-encoded-root-path (root-path-to-query-arg (the :root-path)))
+   
+   
+   (%html-section-root-paths% nil :settable)
+   
+   
+   
+   
+   
+   ("List of GDL objects. All the children or hidden-children 
+of type base-form-control." 
+    form-controls 
+    (remove-duplicates 
+     (remove-if-not 
+      #'(lambda(child) (typep child 'base-form-control))
+      (append (the ordered-form-controls)
+              (the children)
+                                          
+              (with-error-handling ()
+                (apply #'append
+                       (mapcar 
+                        #'(lambda(child)
+                            (when (typep child 'skeleton-form-control)
+                              (the-object child form-controls)))
+                        (the children))))
+                                          
+              (the hidden-children)
+                                          
+              (with-error-handling ()
+                (apply #'append
+                       (mapcar #'(lambda(child)
+                                   (when (typep child 'skeleton-form-control)
+                                     (the-object child form-controls)))
+                               (the hidden-children))))))
+     :from-end t))
+   
+   ("List of GDL objects. All the form-controls which do not pass validation."
+    failed-form-controls 
+    (remove-if-not #'(lambda(form-control) (the-object form-control error))
+                   (the form-controls)))
+   
+   
+   
+   
    
    ("Boolean. This switch determines whether all form-controls should be preset 
 before the final setting, in order to allow any interdependencies to be detected 
@@ -239,17 +258,7 @@ ignored. If this is specified as nil, then (the preset?) of individual
 form-controls (default of these is also nil) will be respected. Default is nil."
     preset-all? nil)
    
-   ("List of keyword symbols. Messages corresponding to form fields which could 
-be missing from form submission (e.g. checkbox fields). Defaults to the names 
-of any children or hidden-children of type  menu-form-control or 
-checkbox-form-control."
-    possible-nils (mapcar #'(lambda(object) (the-object object field-name))
-                          (remove-if-not #'(lambda(child)
-                                             (or (and (typep child 'menu-form-control)
-                                                      (the-object child possible-nil?))
-                                                 (and (typep child 'checkbox-form-control)
-                                                      (the-object child possible-nil?))))
-                                         (append (the children) (the hidden-children))))))
+   )
    
 
   
@@ -260,9 +269,9 @@ checkbox-form-control."
 
    (register-html-section!
     (section)
-    
-    #+nil
-    (when *debug?*
+
+    #+gwl-debug
+    (progn
       (format *trace-output* "~&Before:~%")
       (print-variables self)
       (print-messages %html-section-root-paths%))
@@ -273,9 +282,9 @@ checkbox-form-control."
                                                 :test #'equalp)
                       ;;:remember? nil
 		      :warn-on-non-toplevel? nil)))
-    
-    #+nil
-    (when *debug?*
+
+    #+gwl-debug
+    (progn
       (format *trace-output* "~&After:~%")
       (print-messages %html-section-root-paths%)))
 

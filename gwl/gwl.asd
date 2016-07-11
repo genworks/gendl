@@ -3,8 +3,8 @@
 (asdf:defsystem #:gwl :description
  "The Gendl\" Generative Web Language (GWL)" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20150330" :depends-on
- (:bordeaux-threads :glisp :aserve)
+ :serial t :version "20160505" :depends-on
+ (:bordeaux-threads :glisp :aserve :yason)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
@@ -23,9 +23,6 @@
   (:file "form-elements/source/grid-form-element")
   (:file "form-elements/source/macros")
   (:file "form-elements/source/primitives")
-  (:file "form-elements/source/short-test")
-  (:file "form-elements/source/test-seq")
-  (:file "form-elements/source/validation-tests")
   (:file "ajax/source/parameters") (:file "ajax/source/ajax")
   (:file "ajax/source/base-ajax-sheet")
   (:file "ajax/source/skeleton-ui-element")

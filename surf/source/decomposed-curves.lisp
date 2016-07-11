@@ -78,6 +78,7 @@ knots with degree-fold mutiplicity."
   (("Sequence of GDL curve objects. The resulting segment curves after decomposition."
     curves 
     :type 'curve
+    :%decomposed?% t
     :sequence (:size (length (the %decomposed-native-curves%)))
     :tolerance (the tolerance)
     :tolerance-for-native-beziers (the tolerance-for-native-beziers)

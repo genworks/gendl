@@ -37,6 +37,8 @@
    (onclick-function nil)
    
    (use-bsplines? nil)
+
+   ("GDL web-drawing object. This must be overridden in the specialized class." view-object nil)
    
    )
   
@@ -230,7 +232,7 @@
 
   
   :hidden-objects
-  ((view-object :type 'web-drawing)
+  (;;(view-object :type 'web-drawing)
 
    
 

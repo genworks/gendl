@@ -86,10 +86,13 @@ written consent from Genworks International.")
 	(pdftex-path (cond ((probe-file "/usr/texbin/pdflatex")
 			    "/usr/texbin/pdflatex")
 			   ((probe-file "/opt/local/bin/pdflatex")
-			    "/opt/local/bin/pdflatex")))
-	
+			    "/opt/local/bin/pdflatex")
+			   ((probe-file "/Library/TeX/texbin/pdflatex")
+			    "/Library/TeX/texbin/pdflatex")))
 	(makeindex-path (or (probe-file "/usr/texbin/makeindex")
-			    (probe-file "/opt/local/bin/makeindex"))))
+			    (probe-file "/opt/local/bin/makeindex")
+			    (probe-file "/Library/TeX/texbin/makeindex"))))
+			    
 
 
     (load (merge-pathnames "../source/assembly.lisp" pdf-path))
@@ -109,7 +112,8 @@ written consent from Genworks International.")
 			pdf-path pdftex-path)))))
 
 (define-object assembly (com.genworks.dom:assembly)
-  :input-slots ((data *data*)))
+  :input-slots ((data *data*)
+		(style-url "tutorial.css")))
 
 
 (publish :path "/dom-doc"
@@ -118,11 +122,46 @@ written consent from Genworks International.")
 
 
 (defun make-html (&key (output-directory (merge-pathnames "tmp/" (user-homedir-pathname)))
-		    (output-file-namestring "tutorial.html"))
+		  (output-file-namestring "tutorial.html"))
   (ensure-directories-exist output-directory) 
   (initialize-data)
   (let ((self (make-object 'assembly)))
     (let ((output-path (merge-pathnames output-file-namestring output-directory)))
       (with-format (html-format output-path) (write-the cl-who-out))
       output-path)))
-  
+
+
+(defun make-css (&key (output-directory (merge-pathnames "tmp/" (user-homedir-pathname)))
+		 (output-file-namestring "tutorial.css"))
+  (let ((output-path (merge-pathnames output-file-namestring output-directory)) 
+	(css-string 
+	 (reduce 
+	  (lambda (x y) 
+	    (concatenate 'string x y))
+	  (mapcar 
+	   (lambda (style)
+	     (format nil "~a{~a}" 
+		     (car style)
+		     (format nil "~{~a~}" 
+			     (mapcar (lambda (pair)
+				       (format nil "~a:~a;" 
+					       (car pair)
+					       (cadr pair))) 
+				     (cdr style)))))
+	   *styles*))))
+
+    (with-open-file (stream output-path 
+			    :direction :output
+			    :if-exists :overwrite
+			    :if-does-not-exist :create)
+      (format stream css-string)
+      output-path)))
+
+      
+(defun make-html-and-css (&key (output-directory (merge-pathnames "tmp/" (user-homedir-pathname)))
+		 (html-output-file-namestring "tutorial.html")
+		 (css-output-file-namestring "tutorial.css")) 
+  (make-html :output-directory output-directory 
+	     :output-file-namestring html-output-file-namestring)
+  (make-css :output-directory output-directory 
+	    :output-file-namestring css-output-file-namestring))

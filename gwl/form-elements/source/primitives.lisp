@@ -34,7 +34,12 @@ Defaults to nil."
     primary? nil)
 
    ("String. You can use this to specify a user-defined class for the form-control. Defaults to nil, which means no class attribute will be generated."
-    class nil))
+    class nil)
+
+   ("Keyword symbol. The ID attribute for this tag. Defaults to (the field-name)." 
+    id (the field-name))
+
+   )
   
   :computed-slots
   (
@@ -66,8 +71,7 @@ Previously known as form-control-string. Default is the form-control-string."
 
                  
    
-   ("Keyword symbol. The ID attribute for this tag. Defaults to (the field-name)." 
-    id (the field-name))))
+   ))
 
 
 
@@ -275,8 +279,8 @@ Can be :table-td (label goes in a td before the form control), :table-td-append 
 :table-with-class (like :table-td, but adds a class \"form-control\" to the table), or
 :as-div (puts label and control inside a div of class \"form-control\").
 
-Default is :table-td"
-    label-position :table-td)
+Default is :as-div"
+    label-position :as-div)
    
    ("Function of one argument. The argument will be the submitted form value converted to the proper type. 
 The return value from this function can be nil, any non-nil value, or a plist with keys :validated-value 
@@ -462,7 +466,7 @@ and cleared when the error is gone." error nil :settable)
    (:label 
     (&key include-prompt?)
     (with-html-output (*stream* nil)
-      ((:label :for (the field-name))
+      ((:label :for (the id))
        (when include-prompt? (htm (str (the prompt)))))))
    
    (prompt
@@ -481,17 +485,10 @@ and cleared when the error is gone." error nil :settable)
     (with-html-output (*stream* nil)
       (cond ((the prompt)
              (ecase (the label-position)
-               (:table-td (htm (:table (:tr (:td (write-the (:label :include-prompt? t)))
-                                            (:td (write-the form-control))))))
-               (:table-td-append (htm (:table (:tr (:td (write-the form-control))
-                                                   (:td (write-the (:label :include-prompt? t)))))))
-               (:prepend (htm ((:label :for (the field-name)) (write-the prompt))
+               (:prepend (htm ((:label :for (the id)) (write-the prompt))
                               (write-the form-control)))
                (:append (htm (write-the form-control)
-                             ((:label :for (the field-name)) (write-the prompt))))
-               (:table-with-class (htm ((:table :class "form-control") 
-                                        (:tr (:td (write-the (:label :include-prompt? t)))
-                                             (:td (write-the form-control))))))
+                             ((:label :for (the id)) (write-the prompt))))
                (:as-div (htm ((:div :class "form-control")
                               (write-the (:label :include-prompt? t))
                               (write-the form-control))))))
@@ -563,7 +560,7 @@ Defaults to nil. Use number-form-control to get a default of t."
     
     (if (> (the rows) 1)
         (with-expanded-html-output (*stream* nil)
-          ((:textarea :rows (the rows) :cols (the cols) :name (the field-name) :id (the field-name))
+          ((:textarea :rows (the rows) :cols (the cols) :name (the field-name) :id (the id))
            (when (the str-ready-string) 
              (str (the str-ready-string)))))
       (with-expanded-html-output (*stream* nil)
@@ -582,7 +579,7 @@ Defaults to nil. Use number-form-control to get a default of t."
 		 :step (when (and (the number?)
 				 (the step))
 			(the step))
-                 :name (the field-name) :id (the field-name))))))))
+                 :name (the field-name) :id (the id))))))))
 
 
 ;;
@@ -697,7 +694,7 @@ eql for keywords, string-equal for strings, and equalp otherwise."
   ((form-control
     ()
     (with-expanded-html-output (*stream* nil)
-      ((:select :name (the field-name) :id (the field-name) 
+      ((:select :name (the field-name) :id (the id) 
         :multiple (when (the multiple?) t))
        (dolist (key (plist-keys (the effective-choice-plist)))
 
@@ -760,7 +757,7 @@ Contact Genworks if you need this documented."
     (&key key count)
     (with-expanded-html-output (*stream* nil)
       ((:input :type :radio :name (the field-name) 
-               :id (format nil "~a-~a" (the field-name) count)
+               :id (format nil "~a-~a" (the id) count)
 	       :disabled (when (member key (the disabled-keys)) "disabled")
                :value (format nil (the format-string) key) 
                :checked (funcall (the test) key (the value))))))
@@ -823,7 +820,7 @@ Contact Genworks if you need this documented."
     ()
     (with-expanded-html-output (*stream* nil)
       ((:button :name (the field-name) 
-                :id (the field-name)
+                :id (the id)
                 :type (the button-type)
                 :value (the value))
        (str (the content)))))))
@@ -860,7 +857,7 @@ the same name, where each can return a different value)." domain :boolean)
     ()
     (with-expanded-html-output (*stream* nil)
       ((:input :name (the field-name) 
-               :id (the field-name)
+               :id (the id)
                :type :checkbox
                :value :on
                :checked (if (the value) t)))))))

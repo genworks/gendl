@@ -40,4 +40,14 @@
 	    :control-points (mapcar #'(lambda(list) (mapcar #'apply-make-point list)) (the points-data)))))
 
 
+
+(define-object test-transformed-surface (transformed-surface)
+  
+  :input-slots
+  ((surface-in (the trimmed surf)))
+   
+   :objects
+   ((trimmed :type 'surf::test-trimmed-from-projected)))
+
+
 (register-test-definition 'transformed-surface-test)

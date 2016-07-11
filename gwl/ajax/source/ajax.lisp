@@ -23,6 +23,8 @@
 
 (defparameter *ajax-snap-restore?* nil)
 
+(defparameter *self* nil)
+
 (defun quick-save (self &key (snap-folder (glisp:snap-folder)))
   (when *ajax-snap-restore?*
     (let ((snap-file 
@@ -100,6 +102,7 @@
 
 	 (self (or self (restore-from-snap iid)))
 
+	 (plist-raw plist)
          (plist (decode-from-ajax plist self))
          (bashee (getf plist :|bashee|))
          (respondent (progn (when *debug?* (print-variables plist))
@@ -110,11 +113,14 @@
          (arguments (getf plist :|arguments|)))
     
 
+
+    (setq *self* self)
     
     (when *debug?*
       (let ((bashee-root (the-object bashee root-path))
             (respondent-root (the-object respondent root-path)))
-        (print-variables raw-fields bashee-root respondent-root fields function)))
+        (print-variables plist-raw plist raw-fields bashee-root respondent-root fields function)
+	))
 
     
     (let ((*clicked-x* (let ((string (getf query-plist :|x|)))
@@ -155,7 +161,16 @@
 				      :js-to-eval-previi js-to-eval-previi))))
 
 
-(publish :path "/gdlAjax" :function 'gdlAjax)
+(defun publish-gdlajax ()
+  (with-all-servers (server)
+    (publish :path "/gdlAjax" :function 'gdlAjax :server server)))
+
+(publish-gdlajax)
+
+;;
+;; FLAG -- remove this defunct version. 
+;;
+;; (publish :path "/gdlAjax" :function 'gdlAjax)
 
 
 (defun wrap-cdata (string)

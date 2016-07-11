@@ -39,7 +39,7 @@ A warning is given if an error condition occurs with <b>body</b>.
   (declare (ignore timeout-body))
   
   (if error? `(progn ,@body)
-    (let ((values (gensym)) (error (gensym)))
+    (let ((values '+values+ #+nil (gensym)) (error '+error+ #+nil (gensym)))
       (let ((code `(let* ((,values (multiple-value-list (ignore-errors ,@body)))
 
                           (,error (second ,values)))
@@ -124,6 +124,38 @@ object in <b>object-list</b>.
                 (the-object object (evaluate message))) object-list)))
 
 
+(defun list-of-numbers (num1 num2 &optional (increment 1) (tolerance (/ increment 10)))
+  "List of Numbers. Returns a list of incrementing numbers starting
+from <b>num1</b> and ending with <b>num2</b>, inclusive. Increment can
+be positive for num1 < num2, or negative for num1 > num2. This version
+was contributed by Reinier van Dijk.
+
+:arguments (num1 \"Number\"
+            num2 \"Number\")
+:&optional ((increment 1) \"Number. The distance between the returned listed numbers.\"
+            (tolerance (/ increment 10)) \"Number. tolerance for increment.\")"
+
+  (cond ((zerop increment) (error "increment of zero is not allowed"))
+	((and (< increment 0.0) (> num2 num1)) (error "increment is negative, while difference between num2 and num1 is positive."))
+	((and (> increment 0.0) (< num2 num1)) (error "increment is positive, while difference between num2 and num1 is negative."))
+	(t (let ((predicate (if (> increment 0.0) #'>= #'<=))
+		 (result-list nil))
+	     (do ((num num1 (+ num increment)))
+		 ((or (funcall predicate num num2) (< (abs (- num2 num)) tolerance)) (nreverse (cons num2 result-list)))
+	       (push num result-list))))))
+
+
+(defun list-of-n-numbers (num1 num2 n)
+  "Returns a list of n numbers equally spaced between bounds num1 and num2, inclusive."
+  (let ((increment (/ (- num2 num1) (- n 1)))
+    (result-list nil))
+    (dotimes (i (- n 1) (nreverse (cons num2 result-list)))
+      (push (+ num1 (* i increment)) result-list))))
+
+;;
+;; FLAG -- remove this when above version is fully tested. 
+;;
+#+nil
 (defun list-of-numbers (num1 num2 &optional (increment 1))
   "List of Numbers. Returns a list of incrementing numbers starting from 
 <b>num1</b> and ending with <b>num2</b>, inclusive.
@@ -142,8 +174,8 @@ object in <b>object-list</b>.
 The type of the returned number will depend on the type of <b>num</b>.
 
 :arguments (num \"Number\")"
-
-  (/ num 2))
+  (let ((result (/ num 2)))
+    (if *bias-to-double-float?* (to-double-float result) result)))
 
 (defun twice (num)
   "Number. Returns the result of multiplying <b>num</b> by the integer <tt>2</tt>.
@@ -151,7 +183,9 @@ The type of the returned number will depend on the type of <b>num</b>.
 
 :arguments (num \"Number\")"
   
-  (+ num num))
+  (let ((result (+ num num)))
+    (if *bias-to-double-float?* (to-double-float result) result)))
+
 
 (defun index-filter (fn list)
   "List. Returns all elements of <b>list</b> for whose index (starting at zero) the 
@@ -580,6 +614,17 @@ CL \"fround\" function.
                                                    (truncate (* (second color) 255))
                                                    (truncate (* (third color) 255))) t)))))
 
+
+;;
+;; FLAG -- remove this defunct version. 
+;;
+#+nil
+(defmethod lookup-color ((color null) &key (format :decimal) (ground :foreground))
+  (unless (and (eql ground :foreground)
+	       (eql (getf *colors-default* :foreground) :black))
+    (values (lookup-color (getf *colors-default* ground) :format format) nil)))
+
+
 (defmethod lookup-color ((color null) &key (format :decimal) (ground :foreground))
   (values (lookup-color (getf *colors-default* ground) :format format) nil))
      
@@ -664,6 +709,106 @@ an iso-8601 date, optionally with time, e.g. 2012-07-08 or 2012-07-08T13:33 or 2
   (apply #'make-object (the-object object type) make-object-args))
   
 
+
+
+(defun read-snapshot (&key (filename "/tmp/snap.gdl") 
+			string stream
+			object keep-bashed-values? make-object-args 
+			keys-to-ignore
+			(keys-to-ignore-default (list :query-plist :view-toggle :cookies-received)))
+    
+  "GDL Instance. Reads the snapshot data from stream, from the string,
+or from file indicated by filename. If no optional keyword
+<tt>object</tt> argument is given, a new GDL instance based on the
+data in the snapshot file is returned. If an <tt>object</tt> is given,
+the object should be compatible in type to that specified in the
+snapshot file, and this existing object will be modified to contain
+the set slot values and toplevel inputs as specified in the snapshot
+file.
+
+:&key ((filename \"/tmp/snap.gdl\") \"String or pathname. File to be read. If either string or stream is specified, this will not be used.\"
+       (string nil) \"String of data. The actual snapshot contents, stored in a string. If stream is specified, this will not be used.\"
+       (stream nil) \"Stream open for input. A stream from which the snapshot data can be read.\"
+       (keep-bashed-values? nil) \"Boolean. Indicates whether to keep the currently bashed values in object before reading snap values into it.\"
+       (object nil) \"GDL object. Existing object to be modified with restored values.\")"
+  
+  (let ((keys-to-ignore (append keys-to-ignore keys-to-ignore-default)))
+    
+
+    (cond (stream (read-snapshot-from-stream stream :object object :keep-bashed-values? keep-bashed-values?
+					     :make-object-args make-object-args :keys-to-ignore keys-to-ignore))
+	  (string (with-input-from-string (in string)
+		    (read-snapshot-from-stream in :object object :keep-bashed-values? keep-bashed-values?
+					       :make-object-args make-object-args :keys-to-ignore keys-to-ignore)))
+	  (filename (with-open-file (in filename)
+		      (read-snapshot-from-stream in :object object :keep-bashed-values? keep-bashed-values?
+						 :make-object-args make-object-args :keys-to-ignore keys-to-ignore))))))
+
+
+(defun read-snapshot-from-stream (in &key object keep-bashed-values? make-object-args keys-to-ignore)
+
+  (let (forms)
+    (do ((form (read in nil nil) (read in nil nil)))
+	((null form) forms)
+      (push form forms))
+    
+    (setq forms (nreverse forms))
+    
+    (let ((package-form (first forms)))
+      (when (or (null package-form) (not (find-package (second package-form))))
+	(error "Invalid package specification at beginning of snapshot data.~%"))
+      (let* ((*package* (find-package (second package-form))) 
+	     (root-form (second forms)))
+	(when (or (null root-form) 
+		  (not (atom (first root-form)))
+		  (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class))))
+	  (warn "Invalid root-form: ~a.~%" root-form)
+	  
+	  (setq root-form (first (remove-if-not #'(lambda(form) (atom (first form))) (rest forms))))
+	  (setq forms (cons package-form
+			    (cons root-form
+				  (remove root-form (rest forms) :test #'equalp)))))
+			    
+        
+	  (let* ((object (cond ((and object keep-bashed-values?) object)
+			       (object (the-object object restore-tree!) object)
+			       (t (progn
+				    (apply #'make-object (first root-form) make-object-args))))))
+	    
+	    (let ((self object) (value-plist (rest root-form)))
+
+	      (mapc #'(lambda(key expression) 
+			(unless (member key keys-to-ignore)
+			  (when self (the-object self (set-slot! key (eval expression) :re-sort? nil)))))
+		    (plist-keys value-plist) (plist-values value-plist)))
+          
+	    
+	    (let* ((forms (double-length-sort forms))
+		     
+		   (primaries (remove-if-not #'(lambda(item) (or (getf (rest item) :%primary?%)
+								 (getf (rest item) :element-index-list))) forms))
+		   (non-primaries (remove-if #'(lambda(item) (or (getf (rest item) :%primary?%)
+								 (getf (rest item) :element-index-list))) forms))
+		   (forms (append primaries non-primaries)))
+              
+	      (dolist (form forms)
+            
+		(let ((root-path (first form)) (value-plist (rest form)))
+		  (let ((self 
+			 (with-error-handling (:timeout nil)
+			   (the-object object (follow-root-path root-path)))))
+		    (when self
+		      (mapc #'(lambda(key expression) 
+				(unless (member key keys-to-ignore)
+				  (the-object self (set-slot! key (eval `(let ((self ,self)) ,expression)) :re-sort? nil))))
+			    (plist-keys value-plist) (plist-values value-plist)))))))
+	    object)))))
+
+
+;;
+;; FLAG -- remove this defunction version. 
+;;
+#+nil
 (defun read-snapshot (&key (filename "/tmp/snap.gdl") object keep-bashed-values? make-object-args keys-to-ignore)
   "GDL Instance. Reads the snapshot file indicated by filename. If no optional keyword <tt>object</tt>
 argument is given, a new GDL instance based on the data in the snapshot file is returned. If an
@@ -785,6 +930,9 @@ toplevel inputs as specified in the snapshot file.
 
 (defparameter *dep-hash-threshhold* 1000)
 
+(defparameter *invalid-aggregate-behavior* :error)
+
+
 (defun add-notify-cons (notify-cons value &optional self message)
   ;;
   ;; FLAG -- this was added as a fix for github Issue #69, but causes
@@ -802,13 +950,39 @@ toplevel inputs as specified in the snapshot file.
     (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
       (when (and (consp aggregate)
 		 (not (consp (gdl-acc::%aggregate% self))))
-	(let ((num-value (gdl-acc::number-of-elements (first aggregate))))
-	  (when (and (consp num-value)
-		     (let ((value (funcall message self)))
-		       (not 
-			(and (consp value) 
-			     (typep (first value) 'gdl-basis)))))
-	    (add-notify-cons (list self message) num-value))))))
+	(let ((agg (first aggregate)))
+	  (if agg
+	      (let ((num-value (gdl-acc::number-of-elements agg)))
+		(when (and (consp num-value)
+			   (let ((value (funcall message self)))
+			     (not 
+			      (and (consp value) 
+				   (typep (first value) 'gdl-basis)))))
+		  (add-notify-cons (list self message) num-value)))
+
+	      (let ((error-message (format nil "
+!!! 
+
+ Invalid internal Gendl data structure detected. 
+
+  notify-cons = ~s
+
+  aggregate = ~a
+
+  value = ~s
+
+  self = ~a
+
+  message = ~s
+
+
+!!!
+"
+					   notify-cons aggregate value self message)))
+		(ecase *invalid-aggregate-behavior*
+		  (:error (error error-message))
+		  (:warn (warn error-message))
+		  (nil ))))))))
   (let ((second (second value)))
     (if (and (listp second) (< (length second) *dep-hash-threshhold*))
 	(let ((matching-sublist (assoc (first notify-cons) (second value))))
@@ -876,3 +1050,14 @@ toplevel inputs as specified in the snapshot file.
       
     
 			       
+(defun double-length-sort (&optional (list))
+  (let ((first (safe-sort list #'(lambda(item1 item2)
+				   (let ((first1 (first (first item1)))
+					 (first2 (first (first item2))))
+				     (< (if (consp first1) (length first1) 0)
+					(if (consp first2) (length first2) 0)))))))
+    (stable-sort first #'(lambda(x  y) (< (length (first x)) (length (first y)))))))
+
+
+
+

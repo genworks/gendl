@@ -198,7 +198,7 @@
 
 (define-object settables-form (base-html-sheet)
   :input-slots
-  (node inspector-object show-settables? colors-default  tatu-root) 
+  (node relative-font-size inspector-object show-settables? colors-default  tatu-root) 
   
   :computed-slots
   ((settables (let (settables) 
@@ -290,7 +290,7 @@
 
 (define-object viewables-list (base-html-sheet)
   :input-slots
-  (node inspector-object colors-default  tatu-root)
+  (node relative-font-size inspector-object colors-default  tatu-root)
   
   :computed-slots
   ((viewables (the node (message-list :category :uncached-computed-slots)))

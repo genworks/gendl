@@ -40,7 +40,9 @@
 (defun one-line (string)
   (glisp:replace-regexp (glisp:replace-regexp string (format nil "~%") " ") "'" "\\'" ))
 
-(defparameter *suppress-%%-messages?* t)
+(defparameter *suppress-%%-messages?* t "Boolean. Set to nil if you want to see messages starting and ending with %% in tasty inspector. Defaults to t.")
+
+(defparameter *suppress-$$-messages?* t "Boolean. Set to nil if you want to see messages starting with $$ in tasty inspector. Defaults to t.")
 
 ;;
 ;; FLAG -- replace with abstract associative map
@@ -95,16 +97,19 @@
               (remove-if
                #'(lambda (keyword)
                    (or (member keyword *internal-keywords*)
+		       (and *suppress-$$-messages?*
+			    (let ((string (string keyword)))
+                              (and
+                               (> (length string) 2) (string-equal (subseq string 0 2) "$$"))))
                        (and *suppress-%%-messages?*
                             (let ((string (string keyword)))
                               (and
                                (> (length string) 2)
-                               (or (string-equal (subseq string 0 2) "$$")
-                                   (and (eql (aref string 0) #\%)
-                                        (or (eql (aref string 1) #\%)
-                                            (eql
-                                             (aref string (1- (length string)))
-                                             #\%)))))))))
+			       (and (eql (aref string 0) #\%)
+				    (or (eql (aref string 1) #\%)
+					(eql
+					 (aref string (1- (length string)))
+					 #\%))))))))
                (set-difference (the :node (:message-list))
                                (append (the
                                            :node
@@ -142,6 +147,7 @@
     (definition)
     (declare (ignore definition))
     (error "Sorry! This is supposed to do 'lisp-find-definition' in emacs, but not working yet... Please send email to support@genworks.com"))
+
    
    #+nil
    (visit-definition-in-emacs
@@ -150,7 +156,8 @@
       (print-variables emacs-lisp-command)
       #+allegro (lep::eval-in-emacs emacs-lisp-command)))
     
-    
+
+   #+nil
    (perform-action!
     (object)
     (the tatu-root (perform-action! object)))
@@ -262,7 +269,7 @@
                  (typecase (the value)
                    (list (when (consp (the value)) :list))
                    (gdl::quantification :gdl-sequence)
-                   (gdl::gdl-basis :gdl-atom))))
+                   (gdl::gdl-basis (when (eql (the value root) (the node root)) :gdl-atom)))))
 
 
    (value-cardinality (case (the value-type)
@@ -296,18 +303,25 @@
    (value-display
     (ignore-errors-with-warning
      (let* ((value (the value))
-            (gdl-object? (eql (class-of (class-of value))
-                              (find-class 'gdl-class))))
-
+            (gdl-object? (or (eql (class-of (class-of value))
+				  (find-class 'gdl-class))
+			     (let ((printed (with-output-to-string (ss) (print-object value ss))))
+			       (and (>= (length printed) 2)
+				    (eql (aref printed 0) #\#)
+				    (eql (aref printed 1) #\<))))))
        (with-cl-who-string ()
          ((:span :style (format nil "color: ~a; ~a" 
                                 (if (the clickable?) "blue" "black")
                                 (if (the clickable?) "cursor: pointer;" ""))
                  :onclick (case (the value-type)
                             (:gdl-atom
-                             (the (gdl-ajax-call 
+                             (the (gdl-ajax-call
+				   :bashee (the tatu-root)
                                    :function-key :perform-action!
-                                   :arguments (list value))))
+                                   :arguments
+				   (list nil
+					 :tasty-root (the tatu-root)
+					 :root-object-rootpath (the value root-path)))))
 
                             (:gdl-3d-point
                              (when (the clickable?)
@@ -416,7 +430,8 @@
    
    (control-view (with-cl-who-string ()
                    ((:span :style "cursor: pointer; color: blue; font-style: oblique;"
-                           :onclick (the (gdl-ajax-call 
+                           :onclick (the (gdl-ajax-call
+					  ;;:respondent (the tatu-root)
                                           :bashee self
                                           :function-key :set-slot!
                                           :arguments (list :show-settables? (not (the show-settables?))))))
@@ -451,6 +466,9 @@
                                     (progn
                                       (the node (set-slot-if-needed! 
                                                  (the-child keyword) value :infer-types? nil))
+
+				      (the tatu-root refresh-tasty-panes!)
+				      
                                       t))
 
                                 ;;

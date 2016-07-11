@@ -102,7 +102,9 @@ mixes  this in, or in a <tt>main-sheet</tt> output-function in an html-format vi
 object.")
 
   :input-slots
-  (("GDL object. Default object to which control will return with the write-back-link method"
+  ((respondent (the bashee) :defaulting)
+
+   ("GDL object. Default object to which control will return with the write-back-link method"
     return-object (the :parent))
    ("String. Name of a browser frame or window to display this page. Default of NIL indicates to use the same window."
     target nil)
@@ -149,10 +151,9 @@ the browser in development mode). Defaults to NIL (the empty list)."
    
    (host nil :defaulting)
    
-   (query-toplevel nil :settable)
-   
-   )
+   (query-toplevel nil :settable))
 
+  
   :computed-slots
   (
    
@@ -320,18 +321,20 @@ The error was: "
                                     (:pre (:prin1-safe (cons 'the (reverse (the root-path))))))))
                         (:p "Click " 
                             (:b (the root (write-self-link :display-string "Here")))
-                            " to visit the root of the site hierarchy.")))))
+                            " to visit the root of the site hierarchy."))))))
+  
+  :input-slots
    
-   ("Void. This is an empty function by default, but can be overridden in
+  (("Void. This is an empty function by default, but can be overridden in
 a user specialization of base-html-sheet, to do some processing before the 
 header-plist is evaluated and before the HTTP response is actually initiated, but after
 the cookies-received have been set."
-    process-cookies! ())
+    process-cookies! nil)
    
    ("Void. This is an empty function by default, but can be overridden in
 a user specialization of base-html-sheet, to do some processing before the 
 header-plist is evaluated and before the HTTP response is actually initiated."
-    before-response! ())
+    before-response! nil)
    
    
    ("Void. This is an empty function by default, but can be overridden in
@@ -344,31 +347,29 @@ the <tt>model-inputs</tt> function. It is not always reliable to do processing
 in the <tt>model-inputs</tt> function, since some slots which depend on your
 intended modifications may already have been evaluated by the time the
 <tt>model-inputs</tt> function runs."
-    before-present! ())
+    before-present! nil)
 
-   
-   
    
    ("Void. This is an empty function by default, but can be overridden in
 the respondent of a form, to do some processing after the respondent's 
 <tt>write-html-sheet</tt> function runs to present the object."
-    after-present! ())
+    after-present! nil)
    
    
    ("Void. This is an empty function by default, but can be overridden in
 the requestor of a form, to do some processing before the requestor's form
 values are set into the specified bashee."
-    before-set! ())   
+    before-set! nil)   
    
    
    ("Void. This is an empty function by default, but can be overridden in
 the requestor of a form, to do some processing after the requestor's form
 values are set into the specified bashee."
-    after-set! ())
+    after-set! nil))   
 
-   
-   
-   (self-link
+  
+  :functions
+  ((self-link
     (&key (display-string (the strings-for-display))
           (display-color nil)
           (target nil)

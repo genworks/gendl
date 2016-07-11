@@ -582,7 +582,7 @@
 
 (defmethod make-transformed-brep ((geometry-kernel vanilla-geometry-kernel) brep &key translation x-vector y-vector scale-vector
 										   shrink? sew-and-orient?)
-  (declare (ignore brep translation x-vector y-vector scale-vector))
+  (declare (ignore brep translation x-vector y-vector scale-vector shrink? sew-and-orient?))
   (error "Don't know how to make transformed-brep with ~s.~%" geometry-kernel))
 
 (defmethod make-ruled-surface ((geometry-kernel vanilla-geometry-kernel) &key curve-1 curve-2 (direction :u))
@@ -779,5 +779,7 @@
 				   right-or-left
 				   tolerance))
 
-(define-vanilla-wrapper make-cardinal-spline (&key control-points tension-params periodic?))
+(define-vanilla-wrapper make-cardinal-spline (&key control-points tension-params periodic? alpha))
+
+(define-vanilla-wrapper make-degenerate-curve (&key degree point))
   

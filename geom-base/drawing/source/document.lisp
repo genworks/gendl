@@ -29,7 +29,7 @@
   (the-object (make-object type) print-pdf))
 
 (define-object document (base-object)
-  :computed-slots
+  :input-slots
   ((pages nil))
   
   :functions

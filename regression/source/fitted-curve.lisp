@@ -27,13 +27,8 @@
    :computed-slots
    ((points (the circle (equi-spaced-points 20)))
 
-    ;;
-    ;; FLAG i put regression-test-data into curve itself. This comment can be removed.
-    ;;
-    ;; (regression-test-data (multiple-value-list (the b-spline-data)))
-    ;;
-    
-    )
+    (regression-test-data (multiple-value-list (the b-spline-data))))
+
 
    :hidden-objects
    ((circle :type 'circle :radius 10)))
@@ -42,6 +37,8 @@
 (define-object fitted-curve-test-2 (fitted-curve)
   :computed-slots
   (
+   (regression-test-data (multiple-value-list (the b-spline-data)))
+   
    (offset-plane-normal (the (face-normal-vector :rear)))
    
    (offset-distance 50)
@@ -197,7 +194,8 @@
 (define-object fitted-curve-test-3 (fitted-curve) 
   
    :computed-slots
-   ((points (the circle (equi-spaced-points 20))))
+   ((regression-test-data (multiple-value-list (the b-spline-data)))
+    (points (the circle (equi-spaced-points 20))))
 
    :hidden-objects
    ((spheres  :type 'sphere
@@ -219,7 +217,8 @@
   ((degree 1))
   
   :computed-slots
-  ((smooth-corners? nil)
+  ((regression-test-data (multiple-value-list (the b-spline-data)))
+   (smooth-corners? nil)
    ;;(parameterization :chordlength)
    
    (points (list (make-point -1 -2 0)

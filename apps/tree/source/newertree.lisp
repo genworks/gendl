@@ -212,8 +212,7 @@ Converting to a string to avoid error."
                 (the child-nodes)))))))))
  
   :functions
-  (
-   (toggle-state! ()
+  ((toggle-state! ()
                   (the (set-slot! :closed? (not (the closed?))))
                   (the propogate-toggle!))
    

@@ -30,6 +30,8 @@
     #+clisp "fas"
     #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))
 
+(defparameter *temporary-folder-function* #'(lambda() (merge-pathnames "tmp/" (user-homedir-pathname))))
+
 
 #-(or allegro lispworks sbcl ccl) 
 (warn "~&Please implement concatenate-fasls for the currently running lisp.~%")
@@ -163,8 +165,9 @@ The command line was: ~%~%~s~%" command result error command-line)))))
 ;; temporary-folder is potentially platform-specific so it is defined here. 
 ;;
 (defun temporary-folder (&key (create? t))
-  (let ((folder (merge-pathnames "tmp/" (user-homedir-pathname))))
-    (when create? (ensure-directories-exist folder))))
+  (let ((folder (funcall *temporary-folder-function*)))
+    (if create? (ensure-directories-exist folder) folder)))
+
 
 (defun temporary-file (&key (extension nil) create?)
   (let ((file (merge-pathnames (make-pathname :name (string (gensym))

@@ -34,7 +34,9 @@ Raphael vector graphics."
 			       :examples "FLAG -- Fill in!!!")
   
   :input-slots 
-  (("Number. Thickness of default border around graphics viewport. 
+  ((respondent (the bashee) :defaulting)
+
+   ("Number. Thickness of default border around graphics viewport. 
 Default is 1." viewport-border-default 1)
    
    (vector-graphics-onclick? t)
@@ -409,7 +411,10 @@ to call the :write-embedded-x3d-world function."))
 			  (write-the view-object cad-output)))))))
 	
 		 ((:script :type "text/javascript")
-		  "x3dom.reload();")
+		  ;;"x3dom.reload(); document.getElementById('the_element').runtime.debug(true); document.getElementById('the_element').runtime.statistics(true); "
+		  "x3dom.reload(); "
+		  
+		  )
 	
 
 		 #+nil

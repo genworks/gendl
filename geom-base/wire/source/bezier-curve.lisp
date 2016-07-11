@@ -53,6 +53,8 @@ vector pointing from the end point to the third control point."
   ("List of 4 3D Points. Specifies the control points for the Bezier curve."
    control-points
    
+   (%reversed?% nil)
+
    (weights nil)
    (knots nil)
    (degree nil)
@@ -128,7 +130,8 @@ the circle in the Z plane with center <tt>center</tt> and radius <tt>radius</tt>
   
   
   :hidden-objects
-  ((reverse :type 'bezier-curve :control-points (reverse (the control-points))))
+  ((reverse :type (if (the %reversed?%) 'null-object 'bezier-curve) :control-points (reverse (the control-points))
+	    :%reversed?% t))
   
   :functions
   ((b-spline-data

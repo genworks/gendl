@@ -24,5 +24,6 @@
 
 (gwl:define-package :tasty
     (:documentation #.(glisp:system-description :tasty))
-  (:export #:assembly #:viewport #:inspector #:status-object #:menu-section #:*use-bsplines-for-vrml?*))
+  (:export #:assembly #:viewport #:inspector #:status-object #:menu-section #:*use-bsplines-for-vrml?*
+	   #:*suppress-%%-messages?* #:*suppress-$$-messages?*))
 

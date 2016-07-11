@@ -28,6 +28,7 @@
  (#+allegro
   excl:without-package-locks
   #-allegro progn
+
   (defparameter *invalid-aggregate-behavior* :error
 "Keyword symbol. Can be one of :error, :warn, or :ignore")
 
@@ -84,6 +85,7 @@
 		    (:error (error error-message))
 		    (:warn (warn error-message))
 		    (:ignore nil))))))))
+
     (let ((second (second value)))
       (if (and (listp second) (< (length second) *dep-hash-threshhold*))
 	  (let ((matching-sublist (assoc (first notify-cons) (second value))))

@@ -71,35 +71,37 @@ set of arms contained in the body which is contained in the robot which is conta
                                 (eql (first (first (rest first))) :apply))
                            (setq apply? t)(second (first (rest first))))
                           ((listp first) (rest first))))
-              (new-object (gensym)))
+              ;;(new-object (gensym))
+              (new-object '+new-object+)
+              )
           
           
           `(the-object ,(if *undeclared-parameters-enabled?*
                             (if evaluate?
                                 `(if (fboundp (glisp:intern (symbol-name ,message) :gdl-slots))
                                      (funcall (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object ,@args)
-                                   (let ((,new-object (getf (gdl-slots::%parameters% ,object) 
-                                                            (make-keyword ,message) 'gdl-rule:%not-handled%)))
-                                     (if (eql ,new-object 'gdl-rule:%not-handled%)
-                                         (not-handled-error ,object ',message) ,new-object)))
-                              `(if (fboundp ',message) (,message ,object ,@args)
-                                 (let ((,new-object (getf (gdl-slots::%parameters% ,object) 
-                                                          ,(make-keyword message) 'gdl-rule:%not-handled%)))
-                                   (if (eql ,new-object 'gdl-rule:%not-handled%)
-                                       (not-handled-error ,object ',message) ,new-object))))
-			    (cond ((and evaluate? apply?)
-				   `(apply (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
+                                     (let ((,new-object (getf (gdl-slots::%parameters% ,object) 
+                                                              (make-keyword ,message) 'gdl-rule:%not-handled%)))
+                                       (if (eql ,new-object 'gdl-rule:%not-handled%)
+                                           (not-handled-error ,object ',message ',args) ,new-object)))
+                                `(if (fboundp ',message) (,message ,object ,@args)
+                                     (let ((,new-object (getf (gdl-slots::%parameters% ,object) 
+                                                              ,(make-keyword message) 'gdl-rule:%not-handled%)))
+                                       (if (eql ,new-object 'gdl-rule:%not-handled%)
+                                           (not-handled-error ,object ',message ',args) ,new-object))))
+                            (cond ((and evaluate? apply?)
+                                   `(apply (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
                                            ,args))
-				  (evaluate?
-				   `(funcall (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
-					     ,@args))
-				  (apply?
-				   `(apply ',message ,object ,args))
+                                  (evaluate?
+                                   `(funcall (symbol-function (glisp:intern (symbol-name ,message) :gdl-slots)) ,object 
+                                             ,@args))
+                                  (apply?
+                                   `(apply ',message ,object ,args))
                                 
-				  (t `(,message ,object ,@args))))
+                                  (t `(,message ,object ,@args))))
                        
                        ,@(rest reference-chain))))
-    object))
+      object))
 
 
 
@@ -111,13 +113,17 @@ This is often used for sending the <tt>index</tt> message to an element of a qua
   `(the-object child ,@reference-chain))
 
 
-(defun not-handled-error (object message)
+(defun not-handled-error (object message &optional args)
   (if (the-object object root?)
-      (error "~s, which is the root object, could not handle the ~s message." object (make-keyword message))
-    (error "Neither ~s nor any of its ancestor instances could handle the ~s message
+      (error "~s, which is the root object, could not handle the ~s message~a." 
+	     object (make-keyword message)
+	     (if args (format nil "~%with args: ~s " args) ""))
+      (error "Neither ~s nor any of its ancestor instances could handle the ~s message~a
 The path to the containing object is: ~s" 
-           object (make-keyword message) (append '(the :root) (symbols-as-keywords
-                                                               (reverse (the-object object :root-path)))))))
+	     object (make-keyword message) 
+	     (if args (format nil "~%with args: ~s " args) "")
+	     (append '(the :root) (symbols-as-keywords
+				   (reverse (the-object object :root-path)))))))
 
 (defmacro with-format ((format stream-or-file &rest args) &body body)
   "Void [Macro]. Used to establish an output format and a stream to which data is to be sent. This is the experimental
@@ -129,12 +135,19 @@ view transforms, view scales, etc.
  (gdl::with-format (pdf \"/tmp/box.pdf\" :view-transform (getf *standard-views* :trimetric)) 
     (write-the-object (make-instance 'box :length 100 :width 100 :height 100) cad-output))
 </pre>"
-  (let ((flag (gensym)))
+  (let (;;(flag (gensym))
+	(flag '+flag+)
+	)
+	
+	
     `(let ((*%format%* (make-instance ',format ,@args)))
        (let ((*stream* (if (or (stringp ,stream-or-file) (pathnamep ,stream-or-file))
-                         (open ,stream-or-file :if-does-not-exist :create 
-                               :if-exists :supersede :direction :output
-                               :external-format glisp:*external-text-format*)
+                         (open ,stream-or-file 
+			       :if-does-not-exist (or (format-slot if-does-not-exist) :create)
+			       :if-exists (or (format-slot if-exists) :error)
+			       :direction (or (format-slot direction) :output)
+			       :external-format (format-slot external-format)
+			       :element-type (format-slot element-type))
                          ,stream-or-file))
              (,flag t))
          (unwind-protect

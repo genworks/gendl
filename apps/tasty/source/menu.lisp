@@ -22,6 +22,15 @@
 
 (in-package :tasty)
 
+
+(let ((tutorial-file 
+       (or (probe-file (merge-pathnames "../doc/tutorial.pdf" (glisp:executable-homedir-pathname)))
+	   (probe-file (merge-pathnames "gendl/documenation/tutorial/pdf/tutorial.pdf" glisp:*genworks-source-home*))
+	   (warn "tutorial.pdf not found in distribution doc/ directory or source documentation directory for
+publishing in tasty Help menu.~%"))))
+  (when tutorial-file (publish-file :path "/tutorial.pdf" 
+				    :file (namestring (truename tutorial-file)))))
+
 (define-object menu-section (sheet-section)
 
   :input-slots (tatu-root
@@ -425,7 +434,9 @@
        ((:li :id "menuHelp" :class "top")
         "Help"
         (:ul
-         (:li ((:a :href "http://www.genworks.com" :target "_new") "Documentation"))        
+	 (:li ((:a :href "/yadd" :target "_new")  "Reference Documentation"))
+	 (:li ((:a :href "/tutorial.pdf" :target "_new") "Tutorial/Manual"))
+         (:li ((:a :href "http://www.genworks.com" :target "_new") "Genworks Site"))        
          (:li ((:a :href "http://www.genworks.com/dl" :target "_new") "Check for Updates"))        
          (:li ((:a :href "http://www.genworks.com" :target "_new") "Contact Us"))  
          )))))

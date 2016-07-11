@@ -123,7 +123,7 @@ makes sense for viewing it."
   
    :objects
    ((drawing :type 'two-viewed-drawing
-             :objects (list (the box) (the length-dim)))
+             :objects-to-draw (list (the box) (the length-dim)))
     
     (length-dim :type 'horizontal-dimension
                 :hidden? t
@@ -136,7 +136,7 @@ makes sense for viewing it."
 
  (define-object two-viewed-drawing (base-drawing)
    
-   :input-slots (objects)
+   :input-slots (objects-to-draw)
    
    :objects
   
@@ -145,12 +145,12 @@ makes sense for viewing it."
                :length (half (the length))
                :center (translate (the center)
                                   :rear (half (the-child length)))
-               :objects (the objects))
+               :objects (the objects-to-draw))
    
     (top-view :type 'base-view
               :projection-vector (getf *standard-views* :top)
               :length (* 0.30 (the length))
-              :objects (the objects))))
+              :objects (the objects-to-draw))))
 
    (generate-sample-drawing :objects 
     (the-object (make-object 'box-with-two-viewed-drawing) drawing top-view))

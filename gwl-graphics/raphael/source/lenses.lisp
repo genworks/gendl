@@ -29,6 +29,64 @@
 (define-lens (raphael base-drawing)()
   :output-functions
   ((raphael-paper-def
+      (&key width length)
+      (format *stream* "var paper = Raphael('~a', ~a, ~a);
+
+               paper.canvas.style.backgroundColor = '~a';
+
+
+               if (typeof start === 'undefined') {
+
+                var start = function () {
+                    this.lastdx ? this.odx += this.lastdx : this.odx = 0;
+                    this.lastdy ? this.ody += this.lastdy : this.ody = 0;
+                    this.animate({opacity: .5}, 500, \">\");
+                },
+
+
+                move_cb = function (dx, dy) {
+                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
+                    this.lastdx = dx;
+                    this.lastdy = dy;
+                    this.animate({opacity: .5}, 500, \">\");
+                    ~a 
+                },
+
+                move = function (dx, dy) {
+                    this.transform(\"T\"+(dx+this.odx)+\",\"+(dy+this.ody));
+                    this.lastdx = dx;
+                    this.lastdy = dy;
+                    this.animate({opacity: .5}, 500, \">\");
+                },
+
+                up = function () {
+                    this.animate({opacity: 1.0}, 500, \">\");
+                    ~a 
+                },
+
+                  touchcoords = function () {~a}};
+
+"
+	      (the raphael-canvas-id) width length
+
+	      (lookup-color (format-slot background-color) :format :hex)
+
+	      ;;
+	      ;; FLAG -- pass in the containing
+	      ;; base-ajax-graphics-sheet and refer
+	      ;; to that, instead of referring to
+	      ;; the parent here.
+	      ;;
+	      (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
+	      (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop))
+
+	      (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-touchmove))))
+
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
+   (raphael-paper-def
     (&key width length)
     (format *stream* "var paper = Raphael('~a', ~a, ~a);~%
 
@@ -253,7 +311,7 @@
 					      (number-round (get-y end) 4)
                                                      
 					      ))) coords)))))))
-		
+	    
 		  (when (or path-info line-path-string curve-path-string)
 		    (who:with-html-output (*stream*) 
 		      (fmt "var ~a;~%" name)
@@ -275,6 +333,9 @@
 						     (number-round (get-x component) 4)
 						     (number-round (get-y component) 4)))) path-info)))
 
+
+		      (fmt "~a.attr({'stroke-linejoin': 'round'});" name)
+		      
 		      (fmt "~a.attr({stroke: '~a'});" 
 			   name (or (when (getf display-controls :color)
 				      (lookup-color (getf display-controls :color) :format :hex))

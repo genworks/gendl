@@ -5,7 +5,7 @@
 */ 
 
 /* Imports the ta2.0 custom jquery ui themeroller css */
-@import url("tasty-jquery-ui-1.7.1.custom.css");
+@import url("tasty-layout-custom.css");
 
 /* Imports the tree custom css */
 @import url("tasty-tree.css");

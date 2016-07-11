@@ -118,6 +118,14 @@ defaults to t."  error-on-invalid? *boolean-error-on-invalid-brep?*)
    
    
    ("Boolean. Indicates whether we should try to sew and orient the
+resulting brep. This defaults to t for merge operation and nil otherwise."  
+     sew-and-orient? (eql (the operation) :merge))
+
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
+   ("Boolean. Indicates whether we should try to sew and orient the
 resulting brep. Usually a good idea and this is defaulted to t, except
 for merged-solid where we default this to nil."  sew-and-orient? t)
    
@@ -125,10 +133,70 @@ for merged-solid where we default this to nil."  sew-and-orient? t)
 
   
   :computed-slots
-  (
-   
-   
+  ((%merge-and-brep 
+     (progn
+       (when (or (> (the first-brep regions number-of-elements) 2)
+		 (not (every #'(lambda(number) (<= number 2))
+			     (mapcar #'(lambda(object) (the-object object regions number-of-elements))
+				     (the rest-breps)))))
+        
+	 (let ((message (format nil "~%~%in ~a -~%~%Attempting booleans where brep has ~~a non-infinite regions.~%"
+				(cons 'the (reverse (the root-path))))))
+	   (if (the allow-multiple-regions?)
+	       (warn message 
+		     (1- (the first-brep regions number-of-elements)))
+	       (error message 
+		      (1- (the first-brep regions number-of-elements))))))
+      
+       (let ((count -1) (length (length (the rest-breps)))
+	     merge-container current-breps (current-brep (the first-brep %native-brep%)))
+        
+	 (dolist (other-brep (the rest-breps))
+	   (incf count)
+	   (when *debug?*
+	     (print-variables (the root-path) 
+			      (the first-brep root-path)
+			      (the-object other-brep root-path)))
+          
+	   (when *debug?* (print-variables (the approximation-tolerance) (the angle-tolerance)))
+          
+	   (setq merge-container (make-merge-container *geometry-kernel* 
+						       current-brep 
+						       (the-object other-brep %native-brep%)
+                                                      
+						       (the approximation-tolerance) 
+						       (the angle-tolerance)))
+          
+	   (ecase (the operation)
+	     ((:difference :union :intersection)
+	      (setq current-brep 
+		    (do-boolean-merge-operation *geometry-kernel* merge-container 
+						(the operation) (the make-manifold?)
+						:sew-and-orient? (the sew-and-orient?))))
+                          
+	     ((:merge)
+	     
+	      (let ((try-manifold? (and (the make-manifold?) (= count (1- length)))))
+		(setq current-brep (do-boolean-merge-operation  *geometry-kernel* merge-container
+								(the operation) try-manifold?
+								:make-manifold? try-manifold?
+								:sew-and-orient? (the sew-and-orient?)))))
+                           
+	     (:extract_separate
+	      (setq current-breps (do-boolean-separate-operation *geometry-kernel* 
+				    merge-container (the make-manifold?) (the sew-and-orient?))))))
 
+	 (ecase (the operation)
+	   ((:difference :union :intersection :merge) 
+	    (list :merge-container merge-container :native-brep current-brep))
+                        
+	   (:extract_separate (list :merge-container merge-container :native-breps current-breps))))))
+   
+   
+   ;;
+   ;; FLAG -- remove this defunct version. 
+   ;;
+   #+nil
    (%merge-and-brep 
     (progn
       (when (or (> (the first-brep regions number-of-elements) 2)

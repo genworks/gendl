@@ -142,9 +142,7 @@
     ()
     (let* ((display-controls (find-in-hash self *display-controls*))
            (color (getf display-controls :color))
-           (color  (or color (getf (the display-controls) :color) :black)))
-
-      (print-variables display-controls color)
+           (color  (or color (getf (the display-controls) :color) (the color-decimal) :black)))
 
       (cl-who:with-html-output (*stream* nil :indent nil)
 	(:|Material| :|diffuseColor| (write-the (rgb-color color))
@@ -461,6 +459,20 @@
                                                                         (get-y point) 
                                                                         (get-z point))) points)))))))))))
 
+
+
+(define-lens (x3d point) ()
+  :output-functions 
+  ((shape ()
+	  (let ((center (the center)))
+	    (when center
+	      (cl-who:with-html-output (*stream* nil :indent nil)
+		((:|Shape| 
+		   (:|Appearance| (write-the material-properties)))
+		 ((:|Coordinate| :point (format nil "~a ~a ~a" 
+						(get-x center) 
+						(get-y center) 
+						(get-z center)))))))))))
 
 
 

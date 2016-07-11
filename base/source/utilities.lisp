@@ -111,6 +111,26 @@ Optionally a different test than #'eql can be specified with the :test keyword a
       (first strings)
       (apply #'make-keyword strings)))
 
+
+;;
+;; FLAG - consider exporting.
+;; Notify CBI, as they have this in their codebase now. 
+;;
+
+(defparameter *keyword-package* (find-package :keyword))
+
+(defun make-key (item)
+  (intern (if (numberp item)
+	      (with-output-to-string (str) (princ item str))
+	      item) *keyword-package*))
+
+;;
+;;
+;;
+
+
+
+
 (defun make-keyword (&rest strings)
   "Keyword symbol. Converts given strings to a keyword.
 If any of the given arguments is not a string, it will be converted to one with 
@@ -118,7 +138,7 @@ If any of the given arguments is not a string, it will be converted to one with
 
 :arguments (strings \"&rest Strings\")"
   (%make-keyword (apply #'string-append (mapcar #'(lambda(string) (string (%make-keyword string))) strings))))
-  
+
 
 (defun make-keyword-sensitive (string) (glisp:intern string :keyword))
 
@@ -211,7 +231,7 @@ You have a dependency on caffeine. Your children are your dependants.
 
 
 
-(let ((value (gensym)) (need? (gensym)))
+(let ((value '+value+ #+nil(gensym)) (need? '+need?+ #+nil (gensym)))
   (defmacro with-dependency-tracking ((message-symbol &optional (self-sym 'self)) &rest body)
     `(let ((,value (,message-symbol ,self-sym))
 	   ;;
@@ -366,11 +386,38 @@ You have a dependency on caffeine. Your children are your dependants.
 (defun same-tree? (obj1 obj2) (eql (gdl-acc::%root% obj1) (gdl-acc::%root% obj2)))
     
 (defun merge-common-keys (plist)
+
+  ;; FLAG - call recursively until no more non-standard keywords remain.
+  (setq plist (expand-define-object-macros-toplevel plist))
+
   (let ((ht (make-hash-table)) result)
     (mapc #'(lambda(key value) (let ((current (gethash key ht)))
+				 ;; FLAG consider nconc here. 
                                  (setf (gethash key ht) (if current (append current value) value))))
           (plist-keys plist) (plist-values plist))
     (maphash #'(lambda(key value) (push key result) (push value result)) ht) (nreverse result)))
+
+(defun expand-define-object-macros-toplevel (plist)
+  (let (standards expansions)
+    (mapc #'(lambda(keyword contents)
+	      (if (member keyword *allowed-define-object-toplevel-keywords*)
+		  (let ((current (list keyword contents)))
+		    (if standards (nconc standards current) (setq standards current)))
+		  (let ((expansion (expand-object-macro-toplevel keyword contents)))
+		    (if expansions (nconc expansions expansion) (setq expansions expansion)))))
+	  (plist-keys plist)(plist-values plist))
+    (append standards expansions)))
+
+
+(defmacro define-object-macro-toplevel (keyword (specs) &body body)
+  `(defmethod expand-object-macro-toplevel ((keyword (eql ,keyword)) ,specs)
+     ,@body))
+
+(defgeneric expand-object-macro-toplevel (keyword specs))
+
+(defmethod expand-object-macro-toplevel ((keyword t) specs)
+  (declare (ignore specs))
+  (error "~&~%~%No such toplevel define-object keyword exists as ~s.~%~%" keyword))
 
 
 (defclass gdl-basis () () (:metaclass gdl-class))
@@ -397,3 +444,14 @@ keyword argument to this function.
 	(warn "~s does not exist.~%" ql-loader))))
 
 
+(defun load-glime ()
+  "Void.  If the Glime (Slime Gendl auto-completion extensions) file exists, load it. 
+Path is currently hardcoded to <tt>(merge-pathnames \"emacs/glime.lisp\" glime:*gdl-home*)</tt>
+or <tt>~/genworks/gendl/emacs/glime.lisp</tt>.
+
+"
+  (let ((glime-source (or (probe-file (merge-pathnames "emacs/glime.lisp" glisp:*gendl-home*))
+			  (probe-file (merge-pathnames "genworks/gendl/emacs/glime.lisp" (user-homedir-pathname))))))
+    (if (probe-file glime-source) 
+	(load (compile-file glime-source :output-file (make-pathname :defaults (glisp:temporary-file) :type glisp:*fasl-extension*)))
+	(warn "Glime source not found at ~s.~%" glime-source))))

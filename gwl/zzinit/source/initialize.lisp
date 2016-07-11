@@ -26,7 +26,7 @@
 (defun ensure-static-relative-pathname (relative)
   (let ((pathname (merge-pathnames relative *static-home*)))
     (or (probe-file pathname)
-	(error "Required static subdirectory ~a does not appear to exist.~%" pathname))))
+	(warn "Required static subdirectory ~a does not appear to exist.~%" pathname))))
 
 (defun publish-images ()
   (with-all-servers (server)
@@ -66,14 +66,25 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
-		  (external-format :utf8-base))
-  (net.aserve:shutdown)
-  (let ((port port))
-    (do ((error (client-test port) (client-test port)))
-        (error (format t "~&Starting AllegroServe on ~a...~%" port)
-         (net.aserve:start :port port :listeners listeners #-mswindows :external-format #-mswindows external-format)
-         port)
-      (incf port))))
+		      (external-format :utf8-base))
+    (net.aserve:shutdown)
+    (let ((wait-time 1))
+      (block :outer
+	(do () (nil)
+	  (let ((port port))
+	    (block :inner
+	      (do ((port-free? (client-test port) (client-test port)))
+		  (port-free?
+		   (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
+				 "~&Trying to start AllegroServe on ~a...~%") port)
+		   (if (ignore-errors
+			 (net.aserve:start :port port :listeners listeners
+					   #-mswindows :external-format #-mswindows external-format))
+		    (return-from :outer port)
+		    (progn (sleep (random wait-time)) (return-from :inner))))
+		(incf port))))
+	  (incf wait-time 0.1)))))
+
 
 (defvar *settings* 
   (list (list '*static-home* *static-home* 

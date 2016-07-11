@@ -426,6 +426,43 @@ if given, must be orthogonal to the first two.
                                                     outer))
                                         list-of-lists)))
 
+
+(defparameter *print-deprecated-warnings?* nil)
+
+(defun angle-between-vectors-d (vector-1 vector-2 &optional reference-vector &rest args)
+  "Number. This function is identical to angle-between-vectors, but returns the angle in degrees.
+   Refer to angle-between-vectors for more information.
+
+   Technical note: the <b>more</b> argument has been introduced to support both
+   angle-between-vectors call conventions and the legacy signature:
+
+   (vector-1 vector-2 &optional reference-vector negative?)
+
+   Optionally, a deprecation warning is printed when code invokes this legacy pattern.."
+
+  ;; resolve &rest arguments.
+  (let ((arglist
+     (let ((length (length args)))
+       (cond ((= length 1)
+	      ;; legacy signature:
+	      ;; (vector-1 vector-2 &optional reference-vector negative?)
+	      (when *print-deprecated-warnings?*
+		(warn "negative? argument for angle-between-vectors-d is deprecated. Use :-ve instead."))
+	      (list vector-1 vector-2 reference-vector :-ve (first args)))
+	     ((evenp length)
+	      ;; angle-between-vectors signature:
+	      ;; (vector-1 vector-2 &optional reference-vector &key (epsilon *zero-epsilon*) -ve)
+	      (nconc (list vector-1 vector-2 reference-vector) args))
+	     (t
+	      ;; not allowed.
+	      (error (format nil "angle-between-vectors-d received invalid arguments: ~a"
+			     (nconc (list vector-1 vector-2 reference-vector) args))))))))
+  (radians-to-degrees
+   (apply #'angle-between-vectors arglist))
+  ))
+
+
+#+nil
 (defun angle-between-vectors-d (vector-1 vector-2 &optional reference-vector negative?)
   "Number. Returns the angle in degrees between <tt>vector-1</tt> and <tt>vector-2</tt>. 
    If no <tt>reference-vector</tt> is given, the smallest possible angle is returned. 
@@ -447,18 +484,52 @@ if given, must be orthogonal to the first two.
     (radians-to-degrees
      (angle-between-vectors vector-1 vector-2))))
 
-(defun angle-between-vectors (vector-1 vector-2 &optional reference-vector &key (epsilon *zero-epsilon*) -ve)
+
+(defun angle-between-vectors (vector-1 vector-2 
+			      &optional reference-vector 
+			      &key (epsilon *zero-epsilon*) -ve negative?)
   "Number. Returns the angle in radians between <b>vector-1</b> and <b>vector-2</b>. 
    If no <b>reference-vector</b> given, the smallest possible angle is returned. 
    If a <b>reference-vector</b> is given, computes according to the right-hand rule. 
    If <b>-ve</b> is given,  returns a negative number for angle if it really is 
    negative according to the right-hand rule.
-
 :arguments (vector-1 \"3D Vector\"
             vector-2 \"3D Vector\")
 :&optional ((reference-vector nil) \"3D Vector\")
 :&key      ((epsilon *zero-epsilon*) \"Number. Determines how small of an angle is considered to be zero.\"
             (-ve nil) \"Boolean\")"
+  (let ((vector-1 (unitize-vector vector-1 :epsilon epsilon))
+        (vector-2 (unitize-vector vector-2 :epsilon epsilon)))
+    (let ((dot-vector (dot-vectors vector-1 vector-2)))
+      (when (> dot-vector 1.0) (setq dot-vector 1.0))
+      (when (< dot-vector -1.0) (setq dot-vector -1.0))
+      (let ((smallest-angle (acos dot-vector)))
+        (when (< smallest-angle epsilon) (setq smallest-angle 0.0))
+        (let ((try (if (and reference-vector
+                            (minusp (dot-vectors reference-vector (cross-vectors vector-1 vector-2))))
+                       (- (twice pi) smallest-angle)
+                     smallest-angle)))
+          (if (and (or -ve negative?) (> try pi)) (- try (twice pi)) try))))))
+
+
+
+#+nil
+(defun angle-between-vectors (vector-1 vector-2 
+			      &optional reference-vector 
+			      &key (epsilon *zero-epsilon*) -ve negative?)
+  "Number. Returns the angle in radians between <b>vector-1</b> and
+   <b>vector-2</b>.  If no <b>reference-vector</b> given, the smallest
+   possible angle is returned.  If a <b>reference-vector</b> is given,
+   computes according to the right-hand rule.  If <b>:-ve t</b> or
+   <b>:negative? t</b> is given, returns a negative number for angle
+   if it really is negative according to the right-hand rule.
+
+:arguments (vector-1 \"3D Vector\"
+            vector-2 \"3D Vector\")
+:&optional ((reference-vector nil) \"3D Vector\")
+:&key      ((epsilon *zero-epsilon*) \"Number. Determines how small of an angle is considered to be zero.\"
+            (-ve nil) \"Boolean\"
+            (negative? nil) \"Boolean (synonym to -ve)\")"
   (let ((vector-1 (unitize-vector vector-1))
         (vector-2 (unitize-vector vector-2)))
     
@@ -471,9 +542,25 @@ if given, must be orthogonal to the first two.
                             (minusp (dot-vectors reference-vector (cross-vectors vector-1 vector-2))))
                        (- (twice pi) smallest-angle)
                      smallest-angle)))
-          (if (and -ve (> try pi)) (- try (twice pi)) try))))))
+          (if (and (or -ve negative?) (> try pi)) (- try (twice pi)) try))))))
 
 
+
+(defun unitize-vector (vector &key (epsilon *zero-epsilon*)) 
+  "Unit Vector. Returns the normalized unit-length vector corresponding to <b>vector</b>.
+:arguments (vector \"3D Vector\")
+:&key ((espsilon *zero-epsilon*) \"Number. How close vector should be to 1.0 to be considered unit-length.\")"
+
+  (when (and *zero-vector-checking?* (zero-vector? vector))
+    (error "~s has Euclidean length zero; cannot unitize." vector))
+
+  (if (near-to? (length-vector vector) 1.0 epsilon)
+      vector
+    (scalar*vector (/ (length-vector vector)) vector)))
+
+
+
+#+nil
 (defun unitize-vector  (vector)
   "Unit Vector. Returns the normalized unit-length vector corresponding to <b>vector</b>.
 
@@ -501,15 +588,16 @@ is as close as possible to <b>vector</b>.
          (cross-vectors reference-vector normal))))))
 
 
-(defun parallel-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*))
+(defun parallel-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*) directed?)
     "Boolean. Returns non-nil iff <b>vector-1</b> and <b>vector-2</b> are pointing in the 
 same direction or opposite directions. 
 
 :arguments (vector-1 \"3D Vector\"
             vector-2 \"3D Vector\")
-:&key ((tolerance *zero-epsilon*) \"Number\")"
+:&key ((tolerance *zero-epsilon*) \"Number\"
+       (directed? nil) \"Boolean.  If :directed? is t, the function returns t if the vectors are both parallel and point in the same direction.  The default is nil, meaning that the function will return t regardless of which way the vectors point, as long as they are parallel.\")"
   (or (same-direction-vectors? vector-1 vector-2 :tolerance tolerance)
-      (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance)))
+      (unless directed? (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance))))
   
 
 (defun same-direction-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*))
@@ -550,7 +638,10 @@ to both <b>vector-1</b> and <b>vector-2</b>.
 
 :arguments (vector \"3D Vector\")"
 
-  (3d-distance vector +nominal-origin+))
+  (3d-distance (if (= (array-dimension vector 0) 3) 
+                   vector 
+                   (make-vector (get-x vector) (get-y vector) 0))
+               +nominal-origin+))
 
 
 (defun zero-vector? (vector)
@@ -1538,3 +1629,33 @@ add any new keys.
 		 (the-child %matrix-vector-2%)
 		 (* (second (the-child index)) (the-child %matrix-increment-2%)))))))
 						
+
+(defun point-on-plane? (3d-point plane-point plane-normal &key (tolerance *zero-epsilon*))
+
+  "Boolean. Determines whether or not the <tt>3d-point</tt> lies on the plane specified by <tt>plane-point</tt> 
+ and <tt>plane-normal</tt>, within <tt>tolerance</tt>.
+
+:arguments (3d-point \"Point in question\"
+            plane-point \"point on the known plane\"
+            plane-normal \"normal to the known plane\")
+:&key      ((tolerance *zero-epsilon*) \"Tolerance for points to be considered coincident.\")
+"
+
+  (let ((intersect-point (inter-line-plane 3d-point plane-normal plane-point plane-normal)))
+    (coincident-point? 3d-point intersect-point :tolerance tolerance)))
+
+
+(defun point-on-vector? (first-point second-point unknown-point &key (tolerance *zero-epsilon*))
+
+  "Boolean. Determines whether or not the <tt>unknown-point</tt> lies on the ray specified by the vector
+pointing from <tt>first-point</tt> to <tt>second-point</tt>, within <tt>tolerance</tt>.
+
+:arguments (first-point \"first point of vector\"
+            second-point \"second point of vector\"
+            unknown-point \"point in question\")
+:&key      ((tolerance *zero-epsilon*) \"Tolerance for vectors to be considered same-direction.\")
+"
+
+  (let ((known-vector (subtract-vectors second-point first-point))
+        (unknown-vector (subtract-vectors unknown-point first-point)))
+    (same-direction-vectors? known-vector unknown-vector :tolerance tolerance)))

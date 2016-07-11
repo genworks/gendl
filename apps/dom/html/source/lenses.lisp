@@ -22,13 +22,19 @@
 (in-package :com.genworks.dom-html)
 
 
+(defparameter *warn-on-unrecognized-tags?* t)
+
 (publish-directory :prefix "/gdl/style/"
 		   :destination (format nil "~a" (translate-logical-pathname "~/genworks/gwl-apps/training/g101/style/")))
 
 
+(defparameter *index-hash* nil)
+(defparameter *debug-index* nil)
+
 (define-lens (html-format assembly) ()
   :output-functions
-  ((main-sheet
+  (
+   (main-sheet
     ()
     (html
      (:html (:head (:title (:princ (the title)))
@@ -36,7 +42,6 @@
 	    (:body (:p (write-the contents))
 		   (:p (write-the base)))))))
 
-    
    (base
     ()
     (dolist (element (list-elements (the elements)))
@@ -48,8 +53,22 @@
     (with-cl-who () 
       (:html (:head (:title (str (the title)))
 		    ((:link :href (the style-url) :rel "stylesheet" :type "text/css")))
-	     (:body (:div (write-the cl-who-contents-out))
-		    (:div (write-the cl-who-base))))))
+	     (let ((*index-hash* (make-hash-table :test #'equalp)))
+	       (htm
+		(:body (:div (write-the cl-who-contents-out))
+		       (:div (write-the cl-who-base))
+		       (:div (write-the cl-who-index))))))))
+   
+   (cl-who-index 
+    ()
+    (with-cl-who ()
+      (:p (:h2 "Index"))
+      (let* ((index-plist (list-hash *index-hash*))
+	     (keys (sort (plist-keys index-plist) #'string-lessp)))
+	(htm (:ul
+	      (dolist (key keys)
+		(dolist (target (gethash key *index-hash*))
+		  (htm (:li ((:a :href (format nil "#~a" target)) (str key)))))))))))
 
    (cl-who-base
     ()
@@ -160,16 +179,28 @@
 
 	(:emph (htm (:i (dolist (element (list-elements (the elements)))
 			  (write-the-object element cl-who-base)))))
+
+	(:textbf (htm (:b (dolist (element (list-elements (the elements)))
+			    (write-the-object element cl-who-base)))))
       
 	(:texttt (htm (:tt (dolist (element (list-elements (the elements)))
 			     (write-the-object element cl-who-base)))))
 	
 	
-	(:quote (print-variables (the markup-tag) (the elements))
-		(htm (:blockquote (dolist (element (list-elements (the elements)))
+	(:quote (htm (:blockquote (dolist (element (list-elements (the elements)))
 				    (write-the-object element cl-who-base)))))
 
-	(otherwise (warn "Markup tag ~s was not recognized~%" (the markup-tag)))
+	(:index (dolist (element (list-elements (the elements)))
+		  (let* ((data (the-object element data))
+			 (anchor-tag (string (gensym)))
+			 (current (gethash data *index-hash*)))
+		    (if current (pushnew anchor-tag current)
+			(setf (gethash data *index-hash*) (list anchor-tag)))
+		    (htm ((:a :name anchor-tag))
+			 (write-the-object element cl-who-base)))))
+
+	(otherwise (when *warn-on-unrecognized-tags?*
+		     (warn "Markup tag ~s was not recognized~%" (the markup-tag))))
 	
 
 	)))))

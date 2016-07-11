@@ -194,8 +194,9 @@
   (insert "(load (merge-pathnames \".load-base-ql.lisp\" (user-homedir-pathname)))")
   (slime-repl-return))
 
+(defvar gdl-startup-string nil)
 
-(defvar gdl-startup-string 
+(setq gdl-startup-string 
   (format 
    "(progn (unless (find-package :gendl)
 	    (let ((load-file (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))))
@@ -205,16 +206,30 @@
 	  (let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
 	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
 		  (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
-		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
+		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully 
+from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
 	  (when (find-package :gendl) (in-package :gdl-user)))" *gendl-home*))
 
+
+;;
+;; DAP -- user can also setq this in ~/.emacs-gdl
+;;
+(defvar user-startup-string "")
 
 (defun load-and-or-start-gendl ()
   (setq slime-enable-evaluate-in-emacs t)
   (slime-repl)
   (insert gdl-startup-string)
   (slime-repl-return)
-  (end-of-buffer))
+  (end-of-buffer)
+
+  ;;
+  ;; DAP  -- Added to support user-startup-string
+  ;;
+  (slime-repl-return)
+  (insert user-startup-string)
+  (slime-repl-return)
+  )
 
 
 
@@ -332,6 +347,16 @@
     (goto-char (point-max))
     (insert gdl-startup-string)
     (fi:inferior-lisp-newline)
+    (end-of-buffer)
+
+
+    ;;
+    ;; DAP - Added to support user-startup-string
+    ;;
+    (end-of-buffer)
+    (goto-char (point-max))
+    (insert user-startup-string)
+    (fi:inferior-lisp-newline)
     (end-of-buffer)))
 
 
@@ -367,6 +392,7 @@
      "sa-translit" "Converts Harvard-Kyoto and ITRANS scheme to IAST diacritics."
      file)))
 
+(maximize-frame)
 
 (load-user-emacs-gendl)
 

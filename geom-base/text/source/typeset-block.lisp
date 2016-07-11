@@ -115,8 +115,8 @@ than this default, the content will be cropped."
   
   ;;:objects ((box :type 'box))
   
-  :functions
-  ((content ())))
+  :input-slots
+  ((content nil)))
 
 
 ;; FLAG -- document and remove funcall when cl-typesetting stabilized.

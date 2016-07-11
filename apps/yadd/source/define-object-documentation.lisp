@@ -281,7 +281,7 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
                           (with-input-from-string (ss (the example-code)) 
                             (let ((*package* (find-package (second (read ss)))))
                               (intern (symbol-name (second (read ss))) *package*)))
-                        'null-part))
+			  'null-part))
    
    (vrml-view :type (if (the show-vrml?) 'web-drawing 'null-part)
               ;;:view-default (getf (the instance %renderer-info%) :view-default :trimetric)
@@ -314,8 +314,6 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 
 	(the load-example)
 	
-	(print-variables (the part-full-symbol))
-
 	(setq pdf-file (merge-pathnames "example.pdf" (glisp:temporary-folder))
 	      named-pdf-file (merge-pathnames (format nil "example-~(~a~).pdf" (the part-full-symbol))
 					      "~/genworks/gendl/documentation/tutorial/images/"))
@@ -780,7 +778,6 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 					   (htm ((:a :href (the-object page-object url))
 						 (str (the remark-mixin))))
 					   (htm "unknown"))))))
-                         (print-variables note)
                          note)))
    
    (remark-mixin (first (the :remark-list)))))

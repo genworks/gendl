@@ -39,3 +39,4 @@
 				 (the (breps 0) %lines-to-draw%)))))
 
 (register-test-definition 'iges-reader-test)
+
