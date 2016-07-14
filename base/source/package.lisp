@@ -73,6 +73,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:%view-plane-normal%
            #:*%format%*
            #:*allowed-part-documentation-keywords*
+	   #:*bias-to-double-float?*
            #:*color-table*
            #:*color-table-decimal*
            #:*colors-default*
@@ -147,6 +148,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:define-object
            #:define-object-amendment
            #:define-object-documentation
+	   #:define-object-macro-toplevel
            #:define-package
            #:define-skin
            #:define-view
@@ -156,6 +158,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:distribute
            #:distribute-dir
            #:div
+	   #:dumplisp
+	   #:dump-image
            #:encode-for-http
            #:ensure-list
            #:evaluate
@@ -189,6 +193,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:list-of-numbers
            #:list-of-n-numbers
            #:lookup-color
+	   #:load-glime
 	   #:load-quicklisp
 	   #:load-hotpatches
 	   #:*quicklisp-home*
@@ -237,6 +242,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:remove-plist-keys
            #:replace-substring
            #:restore-ui-object
+	   #:reset-glm
            #:retitle-emacs
            #:retrieve
            #:rgb-cube-colors
@@ -291,15 +297,17 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:*loaded-hotpatches*
 	   #:*packages-to-lock*
 	   #:*patch-url-base*
-	   #:*warn-on-invalid-toplevel-inputs?))
+	   #:*warn-on-invalid-toplevel-inputs?
+	   #:*invalid-aggregate-behavior*
+	   ))
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
-(defpackage :glisp
+(defpackage :com.genworks.lisp
   (:documentation #.(gendl-boot:system-description :glisp))
   (:use :common-lisp)
   (:shadow #:intern)
-  (:nicknames :com.genworks.lisp)
+  (:nicknames :glisp)
   (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+(or ecl clisp) :clos
 		#:validate-superclass)
   (:export 
@@ -365,6 +373,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:file-directory-p
    #:run-command
    #:temporary-folder
+   #:*temporary-folder-function*
    #:temporary-file
 
    #:find-gs-path
@@ -518,6 +527,8 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:bounding-box-from-points
 	   #:flatten-lines
 	   #:flatten-curves
+	   #:point-on-plane? 
+	   #:point-on-vector?
 
 	   #:arc
 	   #:base-object
@@ -617,6 +628,17 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   ;;
 	   ;;#:3d-vector-to-array
 	   ;;#:array-to-3d-vector
+
+
+	   ;;
+	   ;; types and predicates
+	   ;;
+	   #:3d-point?
+	   #:3d-vector?
+	   #:3d-point
+	   #:3d-vector
+	   #:3d-point-p
+	   #:3d-vector-p
            
 	   ))
 
@@ -645,6 +667,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:iso-curve
            #:trimmed-curve
            #:b-spline-curve 
+	   #:circular-curve
+	   #:circular-surface
            #:arc-curve
            #:elliptical-curve
            #:linear-curve
@@ -662,6 +686,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:offset-solid
            #:shelled-solid
            #:manifold-solid
+	   #:normally-projected-curve
            #:fitted-surface
            #:coons-surface
            #:surface-knot-reduction
@@ -969,4 +994,6 @@ If you are interested in this effort we would love to hear from you at open-sour
 
 
 (gdl:define-package :enterprise (:export #:gdl-app #:make-gdl-app #:*newspace* #:*oldspace*))
+
+(gdl:define-package :glm (:export #:assembly))
 

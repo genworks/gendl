@@ -66,14 +66,14 @@
                          ,(if has-declare? (first body) `(declare))
                          
                          ,(when *compile-circular-reference-detection?*
-                            `(when (and *run-with-circular-reference-detection?*
-                                        (member (list self ',attr-sym) *till-now* :test #'equalp))
-                               (error "Circular reference detected")))
+                                `(when (and *run-with-circular-reference-detection?*
+                                            (member (list self ',attr-sym) *till-now* :test #'equalp))
+                                   (error "Circular reference detected")))
                          
                          (let ,(remove nil
-                                (list (when *compile-circular-reference-detection?*
-                                                     `(*till-now* (when *run-with-circular-reference-detection?*
-                                                                    (cons (list self ',attr-sym) *till-now*))))))
+                                       (list (when *compile-circular-reference-detection?*
+                                               `(*till-now* (when *run-with-circular-reference-detection?*
+                                                              (cons (list self ',attr-sym) *till-now*))))))
                            (block ,(make-keyword attr-sym) 
                              (let ((*error-on-not-handled?* t))
                                ,@(if has-declare? (rest body) body))))) ,args-arg))
@@ -86,18 +86,18 @@
                 (defmethod ,(glisp:intern attr-sym :gdl-slots) ((,self-arg gdl-remote) &rest ,args-arg)
                   (the-object ,self-arg (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) ,args-arg)))))))
            
-	   ;;
-	   ;; FLAG -- why is this needed?? 
-	   ;;
+           ;;
+           ;; FLAG -- why is this needed?? 
+           ;;
            `(when (or (not (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-slots)))
                       (not (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
                                         nil (list (find-class 'gdl-basis)) nil)))
               (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
-                (declare (ignore ,args-arg))
+                ;;(declare (ignore ,args-arg))
                 (let ((,parent-arg (the-object ,self-arg %parent%)))
-                  (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword attr-sym))
-                    (,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
-                     ,parent-arg (the-object ,self-arg :%name%) ,self-arg))))))))))
+                  (if (or (null ,parent-arg) ,args-arg) (not-handled ,self-arg ,(make-keyword attr-sym) ,args-arg)
+                      (,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
+                        ,parent-arg (the-object ,self-arg :%name%) ,self-arg))))))))))
 
 
 
@@ -131,7 +131,7 @@
            ;; add checks for *root-checking-enabled?*
            ;;
            
-           (let ((value (gensym)))
+           (let ((value '+value+ #+nil (gensym)))
              `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
                 (let ((,value (,attr-sym self)))
                   (if (not (eq (first (ensure-list ,value)) 'gdl-rule::%unbound%))

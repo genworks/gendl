@@ -1,2 +1,1 @@
-;;(:gwl-graphics :html-template)
-(:html-template)
+(:html-template :gwl-graphics)

@@ -22,7 +22,12 @@
 (in-package :geom-base)
 
 (define-object points-display (outline-specialization-mixin)
-  :input-slots (points)
+
+  :documentation
+  (:description "Product a list of hidden-children which are GDL point objects, which 
+will be displayed in normal renderings using the <tt>outline-specialization-mixin</tt> mechanism.")
+
+  :input-slots ("List of 3D points (i.e. vectors). The points to be displayed." points)
   
   :computed-slots ((points-array (make-array (length (the points))
                                              :initial-contents (the points))))

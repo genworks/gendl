@@ -72,7 +72,7 @@ means that all edges should be filleted."
    
    ))
   
-
+#+nil
 (define-object test-blended-subtracted (test-blended-mixin)
   :computed-slots ((specs (list :edges 
                                 (remove-if #'(lambda(edge) (the-object edge unique-id))

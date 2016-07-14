@@ -21,6 +21,12 @@
 
 (in-package :gwl)
 
+(defvar *agile-debug?* nil)
+
+(defparameter *send-plist* nil)
+(defparameter *make-object-plist* nil)
+(defparameter *fetch-plist* nil)
+
 
 (defun encode64-downcase (item)
   (let ((*print-case* :downcase))
@@ -36,10 +42,17 @@
                 
                 (remote-id (read-safe-string
                             (let* ((current-id (the previous-id))
-                                   (encoded-args (encode64-downcase
-                                                  (encode-plist-args 
-                                                   (append (list :current-id current-id)
-                                                           (the remote-object-args))))))
+				   (plist (append (list :current-id current-id) (the remote-object-args)))
+                                   (encoded-args (encode64-downcase (encode-plist-args plist))))
+
+			      
+			      (when *agile-debug?* (setq *make-object-plist* (append (remove-plist-keys plist (list :parent-form :name))
+										     (list :name (string (getf plist :name)))
+										     (list :parent-form (let ((parent-plist (rest (getf plist :parent-form))))
+													  (mapcan #'(lambda(key value)
+														      (list key (if (and value (symbolp value)) (format nil "~s" value) value)))
+														  (plist-keys parent-plist)
+														  (plist-values parent-plist)))))))
                  
                               (let ((new-id
                                      (read-safe-string (net.aserve.client:do-http-request 
@@ -55,13 +68,16 @@
 						    (package-name (symbol-package (the remote-type)) ))
                                                    (string-downcase 
 						    (symbol-name (the remote-type))))
-                                     :package *package*
-                                     :host (the host)
+                                     :package (encode-for-http *package*)
+                                     ;;:host (the host)
                                      :name (the %name%)
                                      :index (the index)
                                      :parent-form (the parent-form)
-                                     :port (the port))
+
+				     )
                                (the input-parameters)))
+
+   ;;(remote-object-args-json (cl-json: ) ;; FLAG -- fill in!
 
    (parent-form (encode-for-http (the parent)))
    
@@ -78,14 +94,18 @@
     ;; FLAG -- *notify-cons* is going to be broken now... have to unmarshal/marshal from hash table. 
     ;;         hold off on doing this until we switch to an Abstract Associative Map. 
     ;;
-    (let ((encoded-args (encode64-downcase (encode-plist-args (list :message (make-keyword message)
-                                                                         :part-name (make-keyword part-name)
-                                                                         :child (encode-for-http child)
-                                                                         :notify-cons (encode-for-http gdl::*notify-cons*)
-                                                                         :args args
-                                                                         :remote-id (the remote-id)
-                                                                         :remote-root-path (the remote-root-path)
-                                                                         :package *package*)))))
+    (let* ((plist (encode-plist-args (list :message (make-keyword message)
+					   :part-name (make-keyword part-name)
+					   :child (encode-for-http child)
+					   :notify-cons (encode-for-http gdl::*notify-cons*)
+					   :args args
+					   :remote-id (the remote-id)
+					   :remote-root-path (the remote-root-path)
+					   :package *package*)))
+	   (encoded-args (encode64-downcase plist)))
+
+      (when *agile-debug?* (setq *fetch-plist* plist))
+      
 
       (multiple-value-bind 
           (result length)
@@ -97,7 +117,7 @@
         (declare (ignore length)) 
 
 		
-	(print-variables result)
+	;;(print-variables result)
 	
 	
         (if (consp result)
@@ -123,14 +143,21 @@
    
    (send
     (message &rest args)
-    (let ((encoded-args (encode64-downcase 
-			 (encode-plist-args (list :message (make-keyword message)
-						  :notify-cons (encode-for-http gdl::*notify-cons*)
-						  :args args
-						  :remote-id (the remote-id)
-						  :remote-root-path (the remote-root-path)
-						  :package *package*)))))
+    (let* ((encoded-plist (encode-plist-args (list :message (make-keyword message)
+						   :notify-cons (encode-for-http gdl::*notify-cons*)
+						   :args args
+						   :remote-id (the remote-id)
+						   :remote-root-path (the remote-root-path)
+						   :package *package*)))
 
+	   (encoded-args (encode64-downcase encoded-plist)))
+
+      ;;
+      ;; FLAG -- make the stringification of symbols be recursive.
+      ;;
+      (when *agile-debug?* (setq *send-plist* (mapcan #'(lambda(key val) (list key (if (and val (symbolp val)) (format nil "~s" val) val)))
+						      (plist-keys encoded-plist)
+						      (plist-values encoded-plist))))
       
       (multiple-value-bind
 	    (result length)

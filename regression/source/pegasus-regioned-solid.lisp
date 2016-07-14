@@ -43,6 +43,6 @@
      (regioned :type 'regioned-solid
                :brep (the subtracted (breps 0)))))
 
-(register-test-definition 'pegasus-regioned-solid-test)
+;; (register-test-definition 'pegasus-regioned-solid-test)
 
 

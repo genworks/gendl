@@ -159,7 +159,9 @@ with <tt>:sequence (:size ...))</tt>), elements can be surgically inserted and d
    :child-types)
 
   :computed-slots
-  ((ht (progn (the :child-types)
+  ((lock (bt:make-lock))
+
+   (ht (progn (the :child-types)
               ;;
               ;; FLAG -- consider increasing initial size or rehash-size
               ;;
@@ -196,12 +198,15 @@ with <tt>:sequence (:size ...))</tt>), elements can be surgically inserted and d
    (last  (the (:get-member (first (last (the :element-index-list)))))))
   
   :functions
-  (("Void. Resets the variable sequence to its default list of indices (i.e. clears out any inserted or deleted elements and 
+  ((exists? (index) (gethash index (the ht)))
+
+   ("Void. Resets the variable sequence to its default list of indices (i.e. clears out any inserted or deleted elements and 
 re-evaluates the expression to compute the original list of indices)"
     reset!
     ()
-    (the (restore-slot-default! :element-index-list))
-    (the (restore-slot-default! :ht)))
+    (progn ;;bt:with-lock-held ((the lock))
+      (the (restore-slot-default! :element-index-list))
+      (the (restore-slot-default! :ht))))
    
    (instantiated-indices () (remove-if-not #'(lambda(index)
                                                (second (multiple-value-list (gethash index (the :ht)))))
@@ -232,10 +237,11 @@ re-evaluates the expression to compute the original list of indices)"
 :arguments (index \"Integer, Symbol, or other object matching with <tt>eql</tt>. The identifier used when the element was initialized or inserted.\")"
     delete!
     (index)
-    (the (:set-slot! :ht (the :ht)))
-    (remhash index (the ht))
-    (the (:modify-attribute! :element-index-list
-                             (remove index (the :element-index-list)))))
+    (bt:with-lock-held ((the lock))
+      (the (:set-slot! :ht (the :ht) :remember? nil))
+      (remhash index (the ht))
+      (the (:modify-attribute! :element-index-list
+			       (remove index (the :element-index-list))))))
    
    (activate! (index) (the (:insert! index)))
    
@@ -247,15 +253,15 @@ re-evaluates the expression to compute the original list of indices)"
     insert!
     (index)
     (multiple-value-bind (value found?) 
-        (gethash index (the ht))
+	(gethash index (the ht))
       (declare (ignore value))
       (if (not found?)
-          (progn
-            (setf (gethash index (the ht)) nil)
-            (the (set-slot! :ht (the ht)))
-            (the (set-slot! :element-index-list
-                            (append (the element-index-list) (list index)))))
-        (error "The element ~a is already active in ~s" index self))))))
+	  (bt:with-lock-held ((the lock))
+	    (setf (gethash index (the ht)) nil)
+	    (the (set-slot! :ht (the ht) :remember? nil))
+	    (the (set-slot! :element-index-list
+			    (append (the element-index-list) (list index)))))
+	  (error "The element ~a is already active in ~s" index self))))))
 
 
 

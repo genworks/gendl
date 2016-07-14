@@ -69,7 +69,35 @@ The argument ~s, and its value ~s, have been ignored
 
 
 
+(defun make-object (object-type &rest args)
+  "GDL Object. Instantiates an object with specified initial values for input-slots.
 
+:arguments (object-name \"Symbol. Should name a GDL object type.\"
+            arguments \"spliced-in plist. A plist of keyword symbols and values for initial <tt>input-slots</tt>.\")"
+  (let (*notify-cons*
+        (keys (plist-keys args))
+        (vals (plist-values args)))
+    (let ((object (apply #'make-instance 
+                         object-type 
+                         :allow-other-keys t
+                         (append (list :%name% (list (format nil "~a" object-type) nil t)
+                                       :%parent% (list nil nil t))
+                                 (mapcan #'(lambda(key val)
+                                             (list key (list val nil t)))
+                                         keys vals)))))
+      
+      (setf (gdl-acc::%root% object) object
+            (gdl-acc::%toplevel-inputs% object) args)
+
+      (the-object object initialize-instance!) object)))
+
+
+
+
+;;
+;; FLAG  -- remove this defunct version. 
+;;
+#+nil
 (defun make-object (object-type &rest args)
   "GDL Object. Instantiates an object with specified initial values for input-slots.
 
@@ -90,6 +118,12 @@ The argument ~s, and its value ~s, have been ignored
       (setf (gdl-acc::%root% object) object
             (gdl-acc::%toplevel-inputs% object) args) object)))
 
+
+(defun make-object-internal (object-type &rest args)
+  (let ((object (apply #'make-instance object-type :allow-other-keys t args)))
+    (the-object object initialize-instance!) object))
+
+#+nil
 (defun make-object-internal (object-type &rest args)
   (apply #'make-instance object-type :allow-other-keys t args))
 

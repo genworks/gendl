@@ -50,21 +50,28 @@
 		      (args (rest (assoc "args" query :test #'string-equal)))
 		      (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
 
-		 
-		 (print-variables query args *ipaddr*)
-
 		 (let ((args-list (base64-decode-list args)))
 		   ;;
 		   ;; FLAG -- consider a warning if package not found
 		   ;;
 		   (let ((*package* (or (find-package (getf args-list :package)) *package*)))
-		     (let ((object (the-object (gethash (getf args-list :remote-id) *remote-objects-hash*)
+		     (let* ((object (the-object (gethash (getf args-list :remote-id) *remote-objects-hash*)
 					       (follow-root-path (getf args-list :remote-root-path))))
-			   (child (evaluate-object (first (getf args-list :child)) (rest (getf args-list :child))))
-			   (message (getf args-list :message))
-			   (gdl::*notify-cons* (decode-from-http (getf args-list :notify-cons)))
-			   (part-name (getf args-list :part-name))
-			   (args (getf args-list :args)))
+
+			    (part-name (getf args-list :part-name))
+			    
+			    ;;(child (evaluate-object (first (getf args-list :child)) (rest (getf args-list :child))))
+
+			    (index (getf (rest (getf args-list :child)) :index))
+			    
+			    (child (if index
+				       (the-object object ((evaluate part-name) index))
+				       (the-object object (evaluate part-name))))
+			   
+			    (message (getf args-list :message))
+			    (gdl::*notify-cons* (decode-from-http (getf args-list :notify-cons)))
+			    
+			    (args (getf args-list :args)))
 		       (glisp:with-heuristic-case-mode ()
 			 (with-http-response (req ent)
 			   (with-http-body (req ent)

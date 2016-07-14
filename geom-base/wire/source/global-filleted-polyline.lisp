@@ -89,9 +89,6 @@ filleted-polyline."
 					   (mapcar #'(lambda(curve) (cons :curve (rest (reverse curve))))
 						   (reverse (the-object curve-set %curves-to-draw%))))))
 			(the straights) (list-elements (the fillets)))))
-				
-
-
    
    (fillet-types (mapcar #'(lambda(test)
                              (if (the-object test valid?) 'fillet 'null-part))

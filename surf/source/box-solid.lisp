@@ -38,14 +38,7 @@ from brep and box."
 </pre>")
 
 
-  :computed-slots (;;(%line-vertex-indices% nil)
-                   ;;(%lines-to-draw% nil)
-		   #+nil
-                   (geometry-kernel (make-instance (read-from-string 
-						    "smlib::geometry-kernel")
-						   :iw-context (funcall (read-from-string "smlib::make-iw-context"))))
-
-                   (%native-brep% (let ((brep (make-brep  *geometry-kernel* 
+  :computed-slots ((%native-brep% (let ((brep (make-brep  *geometry-kernel* 
 							 :tolerance (the brep-tolerance))))
                                     (let ((x-vector (the (face-normal-vector :right)))
                                           (y-vector (the (face-normal-vector :rear)))

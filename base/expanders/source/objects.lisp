@@ -25,28 +25,28 @@
 (defun object-inputs-generics-section (cooked-data &key special-keys)
   
   (let ((object-input-keys (remove-duplicates
-			    (cons :%parameters%
-				  (apply #'append (mapcar #'(lambda(data)
-							      (let ((plist-keys (mapcar #'make-keyword (append (plist-keys (getf data :plist))
-													       (getf data :with-attribute-keys)))))
-								(set-difference plist-keys special-keys))) cooked-data))))))
+                            (cons :%parameters%
+                                  (apply #'append (mapcar #'(lambda(data)
+                                                              (let ((plist-keys (mapcar #'make-keyword (append (plist-keys (getf data :plist))
+                                                                                                               (getf data :with-attribute-keys)))))
+                                                                (set-difference plist-keys special-keys))) cooked-data))))))
     `((eval-when (:compile-toplevel :load-toplevel :execute)    
-	,@(append 
-	   (mapcar #'(lambda(key)
-		       `(unless (fboundp ',(glisp:intern key :gdl-inputs))
-			  (defgeneric ,(glisp:intern key :gdl-inputs) (,parent-arg ,val-arg ,self-arg)))) object-input-keys)
-	   (mapcar #'(lambda(key)
-		       `(unless (fboundp ',(glisp:intern key :gdl-slots))
-			  (defgeneric ,(glisp:intern key :gdl-slots) (,self-arg &rest ,args-arg)))) object-input-keys)))
+        ,@(append 
+           (mapcar #'(lambda(key)
+                       `(unless (fboundp ',(glisp:intern key :gdl-inputs))
+                          (defgeneric ,(glisp:intern key :gdl-inputs) (,parent-arg ,val-arg ,self-arg)))) object-input-keys)
+           (mapcar #'(lambda(key)
+                       `(unless (fboundp ',(glisp:intern key :gdl-slots))
+                          (defgeneric ,(glisp:intern key :gdl-slots) (,self-arg &rest ,args-arg)))) object-input-keys)))
       ,@(mapcar #'(lambda(key)
-		    `(unless (find-method (symbol-function ',(glisp:intern key :gdl-slots))
-					  nil (list (find-class 'gdl-basis)) nil)
-		       (defmethod ,(glisp:intern key :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
-			 (declare (ignore ,args-arg))
-			 (let ((,parent-arg (the-object ,self-arg %parent%)))
-			   (if (null ,parent-arg) (not-handled ,self-arg ,(make-keyword key))
-			       (,(glisp:intern key :gdl-inputs) 
-				 ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))) object-input-keys))))
+                    `(unless (find-method (symbol-function ',(glisp:intern key :gdl-slots))
+                                          nil (list (find-class 'gdl-basis)) nil)
+                       (defmethod ,(glisp:intern key :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
+                         ;;(declare (ignore ,args-arg))
+                         (let ((,parent-arg (the-object ,self-arg %parent%)))
+                           (if (or (null ,parent-arg) ,args-arg) (not-handled ,self-arg ,(make-keyword key) ,args-arg)
+                               (,(glisp:intern key :gdl-inputs) 
+                                 ,parent-arg (the-object ,self-arg :%name%) ,self-arg)))))) object-input-keys))))
 
 
 

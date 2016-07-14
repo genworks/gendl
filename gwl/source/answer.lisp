@@ -333,7 +333,8 @@ instance at what time should the recovery instance expire?"
     (first root-part-and-version)))
   
 
-(defun gwl-make-object (req ent part &key make-object-args share? skin (instance-id (if share? "share" (make-new-instance-id))))
+
+(defun gwl-make-object (req ent part &key make-object-args share? skin (instance-id (when share? "share")))
   "Void. Used within the context of the body of a :function argument to Allegroserve's 
 publish function, makes an instance of the specified part and responds to the request 
 with a redirect to a URI representing the instance.
@@ -350,6 +351,10 @@ package-qualified object name\")
   (publish :path \"/calendar\"
            :function #'(lambda(req ent) (gwl-make-object req ent \"calendar:assembly\")))
   </pre>"
+
+  (unless instance-id (setq instance-id (make-new-instance-id)))
+
+
   (let ((query (request-query req)))
     (let ((part (or part (rest (assoc "part" query :test #'string-equal)))))
       (let* ((current (gethash (make-keyword-sensitive instance-id) *instance-hash-table*))

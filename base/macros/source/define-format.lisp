@@ -31,9 +31,15 @@
 a symbol, this is the name of the slot and there will be no default value.\"
        functions \"List of format-function definitions. Each definition is made up of a symbol, an argument-list, and a body.\")"
   
-  (let ((old-format-functions (gensym))
-        (new-format-functions (gensym))
-        (class (gensym)))
+  (let (;;(old-format-functions (gensym))
+        ;;(new-format-functions (gensym))
+        ;;(class (gensym))
+	
+	(old-format-functions '+old-format-functions+)
+        (new-format-functions '+new-format-functions+)
+        (class '+class+)
+
+	)
     `(progn 
        (defclass ,name ,mixin-list 
 	 ,(mapcar #'(lambda(slot)
@@ -89,11 +95,18 @@ code in the body may refer to the dynamically bound variable <tt>stream</tt> for
   ;; FLAG -- include skin in keeping track of function names
   ;;
   
-  (let ((old-output-functions (gensym))
-        (new-output-functions (gensym))
-        (format-class (gensym))
-        (object-class (gensym))
-        (skin-class (gensym))
+  (let (;;(old-output-functions (gensym))
+        ;;(new-output-functions (gensym))
+        ;;(format-class (gensym))
+        ;;(object-class (gensym))
+        ;;(skin-class (gensym))
+	
+	(old-output-functions '+old-output-functions+)
+        (new-output-functions '+new-output-functions+)
+        (format-class '+format-class+)
+        (object-class '+object-class+)
+        (skin-class '+skin-class+)
+
         (remote? (or (eql (second format-and-object) 'remote-object)
                      (eql (second format-and-object) 'gdl-remote))))
     `(progn 
@@ -155,7 +168,8 @@ Removing output function: ~a for view of format: ~a on object definition: ~s wit
          (body (rest (rest (strip-strings function))))
          (has-declare? (and (consp body) (consp (first body))
                             (eql (first (first body)) 'declare))))
-    (let ((method (gensym)))
+    (let (;;(method (gensym))
+	  (method '+method+))
       ;;
       ;; FLAG -- do we need this `remove nil' ?
       ;;

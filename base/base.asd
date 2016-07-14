@@ -3,7 +3,7 @@
 (asdf:defsystem #:base :description
  "The Gendl\" Base Core Kernel Engine" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20150330" :depends-on nil
+ :serial t :version "20160505" :depends-on (:bordeaux-threads)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
@@ -28,10 +28,5 @@
   (:file "rest/source/base-rule-object") (:file "rest/source/bodies")
   (:file "rest/source/ignore-errors-with-backtrace")
   (:file "rest/source/init") (:file "rest/source/make-part")
-  (:file "rest/source/sequence") 
-   
-  (:file "zzinit/source/initialize")
-  (:file "zzinit/source/zzinit")
-
-  
-  ))
+  (:file "rest/source/sequence") (:file "zzinit/source/initialize")
+  (:file "zzinit/source/zzinit")))

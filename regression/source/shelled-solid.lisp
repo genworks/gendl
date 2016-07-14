@@ -77,4 +77,4 @@
 	   :distance (* (1+ (the-child index)) .1))))
 
 
-(register-test-definition 'shelled-solid-test)
+;;(register-test-definition 'shelled-solid-test)

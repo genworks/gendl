@@ -114,8 +114,6 @@ If any of the weights are different from 1.0, it is Rational."
   
   
   
-  
-  
     :input-slots
     ("List of 3D Points. The control points."
      control-points 
@@ -141,7 +139,7 @@ If any of the weights are different from 1.0, it is Rational."
 							      (mapcar #'(lambda(point) (the (local-to-global point))) 
 								      (the control-points))
 							      (the control-points))
-					(mapcar #'to-double-float (the weights)) (the degree) (the knot-vector) ))
+					(mapcar #'to-double-float (the weights)) (the degree) (the knot-vector)))
    
    
      (%renderer-info% (list :vrml? t :view-default :top))

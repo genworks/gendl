@@ -22,7 +22,8 @@
 (in-package :gdl)
 
 
-(defparameter *gendl-version* "1588r001")
+
+(defparameter *gendl-version* "1590")
 
 (defparameter *gendl-patch-level* nil)
 
@@ -121,8 +122,15 @@ compared to applications compiled with it set to T. Defaults to NIL.")
     (list :required-input-slots :optional-input-slots :settable-optional-input-slots
           :defaulted-input-slots :settable-defaulted-input-slots :computed-slots :settable-computed-slots 
           :uncached-computed-slots
-          :objects :quantified-objects :hidden-objects :quantified-hidden-objects :functions
-          :query-slots))
+          :objects :quantified-objects :hidden-objects :quantified-hidden-objects 
+	  :functions :query-slots))
+
+(defparameter *allowed-define-object-toplevel-keywords*
+  (list :input-slots :computed-slots :objects :hidden-objects :functions
+	:methods :trickle-down-slots :cached-functions :cached-methods 
+	:documentation :no-vanilla-mixin? :query-slots))
+
+(defparameter *define-object-toplevel-macros* (make-hash-table))
 
 (defparameter *stream* nil)
 
@@ -134,11 +142,18 @@ values are a color indicator for the default foreground and background of graphi
 
 (defparameter *%format%* nil)
 
-(defvar args-arg (gensym))
-(defvar parent-arg (gensym))
-(defvar part-arg (gensym))
-(defvar val-arg (gensym))
-(defvar self-arg (gensym))
+;;(defvar args-arg (gensym))
+;;(defvar parent-arg (gensym))
+;;(defvar part-arg (gensym))
+;;(defvar val-arg (gensym))
+;;(defvar self-arg (gensym))
+
+(defvar args-arg '+args-arg+)
+(defvar parent-arg '+parent-arg+)
+(defvar part-arg '+part-arg+)
+(defvar val-arg '+val-arg+)
+(defvar self-arg '+self-arg+)
+
 
 
 (defparameter *error-on-not-handled?* t)
@@ -205,5 +220,4 @@ values are a color indicator for the default foreground and background of graphi
 
 (defvar *quicklisp-home* nil)
 
-(defvar *packages-to-lock* 
-  (list :gendl :geom-base :cl-lite :gwl :gwl-graphics :tasty :robot :tree :yadd :surf :smlib :genworks-gdl))
+

@@ -58,8 +58,8 @@
     :amend? t
     :output-functions
     ((raphael-paper-def
-    (&key width length)
-    (format *stream* "var paper = Raphael('~a', ~a, ~a);
+      (&key width length)
+      (format *stream* "var paper = Raphael('~a', ~a, ~a);
 
                paper.canvas.style.backgroundColor = '~a';
 
@@ -96,19 +96,19 @@
                   touchcoords = function () {~a}};
 
 "
-	    (the raphael-canvas-id) width length
+	      (the raphael-canvas-id) width length
 
-	    (lookup-color (format-slot background-color) :format :hex)
+	      (lookup-color (format-slot background-color) :format :hex)
 
-	    ;;
-	    ;; FLAG -- pass in the containing
-	    ;; base-ajax-graphics-sheet and refer
-	    ;; to that, instead of referring to
-	    ;; the parent here.
-	    ;;
-	    (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
-	    (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop))
+	      ;;
+	      ;; FLAG -- pass in the containing
+	      ;; base-ajax-graphics-sheet and refer
+	      ;; to that, instead of referring to
+	      ;; the parent here.
+	      ;;
+	      (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drag))
+	      (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-drop))
 
-	    (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-touchmove))))))))
+	      (the parent (gdl-sjax-call :null-event? t :js-vals? t :function-key :on-touchmove))))))))
 
   

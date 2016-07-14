@@ -548,7 +548,7 @@ if given, must be orthogonal to the first two.
 
 (defun unitize-vector (vector &key (epsilon *zero-epsilon*)) 
   "Unit Vector. Returns the normalized unit-length vector corresponding to <b>vector</b>.
-:arguments (vector \"3D Vector\"
+:arguments (vector \"3D Vector\")
 :&key ((espsilon *zero-epsilon*) \"Number. How close vector should be to 1.0 to be considered unit-length.\")"
 
   (when (and *zero-vector-checking?* (zero-vector? vector))
@@ -588,15 +588,16 @@ is as close as possible to <b>vector</b>.
          (cross-vectors reference-vector normal))))))
 
 
-(defun parallel-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*))
+(defun parallel-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*) directed?)
     "Boolean. Returns non-nil iff <b>vector-1</b> and <b>vector-2</b> are pointing in the 
 same direction or opposite directions. 
 
 :arguments (vector-1 \"3D Vector\"
             vector-2 \"3D Vector\")
-:&key ((tolerance *zero-epsilon*) \"Number\")"
+:&key ((tolerance *zero-epsilon*) \"Number\"
+       (directed? nil) \"Boolean.  If :directed? is t, the function returns t if the vectors are both parallel and point in the same direction.  The default is nil, meaning that the function will return t regardless of which way the vectors point, as long as they are parallel.\")"
   (or (same-direction-vectors? vector-1 vector-2 :tolerance tolerance)
-      (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance)))
+      (unless directed? (same-direction-vectors? vector-1 (reverse-vector vector-2) :tolerance tolerance))))
   
 
 (defun same-direction-vectors? (vector-1 vector-2 &key (tolerance *zero-epsilon*))
@@ -637,7 +638,10 @@ to both <b>vector-1</b> and <b>vector-2</b>.
 
 :arguments (vector \"3D Vector\")"
 
-  (3d-distance vector +nominal-origin+))
+  (3d-distance (if (= (array-dimension vector 0) 3) 
+                   vector 
+                   (make-vector (get-x vector) (get-y vector) 0))
+               +nominal-origin+))
 
 
 (defun zero-vector? (vector)
@@ -1625,3 +1629,33 @@ add any new keys.
 		 (the-child %matrix-vector-2%)
 		 (* (second (the-child index)) (the-child %matrix-increment-2%)))))))
 						
+
+(defun point-on-plane? (3d-point plane-point plane-normal &key (tolerance *zero-epsilon*))
+
+  "Boolean. Determines whether or not the <tt>3d-point</tt> lies on the plane specified by <tt>plane-point</tt> 
+ and <tt>plane-normal</tt>, within <tt>tolerance</tt>.
+
+:arguments (3d-point \"Point in question\"
+            plane-point \"point on the known plane\"
+            plane-normal \"normal to the known plane\")
+:&key      ((tolerance *zero-epsilon*) \"Tolerance for points to be considered coincident.\")
+"
+
+  (let ((intersect-point (inter-line-plane 3d-point plane-normal plane-point plane-normal)))
+    (coincident-point? 3d-point intersect-point :tolerance tolerance)))
+
+
+(defun point-on-vector? (first-point second-point unknown-point &key (tolerance *zero-epsilon*))
+
+  "Boolean. Determines whether or not the <tt>unknown-point</tt> lies on the ray specified by the vector
+pointing from <tt>first-point</tt> to <tt>second-point</tt>, within <tt>tolerance</tt>.
+
+:arguments (first-point \"first point of vector\"
+            second-point \"second point of vector\"
+            unknown-point \"point in question\")
+:&key      ((tolerance *zero-epsilon*) \"Tolerance for vectors to be considered same-direction.\")
+"
+
+  (let ((known-vector (subtract-vectors second-point first-point))
+        (unknown-vector (subtract-vectors unknown-point first-point)))
+    (same-direction-vectors? known-vector unknown-vector :tolerance tolerance)))

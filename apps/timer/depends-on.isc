@@ -1,0 +1,4 @@
+;;
+;; FLAG -- put smtp functions into glisp.
+;;
+(:cl-smtp :gwl)

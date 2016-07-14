@@ -21,10 +21,10 @@
 
 (in-package :gdl)
 
-(defun not-handled (object message)
+(defun not-handled (object message &optional args)
   (if *error-on-not-handled?*
-      (not-handled-error object message)
-    'gdl-rule:%not-handled%))
+      (not-handled-error object message args)
+      'gdl-rule:%not-handled%))
       
 
 (defun input-slots-generics (input-slots)
@@ -40,7 +40,7 @@
 
 
 (defun input-methods (name attr-sym keys expressions special-keys)
-  (let ((input (gensym)))
+  (let ((input '+input+ #+nil(gensym)))
     (let ((remove-defunct-expressions
            (list
             `(dolist (,input (set-difference (getf (child-inputs (find-class ',name)) ',attr-sym) ',keys))
@@ -76,8 +76,8 @@
   (mapcan 
    #'(lambda(input)
        (let* ((attr-sym (glisp:intern (symbol-name (if (symbolp input) 
-                                                 input 
-                                               (message-symbol input))) :gdl-acc))
+                                                       input 
+                                                       (message-symbol input))) :gdl-acc))
               (attr-remarks (when (consp input) (message-strings input))))
          (remove 
           nil
@@ -91,14 +91,33 @@
            
            (when (and *compile-for-dgdl?* (not (eql attr-sym 'gdl-acc::type)))
              `(unless (find-method (symbol-function ',(glisp:intern attr-sym :gdl-inputs))
-				   nil (list (find-class 'gdl-remote) t (find-class 'gdl-basis)) nil)
-		(defmethod ,(glisp:intern attr-sym :gdl-inputs) ((,parent-arg gdl-remote) 
-									       ,part-arg 
-									       (,self-arg gdl-basis))
-		  (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg)))))
+                                   nil (list (find-class 'gdl-remote) t (find-class 'gdl-basis)) nil)
+                (defmethod ,(glisp:intern attr-sym :gdl-inputs) ((,parent-arg gdl-remote) 
+                                                                 ,part-arg 
+                                                                 (,self-arg gdl-basis))
+                  (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg)))))
+
+
+           ;;
+           ;; FLAG -- added recently, because why wouldn't we need default message handlers for input-slots? 
+           ;;
+	   ;; FLAG -- did this cause problems for DAP? Keep an eye out for this. 
+	   ;;
+	   ;;
+           `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
+                                 nil (list (find-class 'gdl-basis)) nil)
+              (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
+                (let ((,parent-arg (the-object ,self-arg %parent%)))
+                  (if (or (null ,parent-arg) ,args-arg) (not-handled ,self-arg ,(make-keyword attr-sym) ,args-arg)
+                      (let ((,val-arg (let (*error-on-not-handled?*)
+                                        (,(glisp:intern (symbol-name attr-sym) :gdl-inputs) 
+                                          ,parent-arg (the-object ,self-arg :%name%) ,self-arg))))
+                        (if (eql ,val-arg 'gdl-rule:%not-handled%) (not-handled ,self-arg ,(make-keyword attr-sym) ,args-arg) ,val-arg))))))
+
+
 
            `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((self ,name) &rest ,args-arg)
-              (declare (ignore ,args-arg))
+              ;;(declare (ignore ,args-arg))
               (let ((*error-on-not-handled?* t))
                 (with-dependency-tracking (,attr-sym self)
                   (let ((,parent-arg (the-object self %parent%)))
@@ -106,15 +125,15 @@
                            (if ,parent-arg
                                (let (*error-on-not-handled?*)
                                  (,(glisp:intern (symbol-name attr-sym) :gdl-inputs)
-                                  ,parent-arg (the-object self %name%) self))
-                             'gdl-rule:%not-handled%)))
+                                   ,parent-arg (the-object self %name%) self))
+                               'gdl-rule:%not-handled%)))
                       (cond ((not (eql ,val-arg 'gdl-rule:%not-handled%)) ,val-arg)
                             ((and ,parent-arg (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)))
-                             (if ;;(member ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
-			      (gethash ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
-			      (,(glisp:intern (symbol-name attr-sym) :gdl-slots) ,parent-arg)
-			      (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))
-                            (t (not-handled self ,(make-keyword attr-sym))))))))))))) input-slots))
+                             (if ;;(member ,(make-key attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
+                              (gethash ,(make-keyword attr-sym) (the-object ,parent-arg :%trickle-down-slots%))
+                              (,(glisp:intern (symbol-name attr-sym) :gdl-slots) ,parent-arg)
+                              (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))
+                            (t (not-handled self ,(make-keyword attr-sym) ,args-arg)))))))))))) input-slots))
 
 (defun optional-input-slots-section (name input-slots &optional (defaulted? nil))
   (mapcan 
@@ -144,12 +163,13 @@
                 
            `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            
-           (when (and *compile-for-dgdl?* (not (string-equal (symbol-name name) "remote-object") ))
+           (when (and *compile-for-dgdl?* (not (string-equal (symbol-name name) "remote-object")))
              `(when (or (not (fboundp ',(glisp:intern attr-sym :gdl-slots)))
                         (not (find-method (symbol-function ',(glisp:intern attr-sym :gdl-slots))
                                           nil (list (find-class 'gdl-remote)) nil)))
                 (defmethod ,(glisp:intern attr-sym :gdl-slots) ((self gdl-remote) &rest ,args-arg)
                   (the (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) ,args-arg)))))))
+
            
            (when *compile-for-dgdl?*
              `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-remote) 
@@ -174,13 +194,13 @@
                            `(if (eql ,val-arg 'gdl-rule:%not-handled%)
                                 (let ((,val-arg (if ,parent-arg
                                                     (let (*error-on-not-handled?*)
-						      (if (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs))
-							  (,(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs) self)
-							  'gdl-rule:%not-handled%))
+                                                      (if (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs))
+                                                          (,(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs) self)
+                                                          'gdl-rule:%not-handled%))
                                                   ,val-arg)))
                                   (if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg))
-				,val-arg)
-			   `(if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg))))))))))) input-slots))
+                                ,val-arg)
+                           `(if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg))))))))))) input-slots))
 
 
 
