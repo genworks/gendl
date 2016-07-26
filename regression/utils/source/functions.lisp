@@ -51,10 +51,11 @@
 
 
 
-(defun seed-all-test-data ()
+(defun seed-all-test-data (&key (times 1))
   (dolist (symbol *gdl-test-definitions*)
-    (format t "Seeding data with stress-test of 10 iterations for ~s...~%" symbol)
-    (dotimes (n 10) (seed-test-data symbol) (glisp:gc-full))))
+    (format t "Seeding data ~afor ~s...~%" 
+	    (if (= times 1) "" (format nil "with stress-test of ~a iterations " times))  symbol)
+    (dotimes (n times) (seed-test-data symbol) (when (> times 1) (glisp:gc-full)))))
 
 
 #+nil
@@ -173,8 +174,11 @@
 (defun equivalent-atoms (a1 a2)
   (cond ((and (numberp a1) (numberp a2))
 	 (cond ((and (near-zero? a1 0.1) (near-zero? a2 0.1)) t)
-	       ((< (abs a1) 100) (near-to? (abs a1) (abs a2) 11.0)) 
-	       (t (near-to? (abs a1) (abs a2) (* (abs a1) 0.1)))))
+	       ((< (abs a1) 100) 
+		(or (near-to? (abs a1) (abs a2) 11.0)
+		    (format t "~&~% ~s is not equal enough to ~s to pass the test.~%~%" a1 a2)))
+	       (t (or (near-to? (abs a1) (abs a2) (* (abs a1) 0.1))
+		      (format t "~&~% ~s is not equal enough to ~s to pass the test.~%~%" a1 a2)))))
 	((and (stringp a1) (stringp a2))
 	 (string-equal a1 a2))
 	((and (arrayp a1) (arrayp a2))
