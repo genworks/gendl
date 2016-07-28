@@ -104,6 +104,10 @@
 	   ;; FLAG -- did this cause problems for DAP? Keep an eye out for this. 
 	   ;;
 	   ;;
+	   ;; FLAG -- as per report from DAP, this apparently break some things. 
+	   ;;
+	   ;;
+	   #+nil
            `(unless (find-method (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-slots))
                                  nil (list (find-class 'gdl-basis)) nil)
               (defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-slots) ((,self-arg gdl-basis) &rest ,args-arg)
