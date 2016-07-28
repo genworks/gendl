@@ -216,28 +216,26 @@ built-from curve, if one exists, otherwise defaults to the *display-tolerance*."
                              (mapcar #'list points (rest points))))
                           (t nil)))
 
-   
+
    (%curves-to-draw%
-    (unless (or *curve-tessellation?*
-                (near-to? (the total-length) 0))
-      (if (typep self 'arc-curve)
-	  (call-next-method)
-	  (if (or (the %decomposed?%) (= (the %decomposed% curves number-of-elements) 1))
-	      (unless (and (= (the degree) 1) (not (the rational?)))
-		(when (list-elements (the beziers))
-		  (let (result)
-		    (dolist (bezier 
-			      (if t ;;*chain-beziers-for-display?*
-				  (chain-nurbs-curves (list-elements (the beziers)))
-				  (list-elements (the beziers)))
-			     result)
-		      (if (null result)
-			  (setq result (the-object bezier %curves-to-draw%))
-			  (nconc result (the-object bezier %curves-to-draw%)))))))
-	      (append-elements (the %decomposed% curves) 
-			       (the-element %curves-to-draw%))))))
-   
-   
+      (unless (or *curve-tessellation?*
+		  (near-to? (the total-length) 0))
+	(if (typep self 'arc-curve)
+	    (call-next-method)
+	    (if (or (the %decomposed?%) (= (the %decomposed% curves number-of-elements) 1))
+		(unless (and (= (the degree) 1) (not (the rational?)))
+		  (when (list-elements (the beziers))
+		    (let (result)
+		      (dolist (bezier 
+				(if t ;;*chain-beziers-for-display?*
+				    (chain-nurbs-curves (list-elements (the beziers)))
+				    (list-elements (the beziers)))
+			       result)
+			(if (null result)
+			    (setq result (the-object bezier %curves-to-draw%))
+			    (nconc result (the-object bezier %curves-to-draw%)))))))
+		(append-elements (the %decomposed% curves) 
+				 (the-element %curves-to-draw%))))))
 
 
    ;;(closed? (coincident-point? (the start) (the end) :tolerance (the closed-tolerance)))

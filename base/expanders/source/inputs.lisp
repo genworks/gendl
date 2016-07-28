@@ -135,6 +135,7 @@
                               (funcall (symbol-function ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs)) ,parent-arg)))
                             (t (not-handled self ,(make-keyword attr-sym) ,args-arg)))))))))))) input-slots))
 
+
 (defun optional-input-slots-section (name input-slots &optional (defaulted? nil))
   (mapcan 
    #'(lambda(input)
@@ -164,18 +165,22 @@
            `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            
            (when (and *compile-for-dgdl?* (not (string-equal (symbol-name name) "remote-object")))
-             `(when (or (not (fboundp ',(glisp:intern attr-sym :gdl-slots)))
-                        (not (find-method (symbol-function ',(glisp:intern attr-sym :gdl-slots))
-                                          nil (list (find-class 'gdl-remote)) nil)))
-                (defmethod ,(glisp:intern attr-sym :gdl-slots) ((self gdl-remote) &rest ,args-arg)
-                  (the (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) ,args-arg)))))))
+             `(unless (find-method (symbol-function ',(glisp:intern attr-sym :gdl-inputs))
+                                   nil (list (find-class 'gdl-remote) t (find-class 'gdl-basis)) nil)
+                 (when (or (not (fboundp ',(glisp:intern attr-sym :gdl-slots)))
+                          (not (find-method (symbol-function ',(glisp:intern attr-sym :gdl-slots))
+                                            nil (list (find-class 'gdl-remote)) nil)))
+                  (defmethod ,(glisp:intern attr-sym :gdl-slots) ((self gdl-remote) &rest ,args-arg)
+                    (the (send (:apply (cons ,(make-keyword (symbol-name attr-sym)) ,args-arg))))))))
 
            
            (when *compile-for-dgdl?*
-             `(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-remote) 
-                                                                             ,part-arg 
-                                                                             (,self-arg gdl-basis))
-                (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg))))
+	     `(unless (find-method (symbol-function ',(glisp:intern attr-sym :gdl-inputs))
+                                   nil (list (find-class 'gdl-remote) t (find-class 'gdl-basis)) nil)
+		(defmethod ,(glisp:intern (symbol-name attr-sym) :gdl-inputs) ((,parent-arg gdl-remote) 
+									       ,part-arg 
+									       (,self-arg gdl-basis))
+		  (the-object ,parent-arg (fetch-input ,(make-keyword attr-sym) ,part-arg ,self-arg)))))
            
            `(eval-when (:compile-toplevel :load-toplevel :execute) (glisp:end-redefinitions-ok))
            
@@ -188,8 +193,8 @@
                            (if ,parent-arg
                                (let (*error-on-not-handled?*)
                                  (,(glisp:intern (symbol-name attr-sym) :gdl-inputs)
-                                  ,parent-arg (the :%name%) self))
-                             'gdl-rule:%not-handled%)))
+                                   ,parent-arg (the :%name%) self))
+                               'gdl-rule:%not-handled%)))
                       ,(if defaulted?
                            `(if (eql ,val-arg 'gdl-rule:%not-handled%)
                                 (let ((,val-arg (if ,parent-arg
@@ -197,7 +202,7 @@
                                                       (if (fboundp ',(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs))
                                                           (,(glisp:intern (symbol-name attr-sym) :gdl-trickle-downs) self)
                                                           'gdl-rule:%not-handled%))
-                                                  ,val-arg)))
+                                                    ,val-arg)))
                                   (if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg))
                                 ,val-arg)
                            `(if (eql ,val-arg 'gdl-rule:%not-handled%) ,attr-expr ,val-arg))))))))))) input-slots))

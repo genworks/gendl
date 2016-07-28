@@ -164,6 +164,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:ensure-list
            #:evaluate
            #:evaluate-object
+	   #:evaluate-if-handled
            #:expandit
            #:find-messages-used-by
            #:find-messages-which-use
