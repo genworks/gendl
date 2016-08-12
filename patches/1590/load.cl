@@ -43,7 +43,9 @@
 	    (dolist (file source-files)
 	      (with-error-handling ()
 		(format t "~&Compiling patch file ~a...~%" file)
-		(#+allegro excl:compile-file-if-needed #-allegro compile-file file))))
+		;;(#+allegro excl:compile-file-if-needed #-allegro compile-file file)
+		(compile-file file)
+		)))
 
 	  (setq files (remove-if #'(lambda(file)(string-equal (pathname-name file) "load")) (glisp:directory-list directory)))
 

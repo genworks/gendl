@@ -164,6 +164,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:ensure-list
            #:evaluate
            #:evaluate-object
+	   #:evaluate-if-handled
            #:expandit
            #:find-messages-used-by
            #:find-messages-which-use
@@ -826,6 +827,7 @@ If you are interested in this effort we would love to hear from you at open-sour
   `(defpackage ,name 
      (:use :common-lisp :gdl :geom-base :surf)
      (:shadowing-import-from :gdl #:the)
+     (:shadowing-import-from :gdl #:dumplisp)
      (:shadowing-import-from :surf #:step)
      ,@body))
 

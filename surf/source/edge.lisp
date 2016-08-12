@@ -26,38 +26,41 @@
   :documentation (:description "Represents one edge in a brep. This object is a type of curve and answers all curve messages.")
 
   :input-slots (%native-edge%
-                %native-brep% 
-                brep 
-                )
+		%native-brep% 
+		brep 
+		)
   
   
   :computed-slots ((native-curve-iw 
                     
-                    (get-bspline-curve-from-edge *geometry-kernel* (the %native-edge%)))
+		    (get-bspline-curve-from-edge *geometry-kernel* (the %native-edge%)))
                    
                    
-                   ("List of GDL Face objects. The faces connected to this edge."
-                    faces (let ((faces-ht (the brep faces-ht)))
-                            (mapcar #'(lambda(native-face) (gethash native-face faces-ht))
-                                    (the %native-faces%))))
+		   ("List of GDL Face objects. The faces connected to this edge."
+		    faces (let ((faces-ht (the brep faces-ht)))
+			    (mapcar #'(lambda(native-face) (gethash native-face faces-ht))
+				    (the %native-faces%))))
                    
                    
-                   (%native-faces% (get-faces-from-edge *geometry-kernel* (the %native-edge%)))
+		   (%native-faces% (get-faces-from-edge *geometry-kernel* (the %native-edge%)))
                             
                             
                    
                    
-                   (unique-id (get-long *geometry-kernel* self)))
+		   (%unique-id% (get-long *geometry-kernel* self)))
   
   :functions (("GDL Curve object. This represents the UV curve for this edge on the given surface. 
 Note that you  have to pass in the surface, which should be the basis-surface of a face connected
 to this edge. The GDL edge object will be supplemented with a sequence of faces which are connected
 with this edge."
-               uv-curve 
-               (surface)
-               (make-object 'curve 
-                            :native-curve-iw 
-                            (get-uv-curve-from-edge *geometry-kernel* (the %native-edge%) (the-object surface native-surface-iw))))))
+	       uv-curve 
+	       (surface)
+	       (make-object 'curve 
+			    :native-curve-iw 
+			    (get-uv-curve-from-edge *geometry-kernel* (the %native-edge%) 
+						    (the-object surface native-surface-iw))))))
+
+
 
   
   

@@ -79,16 +79,23 @@ filleted-polyline."
    (%renderer-info% (list :vrml? t :view-default :top))
 
 
-   (path-info (let ((first? t))
-		(mapcan #'(lambda(straight curve-set)
-			    (append (if first? (progn (setq first? nil)
-						      (list :move (first straight) :line (second straight)))
-					(list :line (second straight)))
+   (path-info (append
+	       (let ((first? t))
+		 (mapcan
+		  #'(lambda(straight curve-set)
+		      (append (if first? (progn (setq first? nil)
+						(list :move (first straight)
+						      :line (second straight)))
+				  (list :line (second straight)))
 
-				    (apply #'append
-					   (mapcar #'(lambda(curve) (cons :curve (rest (reverse curve))))
-						   (reverse (the-object curve-set %curves-to-draw%))))))
-			(the straights) (list-elements (the fillets)))))
+			      (apply #'append
+				     (mapcar #'(lambda(curve)
+						 (cons :curve (rest (reverse curve))))
+					     (reverse (the-object curve-set %curves-to-draw%))))))
+			 (the straights) (list-elements (the fillets))))
+
+	       (when (> (length (the straights)) (the fillets number-of-elements))
+		 (list :line (second (lastcar (the straights)))))))
    
    (fillet-types (mapcar #'(lambda(test)
                              (if (the-object test valid?) 'fillet 'null-part))
@@ -101,7 +108,8 @@ filleted-polyline."
   :hidden-objects
   ((fillet-tests :type 'fillet-tester
                  :sequence (:size (the fillets number-of-elements))
-                 :direction-vectors (list (reverse-vector (direction-vector (nth (the-child :index) (the :lines))))
+                 :direction-vectors (list (reverse-vector
+					   (direction-vector (nth (the-child :index) (the :lines))))
                                           (if (and (the-child :last?) (the :closed?))
                                               (direction-vector (first (the :lines)))
                                             (direction-vector (nth (1+ (the-child :index)) (the :lines)))))

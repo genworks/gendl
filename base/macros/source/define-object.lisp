@@ -206,6 +206,19 @@ future GenDL release."
 
 (defparameter *message-list-hashes* (make-hash-table :size 100))
 
+(defun evaluate-if-handled (object message &rest args)
+  (let* ((type (the-object object type))
+	 (message-hash (or (gethash type *message-list-hashes*)
+			   (setf (gethash type *message-list-hashes*)
+				 (let* ((messages (the-object object message-list))
+					(hash (glisp:make-sans-value-hash-table :size (length messages))))
+				   (dolist (message messages hash) (setf (gethash message hash) t)))))))
+    (let ((handled? (gethash (gdl::make-key message) message-hash)))
+      (cond ((and handled? args) (the-object object ((evaluate message) (:apply args))))
+	    (handled? (the-object object (evaluate message)))
+	    (t (values nil :not-handled))))))
+
+
 (defmacro %define-object-amendment% (name mixin-list 
                                      &key input-slots 
                                        computed-slots
@@ -411,6 +424,19 @@ future GenDL release."
               (append object-syms quantified-object-syms hidden-object-syms 
                       quantified-hidden-object-syms trickle-down-slot-syms))
 
+	   (eval-when (:load-toplevel)
+	       (let ((class (find-class ',name)))
+		 (dolist (super (cons class (all-superclasses class)))
+		   (let ((ht (or (gethash super *class-used-by-hash*)
+				 (setf (gethash super *class-used-by-hash*)
+				       (glisp:make-sans-value-hash-table)))))
+		     (setf (gethash class ht) t)))
+		 (maphash #'(lambda(key value)
+			      (declare (ignore value))
+			      (setf (gethash key *message-list-hashes*) nil))
+			  (gethash class *class-used-by-hash*))))
+
+	   
            )))))
 
 
@@ -702,9 +728,22 @@ overview of <tt>define-object</tt> syntax."
                  (when (and (not (eql ,message-type-arg :local)) (next-method-p))
                    (call-next-method ,self-arg ,category-arg ,message-type-arg ,base-part-type-arg (1+ ,depth-arg)))))
 
+
+	 (eval-when (:load-toplevel)
+	     (let ((class (find-class ',name)))
+	       (dolist (super (cons class (all-superclasses class)))
+		 (let ((ht (or (gethash super *class-used-by-hash*)
+			       (setf (gethash super *class-used-by-hash*)
+				     (glisp:make-sans-value-hash-table)))))
+		   (setf (gethash class ht) t)))
+	       (maphash #'(lambda(key value)
+			    (declare (ignore value))
+			    (setf (gethash key *message-list-hashes*) nil))
+			(gethash class *class-used-by-hash*))))
+
        
        
-       (find-class ',name)))))
+	 (find-class ',name)))))
 
 
 
