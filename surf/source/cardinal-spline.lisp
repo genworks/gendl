@@ -32,17 +32,13 @@ default to 0.0)."
 
   :input-slots (through-points
 		(tension-params nil)
-		(periodic? nil)
-		("Keyword symbol. <tt>uniform</tt> gives alpha 0, <tt>centripetal</tt> gives alpha 0.5, 
-<tt>:chordal</tt> gives alpha 1. Default is nil, which lets alpha defer to its default, which is 0 (uniform)."
-		 parameterization nil)
+		("Boolean. Indicates whether the curve should close back to its start point. Default is <tt>nil</tt>."
+		 periodic? nil)
+		
+		("Keyword symbol. <tt>uniform</tt>, <tt>:chordal</tt> (or <tt>:chord-length</tt>), or <tt>centripetal</tt>. 
+Default is <tt>:uniform</tt>."
+		 parameterization :uniform))
 
-		("Alpha value to control parameterization. 
-See <tt>parameterization</tt> input-slot for keyword equivalents. 
-Default is 0" alpha (if (the parameterization)
-			(ecase (the parameterization)
-			  (:uniform 0)(:centripetal 0.5)(:chordal 1)) 0)))
-  
   :computed-slots ((native-curve-iw (make-cardinal-spline *geometry-kernel* 
 							  :periodic? (the periodic?)
 							  :tension-params (the tension-params)
@@ -52,108 +48,83 @@ Default is 0" alpha (if (the parameterization)
 												      (lastcar (the through-points))))
 									      (butlast (the through-points))
 									      (the through-points))
-							  :alpha (the alpha)))))
-							  
+							  :parameterization (the parameterization)))))
 
-(define-object display-pts ()
+
+(define-object test-cr (base-object)
   :objects
-  ((through :type (if (typep self 'cardinal-spline) 'points-display 'null-object)
-	    :points (when (typep self 'cardinal-spline) (the through-points))
-	    :display-controls (list :color :green))
+  ((uniform :type 'test-uniform-cr)
+   (centripetal :type 'test-centripetal-cr)
+   (chordal :type 'test-chordal-cr)))
 
-   (control :type 'points-display
-	    :points (the control-points)
-	    :display-controls (list :color :red))))
-
-(define-object cardinal-spline* (cardinal-spline display-pts))
-
-
-(define-object test-uniform-cr (cardinal-spline*)
+(define-object test-uniform-cr (cardinal-spline)
 
   :computed-slots 
-  ((through-points (list (make-point 0 0 0)
+  (
+   (through-points (list (make-point 0 0 0)
                          (make-point 1 1 0)
                          (make-point 1.1 1 0)
                          (make-point 2 0 0)))
 
+   #+nil
+   (through-points
+    '(#(0.0 -91.0 0.0) #(96.0 -82.0 0.0) #(100.0 -68.5 0.0)
+      #(96.0 -54.99999999999999 0.0) #(0.0 -46.0 0.0)
+      #(-96.0 -54.99999999999999 0.0) #(-100.0 -68.5 0.0) #(-96.0 -82.0 0.0)))
 
    (periodic? t)))
 
-(define-object test-centripetal-cr (cardinal-spline*)
+(define-object test-centripetal-cr (cardinal-spline)
 
   :computed-slots 
-  ((alpha 0.5)
+  ((parameterization :centripetal)
+   #+nil
+   (through-points (list (make-point 0 0 0)
+                         (make-point 1 0 0)
+                         (make-point 1 1 0)
+                         (make-point 0 1 0)))
+   #+nil
+   (through-points (list (make-point 0 0 0)
+                         (make-point 1 1 0)
+                         (make-point 1.1 1 0)
+                         (make-point 2 0 0)))
+
+   (through-points (list (make-point 0 0 0)
+                         (make-point 0.9 1 0)
+                         (make-point 1.1 1 0)
+                         (make-point 2 0 0)))
+
+   #+nil
+   (through-points
+    '(#(0.0 -91.0 0.0) #(96.0 -82.0 0.0) #(100.0 -68.5 0.0)
+      #(96.0 -54.99999999999999 0.0) #(0.0 -46.0 0.0)
+      #(-96.0 -54.99999999999999 0.0) #(-100.0 -68.5 0.0) #(-96.0 -82.0 0.0)))
+
+   (periodic? t)))
+
+(define-object test-chordal-cr (cardinal-spline)
+
+  :computed-slots 
+  ((parameterization :chordal)
    (through-points (list (make-point 0 0 0)
                          (make-point 1 1 0)
                          (make-point 1.1 1 0)
                          (make-point 2 0 0)))
 
 
-   (periodic? t)))
-
-(define-object test-chordal-cr (cardinal-spline*)
-
-  :computed-slots 
-  ((alpha 1)
-   (through-points (list (make-point 0 0 0)
-                         (make-point 1 1 0)
-                         (make-point 1.1 1 0)
-                         (make-point 2 0 0)))
-
-
-   (periodic? t)))
-
-
-(define-object tom (base-object)
-  :objects
-  ((uniform :type 'tom-cr :parameterization :uniform)
-   (centripetal :type 'tom-cr :parameterization :centripetal)
-   (chordal :type 'tom-cr :parameterization :chordal)
-
-   (alpha :type 'tom-cr :alpha 0.9)
+   #+nil
+   (through-points
+    '(#(0.0 -91.0 0.0) #(96.0 -82.0 0.0) #(100.0 -68.5 0.0)
+      #(96.0 -54.99999999999999 0.0) #(0.0 -46.0 0.0)
+      #(-96.0 -54.99999999999999 0.0) #(-100.0 -68.5 0.0) #(-96.0 -82.0 0.0)))
    
-   (frank :type 'b-spline-curve*
-	  :control-points (the uniform control-points)
-
-
-	  :knot-vector (the centripetal knot-vector)
-	  #+nil
-	  (normalize :knot-vector (the centripetal knot-vector)
-		     :u-min (the uniform u-min)
-		     :u-max (the uniform u-max)))
-
-   (stein :type 'b-spline-curve*
-	  :control-points (the centripetal control-points)
-	  :knot-vector (the uniform knot-vector))
-
-
-   (frank-chordal :type 'b-spline-curve*
-		  :control-points (the uniform control-points)
-		  :knot-vector (the chordal knot-vector))
-
-   ))
-
-
-
-(define-object b-spline-curve* (b-spline-curve display-pts))
-
-(define-object tom-cr (cardinal-spline*)
-  :computed-slots 
-  ((periodic? t)
-   (through-points 
-    #+nil
-    (list (make-point 0 0 0) (make-point 1 1 0)
-	  (make-point 1.1 1 0) (make-point 2 0 0))
-
-    '(#(0.0 -91.0 6.5) #(96.0 -82.0 6.5) #(100.0 -68.5 6.5)
-      #(96.0 -54.99999999999999 6.5) #(0.0 -46.0 6.5)
-      #(-96.0 -54.99999999999999 6.5) #(-100.0 -68.5 6.5) #(-96.0 -82.0 6.5)))))
+   (periodic? t)))
 
 
 
 
 
-
+#+nil
 (define-object test-b-spline-curves (base-object)
 
   :input-slots
@@ -194,10 +165,73 @@ Default is 0" alpha (if (the parameterization)
            :display-controls (list :color :green))))
 
 
-
+#+nil
 (defun normalize (&key knot-vector u-min u-max)
   
   (let* ((new-delta (- (apply #'max knot-vector) (apply #'min knot-vector)))
 	 (old-delta (- u-max u-min))
 	 (step-ratio (div old-delta new-delta)))
     (mapcar #'(lambda(knot) (* knot step-ratio)) knot-vector)))
+
+
+#+nil
+(define-object display-pts ()
+  :objects
+  ((through :type (if (typep self 'cardinal-spline) 'points-display 'null-object)
+	    :points (when (typep self 'cardinal-spline) (the through-points))
+	    :display-controls (list :color :green))
+
+   (control :type 'points-display
+	    :points (the control-points)
+	    :display-controls (list :color :red))))
+
+#+nil
+(define-object cardinal-spline* (cardinal-spline display-pts))
+
+
+#+nil
+(define-object b-spline-curve* (b-spline-curve display-pts))
+
+#+nil
+(define-object tom-cr (cardinal-spline*)
+  :computed-slots 
+  ((periodic? t)
+   (through-points 
+    #+nil
+    (list (make-point 0 0 0) (make-point 1 1 0)
+	  (make-point 1.1 1 0) (make-point 2 0 0))
+
+    '(#(0.0 -91.0 6.5) #(96.0 -82.0 6.5) #(100.0 -68.5 6.5)
+      #(96.0 -54.99999999999999 6.5) #(0.0 -46.0 6.5)
+      #(-96.0 -54.99999999999999 6.5) #(-100.0 -68.5 6.5) #(-96.0 -82.0 6.5)))))
+
+
+#+nil
+(define-object tom (base-object)
+  :objects
+  ((uniform :type 'tom-cr :parameterization :uniform)
+   (centripetal :type 'tom-cr :parameterization :centripetal)
+   (chordal :type 'tom-cr :parameterization :chordal)
+
+   (alpha :type 'tom-cr :alpha 0.9)
+   
+   (frank :type 'b-spline-curve*
+	  :control-points (the uniform control-points)
+
+
+	  :knot-vector (the centripetal knot-vector)
+	  #+nil
+	  (normalize :knot-vector (the centripetal knot-vector)
+		     :u-min (the uniform u-min)
+		     :u-max (the uniform u-max)))
+
+   (stein :type 'b-spline-curve*
+	  :control-points (the centripetal control-points)
+	  :knot-vector (the uniform knot-vector))
+
+
+   (frank-chordal :type 'b-spline-curve*
+		  :control-points (the uniform control-points)
+		  :knot-vector (the chordal knot-vector))
+
+   ))

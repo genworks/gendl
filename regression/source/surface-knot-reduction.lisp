@@ -24,13 +24,28 @@
 (define-object surface-knot-reduction-test (base-object) 
 
   :input-slots
-  ((control-points (list (make-point 0 0 0)
+  (
+   #+nil
+   (control-points (list (make-point 0 0.01 0)
 			 (make-point 2 3.0 0.0) 
 			 (make-point 4 2.0 0.0) 
 			 (make-point 5 0.0 0.0) 
 			 (make-point 4 -2.0 0.0) 
 			 (make-point 2 -3.0 0.0) 
-			 (make-point 0 0 0))))
+			 (make-point 0 -0.01 0)
+			 (make-point 0 0.01 0)
+			 ))
+
+   (control-points (list (make-point 0 0 0)
+			 (make-point 2 3.0 0.0) 
+			 (make-point 4 2.0 0.0) 
+			 (make-point 5 0.0 0.0) 
+			 (make-point 4 -2.0 0.0) 
+			 (make-point 2 -3.0 0.0) 
+			 (make-point 0 0 0)
+			 ))
+
+   )
 
   
   :computed-slots 
@@ -69,10 +84,13 @@
 			:scale-y 2.2)
   
    (lofted-surface-test-simple :type 'lofted-surface
-			       :display-controls (list :color :red-violet :isos (list :n-v 19 :n-u 19))
-			       :tolerance 0.01
-			       :curves (list (the curve-1) (the curve-3)
-					     (the curve-4) (the curve-2)))			       
+			       ;;:display-controls (list :color :red-violet :isos (list :n-v 19 :n-u 19))
+			       ;;:tolerance 1.0
+			       :curves (list (the curve-2)
+					     (the curve-4)
+					     (the curve-3)
+					     (the curve-1)
+					     ))
 
   (S-knot-reduction :type 'surface-knot-reduction
 		    :surface (the lofted-surface-test-simple))))

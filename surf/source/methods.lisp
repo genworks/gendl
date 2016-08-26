@@ -779,7 +779,7 @@
 				   right-or-left
 				   tolerance))
 
-(define-vanilla-wrapper make-cardinal-spline (&key control-points tension-params periodic? alpha))
+(define-vanilla-wrapper make-cardinal-spline (&key control-points tension-params periodic? parameterization))
 
 (define-vanilla-wrapper make-degenerate-curve (&key degree point))
   
