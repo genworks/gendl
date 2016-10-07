@@ -30,7 +30,7 @@
    (radius 20)
    (inner-radius 16)
    
-   (regression-test-data (append (multiple-value-list (the precise-properties))
+   (regression-test-data (append (multiple-value-list (the (precise-properties :tolerance 0.00001)))
 				  (the %curves-to-draw%)
 				  (the %lines-to-draw%)))))
 

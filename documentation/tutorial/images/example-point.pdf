@@ -14,7 +14,7 @@
  endobj
 4 0 obj
 << /Creator (cl-pdf 2.03 - )
-/CreationDate (D:20160107140949)
+/CreationDate (D:20161005233609)
  >>
  endobj
 5 0 obj
@@ -36,7 +36,7 @@
  >>
  endobj
 6 0 obj
-<< /Length 1353
+<< /Length 1356
  >>
 stream
 q
@@ -52,12 +52,12 @@ Q
 1.0 0.0 0.0 1.0    180.0    180.0 cm
 q
 q
-       1.0        0.0        0.0        1.0 0.0 0.0 cm
+       1.0        0.0        -0.0        1.0 0.0 0.0 cm
   -180.0   -180.0    360.0    360.0 re
  W
  n
 q
-1.0 0.0 0.0 1.0      0.0      0.0 cm
+1.0 0.0 0.0 1.0      -0.0      -0.0 cm
 q
 1.0 0.0 0.0 1.0      0.0      0.0 cm
 q
@@ -156,5 +156,5 @@ trailer
 /Root 1 0 R /Info 4 0 R
 >>
 startxref
-1834
+1837
 %%EOF

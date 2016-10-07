@@ -102,7 +102,8 @@
     (set-frame-font
      (format 
       (case system-type
-	(darwin  "-apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1")
+	(darwin  "-*-Courier New-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1" ;; -apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1"
+		 )
 	(windows-nt "-outline-Courier New-normal-normal-normal-mono-%s-*-*-*-c-*-iso8859-1")
 	(gnu/linux "-bitstream-Courier 10 Pitch-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1"))
       font-size))))
@@ -195,6 +196,7 @@
   (slime-repl-return))
 
 (defvar gdl-startup-string nil)
+
 
 (setq gdl-startup-string 
   (format 

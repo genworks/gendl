@@ -67,7 +67,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
 		      (external-format :utf8-base))
-    (net.aserve:shutdown)
+  (net.aserve:shutdown :server net.aserve:*wserver*)
     (let ((wait-time 1))
       (block :outer
 	(do () (nil)
@@ -78,8 +78,9 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		   (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
 				 "~&Trying to start AllegroServe on ~a...~%") port)
 		   (if (ignore-errors
-			 (net.aserve:start :port port :listeners listeners
-					   #-mswindows :external-format #-mswindows external-format))
+			 (setq net.aserve:*wserver*
+			       (net.aserve:start :port port :listeners listeners ;; :server :new
+						 #-mswindows :external-format #-mswindows external-format)))
 		    (return-from :outer port)
 		    (progn (sleep (random wait-time)) (return-from :inner))))
 		(incf port))))

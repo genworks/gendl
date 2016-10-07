@@ -3,7 +3,7 @@
 (asdf:defsystem #:ledger :description
  "The Gendl\" Ledger Bookkeeping Demo" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20160808" :depends-on
+ :serial t :version "20160828" :depends-on
  (#-gwl :gwl)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8

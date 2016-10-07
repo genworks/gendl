@@ -22,10 +22,11 @@
 (in-package :geom-base)
 
 (define-object outline-specialization-mixin (base-object)
+  :input-slots
+  ((outline-objects (the hidden-children)))
+
   :computed-slots
-  ((outline-objects (the hidden-children))
-   
-   (local-box (bounding-box-from-list (the outline-objects)))
+  ((local-box (bounding-box-from-list (the outline-objects)))
 
    
    (outline-leaves (apply #'append

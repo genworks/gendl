@@ -79,23 +79,30 @@ filleted-polyline."
    (%renderer-info% (list :vrml? t :view-default :top))
 
 
-   (path-info (append
-	       (let ((first? t))
-		 (mapcan
-		  #'(lambda(straight curve-set)
-		      (append (if first? (progn (setq first? nil)
-						(list :move (first straight)
-						      :line (second straight)))
-				  (list :line (second straight)))
+   (path-info (cond
+		((null (rest (the vertex-list)))
+		 (error "Vertex-list must contain at least two points."))
 
-			      (apply #'append
-				     (mapcar #'(lambda(curve)
-						 (cons :curve (rest (reverse curve))))
-					     (reverse (the-object curve-set %curves-to-draw%))))))
-			 (the straights) (list-elements (the fillets))))
+		((null (rest (rest (the vertex-list))))
+		 (list :move (first (the vertex-list)) :line (second (the vertex-list))))
+		
+		(t (append
+		    (let ((first? t))
+		      (mapcan
+		       #'(lambda(straight curve-set)
+			   (append (if first? (progn (setq first? nil)
+						     (list :move (first straight)
+							   :line (second straight)))
+				       (list :line (second straight)))
 
-	       (when (> (length (the straights)) (the fillets number-of-elements))
-		 (list :line (second (lastcar (the straights)))))))
+				   (apply #'append
+					  (mapcar #'(lambda(curve)
+						      (cons :curve (rest (reverse curve))))
+						  (reverse (the-object curve-set %curves-to-draw%))))))
+		       (the straights) (list-elements (the fillets))))
+
+		    (when (> (length (the straights)) (the fillets number-of-elements))
+		      (list :line (second (lastcar (the straights)))))))))
    
    (fillet-types (mapcar #'(lambda(test)
                              (if (the-object test valid?) 'fillet 'null-part))
