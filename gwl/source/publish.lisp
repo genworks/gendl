@@ -30,6 +30,8 @@
 (defparameter *remote-evaluate-lock* (bt:make-lock "remote-evaluate-lock"))
 (defparameter *remote-fetch-input-lock* (bt:make-lock "remote-fetch-input-lock"))
 
+(defparameter *request-server-ipaddr* nil)
+
 (with-all-servers (server)
   (publish-file :path "/favicon.ico"
                 :server server
@@ -96,7 +98,7 @@
 							   value))
 					      (list :error :no-such-object (getf args-list :remote-id)))))
 			       (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-				 (html (format *html-stream* encoded-value))))))))))))))
+				 (html (format *html-stream* "~a" encoded-value))))))))))))))
 
 
 (publish :path "/unbind-slots"
@@ -118,18 +120,20 @@
                      (with-http-body (req ent)
                        (let ((value nil))
                          (let ((encoded-value (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-                           (html (format *html-stream* encoded-value)))))))))))
+                           (html (format *html-stream* "~a" encoded-value)))))))))))
 
 
 (defun send-remote-message (req ent)
   (let* ((query (request-query req))
          (args (rest (assoc "args" query :test #'string-equal)))
-         (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
+         (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req))))
+         (*request-server-ipaddr*
+          (socket:ipaddr-to-dotted (socket:local-host (request-socket req)))))
     (let ((args-list (base64-decode-list args)))
 
       (when *debug?*
 	(format t "~%In send-remote-message-object response func:~%")
-	(print-variables args-list))
+	(print-variables args-list *ipaddr* *request-server-ipaddr*))
 
       (let ((*package* (or (find-package (getf args-list :package)) *package*)))
         (let ((object (when (gethash (getf args-list :remote-id) *remote-objects-hash*)
@@ -157,7 +161,7 @@
 		
                 (let ((encoded-value (with-standard-io-syntax (base64-encode-safe (format nil "~s" (encode-for-http value))))))
 
-                  (html (format *html-stream* encoded-value)))))))))))
+                  (html (format *html-stream* "~a" encoded-value)))))))))))
 
 
 (publish :path "/send-remote-message"
@@ -169,6 +173,8 @@
          :function #'(lambda(req ent)
                        (let* ((query (request-query req))
                               (args (rest (assoc "args" query :test #'string-equal)))
+                              (*request-server-ipaddr*
+                               (socket:ipaddr-to-dotted (socket:local-host (request-socket req))))
                               (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host (request-socket req)))))
                          (let ((args-list (base64-decode-list args)))
                            (let ((*package* (or (find-package (getf args-list :package)) *package*)))
@@ -187,7 +193,7 @@
                                                    args))))
                                      (let ((encoded-value
                                             (base64-encode-safe (format nil "~s" (encode-for-http value)))))
-                                       (html (format *html-stream* encoded-value))))))))))))
+                                       (html (format *html-stream* "~a" encoded-value))))))))))))
 
 
 ;;
