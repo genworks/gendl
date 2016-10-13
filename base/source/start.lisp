@@ -78,6 +78,9 @@
 					     (merge-pathnames "quicklisp/dists/quicklisp/distinfo.txt"
 							      glisp:*gdl-home*))
 					    (probe-file 
+					     (merge-pathnames "genworks/quicklisp/dists/quicklisp/distinfo.txt"
+							      glisp:*gdl-home*))
+					    (probe-file 
 					     (merge-pathnames "quicklisp/dists/quicklisp/distinfo.txt"
 							      glisp:*genworks-source-home*))
 					    (probe-file 
