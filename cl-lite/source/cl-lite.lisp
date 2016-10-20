@@ -170,7 +170,7 @@ given as keyword args to this function)."
   :input-slots
   (
    (description (concatenate 'string
-			     "The Gendl™ "
+			     "The Gendl® "
 			     (or (the (read-isc-file "description"))
 				 (format nil "~a Subsystem" (the local-name)))))
    (author (or (the (read-isc-file "author")) "John McCarthy"))
