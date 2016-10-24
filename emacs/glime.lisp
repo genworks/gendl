@@ -552,8 +552,13 @@ Otherwise NIL is returned."
   default-arg)
 
 (defun canonicalize-default-arg (form)
-  (if (equalp ''nil form)
-      nil
+  ;; Unquote self-evaluating forms
+  (if (and (consp form) (eq (car form) 'quote) (consp (cdr form)) (null (cddr form))
+           (let ((obj (cadr form)))
+             (or (member obj '(nil t))
+                 (keywordp obj)
+                 (and (atom obj) (not (symbolp obj))))))
+      (cadr form)
       form))
 
 (defun make-keyword-arg (keyword &optional (arg-name nil) (default-arg nil))
