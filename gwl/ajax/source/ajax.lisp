@@ -161,11 +161,20 @@
 				      :js-to-eval-previi js-to-eval-previi))))
 
 
+
+(defun publish-gdlajax (server)
+  (publish :path "/gdlAjax" :function 'gdlAjax :server server))
+
+
+(pushnew 'publish-gdlajax *publishers*)
+	     
+
+#+nil
 (defun publish-gdlajax ()
   (with-all-servers (server)
     (publish :path "/gdlAjax" :function 'gdlAjax :server server)))
 
-(publish-gdlajax)
+;;(publish-gdlajax)
 
 ;;
 ;; FLAG -- remove this defunct version. 

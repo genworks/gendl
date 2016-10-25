@@ -23,13 +23,17 @@
 (in-package :tasty)
 
 
-(let ((tutorial-file 
-       (or (probe-file (merge-pathnames "../doc/tutorial.pdf" (glisp:executable-homedir-pathname)))
-	   (probe-file (merge-pathnames "gendl/documenation/tutorial/pdf/tutorial.pdf" glisp:*genworks-source-home*))
-	   (warn "tutorial.pdf not found in distribution doc/ directory or source documentation directory for
+(defun publish-tutorial (server)
+  (let ((tutorial-file 
+	 (or (probe-file (merge-pathnames "../doc/tutorial.pdf" (glisp:executable-homedir-pathname)))
+	     (probe-file (merge-pathnames "gendl/documenation/tutorial/pdf/tutorial.pdf" glisp:*genworks-source-home*))
+	     (warn "tutorial.pdf not found in distribution doc/ directory or source documentation directory for
 publishing in tasty Help menu.~%"))))
-  (when tutorial-file (publish-file :path "/tutorial.pdf" 
-				    :file (namestring (truename tutorial-file)))))
+    (when tutorial-file (publish-file :path "/tutorial.pdf"
+				      :server server
+				      :file (namestring (truename tutorial-file))))))
+
+(pushnew 'publish-tutorial *publishers*)
 
 (define-object menu-section (sheet-section)
 

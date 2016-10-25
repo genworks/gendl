@@ -19,9 +19,8 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("package" "defparameters" "presets"
-	    "base-html-sheet" "base-html-utils" 
-	    "macros" "ignore-errors-with-backtrace"  "initialize" "utilities"  "answer" 
-            "accessories"  "layout-mixin" 
+("package" "with-all-servers" "defparameters"  "base-html-sheet" "html-format" 
+	   "macros"  "presets" "base-html-utils" "ignore-errors-with-backtrace"
+	   "initialize" "utilities"  "answer" "accessories"  "layout-mixin" 
 	    "application-mixin" "gdl-remote" "vanilla-remote")
         

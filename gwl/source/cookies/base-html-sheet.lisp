@@ -178,17 +178,19 @@ the browser in development mode). Defaults to NIL (the empty list)."
                  (format nil "~a/sessions/~a/~a" (if (the fixed-url-prefix) 
 						     (format nil "/~a" (the fixed-url-prefix)) "")
                          (the :instance-id) (the (compute-url))))))
-          (publish
-           :path url
-           :content-type "text/html"
-           :host (the host)
-           :function #'(lambda (req ent) 
-                         (the before-response!)
-                         (present-part req ent url :instance-id (when (and (the plain-url?)
-									   (not (the use-cookie?)))
-                                                                  (the instance-id)) 
-                                       :header-plist (the header-plist)
-                                       :fixed-prefix (the fixed-url-prefix))))
+	  (with-all-servers (server)
+	    (publish
+	     :path url
+	     :server server
+	     :content-type "text/html"
+	     :host (the host)
+	     :function #'(lambda (req ent) 
+			   (the before-response!)
+			   (present-part req ent url :instance-id (when (and (the plain-url?)
+									     (not (the use-cookie?)))
+								    (the instance-id)) 
+					 :header-plist (the header-plist)
+					 :fixed-prefix (the fixed-url-prefix)))))
 
 	  (unless (the use-cookie?)
 	    (pushnew url (gethash (make-keyword (the instance-id)) *url-hash-table*) :test #'string-equal))

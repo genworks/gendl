@@ -1,16 +1,17 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:gwl :description
- "The Gendl\" Generative Web Language (GWL)" :author "John McCarthy"
+ "The Gendl® Generative Web Language (GWL)" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20160828" :depends-on
+ :serial t :version "20161025" :depends-on
  (:bordeaux-threads :glisp :aserve :yason)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
- ((:file "source/package") (:file "source/defparameters")
-  (:file "source/presets") (:file "source/base-html-sheet")
-  (:file "source/base-html-utils") (:file "source/macros")
+ ((:file "source/package") (:file "source/with-all-servers")
+  (:file "source/defparameters") (:file "source/base-html-sheet")
+  (:file "source/html-format") (:file "source/macros")
+  (:file "source/presets") (:file "source/base-html-utils")
   (:file "source/ignore-errors-with-backtrace")
   (:file "source/utilities") (:file "source/answer")
   (:file "source/accessories") (:file "source/gdl-remote")

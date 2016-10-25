@@ -46,7 +46,8 @@
            (glisp:gc-full))))))
 
 
-(with-all-servers (server)
+(defun publish-make-and-answer (server)
+
   (publish :path "/make"
            :server server
            :content-type "text/html"
@@ -56,6 +57,8 @@
            :server server
            :content-type "text/html"
            :function 'answer))
+
+(pushnew 'publish-make-and-answer *publishers*)
 
 (defun publish-fixed-prefix (fixed-prefix)
   (with-all-servers (server)

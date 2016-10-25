@@ -21,10 +21,14 @@
 
 (in-package :yadd)
 
-(publish-shared :path "/yadd-lookup"
-                :object-type 'yadd::all)
 
-(with-all-servers (server)
+
+(defun publish-yadd (server)
+
+  (publish-shared :path "/yadd-lookup"
+		  :server server
+		  :object-type 'yadd::all)
+  
   (publish :path "/user-yadd"
            :server server
            :function #'(lambda(req ent)
@@ -37,3 +41,5 @@
            :server server
            :function #'(lambda(req ent)
                          (gwl-make-part req ent "yadd:package-dokumentation"))))
+
+(pushnew 'publish-yadd *publishers*)
