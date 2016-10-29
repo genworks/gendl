@@ -22,7 +22,7 @@ Release Schedule
 
 ----------------------------------------------------------------------
 
-          Welcome to the GenworksÂ® GDL and Gendl® Environment
+          Welcome to the Genworks® GDL and Gendl® Environment
 
 
 
