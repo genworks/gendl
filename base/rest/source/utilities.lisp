@@ -1,8 +1,8 @@
 ;;
 ;; Copyright 2002-2012 Genworks International
 ;;
-;; This source file is part of the General-purpose Declarative
-;; Language project (GDL).
+;; Except otherwise noted in documentation below, this source file is
+;; part of the General-purpose Declarative Language project (GDL).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -201,27 +201,35 @@ function <b>fn</b> returns non-NIL.
       (incf count))))
 
 
-(defun flatten (tree)
+(defun flatten (tree &aux result)
   "List. Returns a new list consisting of only the leaf-level atoms from <b>list</b>. 
 Since nil is technically a list, <tt>flatten</tt> also has the effect of removing 
 nils from <b>list</b>, but may be inefficient if used only for this purpose. For 
 removing nil values from a list, consider using <tt>remove nil ...</tt> instead.
 
-:note from On Lisp by Paul Graham, code as follows:
+:note from Stack Overflow forum:  http://stackoverflow.com/questions/25866292/flatten-a-list-using-common-lisp
 
-  <pre>
-  (if (atom tree)
-      (ensure-list tree)
-    (nconc (flatten (car tree))
-           (if (cdr tree) (flatten (cdr tree)))))
+:note Creative Commons license
+
+<pre>
+ (defun flatten (lst &aux (result '()))
+   (labels ((rflatten (lst1)
+              (dolist (el lst1 result)
+                (if (listp el)
+                  (rflatten el)
+                  (push el result)))))
+       (nreverse (rflatten lst))))
   </pre>
 
 :arguments (list \"List\")
 :see-also <tt>remove</tt>"
-  (if (atom tree)
-      (ensure-list tree)
-    (nconc (flatten (car tree))
-           (if (cdr tree) (flatten (cdr tree))))))
+
+  (labels ((rflatten (tree1)
+	     (dolist (el tree1 result)
+	       (if (listp el)
+		   (rflatten el)
+		   (push el result)))))
+    (nreverse (rflatten tree))))
 
 
 (defun split (string &optional (split-chars (list #\space #\newline #\return #\tab)))

@@ -54,10 +54,15 @@
 
 ;; 3.2. Set up color-theme and solarized color-themes
 
+(setq calendar-latitude 42.58 calendar-longitude -83.3 calendar-location-name "Detroit")
+(setq sunrise-sunset (sunrise-sunset))
+;; FLAG -- figure out how to use this information with (current-time) to pick a light or dark color-theme. 
 (add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-sitaramv-solaris)
+(color-theme-subtle-hacker)
+;;(color-theme-taming-mr-arneson)
+;;(color-theme-sitaramv-solaris)
 ;;(color-theme-feng-shui)
 
 
@@ -398,6 +403,24 @@ from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
 (maximize-frame)
 
 (load-user-emacs-gendl)
+
+
+
+(defun mac-switch-meta nil 
+  "switch meta between Option and Command"
+  (interactive)
+  (if (eq mac-option-modifier nil)
+      (progn
+	(setq mac-option-modifier 'meta)
+	(setq mac-command-modifier 'hyper))
+    (progn 
+      (setq mac-option-modifier nil)
+      (setq mac-command-modifier 'meta))))
+
+(when (eql system-type 'darwin)
+  (mac-switch-meta)
+  (mac-switch-meta))
+
 
 ;; A.  REFERENCES
 ;;
