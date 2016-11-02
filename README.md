@@ -209,17 +209,14 @@ solid modeling engine) is available from [Genworks](http://genworks.com).
 
 
 ### Bug Bounty Program
-
-Genworks offers a modest bounty for reporting of bugs on the [Github
-Issues
-List](https://github.com/genworks/gendl/issues?state=open). Please
-contact [Genworks](http://genworks.com) for details.
-
 ### Bug Fix Program
+Genworks offers a modest bounty for reporting (and sometimes solving)
+of bugs on the [Issues
+List](https://gitlab.common-lisp.net/gendl/gendl/issues?scope=all&state=opened). Please
+contact [Genworks](http://gen.works) for details.
 
-Genworks is open to considering bids for providing cleanly mergeable
-fixes to bugs listed on the [Github Issues
-List](https://github.com/genworks/gendl/issues?state=open). Please
-contact [Genworks](http://genworks.com) for details.
+
+
+
 
 
