@@ -208,8 +208,7 @@ optionally, commercial CL engines, technical support, and commercial
 solid modeling engine) is available from [Genworks](http://gen.works). 
 
 
-### Bug Bounty Program
-### Bug Fix Program
+### Bug Bounty Program, Bug Fix Program
 Genworks offers a modest bounty for reporting (and sometimes solving)
 of bugs on the [Issues
 List](https://gitlab.common-lisp.net/gendl/gendl/issues?scope=all&state=opened).
