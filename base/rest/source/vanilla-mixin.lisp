@@ -575,7 +575,7 @@ Note that this behavior may change to error by default in a future GDL release.
 
 " 
 			    message))
-	    (cerror  "Set the slot anyway." message))))
+	      (cerror  "Set the slot anyway." message))))
     
       (when (and warn-on-non-toplevel?
 		 *notify-cons*)
@@ -611,16 +611,16 @@ make a fresh root-level object, and start again."))
 	    (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
 	      (unbind-dependent-slots self slot)
 	      (setf (slot-value self slot) 
-		(list value nil t)))
+		    (list value nil t)))
 	    (when remember?
 	      (let ((root (let ((maybe-root (the :root)))
 			    (if (the-object maybe-root root?)
 				maybe-root
-			      (the-object maybe-root parent))))
+				(the-object maybe-root parent))))
 		    (root-path (the root-path)
-			       ;;(remove :root-object-object (the root-path))
-			       ;;(the root-path)
-			       ))
+		      ;;(remove :root-object-object (the root-path))
+		      ;;(the root-path)
+		      ))
 
 		(cond ((and (gdl-acc::%version-tree% root)
 			    (not (find root-path (gdl-acc::%version-tree% root)
@@ -629,16 +629,16 @@ make a fresh root-level object, and start again."))
 			      (list (list root-path))))
 		      ((null (gdl-acc::%version-tree% root))
 		       (setf (gdl-acc::%version-tree% root) 
-			 (list (list root-path)))))
+			     (list (list root-path)))))
 
 		(when (the primary?)
 		  (setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) :%primary?%)
-		    t))
+			t))
 	      
 		(when re-sort?
 		  
 		  (setf (gdl-acc::%version-tree% root)
-		    (double-length-sort (gdl-acc::%version-tree% root)))
+			(double-length-sort (gdl-acc::%version-tree% root)))
 		
 		  (let ((non-root (remove nil (gdl-acc::%version-tree% root) :key #'first))
 			(root-list (find nil (gdl-acc::%version-tree% root) :key #'first)))
@@ -651,11 +651,11 @@ make a fresh root-level object, and start again."))
 							    (getf (rest item) :element-index-list)))
 						    non-root)))
 		      (setf (gdl-acc::%version-tree% root)
-			(cons (or root-list (list nil))
-			      (append primaries non-primaries))))))
+			    (cons (or root-list (list nil))
+				  (append primaries non-primaries))))))
             
 		(setf (getf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) attribute)
-		  value)))
+		      value)))
       
 	    (when *eager-setting-enabled?*
 	      (dolist (reset *leaf-resets*)
@@ -898,52 +898,52 @@ demanded. This is useful for updating an existing model or part of an existing
 model after making changes and recompiling/reloading the code of the underlying 
 definitions.  Any set (modified) slot values will, however, be preserved 
 by the update."
-     update!
-     (&key (replace-bashed-values? t) immune-message-keys)
-     (let ((all-messages (the (:message-list)))
-	   (methods (the (:message-list :category :functions)))
-	   (immune-messages (append (list :$$ta2 :$$ta2-object 
-					  :$$tatu :$$tatu-object)
-				    (ensure-list immune-message-keys)))
-	   (true-root (if (and (the root parent) (the root parent root?)
-			       (defaulting (the root parent root-object-object))
-			       (eql (the root parent root-object-object) self))
-			  (the root parent) (the root))))
-       (let ((cached-messages 
-	      (set-difference all-messages (append methods immune-messages))))
+    update!
+    (&key (replace-bashed-values? t) immune-message-keys)
+    (let ((all-messages (the (:message-list)))
+	  (methods (the (:message-list :category :functions)))
+	  (immune-messages (append (list :$$ta2 :$$ta2-object 
+					 :$$tatu :$$tatu-object)
+				   (ensure-list immune-message-keys)))
+	  (true-root (if (and (the root parent) (the root parent root?)
+			      (defaulting (the root parent root-object-object))
+			      (eql (the root parent root-object-object) self))
+			 (the root parent) (the root))))
+      (let ((cached-messages 
+	     (set-difference all-messages (append methods immune-messages))))
         
-	 (dolist (key cached-messages)
-	   (let ((key (glisp:intern (symbol-name key) :gdl-acc)))
-	     (unbind-dependent-slots self key :updating? t))))
-       (let* ( ;;(root-path (remove :root-object-object (the root-path))) 
-	      (root-path (the root-path))
-	      (root-path-length (length root-path))
-	      (version-tree
-	       (when replace-bashed-values?
-		 (remove-if-not #'(lambda(node) 
-				    (let ((local-root-path (first node)))
-				      (and (> (length local-root-path) root-path-length)
-					   (equalp (subseq local-root-path
-							   (- (length local-root-path) 
-							      root-path-length))
-						   root-path))))
-				(gdl-acc::%version-tree% true-root)))))
+	(dolist (key cached-messages)
+	  (let ((key (glisp:intern (symbol-name key) :gdl-acc)))
+	    (unbind-dependent-slots self key :updating? t))))
+      (let* ( ;;(root-path (remove :root-object-object (the root-path))) 
+	     (root-path (the root-path))
+	     (root-path-length (length root-path))
+	     (version-tree
+	      (when replace-bashed-values?
+		(remove-if-not #'(lambda(node) 
+				   (let ((local-root-path (first node)))
+				     (and (> (length local-root-path) root-path-length)
+					  (equalp (subseq local-root-path
+							  (- (length local-root-path) 
+							     root-path-length))
+						  root-path))))
+			       (gdl-acc::%version-tree% true-root)))))
 
-	 (dolist (version-node version-tree (values))
-	   (let ((root true-root)
-		 (root-path (first version-node)) (value-plist (rest version-node)))
-	     (mapc #'(lambda(key value)
+	(dolist (version-node version-tree (values))
+	  (let ((root true-root)
+		(root-path (first version-node)) (value-plist (rest version-node)))
+	    (mapc #'(lambda(key value)
                       
-		       (when (not (eql value 'gdl-acc::%default%))
-			 ;;
-			 ;; FLAG - make this into a more specific error check for 
-			 ;;        nonexistence of the object (e.g. not handled error).
-			 ;;
+		      (when (not (eql value 'gdl-acc::%default%))
+			;;
+			;; FLAG - make this into a more specific error check for 
+			;;        nonexistence of the object (e.g. not handled error).
+			;;
 			 
-			 (with-error-handling (:timeout nil)
-			   (the-object root (:follow-root-path root-path) 
-				       (:set-slot! key value :re-sort? nil)))))
-		   (plist-keys value-plist) (plist-values value-plist)))))))
+			(with-error-handling (:timeout nil)
+			  (the-object root (:follow-root-path root-path) 
+				      (:set-slot! key value :re-sort? nil)))))
+		  (plist-keys value-plist) (plist-values value-plist)))))))
    
 
    ;;

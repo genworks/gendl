@@ -182,7 +182,7 @@ those dependent objects first. Default is nil.
    )
   
   
-  :trickle-down-slots (respondent)
+  ;;:trickle-down-slots (respondent)
 
   
   :computed-slots 

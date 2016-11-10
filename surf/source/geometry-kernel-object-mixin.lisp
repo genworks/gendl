@@ -62,10 +62,10 @@ Defaults to the foreground color specified in <tt>*colors-default*</tt>. This me
    (%vertex-array% (append (flatten-lines (the %lines-to-draw%)) (flatten-curves (the %curves-to-draw%))))
 
 
-   (unique-id (or (get-long *geometry-kernel* self)
-                  (let ((id (read-from-string (subseq (string (gensym)) 1))))
-                    (format t "Setting object unique-id on-demand for object ~s.~%" self)
-                    (set-long *geometry-kernel* self id)
-                    id)))))
+   (%unique-id% (or (get-long *geometry-kernel* self)
+		    (let ((id (read-from-string (subseq (string (gensym)) 1))))
+		      (format t "Setting object %unique-id% on-demand for object ~s.~%" self)
+		      (set-long *geometry-kernel* self id)
+		      id)))))
    
    

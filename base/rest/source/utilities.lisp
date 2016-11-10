@@ -753,6 +753,64 @@ file.
 						 :make-object-args make-object-args :keys-to-ignore keys-to-ignore))))))
 
 
+
+
+(defun read-snapshot-from-stream (in &key object keep-bashed-values? make-object-args keys-to-ignore)
+
+  (let ((package-form (read in)))
+	(when (or (null package-form) (not (find-package (second package-form))))
+	  (error "Invalid package specification at beginning of ~a.~%" filename))
+	(let* ((*package* (find-package (second package-form))) (root-form (read in)))
+	  (when (or (null root-form) 
+		    (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class))))
+	    (error "Invalid object type specifier as first element of second form in ~a.~%" root-form))
+
+        
+	  (let* ((object (cond ((and object keep-bashed-values?) object)
+			       (object (the-object object restore-tree!) object)
+			       (t (progn
+				    (apply #'make-object (first root-form) make-object-args))))))
+
+	    
+	    (let ((self object) (value-plist (rest root-form)))
+
+	      (mapc #'(lambda(key expression) 
+			(unless (member key keys-to-ignore)
+			  (when self (the-object self (set-slot! key (eval expression) :re-sort? nil)))))
+		    (plist-keys value-plist) (plist-values value-plist)))
+          
+	    (let (forms)
+	      (do ((form (read in nil nil) (read in nil nil)))
+		  ((null form) forms)
+		(push form forms))
+	    
+	      (setq forms (nreverse forms))
+	    
+	      (let* ((forms (double-length-sort forms))
+		     
+		     (primaries (remove-if-not #'(lambda(item) (or (getf (rest item) :%primary?%)
+								   (getf (rest item) :element-index-list))) forms))
+		     (non-primaries (remove-if #'(lambda(item) (or (getf (rest item) :%primary?%)
+								   (getf (rest item) :element-index-list))) forms))
+		     (forms (append primaries non-primaries)))
+              
+		(dolist (form forms)
+            
+		  (let ((root-path (first form)) (value-plist (rest form)))
+		    (let ((self 
+			   (with-error-handling (:timeout nil)
+			     (the-object object (follow-root-path root-path)))))
+		      (when self
+			(mapc #'(lambda(key expression) 
+				  (unless (member key keys-to-ignore)
+				    (the-object self (set-slot! key (eval `(let ((self ,self)) ,expression)) :re-sort? nil))))
+			      (plist-keys value-plist) (plist-values value-plist))))))))
+	    object))))
+
+
+
+
+#+nil
 (defun read-snapshot-from-stream (in &key object keep-bashed-values? make-object-args keys-to-ignore)
 
   (let (forms)
