@@ -22,7 +22,9 @@
 		  #:debug-on-swank-error
                   #:defslimefun
 		  ;; #:arglist -- see below, we don't want to import the structure name.
-		  #:parse-symbol #:valid-function-name-p #:ensure-list #:call/truncated-output-to-string #:from-string
+		  #:parse-symbol #:tokenize-symbol-thoroughly
+                  #:find-symbol-with-status #:valid-function-name-p
+                  #:ensure-list #:call/truncated-output-to-string #:from-string
 		  #:type-specifier-arglist #:declaration-arglist
 		  #:find-matching-symbols-in-list #:tokenize-symbol
                   #:parse-completion-arguments #:symbol-completion-set #:package-completion-set
@@ -2327,7 +2329,7 @@ datum for subsequent logics to rely on."
 
    Each message in the list is a MESSAGE-ARG object with the following properties, which can be
    used to determine the sort order:
-     (MESSAGE-ARG-KEYWORD arg) - then name of the message as a keyword symbol.
+     (MESSAGE-ARG-KEYWORD arg) - the name of the message as a keyword symbol.
      (MESSAGE-ARG-CLASSNAME arg) - the name of the class that owns the message directly (this may
         be the same as the CLASS-NAME argument to the sort function, or it may be the name of a
         superclass if the slot is inherited from a mixin).
@@ -2589,6 +2591,15 @@ a security hole but is mighty convenient.")
       (setq string (subseq string 0 (1- len))))
     (substitute #\space #\- string)))
 
+(defun slime-desc-for-message (prototype key category classname)
+  (let* ((desc (format nil " ~@(~a~) in class ~s"
+                       (category-prompt category)
+                       classname))
+         (doc (cadr (gendl:the-object prototype (:slot-documentation key)))))
+    (if doc
+      (gdl-clean-doc (concatenate 'string desc ": " doc))
+      desc)))
+
 (defmethod slime-documentation ((sym symbol) (type (eql 'gdl-messages)))
   (when-let (key (find-symbol (symbol-name sym) keyword-package))
     (let ((messages nil))
@@ -2597,12 +2608,10 @@ a security hole but is mighty convenient.")
 			     (block find-message
 			       (flet ((filter (category message)
 					(when (eq key message)
-					  (let ((desc (format nil " ~@(~a~) in class ~s"
-							      (category-prompt category)
-							      (class-name class))))
-					    (when-let (doc (cadr (gendl:the-object prototype (:slot-documentation key))))
-					      (setq desc
-						    (gdl-clean-doc (concatenate 'string desc ": " doc))))
+                                          (let ((desc (slime-desc-for-message prototype
+                                                                              key
+                                                                              category
+                                                                              (class-name class))))
 					    (push desc messages)
 					    (push #.(string #\Newline) messages))
 					  (return-from find-message))))
@@ -2610,6 +2619,15 @@ a security hole but is mighty convenient.")
       (if (< (length messages) lambda-parameters-limit)
 	(apply 'concatenate 'string messages)
 	(reduce (lambda (x y) (concatenate 'string x y)) messages)))))
+
+(defmethod slime-documentation ((sym symbol) (message message-arg))
+  (let* ((classname (message-arg-classname message))
+         (prototype (gendl-class-prototype classname)))
+    (when prototype
+      (slime-desc-for-message prototype
+                              (message-arg-keyword message)
+                              (message-arg-category message)
+                              classname))))
 
 (defmethod slime-documentation ((sym symbol) (type (eql 'function)))
   (let ((arglist (arglist sym))
@@ -2676,28 +2694,66 @@ a security hole but is mighty convenient.")
 	    (when examples
 	      (format string " Examples:~%~a" examples))))))))
 
+(defun all-types-of-documentation (sym foundp symbol-name types-alist)
+  (if (or foundp sym)
+    (with-output-to-string (string)
+      (loop with heading-done = nil
+         for (type . prompt) in types-alist
+         as doc = (slime-documentation sym type)
+         do (when (> (length doc) 0)
+              (unless heading-done
+                (if foundp
+                    (format string "Documentation for the symbol ~s:~2%" sym)
+                    (format string "Symbol ~a not found. Documentation for the keyword ~s:~2%"
+                            symbol-name sym))
+                (setq heading-done t))
+              (format string "~a:~% ~a~2%" prompt doc))
+         finally (unless heading-done ;; didn't find any documentation
+                   (format string "No documentation found for ~a" symbol-name))))
+    (format nil "Symbol not found, ~a" symbol-name)))
+
+(defun parse-doc-arguments (string &optional default-package)
+  (multiple-value-bind (sname pname internalp) (tokenize-symbol-thoroughly string)
+    (when sname
+      (let ((package (if pname
+                       (if (string= pname "") keyword-package (find-package pname))
+                       (etypecase default-package
+                         (null *package*)
+                         (package default-package)
+                         (string (if (string= default-package "")
+                                     keyword-package
+                                     (swank::guess-package default-package)))))))
+        (multiple-value-bind (symbol flag)
+            (when package
+              (if internalp
+                (find-symbol sname package)
+                (find-symbol-with-status sname ':external package)))
+          (values symbol flag sname))))))
+
 ;; m-x slime-documentation
 (redefslimefun documentation-symbol (symbol-name)
   (with-buffer-syntax ()
-    (multiple-value-bind (sym foundp sname) (parse-symbol symbol-name)
-      (with-output-to-string (string)
-	(let ((heading
-	       (if foundp
-		   "Documentation for the symbol ~s:~2%"
-		   ;; If symbol is not found, try the keyword version of it, so we can document messages.
-		   (and (not (find #\: symbol-name))
-			(setq sym (find-symbol sname keyword-package))
-			"Documentation for the keyword ~s:~2%"))))
-	  (if heading
-	    (loop for (type . prompt) in *symbol-documentation-types*
-	       as doc = (slime-documentation sym type)
-	       do (when (> (length doc) 0)
-		    (when heading
-		      (format string heading sym)
-		      (setq heading nil))
-		    (format string "~a:~% ~a~2%" prompt doc))
-	       finally (when heading ;; didn't find any documentation
-			 (format string "No documentation found for ~a" symbol-name)))
-	    (format string "Symbol not found, ~a" symbol-name)))))))
+    (multiple-value-bind (sym foundp sname) (parse-doc-arguments symbol-name)
+      (when (and sname (not foundp))
+        (setq sym (find-symbol sname keyword-package)))
+      (all-types-of-documentation sym foundp symbol-name *symbol-documentation-types*))))
+
+;; m-x glime-documentation (C-c C-d C-s)
+(defslimefun glime-documentation (symbol-name default-package-name raw-form)
+  (with-buffer-syntax ()
+    (multiple-value-bind (sym foundp sname) (parse-doc-arguments symbol-name default-package-name)
+      (let ((key (and sname (find-symbol sname keyword-package))))
+        (let* ((message (when key
+                          (let* ((arglist (find-immediately-containing-arglist raw-form)))
+                            (when (and (arglist-available-p arglist)
+                                       (message-arglist-p arglist))
+                              (find key (arglist.keyword-args arglist) :key #'keyword-arg.keyword)))))
+               (types (if message
+                          (cons (cons message "GDL Message")
+                                (remove 'gdl-messages
+                                        *symbol-documentation-types*
+                                        :key #'car))
+                          *symbol-documentation-types*)))
+          (all-types-of-documentation (if foundp sym key) foundp symbol-name types))))))
 
 (provide :glime)
