@@ -26,25 +26,28 @@
 (defun ensure-static-relative-pathname (relative)
   (let ((pathname (merge-pathnames relative *static-home*)))
     (or (probe-file pathname)
-	(warn "Required static subdirectory ~a does not appear to exist.~%" pathname))))
+	(warn "Expected static subdirectory ~a does not appear to exist.~%" pathname))))
 
 (defun publish-images (server)
-  (publish-directory
-   :prefix "/images/gwl/"
-   :server server
-   :destination (namestring (ensure-static-relative-pathname "gwl/images/"))))
+  (let ((destination (ensure-static-relative-pathname "gwl/images/")))
+    (when destination (publish-directory
+		       :prefix "/images/gwl/"
+		       :server server
+		       :destination (namestring destination)))))
 		      
 (defun publish-statics (server)
-  (publish-directory
-   :prefix "/static/"
-   :server server
-   :destination (namestring (ensure-static-relative-pathname ""))))
+  (let ((destination (ensure-static-relative-pathname "")))
+    (when destination (publish-directory
+		       :prefix "/static/"
+		       :server server
+		       :destination (namestring destination)))))
 
 (defun publish-style (server)
-  (publish-directory
-   :prefix "/style/"
-   :server server
-   :destination (namestring (ensure-static-relative-pathname "gwl/style/"))))
+  (let ((destination (ensure-static-relative-pathname "gwl/style/")))
+    (when destination (publish-directory
+		       :prefix "/style/"
+		       :server server
+		       :destination (namestring destination)))))
 
 
 (dolist (func (list 'publish-images 'publish-statics 'publish-style))

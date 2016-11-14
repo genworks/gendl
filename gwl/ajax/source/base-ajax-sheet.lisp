@@ -184,6 +184,8 @@ Default nil."
 
 		(use-x3dom? nil)
 
+		(include-default-favicon? t)
+
                 
                 ("String. The title of the web page. Defaults to \"Genworks GDL -\"
 .followed by the strings-for-display."
@@ -293,7 +295,8 @@ from a saved snapshot file."
       ((:html :lang "en")
        (:head (:title (str (the title)))
               (:meta :charset "UTF-8")
-              (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")
+	      (when (the include-default-favicon?)
+		(htm (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")))
               (when (the additional-header-content) (str (the additional-header-content)))
               (write-the standard-javascript)
               (when (the additional-header-js-content)
