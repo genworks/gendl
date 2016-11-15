@@ -2757,3 +2757,4 @@ a security hole but is mighty convenient.")
           (all-types-of-documentation (if foundp sym key) foundp symbol-name types))))))
 
 (provide :glime)
+(push :glime *features*)

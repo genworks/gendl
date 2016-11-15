@@ -2,8 +2,11 @@
 (require 'slime)
 (require 'advice)
 
-;; TODO: this should be a gendl-swank version number and should be set from lisp side...
 (defvar *enable-glime* t)
+
+(defun enable-glime (&optional process)
+  (and *enable-glime*
+       (member :glime (slime-lisp-features (or process (slime-connection))))))
 
 (defun glime-form-at-pos (pos)
   (save-excursion (goto-char pos) (slime-parse-form-upto-point)))
@@ -20,13 +23,15 @@
 
 (defun glime-contextual-documentation (beg end)
   (let* ((token (buffer-substring-no-properties beg end)))
-    (slime-eval-describe
-     `(gendl-swank:glime-documentation ,token ',(slime-current-package) ',(glime-form-at-pos beg)))))
+    (if (enable-glime)
+      (slime-eval-describe
+       `(gendl-swank:glime-documentation ,token ',(slime-current-package) ',(glime-form-at-pos beg)))
+      (slime-documentation token))))
 
 
 ;; Patched to enable message name completion of non-keyword symbols.
 (defadvice slime-contextual-completions (around glime-completion (beg end) activate)
-  (if *enable-glime*
+  (if (enable-glime)
     (setq ad-return-value (glime-contextual-completions beg end))
     ad-do-it))
 
