@@ -202,6 +202,10 @@
 		    (htm ((:a :name anchor-tag))
 			 (write-the-object element cl-who-base)))))
 
+        (:no-op
+         (dolist (element (list-elements (the elements)))
+           (write-the-object element cl-who-base)))
+
 	(otherwise (when *warn-on-unrecognized-tags?*
 		     (warn "Markup tag ~s was not recognized~%" (the markup-tag))))
 	
