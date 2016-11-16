@@ -186,6 +186,9 @@
 	(:texttt (htm (:tt (dolist (element (list-elements (the elements)))
 			     (write-the-object element cl-who-base)))))
 	
+        (:underline (htm (:span :style "text-decoration: underline;"
+                                (dolist (element (list-elements (the elements)))
+                                  (write-the-object element cl-who-base)))))
 	
 	(:quote (htm (:blockquote (dolist (element (list-elements (the elements)))
 				    (write-the-object element cl-who-base)))))
