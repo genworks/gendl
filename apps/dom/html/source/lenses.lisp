@@ -177,11 +177,11 @@
 	       (dolist (element (list-elements (the elements)))
 		 (write-the-object element cl-who-base)))))
 
-	(:emph (htm (:i (dolist (element (list-elements (the elements)))
-			  (write-the-object element cl-who-base)))))
+	((:emph :i) (htm (:i (dolist (element (list-elements (the elements)))
+                               (write-the-object element cl-who-base)))))
 
-	(:textbf (htm (:b (dolist (element (list-elements (the elements)))
-			    (write-the-object element cl-who-base)))))
+	((:textbf :b) (htm (:b (dolist (element (list-elements (the elements)))
+                                 (write-the-object element cl-who-base)))))
       
 	(:texttt (htm (:tt (dolist (element (list-elements (the elements)))
 			     (write-the-object element cl-who-base)))))
