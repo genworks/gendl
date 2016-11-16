@@ -202,6 +202,15 @@
 		    (htm ((:a :name anchor-tag))
 			 (write-the-object element cl-who-base)))))
 
+        ((:cite :href)
+         (let* ((args (list-elements (the elements)))
+                (target (the-object (car args) data)))
+           (htm (:a :href (if (eq (the markup-tag) :cite)
+                           (format nil "#~a" target)
+                           target)
+                   (dolist (element (or (cdr args) args))
+                     (write-the-object element cl-who-base))))))
+
         ;; :small and :tiny are always used as (:small (:verbatim ...)) and in most browsers,
         ;; verbatim is already small, so don't do anything.
         ((:no-op :small :tiny)
