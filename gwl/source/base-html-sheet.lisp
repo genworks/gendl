@@ -549,9 +549,8 @@ function defined in the lens. Typically a <tt>write-html-sheet</tt> function wou
 </pre>"
     write-html-sheet
     ()
-    (with-format (html-format *html-stream*) (write-the (main-sheet)))
-    )))
-
+    (with-format (html-format *html-stream* )
+      (write-the (main-sheet))))))
 
 
 

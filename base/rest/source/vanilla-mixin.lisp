@@ -1348,6 +1348,16 @@ a separate object hierarchy." object self)))
    (:newline-out
     ()
     (format *stream* "~%"))
+
+   (:f 
+    (number &optional columns fraction-columns)
+    (let ((format-str (format nil "~~~{~a~^,~}f"
+			      (remove nil (list columns fraction-columns)))))
+      (format *stream* format-str number)))
+   
+   (:line-feed 
+    ()
+    (format *stream* "~%"))
    
    (:a
     (&rest strings)
