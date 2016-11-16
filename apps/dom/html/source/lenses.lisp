@@ -202,7 +202,9 @@
 		    (htm ((:a :name anchor-tag))
 			 (write-the-object element cl-who-base)))))
 
-        (:no-op
+        ;; :small and :tiny are always used as (:small (:verbatim ...)) and in most browsers,
+        ;; verbatim is already small, so don't do anything.
+        ((:no-op :small :tiny)
          (dolist (element (list-elements (the elements)))
            (write-the-object element cl-who-base)))
 
