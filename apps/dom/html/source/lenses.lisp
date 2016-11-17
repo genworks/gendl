@@ -29,6 +29,7 @@
 
 
 (defparameter *index-hash* nil)
+(defparameter *footnotes* nil)
 (defparameter *debug-index* nil)
 
 (define-lens (html-format assembly) ()
@@ -53,12 +54,26 @@
     (with-cl-who () 
       (:html (:head (:title (str (the title)))
 		    ((:link :href (the style-url) :rel "stylesheet" :type "text/css")))
-	     (let ((*index-hash* (make-hash-table :test #'equalp)))
+	     (let ((*index-hash* (make-hash-table :test #'equalp))
+                   (*footnotes* (make-array 50 :adjustable t :fill-pointer 0)))
 	       (htm
 		(:body (:div (write-the cl-who-contents-out))
 		       (:div (write-the cl-who-base))
+                       (when (> (length *footnotes*) 0)
+                         (htm (:div (write-the cl-who-footnotes))))
 		       (:div (write-the cl-who-index))))))))
    
+   (cl-who-footnotes
+    ()
+    (with-cl-who ()
+      (:p (:h2 "Footnotes"))
+      (loop for elements across *footnotes* as index upfrom 1
+        do (htm
+            (:p "[" (:a :name (format nil "FtNt~d" index) :href (format nil "#FtNtR~d" index)
+                        (fmt "~d" index))
+                "] "
+                (dolist (element (list-elements elements))
+                  (write-the-object element cl-who-base)))))))
    (cl-who-index 
     ()
     (with-cl-who ()
@@ -201,6 +216,11 @@
 			(setf (gethash data *index-hash*) (list anchor-tag)))
 		    (htm ((:a :name anchor-tag))
 			 (write-the-object element cl-who-base)))))
+
+        (:footnote
+         (let ((index (1+ (vector-push-extend (the elements) *footnotes*))))
+           (htm (:a :name (format nil "FtNtR~d" index) :href (format nil "#FtNt~d" index)
+                    (fmt "[~d]" index)))))
 
         ((:cite :href)
          (let* ((args (list-elements (the elements)))
