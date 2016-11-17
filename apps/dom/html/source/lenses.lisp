@@ -30,6 +30,7 @@
 
 (defparameter *index-hash* nil)
 (defparameter *footnotes* nil)
+(defparameter *footnotetext* nil)
 (defparameter *debug-index* nil)
 
 (define-lens (html-format assembly) ()
@@ -55,10 +56,16 @@
       (:html (:head (:title (str (the title)))
 		    ((:link :href (the style-url) :rel "stylesheet" :type "text/css")))
 	     (let ((*index-hash* (make-hash-table :test #'equalp))
-                   (*footnotes* (make-array 50 :adjustable t :fill-pointer 0)))
+                   (*footnotes* (make-array 50 :adjustable t :fill-pointer 0))
+                   (*footnotetext* nil))
 	       (htm
 		(:body (:div (write-the cl-who-contents-out))
 		       (:div (write-the cl-who-base))
+                       (when *footnotetext*
+                         (htm (:div (:hr)
+                                    (dolist (elements *footnotetext*)
+                                      (htm (:p (dolist (element (list-elements elements))
+                                                 (write-the-object element cl-who-base))))))))
                        (when (> (length *footnotes*) 0)
                          (htm (:div (write-the cl-who-footnotes))))
 		       (:div (write-the cl-who-index))))))))
@@ -222,6 +229,8 @@
            (htm (:a :name (format nil "FtNtR~d" index) :href (format nil "#FtNt~d" index)
                     (fmt "[~d]" index)))))
 
+        (:footnotetext
+         (push (the elements) *footnotetext*))
         ((:cite :href)
          (let* ((args (list-elements (the elements)))
                 (target (the-object (car args) data)))
