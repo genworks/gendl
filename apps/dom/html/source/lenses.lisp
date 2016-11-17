@@ -217,6 +217,17 @@
          (dolist (element (list-elements (the elements)))
            (write-the-object element cl-who-base)))
 
+        (:include (dolist (element (list-elements (the elements)))
+                    (let ((filename (the-object element data)))
+                      (when (and (> (length filename) 8)
+                                 (string= filename "~/gendl/" :end1 8))
+                        (setq filename (merge-pathnames (subseq filename 8)
+                                                        (asdf:system-source-directory :gendl))))
+                      (with-open-file (s filename)
+                        (let ((buffer (make-string (file-length s))))
+                          (read-sequence buffer s)
+                          (htm (esc buffer)))))))
+
 	(otherwise (when *warn-on-unrecognized-tags?*
 		     (warn "Markup tag ~s was not recognized~%" (the markup-tag))))
 	
