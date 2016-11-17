@@ -215,6 +215,8 @@
 	(:quote (htm (:blockquote (dolist (element (list-elements (the elements)))
 				    (write-the-object element cl-who-base)))))
 
+        (:copyright (htm "&copy;"))
+
 	(:index (dolist (element (list-elements (the elements)))
 		  (let* ((data (the-object element data))
 			 (anchor-tag (string (gensym)))
