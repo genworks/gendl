@@ -217,14 +217,14 @@
 
         (:copyright (htm "&copy;"))
 
-	(:index (dolist (element (list-elements (the elements)))
-		  (let* ((data (the-object element data))
-			 (anchor-tag (string (gensym)))
-			 (current (gethash data *index-hash*)))
-		    (if current (pushnew anchor-tag current)
-			(setf (gethash data *index-hash*) (list anchor-tag)))
-		    (htm ((:a :name anchor-tag))
-			 (write-the-object element cl-who-base)))))
+	((:index :indexed)
+         (dolist (element (list-elements (the elements)))
+           (let* ((data (the-object element data))
+                  (anchor-tag (string (gensym))))
+             (push anchor-tag (gethash data *index-hash*))
+             (htm (:a :name anchor-tag))
+             (when (eq (the markup-tag) :indexed)
+               (write-the-object element cl-who-base)))))
 
         (:footnote
          (let ((index (1+ (vector-push-extend (the elements) *footnotes*))))
@@ -233,6 +233,7 @@
 
         (:footnotetext
          (push (the elements) *footnotetext*))
+
         ((:cite :href)
          (let* ((args (list-elements (the elements)))
                 (target (the-object (car args) data)))
