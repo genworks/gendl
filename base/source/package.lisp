@@ -397,6 +397,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:patches-dir
    #:process-run-function
    #:remote-host
+   #:local-host
    #:replace-regexp
    #:room-report
    #:slot-definition-name

@@ -3,9 +3,10 @@
 (asdf:defsystem #:gwl :description
  "The Gendl® Generative Web Language (GWL)" :author "John McCarthy"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20161025" :depends-on
- (:bordeaux-threads :glisp :aserve :yason)
- #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
+ :serial t :version "20161125" :depends-on
+ (:bordeaux-threads :glisp #+ccl :aserve #-ccl :paserve :yason)
+ #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings )
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "source/package") (:file "source/with-all-servers")
@@ -16,10 +17,9 @@
   (:file "source/utilities") (:file "source/answer")
   (:file "source/accessories") (:file "source/gdl-remote")
   (:file "source/vanilla-remote") (:file "source/base64-utils")
-  (:file "source/cl-pdf-patches") (:file "source/color-palette")
-  (:file "source/crawler") (:file "source/log-utils")
-  (:file "source/new-urls") (:file "source/publish")
-  (:file "source/remote-object")
+  (:file "source/color-palette") (:file "source/crawler")
+  (:file "source/log-utils") (:file "source/new-urls")
+  (:file "source/publish") (:file "source/remote-object")
   (:file "source/security-check-failed")
   (:file "form-elements/source/grid-form-element")
   (:file "form-elements/source/macros")

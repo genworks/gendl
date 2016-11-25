@@ -268,23 +268,6 @@ The command line was: ~%~%~s~%" command result error command-line)))))
     (unless (zerop result) (error "Ghostscript threw error"))))
 
 
-#+nil
-(defun run-gs (command)
-  "Shell out a ghostscript command and handle errors."
-  
-  (format t "~a" command)
-  
-  (let ((result (#+allegro 
-		 excl:run-shell-command 
-		 #-allegro 
-		 acl-compat.excl:run-shell-command
-		 command 
-		 ;;:show-window :hide
-		 )))
-    (when result 
-      (unless (zerop result) (error "Ghostscript threw error")))))
-			   
-
 
 (defun run-program (command &rest keys
 		    &key ignore-error-status force-shell
@@ -440,10 +423,33 @@ the \"current\" error."
 
 
 (defun local-port (socket)
+  (#+(or allegro zacl) socket:local-port #-(or allegro zacl) acl-compat.socket:local-port socket))
+
+
+#+nil
+(defun local-port (socket)
   (#+allegro 
    socket:local-port 
    #-allegro acl-compat.socket:local-port socket))
 
+
+
+(defun match-regexp (string-or-regexp string-to-match
+                     &key newlines-special case-fold return
+		       (start 0) end shortest)
+
+  (when (or newlines-special case-fold return shortest)
+    (error "keyword arguments :newlines-special, :case-fold, :return, and :shortest 
+are no longer supported by glisp:match-regexp.~%"))
+  
+  (#+allegro excl:match-regexp 
+   #-allegro cl-ppcre:scan string-or-regexp string-to-match 
+   :start start 
+   :end end))
+
+
+
+#+nil
 (defun match-regexp (string-or-regexp string-to-match
                      &key newlines-special case-fold return
                           (start 0) end shortest)
@@ -459,6 +465,15 @@ the \"current\" error."
 (defun patches-dir ()
   nil)
 
+
+
+
+(defun process-run-function (name-or-options preset-function &rest args)
+  #-allegro (when args (error "args not supported for glisp:process-run-function on ~a.~%" (lisp-implementation-type)))
+  (apply #+allegro #'mp:process-run-function
+	 #-allegro #'bt:make-thread preset-function name-or-options))
+
+#+nil
 (defun process-run-function (name-or-options preset-function &rest args)
   (apply #+allegro #'mp:process-run-function
          #-allegro #'acl-compat.mp:process-run-function 
@@ -471,8 +486,13 @@ the \"current\" error."
 
 
 (defun remote-host (socket)
-  #+allegro (socket:remote-host socket)
-  #-allegro (acl-compat.socket:remote-host socket))
+  #+(or allegro zacl) (socket:remote-host socket)
+  #-(or allegro zacl) (acl-compat.socket:remote-host socket))
+
+(defun local-host (socket)
+  #+(or allegro zacl) (socket:local-host socket)
+  #-(or allegro zacl) (acl-compat.socket:local-host socket))
+
 
 (defun replace-regexp (string regexp to-string)
   (cl-ppcre:regex-replace-all regexp string to-string))
@@ -651,16 +671,17 @@ please find implementation for the currently running lisp.~%")
   #-allegro `(let ((*print-case* :downcase)) ,@body)
   #+allegro `(progn ,@body))
 
+
 (defun with-timeout-sym ()
   "Returns the appropriate symbol for with-timeout, for substitution within macros."
-  #+allegro 'sys:with-timeout
-  #-allegro 'acl-compat.mp:with-timeout)
+  #+(or allegro zacl) 'sys:with-timeout
+  #-(or allegro zacl) 'acl-compat.mp:with-timeout)
+
 
 (defmacro with-timeout ((seconds &body timeout-body) &body body)
-  #+allegro `(mp:with-timeout (,seconds ,@timeout-body)
-	       ,@body)
-  #-allegro `(acl-compat.mp:with-timeout (,seconds ,@timeout-body)
-	       ,@body))
+  #+(or allegro zacl) `(sys:with-timeout (,seconds ,@timeout-body) ,@body)
+  #-(or allegro zacl) `(acl-compat.mp:with-timeout (,seconds ,@timeout-body) ,@body))
+
 
 (defmacro without-redefinition-warnings (&rest body)
   #+allegro
