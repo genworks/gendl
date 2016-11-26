@@ -102,14 +102,14 @@ respective authors:
 
 Gendl® Free Edition, version ~a
 Within ~a ~a 
-Copyright© 2002-2013, Genworks International, Birmingham MI, USA. 
+Copyright© 2016, Genworks International, Birmingham MI, USA. 
 All Rights Reserved.
 
 ~a
 
 
 Welcome to Gendl®
-Copyright© 2014, Genworks® International, Birmingham MI, USA.
+Copyright© 2016, Genworks® International, Birmingham MI, USA.
 All Rights Reserved.
 
 This program contains free software: you can redistribute it and/or
