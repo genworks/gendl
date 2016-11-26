@@ -23,7 +23,7 @@
 	(syntax-error name token "Valid Grammar" grammar))))
 
 (defun check-input-slots (name form)
-  ":input-slots grammar:
+  "Void. :input-slots grammar:
 
    <form>     = :input-slots (<token>*)
    <token>    = <string> | <symbol> | (<string>* <symbol> <expression>+ <behavior>*)
@@ -54,7 +54,7 @@
 	))))
 
 (defun check-computed-slots (name form)
-  ":computed-slots grammar:
+  "Void. :computed-slots grammar:
 
    <form>     = :computed-slots (<token>*)
    <token>    = <string> | (<string>* <symbol> <expression>+ <behavior>+)
@@ -86,7 +86,7 @@
 	))))
 
 (defun check-objects (name form &optional (hidden nil))
-  ":(hidden-)objects grammar:
+  "Void. :hidden-objects and :objects grammar:
 
    <form>  = (hidden-):objects (<token>*)
    <token> = (<string>* <symbol> <rule>*)

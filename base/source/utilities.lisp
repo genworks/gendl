@@ -455,3 +455,11 @@ or <tt>~/genworks/gendl/emacs/glime.lisp</tt>.
     (if (probe-file glime-source) 
 	(load (compile-file glime-source :output-file (make-pathname :defaults (glisp:temporary-file) :type glisp:*fasl-extension*)))
 	(warn "Glime source not found at ~s.~%" glime-source))))
+
+
+(defun keywordize-plist (plist)
+  (mapcan #'(lambda (key val)
+	      (list (make-keyword key)
+		    (if (atom val) val (keywordize-plist val))))
+	  (plist-keys plist) (plist-values plist)))
+

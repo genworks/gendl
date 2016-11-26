@@ -32,6 +32,8 @@
 (define-object general-note (outline-specialization-mixin base-object)
    :documentation (:description "Creates a text note in the graphical view port and in a PDF DXF output file." 
                    :examples "<pre> 
+ (in-package :gdl-user)
+
  (define-object general-note-test (base-object)
   
   :computed-slots

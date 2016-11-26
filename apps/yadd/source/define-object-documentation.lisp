@@ -521,47 +521,48 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 		 (let ((image-file (the image-file)) (image-format :png)
 		       (pdf-file (merge-pathnames "example.pdf"  (glisp:temporary-folder)))
 		       (url (the image-url)) (lisp-file (the lisp-file)))
-              
-		   (publish :path url
-			    :content-type "image/png"
-			    :format :binary
-			    :function #'(lambda(req ent)
-					  (format t "~&~%Loading example code and generating example image for ~s...~%"
-						  (the part-full-symbol))
-					  (the load-example)
-					  (let ((command (format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
-								 *gs-path* (ecase image-format
-									     (:png "png16m")
-									     (:gif "gif")
-									     ((:jpg :jpeg) "jpeg"))
-								 image-file
-								 *gs-text-alpha-bits*
-								 *gs-graphics-alpha-bits*
-								 pdf-file)))
+		   (with-all-servers (server)
+		       (publish :path url
+				:server server
+				:content-type "image/png"
+				:format :binary
+				:function #'(lambda(req ent)
+					      (format t "~&~%Loading example code and generating example image for ~s...~%"
+						      (the part-full-symbol))
+					      (the load-example)
+					      (let ((command (format nil "\"~a\" -q -sDEVICE=~a \"-sOutputFile=~a\" -dTextAlphaBits=~a -dGraphicsAlphaBits=~a -dSAFER -dBATCH -dNOPAUSE  \"~a\""
+								     *gs-path* (ecase image-format
+										 (:png "png16m")
+										 (:gif "gif")
+										 ((:jpg :jpeg) "jpeg"))
+								     image-file
+								     *gs-text-alpha-bits*
+								     *gs-graphics-alpha-bits*
+								     pdf-file)))
                                        
-					    (let ((return-value
-						   (glisp:run-program command :show-window? nil)))
-					      (with-http-response (req ent)
-						(setf (reply-header-slot-value req :cache-control) "no-cache")
-						(setf (reply-header-slot-value req :pragma) "no-cache")
-						(with-http-body (req ent)
-						  (let
-						      ((reply-stream (request-reply-stream req)))
-						    (with-open-file 
-							(image-stream image-file :element-type '(unsigned-byte 8))
-						      (do ((val (read-byte image-stream nil nil)
-								(read-byte image-stream nil nil)))
-							  ((null val))
-							(write-byte val reply-stream))))))
+						(let ((return-value
+						       (glisp:run-program command :show-window? nil)))
+						  (with-http-response (req ent)
+						    (setf (reply-header-slot-value req :cache-control) "no-cache")
+						    (setf (reply-header-slot-value req :pragma) "no-cache")
+						    (with-http-body (req ent)
+						      (let
+							  ((reply-stream (request-reply-stream req)))
+							(with-open-file 
+							    (image-stream image-file :element-type '(unsigned-byte 8))
+							  (do ((val (read-byte image-stream nil nil)
+								    (read-byte image-stream nil nil)))
+							      ((null val))
+							    (write-byte val reply-stream))))))
                                        
-					      (when (or (null return-value) (zerop return-value))
-						(delete-file pdf-file)
-						(delete-file image-file)
-						(delete-file lisp-file)
-						(delete-file (make-pathname :name (pathname-name lisp-file)
-									    :type glisp:*fasl-extension*
-									    :directory (pathname-directory lisp-file)
-									    :device (pathname-device lisp-file))))))))
+						  (when (or (null return-value) (zerop return-value))
+						    (delete-file pdf-file)
+						    (delete-file image-file)
+						    (delete-file lisp-file)
+						    (delete-file (make-pathname :name (pathname-name lisp-file)
+										:type glisp:*fasl-extension*
+										:directory (pathname-directory lisp-file)
+										:device (pathname-device lisp-file)))))))))
               
 		   (push url (gethash (make-keyword (the instance-id)) gwl::*url-hash-table*))
               

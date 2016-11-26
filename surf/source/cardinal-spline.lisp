@@ -30,7 +30,7 @@ to a Catmull-Rom Spline for nil tension-params (which means they all
 default to 0.0)."
 		  :author "Dave Cooper, Genworks International")
 
-  :input-slots (through-points
+  :input-slots ("List of 3D Points. The points through which the curve will pass." through-points
 		(tension-params nil)
 		("Boolean. Indicates whether the curve should close back to its start point. Default is <tt>nil</tt>."
 		 periodic? nil)

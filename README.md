@@ -105,10 +105,10 @@ loading Glime and Gendl into an emacs environment.
 ### Further Documentation
 
 Documentation is published
-[here](http://genworks.com/downloads/tutorial.pdf), and this very much
+[here](http://gen.works/downloads/tutorial.pdf), and this very much
 an active work in progress. Training tutorials and videos are also in
 progress and in their current state are available in the Documentation
-section on http://genworks.com.
+section on http://gen.works.
 
 
 ### Support/Community
@@ -123,7 +123,7 @@ section on http://genworks.com.
 
 * Genworks would like to begin hosting free Gendl/GDL training
   seminars in Metro Detroit and possibly other locations. Please
-  contact [Genworks](http://genworks.com) if you are interested in
+  contact [Genworks](http://gen.works) if you are interested in
   being notified of any upcoming seminars.
 
 
@@ -188,7 +188,7 @@ without the SMLib library and associated middleware available, they
 will not be able to return any results.  The SMLib kernel and
 associated middleware are available as part of the commercial
 Genworks® GDL product from [Genworks®
-International](http://genworks.com).
+International](http://gen.works).
 
 
 ### License
@@ -205,21 +205,20 @@ distributed at all).
 For Proprietary (closed-source) development and distribution, the
 commercial Genworks® GDL system (including Gendl® technology and,
 optionally, commercial CL engines, technical support, and commercial
-solid modeling engine) is available from [Genworks](http://genworks.com). 
+solid modeling engine) is available from [Genworks](http://gen.works). 
 
 
-### Bug Bounty Program
+### Bug Bounty Program, Bug Fix Program
+Genworks offers a modest bounty for reporting (and sometimes solving)
+of bugs on the [Issues
+List](https://gitlab.common-lisp.net/gendl/gendl/issues?scope=all&state=opened).
 
-Genworks offers a modest bounty for reporting of bugs on the [Github
-Issues
-List](https://github.com/genworks/gendl/issues?state=open). Please
-contact [Genworks](http://genworks.com) for details.
+Please contact [Genworks](http://gen.works) for details.
 
-### Bug Fix Program
 
-Genworks is open to considering bids for providing cleanly mergeable
-fixes to bugs listed on the [Github Issues
-List](https://github.com/genworks/gendl/issues?state=open). Please
-contact [Genworks](http://genworks.com) for details.
+
+
+
+
 
 

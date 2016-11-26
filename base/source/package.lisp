@@ -186,6 +186,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:iso-8601-date
 	   #:universal-time-from-iso-8601
 	   #:universal-time-to-plist
+	   #:keywordize-plist
            #:lastcar
            #:least
            #:let-streams
@@ -928,6 +929,8 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:with-html-form
    
      #:publish-shared
+     #:*publishers*
+     #:publish-uris
      #:with-all-servers
      #:web-drawing
    

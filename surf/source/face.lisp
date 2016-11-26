@@ -88,7 +88,7 @@ and trimmed surface also mixes in face, so a trimmed-surface will answer all the
    
    (%native-edges% (get-edges-from-face *geometry-kernel* (the %native-face%)))
    
-   (brep-id (the brep unique-id))
+   (brep-id (the brep %unique-id%))
    
    )
 

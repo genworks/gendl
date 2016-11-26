@@ -26,28 +26,32 @@
 (defun ensure-static-relative-pathname (relative)
   (let ((pathname (merge-pathnames relative *static-home*)))
     (or (probe-file pathname)
-	(warn "Required static subdirectory ~a does not appear to exist.~%" pathname))))
+	(warn "Expected static subdirectory ~a does not appear to exist.~%" pathname))))
 
-(defun publish-images ()
-  (with-all-servers (server)
-    (publish-directory
-     :prefix "/images/gwl/"
-     :server server
-     :destination (namestring (ensure-static-relative-pathname "gwl/images/")))))
+(defun publish-images (server)
+  (let ((destination (ensure-static-relative-pathname "gwl/images/")))
+    (when destination (publish-directory
+		       :prefix "/images/gwl/"
+		       :server server
+		       :destination (namestring destination)))))
 		      
-(defun publish-statics ()
-  (with-all-servers (server)
-    (publish-directory
-     :prefix "/static/"
-     :server server
-     :destination (namestring (ensure-static-relative-pathname "")))))
+(defun publish-statics (server)
+  (let ((destination (ensure-static-relative-pathname "")))
+    (when destination (publish-directory
+		       :prefix "/static/"
+		       :server server
+		       :destination (namestring destination)))))
 
-(defun publish-style ()
-  (with-all-servers (server)
-    (publish-directory
-     :prefix "/style/"
-     :server server
-     :destination (namestring (ensure-static-relative-pathname "gwl/style/")))))
+(defun publish-style (server)
+  (let ((destination (ensure-static-relative-pathname "gwl/style/")))
+    (when destination (publish-directory
+		       :prefix "/style/"
+		       :server server
+		       :destination (namestring destination)))))
+
+
+(dolist (func (list 'publish-images 'publish-statics 'publish-style))
+  (pushnew func *publishers*))
 
 
 (defvar *aserve-listeners* 25)
@@ -67,8 +71,8 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
 		      (external-format :utf8-base))
-    (net.aserve:shutdown)
-    (let ((wait-time 1))
+  (net.aserve:shutdown :server net.aserve:*wserver*)
+  (let ((wait-time 1))
       (block :outer
 	(do () (nil)
 	  (let ((port port))
@@ -78,12 +82,15 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		   (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
 				 "~&Trying to start AllegroServe on ~a...~%") port)
 		   (if (ignore-errors
-			 (net.aserve:start :port port :listeners listeners
-					   #-mswindows :external-format #-mswindows external-format))
+			 (setq net.aserve:*wserver*
+			       (net.aserve:start :port port :listeners listeners :server :new
+						 #-mswindows :external-format #-mswindows external-format)))
 		    (return-from :outer port)
 		    (progn (sleep (random wait-time)) (return-from :inner))))
 		(incf port))))
-	  (incf wait-time 0.1)))))
+	  (incf wait-time 0.1))))
+
+  (publish-uris))
 
 
 (defvar *settings* 
@@ -119,6 +126,6 @@ Perhaps a zombie process is holding port ~a?~%" port port))
   
   (let (anything-changed?)
     (setq anything-changed? (glisp:set-settings *settings*))
-    (publish-images) (publish-statics) (publish-style) (start-gwl) 
+    (start-gwl) 
     anything-changed?))
 

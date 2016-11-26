@@ -54,10 +54,15 @@
 
 ;; 3.2. Set up color-theme and solarized color-themes
 
+(setq calendar-latitude 42.58 calendar-longitude -83.3 calendar-location-name "Detroit")
+(setq sunrise-sunset (sunrise-sunset))
+;; FLAG -- figure out how to use this information with (current-time) to pick a light or dark color-theme. 
 (add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-sitaramv-solaris)
+(color-theme-subtle-hacker)
+;;(color-theme-taming-mr-arneson)
+;;(color-theme-sitaramv-solaris)
 ;;(color-theme-feng-shui)
 
 
@@ -102,7 +107,8 @@
     (set-frame-font
      (format 
       (case system-type
-	(darwin  "-apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1")
+	(darwin  "-*-Courier New-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1" ;; -apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1"
+		 )
 	(windows-nt "-outline-Courier New-normal-normal-normal-mono-%s-*-*-*-c-*-iso8859-1")
 	(gnu/linux "-bitstream-Courier 10 Pitch-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1"))
       font-size))))
@@ -196,14 +202,16 @@
 
 (defvar gdl-startup-string nil)
 
+
 (setq gdl-startup-string 
   (format 
    "(progn (unless (find-package :gendl)
 	    (let ((load-file (probe-file (merge-pathnames \".load-gendl.lisp\" (user-homedir-pathname)))))
 	      (load load-file)))
-          (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\")))
-	  (when (find-package :gendl) (funcall (symbol-function (read-from-string \"gendl::startup-banner\"))))
+
 	  (let ((gendl-loaded? (find-package :gendl)) (genworks-gdl-loaded? (find-package :genworks-gdl)))
+            (when (or gendl-loaded? genworks-gdl-loaded?)
+              (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\"))))
 	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
 		  (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
 		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully 
@@ -395,6 +403,24 @@ from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
 (maximize-frame)
 
 (load-user-emacs-gendl)
+
+
+
+(defun mac-switch-meta nil 
+  "switch meta between Option and Command"
+  (interactive)
+  (if (eq mac-option-modifier nil)
+      (progn
+	(setq mac-option-modifier 'meta)
+	(setq mac-command-modifier 'hyper))
+    (progn 
+      (setq mac-option-modifier nil)
+      (setq mac-command-modifier 'meta))))
+
+(when (eql system-type 'darwin)
+  (mac-switch-meta)
+  (mac-switch-meta))
+
 
 ;; A.  REFERENCES
 ;;

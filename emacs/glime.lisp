@@ -10,6 +10,7 @@
 ;; Original GENDL customizations for SLIME:  Nick Levine, Ravenbrook Limited, 2013-05-02
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
+  (swank:swank-require :swank-c-p-c)
   (swank:swank-require :swank-arglists))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -19,10 +20,12 @@
     (:import-from :swank
 		  #:dcase #:match #:with-bindings #:with-struct #:with-buffer-syntax #:without-printing-errors
 		  #:debug-on-swank-error
+                  #:defslimefun
 		  ;; #:arglist -- see below, we don't want to import the structure name.
 		  #:parse-symbol #:valid-function-name-p #:ensure-list #:call/truncated-output-to-string #:from-string
 		  #:type-specifier-arglist #:declaration-arglist
 		  #:find-matching-symbols-in-list #:tokenize-symbol
+                  #:parse-completion-arguments #:symbol-completion-set #:package-completion-set
 		  #:format-completion-set #:completion-output-symbol-converter
 		  #:longest-compound-prefix #:make-compound-prefix-matcher
 		  #:*echo-area-prefix*
@@ -151,7 +154,7 @@ Otherwise NIL is returned."
          :not-available
          (progn ,@body))))
 
-(defmacro defslimefun (name &rest body)
+(defmacro redefslimefun (name &rest body)
   (multiple-value-bind (swank-sym flag) (find-symbol (symbol-name name) :swank)
     (assert (eq flag :external))
     `(progn
@@ -552,8 +555,13 @@ Otherwise NIL is returned."
   default-arg)
 
 (defun canonicalize-default-arg (form)
-  (if (equalp ''nil form)
-      nil
+  ;; Unquote self-evaluating forms
+  (if (and (consp form) (eq (car form) 'quote) (consp (cdr form)) (null (cddr form))
+           (let ((obj (cadr form)))
+             (or (member obj '(nil t))
+                 (keywordp obj)
+                 (and (atom obj) (not (symbolp obj))))))
+      (cadr form)
       form))
 
 (defun make-keyword-arg (keyword &optional (arg-name nil) (default-arg nil))
@@ -1232,7 +1240,7 @@ If the arglist is not available, return :NOT-AVAILABLE."))
 ;;; %CURSOR-MARKER%)). Only the forms up to point should be
 ;;; considered.
 
-(defslimefun autodoc (raw-form &key print-right-margin)
+(redefslimefun autodoc (raw-form &key print-right-margin)
   "Return a list of two elements.
 First, a string representing the arglist for the deepest subform in
 RAW-FORM that does have an arglist. The highlighted parameter is
@@ -1247,7 +1255,7 @@ Second, a boolean value telling whether the returned string can be cached."
                             (format nil "Arglist Error: \"~A\"" c)))))))
     (with-buffer-syntax ()
 	(multiple-value-bind (form arglist obj-at-cursor form-path)
-	    (find-subform-with-arglist (parse-raw-form raw-form))
+	    (find-subform-with-arglist raw-form)
 	  (cond ((boundp-and-interesting obj-at-cursor)
 		 (list (print-variable-to-string obj-at-cursor) nil))
 		(t
@@ -1282,7 +1290,7 @@ Second, a boolean value telling whether the returned string can be cached."
 
 
 ;; used by slime-complete-form, c-c c-s
-(defslimefun complete-form (raw-form)
+(redefslimefun complete-form (raw-form)
   "Read FORM-STRING in the current buffer package, then complete it
   by adding a template for the missing arguments."
   ;; We do not catch errors here because COMPLETE-FORM is an
@@ -1290,7 +1298,7 @@ Second, a boolean value telling whether the returned string can be cached."
   ;; ARGLIST-FOR-ECHO-AREA.
   (with-buffer-syntax ()
     (multiple-value-bind (arglist provided-args)
-        (find-immediately-containing-arglist (parse-raw-form raw-form))
+        (find-immediately-containing-arglist raw-form)
       (with-available-arglist (arglist) arglist
         (decoded-arglist-to-template-string
          (delete-given-args arglist
@@ -1298,13 +1306,44 @@ Second, a boolean value telling whether the returned string can be cached."
                                        :from-end t :count 1))
          :prefix "" :suffix "")))))
 
-;; used by slime-complete-symbol, m-t, c-c c-i 
-(defslimefun completions-for-keyword (keyword-string raw-form)
+;; used by slime-complete-symbol, m-t, c-c c-i, when glime.el is enabled.
+(defslimefun glime-completions (string default-package-name raw-form)
+  (multiple-value-bind (name package-name package internal-p)
+      (parse-completion-arguments string default-package-name)
+    (let* ((strings (or (with-buffer-syntax ()
+                          (let ((arglist (find-immediately-containing-arglist raw-form)))
+                            (when (arglist-available-p arglist)
+                              (when (message-arglist-p arglist)
+                                ;; message contexts interpret all arguments as if keywords
+                                (setq package keyword-package))
+                              (when (eq package keyword-package)
+                                ;; It would be possible to complete keywords only if we are in
+                                ;; a keyword position, but it is not clear if we want that.
+                                (let* ((keywords
+                                        (append (mapcar #'keyword-arg.keyword (arglist.keyword-args arglist))
+                                                (remove-if-not #'keywordp (arglist.any-args arglist))))
+                                       (matching-keywords
+                                        (find-matching-symbols-in-list name keywords (make-compound-prefix-matcher #\-))))
+                                  (when matching-keywords
+                                    (mapcar (completion-output-symbol-converter string)
+                                            (mapcar #'symbol-name matching-keywords))))))))
+                        (let* ((symbol-set  (symbol-completion-set 
+                                             name package-name package internal-p
+                                             (make-compound-prefix-matcher #\-)))
+                               (package-set (package-completion-set 
+                                             name package-name package internal-p
+                                             (make-compound-prefix-matcher '(#\. #\-)))))
+                          (nconc symbol-set package-set))))
+           (completion-set (format-completion-set strings internal-p package-name)))
+      (when completion-set
+        (list completion-set (longest-compound-prefix completion-set))))))
+
+;; used by slime-complete-symbol, m-t, c-c c-i, when glime.el is not enabled.
+(redefslimefun completions-for-keyword (keyword-string raw-form)
   "Return a list of possible completions for KEYWORD-STRING relative
 to the context provided by RAW-FORM."
   (with-buffer-syntax ()
-    (let ((arglist (find-immediately-containing-arglist
-                    (parse-raw-form raw-form))))
+    (let ((arglist (find-immediately-containing-arglist raw-form)))
       (when (arglist-available-p arglist)
         ;; It would be possible to complete keywords only if we are in
         ;; a keyword position, but it is not clear if we want that.
@@ -1798,7 +1837,7 @@ else eliminate any function messages with required keywords, and
 	(when (arglist-available-p arglist)
 	  (values message-form arglist))))))
 
-(defun find-subform-with-arglist (form)
+(defun find-subform-with-arglist (raw-form)
   "Returns four values:
 
      The appropriate subform of `form' which is closest to the
@@ -1812,7 +1851,7 @@ else eliminate any function messages with required keywords, and
 
      Fourth value is a form path to that object."
   (handling-whatever ()
-    (multiple-value-bind (subform arglist) (grovel-for-cursor form nil)
+    (multiple-value-bind (subform arglist) (grovel-for-cursor (parse-raw-form raw-form) nil)
       (if subform
 	  (multiple-value-bind (extracted-form obj-at-cursor form-path)
 	      (extract-cursor-marker subform)
@@ -1891,7 +1930,7 @@ object."
   (loop for (name arglist . nil) in defs
         collect (cons name arglist)))
 
-(defun find-immediately-containing-arglist (form)
+(defun find-immediately-containing-arglist (raw-form)
   "Returns the arglist of the subform _immediately_ containing
 +CURSOR-MARKER+ in `form'. Notice, however, that +CURSOR-MARKER+ may
 be in a nested arglist \(e.g. `(WITH-OPEN-FILE (<here>'\), and the
@@ -1911,7 +1950,7 @@ returned in that case."
              (when (and (arglist-p argl) (listp args))
                (values argl args)))))
     (multiple-value-bind (subform arglist obj form-path)
-	(find-subform-with-arglist form)
+	(find-subform-with-arglist raw-form)
       (declare (ignore obj))
       (with-available-arglist (arglist) arglist
         ;; First try the form the cursor is in (in case of a normal
@@ -2214,6 +2253,10 @@ datum for subsequent logics to rely on."
 		  :provided-args nil
 		  :allow-other-keys-p t
 		  :rest 'gendl::reference-chain)))
+
+(defun message-arglist-p (arglist)
+  (and (eq (arglist.rest arglist) 'gendl::reference-chain)
+       (message-arg-p (car (arglist.keyword-args arglist)))))
 
 (defstruct (message-arg (:include keyword-arg)
 			(:constructor %make-message-arg))
@@ -2634,7 +2677,7 @@ a security hole but is mighty convenient.")
 	      (format string " Examples:~%~a" examples))))))))
 
 ;; m-x slime-documentation
-(defslimefun documentation-symbol (symbol-name)
+(redefslimefun documentation-symbol (symbol-name)
   (with-buffer-syntax ()
     (multiple-value-bind (sym foundp sname) (parse-symbol symbol-name)
       (with-output-to-string (string)

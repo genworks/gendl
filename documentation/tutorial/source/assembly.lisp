@@ -160,8 +160,9 @@ written consent from Genworks International.")
       
 (defun make-html-and-css (&key (output-directory (merge-pathnames "tmp/" (user-homedir-pathname)))
 		 (html-output-file-namestring "tutorial.html")
-		 (css-output-file-namestring "tutorial.css")) 
-  (make-html :output-directory output-directory 
-	     :output-file-namestring html-output-file-namestring)
-  (make-css :output-directory output-directory 
-	    :output-file-namestring css-output-file-namestring))
+			    (css-output-file-namestring "tutorial.css"))
+  (let ((html-path (make-html :output-directory output-directory 
+			      :output-file-namestring html-output-file-namestring))
+	(css-path (make-css :output-directory output-directory 
+			    :output-file-namestring css-output-file-namestring)))
+    (values html-path css-path)))
