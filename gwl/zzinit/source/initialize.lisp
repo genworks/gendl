@@ -62,8 +62,13 @@
       (ignore-errors  
 	(glisp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
 Perhaps a zombie process is holding port ~a?~%" port port))
-	  (net.aserve.client:do-http-request   
-	      (format nil "http://localhost:~a" port))))
+
+	  
+	  (#+nil
+	   net.aserve.client:do-http-request
+	   drakma:http-request (format nil "http://localhost:~a" port))))
+
+    
     (declare (ignore result))
     (when (typep error 'error)
       port)))

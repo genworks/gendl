@@ -1,1 +1,1 @@
-"(:bordeaux-threads :glisp #+ccl :aserve #-ccl :paserve :yason)"
+"(:bordeaux-threads :drakma :glisp #+ccl :aserve #-ccl :paserve :yason)"
