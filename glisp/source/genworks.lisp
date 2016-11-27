@@ -441,11 +441,11 @@ the \"current\" error."
   (when (or newlines-special case-fold return shortest)
     (error "keyword arguments :newlines-special, :case-fold, :return, and :shortest 
 are no longer supported by glisp:match-regexp.~%"))
+
+  #+allegro (excl:match-regexp string-or-regexp string-to-match :start start :end end)
   
-  (#+allegro excl:match-regexp 
-   #-allegro cl-ppcre:scan string-or-regexp string-to-match 
-   :start start 
-   :end end))
+  #-allegro (let ((end-default (or end (length string-to-match))))
+	      (cl-ppcre:scan string-or-regexp string-to-match :start start :end end-default)))
 
 
 
