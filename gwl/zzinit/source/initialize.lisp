@@ -57,6 +57,17 @@
 (defvar *aserve-listeners* 25)
 (defvar *aserve-port* 9000)
 
+
+(defun client-test (port)
+  (let ((result
+	 (handler-case
+	     (let ((sock (usocket:socket-listen "localhost" port)))
+	       (usocket:socket-close sock))
+	   (usocket:address-in-use-error (e) :in-use))))
+    (unless (eql result :in-use) port)))
+
+
+#+nil
 (defun client-test (port)
   (multiple-value-bind (result error)
       (ignore-errors  
@@ -75,7 +86,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
-		      (external-format :utf8-base))
+		      (external-format #+allegro :utf8-base #+ccl :utf-8 #-(or allegro ccl) (error "find utf-8 external-format for ~a.~%" (lisp-implementation-version))))
   (net.aserve:shutdown :server net.aserve:*wserver*)
   (let ((wait-time 1))
       (block :outer
