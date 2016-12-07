@@ -216,6 +216,10 @@
 				    (write-the-object element cl-who-base)))))
 
         (:copyright (htm "&copy;"))
+        (:rightarrow (htm "&rarr;"))
+        (:$ (htm "&dollar;"))
+        (:textgreater (htm "&gt;"))
+        (:textasciitilde (htm "&tilde;"))
 
 	((:index :indexed)
          (dolist (element (list-elements (the elements)))

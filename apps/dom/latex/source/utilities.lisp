@@ -42,6 +42,5 @@
     (replace-substring
      (replace-substring 
       (replace-substring
-       (replace-substring 
-	(replace-substring string "#" "\\#") "$" "\\$") "_" "\\_") "&dollar;" "$") "^" "hat-") "&" "\\&") "%" "\\%"))
+       (replace-substring string "#" "\\#") "$" "\\$") "_" "\\_") "^" "hat-") "&" "\\&") "%" "\\%"))
 
