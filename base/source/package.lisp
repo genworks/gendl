@@ -193,6 +193,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:list-elements
            #:list-hash
            #:list-of-numbers
+	   #:*allow-nil-list-of-numbers?*
            #:list-of-n-numbers
            #:lookup-color
 	   #:load-glime
@@ -397,6 +398,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:patches-dir
    #:process-run-function
    #:remote-host
+   #:local-host
    #:replace-regexp
    #:room-report
    #:slot-definition-name

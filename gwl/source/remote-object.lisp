@@ -282,11 +282,7 @@
   ;; FIXME: better way to get this ?
   (when (boundp '*wserver*)
     (let ((sock (wserver-socket *wserver*)))
-      (when sock
-        #+allegro
-        (socket:local-host sock)
-        #-allegro
-        (acl-compat.socket:local-host sock)))))
+      (when sock (glisp:local-host sock)))))
 
 (defun encode-object-for-http (item id)
   (list :remote-gdl-instance
