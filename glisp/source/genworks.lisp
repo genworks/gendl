@@ -468,6 +468,7 @@ are no longer supported by glisp:match-regexp.~%"))
 
 
 
+#+nil
 (defun process-run-function (name-or-options preset-function &rest args)
   #-allegro (when args (error "args not supported for glisp:process-run-function on ~a.~%" (lisp-implementation-type)))
   (apply #+allegro #'mp:process-run-function
