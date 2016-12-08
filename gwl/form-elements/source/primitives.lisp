@@ -39,6 +39,9 @@ Defaults to nil."
    ("Keyword symbol. The ID attribute for this tag. Defaults to (the field-name)." 
     id (the field-name))
 
+   ("Keyword symbol. The name of this field. Computed from the object name within the tree." 
+    field-name (make-keyword-sensitive (the base64-encoded-root-path)))
+   
    )
   
   :computed-slots
@@ -66,8 +69,7 @@ Previously known as form-control-string. Default is the form-control-string."
                   (with-format (html-format *stream*)
                     (write-the string))))
    
-   ("Keyword symbol. The name of this field. Computed from the object name within the tree." 
-    field-name (make-keyword-sensitive (the base64-encoded-root-path)))
+   
 
                  
    

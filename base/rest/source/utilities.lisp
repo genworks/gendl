@@ -136,8 +136,10 @@ was contributed by Reinier van Dijk.
             (tolerance (/ increment 10)) \"Number. tolerance for increment.\")"
 
   (cond ((zerop increment) (error "increment of zero is not allowed"))
-	((and (< increment 0.0) (> num2 num1)) (error "increment is negative, while difference between num2 and num1 is positive."))
-	((and (> increment 0.0) (< num2 num1)) (error "increment is positive, while difference between num2 and num1 is negative."))
+	((and (< increment 0.0) (> num2 num1))
+	 (unless *allow-nil-list-of-numbers?* (error "increment is negative, while difference between num2 and num1 is positive.")))
+	((and (> increment 0.0) (< num2 num1))
+	 (unless *allow-nil-list-of-numbers?* (error "increment is positive, while difference between num2 and num1 is negative.")))
 	(t (let ((predicate (if (> increment 0.0) #'>= #'<=))
 		 (result-list nil))
 	     (do ((num num1 (+ num increment)))

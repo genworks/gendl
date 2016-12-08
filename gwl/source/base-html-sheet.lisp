@@ -104,8 +104,8 @@ object.")
   :input-slots
   (
 
-   ;;(respondent (the bashee) :defaulting)
-   (respondent (the bashee))
+   (respondent (the bashee) :defaulting)
+   ;;(respondent (the bashee))
 
    ("GDL object. Default object to which control will return with the write-back-link method"
     return-object (the :parent))

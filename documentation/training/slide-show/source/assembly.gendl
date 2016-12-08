@@ -370,10 +370,8 @@
 	  ((:div :id "copyright")
            (when gwl:*developing?*
              (the write-development-links))
-           "Copyright &copy; 2012 "
+           "Copyright &copy; 2016 "
            ((:a :href "http://www.genworks.com") "Genworks" (:sup "&reg;") "International")
-	   " and "
-	   ((:a :href "http://home.tudelft.nl/en/") "Delft University of Technology")
 	   "."
 	   )))))
 

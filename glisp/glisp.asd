@@ -1,10 +1,9 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:glisp :description
- "The Gendl\"  Common Lisp Portability" :author "John McCarthy"
- :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20160828" :depends-on
- (:base :uiop :cl-typesetting :cl-ppcre :cl-who #-allegro :cl-base64 #-allegro :babel #-allegro :acl-compat)
+ "The Gendl®  Common Lisp Portability" :author b :license
+ "Genworks Proprietary" :serial t :version "20161127" :depends-on
+ (:base :uiop :cl-typesetting :cl-ppcre :cl-who #-allegro :cl-base64 #-allegro :babel #-(or allegro ccl) :acl-compat #+ccl :zacl)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components

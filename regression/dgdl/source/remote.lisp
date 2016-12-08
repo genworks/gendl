@@ -26,7 +26,7 @@ To use:
 (define-object container ()
   :objects ((remote-1 :type 'remote-object
 		      :remote-type 'remote-1
-		      :port 9001
+		      :port 9003
 		      :host "localhost")))
 
 
