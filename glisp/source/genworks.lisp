@@ -466,7 +466,8 @@ are no longer supported by glisp:match-regexp.~%"))
   nil)
 
 
-
+(defun process-run-function (name-or-options preset-function &rest initial-bindings)
+  (bt:make-thread preset-function :name name-or-options :initial-bindings initial-bindings))
 
 #+nil
 (defun process-run-function (name-or-options preset-function &rest args)
