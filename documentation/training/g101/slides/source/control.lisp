@@ -228,7 +228,7 @@ use it for keywords, symbols, integers, but not for strings, lists, or floating-
 	       (:blue "Blue is okay")
 	       ((:red :orange)  "Red or orange are actually her favorite colors")
 	       (:green "Are you nuts?")))
-	   :return-value "Red is actually her favorite color")))
+	   :return-value "Red or orange are actually her favorite colors")))
 	
 	
 	(:description "For matching strings, you  have to use <i>cond</i> "

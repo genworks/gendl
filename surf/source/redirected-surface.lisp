@@ -76,10 +76,14 @@
 	      (reverse knot-vector))))))
 
 
+;;
+;; FLAG -- add to regression tests. 
+;;
 
+#+nil
 (in-package :gdl-user)
 
-
+#+nil
 (define-object test-redirected-surfaces (base-object)
 
   :input-slots ((n-u 12) (n-v 12))

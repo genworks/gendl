@@ -58,7 +58,14 @@
           
 	(format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
 		(the-object new-self instance-id))
-	  
+
+	;;
+	;; Force it to set html-sections.
+	;;
+	;; But, have to do the one at root-path as well if root-path is not nil. 
+	;;
+	(the-object new-self main-sheet-body)
+	
 	(the-object new-self custom-snap-restore!)
 	  
 	)
@@ -280,10 +287,15 @@ You can reload to get previous state" *ajax-timeout*))
 				     (if (equalp value :parse) "parseme" value))))
 
 
-		   (replace-list (when (the stale?)
-				   (list :dom-id (the dom-id)
-					 :inner-html (the inner-html)
-					 :js-to-eval (the js-to-eval))))))
+		   (replace-list
+		    (progn
+
+		      (when *debug?* (print-variables (the stale?) (the section root-path)))
+		      
+		      (when (the stale?)
+			(list :dom-id (the dom-id)
+			      :inner-html (the inner-html)
+			      :js-to-eval (the js-to-eval)))))))
 		   
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (setq *compile-dependency-tracking?* *current-status*))

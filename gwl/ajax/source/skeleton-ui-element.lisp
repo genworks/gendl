@@ -409,7 +409,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
 	    js-vals (glisp:replace-regexp js-vals "\\" "\\\\\\\\"))
 
 
-      (format nil "gdlAjax(~a, 'args=~a~a~a, ~a); return(false);" 
+      (format nil "gdlAjax(~a, 'args=~a~a~a, ~a);" 
 	      (if null-event? "null" "event") string-1 string-2 (or js-vals "") string-3)))
 
    
