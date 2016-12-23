@@ -299,6 +299,8 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		      (if (stringp sexpr)
 			  (format nil "%%remove%%~a%%remove%%" sexpr) sexpr)))
 
+
+   #+nil
    (asdf-defsystem-depends-on (let ((sexpr (glisp:sexpr-from-file 
 					    (merge-pathnames (make-pathname :name "defsystem-depends-on"
 									    :type "isc")
@@ -307,6 +309,12 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 				    (format nil "%%remove%%~a%%remove%%" sexpr) sexpr)))
    
 
+   (asdf-defsystem-depends-on (let ((sexpr (glisp:sexpr-from-file 
+					    (merge-pathnames (make-pathname :name "defsystem-depends-on"
+									    :type "isc")
+							     (the ppathname)))))
+				(if (stringp sexpr) sexpr (format nil "\"~s\"" sexpr))))
+   
    
    (additional-asd-code (let ((asd-code-file 
 			       (merge-pathnames (make-pathname :name "additional-asd-code"
@@ -347,8 +355,9 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		:serial t
 		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
-		,(format nil "%%remove%%#-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings ~{~s~})%%remove%%" (the asdf-defsystem-depends-on))
-		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode (~{~s~})%%remove%%" (the asdf-defsystem-depends-on))
+		,(format nil "%%remove%%#-asdf-unicode :defsystem-depends-on #-asdf-unicode ~a%%remove%%"
+			 (format nil "(:asdf-encodings ~a)" (subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on))))))
+		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%" (the asdf-defsystem-depends-on))
 		"%%remove%%#+asdf-encodings :encoding #+asdf-encodings :utf-8%%remove%%"
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
