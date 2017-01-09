@@ -104,11 +104,11 @@ written consent from Genworks International.")
       (with-format (com.genworks.dom-writers:latex (merge-pathnames "pdf/tutorial.tex" *system-home*))
 	(write-the-object object (:base))))
     
-    (run-prog (format nil "cd ~a; ~a -interaction=nonstopmode tutorial.tex"  pdf-path pdftex-path))
-    (run-prog (format nil "cd ~a; ~a tutorial" pdf-path makeindex-path))
+    (run-prog (format nil "cd '~a'; ~a -interaction=nonstopmode tutorial.tex"  pdf-path pdftex-path))
+    (run-prog (format nil "cd '~a'; ~a tutorial" pdf-path makeindex-path))
 
     (dotimes (n level)
-      (run-prog (format nil "cd ~a; ~a -interaction=nonstopmode tutorial.tex" 
+      (run-prog (format nil "cd '~a'; ~a -interaction=nonstopmode tutorial.tex" 
 			pdf-path pdftex-path)))))
 
 (define-object assembly (com.genworks.dom:assembly)
