@@ -104,11 +104,11 @@ written consent from Genworks International.")
       (with-format (com.genworks.dom-writers:latex (merge-pathnames "pdf/tutorial.tex" *system-home*))
 	(write-the-object object (:base))))
     
-    (run-prog (format nil "cd ~a; ~a -interaction=nonstopmode tutorial.tex"  pdf-path pdftex-path))
-    (run-prog (format nil "cd ~a; ~a tutorial" pdf-path makeindex-path))
+    (run-prog (format nil "cd '~a'; ~a -interaction=nonstopmode tutorial.tex"  pdf-path pdftex-path))
+    (run-prog (format nil "cd '~a'; ~a tutorial" pdf-path makeindex-path))
 
     (dotimes (n level)
-      (run-prog (format nil "cd ~a; ~a -interaction=nonstopmode tutorial.tex" 
+      (run-prog (format nil "cd '~a'; ~a -interaction=nonstopmode tutorial.tex" 
 			pdf-path pdftex-path)))))
 
 (define-object assembly (com.genworks.dom:assembly)
@@ -161,6 +161,12 @@ written consent from Genworks International.")
 (defun make-html-and-css (&key (output-directory (merge-pathnames "tmp/" (user-homedir-pathname)))
 		 (html-output-file-namestring "tutorial.html")
 			    (css-output-file-namestring "tutorial.css"))
+  (let ((output-images (merge-pathnames "images/" output-directory)))
+    (when (probe-file output-images)
+      (uiop/filesystem:delete-directory-tree output-images :validate t))
+    (com.genworks.lisp:copy-directory 
+     (merge-pathnames "documentation/tutorial/images/" (asdf:system-source-directory :gendl))
+     output-images))
   (let ((html-path (make-html :output-directory output-directory 
 			      :output-file-namestring html-output-file-namestring))
 	(css-path (make-css :output-directory output-directory 
