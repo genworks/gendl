@@ -96,6 +96,10 @@ Example call:
  --> :helsinki
 
 "
+
+  (unless (and (listp plist) (evenp (length plist)))
+    (error "~s is a malformed property list.~%" plist))
+  
   (when plist
     (if (eql (first plist) keyword)
 	(second plist)
@@ -132,7 +136,8 @@ position in the list.
 
 Example call:
 
-     (position-filter #'oddp '(a b c d e f))
+     (position-filter #'oddp '(a berse result))
+      (when (funcall function  c d e f))
  --> (b d f)
 
 "
@@ -201,6 +206,99 @@ Example call:
 	(format t "~%!!!Function `~s' failed on ~s~% -- returned ~s when ~s was expected.~%~%" 
 		(first test-case) (second test-case) result (third test-case))))))
 	
-       
+
+
+(defun set-difference-o* (list1 list2 &key (test #'eql))
+  "Write a function which works just like set-difference, 
+except it retains the ordering of elements in the first list.
+
+Example call: 
+
+
+     (set-difference-o '(a b c d e f) '(e d b))
+ --> (a c f)
+
+"
+  (let ((result nil))
+    (dolist (element list1 (reverse result))
+      (unless (member element list2  :test test)
+	(push element result)))))
        
     
+
+;;
+;; Exercises from Slide 5.11
+;;
+
+(defun sort-numbers (number-list &key (ordering :ascending))
+  (safe-sort number-list (ecase ordering
+			   ((:ascending :up) #'<)
+			   ((:descending :down) #'>))))
+
+
+(defun sort-pairs (pair-list &key (ordering :ascending) (sort-by :number))
+  (let ((comparison-function (ecase ordering
+			       ((:ascending :up)
+				(ecase sort-by (:number #'<) (:string #'string<)))
+			       ((:descending :down) 
+				(ecase sort-by (:number #'>) (:string #'string>))))))
+    (safe-sort pair-list #'(lambda(pair-1 pair-2)
+			     (funcall comparison-function
+				      (if (or (and (eql sort-by :number) (numberp (first pair-1)))
+					      (and (eql sort-by :string) (stringp (first pair-1))))
+					  (first pair-1) (second pair-1))
+				      (if (or (and (eql sort-by :number) (numberp (first pair-2)))
+					      (and (eql sort-by :string) (stringp (first pair-2))))
+					  (first pair-2) (second pair-2)))))))
+
+
+
+
+;;
+;; Exercises from Slide 6.10
+;;
+
+(defparameter *current-directory* (make-pathname :defaults *load-pathname* :name nil :type nil))
+
+(defun read-plist (&key (pathname (merge-pathnames "capitals.sexp" *current-directory*)))
+  (with-open-file (in pathname) (read in)))
+
+(defun lookup-capital ()
+  (let ((plist (read-plist)))
+    (princ "Please Enter a Keyword: ")
+    (let ((keyword (read)))
+      ;;(getf plist keyword)
+      (getf plist (make-keyword (string-downcase keyword)))
+      )))
+
+(in-package :gwl-user)
+
+(defun plist-to-table (plist)
+  (with-cl-who-string ()
+    ((:table :border 1)
+     (mapc #'(lambda(state capital)
+	       (htm (:tr (:td (str state))
+			 (:td (str capital)))))
+	   (plist-keys plist) (plist-values plist)))))
+	     
+
+;;
+;; Call the above with (gwl-user::plist-to-table (read-plist))
+;;
+
+
+;;
+;; Exercises from Slide 8.4
+;;
+
+
+(in-package :gdl-user)
+
+
+(let ((values-ht (make-hash-table :size 100)))
+  (defun factorial* (number)
+    (or (gethash number values-ht)
+	(setf (gethash number values-ht)
+	      (if (<= number 1)
+		  1
+		  (* number (factorial* (1- number))))))))
