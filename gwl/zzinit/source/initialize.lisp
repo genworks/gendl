@@ -63,8 +63,11 @@
 	 (handler-case
 	     (let ((sock (usocket:socket-listen "localhost" port)))
 	       (usocket:socket-close sock))
-	   (usocket:address-in-use-error (e) :in-use))))
-    (unless (eql result :in-use) port)))
+	   (usocket:address-in-use-error (e) :in-use)
+	   #+allegro
+	   (excl:errno-stream-error (e) :errno)
+	   (t (e) :unknown))))
+    (unless (member result '(:in-use :errno :unknown)) port)))
 
 
 #+nil
