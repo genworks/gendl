@@ -3,16 +3,14 @@
 
 
              ================================================
-                     GDL1591-devo (nightly pre-release build)
+                     GDL1592 (release candidate)
              ================================================
 
 
 Release Schedule
 ================
 
-2016-12-15: GDL1588 will be sunsetted.
-
-2017-01-15: GDL1592 release
+2017-01-31: GDL1592 release
 
 2017-12-15: GDL1590 will be sunsetted.
 
