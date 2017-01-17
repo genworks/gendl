@@ -56,18 +56,36 @@
 
 (defvar *aserve-listeners* 25)
 (defvar *aserve-port* 9000)
-
+(defvar *aserve-start-args* nil)
 
 (defun client-test (port)
-  (let ((result
-	 (handler-case
-	     (let ((sock (usocket:socket-listen "localhost" port)))
-	       (usocket:socket-close sock))
-	   (usocket:address-in-use-error (e) :in-use)
-	   #+allegro
-	   (excl:errno-stream-error (e) :errno)
-	   (t (e) :unknown))))
-    (unless (member result '(:in-use :errno :unknown)) port)))
+
+  #+allegro
+
+  (multiple-value-bind (result error)
+      (ignore-errors  
+	(glisp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
+Perhaps a zombie process is holding port ~a?~%" port port))
+
+	  
+	  (#+nil
+	   net.aserve.client:do-http-request
+	   drakma:http-request (format nil "http://localhost:~a" port))))
+
+    
+    (declare (ignore result))
+    (when (typep error 'error)
+      port))
+  
+  #-allegro
+  (let* ((result
+	  (handler-case
+	      (let ((sock (usocket:socket-listen "localhost" port)))
+		(usocket:socket-close sock))
+	    (usocket:address-in-use-error (e) :in-use)
+	    (t (e) :unknown))))
+    (unless (member result1 '(:in-use :unknown) port))))
+
 
 
 #+nil
@@ -89,7 +107,8 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
-		      (external-format #+allegro :utf8-base #+ccl :utf-8 #-(or allegro ccl) (error "find utf-8 external-format for ~a.~%" (lisp-implementation-version))))
+		    (external-format #+allegro :utf8-base #+ccl :utf-8 #-(or allegro ccl) (error "find utf-8 external-format for ~a.~%" (lisp-implementation-version)))
+		    (aserve-start-args *aserve-start-args*))
   (net.aserve:shutdown :server net.aserve:*wserver*)
   (let ((wait-time 1))
       (block :outer
@@ -102,8 +121,9 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 				 "~&Trying to start AllegroServe on ~a...~%") port)
 		   (if (ignore-errors
 			 (setq net.aserve:*wserver*
-			       (net.aserve:start :port port :listeners listeners :server :new
-						 #-mswindows :external-format #-mswindows external-format)))
+			       (apply #'net.aserve:start :port port :listeners listeners :server :new
+				      #-mswindows :external-format #-mswindows external-format
+				      aserve-start-args)))
 		    (return-from :outer port)
 		    (progn (sleep (random wait-time)) (return-from :inner))))
 		(incf port))))
