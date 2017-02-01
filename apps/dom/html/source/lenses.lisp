@@ -334,7 +334,12 @@
     ()
     (with-cl-who ()
       (:p (:table (:tr (:td (ecase (the style)
-			      (:image-figure "Image Goes Here")
+			      (:image-figure
+                               (htm (:img :src (if (stringp (the image-file))
+                                                 (concatenate 'string "images/" (the image-file))
+                                                 (namestring (the image-file)))
+                                          :style (format nil "width:~a;height:~a;" (the width) (the height))
+                                          :alt (the caption))))
 			      (:boxed-figure (dolist (element (list-elements (the :elements)))
 					       (write-the-object element cl-who-base))))))
 	    (:tr (:td (:i (:princ (the caption)))))))))))
