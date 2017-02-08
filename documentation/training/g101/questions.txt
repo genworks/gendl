@@ -1,0 +1,21 @@
+
+5:42  "What would happen if we call this with a list which is not a proper plist, and which doesn't contain the key?"
+
+
+
+9:34  "is the name 'function' just an arbitrary name you have chosen for that function argument?"
+
+
+10:21 "What do you think of prepending argument names with 'arg-'
+      ('arg dash') ? I've seen that done before. Is it a matter of
+      personal preference?"
+
+
+
+
+
+30:15: "I assume there is a way to add tag attributes ?"  
+
+31:26:  "Can this kind of HTML output be sent directly to a web browser?" 
+
+

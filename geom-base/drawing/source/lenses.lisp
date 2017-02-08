@@ -310,7 +310,7 @@
 	;; implementations, get it working that way, and remove this
 	;; compiler conditional.
 	;;
-	;;#+clozure
+	;;#+nil
 	(let ((command 
 	       (if (or (null *gs-path*)
 		       (and (or (stringp *gs-path*)
@@ -344,10 +344,13 @@
           (glisp:run-gs command))
         
         (when *stream*
-          (with-open-file (image-stream temp-png :element-type 'unsigned-byte)
+          (with-open-file  (image-stream temp-png :element-type 'unsigned-byte)
             (do ((val (read-byte image-stream nil nil)
                       (read-byte image-stream nil nil)))
                 ((null val))
+
+	      ;;(print-variables *stream* val)
+	      
               (write-byte val *stream*))))
                                          
         (delete-file temp-pdf)

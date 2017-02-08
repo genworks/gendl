@@ -54,7 +54,8 @@ simplest geometry primitive is <span class=gdl-object-def>box</span>:"
         
         :examples 
         ((:define-object single-box
-             :include-sample-drawing? t)))
+             :include-sample-drawing? nil ;;t
+	     )))
         (:description 
          "Typically, your the actual geometry will end up in 
 leaf-level child objects, while higher-level nodes might be simple
@@ -150,7 +151,9 @@ and <span class=lisp-code>:down</span>")
 and <span class=lisp-code>:top</span> is the Z axis:"
          :examples 
          ((:define-object five-boxes
-              :include-sample-drawing? t)))))
+              :include-sample-drawing? ;;nil
+	    t
+	      )))))
       
       
       (:title 
@@ -167,7 +170,9 @@ transformation matrix suitable for use as an
 is only necessary if you want to force a left-handed coordinate system):"
          :examples
          ((:define-object tilted-monolith
-              :include-sample-drawing? t)))))
+              :include-sample-drawing? ;; nil
+	      t
+	      )))))
       
       (:title
        "<i>Exercises</i> 4 and 5"
@@ -193,17 +198,29 @@ properties, parametric evaluation")
          "Common wireframe primitives:"
          :examples
          ((:define-object cylinder-sample
-              :include-sample-drawing? t)
+              :include-sample-drawing? ;;nil
+	    t
+	      )
           (:define-object cone-sample 
-              :include-sample-drawing? t)
+              :include-sample-drawing? ;; nil
+	    t
+	      )
           (:define-object sphere-sample 
-              :include-sample-drawing? t)
+              :include-sample-drawing? ;; nil
+	    t
+	      )
           (:define-object spherical-cap-sample 
-              :include-sample-drawing? t)
+              :include-sample-drawing? ;; nil
+	    t
+	      )
           (:define-object torus-sample 
-              :include-sample-drawing? t)
+              :include-sample-drawing? ;; nil
+	    t
+	      )
           (:define-object global-filleted-polygon-projection-sample
-              :include-sample-drawing? t)))
+              :include-sample-drawing? ;; nil
+	    t
+	      )))
         
         (:description
          "See full documentation for these in 

@@ -84,7 +84,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		(usocket:socket-close sock))
 	    (usocket:address-in-use-error (e) :in-use)
 	    (t (e) :unknown))))
-    (unless (member result1 '(:in-use :unknown) port))))
+    (unless (member result '(:in-use :unknown)) port)))
 
 
 
