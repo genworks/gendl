@@ -213,8 +213,6 @@
             (when (or gendl-loaded? genworks-gdl-loaded?)
               (funcall (symbol-function (read-from-string \"uiop:setup-temporary-directory\"))))
 	    (cond (genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl:start-gdl!\"))))
-                  ;;(genworks-gdl-loaded? (funcall (symbol-function (read-from-string \"gdl::initialize\")))
-                                        ;;(funcall (symbol-function (read-from-string \"gwl::initialize\"))))
 		  (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
 		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully 
   from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
