@@ -356,8 +356,16 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
 		,(format nil "%%remove%%#-asdf-unicode :defsystem-depends-on #-asdf-unicode ~a%%remove%%"
-			 (format nil "(:asdf-encodings ~a)" (subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on))))))
-		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%" (the asdf-defsystem-depends-on))
+			 (format nil "(:asdf-encodings~a)" (if (read-safe-string (read-safe-string (the asdf-defsystem-depends-on)))
+							       (string-append " "
+									      ;;(subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on))))
+									      (format nil "~{~s~^ ~}"
+										      (read-safe-string
+										       (read-safe-string (the asdf-defsystem-depends-on)))))
+							       "")))
+		;;,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%" (the asdf-defsystem-depends-on))
+		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%"
+			 (subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on)))) "")
 		"%%remove%%#+asdf-encodings :encoding #+asdf-encodings :utf-8%%remove%%"
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
