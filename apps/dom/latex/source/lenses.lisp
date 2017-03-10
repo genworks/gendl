@@ -193,7 +193,7 @@
              (elements (list-elements (the :elements))))
 	 (when (and elements (not (member (the :markup-tag) (list :verbatim :footnote :emph :indexed :index :texttt))))
 	   (write-env (:newline-out)))
-	 (when (not (eql (the markup-tag) :small)) (write-env "\\"))
+	 (when (not (member (the markup-tag) '(:$ :small))) (write-env "\\"))
 	 (write-env (:a (string-downcase markup-tag)))
 	 (when (not (member (the :markup-tag) '(:verbatim :small)))
            (when elements (write-env "{")))
