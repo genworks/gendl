@@ -1,0 +1,8 @@
+(in-package :gwl-user)
+
+;; http://localhost:9000/make?object=gwl-user::hello-world
+(define-object hello-world (base-ajax-sheet)
+  :computed-slots
+    ((main-sheet-body
+       (with-cl-who-string ()
+         (:p "Hello World!")))))

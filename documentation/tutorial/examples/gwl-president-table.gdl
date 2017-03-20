@@ -1,0 +1,32 @@
+(in-package :gwl-user)
+
+(define-object president ()
+  :input-slots
+  (name term))
+
+;; http://localhost:9000/make?object=gwl-user::presidents
+(define-object presidents (base-ajax-sheet)
+  :input-slots
+  ((data (list (list :name "Carter" :term 1976)
+               (list :name "Reagan" :term 1980)
+               (list :name "Bush" :term 1988)
+               (list :name "Clinton" :term 1992))))
+
+  :objects
+  ((presidents :type 'president
+               :sequence (:size (length (the data)))
+               :name (getf (nth (the-child index) (the data)) :name)
+               :term (getf (nth (the-child index) (the data)) :term)))
+
+  :computed-slots
+  ((main-sheet-body
+    (with-cl-who-string (:indent t)
+      (htm
+       (:p (:c (:h3 (fmt "Info on ~a Presidents:"
+                         (length (list-elements (the presidents)))))))
+       ((:table :border 1)
+        (:tr (:th "Name") (:th "Term"))
+        (dolist (president (list-elements (the presidents)))
+          (htm      
+           (:tr (:td (str (the-object president name)))
+                (:td (str (the-object president term))))))))))))
