@@ -1,0 +1,47 @@
+(in-package :gwl-user)
+
+(define-object president-page (base-ajax-sheet)
+  :input-slots
+  (name term)
+
+  :computed-slots
+  ((title
+    (format nil "Term for President ~a:" (the name)))
+   (main-sheet-body
+    (with-cl-who-string (:indent t)
+      (the (write-back-link :display-string "&lt;Back"))
+      (:p (:c (:h3 (the title))))
+      (:p (str (the term)))))))
+
+
+;; http://localhost:9000/make?object=gwl-user::presidents-with-links
+(define-object presidents-with-links (base-ajax-sheet)
+  :input-slots
+  ((data (list (list :name "Carter" :term 1976)
+               (list :name "Reagan" :term 1980)
+               (list :name "Bush" :term 1988)
+               (list :name "Clinton" :term 1992)))
+   (table-border 1))
+
+  :objects
+  ((presidents :type 'president-page
+               :sequence (:size (length (the data)))
+               :name (getf (nth (the-child index) (the data)) :name)
+               :term (getf (nth (the-child index) (the data)) :term)))
+
+  :computed-slots
+  ((title (format nil "Links to ~a Presidents:"
+                  (length (list-elements (the presidents)))))
+   (main-sheet-body
+    (with-cl-who-string (:indent t)
+      (htm
+       (:p (:c (:h3 (the title))))
+       ((:table :border (the table-border))
+        (:tr (:th "Name"))
+        (dolist (president (list-elements (the presidents)))
+          (htm      
+           (:tr (:td (the-object
+                      president
+                      (write-self-link :display-string
+                                       (the-object president name)))))))))))))
+
