@@ -21,7 +21,12 @@
 ;; 
 
 (in-package :com.genworks.lisp)
- 
+
+
+(defparameter *external-text-format* :default)
+
+
+#+nil
 (defparameter *external-text-format*
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
     #-(and mswindows allegro) :default)

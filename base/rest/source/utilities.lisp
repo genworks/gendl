@@ -124,29 +124,6 @@ object in <b>object-list</b>.
                 (the-object object (evaluate message))) object-list)))
 
 
-(defun list-of-numbers (num1 num2 &optional (increment 1) (tolerance (/ increment 10)))
-  "List of Numbers. Returns a list of incrementing numbers starting
-from <b>num1</b> and ending with <b>num2</b>, inclusive. Increment can
-be positive for num1 < num2, or negative for num1 > num2. This version
-was contributed by Reinier van Dijk.
-
-:arguments (num1 \"Number\"
-            num2 \"Number\")
-:&optional ((increment 1) \"Number. The distance between the returned listed numbers.\"
-            (tolerance (/ increment 10)) \"Number. tolerance for increment.\")"
-
-  (cond ((zerop increment) (error "increment of zero is not allowed"))
-	((and (< increment 0.0) (> num2 num1))
-	 (unless *allow-nil-list-of-numbers?* (error "increment is negative, while difference between num2 and num1 is positive.")))
-	((and (> increment 0.0) (< num2 num1))
-	 (unless *allow-nil-list-of-numbers?* (error "increment is positive, while difference between num2 and num1 is negative.")))
-	(t (let ((predicate (if (> increment 0.0) #'>= #'<=))
-		 (result-list nil))
-	     (do ((num num1 (+ num increment)))
-		 ((or (funcall predicate num num2) (< (abs (- num2 num)) tolerance)) (nreverse (cons num2 result-list)))
-	       (push num result-list))))))
-
-
 (defun list-of-n-numbers (num1 num2 n)
   "Returns a list of n numbers equally spaced between bounds num1 and num2, inclusive."
   (let ((increment (/ (- num2 num1) (- n 1)))
@@ -154,10 +131,7 @@ was contributed by Reinier van Dijk.
     (dotimes (i (- n 1) (nreverse (cons num2 result-list)))
       (push (+ num1 (* i increment)) result-list))))
 
-;;
-;; FLAG -- remove this when above version is fully tested. 
-;;
-#+nil
+
 (defun list-of-numbers (num1 num2 &optional (increment 1))
   "List of Numbers. Returns a list of incrementing numbers starting from 
 <b>num1</b> and ending with <b>num2</b>, inclusive.
@@ -222,6 +196,19 @@ removing nil values from a list, consider using <tt>remove nil ...</tt> instead.
                   (push el result)))))
        (nreverse (rflatten lst))))
   </pre>
+
+:note This will not work with dotted lists, only with actual lists. If
+you need dotted lists, use the old definition of flatten, from Paul
+Graham On Lisp:
+
+<pre>
+
+  (defun flatten (tree)
+   (if (atom tree)
+       (ensure-list tree)
+       (nconc (flatten (car tree))
+              (if (cdr tree) (flatten (cdr tree))))))
+</pre>
 
 :arguments (list \"List\")
 :see-also <tt>remove</tt>"
@@ -761,7 +748,7 @@ file.
 
   (let ((package-form (read in)))
 	(when (or (null package-form) (not (find-package (second package-form))))
-	  (error "Invalid package specification at beginning of ~a.~%" filename))
+	  (error "Invalid package specification at beginning of stream ~s.~%" in))
 	(let* ((*package* (find-package (second package-form))) (root-form (read in)))
 	  (when (or (null root-form) 
 		    (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class))))
