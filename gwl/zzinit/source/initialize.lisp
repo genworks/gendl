@@ -58,6 +58,9 @@
 (defvar *aserve-port* 9000)
 (defvar *aserve-start-args* nil)
 
+
+
+#+nil
 (defun client-test (port)
 
   #+allegro
@@ -87,25 +90,39 @@ Perhaps a zombie process is holding port ~a?~%" port port))
     (unless (member result '(:in-use :unknown)) port)))
 
 
-
-#+nil
 (defun client-test (port)
   (multiple-value-bind (result error)
       (ignore-errors  
 	(glisp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
 Perhaps a zombie process is holding port ~a?~%" port port))
-
-	  
-	  (#+nil
-	   net.aserve.client:do-http-request
-	   drakma:http-request (format nil "http://localhost:~a" port))))
-
-    
+	  (net.aserve.client:do-http-request (format nil "http://localhost:~a" port))))
     (declare (ignore result))
     (when (typep error 'error)
       port)))
 
 
+(defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
+		    (external-format :utf8-base))
+  (net.aserve:shutdown)
+  (let ((wait-time 1))
+    (block :outer
+      (do () (nil)
+	(let ((port port))
+	  (block :inner
+	    (do ((port-free? (client-test port) (client-test port)))
+		(port-free?
+		 (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
+			       "~&Trying to start AllegroServe on ~a...~%") port)
+		 (if (ignore-errors
+		       (net.aserve:start :port port :listeners listeners
+					 #-mswindows :external-format #-mswindows external-format))
+		     (return-from :outer port)
+		     (progn (sleep (random wait-time)) (return-from :inner))))
+	      (incf port))))
+	(incf wait-time 0.1)))))
+
+
+#+nil
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
 		    (external-format #+allegro :utf8-base #+ccl :utf-8 #-(or allegro ccl) (error "find utf-8 external-format for ~a.~%" (lisp-implementation-version)))
 		    (aserve-start-args *aserve-start-args*))
