@@ -101,8 +101,11 @@ Perhaps a zombie process is holding port ~a?~%" port port))
       port)))
 
 
-(defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
-		    (external-format :utf8-base))
+(defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*)
+		    ;;
+		    ;; FLAG -- figure out external-format for the other Lisps. 
+		    ;;
+		    (external-format :utf-8) aserve-start-args)
   (net.aserve:shutdown)
   (let ((wait-time 1))
     (block :outer
@@ -114,12 +117,16 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		 (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
 			       "~&Trying to start AllegroServe on ~a...~%") port)
 		 (if (ignore-errors
-		       (net.aserve:start :port port :listeners listeners
-					 #-mswindows :external-format #-mswindows external-format))
+		       (apply #'net.aserve:start
+			      :port port :listeners listeners
+			      ;;#-mswindows :external-format #-mswindows external-format ;; FLAG -- why no external-format for Windows?
+			      :external-format external-format
+			      aserve-start-args))
 		     (return-from :outer port)
 		     (progn (sleep (random wait-time)) (return-from :inner))))
 	      (incf port))))
-	(incf wait-time 0.1)))))
+	(incf wait-time 0.1))))
+  (publish-uris))
 
 
 #+nil
