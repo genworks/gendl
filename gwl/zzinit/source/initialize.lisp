@@ -91,6 +91,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 
 (defun client-test (port)
+  #-ccl
   (multiple-value-bind (result error)
       (ignore-errors  
 	(glisp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
@@ -98,7 +99,15 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 	  (net.aserve.client:do-http-request (format nil "http://localhost:~a" port))))
     (declare (ignore result))
     (when (typep error 'error)
-      port)))
+      port))
+  #+ccl
+  (let* ((result
+	  (handler-case
+	      (let ((sock (usocket:socket-listen "localhost" port)))
+		(usocket:socket-close sock))
+	    (usocket:address-in-use-error (e) :in-use)
+	    (t (e) :unknown))))
+    (unless (member result '(:in-use :unknown)) port)))
 
 
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*)
