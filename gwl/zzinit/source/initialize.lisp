@@ -105,8 +105,8 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 	  (handler-case
 	      (let ((sock (usocket:socket-listen "localhost" port)))
 		(usocket:socket-close sock))
-	    (usocket:address-in-use-error (e) :in-use)
-	    (t (e) :unknown))))
+	    (usocket:address-in-use-error (e) (declare (ignore e)) :in-use)
+	    (t (e) (declare (ignore e)) :unknown))))
     (unless (member result '(:in-use :unknown)) port)))
 
 
@@ -114,7 +114,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		    ;;
 		    ;; FLAG -- figure out external-format for the other Lisps. 
 		    ;;
-		    (external-format :utf-8) aserve-start-args)
+		    (external-format #+allegro :utf8-base #-allegro :utf8) aserve-start-args)
   (net.aserve:shutdown)
   (let ((wait-time 1))
     (block :outer

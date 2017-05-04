@@ -417,9 +417,9 @@
       (setq mac-option-modifier nil)
       (setq mac-command-modifier 'meta))))
 
-;;(when (eql system-type 'darwin)
-;;  (mac-switch-meta)
-;;  (mac-switch-meta))
+(when (eql system-type 'darwin)
+  (mac-switch-meta)
+  (mac-switch-meta))
 
 
 ;; A.  REFERENCES
