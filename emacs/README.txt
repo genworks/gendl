@@ -3,22 +3,9 @@
 
 
              ================================================
-                     GDL1592 (release candidate)
+                     GDL1592 (pre-release candidate)
              ================================================
 
-
-Release Schedule
-================
-
-2017-01-31: GDL1592 release
-
-2017-12-15: GDL1590 will be sunsetted.
-
-2018-01-15: The next major GDL release will be made available (number
-            TBD).
-
-
-----------------------------------------------------------------------
 
           Welcome to the Genworks® GDL and Gendl® Environment
 
