@@ -59,10 +59,10 @@
 (add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-subtle-hacker)
+;;(color-theme-subtle-hacker)
 ;;(color-theme-high-contrast)
 ;;(color-theme-taming-mr-arneson)
-;;(color-theme-sitaramv-solaris)
+(color-theme-sitaramv-solaris)
 ;;(color-theme-feng-shui)
 
 

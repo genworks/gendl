@@ -173,7 +173,7 @@ given as keyword args to this function)."
 			     "The Gendl® "
 			     (or (the (read-isc-file "description"))
 				 (format nil "~a Subsystem" (the local-name)))))
-   (author (or (the (read-isc-file "author")) "John McCarthy"))
+   (author (or (the (read-isc-file "author")) "Genworks International"))
    (version (or (the (read-isc-file "version"))
 		(replace-substring (iso-8601-date (get-universal-time)) "-" "")))
    (license (or (the (read-isc-file "license"))
@@ -364,8 +364,27 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 										       (read-safe-string (the asdf-defsystem-depends-on)))))
 							       "")))
 		;;,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%" (the asdf-defsystem-depends-on))
+
+
+
+
+
 		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%"
-			 (subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on)))) "")
+			 (format nil "(~a)" (if (read-safe-string (read-safe-string (the asdf-defsystem-depends-on)))
+						(string-append " "
+							       ;;(subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on))))
+							       (format nil "~{~s~^ ~}"
+								       (read-safe-string
+									(read-safe-string (the asdf-defsystem-depends-on)))))
+						"")))
+		
+
+		#+nil
+		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%"
+			 (subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on))))
+			 "")
+
+		
 		"%%remove%%#+asdf-encodings :encoding #+asdf-encodings :utf-8%%remove%%"
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)

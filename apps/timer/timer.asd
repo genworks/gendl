@@ -1,10 +1,11 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:timer :description
- "The Gendl™ timer Subsystem" :author "John McCarthy" :license
- "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20151024" :depends-on (:cl-smtp :gwl)
+ "The Gendl® timer Subsystem" :author "Genworks International"
+ :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
+ :serial t :version "20170524" :depends-on (:cl-smtp :gwl)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode nil
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "source/package") (:file "source/parameters")
