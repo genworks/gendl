@@ -4,6 +4,7 @@
 *.fas
 *.xfasl
 *.dx64fsl
+*.wx64fsl
 *.64xfasl
 *.lib
 bin

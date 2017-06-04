@@ -103,7 +103,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
   #+ccl
   (let* ((result
 	  (handler-case
-	      (let ((sock (usocket:socket-listen "localhost" port)))
+	      (let ((sock (usocket:socket-listen "127.0.0.1" port)))
 		(usocket:socket-close sock))
 	    (usocket:address-in-use-error (e) (declare (ignore e)) :in-use)
 	    (t (e) (declare (ignore e)) :unknown))))

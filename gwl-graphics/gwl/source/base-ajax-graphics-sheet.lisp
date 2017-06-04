@@ -402,8 +402,8 @@ to call the :write-embedded-x3d-world function."))
 		      :swfpath "/static/3rdpty/x3dom/x3dom.swf"
 		      ;;:width  "100%"
 		      ;;:height  "100%"
-		      :width (the view-object page-width)
-		      :height (the view-object page-length)
+		      :width (format nil "~apx" (the view-object page-width))
+		      :height (format nil "~apx" (the view-object page-length))
 		      )
 		    (:|Scene|
 		      (with-format (x3d *stream*) 
