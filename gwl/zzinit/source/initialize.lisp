@@ -210,7 +210,8 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 #+ccl
 (in-package :ccl)
-#+ccl
+
+#+(and ccl mswindows)
 (let (*warn-if-redefine-kernel*)
   (defun %windows-sleep (millis)
 
@@ -225,4 +226,5 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 	  (millis millis (- stop start))
 	  (stop (+ start millis)))
 	 ((or (<= millis 0)
-	      (not (eql (#_SleepEx millis #$true) #$WAIT_IO_COMPLETION)))))))
+	      (not (eql (funcall (read-from-string "#_SleepEx millis") (read-from-string "#$true"))
+			(read-from-string "#$WAIT_IO_COMPLETION"))))))))
