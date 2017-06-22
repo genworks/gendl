@@ -211,7 +211,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 #+ccl
 (in-package :ccl)
 
-#+(and ccl mswindows)
+#+(and ccl windows)
 (let (*warn-if-redefine-kernel*)
   (defun %windows-sleep (millis)
 
