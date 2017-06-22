@@ -219,7 +219,19 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 ;; FLAG -- get platform-specific stuff into glisp package. 
 ;;
 
-#+(and ccl windows)
+#+nil
+(defun %windows-sleep (millis)
+  (do* ((start (floor (get-internal-real-time)
+                      (floor internal-time-units-per-second 1000))
+               (floor (get-internal-real-time)
+                      (floor internal-time-units-per-second 1000)))
+        (millis millis (- stop start))
+        (stop (+ start millis)))
+       ((or (<= millis 0)
+            (not (eql (#_SleepEx millis #$true) #$WAIT_IO_COMPLETION))))))
+
+
+#+(and ccl windows-target)
 (let (*warn-if-redefine-kernel*)
   (defun %windows-sleep (millis)
 
@@ -234,5 +246,4 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 	  (millis millis (- stop start))
 	  (stop (+ start millis)))
 	 ((or (<= millis 0)
-	      (not (eql (funcall (read-from-string "#_SleepEx millis") (read-from-string "#$true"))
-			(read-from-string "#$WAIT_IO_COMPLETION"))))))))
+            (not (eql (#_SleepEx millis #$true) #$WAIT_IO_COMPLETION)))))))
