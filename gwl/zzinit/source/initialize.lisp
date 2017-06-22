@@ -59,6 +59,10 @@
 (defvar *aserve-start-args* nil)
 
 
+;;
+;; FLAG -- get platform-specific stuff below into :glisp package. 
+;;
+
 
 #+nil
 (defun client-test (port)
@@ -210,6 +214,10 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
 #+ccl
 (in-package :ccl)
+
+;;
+;; FLAG -- get platform-specific stuff into glisp package. 
+;;
 
 #+(and ccl windows)
 (let (*warn-if-redefine-kernel*)
