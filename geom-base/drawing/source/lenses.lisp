@@ -242,6 +242,58 @@
                     (write-the object rgb-stroke-setting))
                     
                 line-index-pairs)))
+
+
+      (mapc #'(lambda(curve)
+		(let ((control-points (mapcar #'(lambda(point) (add-vectors *dxf-translation* point)) (getf curve :control-points)))
+		      (knots (getf curve :knot-vector))
+		      (degree (getf curve :degree))
+		      (weights (getf curve :weights))
+		      (top-vector (make-vector 0 0 1) ;;(the (face-normal-vector :top))
+			))
+		  (declare (ignore top-vector weights)) ;; FLAG -- work these in. 
+		  (format *stream*
+
+			  " 0
+SPLINE
+ 100
+AcDbEntity
+ 8
+0
+ 100
+AcDbSpline
+ 210
+0.0
+ 220
+0.0
+ 230
+1.0
+ 70
+8
+ 71
+~a
+ 72
+~a
+ 73
+~a
+ 74
+0
+ 42
+0.0000001
+ 43
+0.0000001
+~{ 40~%~,7f~^~%~}
+~{~a~%~}"
+			  degree
+			  (length knots)
+			  (length control-points)
+			  knots
+			  (mapcar #'(lambda(point)
+				      (format nil " 10~%~,7f~% 20~%~,7f~% 30~%0.0"
+					      (get-x point) (get-y point)))
+				  control-points))))
+	    
+	    (the curves-2d-scaled))
       
       (mapc #'(lambda(arc 2d-arc-center)
                 
