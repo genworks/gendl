@@ -124,52 +124,91 @@
         ((:wedge :double-wedge :triangle)
          ;;(write-the line-thickness-setting)
          ;;(write-the rgb-stroke-setting)
-         (destructuring-bind (p0 p1 p2 p3)
-             (mapcar #'(lambda(point)
-                         (add-vectors *dxf-translation* (subseq point 0 2)))
-                     (if view (mapcar #'(lambda(point) (the-object view (view-point point))) (the outline-points))
-                       (the outline-points)))
-           
-           (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                   (get-x p0) (get-y p0) (get-x p1) (get-y p1))
-           (write-the line-thickness-setting)
-           (write-the rgb-stroke-setting)
-           (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                   (get-x p1) (get-y p1) (get-x p2) (get-y p2))
-           (write-the line-thickness-setting)
-           (write-the rgb-stroke-setting)
-           (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                   (get-x p2) (get-y p2) (get-x p3) (get-y p3))
-           (write-the line-thickness-setting)
-           (write-the rgb-stroke-setting)
-           (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                   (get-x p3) (get-y p3) (get-x p0) (get-y p0))
-           (write-the line-thickness-setting)
-           (write-the rgb-stroke-setting))
+	 (let ((line-format-string "  0~%LINE~% 5~%~a~% 100~%AcDbEntity~% 100~%AcDbLine~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"))
+	   (destructuring-bind (p0 p1 p2 p3)
+	       (mapcar #'(lambda(point)
+			   (add-vectors *dxf-translation* (subseq point 0 2)))
+		       (if view (mapcar #'(lambda(point) (the-object view (view-point point))) (the outline-points))
+			   (the outline-points)))
+
+	     #+nil
+	     (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		     (get-x p0) (get-y p0) (get-x p1) (get-y p1))
+
+
+	     (format *stream* line-format-string (incf *dxf-entity-id*)
+		     (get-x p0) (get-y p0) (get-x p1) (get-y p1))
+
+	   
+	     (write-the line-thickness-setting)
+	     (write-the rgb-stroke-setting)
+	     #+nil
+	     (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		     (get-x p1) (get-y p1) (get-x p2) (get-y p2))
+	     (format *stream* line-format-string (incf *dxf-entity-id*)
+		     (get-x p1) (get-y p1) (get-x p2) (get-y p2))
+	   
+	     (write-the line-thickness-setting)
+	     (write-the rgb-stroke-setting)
+	     #+nil
+	     (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		     (get-x p2) (get-y p2) (get-x p3) (get-y p3))
+	     (format *stream* line-format-string (incf *dxf-entity-id*)
+		     (get-x p2) (get-y p2) (get-x p3) (get-y p3))
+	     
+	   
+	     (write-the line-thickness-setting)
+	     (write-the rgb-stroke-setting)
+	     #+nil
+	     (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		     (get-x p3) (get-y p3) (get-x p0) (get-y p0))
+	     (format *stream* line-format-string (incf *dxf-entity-id*)
+		     (get-x p3) (get-y p3) (get-x p0) (get-y p0))
+	   
+	     (write-the line-thickness-setting)
+	     (write-the rgb-stroke-setting))
 
          
-         (when (the second-outline-points)
-           (destructuring-bind (p0 p1 p2 p3)
-               (mapcar #'(lambda(point)
-                           (add-vectors *dxf-translation* (subseq point 0 2)))
-                       (if view 
-                           (mapcar #'(lambda(point) (the-object view (view-point point))) (the second-outline-points))
-                         (the second-outline-points)))
-             (write-the line-thickness-setting)
-             (write-the rgb-stroke-setting)
-             (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                     (get-x p0) (get-y p0) (get-x p1) (get-y p1))
-             (write-the line-thickness-setting)
-             (write-the rgb-stroke-setting)
-             (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                     (get-x p1) (get-y p1) (get-x p2) (get-y p2))
-             (write-the line-thickness-setting)
-             (write-the rgb-stroke-setting)
-             (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                     (get-x p2) (get-y p2) (get-x p3) (get-y p3))
-             (write-the line-thickness-setting)
-             (write-the rgb-stroke-setting)
-             (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
-                     (get-x p3) (get-y p3) (get-x p0) (get-y p0))
-             (write-the line-thickness-setting)
-             (write-the rgb-stroke-setting)))))))))
+	   (when (the second-outline-points)
+	     (destructuring-bind (p0 p1 p2 p3)
+		 (mapcar #'(lambda(point)
+			     (add-vectors *dxf-translation* (subseq point 0 2)))
+			 (if view 
+			     (mapcar #'(lambda(point) (the-object view (view-point point))) (the second-outline-points))
+			     (the second-outline-points)))
+	       (write-the line-thickness-setting)
+	       (write-the rgb-stroke-setting)
+
+	       #+nil
+	       (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		       (get-x p0) (get-y p0) (get-x p1) (get-y p1))
+	       (format *stream* line-format-string (incf *dxf-entity-id*)
+		       (get-x p0) (get-y p0) (get-x p1) (get-y p1))
+	       (write-the line-thickness-setting)
+	       (write-the rgb-stroke-setting)
+	       #+nil
+	       (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		       (get-x p1) (get-y p1) (get-x p2) (get-y p2))
+
+
+	       (format *stream* line-format-string (incf *dxf-entity-id*)
+		       (get-x p1) (get-y p1) (get-x p2) (get-y p2))
+	       (write-the line-thickness-setting)
+	       (write-the rgb-stroke-setting)
+	       #+nil
+	       (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		       (get-x p2) (get-y p2) (get-x p3) (get-y p3))
+	       (format *stream* line-format-string (incf *dxf-entity-id*)
+		       (get-x p2) (get-y p2) (get-x p3) (get-y p3))
+
+
+	       
+	       (write-the line-thickness-setting)
+	       (write-the rgb-stroke-setting)
+	       #+nil
+	       (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+		       (get-x p3) (get-y p3) (get-x p0) (get-y p0))
+	       (format *stream* line-format-string (incf *dxf-entity-id*)
+		       (get-x p3) (get-y p3) (get-x p0) (get-y p0))
+	       (write-the line-thickness-setting)
+	       (write-the rgb-stroke-setting))))))))))
