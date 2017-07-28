@@ -220,10 +220,10 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 (in-package :ccl)
 
 
-(defparameter *set-_?* nil)
-(defparameter *set-$?* nil)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
+  (defparameter *set-_?* nil)
+  (defparameter *set-$?* nil)
   (unless (get-dispatch-macro-character #\# #\_)
     (setq *set-_?* t)
     (set-dispatch-macro-character #\# #\_ #'(lambda(s subchar arg) (declare (ignore s subchar arg))nil)))
