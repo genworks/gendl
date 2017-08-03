@@ -504,6 +504,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:inter-circle-sphere
 	   #:inter-line-sphere
 	   #:inter-line-plane
+	   #:inter-line-line
 	   #:translate
 	   #:create-obliqueness
 	   #:proj-point-on-line
