@@ -236,12 +236,23 @@
 		   (eql (first second-tangent) :arc-geometry) radius)))
 	   :tangent-arc-tangent-line-radius)
 
+	  ((let ((keys (plist-keys (the arc-constraints))))
+	     (and (= (length keys) 3) (= (count :through-point keys) 2) (= (count :tangent-to keys) 1)))
+	   :tangent-to-through-two-points)
+	  
+	  ((equalp (plist-keys (the arc-constraints)) '(:through-point :through-point :through-point))
+	   :through-three-points)
+
 	  (t (error "Constrained-arc --- constraint configuration is not yet supported")))))
   
   :hidden-objects
   ((constraint-object :type (ecase (the constraint-type)
 			      (:tangent-arc-tangent-line-radius 
-			       'arc-constraints-tangent-arc-tangent-line-radius))
+			       'arc-constraints-tangent-arc-tangent-line-radius)
+			      (:through-three-points
+			       'arc-constraints-through-three-points)
+			      (:tangent-to-through-two-points
+			       'arc-constraint-tangent-to-through-two-points))
 		      :pass-down (first-tangent-index)
                       :constraints (the arc-constraints)))
   
@@ -269,7 +280,52 @@ and it automatically trims the result to each point of tangency")
    (end-angle (max (the angle-0) (the angle-1)))))
 
 
+(define-object arc-constraint-tangent-to-through-two-points (base-object)
 
+  :input-slots (constraints first-tangent-index) ;; first-tangent-index is ignored for this case.
+
+  :computed-slots ((point-a (getf (the constraints) :through-point))
+		   (point-b (getf (reverse-plist (the constraints)) :through-point))
+		   (tangent-to (getf (the constraints) :tangent-to))
+		   (tangent-to-line (getf (the tangent-to) :line)) ;; FLAG -- add arc/circle case. 
+		   (tangent-to-side-vector (getf (the tangent-to) :side-vector)))
+  
+  )
+  
+
+(define-object arc-constraints-through-three-points (base-object)
+  :input-slots (constraints first-tangent-index) ;; first-tangent-index is ignored for this case. 
+
+  :computed-slots  ((point-a (getf (the constraints) :through-point))
+		    (point-b (getf (rest (rest (the constraints))) :through-point))
+		    (point-c (getf (rest (rest (rest (rest (the constraints))))) :through-point))
+
+		    (a-b-length (3d-distance (the point-a) (the point-b)))
+
+		    (a-b-bisector-start (inter-circle-circle (the point-a) (* 5/8 (the a-b-length))
+							     (the point-b) (* 5/8 (the a-b-length)) t))
+
+		    (a-b-bisector-end (inter-circle-circle (the point-a) (* 5/8 (the a-b-length))
+							     (the point-b) (* 5/8 (the a-b-length)) nil))
+		    
+		    (b-c-length (3d-distance (the point-b) (the point-c)))
+
+		    (b-c-bisector-start (inter-circle-circle (the point-a) (* 5/8 (the b-c-length))
+							     (the point-b) (* 5/8 (the b-c-length)) t))
+		    
+		    (b-c-bisector-end (inter-circle-circle (the point-a) (* 5/8 (the b-c-length))
+							   (the point-b) (* 5/8 (the b-c-length)) nil))
+
+		    (center (inter-line-line (the a-b-bisector-start)
+					     (subtract-vectors (the a-b-bisector-end) (the a-b-bisector-start))
+					     (the b-c-bisector-start)
+					     (subtract-vectors (the b-c-bisector-end) (the b-c-bisector-start))))
+
+		    (radius (3d-distance (the center) (the point-a)))))
+
+  
+
+  
 (define-object arc-constraints-tangent-arc-tangent-line-radius (base-object)
 
   :input-slots (constraints first-tangent-index)

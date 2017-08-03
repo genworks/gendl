@@ -1,1 +1,1 @@
-"(#-(or allegro ccl sbcl) :acl-compat #+(or ccl sbcl) :zacl)"
+"#-(or allegro ccl sbcl) :acl-compat #+(or ccl sbcl) :zacl"
