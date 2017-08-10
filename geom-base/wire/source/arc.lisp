@@ -141,7 +141,16 @@ the start and end point of the arc.
     (angle)
     (if (the start)
 	(rotate-point (the start) (the center) (the (face-normal-vector :top)) :angle angle)
-	(the center)))))
+	(the center)))
+
+   (angle-at-point
+    (point &key negative?)
+    (let ((projected (inter-line-plane point (the (face-normal-vector :top))
+				       (the center) (the (face-normal-vector :top)))))
+      (angle-between-vectors (the (face-normal-vector :right))
+			     (subtract-vectors projected (the center))
+			     (the (face-normal-vector :top))
+			     :negative? negative?)))))
 
 
 
