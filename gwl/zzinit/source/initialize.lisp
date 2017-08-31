@@ -111,8 +111,11 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		(usocket:socket-close sock))
 	    (usocket:address-in-use-error (e) (declare (ignore e)) :in-use)
 	    (t (e) (declare (ignore e)) :unknown))))
-    (unless (member result '(:in-use :unknown)) port)))
-
+    (unless (or (member result '(:in-use :unknown))
+		#+windows-host
+		(ignore-errors
+		  (net.aserve.client:do-http-request
+		      (format nil "http://127.0.0.1:~a" port)))) port)))
 
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*)
 		    ;;

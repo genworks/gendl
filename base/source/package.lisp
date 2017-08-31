@@ -876,6 +876,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:*jump-to-toplevel-on-set-self?*
      #:*process-cookies?*
      #:*static-home*
+     #:announce-server-port
      #:encode-root-path
      #:base-html-sheet
      #:skeleton-ui-element

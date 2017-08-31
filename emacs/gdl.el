@@ -109,7 +109,8 @@
       (case system-type
 	(darwin  "-*-Courier New-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1" ;; -apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1"
 		 )
-	(windows-nt "-outline-Courier New-normal-normal-normal-mono-%s-*-*-*-c-*-iso8859-1")
+	;;(windows-nt "-outline-Courier New-normal-normal-normal-mono-%s-*-*-*-c-*-iso8859-1")
+	(windows-nt "-outline-Consolas-normal-r-normal-normal-14-97-96-96-c-*-utf8")
 	(gnu/linux "-bitstream-Courier 10 Pitch-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1"))
       font-size))))
 
@@ -216,7 +217,8 @@
 		  (gendl-loaded? (funcall (symbol-function (read-from-string \"gendl:start-gendl!\"))))
 		  (t (format t  \"~%%~%%***~%%Gendl or GDL is not loaded and did not load successfully 
   from .load-gendl.lisp in your home directory.~%%***~%%~%%\"))))
-	  (when (find-package :gendl) (in-package :gdl-user)))" *gendl-home*))
+	  (when (find-package :gendl) (in-package :gdl-user))
+         (when (find-package :gwl) (funcall (read-from-string \"gwl:announce-server-port\"))))" *gendl-home*))
 
 
 ;;
