@@ -223,7 +223,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 (in-package :ccl)
 
 
-
+#-(and ccl windows-target)
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defparameter *set-_?* nil)
   (defparameter *set-$?* nil)
@@ -250,6 +250,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 	 ((or (<= millis 0)
 	      (not (eql (#_SleepEx millis #$true) #$WAIT_IO_COMPLETION)))))))
 
+#-(and ccl windows-target)
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (when *set-_?* (set-dispatch-macro-character #\# #\_ nil))
   (when *set-$?* (set-dispatch-macro-character #\# #\$ nil)))
