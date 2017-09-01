@@ -6,7 +6,7 @@
   #+allegro (translate-logical-pathname "sys:")
   #+lispworks (make-pathname :name nil :type nil :defaults (first system:*line-arguments-list*)))
 
-(pushnew (merge-pathnames (format nil "dlls/~a/" (if (member :32-bit-target *features*) "32" "64"))
+(pushnew (merge-pathnames (format nil "dlls/~a/" (if (member :32-bit-host *features*) "32" "64"))
 			  (%exe-path%))
 	 cffi:*foreign-library-directories*)
 
