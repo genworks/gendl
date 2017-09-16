@@ -377,6 +377,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:run-command
    #:temporary-folder
    #:*temporary-folder-function*
+   #:*utf-16-ef*
    #:temporary-file
 
    #:find-gs-path

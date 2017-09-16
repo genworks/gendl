@@ -437,11 +437,12 @@ keyword argument to this function.
 
 :&key ((path *quicklisp-home*) \"Pathname or string. Quicklisp location.\")
 "
-  (let ((ql-loader (or (probe-file (merge-pathnames "program/load-ql.lisp" glisp:*gendl-home*))
-		       (probe-file (merge-pathnames "../load-ql.lisp" *quicklisp-home*)))))
-    (if (probe-file ql-loader) 
+  (let ((ql-loader (or (probe-file (merge-pathnames "program/load-ql.lisp" glisp:*gendl-home*)) ;; linux, windows prebuilt image
+		       (probe-file (merge-pathnames "load-ql.lisp" glisp:*gendl-home*)) ;; Mac prebuilt image
+		       (probe-file (merge-pathnames "../load-ql.lisp" *quicklisp-home*))))) ;; loading from source
+    (if (and ql-loader (probe-file ql-loader))
 	(let ((*quicklisp-home* path)) (load ql-loader))
-	(warn "~s does not exist.~%" ql-loader))))
+	(warn "load-ql.lisp was not found in ~a.~%" ql-loader))))
 
 
 (defun load-glime ()
