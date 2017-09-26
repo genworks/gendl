@@ -122,28 +122,29 @@
   :output-functions
   ((cad-output
     ()
-    (set-format-slot view self)
-    (let ((center (the center))(view-center (scalar*vector (the view-scale-total)
-                                                           (keyed-transform*vector (the view-transform)
-                                                                                   (the view-center)))))
-      (with-translated-state (:dxf center)
-        (with-format-slots (view)
-          (set-format-slot view nil)
-          (dolist (cache (list-elements (the annotation-caches)))
-            (write-the-object cache object cad-output) (write-the-object cache lines-and-curves))
-          (set-format-slot view view))
-        (dolist (cache (list-elements (the object-caches))) 
+    (let ((*dxf-entity-id* (or *dxf-entity-id* 107)))
+      (set-format-slot view self)
+      (let ((center (the center))(view-center (scalar*vector (the view-scale-total)
+							     (keyed-transform*vector (the view-transform)
+										     (the view-center)))))
+	(with-translated-state (:dxf center)
+	  (with-format-slots (view)
+	    (set-format-slot view nil)
+	    (dolist (cache (list-elements (the annotation-caches)))
+	      (write-the-object cache object cad-output) (write-the-object cache lines-and-curves))
+	    (set-format-slot view view))
+	  (dolist (cache (list-elements (the object-caches))) 
           
-          (write-the-object cache object cad-output))
-        ;;
-        ;; FLAG - look into capturing this translate in the
-        ;; vertex-array-2d-scaled in view-object-cache.  so it will
-        ;; become unecessary here.
-        ;;
-        (with-translated-state (:dxf (make-vector (- (get-x view-center)) 
-                                                  (- (get-y view-center))))
-          (dolist (cache (list-elements (the object-caches))) 
-            (write-the-object cache lines-and-curves))))))))
+	    (write-the-object cache object cad-output))
+	  ;;
+	  ;; FLAG - look into capturing this translate in the
+	  ;; vertex-array-2d-scaled in view-object-cache.  so it will
+	  ;; become unecessary here.
+	  ;;
+	  (with-translated-state (:dxf (make-vector (- (get-x view-center)) 
+						    (- (get-y view-center))))
+	    (dolist (cache (list-elements (the object-caches))) 
+	      (write-the-object cache lines-and-curves)))))))))
 
 
 ;;
