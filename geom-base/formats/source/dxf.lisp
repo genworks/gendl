@@ -23,7 +23,7 @@
 
 
 
-(defparameter *dxf-header*
+(defparameter *dxf-header-new*
   "  0
 SECTION
   2
@@ -2547,8 +2547,10 @@ ENTITIES
 ")
 
 
+(defparameter *dxf-header* *dxf-header-new*)
 
-(defparameter *dxf-footer*
+
+(defparameter *dxf-footer-new*
   "  0
 ENDSEC
   0
@@ -3860,11 +3862,10 @@ EOF
 ")
 
 
+(defparameter *dxf-footer* *dxf-footer-new*)
 
 
-
-#+nil ;; original - currently in 1590
-(defparameter *dxf-header*
+(defparameter *dxf-header-pre-1592*
   "  0
 SECTION
   2
@@ -3872,7 +3873,7 @@ HEADER
   9
 $ACADVER
   1
-AC1500
+AC1009
   9
 $DWGCODEPAGE
   3
@@ -4052,15 +4053,30 @@ ENTITIES
 ")
 
 
-#+nil ;; original - currently in 1590
-(defparameter *dxf-footer*
+
+(defparameter *dxf-footer-pre-1592*
     " 0
 ENDSEC
   0
 EOF
 ")
 
+
 (define-format dxf (2d-output))
+
+
+
+(defun legacy-dxf ()
+  (setq *dxf-header* *dxf-header-pre-1592*
+	*dxf-footer* *dxf-footer-pre-1592*)
+
+  (format t "Switched to legacy DXF header and footer.~%"))
+
+(defun new-dxf ()
+  (setq *dxf-header* *dxf-header-new*
+	*dxf-footer* *dxf-footer-new*)
+
+  (format t "Switched to new DXF header and footer.~%"))
 
 
 
