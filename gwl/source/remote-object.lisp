@@ -32,6 +32,13 @@
   (let ((*print-case* :downcase))
     (base64-encode-list item)))
     
+(defun remote-execute (request host port plist &key (decode t))
+  (let* ((encoded-plist (encode-plist-args plist))
+         (argstring (encode64-downcase encoded-plist))
+         (result (net.aserve.client:do-http-request 
+                  (format nil "http://~a:~a/~a?args=~a" host port request argstring))))
+    (read-safe-string (if decode (base64-decode-safe result) result))))
+
 
 (define-object remote-object (vanilla-remote)
   :no-vanilla-mixin? t
@@ -42,8 +49,7 @@
                 
                 (remote-id (read-safe-string
                             (let* ((current-id (the previous-id))
-				   (plist (append (list :current-id current-id) (the remote-object-args)))
-                                   (encoded-args (encode64-downcase (encode-plist-args plist))))
+				   (plist (append (list :current-id current-id) (the remote-object-args))))
 
 			      
 			      (when *agile-debug?* (setq *make-object-plist* (append (remove-plist-keys plist (list :parent-form :name))
@@ -52,9 +58,7 @@
                                                                                                           (stringify-plist parent-plist))))))
                  
                               (let ((new-id
-                                     (read-safe-string (net.aserve.client:do-http-request 
-                                                           (format nil "http://~a:~a/make-remote-object?args=~a"
-                                                                   (the host) (the port) encoded-args)))))
+                                     (remote-execute "make-remote-object" (the host) (the port) plist :decode nil)))
                                 (the (set-slot! :previous-id new-id :remember? nil :warn-on-non-toplevel? nil))
                                 new-id))) :settable))
 
@@ -91,29 +95,18 @@
     ;; FLAG -- *notify-cons* is going to be broken now... have to unmarshal/marshal from hash table. 
     ;;         hold off on doing this until we switch to an Abstract Associative Map. 
     ;;
-    (let* ((plist (encode-plist-args (list :message (make-keyword message)
-					   :part-name (make-keyword part-name)
-					   :child (encode-for-http child)
-					   :notify-cons (encode-for-http gdl::*notify-cons*)
-					   :args args
-					   :remote-id (the remote-id)
-					   :remote-root-path (the remote-root-path)
-					   :package *package*)))
-	   (encoded-args (encode64-downcase plist)))
-
-      (when *agile-debug?* (setq *fetch-plist* plist))
+    (let ((plist (list :message (make-keyword message)
+                       :part-name (make-keyword part-name)
+                       :child (encode-for-http child)
+                       :notify-cons (encode-for-http gdl::*notify-cons*)
+                       :args args
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path)
+                       :package *package*)))
       
-
-      (multiple-value-bind 
-          (result length)
-	  
-	  (base64-decode-list
-	   (net.aserve.client:do-http-request (format nil "http://~a:~a/fetch-remote-input?args=~a"
-						      (the host) (the port) encoded-args)))
-
-        (declare (ignore length)) 
-
-		
+      (when *agile-debug?* (setq *fetch-plist* (encode-plist-args plist)))
+      
+      (let ((result (remote-execute "fetch-remote-input" (the host) (the port) plist)))
 	;;(print-variables result)
 	
 	
@@ -124,42 +117,25 @@
    
    (unbind-remote-slot 
     (slot)
-    (let ((encoded-args (encode64-downcase 
-                         (encode-plist-args (list :slot slot 
-                                                  :remote-id (the remote-id)
-                                                  :remote-root-path (the remote-root-path))))))
-      (multiple-value-bind 
-          (result length)
-          (read-safe-string 
-           (base64-decode-safe 
-            (net.aserve.client:do-http-request (format nil "http://~a:~a/unbind-slots?args=~a"
-                                                       (the host) (the port) encoded-args))))
-        (declare (ignore length))
+    (let ((plist (list :slot slot 
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path))))
+      (let ((result (remote-execute "unbind-slots" (the host) (the port) plist)))
         (decode-from-http result))))
 
    
    (send
     (message &rest args)
-    (let* ((encoded-plist (encode-plist-args (list :message (make-keyword message)
-						   :notify-cons (encode-for-http gdl::*notify-cons*)
-						   :args args
-						   :remote-id (the remote-id)
-						   :remote-root-path (the remote-root-path)
-						   :package *package*)))
+    (let ((plist (list :message (make-keyword message)
+                       :notify-cons (encode-for-http gdl::*notify-cons*)
+                       :args args
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path)
+                       :package *package*)))
 
-	   (encoded-args (encode64-downcase encoded-plist)))
-
-      (when *agile-debug?* (setq *send-plist* (stringify-plist encoded-plist)))
+      (when *agile-debug?* (setq *send-plist* (stringify-plist (encode-plist-args plist))))
       
-      (multiple-value-bind
-	    (result length)
-	  (let ((string (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-message?args=~a"
-                                                       (the host) (the port) encoded-args))))
-	    
-
-          (read-safe-string (base64-decode-safe string)))
-
-        (declare (ignore length))
+      (let ((result (remote-execute "send-remote-message" (the host) (the port) plist)))
 
         ;;
         ;; FLAG -- pass result through generic function to sanitize
@@ -185,24 +161,14 @@
    
    (send-output 
     (message format &rest args)
-    (let ((encoded-args (encode64-downcase (encode-plist-args (list :message (make-keyword message)
-                                                                         :format format
-                                                                         :args args
-                                                                         :remote-id (the remote-id)
-                                                                         :remote-root-path (the remote-root-path)
-                                                                         :package *package*)))))
-      (multiple-value-bind
-          (result length)
-          (read-safe-string
-           (base64-decode-safe
-            (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-output?args=~a"
-                                                       (the host) (the port) encoded-args))))
-        (declare (ignore length))
-        
-        (write-string result *stream*))))))
-
-    
-
+    (let ((plist (list :message (make-keyword message)
+                       :format format
+                       :args args
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path)
+                       :package *package*)))
+          (let ((result (remote-execute "send-remote-output"  (the host) (the port) plist)))
+            (write-string result *stream*))))))
 
 
 (defmethod decode-from-http ((item t)) item)
