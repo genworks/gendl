@@ -28,13 +28,18 @@
 (defparameter *fetch-plist* nil)
 
 
+;; FLAG -- not used here any more, remove once pyndl updated
 (defun encode64-downcase (item)
   (let ((*print-case* :downcase))
     (base64-encode-list item)))
     
+(defun encode-plist-for-url (encoded-plist)
+  (let ((*print-case* :downcase))
+    (base64-encode-list encoded-plist)))
+
 (defun remote-execute (request host port plist &key (decode t))
   (let* ((encoded-plist (encode-plist-args plist))
-         (argstring (encode64-downcase encoded-plist))
+         (argstring (encode-plist-for-url encoded-plist))
          (result (net.aserve.client:do-http-request 
                   (format nil "http://~a:~a/~a?args=~a" host port request argstring))))
     (read-safe-string (if decode (base64-decode-safe result) result))))
@@ -175,8 +180,9 @@
 
 (defmethod decode-from-http ((list list))
   (when list
-    (cond ((keywordp (first list)) (evaluate-object (first list) (rest list)))
-          (t (cons (decode-from-http (first list)) (decode-from-http (rest list)))))))
+    (multiple-value-bind (object-type initargs) (decode-object-from-http list)
+      (cond (object-type (evaluate-object object-type initargs))
+            (t (cons (decode-from-http (first list)) (decode-from-http (rest list))))))))
 
 (defun encode-plist-args (plist)
   ;;
@@ -254,6 +260,10 @@
         :root-path (the-object item root-path) 
         :host (or *request-server-ipaddr* :unknown)
         :port (server-port)))
+
+(defun decode-object-from-http (list)
+  (when (keywordp (first list))
+    (values (first list) (rest list))))
 
 
 (defmethod print-object ((object remote-object) stream)
