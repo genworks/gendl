@@ -49,10 +49,7 @@
 			      (when *agile-debug?* (setq *make-object-plist* (append (remove-plist-keys plist (list :parent-form :name))
 										     (list :name (string (getf plist :name)))
 										     (list :parent-form (let ((parent-plist (rest (getf plist :parent-form))))
-													  (mapcan #'(lambda(key value)
-														      (list key (if (and value (symbolp value)) (format nil "~s" value) value)))
-														  (plist-keys parent-plist)
-														  (plist-values parent-plist)))))))
+                                                                                                          (stringify-plist parent-plist))))))
                  
                               (let ((new-id
                                      (read-safe-string (net.aserve.client:do-http-request 
@@ -152,12 +149,7 @@
 
 	   (encoded-args (encode64-downcase encoded-plist)))
 
-      ;;
-      ;; FLAG -- make the stringification of symbols be recursive.
-      ;;
-      (when *agile-debug?* (setq *send-plist* (mapcan #'(lambda(key val) (list key (if (and val (symbolp val)) (format nil "~s" val) val)))
-						      (plist-keys encoded-plist)
-						      (plist-values encoded-plist))))
+      (when *agile-debug?* (setq *send-plist* (stringify-plist encoded-plist)))
       
       (multiple-value-bind
 	    (result length)
@@ -230,6 +222,10 @@
       (cons (first plist)
 	    (cons (encode-for-http (second plist)) (encode-plist-args (rest (rest plist))))))))
 
+(defun stringify-plist (plist)
+  (loop for (key val) on plist by #'cddr
+    collect key
+    collect (if (and val (symbolp val)) (format nil "~s" val) val)))
 
 (defmethod encode-for-http ((item t)) item)
 
