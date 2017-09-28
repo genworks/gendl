@@ -31,7 +31,13 @@ A warning is given if an error condition occurs with <b>body</b>.
 		 `(,(glisp:with-timeout-sym) (,timeout ,timeout-body) ,code)
 		 code)))))))
 
+(defun server-port (&optional (wserver net.aserve:*wserver*))
+  (when wserver
+    (let ((socket (net.aserve:wserver-socket wserver)))
+      (when socket
+        (glisp:local-port socket)))))
+
 (defun announce-server-port ()
-  (let ((port (glisp:local-port (slot-value net.aserve:*wserver* 'net.aserve::socket))))
+  (let ((port (server-port)))
     (when port
       (format t "~&~%***** ~%Your Webserver is running on Port ~a.~%*****~%" port))))

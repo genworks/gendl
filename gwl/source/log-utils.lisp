@@ -32,7 +32,7 @@
   
   (setq *log-file* (format nil "/home/dcooper8/kitchen/logs-~a-~a.lisp" 
                            (gwl::iso-time (get-universal-time))
-                           (slot-value (slot-value server 'net.aserve::socket) 'socket::local-port)))
+                           (server-port server)))
   (glisp:process-run-function
       "log-maker"
     #'(lambda()

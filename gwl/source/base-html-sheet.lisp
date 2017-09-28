@@ -169,7 +169,7 @@ the browser in development mode). Defaults to NIL (the empty list)."
    ;;
    (full-url (when *wserver*
                (format nil "http://localhost:~a~a"
-                       (socket:local-port (net.aserve:wserver-socket  net.aserve:*wserver*))
+                       (server-port)
                        (the url))))
    
    ("String. The web address in the current session which points at this page. Published on demand."

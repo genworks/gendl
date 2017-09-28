@@ -291,9 +291,7 @@
         :type (format nil "~s" (the-object item type))
         :root-path (the-object item root-path) 
         :host (or *request-server-ipaddr* :unknown)
-        :port (glisp:local-port 
-	       (slot-value (symbol-value (read-from-string "net.aserve:*wserver*"))
-			   (read-from-string "net.aserve::socket")))))
+        :port (server-port)))
 
 
 (defmethod print-object ((object remote-object) stream)
