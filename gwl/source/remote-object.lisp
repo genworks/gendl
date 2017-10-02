@@ -252,14 +252,16 @@
     (let ((sock (wserver-socket *wserver*)))
       (when sock (glisp:local-host sock)))))
 
-(defun encode-object-for-http (item id)
-  (list :remote-gdl-instance
-        :id id
+(defun remote-instance-plist-for-http (item id)
+  (list :id id
         :index (the-object item index)
         :type (format nil "~s" (the-object item type))
         :root-path (the-object item root-path) 
         :host (or *request-server-ipaddr* :unknown)
         :port (server-port)))
+
+(defun encode-object-for-http (item id)
+  (cons :remote-gdl-instance (remote-instance-plist-for-http item id)))
 
 (defun decode-object-from-http (list)
   (when (keywordp (first list))
