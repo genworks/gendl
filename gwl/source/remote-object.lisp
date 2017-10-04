@@ -219,7 +219,7 @@
 						   :remember? nil 
 						   :warn-on-non-toplevel? nil))
                   new-id))))
-    (encode-object-for-http item id)))
+    (encode-remote-gdl-instance item id)))
 
 (defmethod encode-for-http ((item gdl::gdl-basis))
   (let ((id (or (the-object item root remote-id)
@@ -229,7 +229,7 @@
 						   :remember? nil 
 						   :warn-on-non-toplevel? nil))
                   new-id))))
-    (encode-object-for-http item id)))
+    (encode-remote-gdl-instance item id)))
 
 (defun gwl-host ()
   ;; FIXME: better way to get this ?
@@ -237,16 +237,17 @@
     (let ((sock (wserver-socket *wserver*)))
       (when sock (glisp:local-host sock)))))
 
-(defun remote-instance-plist-for-http (item id)
-  (list :id id
-        :index (the-object item index)
-        :type (format nil "~s" (the-object item type))
-        :root-path (the-object item root-path) 
-        :host (or *request-server-ipaddr* :unknown)
-        :port (server-port)))
+(defun encode-remote-gdl-instance (item id)
+  (encode-object-for-http :remote-gdl-instance
+                          (list :id id
+                                :index (the-object item index)
+                                :type (format nil "~s" (the-object item type))
+                                :root-path (the-object item root-path) 
+                                :host (or *request-server-ipaddr* :unknown)
+                                :port (server-port))))
 
-(defun encode-object-for-http (item id)
-  (cons :remote-gdl-instance (remote-instance-plist-for-http item id)))
+(defun encode-object-for-http (type plist)
+  (cons type plist))
 
 (defun decode-object-from-http (list)
   (when (keywordp (first list))
