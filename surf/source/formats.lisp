@@ -282,8 +282,8 @@
 (defmethod encode-for-http ((self geometry-kernel-object-mixin))
   (if (typep (the %parent%) 'remote-object)
       (call-next-method)
-    (encode-object-for-http :gdl-geometry-kernel-instance
-                            (list :smlib-string (with-output-to-string(ss)(with-format (native ss) (write-the cad-output)))))))
+    (construct-object-for-http :gdl-geometry-kernel-instance
+                               (list :smlib-string (with-output-to-string(ss)(with-format (native ss) (write-the cad-output)))))))
 
 
 

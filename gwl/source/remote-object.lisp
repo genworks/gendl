@@ -164,7 +164,7 @@
 
 (defun decode-from-http (item)
   (if (consp item)
-      (multiple-value-bind (object-type initargs) (decode-object-from-http item)
+      (multiple-value-bind (object-type initargs) (destructure-object-from-http item)
         (or (and object-type (evaluate-object object-type initargs))
             (mapcar #'decode-from-http item)))
       item))
@@ -238,18 +238,18 @@
       (when sock (glisp:local-host sock)))))
 
 (defun encode-remote-gdl-instance (item id)
-  (encode-object-for-http :remote-gdl-instance
-                          (list :id id
-                                :index (the-object item index)
-                                :type (format nil "~s" (the-object item type))
-                                :root-path (the-object item root-path) 
-                                :host (or *request-server-ipaddr* :unknown)
-                                :port (server-port))))
+  (construct-object-for-http :remote-gdl-instance
+                             (list :id id
+                                   :index (the-object item index)
+                                   :type (format nil "~s" (the-object item type))
+                                   :root-path (the-object item root-path) 
+                                   :host (or *request-server-ipaddr* :unknown)
+                                   :port (server-port))))
 
-(defun encode-object-for-http (type plist)
+(defun construct-object-for-http (type plist)
   (cons type plist))
 
-(defun decode-object-from-http (list)
+(defun destructure-object-from-http (list)
   (when (keywordp (first list))
     (values (first list) (rest list))))
 
