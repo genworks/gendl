@@ -447,7 +447,9 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
    ;;
 
    (curves-2d
-    (when (typep (the object) 'surf:curve)
+    (when (and (typep (the object) 'surf:curve)
+	       (not (or (typep (the object) 'surf:arc-curve)
+			(typep (the object) 'surf:linear-curve))))
       (let ((control-points (the object control-points))
 	    (weights (the object weights))
 	    (knot-vector (the object knot-vector))

@@ -70,7 +70,7 @@ given as keyword args to this function)."
            (remf args :show-redefinition-warnings? )
            (with-compilation-unit ()
              (let ((object (apply #'make-object 'codebase-directory-node :pathname pathname args)))
-               (unless (the-object object dry-run?)
+               (unless nil ;;(the-object object dry-run?)
                  (the-object object (compile-and-load :package-file-ht package-file-ht)))
                (when (the-object object create-asd-file?)
                  (the-object object (write-asd-file))))))))
