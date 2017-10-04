@@ -42,7 +42,9 @@
          (argstring (encode-plist-for-url encoded-plist))
          (result (net.aserve.client:do-http-request 
                   (format nil "http://~a:~a/~a?args=~a" host port request argstring))))
-    (read-safe-string (if decode (base64-decode-safe result) result))))
+    (if decode
+        (decode-from-http (read-safe-string (base64-decode-safe result)))
+        (read-safe-string result))))
 
 
 (define-object remote-object (vanilla-remote)
@@ -111,13 +113,7 @@
       
       (when *agile-debug?* (setq *fetch-plist* (encode-plist-args plist)))
       
-      (let ((result (remote-execute "fetch-remote-input" (the host) (the port) plist)))
-	;;(print-variables result)
-	
-	
-        (if (consp result)
-	    (evaluate-object (first result) (rest result))
-	    result))))
+      (remote-execute "fetch-remote-input" (the host) (the port) plist)))
    
    
    (unbind-remote-slot 
@@ -125,8 +121,7 @@
     (let ((plist (list :slot slot 
                        :remote-id (the remote-id)
                        :remote-root-path (the remote-root-path))))
-      (let ((result (remote-execute "unbind-slots" (the host) (the port) plist)))
-        (decode-from-http result))))
+      (remote-execute "unbind-slots" (the host) (the port) plist)))
 
    
    (send
@@ -142,25 +137,17 @@
       
       (let ((result (remote-execute "send-remote-message" (the host) (the port) plist)))
 
-        ;;
-        ;; FLAG -- pass result through generic function to sanitize
-        ;;
-        
-        (let ((result (decode-from-http result)))
-
-	  
-	  
-          (cond ((and (consp result) (eql (first result) :error)
-                      (eql (second result) :no-such-object))
-                 (progn
-                   (warn "~&Remote object returned error, creating a new one...~%")
-                   (the (set-slot! :remote-id nil :warn-on-non-toplevel? nil))
-                   (the (restore-slot-default! :remote-id))
-                   (the (send (:apply (cons message args))))))
-                ((and (consp result) (eql (first result) :error))
-                 (format *error-output* "~&~%Remote object threw error:~%~%")
-                 (error (format nil (second result))))
-                (t result))))))
+        (cond ((and (consp result) (eql (first result) :error)
+                    (eql (second result) :no-such-object))
+               (progn
+                 (warn "~&Remote object returned error, creating a new one...~%")
+                 (the (set-slot! :remote-id nil :warn-on-non-toplevel? nil))
+                 (the (restore-slot-default! :remote-id))
+                 (the (send (:apply (cons message args))))))
+              ((and (consp result) (eql (first result) :error))
+               (format *error-output* "~&~%Remote object threw error:~%~%")
+               (error (format nil (second result))))
+              (t result)))))
 
    
    
