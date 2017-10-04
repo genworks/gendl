@@ -32,6 +32,8 @@
 
 (defparameter *request-server-ipaddr* nil)
 
+(defun decode-arglist-from-url (argstring)
+  (base64-decode-list argstring))
 
 (defun remote-function-handler (handler &key (encode t)) ;;&optional lock
   #'(lambda (req ent)
@@ -41,7 +43,7 @@
                (*ipaddr* (socket:ipaddr-to-dotted (socket:remote-host socket)))
                (query (request-query req))
                (args (rest (assoc "args" query :test #'string-equal)))
-               (args-list (base64-decode-list args)))
+               (args-list (decode-arglist-from-url args)))
           (glisp:with-heuristic-case-mode ()
             (with-http-response (req ent)
               (with-http-body (req ent)
