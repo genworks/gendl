@@ -78,7 +78,7 @@
 
                          (part-name (getf args-list :part-name))
 
-                         ;;(child (evaluate-object (first (getf args-list :child)) (rest (getf args-list :child))))
+                         ;;(child (decode-from-http (getf args-list :child)))
 
                          (index (getf (rest (getf args-list :child)) :index))
 
@@ -190,7 +190,7 @@
                     (the-object object (set-slot! :remote-id new-id :remember? nil :warn-on-non-toplevel? nil))
                     (the-object object (set-slot! :%index% index :warn-on-non-toplevel? nil))
                     (setf (slot-value object 'gdl-acc::%parent%)
-                          (list (evaluate-object (first parent-form) (rest parent-form)) nil t))
+                          (list (decode-from-http parent-form) nil t))
                     (setf (gethash new-id *remote-objects-hash*) object)
                     (format t "~&~%Created new remote object with ID ~s and arglist:
 ~s~%~%"

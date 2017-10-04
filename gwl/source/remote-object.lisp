@@ -162,14 +162,12 @@
           (let ((result (remote-execute "send-remote-output"  (the host) (the port) plist)))
             (write-string result *stream*))))))
 
-
-(defmethod decode-from-http ((item t)) item)
-
-(defmethod decode-from-http ((list list))
-  (when list
-    (multiple-value-bind (object-type initargs) (decode-object-from-http list)
-      (cond (object-type (evaluate-object object-type initargs))
-            (t (cons (decode-from-http (first list)) (decode-from-http (rest list))))))))
+(defun decode-from-http (item)
+  (if (consp item)
+      (multiple-value-bind (object-type initargs) (decode-object-from-http item)
+        (or (and object-type (evaluate-object object-type initargs))
+            (mapcar #'decode-from-http item)))
+      item))
 
 (defun encode-plist-args (plist)
   ;;
