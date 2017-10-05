@@ -27,12 +27,6 @@
 (defparameter *make-object-plist* nil)
 (defparameter *fetch-plist* nil)
 
-
-;; FLAG -- not used here any more, remove once pyndl updated
-(defun encode64-downcase (item)
-  (let ((*print-case* :downcase))
-    (base64-encode-list item)))
-    
 (defun encode-plist-for-url (encoded-plist)
   (let ((*print-case* :downcase))
     (base64-encode-list encoded-plist)))
