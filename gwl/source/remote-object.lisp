@@ -245,11 +245,15 @@
                                    :port (server-port))))
 
 (defun construct-object-for-http (type plist)
-  (cons type plist))
+  (list* :object-type type plist))
 
 (defun destructure-object-from-http (list)
-  (when (keywordp (first list))
-    (values (first list) (rest list))))
+  (if (evenp (length list))
+    (alexandria:when-let (object-type (getf list :object-type))
+      (values object-type (remove-plist-key list :object-type)))
+    ;; Support old object format for backward compatibility.
+    (when (keywordp (first list))
+      (values (first list) (rest list)))))
 
 
 (defmethod print-object ((object remote-object) stream)
