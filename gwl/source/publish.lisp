@@ -80,7 +80,10 @@
 
                          ;;(child (decode-from-http (getf args-list :child)))
 
-                         (index (getf (rest (getf args-list :child)) :index))
+                         (index (multiple-value-bind (type plist)
+                                    (destructure-object-from-http (getf args-list :child))
+                                  (declare (ignore type))
+                                  (getf plist :index)))
 
                          (child (if index
                                     (the-object object ((evaluate part-name) index))
@@ -175,7 +178,10 @@
                       (current-id (getf args-list :current-id))
                       (parent-form (getf args-list :parent-form)))
 
-                  (setf (getf (rest parent-form) :host) *ipaddr*)
+                  (setf parent-form
+                        (multiple-value-bind (type plist) (destructure-object-from-http parent-form)
+                          (setf (getf plist :host) *ipaddr*)
+                          (construct-object-for-http type plist)))
 
                   (when current-id
                     (let ((removed? (remhash current-id *remote-objects-hash*)))

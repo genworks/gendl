@@ -61,9 +61,12 @@
 			      
 			      (when *agile-debug?* (setq *make-object-plist* (append (remove-plist-keys plist (list :parent-form :name))
 										     (list :name (string (getf plist :name)))
-										     (list :parent-form (let ((parent-plist (rest (getf plist :parent-form))))
-                                                                                                          (stringify-plist parent-plist))))))
-                 
+										     (list :parent-form
+                                                                                           (multiple-value-bind (type parent-plist)
+                                                                                               (destructure-object-from-http (getf plist :parent-form))
+                                                                                             (declare (ignore type))
+                                                                                             (stringify-plist parent-plist))))))
+
                               (let ((new-id
                                      (remote-execute "make-remote-object" (the host) (the port) plist :decode nil)))
                                 (the (set-slot! :previous-id new-id :remember? nil :warn-on-non-toplevel? nil))
