@@ -31,16 +31,6 @@
   (let ((*print-case* :downcase))
     (base64-encode-list encoded-plist)))
 
-(defun remote-execute (request host port plist &key (decode t))
-  (let* ((encoded-plist (encode-plist-args plist))
-         (argstring (encode-plist-for-url encoded-plist))
-         (result (net.aserve.client:do-http-request 
-                  (format nil "http://~a:~a/~a?args=~a" host port request argstring))))
-    (if decode
-        (decode-from-http (read-safe-string (base64-decode-safe result)))
-        (read-safe-string result))))
-
-
 (define-object remote-object (vanilla-remote)
   :no-vanilla-mixin? t
   
@@ -61,8 +51,7 @@
                                                                                              (declare (ignore type))
                                                                                              (stringify-plist parent-plist))))))
 
-                              (let ((new-id
-                                     (remote-execute "make-remote-object" (the host) (the port) plist :decode nil)))
+                              (let ((new-id (the (remote-execute "make-remote-object" plist :decode nil))))
                                 (the (set-slot! :previous-id new-id :remember? nil :warn-on-non-toplevel? nil))
                                 new-id))) :settable))
 
@@ -92,7 +81,19 @@
   
   
   :functions
-  ((fetch-input
+  ((remote-execute
+    (request plist &key (decode t))
+    (let* ((encoded-plist (encode-plist-args plist))
+           (argstring (encode-plist-for-url encoded-plist))
+           (result (net.aserve.client:do-http-request 
+                       (format nil "http://~a:~a/~a?args=~a"
+                               (the host) (the port)
+                               request argstring))))
+      (if decode
+        (decode-from-http (read-safe-string (base64-decode-safe result)))
+        (read-safe-string result))))
+
+   (fetch-input
     (message part-name child &rest args)
     
     ;;
@@ -110,7 +111,7 @@
       
       (when *agile-debug?* (setq *fetch-plist* (encode-plist-args plist)))
       
-      (remote-execute "fetch-remote-input" (the host) (the port) plist)))
+      (the (remote-execute "fetch-remote-input" plist))))
    
    
    (unbind-remote-slot 
@@ -118,7 +119,7 @@
     (let ((plist (list :slot slot 
                        :remote-id (the remote-id)
                        :remote-root-path (the remote-root-path))))
-      (remote-execute "unbind-slots" (the host) (the port) plist)))
+      (the (remote-execute "unbind-slots" plist))))
 
    
    (send
@@ -132,7 +133,7 @@
 
       (when *agile-debug?* (setq *send-plist* (stringify-plist (encode-plist-args plist))))
       
-      (let ((result (remote-execute "send-remote-message" (the host) (the port) plist)))
+      (let ((result (the (remote-execute "send-remote-message" plist))))
 
         (cond ((and (consp result) (eql (first result) :error)
                     (eql (second result) :no-such-object))
@@ -156,7 +157,7 @@
                        :remote-id (the remote-id)
                        :remote-root-path (the remote-root-path)
                        :package *package*)))
-          (let ((result (remote-execute "send-remote-output"  (the host) (the port) plist)))
+      (let ((result (the (remote-execute "send-remote-output" plist))))
             (write-string result *stream*))))))
 
 (defun decode-from-http (item)
