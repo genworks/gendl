@@ -102,7 +102,7 @@
     ;;
     (let ((plist (list :message (make-keyword message)
                        :part-name (make-keyword part-name)
-                       :child (encode-for-http child)
+                       :index (the-object child index)
                        :notify-cons (encode-for-http gdl::*notify-cons*)
                        :args args
                        :remote-id (the remote-id)

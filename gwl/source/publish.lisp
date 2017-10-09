@@ -78,12 +78,7 @@
 
                          (part-name (getf args-list :part-name))
 
-                         ;;(child (decode-from-http (getf args-list :child)))
-
-                         (index (multiple-value-bind (type plist)
-                                    (destructure-object-from-http (getf args-list :child))
-                                  (declare (ignore type))
-                                  (getf plist :index)))
+                         (index (getf args-list :index))
 
                          (child (if index
                                     (the-object object ((evaluate part-name) index))
