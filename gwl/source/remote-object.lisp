@@ -27,7 +27,9 @@
 (defparameter *make-object-plist* nil)
 (defparameter *fetch-plist* nil)
 
-(defun encode-plist-for-url (encoded-plist)
+(defvar *preferred-remote-syntax* :lisp)
+
+(defmethod encode-plist-for-url ((syntax (eql :lisp)) encoded-plist)
   (let ((*print-case* :downcase))
     (base64-encode-list encoded-plist)))
 
@@ -36,13 +38,15 @@
   #+ccl (ccl:terminate-when-unreachable obj)
   nil)
 
-(defun do-remote-execute (request host port plist &key (decode t))
+(defun do-remote-execute (request host port remote-syntax plist &key (decode t))
   (let* ((encoded-plist (encode-plist-args plist))
-         (argstring (encode-plist-for-url encoded-plist))
+         (argstring (encode-plist-for-url remote-syntax encoded-plist))
          (result (net.aserve.client:do-http-request 
-                     (format nil "http://~a:~a/~a?args=~a"
-                             host port
-                             request argstring))))
+                     (let ((*print-case* :downcase))
+                       (format nil "http://~a:~a/~a?args=~a&syntax=~s"
+                               host port
+                               request argstring remote-syntax)))))
+    ;; Note that for now, return values do not obey remote-syntax, they are always in lisp....
     (if decode
         (decode-from-http (read-safe-string (base64-decode-safe result)))
         (read-safe-string result))))
@@ -51,7 +55,8 @@
 (define-object remote-object (vanilla-remote)
   :no-vanilla-mixin? t
   
-  :input-slots (remote-type (input-parameters nil) host port
+  :input-slots (remote-type (input-parameters nil)
+                host port (remote-syntax *preferred-remote-syntax*)
                 
                 (remote-root-path nil)
                 
@@ -101,7 +106,7 @@
   :functions
   ((remote-execute
     (request plist &key (decode t))
-    (do-remote-execute request (the host) (the port) plist :decode decode))
+    (do-remote-execute request (the host) (the port) (the remote-syntax) plist :decode decode))
    
    (fetch-input
     (message part-name child &rest args)
@@ -181,6 +186,7 @@
 (defmethod ccl:terminate ((object remote-object))
   (let ((data (list (the-object object host)
                     (the-object object port)
+                    (the-object object remote-syntax)
                     (the-object object remote-id))))
     (bt:with-lock-held (*remotes-to-purge-lock*)
       (push data *remotes-to-purge*))))
@@ -191,9 +197,9 @@
                      (pop *remotes-to-purge*))))
        (unless remote (return))
        (destructuring-bind
-             (host port id) remote
+             (host port syntax id) remote
          (let ((result
-                (do-remote-execute "delete-remote-object" host port
+                (do-remote-execute "delete-remote-object" host port syntax
                                    (list :current-id (make-keyword id))
                                    :decode nil)))
            (unless (string-equal result "ok")
