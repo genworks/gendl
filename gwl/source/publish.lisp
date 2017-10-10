@@ -197,7 +197,22 @@
 ~s~%~%"
                             new-id rest-args)
                     new-id)))
-            :encode nil)))
+            :encode nil))
+
+  (publish :path "/delete-remote-object"
+	   :server server
+	   :function
+           (remote-function-handler
+            #'(lambda (args-list)
+                (let* ((current-id (getf :current-id args-list))
+                       (object (gethash current-id *remote-objects-hash*)))
+                  (cond (object
+                         (remhash current-id *remote-objects-hash*)
+                         (the-object object (set-slot! :remote-id nil :remember? nil :warn-on-non-toplevel? nil))
+                         :ok)
+                        (t :unknown-id))))
+            :encode nil))
+)
 
 (pushnew 'publish-dgdl-funcs *publishers*)
 
@@ -230,9 +245,9 @@
 
 
 
-
-
-
+;;;
+;;; FLAG -- Should  *remote-proxies-hash* be a weak-on-value hash table?
+;;;
 (defmethod evaluate-object ((category (eql :remote-gdl-instance)) args)
   (let ((hash-key (list (getf args :id) (getf args :root-path))))
     (progn ;; bt:with-lock-held (*remote-proxy-lock*)
@@ -240,6 +255,8 @@
 	  (progn
 	    (format t "~%~%~s Not found in hash - creating fresh ~%~%" (getf args :id))
 	    (setf (gethash hash-key *remote-proxies-hash*)
+                  ;; Note that this avoids the usual request to create a new target on the remote
+                  ;; by specifying the :remote-id arg explicitly.
 		  (gdl::make-object-internal 'remote-object
 					     :%parent% (list nil nil t)
 					     :%index% (list (getf args :index) nil t)

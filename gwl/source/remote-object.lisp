@@ -31,6 +31,23 @@
   (let ((*print-case* :downcase))
     (base64-encode-list encoded-plist)))
 
+(defun register-remote-object (obj)
+  (declare (ignore obj))
+  #+ccl (ccl:terminate-when-unreachable obj)
+  nil)
+
+(defun do-remote-execute (request host port plist &key (decode t))
+  (let* ((encoded-plist (encode-plist-args plist))
+         (argstring (encode-plist-for-url encoded-plist))
+         (result (net.aserve.client:do-http-request 
+                     (format nil "http://~a:~a/~a?args=~a"
+                             host port
+                             request argstring))))
+    (if decode
+        (decode-from-http (read-safe-string (base64-decode-safe result)))
+        (read-safe-string result))))
+
+
 (define-object remote-object (vanilla-remote)
   :no-vanilla-mixin? t
   
@@ -53,6 +70,7 @@
 
                               (let ((new-id (the (remote-execute "make-remote-object" plist :decode nil))))
                                 (the (set-slot! :previous-id new-id :remember? nil :warn-on-non-toplevel? nil))
+                                (register-remote-object self)
                                 new-id))) :settable))
 
   
@@ -83,16 +101,8 @@
   :functions
   ((remote-execute
     (request plist &key (decode t))
-    (let* ((encoded-plist (encode-plist-args plist))
-           (argstring (encode-plist-for-url encoded-plist))
-           (result (net.aserve.client:do-http-request 
-                       (format nil "http://~a:~a/~a?args=~a"
-                               (the host) (the port)
-                               request argstring))))
-      (if decode
-        (decode-from-http (read-safe-string (base64-decode-safe result)))
-        (read-safe-string result))))
-
+    (do-remote-execute request (the host) (the port) plist :decode decode))
+   
    (fetch-input
     (message part-name child &rest args)
     
@@ -159,6 +169,45 @@
                        :package *package*)))
       (let ((result (the (remote-execute "send-remote-output" plist))))
             (write-string result *stream*))))))
+
+;;
+;; FLAG -- promote this to a generic glisp finalizer scheme
+;;
+(defparameter *remotes-to-purge* nil)
+(defparameter *remotes-to-purge-lock* (bt:make-lock))
+
+
+#+ccl
+(defmethod ccl:terminate ((object remote-object))
+  (let ((data (list (the-object object host)
+                    (the-object object port)
+                    (the-object object remote-id))))
+    (bt:with-lock-held (*remotes-to-purge-lock*)
+      (push data *remotes-to-purge*))))
+
+(defun terminate-remotes ()
+  (loop
+     (let ((remote (bt:with-lock-held (*remotes-to-purge-lock*)
+                     (pop *remotes-to-purge*))))
+       (unless remote (return))
+       (destructuring-bind
+             (host port id) remote
+         (let ((result
+                (do-remote-execute "delete-remote-object" host port
+                                   (list :current-id (make-keyword id))
+                                   :decode nil)))
+           (unless (string-equal result "ok")
+             (warn "Terminate of ~a returned ~a.~%" id result)))))))
+
+
+(defun launch-terminator ()
+  (bt:make-thread #'(lambda()
+		      (do () ()
+			(sleep 5)
+			(terminate-remotes)))
+		  :name "remote terminator, wakes every 5 seconds and cleans up stale remotes."))
+
+
 
 (defun decode-from-http (item)
   (if (consp item)
