@@ -235,7 +235,18 @@
 (defun stringify-plist (plist)
   (loop for (key val) on plist by #'cddr
     collect key
-    collect (if (and val (symbolp val)) (format nil "~s" val) val)))
+    collect (cond ((or (null val) (eql val t) (numberp val)) val)
+                  ((atom val) (format nil "~s" val))
+                  ((keywordp (car val)) (stringify-plist val))
+                  (t (mapcar #'stringify-plist val)))))
+
+(defun unstringify-plist (plist)
+  (loop for (key val) on plist by #'cddr
+    collect key
+    collect (cond ((or (null val) (eql val t)) val)
+                  ((atom val) (read-safe-string val))
+                  ((keywordp (car val)) (unstringify-plist val))
+                  (t (mapcar #'unstringify-plist val)))))
 
 (defmethod encode-for-http ((item t)) item)
 
