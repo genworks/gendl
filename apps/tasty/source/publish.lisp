@@ -22,6 +22,9 @@
 
 (in-package :tasty)
 
-(publish-gwl-app "/tasty" "tasty:assembly" :make-object-args (list :title "Genworks tasty"))
+(defun publish-tasty (server)
+  (publish-gwl-app "/tasty" "tasty:assembly" :make-object-args (list :title "Genworks tasty") :server server))
+
+(pushnew 'publish-tasty *publishers*)
 
 

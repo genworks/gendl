@@ -37,7 +37,7 @@ in a Spreadsheet to establish the value of a particular "
 a spreadsheet, these values are only computed on an as-needed
 basis (i.e. ``on-demand''). You can also evaluate S-expressions at the
 toplevel "
-	   (:texttt "gdl-user\\textgreater")
+	   (:texttt "gdl-user" (:textgreater))
 	   " prompt, and see the result immediately. In fact, this toplevel prompt is called a "
 	   (:emph "read-eval-print")
 	   " loop, because its purpose is to "
@@ -229,7 +229,7 @@ evaluate to themselves when included in an expression.")
 	    ", then enough arguments to match the "
 	    (:emph "format directives")
 	    " in the format-string. Format directives begin with the
-tilde character (\\~).  The format-directive "
+tilde character (" (:texttt "~") ").  The format-directive "
 	    (:texttt "~a")
 	    " indicates that the printed representation of the corresonding argument should simpy be 
 substituted into the format-string at the point where it occurs.")

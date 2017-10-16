@@ -37,11 +37,11 @@
 	   (setq os-ratings (make-hash-table))
 	   :return-value "<eql hash-table with 0 entries @ #x9309caa>")
 	  (:code
-	   (setf (gethash :windows os-ratings) :horrible)
-	   :return-value :horrible)
+	   (setf (gethash :windows os-ratings) :acceptable)
+	   :return-value :acceptable)
 	  (:code
 	   (gethash :windows os-ratings)
-	   :return-value :horrible)))
+	   :return-value :acceptable)))
 	(:description
 	 "Can store database tables locally and temporarily 
 as hash tables for very fast repeated access.")

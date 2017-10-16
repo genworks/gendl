@@ -22,14 +22,7 @@
 (in-package :gwl)
 
 
-(publish :path "/color-map"
-         :function #'(lambda(req ent)
-                       (gwl-make-part req ent "gwl-user::color-map")))
 
-
-(publish :path "/color-palette"
-         :function #'(lambda(req ent)
-                       (gwl-make-part req ent "gwl-user::color-map")))
 
 (define-object color-map (base-html-sheet)
 
@@ -49,3 +42,18 @@
                                                               (format *html-stream* "~{~a~^, ~}"
                                                                       (gethash key *color-table-decimal*))))))
                                               *color-table*)))))))
+
+
+(defun publish-color-map (server)
+
+  (publish :path "/color-map"
+	   :server server
+	   :function #'(lambda(req ent)
+			 (gwl-make-part req ent 'color-map)))
+
+  (publish :path "/color-palette"
+	   :server server
+	   :function #'(lambda(req ent)
+			 (gwl-make-part req ent 'color-map))))
+
+(pushnew 'publish-color-map *publishers*)

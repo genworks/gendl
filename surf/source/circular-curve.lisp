@@ -42,13 +42,6 @@
 </pre>"))
 
 
-
-;;
-;; FLAG move to main package.lisp. 
-;;
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (export 'circular-curve :surf))
-
 ;;
 ;; FLAG -- add Lift regression test in gendl/regression/source/
 ;;

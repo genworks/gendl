@@ -1,11 +1,13 @@
-;;;; -*- encoding: utf-8; -*-
+;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:training :description
- "The Gendl™ training Subsystem" :author
- "Dave Cooper and Genworks International" :license
- "Gnu Affero General Public License (please see http://www.gnu.org/licenses/)"
- :serial t :version "20130508" :depends-on (:gwl-graphics :surf :yadd :bordeaux-threads)
- #+asdf-encoding :encoding #+asdf-encoding :utf-8
+ "The Gendl® training Subsystem" :author "Genworks International"
+ :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
+ :serial t :version "20170524" :depends-on
+ (:gwl-graphics :surf :yadd :bordeaux-threads)
+ #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode nil
+ #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "slide-show/source/package")
   (:gendl "slide-show/source/assembly")
@@ -35,8 +37,11 @@
   (:file "g102/examples/city/source/assembly")
   (:file "g102/examples/city/source/building")
   (:file "g102/examples/city/source/grid-section")
+  (:file "g102/examples/dependency/source/dependency-flag")
   (:file "g102/examples/solids/source/primitives")
   (:file "g102/examples/solids/source/web-page")
+  (:file "g102/examples/source/dependency-flag")
+  (:file "g102/examples/source/drawing")
   (:file "g102/examples/source/fuselage-example")
   (:file "g102/examples/source/g102-exercises")
   (:file "g102/examples/source/hairy")

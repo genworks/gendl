@@ -104,7 +104,9 @@
                  (with-http-body (req ent)
                    (when (null (getf header-plist :location))
                      (let ((*req* req) (*ent* ent) (*skin* skin))
-          
+
+		       (when *debug?* (print-variables (socket:remote-host (net.aserve:request-socket req))))
+		       
                        (the-object respondent (:before-present!))
                        (let ((*stream* *html-stream*))
                          (the-object respondent (:write-html-sheet)))

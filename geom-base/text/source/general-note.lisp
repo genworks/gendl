@@ -32,6 +32,8 @@
 (define-object general-note (outline-specialization-mixin base-object)
    :documentation (:description "Creates a text note in the graphical view port and in a PDF DXF output file." 
                    :examples "<pre> 
+ (in-package :gdl-user)
+
  (define-object general-note-test (base-object)
   
   :computed-slots
@@ -322,6 +324,12 @@ is specified), so it is necessary to explicitly give either start or center for 
 
             (format *stream* "  0
 TEXT
+ 5
+~a
+ 100
+AcDbEntity
+ 100
+AcDbText
  10
 ~3,15f
  20
@@ -332,17 +340,17 @@ TEXT
 ~a~a
  41
 ~3,15f
-  7
-~a
+ 100
+AcDbText
 "
 
-                    
+                    (incf *dxf-entity-id*)
                     (+ (get-x corner) (the dxf-offset)) (get-y corner) (* (the dxf-size-ratio) font-size)
                     (the %text-to-draw%)
                     (if (and rotation (not (zerop rotation)))
                         (format nil "~% 50~%~2,5f" rotation) "")
                     (div (the dxf-text-x-scale) 100)
-                    (the dxf-font)
+                    ;; (the dxf-font) ;; FLAG -- work the font back in. 
                     )
             
             (write-the rgb-stroke-setting)

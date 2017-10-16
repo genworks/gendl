@@ -367,3 +367,8 @@ set to nil to improve memory performance.")
 (defparameter *with-format-element-type* nil
 "Element-type. The default for the :element-type format-slot
   for the base format. Defaults to nil. Needs a better default.")
+
+(defparameter *allow-nil-list-of-numbers?* nil "Boolean. If set to t, 
+  allows list-of-numbers function to return nil instead of error
+  when num1 is greater than num2 with positive increment or vice-versa. 
+  Default is nil.")

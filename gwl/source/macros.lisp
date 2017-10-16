@@ -22,11 +22,7 @@
 (in-package :gwl)
 
 
-(defmacro with-all-servers ((server) &rest body)
-  (let ((server-var (gensym)))
-    `(dolist (,server-var (list *wserver* *ssl-server*))
-       (when ,server-var
-         (let ((,server ,server-var)) ,@body)))))
+
 
 (define-object form-mixin ())
 
@@ -69,7 +65,8 @@
     (:p ((:input :type :submit :name :subbmit :value " OK ")))))
 
 
-(defmacro with-html-form ((&key name multipart? enctype target requestor on-submit suppress-border? local-anchor cl-who?) 
+
+(defmacro with-html-form ((&key name id  multipart? enctype target requestor on-submit suppress-border? local-anchor cl-who?) 
                           &body body)
   
   "Enclose a body of code with a form.
@@ -82,14 +79,15 @@ FLAG -- fill in.
   (let ((%enctype% (gensym))
         (fixed-prefix (gensym)))
     `(let ((,%enctype% (cond (,enctype ,enctype) (,multipart? "multipart/form-data")))
-           (,fixed-prefix (the fixed-url-prefix)))
+           (,fixed-prefix (let ((prefix (the fixed-url-prefix)))
+			    (when prefix (string-append "/" prefix)))))
        (,@(if cl-who? '(with-html-output (*stream* nil :indent t)) 
             '(html 
               ;;html-stream *stream*
               
               ))
           ((:form :method :|post| 
-                  
+                  :id ,id
                   :action (string-append (or ,fixed-prefix "")
                                  (format nil (if ,local-anchor (format nil "/answer#~a" ,local-anchor) "/answer")))
                   

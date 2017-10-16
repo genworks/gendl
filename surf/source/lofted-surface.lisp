@@ -165,6 +165,7 @@ the SMLib make-skinned-surface routine. Default is nil"
         (when (and control-points-1 control-points-2
                    (/= control-points-1 control-points-2))
           (error "For lofted-surface, rail-1 and rail-2, if both specified, must be synchronized."))
+
         (loft-surface* *geometry-kernel* (the curves) 
                        :synchronized? (the synchronized?)
                        :rail-1 (when (the rail-1) 

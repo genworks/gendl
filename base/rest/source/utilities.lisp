@@ -1,8 +1,8 @@
 ;;
 ;; Copyright 2002-2012 Genworks International
 ;;
-;; This source file is part of the General-purpose Declarative
-;; Language project (GDL).
+;; Except otherwise noted in documentation below, this source file is
+;; part of the General-purpose Declarative Language project (GDL).
 ;;
 ;; This source file contains free software: you can redistribute it
 ;; and/or modify it under the terms of the GNU Affero General Public
@@ -124,27 +124,6 @@ object in <b>object-list</b>.
                 (the-object object (evaluate message))) object-list)))
 
 
-(defun list-of-numbers (num1 num2 &optional (increment 1) (tolerance (/ increment 10)))
-  "List of Numbers. Returns a list of incrementing numbers starting
-from <b>num1</b> and ending with <b>num2</b>, inclusive. Increment can
-be positive for num1 < num2, or negative for num1 > num2. This version
-was contributed by Reinier van Dijk.
-
-:arguments (num1 \"Number\"
-            num2 \"Number\")
-:&optional ((increment 1) \"Number. The distance between the returned listed numbers.\"
-            (tolerance (/ increment 10)) \"Number. tolerance for increment.\")"
-
-  (cond ((zerop increment) (error "increment of zero is not allowed"))
-	((and (< increment 0.0) (> num2 num1)) (error "increment is negative, while difference between num2 and num1 is positive."))
-	((and (> increment 0.0) (< num2 num1)) (error "increment is positive, while difference between num2 and num1 is negative."))
-	(t (let ((predicate (if (> increment 0.0) #'>= #'<=))
-		 (result-list nil))
-	     (do ((num num1 (+ num increment)))
-		 ((or (funcall predicate num num2) (< (abs (- num2 num)) tolerance)) (nreverse (cons num2 result-list)))
-	       (push num result-list))))))
-
-
 (defun list-of-n-numbers (num1 num2 n)
   "Returns a list of n numbers equally spaced between bounds num1 and num2, inclusive."
   (let ((increment (/ (- num2 num1) (- n 1)))
@@ -152,10 +131,7 @@ was contributed by Reinier van Dijk.
     (dotimes (i (- n 1) (nreverse (cons num2 result-list)))
       (push (+ num1 (* i increment)) result-list))))
 
-;;
-;; FLAG -- remove this when above version is fully tested. 
-;;
-#+nil
+
 (defun list-of-numbers (num1 num2 &optional (increment 1))
   "List of Numbers. Returns a list of incrementing numbers starting from 
 <b>num1</b> and ending with <b>num2</b>, inclusive.
@@ -201,27 +177,48 @@ function <b>fn</b> returns non-NIL.
       (incf count))))
 
 
-(defun flatten (tree)
+(defun flatten (tree &aux result)
   "List. Returns a new list consisting of only the leaf-level atoms from <b>list</b>. 
 Since nil is technically a list, <tt>flatten</tt> also has the effect of removing 
 nils from <b>list</b>, but may be inefficient if used only for this purpose. For 
 removing nil values from a list, consider using <tt>remove nil ...</tt> instead.
 
-:note from On Lisp by Paul Graham, code as follows:
+:note from Stack Overflow forum:  http://stackoverflow.com/questions/25866292/flatten-a-list-using-common-lisp
 
-  <pre>
-  (if (atom tree)
-      (ensure-list tree)
-    (nconc (flatten (car tree))
-           (if (cdr tree) (flatten (cdr tree)))))
+:note Creative Commons license
+
+<pre>
+ (defun flatten (lst &aux (result '()))
+   (labels ((rflatten (lst1)
+              (dolist (el lst1 result)
+                (if (listp el)
+                  (rflatten el)
+                  (push el result)))))
+       (nreverse (rflatten lst))))
   </pre>
+
+:note This will not work with dotted lists, only with actual lists. If
+you need dotted lists, use the old definition of flatten, from Paul
+Graham On Lisp:
+
+<pre>
+
+  (defun flatten (tree)
+   (if (atom tree)
+       (ensure-list tree)
+       (nconc (flatten (car tree))
+              (if (cdr tree) (flatten (cdr tree))))))
+</pre>
 
 :arguments (list \"List\")
 :see-also <tt>remove</tt>"
-  (if (atom tree)
-      (ensure-list tree)
-    (nconc (flatten (car tree))
-           (if (cdr tree) (flatten (cdr tree))))))
+
+  (labels ((rflatten (tree1)
+	     (dolist (el tree1 result)
+	       (if (listp el)
+		   (rflatten el)
+		   (push el result)))))
+    (nreverse (rflatten tree))))
 
 
 (defun split (string &optional (split-chars (list #\space #\newline #\return #\tab)))
@@ -745,6 +742,64 @@ file.
 						 :make-object-args make-object-args :keys-to-ignore keys-to-ignore))))))
 
 
+
+
+(defun read-snapshot-from-stream (in &key object keep-bashed-values? make-object-args keys-to-ignore)
+
+  (let ((package-form (read in)))
+	(when (or (null package-form) (not (find-package (second package-form))))
+	  (error "Invalid package specification at beginning of stream ~s.~%" in))
+	(let* ((*package* (find-package (second package-form))) (root-form (read in)))
+	  (when (or (null root-form) 
+		    (not (eql (class-of (find-class (first root-form))) (find-class 'gdl-class))))
+	    (error "Invalid object type specifier as first element of second form in ~a.~%" root-form))
+
+        
+	  (let* ((object (cond ((and object keep-bashed-values?) object)
+			       (object (the-object object restore-tree!) object)
+			       (t (progn
+				    (apply #'make-object (first root-form) make-object-args))))))
+
+	    
+	    (let ((self object) (value-plist (rest root-form)))
+
+	      (mapc #'(lambda(key expression) 
+			(unless (member key keys-to-ignore)
+			  (when self (the-object self (set-slot! key (eval expression) :re-sort? nil)))))
+		    (plist-keys value-plist) (plist-values value-plist)))
+          
+	    (let (forms)
+	      (do ((form (read in nil nil) (read in nil nil)))
+		  ((null form) forms)
+		(push form forms))
+	    
+	      (setq forms (nreverse forms))
+	    
+	      (let* ((forms (double-length-sort forms))
+		     
+		     (primaries (remove-if-not #'(lambda(item) (or (getf (rest item) :%primary?%)
+								   (getf (rest item) :element-index-list))) forms))
+		     (non-primaries (remove-if #'(lambda(item) (or (getf (rest item) :%primary?%)
+								   (getf (rest item) :element-index-list))) forms))
+		     (forms (append primaries non-primaries)))
+              
+		(dolist (form forms)
+            
+		  (let ((root-path (first form)) (value-plist (rest form)))
+		    (let ((self 
+			   (with-error-handling (:timeout nil)
+			     (the-object object (follow-root-path root-path)))))
+		      (when self
+			(mapc #'(lambda(key expression) 
+				  (unless (member key keys-to-ignore)
+				    (the-object self (set-slot! key (eval `(let ((self ,self)) ,expression)) :re-sort? nil))))
+			      (plist-keys value-plist) (plist-values value-plist))))))))
+	    object))))
+
+
+
+
+#+nil
 (defun read-snapshot-from-stream (in &key object keep-bashed-values? make-object-args keys-to-ignore)
 
   (let (forms)

@@ -92,6 +92,9 @@ the files are written into \"/tmp/sites/\".
     (multiple-value-bind (html code headers uri)
         (net.aserve.client:do-http-request (format nil "http://~a:~a~a" host port url))
       (declare (ignore code headers))
+
+      ;;(print-variables url)
+      
       (let* ((lhtmls (net.html.parser:parse-html 
                       html
                       :callbacks 
@@ -117,16 +120,18 @@ the files are written into \"/tmp/sites/\".
                 (make-pathname :directory (append (pathname-directory output-root) directory)
                                :name name
                                :type type))))
+
+	;;(print-variables lhtml url-string output-path)
         
-        
-        (let ((lhtml (relativize-lhtml lhtml url-string output-path host)))
+        (let ((lhtml (relativize-lhtml lhtml url-string output-path host port)))
           
           (cl:ensure-directories-exist (directory-namestring output-path))
+	  ;;(print-variables output-path)
           (with-open-file (out output-path :direction :output :if-exists :supersede :if-does-not-exist :create)
             (html-print lhtml out)))))))
 
 #+allegro
-(defun relativize-lhtml (lhtml url output-path host)
+(defun relativize-lhtml (lhtml url output-path host port)
   (when lhtml
     (mapcar #'(lambda(element)
                 (cond ((atom element) element)
@@ -153,7 +158,7 @@ the files are written into \"/tmp/sites/\".
                                              ((getf (rest element) :href) :href)
                                              (t (error ":img or :link or :embed or image type :input tag without :src or :href found in ~s" lhtml)))))
                          (let ((link-url 
-                                (format nil "http://~a:9000~a" host (getf (rest element) link-tag))
+                                (format nil "http://~a:~a~a" host port (getf (rest element) link-tag))
                                 ))
                            (let ((element (copy-list element)))
                              (setf (getf (rest element) link-tag)
@@ -164,11 +169,13 @@ the files are written into \"/tmp/sites/\".
                                (ensure-directories-exist (make-pathname :directory (pathname-directory image-output)))
                                (with-open-file (out image-output :direction :output
                                                 :if-exists :supersede :if-does-not-exist :create)
-                                 
+
+				 (print-variables image-output link-url)
+				 
                                  (write-sequence
                                   (net.aserve.client:do-http-request link-url :format :binary) out)))
                              element))))
-                      (t (relativize-lhtml element url output-path host)))) 
+                      (t (relativize-lhtml element url output-path host port)))) 
             lhtml)))
 
 #+allegro

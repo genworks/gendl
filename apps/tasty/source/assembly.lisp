@@ -69,7 +69,6 @@ o allow input of required input-slots.
         (the root-object update!)
 	(mapsend (list (the tree) (the inspector) (the viewport)) :update!)))
    
-   #+nil
    (tatu-update-function 
     #'(lambda() 
         (the (set-slot! :root-object (the root-object)))

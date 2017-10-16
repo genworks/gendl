@@ -58,6 +58,6 @@
            (write-the cad-output)))
         (:png 
          (with-format (png output-file :page-length (the page-length) 
-                           :page-width (the page-width)) 
+                           :page-width (the page-width) :element-type '(unsigned-byte 8))
            (write-the cad-output)))))))
   

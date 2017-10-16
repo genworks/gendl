@@ -69,10 +69,12 @@ into a single curve."
                      (if (< (the fillet-curves number-of-elements) (the straight-curves number-of-elements))
                          (cons (the straight-curves last) tail) tail)))
 
-   (fillet-curve-types (mapcar #'(lambda(fillet-index)
-				   (if (typep (the (fillets fillet-index)) 'geom-base::fillet)
-				       'arc-curve 'null-part))
-			       (list-of-numbers 0 (1- (the fillets number-of-elements))))))
+   (fillet-curve-types (let ((number-of-fillets (the fillets number-of-elements)))
+			 (unless (zerop number-of-fillets)
+			   (mapcar #'(lambda(fillet-index)
+				       (if (typep (the (fillets fillet-index)) 'geom-base::fillet)
+					   'arc-curve 'null-part))
+				   (list-of-numbers 0 (1- number-of-fillets)))))))
   
   :hidden-objects
   (("GDL Sequence of GDL NURBS curve objects. The arc-curves representing the fillets."

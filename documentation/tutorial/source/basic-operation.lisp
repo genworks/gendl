@@ -150,7 +150,7 @@ error messages, warnings, etc.")
 	 (:item "In Emacs, type: "
 	   (:texttt "C-x &")
 	   " (or select Emacs menu item "
-	   "Buffers&dollar;\\rightarrow&dollar;*slime-repl...*"
+	   (:emph "Buffers" (:$) (:rightarrow) (:$) "*slime-repl...*")
 	   ") to visit the ``*slime-repl ...*'' buffer. The full name
 of this buffer depends on the specific CL/GDL platform which you are
 running. This buffer contains an interactive prompt, labeled "
@@ -181,7 +181,7 @@ the other, or move the mouse cursor and click in each window. Notice
 how the blinking insertion point moves from one window to the other.")
 
 	 (:item "In the top (or left) window, type C-x C-f (or select Emacs menu item
-``File&dollar;\\rightarrow&dollar;Open File'') to get the ``Find file'' prompt in the
+``File" (:$) (:rightarrow) (:$) "Open File'') to get the ``Find file'' prompt in the
 mini-buffer.")
 
 	 (:item "Type C-a to move the point to the beginning of the mini-buffer line.")
@@ -189,7 +189,7 @@ mini-buffer.")
 	 (:item "Type C-k to delete from the point to the end of the mini-buffer.")
 
 	 (:item "Type "
-	   (:texttt "\\textasciitilde/hello.gdl")
+	   (:texttt (:textasciitilde) "/hello.gdl")
 	   " and press [Enter]")
 
 	 (:item "You are now editing a (presumably new) file of GDL
@@ -219,26 +219,26 @@ You can auto-indent each new line by pressing [TAB] after pressing [Enter] for t
 	 
 
 	 (:item "type " (:texttt "C-x C-s") " (or choose Emacs menu item "
-		(:emph "File&dollar;\\rightarrow&dollar;Save")
+		(:emph "File" (:$) (:rightarrow) (:$) "Save")
 		") to save the contents of the buffer (i.e. the window) 
 to the file in your HOME directory.")
 	 
 	 (:item "type " (:texttt "C-c C-k") " (or choose Emacs menu item "
-		(:emph "SLIME&dollar;\\rightarrow&dollar;Compilation&dollar;\\rightarrow&dollar;Compile/Load File")
+		(:emph "SLIME" (:$) (:rightarrow) (:$) "Compilation" (:$) (:rightarrow) (:$) "Compile/Load File")
 		") to compile & load the code from this file.")
 
 	 (:item "type " (:texttt "C-c o") " (or move and click the mouse)  to switch to the bottom window.")
 
 	 (:item "In the bottom window, type " (:texttt "C-x &") " (or choose Emacs menu item "
-		(:emph "Buffers&dollar;\\rightarrow&dollar;*slime-repl...*")
+		(:emph "Buffers" (:$) (:rightarrow) (:$) "*slime-repl...*")
 		") to get the "
 		(:texttt "*slime-repl ...*") " buffer, which should contain a "
 		(:texttt "gdl-user>")
 		" prompt. This is where you normally type interactive GDL commands.")
 
 	 (:item "If necessary, type "
-	   (:texttt "M \\textgreater")
-	   " (that is, hold down Meta (Alt), Shift, and the ``\\textgreater'' key) to
+	   (:texttt "M " (:textgreater))
+	   " (that is, hold down Meta (Alt), Shift, and the ``" (:textgreater) "'' key) to
 move the insertion point to the end of this buffer.")
 
 	 (:item "At the "

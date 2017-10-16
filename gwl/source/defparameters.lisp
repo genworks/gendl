@@ -133,3 +133,7 @@ Defaults to t.")
 
 (defparameter *recovery-url-default* "/" "The url that the session-control-mixin will use for the recovery url")
 
+(defparameter *publishers* nil "List of functions which accept server argument to do any aserve publishings.")
+
+(defun publish-uris ()
+  (with-all-servers (server) (dolist (publisher (reverse *publishers*)) (funcall publisher server))))

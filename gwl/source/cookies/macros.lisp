@@ -69,6 +69,46 @@
     (:p ((:input :type :submit :name :subbmit :value " OK ")))))
 
 
+
+(defmacro with-html-form ((&key name id  multipart? enctype target requestor on-submit suppress-border? local-anchor cl-who?) 
+                          &body body)
+  
+  "Enclose a body of code with a form.
+
+FLAG -- fill in.
+
+
+"
+  
+  (let ((%enctype% (gensym))
+        (fixed-prefix (gensym)))
+    `(let ((,%enctype% (cond (,enctype ,enctype) (,multipart? "multipart/form-data")))
+           (,fixed-prefix (let ((prefix (the fixed-url-prefix)))
+			    (when prefix (string-append "/" prefix)))))
+       (,@(if cl-who? '(with-html-output (*stream* nil :indent t)) 
+            '(html 
+              ;;html-stream *stream*
+              
+              ))
+          ((:form :method :|post| 
+                  :id ,id
+                  :action (string-append (or ,fixed-prefix "")
+                                 (format nil (if ,local-anchor (format nil "/answer#~a" ,local-anchor) "/answer")))
+                  
+                  :name ,(or name `(the root-path-string))
+                  ,@(if cl-who? `(:enctype ,%enctype%) `(:if* ,%enctype% :enctype ,%enctype%))
+                  ,@(if cl-who? `(:target ,target) `(:if* ,target :target ,target))
+                  ,@(if cl-who? `(:on-submit ,on-submit) `(:if* ,on-submit :onsubmit ,on-submit))
+                  ,@(if cl-who? `(:style ,(when suppress-border? "padding: 0; border: 0; margin: 0"))
+                      `(:if* ,suppress-border? :style "padding: 0; border: 0; margin: 0")))
+           
+           ((:input :type :hidden :name :|requestor| :value ,(if (null requestor) `(the url-encoded-root-path)
+                                                             `(the-object ,requestor url-encoded-root-path))))
+           
+           ((:input :type :hidden :name :|iid| :value (the instance-id))) ,@body)))))
+
+
+#+nil
 (defmacro with-html-form ((&key name multipart? enctype target requestor on-submit suppress-border? local-anchor cl-who?) 
                           &body body)
   

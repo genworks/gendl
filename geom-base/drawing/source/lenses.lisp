@@ -23,6 +23,8 @@
 
 (defparameter *fixed-scale?* nil)
 
+(defparameter *dxf-entity-id* nil)
+
 (eval-when (compile load eval) (export '*fixed-scale?*))
 
 ;;
@@ -32,7 +34,8 @@
 (defmacro with-translated-state ((format center) &body body)
   (ecase format
     (:pdf `(pdf:with-saved-state (pdf:translate (get-x ,center) (get-y ,center)) ,@body))
-    (:dxf `(let ((*dxf-translation* (add-vectors (subseq ,center 0 2)  *dxf-translation*))) ,@body))
+    (:dxf `(let ((*dxf-translation* (add-vectors (subseq ,center 0 2)  *dxf-translation*)))
+	     ,@body))
     (:raphael `(let ((*raphael-translation* (add-vectors (subseq ,center 0 2)  *raphael-translation*))) ,@body))))
              
 
@@ -70,10 +73,11 @@
                             (with-translated-state (:pdf  (make-point (- (get-x view-center)) (- (get-y view-center))))
                               (write-the-object child-view cad-output)))))) (the views))))))))
 
-
 (define-lens (dxf base-drawing)()
   :output-functions
-  ((cad-output () (mapc #'(lambda(view) (write-the-object view cad-output)) (the views)))))
+  ((cad-output ()
+	       (let ((*dxf-entity-id* 107))
+		 (mapc #'(lambda(view) (write-the-object view cad-output)) (the views))))))
 
 
 (define-lens (pdf base-view)()
@@ -118,28 +122,29 @@
   :output-functions
   ((cad-output
     ()
-    (set-format-slot view self)
-    (let ((center (the center))(view-center (scalar*vector (the view-scale-total)
-                                                           (keyed-transform*vector (the view-transform)
-                                                                                   (the view-center)))))
-      (with-translated-state (:dxf center)
-        (with-format-slots (view)
-          (set-format-slot view nil)
-          (dolist (cache (list-elements (the annotation-caches)))
-            (write-the-object cache object cad-output) (write-the-object cache lines-and-curves))
-          (set-format-slot view view))
-        (dolist (cache (list-elements (the object-caches))) 
+    (let ((*dxf-entity-id* (or *dxf-entity-id* 107)))
+      (set-format-slot view self)
+      (let ((center (the center))(view-center (scalar*vector (the view-scale-total)
+							     (keyed-transform*vector (the view-transform)
+										     (the view-center)))))
+	(with-translated-state (:dxf center)
+	  (with-format-slots (view)
+	    (set-format-slot view nil)
+	    (dolist (cache (list-elements (the annotation-caches)))
+	      (write-the-object cache object cad-output) (write-the-object cache lines-and-curves))
+	    (set-format-slot view view))
+	  (dolist (cache (list-elements (the object-caches))) 
           
-          (write-the-object cache object cad-output))
-        ;;
-        ;; FLAG - look into capturing this translate in the
-        ;; vertex-array-2d-scaled in view-object-cache.  so it will
-        ;; become unecessary here.
-        ;;
-        (with-translated-state (:dxf (make-vector (- (get-x view-center)) 
-                                                  (- (get-y view-center))))
-          (dolist (cache (list-elements (the object-caches))) 
-            (write-the-object cache lines-and-curves))))))))
+	    (write-the-object cache object cad-output))
+	  ;;
+	  ;; FLAG - look into capturing this translate in the
+	  ;; vertex-array-2d-scaled in view-object-cache.  so it will
+	  ;; become unecessary here.
+	  ;;
+	  (with-translated-state (:dxf (make-vector (- (get-x view-center)) 
+						    (- (get-y view-center))))
+	    (dolist (cache (list-elements (the object-caches))) 
+	      (write-the-object cache lines-and-curves)))))))))
 
 
 ;;
@@ -174,7 +179,6 @@
 				      (dolist (item path-info)
 					(if (keywordp item) 
 					    (progn
-					      (print-variables mode coords)
 					      (when (and mode coords) (write-the (pdf-command mode (nreverse coords))))
 					      (setq mode item) (setq coords nil))
 					    (push item coords)))
@@ -234,7 +238,8 @@
           (mapc #'(lambda(line-index-pair)
                     (destructuring-bind (start-index end-index) line-index-pair
                       (let ((start (svref 2d-vertices start-index)) (end   (svref 2d-vertices end-index)))
-                        (format *stream* "  0~%LINE~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+                        (format *stream* "  0~%LINE~% 5~%~a~% 100~%AcDbEntity~% 100~%AcDbLine~% 10~%~3,16f~% 20~%~3,16f~% 11~%~3,16f~% 21~%~3,16f~%"
+				(incf *dxf-entity-id*)
                                 (get-x start) (get-y start) (get-x end) (get-y end))))
                     
                     (write-the object line-thickness-setting)
@@ -242,6 +247,64 @@
                     (write-the object rgb-stroke-setting))
                     
                 line-index-pairs)))
+
+      (mapc #'(lambda(curve)
+		(let ((control-points (mapcar #'(lambda(point) (add-vectors *dxf-translation* point)) (getf curve :control-points)))
+		      (knots (getf curve :knot-vector))
+		      (degree (getf curve :degree))
+		      (weights (getf curve :weights))
+		      (top-vector (make-vector 0 0 1) ;;(the (face-normal-vector :top))
+			))
+		  (declare (ignore top-vector weights)) ;; FLAG -- work these in. 
+		  (format *stream*
+
+			  " 0
+SPLINE
+ 5
+~a
+ 100
+AcDbEntity
+ 100
+AcDbSpline
+ 210
+0.0
+ 220
+0.0
+ 230
+1.0
+ 70
+8
+ 71
+~a
+ 72
+~a
+ 73
+~a
+ 74
+0
+ 42
+0.0000001
+ 43
+0.0000001
+~{ 40~%~,7f~^~%~}
+~{~a~%~}"
+			  (incf *dxf-entity-id*)
+			  degree
+			  (length knots)
+			  (length control-points)
+			  knots
+			  (mapcar #'(lambda(point)
+				      (format nil " 10~%~,7f~% 20~%~,7f~% 30~%0.0"
+					      (get-x point) (get-y point)))
+				  control-points))
+
+
+		  (write-the object line-thickness-setting)
+		  (write-the object dash-pattern-setting)
+		  (write-the object rgb-stroke-setting)))
+	    
+	    
+	    (the curves-2d-scaled))
       
       (mapc #'(lambda(arc 2d-arc-center)
                 
@@ -310,7 +373,7 @@
 	;; implementations, get it working that way, and remove this
 	;; compiler conditional.
 	;;
-	;;#+clozure
+	;;#+nil
 	(let ((command 
 	       (if (or (null *gs-path*)
 		       (and (or (stringp *gs-path*)
@@ -344,10 +407,11 @@
           (glisp:run-gs command))
         
         (when *stream*
-          (with-open-file (image-stream temp-png :element-type 'unsigned-byte)
+          (with-open-file  (image-stream temp-png :element-type 'unsigned-byte)
             (do ((val (read-byte image-stream nil nil)
                       (read-byte image-stream nil nil)))
                 ((null val))
+
               (write-byte val *stream*))))
                                          
         (delete-file temp-pdf)

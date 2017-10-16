@@ -1,0 +1,35 @@
+(in-package :gwl-user)
+
+;; http://localhost:9000/make?object=gwl-user::hello-world-form
+(define-object hello-world-form (base-ajax-sheet)
+  :input-slots
+  ((greetings '("Hello"
+                "Hola"
+                "Bonjour"
+                "Habari"
+                "Namaste"
+                "Aloha"
+                "Ciao")))
+  
+  :computed-slots
+  ((username "World" :settable)
+   (greeting (first (the greetings)) :settable)
+   
+   (title (format nil "Greeting for ~a" (the username)))
+   (main-sheet-body
+    (with-cl-who-string ()
+      (:p (fmt "~a ~a!" (the greeting) (the username)))
+      (:hr)
+      (with-html-form (:cl-who? t)
+        (:p
+         (:label :for 'greeting "Select greeting: ")
+         ((:select :name 'greeting)
+          (dolist (val (the greetings))
+            (with-cl-who ()
+              ((:option :value val
+                        :selected (and (equalp val (the greeting)) "selected"))
+               (esc val))))))
+        (:p
+         (:label :for 'username "Enter new name: ")
+         (:input :type :text :name 'username :value (the username)))
+        (:p (:button :type :submit "UPDATE")))))))

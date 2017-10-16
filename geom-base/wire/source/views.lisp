@@ -143,9 +143,12 @@
                                0)))
 
       (declare (ignorable color-decimal))
-      
-      (format *stream* " 62~%~a~%" dxf-color-code)
-      (format *stream* " 8~%~a~%" dxf-layer-number)
+
+      ;; FLAG -- work colors & layers back in.
+      (unless (zerop dxf-color-code)
+	(format *stream* " 62~%~a~%" dxf-color-code))
+
+      (format *stream* " 8~%~a~%" (if (zerop dxf-layer-number) "Main" dxf-layer-number))
       
       ))
    

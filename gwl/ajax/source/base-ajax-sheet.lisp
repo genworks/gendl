@@ -184,6 +184,8 @@ Default nil."
 
 		(use-x3dom? nil)
 
+		(include-default-favicon? t)
+
                 
                 ("String. The title of the web page. Defaults to \"Genworks GDL -\"
 .followed by the strings-for-display."
@@ -293,7 +295,8 @@ from a saved snapshot file."
       ((:html :lang "en")
        (:head (:title (str (the title)))
               (:meta :charset "UTF-8")
-              (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")
+	      (when (the include-default-favicon?)
+		(htm (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")))
               (when (the additional-header-content) (str (the additional-header-content)))
               (write-the standard-javascript)
               (when (the additional-header-js-content)
@@ -312,36 +315,6 @@ from a saved snapshot file."
          )
         ))))
 
-
-   #+nil
-   (main-sheet
-    ()
-    ;; FLAG JB-090820 ticket #69, removed the :ident t part from with-cl-who as it inserts and
-    ;; extra newline and that causes a bug in IE(7).
-    ;; (with-cl-who (nil :indent t)
-    (with-cl-who ()
-      (when (the doctype-string) (str (the doctype-string)))
-      ((:html :xmlns "http://www.w3.org/1999/xhtml")
-       (:head (:title (str (the title)))
-
-              (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")
-              (when (the additional-header-content) (str (the additional-header-content)))
-              (write-the standard-javascript)
-              
-              ;; FLAG JB100203
-              ;; the additional-header-js-content is placed -JUST BEFORE- the body
-              ;; when jquery js is added tot the head, then just before the body ensures that
-              ;; all jquery is loaded.
-
-              (when (the additional-header-js-content)
-                (str (the additional-header-js-content))))
-       
-       ((:body :class (the body-class)
-               :onload (the body-onload))
-        (the reset-html-sections!)
-        ((:div :id (the dom-id))
-         (str (the main-sheet-body)))))))
-   
    
    (development-links 
     ()

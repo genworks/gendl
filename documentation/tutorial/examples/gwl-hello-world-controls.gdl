@@ -1,0 +1,32 @@
+(in-package :gwl-user)
+
+;; http://localhost:9000/make?object=gwl-user::hello-world-controls
+(define-object hello-world-controls (base-ajax-sheet)
+  :input-slots
+  ((greetings '("Hello"
+                "Hola"
+                "Bonjour"
+                "Habari"
+                "Namaste"
+                "Aloha"
+                "Ciao")))
+
+  :objects
+  ((username-control :type 'text-form-control
+                     :prompt "Enter new name: "
+                     :default "World")
+   (greeting-control :type 'menu-form-control
+                     :prompt "Select Greeting: "
+                     :size 1 :choice-list (the greetings)
+                     :default (first (the greetings))))
+
+  :computed-slots
+  ((title (format nil "Greeting for ~a" (the username-control value)))
+   (main-sheet-body
+    (with-cl-who-string ()
+      (:p (fmt "~a ~a!" (the greeting-control value) (the username-control value)))
+      (:hr)
+      (with-html-form (:cl-who? t)
+        (:p (str (the greeting-control html-string)))
+        (:p (str (the username-control html-string)))
+        (:p (:button :type :submit "UPDATE")))))))

@@ -186,12 +186,14 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:iso-8601-date
 	   #:universal-time-from-iso-8601
 	   #:universal-time-to-plist
+	   #:keywordize-plist
            #:lastcar
            #:least
            #:let-streams
            #:list-elements
            #:list-hash
            #:list-of-numbers
+	   #:*allow-nil-list-of-numbers?*
            #:list-of-n-numbers
            #:lookup-color
 	   #:load-glime
@@ -375,6 +377,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:run-command
    #:temporary-folder
    #:*temporary-folder-function*
+   #:*utf-16-ef*
    #:temporary-file
 
    #:find-gs-path
@@ -396,6 +399,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:patches-dir
    #:process-run-function
    #:remote-host
+   #:local-host
    #:replace-regexp
    #:room-report
    #:slot-definition-name
@@ -501,6 +505,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:inter-circle-sphere
 	   #:inter-line-sphere
 	   #:inter-line-plane
+	   #:inter-line-line
 	   #:translate
 	   #:create-obliqueness
 	   #:proj-point-on-line
@@ -851,6 +856,9 @@ If you are interested in this effort we would love to hear from you at open-sour
     (:export
      #:define-package
      #:remote-object
+     #:*aserver-port*
+     #:*aserve-listeners*
+     #:*aserve-start-args*
      #:*req*
      #:*ent*
      #:*html-referrer*
@@ -869,6 +877,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:*jump-to-toplevel-on-set-self?*
      #:*process-cookies?*
      #:*static-home*
+     #:announce-server-port
      #:encode-root-path
      #:base-html-sheet
      #:skeleton-ui-element
@@ -928,6 +937,8 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:with-html-form
    
      #:publish-shared
+     #:*publishers*
+     #:publish-uris
      #:with-all-servers
      #:web-drawing
    

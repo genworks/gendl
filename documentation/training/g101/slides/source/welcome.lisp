@@ -510,13 +510,12 @@ have no meaning to Lisp itself.")
         
         (:description "Setf is used to set ``locations'' resulting from a function call:"
          :examples
-         ((:code (setq *operating-systems* (list "NT" "Solaris" "Irix" "HP-UX" "AIX"))
-                 :return-value ("NT" "Solaris" "Irix" "HP-UX" "AIX"))
+         ((:code (setq *operating-systems* (list "Solaris" "Windows" "FreeBSD" "iOS" "Android"))
+                 :return-value ("Solaris" "Windows" "FreeBSD" "iOS" "Android"))
           
           (:code (setf (first *operating-systems*) "Linux") :return-value "Linux")
           
-          (:code *operating-systems* :return-value ("Linux" "Solaris" 
-                                                            "Irix" "HP-UX" "AIX"))))))
+          (:code *operating-systems* :return-value ("Linux" "Windows" "FreeBSD" "iOS" "Android"))))))
       
       
       (:title "Iteration"

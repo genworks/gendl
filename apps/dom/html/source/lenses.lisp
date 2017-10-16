@@ -29,6 +29,8 @@
 
 
 (defparameter *index-hash* nil)
+(defparameter *footnotes* nil)
+(defparameter *footnotetext* nil)
 (defparameter *debug-index* nil)
 
 (define-lens (html-format assembly) ()
@@ -53,12 +55,32 @@
     (with-cl-who () 
       (:html (:head (:title (str (the title)))
 		    ((:link :href (the style-url) :rel "stylesheet" :type "text/css")))
-	     (let ((*index-hash* (make-hash-table :test #'equalp)))
+	     (let ((*index-hash* (make-hash-table :test #'equalp))
+                   (*footnotes* (make-array 50 :adjustable t :fill-pointer 0))
+                   (*footnotetext* nil))
 	       (htm
 		(:body (:div (write-the cl-who-contents-out))
 		       (:div (write-the cl-who-base))
+                       (when *footnotetext*
+                         (htm (:div (:hr)
+                                    (dolist (elements *footnotetext*)
+                                      (htm (:p (dolist (element (list-elements elements))
+                                                 (write-the-object element cl-who-base))))))))
+                       (when (> (length *footnotes*) 0)
+                         (htm (:div (write-the cl-who-footnotes))))
 		       (:div (write-the cl-who-index))))))))
    
+   (cl-who-footnotes
+    ()
+    (with-cl-who ()
+      (:p (:h2 "Footnotes"))
+      (loop for elements across *footnotes* as index upfrom 1
+        do (htm
+            (:p "[" (:a :name (format nil "FtNt~d" index) :href (format nil "#FtNtR~d" index)
+                        (fmt "~d" index))
+                "] "
+                (dolist (element (list-elements elements))
+                  (write-the-object element cl-who-base)))))))
    (cl-who-index 
     ()
     (with-cl-who ()
@@ -177,27 +199,70 @@
 	       (dolist (element (list-elements (the elements)))
 		 (write-the-object element cl-who-base)))))
 
-	(:emph (htm (:i (dolist (element (list-elements (the elements)))
-			  (write-the-object element cl-who-base)))))
+	((:emph :i) (htm (:i (dolist (element (list-elements (the elements)))
+                               (write-the-object element cl-who-base)))))
 
-	(:textbf (htm (:b (dolist (element (list-elements (the elements)))
-			    (write-the-object element cl-who-base)))))
+	((:textbf :b) (htm (:b (dolist (element (list-elements (the elements)))
+                                 (write-the-object element cl-who-base)))))
       
 	(:texttt (htm (:tt (dolist (element (list-elements (the elements)))
 			     (write-the-object element cl-who-base)))))
 	
+        (:underline (htm (:span :style "text-decoration: underline;"
+                                (dolist (element (list-elements (the elements)))
+                                  (write-the-object element cl-who-base)))))
 	
 	(:quote (htm (:blockquote (dolist (element (list-elements (the elements)))
 				    (write-the-object element cl-who-base)))))
 
-	(:index (dolist (element (list-elements (the elements)))
-		  (let* ((data (the-object element data))
-			 (anchor-tag (string (gensym)))
-			 (current (gethash data *index-hash*)))
-		    (if current (pushnew anchor-tag current)
-			(setf (gethash data *index-hash*) (list anchor-tag)))
-		    (htm ((:a :name anchor-tag))
-			 (write-the-object element cl-who-base)))))
+        (:copyright (htm "&copy;"))
+        (:rightarrow (htm "&rarr;"))
+        (:$ (htm "&dollar;"))
+        (:textgreater (htm "&gt;"))
+        (:textasciitilde (htm "&tilde;"))
+
+	((:index :indexed)
+         (dolist (element (list-elements (the elements)))
+           (let* ((data (the-object element data))
+                  (anchor-tag (string (gensym))))
+             (push anchor-tag (gethash data *index-hash*))
+             (htm (:a :name anchor-tag))
+             (when (eq (the markup-tag) :indexed)
+               (write-the-object element cl-who-base)))))
+
+        (:footnote
+         (let ((index (1+ (vector-push-extend (the elements) *footnotes*))))
+           (htm (:a :name (format nil "FtNtR~d" index) :href (format nil "#FtNt~d" index)
+                    (fmt "[~d]" index)))))
+
+        (:footnotetext
+         (push (the elements) *footnotetext*))
+
+        ((:cite :href)
+         (let* ((args (list-elements (the elements)))
+                (target (the-object (car args) data)))
+           (htm (:a :href (if (eq (the markup-tag) :cite)
+                           (format nil "#~a" target)
+                           target)
+                   (dolist (element (or (cdr args) args))
+                     (write-the-object element cl-who-base))))))
+
+        ;; :small and :tiny are always used as (:small (:verbatim ...)) and in most browsers,
+        ;; verbatim is already small, so don't do anything.
+        ((:no-op :small :tiny)
+         (dolist (element (list-elements (the elements)))
+           (write-the-object element cl-who-base)))
+
+        (:include (dolist (element (list-elements (the elements)))
+                    (let ((filename (the-object element data)))
+                      (when (and (> (length filename) 8)
+                                 (string= filename "~/gendl/" :end1 8))
+                        (setq filename (merge-pathnames (subseq filename 8)
+                                                        (asdf:system-source-directory :gendl))))
+                      (with-open-file (s filename)
+                        (let ((buffer (make-string (file-length s))))
+                          (read-sequence buffer s)
+                          (htm (esc buffer)))))))
 
 	(otherwise (when *warn-on-unrecognized-tags?*
 		     (warn "Markup tag ~s was not recognized~%" (the markup-tag))))
@@ -269,7 +334,12 @@
     ()
     (with-cl-who ()
       (:p (:table (:tr (:td (ecase (the style)
-			      (:image-figure "Image Goes Here")
+			      (:image-figure
+                               (htm (:img :src (if (stringp (the image-file))
+                                                 (concatenate 'string "images/" (the image-file))
+                                                 (namestring (the image-file)))
+                                          :style (format nil "width:~a;height:~a;" (the width) (the height))
+                                          :alt (the caption))))
 			      (:boxed-figure (dolist (element (list-elements (the :elements)))
 					       (write-the-object element cl-who-base))))))
 	    (:tr (:td (:i (:princ (the caption)))))))))))

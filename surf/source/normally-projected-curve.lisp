@@ -45,7 +45,9 @@
 
   
 
-
+;;
+;; FLAG -- add to regression tests. 
+;;
 #+nil
 (define-object normally-projected-curve-test (normally-projected-curve)
 
