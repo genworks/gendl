@@ -1,10 +1,12 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:gwl-graphics :description
- "The Gendl\" GWL embedded graphics support" :author "John McCarthy"
- :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20160828" :depends-on (:geom-base :gwl)
+ "The Gendl® GWL embedded graphics support" :author
+ "Genworks International" :license
+ "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
+ :version "20170524" :depends-on (:geom-base :gwl)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode nil
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "gwl/source/application-mixin")

@@ -713,14 +713,26 @@ NOTE: before compiling/loading this file, do:
 
   :objects      
   ((drawing :type 'box-annotated-drawing
-            :objects (list (the box)))
-     
+            :display-objects (list (the box) (the curve)))
+
+   ;;(the curve)
+
+
+   (curve :type 'b-spline-curve
+	  :control-points (list (make-point 0 0 0)
+				(make-point 4 6.0 0.0) 
+				(make-point 8 4.0 0.0) 
+				(make-point 10 0.0 0.0) 
+				(make-point 8 -4.0 0.0) 
+				(make-point 4 -6.0 0.0) 
+				(make-point 0 0 0)))
+   
    (box :type 'box 
         :length 10 :width 20 :height 30)))
 
 
 (define-object box-annotated-drawing (base-drawing)
-  :input-slots (objects (character-size 15)
+  :input-slots (display-objects (character-size 15)
                 (witness-line-gap 10)
                 (witness-line-length 15)
                 (witness-line-ext 5))
@@ -730,7 +742,7 @@ NOTE: before compiling/loading this file, do:
               :projection-vector (getf *standard-views* :trimetric)
               :length (half (the length))
               :center (translate (the center) :rear (half (the-child length)))
-              :objects (the objects)
+              :objects (the display-objects)
               :annotation-objects (list (the main-length-dim)))
    
    
@@ -747,7 +759,7 @@ NOTE: before compiling/loading this file, do:
 	       :projection-vector (getf *standard-views* :front)
 	       :length (half (the length))
 	       :center (translate (the center) :front (half (the-child length)))
-	       :objects (the objects)
+	       :objects (the display-objects)
 	       :annotation-objects (list (the top-length-dim)))
    
    (top-length-dim :type 'vertical-dimension

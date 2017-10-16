@@ -377,6 +377,7 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:run-command
    #:temporary-folder
    #:*temporary-folder-function*
+   #:*utf-16-ef*
    #:temporary-file
 
    #:find-gs-path
@@ -504,6 +505,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:inter-circle-sphere
 	   #:inter-line-sphere
 	   #:inter-line-plane
+	   #:inter-line-line
 	   #:translate
 	   #:create-obliqueness
 	   #:proj-point-on-line
@@ -854,6 +856,9 @@ If you are interested in this effort we would love to hear from you at open-sour
     (:export
      #:define-package
      #:remote-object
+     #:*aserver-port*
+     #:*aserve-listeners*
+     #:*aserve-start-args*
      #:*req*
      #:*ent*
      #:*html-referrer*
@@ -872,6 +877,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:*jump-to-toplevel-on-set-self?*
      #:*process-cookies?*
      #:*static-home*
+     #:announce-server-port
      #:encode-root-path
      #:base-html-sheet
      #:skeleton-ui-element

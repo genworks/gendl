@@ -21,7 +21,12 @@
 ;; 
 
 (in-package :com.genworks.lisp)
- 
+
+
+(defparameter *external-text-format* :default)
+
+
+#+nil
 (defparameter *external-text-format*
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
     #-(and mswindows allegro) :default)
@@ -35,11 +40,12 @@
 	  (ignore-errors (funcall (read-from-string "asdf:system-source-directory") "base"))
 	(if (typep error 'error)
 	    (warn "~&ASDF is loaded, but :base is not registered. glisp:*genworks-source-home* remains unknown and set to nil.~%")
-	    (setq *genworks-source-home*
-		  (make-pathname :name nil
-				 :type nil
-				 :directory (butlast (butlast (pathname-directory base-home)))
-				 :defaults base-home)))))))
+	    (when base-home
+	      (setq *genworks-source-home*
+		    (make-pathname :name nil
+				   :type nil
+				   :directory (butlast (butlast (pathname-directory base-home)))
+				   :defaults base-home))))))))
 
 (set-genworks-source-home-if-known)
 

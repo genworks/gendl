@@ -33,6 +33,12 @@
 (defparameter *temporary-folder-function* #'(lambda() (merge-pathnames "tmp/" (user-homedir-pathname))))
 
 
+(defparameter *utf-16-ef*
+  #+allegro :unicode
+  #+sbcl :utf-16le
+  #+ccl :utf-16)
+
+
 #-(or allegro lispworks sbcl ccl) 
 (warn "~&Please implement concatenate-fasls for the currently running lisp.~%")
 

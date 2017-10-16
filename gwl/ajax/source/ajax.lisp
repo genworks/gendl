@@ -237,6 +237,9 @@
     (with-http-response ((the req) (the ent) :content-type "text/xml")
       (with-http-body ((the req) (the ent))
 	(with-html-output (*html-stream* nil)
+
+	  (when *debug?* (print-variables (socket:remote-host (net.aserve:request-socket (the req)))))
+	  
 	  (:document
 	     (mapc #'(lambda(replace-pair js-to-eval-status)
 		       (declare (ignore js-to-eval-status)) ;; this can play into the flag

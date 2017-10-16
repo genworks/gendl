@@ -29,7 +29,7 @@
 
 (define-object assembly (slide-show-node)
   :input-slots
-  ((title "G102: GDL Quickstart (customized for TU Delft)")
+  ((title "G102: GDL Quickstart")
    (slide-package (find-package :training-g102-tud))
    (image-base-url "/g102-tud/images/")
    (images-path *images-path*)

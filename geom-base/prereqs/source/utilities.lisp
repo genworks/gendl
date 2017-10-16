@@ -1008,6 +1008,13 @@ all (i.e. they are parallel), NIL is returned.
       (let ((s (/ (- (dot-vectors u w))
                   (dot-vectors u n))))
         (translate-along-vector p-line n s)))))
+
+
+(defun inter-line-line  (p-line-1 u-line-1 p-line-2 u-line-2)
+  (inter-line-plane p-line-1 u-line-1 p-line-2
+		    (cross-vectors (cross-vectors u-line-1 u-line-2)
+				   u-line-2)))
+
   
 
 (defmacro translate (origin &rest offsets)

@@ -70,7 +70,7 @@ given as keyword args to this function)."
            (remf args :show-redefinition-warnings? )
            (with-compilation-unit ()
              (let ((object (apply #'make-object 'codebase-directory-node :pathname pathname args)))
-               (unless (the-object object dry-run?)
+               (unless nil ;;(the-object object dry-run?)
                  (the-object object (compile-and-load :package-file-ht package-file-ht)))
                (when (the-object object create-asd-file?)
                  (the-object object (write-asd-file))))))))
@@ -173,7 +173,7 @@ given as keyword args to this function)."
 			     "The Gendl® "
 			     (or (the (read-isc-file "description"))
 				 (format nil "~a Subsystem" (the local-name)))))
-   (author (or (the (read-isc-file "author")) "John McCarthy"))
+   (author (or (the (read-isc-file "author")) "Genworks International"))
    (version (or (the (read-isc-file "version"))
 		(replace-substring (iso-8601-date (get-universal-time)) "-" "")))
    (license (or (the (read-isc-file "license"))
@@ -308,12 +308,14 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 				(if (stringp sexpr)
 				    (format nil "%%remove%%~a%%remove%%" sexpr) sexpr)))
    
-
-   (asdf-defsystem-depends-on (let ((sexpr (glisp:sexpr-from-file 
-					    (merge-pathnames (make-pathname :name "defsystem-depends-on"
-									    :type "isc")
-							     (the ppathname)))))
-				(if (stringp sexpr) sexpr (format nil "\"~s\"" sexpr))))
+   (asdf-defsystem-depends-on
+    (let ((sexpr (glisp:sexpr-from-file (merge-pathnames (make-pathname :name "defsystem-depends-on"
+									:type "isc")
+							 (the ppathname)))))
+      (if (and sexpr (not (stringp sexpr)))
+	  (error "defsystem-depends-on.isc should be either nil or a string containing the expression 
+to go inside the actual list form in the asdf file. It came in as ~s instead.~%" sexpr)
+	  sexpr)))
    
    
    (additional-asd-code (let ((asd-code-file 
@@ -356,9 +358,13 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 		:version ,(the version)
 		:depends-on ,(the asdf-depends-on)
 		,(format nil "%%remove%%#-asdf-unicode :defsystem-depends-on #-asdf-unicode ~a%%remove%%"
-			 (format nil "(:asdf-encodings ~a)" (subseq (the asdf-defsystem-depends-on) 1 (1- (length (the asdf-defsystem-depends-on))))))
-		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%" (the asdf-defsystem-depends-on))
+			 (format nil "(:asdf-encodings~a~a)"
+				 (if (the asdf-defsystem-depends-on) " " "")
+				 (or (the asdf-defsystem-depends-on) "")))
+		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%"
+			 (format nil "(~a)" (or (the asdf-defsystem-depends-on) "")))
 		"%%remove%%#+asdf-encodings :encoding #+asdf-encodings :utf-8%%remove%%"
+		
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
 		;;

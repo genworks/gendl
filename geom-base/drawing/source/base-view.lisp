@@ -421,7 +421,18 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
                              (let ((scale (the view-scale)))
                                (map 'list #'(lambda(point)(scalar*vector scale point))
                                        (the arcs-array-2d)))
-                           (the arcs-array-2d)))
+			     (the arcs-array-2d)))
+
+   (curves-2d-scaled (when (the curves-2d)
+		       (list
+			(if (the scale?)
+			    (list :degree (getf (the curves-2d) :degree)
+				  :knot-vector (getf (the curves-2d) :knot-vector)
+				  :weights (getf (the curves-2d) :weights)
+				  :control-points (let ((scale (the view-scale)))
+						    (mapcar #'(lambda(point) (scalar*vector scale point))
+							    (getf (the curves-2d) :control-points))))
+			    (the curves-2d)))))
 
    (path-info-2d-scaled (when (the path-info-2d)
 			  (if (the scale?) 
@@ -434,6 +445,35 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
    ;;
    ;; FLAG -- fold code from this and next message into a method function
    ;;
+
+   (curves-2d
+    (when (and (typep (the object) 'surf:curve)
+	       (not (or (typep (the object) 'surf:arc-curve)
+			(typep (the object) 'surf:linear-curve))))
+      (let ((control-points (the object control-points))
+	    (weights (the object weights))
+	    (knot-vector (the object knot-vector))
+	    (degree (the object degree)))
+	(list :degree degree :knot-vector knot-vector
+	      :weights weights
+	      :control-points
+	      (mapcar
+	       (if (and (keywordp (the view-transform)) (the snap-to-y?))
+		   #'(lambda(point)
+		       (case (the view-transform)
+			 (:top (make-vector (get-x point) (get-y point)))
+			 (:bottom (make-vector (get-x point) (- (get-y point))))
+			 (:rear (make-vector (- (get-x point)) (get-z point)))
+			 (:front (make-vector (get-x point) (get-z point)))
+			 (:right (make-vector (get-y point) (get-z point)))
+			 (:left  (make-vector (- (get-y point)) (get-z point)))))
+		   #'(lambda(point) 
+		       (subseq 
+			(project-to-plane point 1 (the projection-vector) (the view-transform)
+					  :snap-to (the snap-to)) 0 2))) control-points)))))
+
+			  
+   
    (arcs-array-2d 
     (let ((raw-points (mapsend (the object %arcs%) :center)))
       (map 'vector 

@@ -56,19 +56,19 @@
 
 (defvar *aserve-listeners* 25)
 (defvar *aserve-port* 9000)
+(defvar *aserve-start-args* nil)
 
 
-(defun client-test (port)
-  (let ((result
-	 (handler-case
-	     (let ((sock (usocket:socket-listen "localhost" port)))
-	       (usocket:socket-close sock))
-	   (usocket:address-in-use-error (e) :in-use))))
-    (unless (eql result :in-use) port)))
+;;
+;; FLAG -- get platform-specific stuff below into :glisp package. 
+;;
 
 
 #+nil
 (defun client-test (port)
+
+  #+allegro
+
   (multiple-value-bind (result error)
       (ignore-errors  
 	(glisp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
@@ -82,11 +82,73 @@ Perhaps a zombie process is holding port ~a?~%" port port))
     
     (declare (ignore result))
     (when (typep error 'error)
-      port)))
+      port))
+  
+  #-allegro
+  (let* ((result
+	  (handler-case
+	      (let ((sock (usocket:socket-listen "localhost" port)))
+		(usocket:socket-close sock))
+	    (usocket:address-in-use-error (e) :in-use)
+	    (t (e) :unknown))))
+    (unless (member result '(:in-use :unknown)) port)))
 
 
+(defun client-test (port)
+  #-ccl
+  (multiple-value-bind (result error)
+      (ignore-errors  
+	(glisp:with-timeout (2 (error "AllegroServe port probe timed out on port ~a. 
+Perhaps a zombie process is holding port ~a?~%" port port))
+	  (net.aserve.client:do-http-request (format nil "http://127.0.0.1:~a" port))))
+    (declare (ignore result))
+    (when (typep error 'error)
+      port))
+  #+ccl
+  (let* ((result
+	  (handler-case
+	      (let ((sock (usocket:socket-listen "127.0.0.1" port)))
+		(usocket:socket-close sock))
+	    (usocket:address-in-use-error (e) (declare (ignore e)) :in-use)
+	    (t (e) (declare (ignore e)) :unknown))))
+    (unless (or (member result '(:in-use :unknown))
+		#+windows-host
+		(ignore-errors
+		  (net.aserve.client:do-http-request
+		      (format nil "http://127.0.0.1:~a" port)))) port)))
+
+(defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*)
+		    ;;
+		    ;; FLAG -- figure out external-format for the other Lisps. 
+		    ;;
+		    (external-format #+allegro :utf8-base #-allegro :utf8) aserve-start-args)
+  (net.aserve:shutdown)
+  (let ((wait-time 1))
+    (block :outer
+      (do () (nil)
+	(let ((port port))
+	  (block :inner
+	    (do ((port-free? (client-test port) (client-test port)))
+		(port-free?
+		 (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
+			       "~&Trying to start AllegroServe on ~a...~%") port)
+		 (if (ignore-errors
+		       (apply #'net.aserve:start
+			      :port port :listeners listeners
+			      ;;#-mswindows :external-format #-mswindows external-format ;; FLAG -- why no external-format for Windows?
+			      :external-format external-format
+			      aserve-start-args))
+		     (return-from :outer port)
+		     (progn (sleep (random wait-time)) (return-from :inner))))
+	      (incf port))))
+	(incf wait-time 0.1))))
+  (publish-uris))
+
+
+#+nil
 (defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
-		      (external-format #+allegro :utf8-base #+ccl :utf-8 #-(or allegro ccl) (error "find utf-8 external-format for ~a.~%" (lisp-implementation-version))))
+		    (external-format #+allegro :utf8-base #+ccl :utf-8 #-(or allegro ccl) (error "find utf-8 external-format for ~a.~%" (lisp-implementation-version)))
+		    (aserve-start-args *aserve-start-args*))
   (net.aserve:shutdown :server net.aserve:*wserver*)
   (let ((wait-time 1))
       (block :outer
@@ -99,8 +161,9 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 				 "~&Trying to start AllegroServe on ~a...~%") port)
 		   (if (ignore-errors
 			 (setq net.aserve:*wserver*
-			       (net.aserve:start :port port :listeners listeners :server :new
-						 #-mswindows :external-format #-mswindows external-format)))
+			       (apply #'net.aserve:start :port port :listeners listeners :server :new
+				      #-mswindows :external-format #-mswindows external-format
+				      aserve-start-args)))
 		    (return-from :outer port)
 		    (progn (sleep (random wait-time)) (return-from :inner))))
 		(incf port))))
@@ -137,6 +200,11 @@ Perhaps a zombie process is holding port ~a?~%" port port))
   ;; is still needed, currently LW-only.
   ;;
   (glisp:initialize-multiprocessing)
+
+  (when (find-package :zacl)
+    (setq excl:*initial-terminal-io* *terminal-io*)
+    (setf (slot-value net.aserve:*wserver* 'net.aserve::log-stream) excl:*initial-terminal-io*
+	  (slot-value (slot-value net.aserve:*wserver* 'net.aserve::default-vhost) 'net.aserve::log-stream) excl:*initial-terminal-io*))
   
   (setq *iid-random-state* (make-random-state t))
   
@@ -144,4 +212,50 @@ Perhaps a zombie process is holding port ~a?~%" port port))
     (setq anything-changed? (glisp:set-settings *settings*))
     (start-gwl) 
     anything-changed?))
+
+
+
+;;
+;; FLAG -- get platform-specific stuff into glisp package. 
+;;
+
+#+(and ccl windows-target)
+(in-package :ccl)
+
+
+#-(and ccl windows-target)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defparameter *set-_?* nil)
+  (defparameter *set-$?* nil)
+  (unless (get-dispatch-macro-character #\# #\_)
+    (setq *set-_?* t)
+    (set-dispatch-macro-character #\# #\_ #'(lambda(s subchar arg) (declare (ignore s subchar arg))nil)))
+  (unless (get-dispatch-macro-character #\# #\$)
+    (setq *set-$?* t)
+    (set-dispatch-macro-character #\# #\$ #'(lambda(s subchar arg) (declare (ignore s subchar arg)) nil))))
+
+#+(and ccl windows-target)
+(let (*warn-if-redefine-kernel*)
+  (defun %windows-sleep (millis)
+    (dotimes (n 3)
+      (unless (typep millis '(unsigned-byte 32))
+	(setq millis (/ millis 100))))
+    
+    (do* ((start (floor (get-internal-real-time)
+			(floor internal-time-units-per-second 1000))
+		 (floor (get-internal-real-time)
+			(floor internal-time-units-per-second 1000)))
+	  (millis millis (- stop start))
+	  (stop (+ start millis)))
+	 ((or (<= millis 0)
+	      (not (eql (#_SleepEx millis #$true) #$WAIT_IO_COMPLETION)))))))
+
+#-(and ccl windows-target)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (when *set-_?* (set-dispatch-macro-character #\# #\_ nil))
+  (when *set-$?* (set-dispatch-macro-character #\# #\$ nil)))
+
+
+
+
 

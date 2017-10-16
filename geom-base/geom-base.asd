@@ -1,10 +1,11 @@
 ;;;; -*- coding: utf-8 -*-
 
 (asdf:defsystem #:geom-base :description
- "The Gendl\" Wireframe Geometry" :author "John McCarthy" :license
- "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20160828" :depends-on (:glisp)
+ "The Gendl® Wireframe Geometry" :author "Genworks International"
+ :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
+ :serial t :version "20170524" :depends-on (:glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode nil
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "prereqs/source/presets")
