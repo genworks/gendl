@@ -335,9 +335,27 @@
     (with-cl-who ()
       (:p (:table (:tr (:td (ecase (the style)
 			      (:image-figure
-                               (htm (:img :src (if (stringp (the image-file))
-                                                 (concatenate 'string "images/" (the image-file))
-                                                 (namestring (the image-file)))
+                               (htm (:img :src (let* ((image-file (if (stringp (the image-file))
+								      (concatenate 'string "images/" (the image-file))
+								      (namestring (the image-file))))
+						      
+						      (png-file (when (string-equal (pathname-type image-file) "pdf")
+								  (make-pathname :type "png" :defaults image-file))))
+						 (when png-file
+						   (uiop:run-program
+						    (list (format nil "~a" *gs-path*)
+							  "-q"
+							  (format nil "-sDEVICE=~a" "png256")
+							  (format nil "-sOutputFile=~a" png-file)
+							  (format nil "-dTextAlphaBits=~a" *gs-text-alpha-bits*)
+							  (format nil "-dGraphicsAlphaBits=~a" *gs-graphics-alpha-bits*)
+							  "-dSAFER"
+							  "-dBATCH"
+							  "-dNOPAUSE"
+							  image-file))
+						   ;;(uiop:copy-file png-file (merge-pathnames (file-namestring png-file) "~/tmp/images/"))
+						   )
+						 (namestring (merge-pathnames (file-namestring (or png-file image-file)) "images/")))
                                           :style (format nil "width:~a;height:~a;" (the width) (the height))
                                           :alt (the caption))))
 			      (:boxed-figure (dolist (element (list-elements (the :elements)))
