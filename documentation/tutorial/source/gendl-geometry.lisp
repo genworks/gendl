@@ -163,7 +163,7 @@ into into the "
 	  " child object. Therefore it is not necessary to pass them down explicitly."))
 
      ((:boxed-figure :caption "Definition of a Box" :label "fig:box-code")
-      (:verbatim (:include "~/gendl/documentation/tutorial/examples/box-1.gdl")))
+      (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/box-1.gdl")))
      ((:image-figure :image-file "tasty-box-1.png" :caption "Simple box displayed in Tasty"
 		     :width "4in" :height "3in"
 		     :label "fig:tasty-box")))

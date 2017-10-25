@@ -28,6 +28,7 @@
 
 
 
+#+nil
 (defun replace-substring (string old new)
   (let ((position (search old string)))
     (if position

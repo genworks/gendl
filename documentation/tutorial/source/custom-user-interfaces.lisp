@@ -102,7 +102,7 @@ additionally establishes the default environment for outputting an HTML string w
 
      (:p "Figure "(:ref "fig:gwl-hello-world")" is an example of a simple static web page."
      ((:boxed-figure :caption "Simple Static Page" :label "fig:gwl-hello-world")
-      (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-hello-world.gdl"))))
+      (:small (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-hello-world.gdl"))))
      #+NOT-YET
      ((:image-figure :image-file "gwl-hello-world.png" :caption  "Simple Static Page"
                      :width "4in" :height "3in"
@@ -114,7 +114,7 @@ package qualification. See "(:href "http://weitz.de/cl-who" "http://weitz.de/cl-
 dynamic HTML generation in CL-WHO."
 
      ((:boxed-figure :caption "Dynamic Content Using CL-WHO" :label "fig:gwl-president-table")
-        (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-president-table.gdl"))))
+        (:small (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-president-table.gdl"))))
 
      #+NOT-YET
      ((:image-figure :image-file "gwl-president-table.png" :caption "Dynamic Content Using CL-WHO"
@@ -200,7 +200,7 @@ where we put detailed information about each president on a separate page, and p
 pages from a summary page.  Each child page contains a link to return back to the summary."
 
          ((:boxed-figure :caption "Hyperlinking" :label "fig:gwl-president-links")
-          (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-president-links.gdl"))))
+          (:small (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-president-links.gdl"))))
 
          #+NOT-YET
          ((:image-figure :image-file "gwl-president-links.png" :caption "Hyperlinking"
@@ -228,7 +228,7 @@ Hello World application of "(:ref "fig:gwl-hello-world")" to allow the user to
 customize both the name and the greeting."
           
          ((:boxed-figure :caption "Input Using Forms" :label "fig:gwl-hello-world-form")
-           (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-hello-world-form.gdl"))))
+           (:small (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-hello-world-form.gdl"))))
           
          #+NOT-YET
           ((:image-figure :image-file "gwl-hello-world-form.png" :caption "Input Using Forms"
@@ -268,7 +268,7 @@ of this manual. Examples of available form controls are:"
           
           ((:boxed-figure :caption "Using Form Controls"
                           :label "fig:gwl-3b")
-           (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-3b.gdl"))))
+           (:tiny (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-3b.gdl"))))
           
           ((:image-figure :image-file "gwl-3b.png" :caption "Using Form Controls" 
                           :width "4in" :height "3in"
@@ -277,7 +277,7 @@ of this manual. Examples of available form controls are:"
        (:p "Figure "(:ref "fig:gwl-hello-world-controls")" reimplements the Hello World form from the last section
 using form controls.  The functionality is the same but the source is shorter and simpler to read and understand."
           ((:boxed-figure :caption "Using Form Controls" :label "fig:gwl-hello-world-controls")
-           (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-hello-world-controls.gdl"))))
+           (:small (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-hello-world-controls.gdl"))))
        )))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -336,7 +336,7 @@ using AJAX.  Note that we don't need the explicit UPDATE button any more, as the
 immediately due to the use of "(:texttt ":ajax-submit-on-change?")" argument in each of the form controls."
           ((:boxed-figure :caption "Using AJAX"
                           :label "fig:gwl-hello-world-ajax")
-           (:small (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-hello-world-ajax.gdl"))))
+           (:small (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-hello-world-ajax.gdl"))))
        )
 
       )
@@ -361,7 +361,7 @@ can be controlled with other optional input-slots.")
 
       ((:boxed-figure :caption "Including Graphics in a Web Page"
 		      :label "fig:gwl-5")
-       (:tiny (:verbatim (:include "~/gendl/documentation/tutorial/examples/gwl-5.gdl"))))
+       (:tiny (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/gwl-5.gdl"))))
 
 
       ((:image-figure :image-file "gwl-5.png" :caption "Including Graphics" 

@@ -34,9 +34,11 @@ object. It contains links to default header content of a HTML
 generated yadd page. This contains a link to the favicon.ico and a
 link to a default CSS sheet. All these elements can be found in the
 *gdl-install-dir*/static/gwl/ directories."
-default-header-content (html
+    default-header-content (html
                             ((:link :href "/static/gwl/images/favicon.ico"
                                     :type "image/x-icon" :rel "icon"))))
+
+   (additional-header-content ((:link :href "/static/gwl/style/top.css" :rel "stylesheet" :type "text/css")))
 
    ("String of valid HTML. Contains standard jQuery files to include
 in the header for additional search funcionality.  This computed-slot
