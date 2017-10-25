@@ -67,7 +67,8 @@ interpolating (going through) each of the points."
                              (make-point 5 4 1))))))
 
 
- (define-object test-fitted-surface (fitted-surface) 
+ (#+allegro excl:without-package-locks #-allegro progn
+  (define-object test-fitted-surface (fitted-surface) 
 
    :input-slots
    ((display-controls (list :color :green-spring :isos (list :n-v 19 :n-u 19)))
@@ -127,7 +128,7 @@ interpolating (going through) each of the points."
                         (make-point (/ (the grid-width) 4) (the grid-length) 0)
                         (make-point (half (the grid-width)) (the grid-length) 0)
                         (make-point (* 3/4 (the grid-width)) (the grid-length) 0)
-                        (make-point (the grid-width) (the grid-length) 0))))))
+                        (make-point (the grid-width) (the grid-length) 0)))))))
 
  (generate-sample-drawing :objects (make-object 'test-fitted-surface)
                           :projection-direction :trimetric)
