@@ -31,7 +31,7 @@
 
 (define-object assy (ass)
   :computed-slots
-  ((packages-to-ignore (list :gwl-user :yadd-test :yadd-sample :genworks))))
+  ((packages-to-ignore (list :gwl-user :yadd-test :yadd-sample :genworks :stripe :documents))))
 
 (define-object all (assembly)
   :computed-slots

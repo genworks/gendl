@@ -77,8 +77,7 @@ additional-header-js (with-cl-who-string ()
                             (when patch 
 			      (htm "p")
 			      (str (format nil "~3,,,'0@a" patch))))))
-               ((:p :class "copyrightFooter")
-                (:i "User Code Packages copyright &copy; their respective authors"))))))
+               ))))
   
   :functions
   ((dom-body () `((:p "")))
