@@ -408,20 +408,25 @@
 
 
 
-(defun mac-switch-meta nil 
-  "switch meta between Option and Command"
-  (interactive)
-  (if (eq mac-option-modifier nil)
-      (progn
-	(setq mac-option-modifier 'meta)
-	(setq mac-command-modifier 'hyper))
-    (progn 
-      (setq mac-option-modifier nil)
-      (setq mac-command-modifier 'meta))))
+
+;;(defun mac-switch-meta nil 
+;;  "switch meta between Option and Command"
+;;  (interactive)
+;;  (if (eq mac-option-modifier nil)
+;;      (progn
+;;	(setq mac-option-modifier 'meta)
+;;	(setq mac-command-modifier 'control))
+;;    (progn 
+;;      (setq mac-option-modifier nil)
+;;      (setq mac-command-modifier 'meta))))
+
+(defun mac-switch-meta nil
+  "make option key behave as meta"
+  (setq mac-option-modifier 'meta))
 
 (when (eql system-type 'darwin)
-  (mac-switch-meta)
   (mac-switch-meta))
+
 
 
 ;; A.  REFERENCES
