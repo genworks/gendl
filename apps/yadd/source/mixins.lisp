@@ -38,7 +38,9 @@ link to a default CSS sheet. All these elements can be found in the
                             ((:link :href "/static/gwl/images/favicon.ico"
                                     :type "image/x-icon" :rel "icon"))))
 
-   (additional-header-content ((:link :href "/static/gwl/style/top.css" :rel "stylesheet" :type "text/css")))
+   (additional-header-content
+    (with-cl-who-string ()
+      (:link :href "/static/gwl/style/top.css" :rel "stylesheet" :type "text/css")))
 
    ("String of valid HTML. Contains standard jQuery files to include
 in the header for additional search funcionality.  This computed-slot
