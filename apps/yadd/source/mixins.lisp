@@ -268,12 +268,23 @@ additional-header-js (with-cl-who-string ()
 			 (remove nil 
 				 `(:item 
 				      (:index ,(format nil "~a" (the-object documentation symbol)))
-				    (:label ,(format nil "prim:~(~a~)" (the-object documentation symbol)))
-				    (:textbf ,(format nil "~a~a"
-						      (the-object documentation symbol)
-						      (if (the-object documentation :macro?)
-							  " [Macro]" "")))
-				    ,@(the-object documentation dom-body))))
+				      (:label ,(let ((label
+						      (glisp:replace-regexp  
+						       
+						       (glisp:replace-regexp
+							(glisp:replace-regexp
+							 (glisp:replace-regexp
+							  (format nil "prim:~(~a~)" (the-object documentation symbol))
+							  ".%.%" "")
+							 ".$.$" "")
+							"\\$\\$" "dollardollar")
+						       "%%" "percentpercent")))
+						  label))
+				      (:textbf ,(format nil "~a~a"
+							(the-object documentation symbol)
+							(if (the-object documentation :macro?)
+							    " [Macro]" "")))
+				      ,@(the-object documentation dom-body))))
 		     documentations))))))
 
 

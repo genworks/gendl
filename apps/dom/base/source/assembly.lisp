@@ -147,15 +147,19 @@
 				(the :section-descriptor)
 				(the :title)))
    
-   (label (string-append
-	   (ecase (the :section-style)
-	     (:document "doc")
-	     ((:chapter :chapter*) "chap")
-	     ((:section :section*) "sec")
-	     ((:subsection :subsection*) "subsec")
-	     ((:subsubsection :subsubsection*) "subsubsec"))
-	   ":"
-	   (or (getf (the :attributes) :label) (title-to-label (the :title)))))
+   (label (glisp:replace-regexp
+	   (glisp:replace-regexp
+	    (string-append
+	     (ecase (the :section-style)
+	       (:document "doc")
+	       ((:chapter :chapter*) "chap")
+	       ((:section :section*) "sec")
+	       ((:subsection :subsection*) "subsec")
+	       ((:subsubsection :subsubsection*) "subsubsec"))
+	     ":"
+	     (or (getf (the :attributes) :label) (title-to-label (the :title))))
+	    ".%.%" "")
+	   ".$.$" ""))
    
    (section-descriptor (case (the :level)
 			 (0 "Doc")
@@ -281,16 +285,20 @@
    (object (getf (rest (first (the :data))) :object))))
 
 (defun title-to-label (title)
-  (replace-substring
-   (replace-substring
+  (glisp:replace-regexp
+   (glisp:replace-regexp
     (replace-substring
      (replace-substring
       (replace-substring
-       (replace-substring 
-	(string-downcase title) 
-	" " "") 
-       "{" "")
-      "}" "")
-     "'" "")
-    "`" "")
-   "\\texttt" ""))
+       (replace-substring
+	(replace-substring
+	 (replace-substring 
+	  (string-downcase title) 
+	  " " "") 
+	 "{" "")
+	"}" "")
+       "'" "")
+      "`" "")
+     "\\texttt" "")
+    ".%.%" "")
+   ".$.$" ""))

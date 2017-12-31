@@ -61,8 +61,8 @@ written consent from Genworks International.")
 	  ,*tasty-environment*
 	  ,*gendl-geometry*
 	  ,*custom-user-interfaces*
-	  ,*advanced-common-lisp*
-	  ,*advanced-gendl*
+	  ;;,*advanced-common-lisp*
+	  ;;,*advanced-gendl*
 	  ,*upgrade-notes*
 	  ,(the-object (make-self 'yadd::assy) dom-chapter)
 	  :backmatter
