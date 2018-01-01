@@ -3,7 +3,7 @@
 
 
              ================================================
-                     GDL1592 (pre-release candidate)
+                               GDL1592
              ================================================
 
 
@@ -44,6 +44,18 @@ Documentation
  The following manual is currently available in PDF format: 
    
    http://genworks.com/downloads/tutorial.pdf
+
+
+ The following Video Playlist is available (YouTube):
+
+   https://youtu.be/aoTbtGhSHkE
+
+
+ Additionally, reference documentation is available "live" from your
+ running system, at
+
+   http://localhost:9000/yadd
+
 
 
 ==================
@@ -365,10 +377,13 @@ needs to be polished a bit more before loading it by default.
 
 You can load Glime at any time with:
 
-  (load (merge-pathnames "emacs/glime.lisp" glisp:*gdl-home*))
+  (load-glime)
 
-[glime needs to be loaded only on the Lisp (Swank) side, not on the
- Emacs (Slime) side].
+followed by: 
+
+
+  M-x load-file gdl/emacs/glime.el
+
 
 In due course we intend to have Glime polished a bit more so it does a
 better job filtering and formatting the auto-completions for messages
