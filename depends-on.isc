@@ -1,1 +1,1 @@
-"(:bordeaux-threads :uiop :babel :quri #-allegro :zacl :cl-lite :gwl-graphics :tasty :robot :yadd)"
+"(:bordeaux-threads :uiop :babel #-allegro :quri #-allegro :zacl :cl-lite :gwl-graphics :tasty :robot :yadd)"
