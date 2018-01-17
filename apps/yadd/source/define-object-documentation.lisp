@@ -317,7 +317,8 @@ If you specify :part-symbol-supplied, do not specify :instance-supplied."))
 	(setq pdf-file (merge-pathnames "example.pdf" (glisp:temporary-folder))
 	      named-pdf-file (merge-pathnames (format nil "example-~(~a~).pdf" (the part-full-symbol))
 					      "~/genworks/gendl/documentation/tutorial/images/"))
-	  (uiop:copy-file pdf-file named-pdf-file))
+	(when (probe-file named-pdf-file) (delete-file named-pdf-file))
+	(uiop:copy-file pdf-file named-pdf-file))
       
       `((:p (:textbf (:underline "Mixins:")) " " 
 	    ,(format nil "~{~a~^, ~}" (mapcar #'(lambda (sym) (string sym)) (the mixins-list))))

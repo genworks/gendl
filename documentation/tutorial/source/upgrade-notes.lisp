@@ -25,11 +25,11 @@
     `((:chapter* :title "Upgrade Notes")
 
       "GDL 1580 marked the end of a major branch of GDL development,
-and 1581 was an upgraded new version, which in turn has now been
-supplanted by 1582.
+and 1581 was an upgraded new version, which has now been supplanted by
+1592.
 
 This addendum lists the typical modifications you will want to
-consider for upgrading from GDL 1580 to GDL 1582, or later versions."
+consider for upgrading from versions of GDL prior to 1582."
 
       ((:list :style :itemize)
        
@@ -103,14 +103,12 @@ from files containing raw Common Lisp code.")
 	 ": "
 	 (:verbatim "... #+allegro-v8.1 main-view #-allegro-v8.1 inner-html ..."))
        
-       (:item "(update-gdl ..) is not yet available for 1582. Instead
+       (:item "(update-gdl ..) is not available for 1592. Instead
 of updating incrementally with patches, the intention starting with
-GDL 1582 is for full GDL releases to be made available approximately
+GDL 1592 is for full GDL releases to be made available approximately
 monthly. Less frequent Long Term Maintenance (``LTS'') releases will
 also be made available along with a new simpler maintenance patch
-system.")
-
-       )))
+system."))))
 	 
 
 

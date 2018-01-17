@@ -260,6 +260,14 @@ you started in CL --- for starters, we recommend "
        "GDL is an acronym for
 ``General-purpose Declarative Language.''"
        (:ul
+
+	(:li "In a nutshell, GDL is a system for creating custom,
+	targeted CAD systems and other applications. By ``targeted,''
+	we mean these end-user CAD systems and applications are
+	designed to complete a specific, rule-based set of design
+	tasks, as distinct from a general-purpose CAD system which
+	works as an electronic drafting board or interactive 3D
+	modeling system.")
 	(:li
 	 "GDL is a superset of ANSI Common Lisp, and consists largely of
 automatic code-expanding extensions to Common Lisp implemented in the
@@ -341,7 +349,9 @@ surface, and solid geometric objects.")))
       
       ((:section :title "What GDL is not")
        ((:list :style :itemize)
-	(:item "A CAD system (although it may operate on and/or generate geometric entities);")
+	(:item "A CAD system (although it may operate on and/or generate geometric entities, and it can generate "
+	       (:emph "applications")
+	       " which can be considered as special-purpose CAD systems);")
 	(:item "A drawing program (although it may operate on and/or generate geometric entities);")
 	(:item "An Artificial Intelligence system (although it is an
 excellent environment for developing capabilities which could qualify

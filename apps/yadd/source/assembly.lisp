@@ -325,6 +325,7 @@ loaderImg: '/static/gwl/tasty-unpix/loader.gif',loaderText: 'Narrowing Down...'}
         (html (:html
                (:head
                 (the default-header-content)
+		((:link :href "/static/gwl/style/top.css" :rel "stylesheet" :type "text/css"))
                 (:title "The " (:princ (the strings-for-display-verbose)) " Package"))
                (:body
                 (when *developing?* (html (:p (the (write-development-links)))))

@@ -34,9 +34,13 @@ object. It contains links to default header content of a HTML
 generated yadd page. This contains a link to the favicon.ico and a
 link to a default CSS sheet. All these elements can be found in the
 *gdl-install-dir*/static/gwl/ directories."
-default-header-content (html
+    default-header-content (html
                             ((:link :href "/static/gwl/images/favicon.ico"
                                     :type "image/x-icon" :rel "icon"))))
+
+   (additional-header-content
+    (with-cl-who-string ()
+      (:link :href "/static/gwl/style/top.css" :rel "stylesheet" :type "text/css")))
 
    ("String of valid HTML. Contains standard jQuery files to include
 in the header for additional search funcionality.  This computed-slot
@@ -75,8 +79,7 @@ additional-header-js (with-cl-who-string ()
                             (when patch 
 			      (htm "p")
 			      (str (format nil "~3,,,'0@a" patch))))))
-               ((:p :class "copyrightFooter")
-                (:i "User Code Packages copyright &copy; their respective authors"))))))
+               ))))
   
   :functions
   ((dom-body () `((:p "")))
@@ -265,12 +268,23 @@ additional-header-js (with-cl-who-string ()
 			 (remove nil 
 				 `(:item 
 				      (:index ,(format nil "~a" (the-object documentation symbol)))
-				    (:label ,(format nil "prim:~(~a~)" (the-object documentation symbol)))
-				    (:textbf ,(format nil "~a~a"
-						      (the-object documentation symbol)
-						      (if (the-object documentation :macro?)
-							  " [Macro]" "")))
-				    ,@(the-object documentation dom-body))))
+				      (:label ,(let ((label
+						      (glisp:replace-regexp  
+						       
+						       (glisp:replace-regexp
+							(glisp:replace-regexp
+							 (glisp:replace-regexp
+							  (format nil "prim:~(~a~)" (the-object documentation symbol))
+							  ".%.%" "")
+							 ".$.$" "")
+							"\\$\\$" "dollardollar")
+						       "%%" "percentpercent")))
+						  label))
+				      (:textbf ,(format nil "~a~a"
+							(the-object documentation symbol)
+							(if (the-object documentation :macro?)
+							    " [Macro]" "")))
+				      ,@(the-object documentation dom-body))))
 		     documentations))))))
 
 
