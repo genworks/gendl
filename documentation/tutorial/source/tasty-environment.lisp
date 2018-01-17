@@ -80,11 +80,11 @@ naming the type is not exported from the package). For example,
 consider the simple "
 	(:texttt "tower1")
 	" definition in Figure "
-	(:ref "fig:tower1-code")
+	(:ref "fig:tower-source")
 	". This definition is in the "
-	(:texttt ":chapter-5")
+	(:texttt ":gdl-user")
 	" package. Consequently, the specification will be "
-	(:texttt "chapter-5:tower1"))
+	(:texttt "gdl-user:tower1"))
 
     ((:image-figure :image-file "tasty-start.png"
 		    :caption "Tasty start-up"
@@ -103,18 +103,12 @@ the intent of that other package's designer."))
 
     (:p "After you specify the class package and the object type and
 press the ``browse'' button, the browser will produce the Tasty
-interface with an instance of the specified type (see figure "
-	(:ref "fig:tastytowerpre") "). The utility interface
-by default is composed of three toolbars and three view frames (tree
-frame, inspector frame and viewport frame ``graphical view port'').")
+interface with an instance of the specified type. The utility
+interface by default is composed of three toolbars and three view
+frames (tree frame, inspector frame and viewport frame ``graphical
+view port'').")
 
     
-    #+nil
-    ((:image-figure :image-file "tasty-tower-pre.pdf"
-		    :width "5in" :height "5in"
-		    :caption "Tasty Interface"
-		    :label "fig:tastytowerpre"))
-
 
     ((:subsection :title "The Toolbars")
 
@@ -267,9 +261,7 @@ the graphics viewport."))
 
      (:p "The " (:emph "tree frame")
 	 " contains a hierarchical representation of your defined
-object. For example for the tower assembly this will be as depicted in
-figure "
-	 (:ref "fig:tree-twisty-tower"))
+object. ")
 
      (:p "To draw the graphics (geometry) for the tower leaf-level
 objects, you can select the ``Add Leaves (AL)'' item from the Tree
@@ -291,9 +283,8 @@ some cases modify) the object instance being inspected.")
 	 (:texttt "number-of-blocks")
 	 " of the tower to be ``settable,'' by adding the keyword "
 	 (:texttt ":settable")
-	 " after its default expression (please look ahead to Chapter "
-	 (:ref "chap:advancedgendl")
-	 " if you are interested in more details on this GDL
+	 " after its default expression (please stay tuned for a Chapter "
+	 " on Advanced GDL if you are interested in more details on this GDL
 syntax). We will also pass in the number-of-blocks as the :size of
 the "
 	 (:texttt "blocks")
@@ -313,15 +304,11 @@ application, or from the Tasty environment.")
      (:p "To modify the value in Tasty: select ``Inspect'' mode from the Tree
 menu, then select the root of the "
 	 (:texttt "assembly")
-	 " tree to set the inspector on that object (see Figure "
-	 (:ref "fig:tasty-inspector")
-	 "). Once the inspector is displaying this object, it is
-possible to expand its settable slots by clicking on the ``Show
-Settables!''  link (use the ``X'' link to collapse the settable slots
-view). When the settable slots area is open, the user may set the
-values as desired by inputting the new value and pressing the OK
-button (see Figure "
-	 (:ref "fig:tasty-s-slots")
-	 ")."))))
+	 " tree to set the inspector on that object. Once the
+inspector is displaying this object, it is possible to expand its
+settable slots by clicking on the ``Show Settables!''  link (use the
+``X'' link to collapse the settable slots view). When the settable
+slots area is open, the user may set the values as desired by
+inputting the new value and pressing the OK button."))))
 
     

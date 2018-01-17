@@ -97,7 +97,7 @@ Chrome, Safari, Opera, or Internet Explorer"))
 	(:emph "webserver")
 	", enabling you to access your application through a standard web browser.")
        (:p "As described in Chapter "
-	   (:ref "chap:installation")
+	   (:ref "chap:installation[gdlandgendl]")
 	   ", the typical way to start a pre-packaged GDL environment is with the "
 	   (:texttt "run-gdl.bat") 
 	   " (Windows), or "

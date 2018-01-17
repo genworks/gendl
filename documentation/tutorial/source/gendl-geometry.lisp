@@ -163,361 +163,348 @@ into into the "
 	  " child object. Therefore it is not necessary to pass them down explicitly."))
 
      ((:boxed-figure :caption "Definition of a Box" :label "fig:box-code")
-      (:verbatim (:include "~/gendl/documentation/tutorial/examples/box-1.gdl")))
+      (:verbatim (:include "~/genworks/gendl/documentation/tutorial/examples/box-1.gdl")))
      ((:image-figure :image-file "tasty-box-1.png" :caption "Simple box displayed in Tasty"
 		     :width "4in" :height "3in"
-		     :label "fig:tasty-box")))
+		     :label "fig:tasty-box"))
 
 
-    ((:subsection :title "Positioning a child object using the center input")
+     ((:subsection :title "Positioning a child object using the center input")
 
-     ((:rendered-figure :caption "Positioned Boxes" :object "positioned-boxes"))
+      ((:rendered-figure :caption "Positioned Boxes" :object "positioned-boxes"))
 
-     (:p "By default, a child object will be positioned at the same "
-     (:texttt "center")
-     " as its parent, and the "
-     (:texttt "center") 
-     " defaults to the point "
-     (:texttt "#(0.0 0.0 0.0)")
-     ". Figure "
-     (:ref "fig:positioned-boxes-source")
-     " (rendered in Figure "
-     (:ref "fig:positioned-boxes")
-     ") shows a second box being positioned adjacent to the first, by using the "
-     (:texttt ":center")
-     " input. "))
+      (:p "By default, a child object will be positioned at the same "
+	  (:texttt "center")
+	  " as its parent, and the "
+	  (:texttt "center") 
+	  " defaults to the point "
+	  (:texttt "#(0.0 0.0 0.0)")
+	  ". Figure "
+	  (:ref "fig:positioned-boxes-source")
+	  " (rendered in Figure "
+	  (:ref "fig:positioned-boxes")
+	  ") shows a second box being positioned adjacent to the first, by using the "
+	  (:texttt ":center")
+	  " input. "))
 
-    ((:subsection :title "Positioning Sequence Elements using (the-child index)")
+     ((:subsection :title "Positioning Sequence Elements using (the-child index)")
      
-     "When specifying a sequence of child objects, each individual sequence element
+      "When specifying a sequence of child objects, each individual sequence element
 can be referenced from within its "
-     (:texttt ":objects")
-     " section using the operator "
-     (:texttt "the-child")
-     ". By using "
-     (:texttt "the-child")
-     " to send the "
-     (:texttt "index")
-     " message, you can obtain the index"
-     (:footnote "Indices in GDL ``size'' sequences are integers which start with 0 (zero).")
-     " of each individual child object as it is being processed. 
+      (:texttt ":objects")
+      " section using the operator "
+      (:texttt "the-child")
+      ". By using "
+      (:texttt "the-child")
+      " to send the "
+      (:texttt "index")
+      " message, you can obtain the index"
+      (:footnote "Indices in GDL ``size'' sequences are integers which start with 0 (zero).")
+      " of each individual child object as it is being processed. 
 In this manner it is possible to compute a distinct position for each child, as a function of its
 index, as demonstrated in Figures "
-     (:ref "fig:positioned-by-index-source")
-     " and "
-     (:ref "fig:positioned-by-index")
-     "."
-     ((:rendered-figure :caption "Positioned by Index" 
-			:object "positioned-by-index")))
+      (:ref "fig:positioned-by-index-source")
+      " and "
+      (:ref "fig:positioned-by-index")
+      "."
+      ((:rendered-figure :caption "Positioned by Index" 
+			 :object "positioned-by-index")))
 
 
     
-    ((:subsection :title "Relative positioning using the translate operator")
-     (:p "It is usually preferable to position child objects in a "
-	 (:emph "relative")
-	 " rather than "
-	 (:emph "absolute") 
-	 " manner with respect to the parent. For example, in our positioned-by-index example in Figure "
-	 (:ref "fig:positioned-by-index-source")
-	 ", each child box object is being positioned using an absolute coordinate produced by "
-	 (:texttt "make-point")
-	 ". This will work as long as the center of the current parent is "
-	 (:texttt "#(0.0 0.0 0.0)")
-	 " (which it is, by default). But imagine if this parent
+     ((:subsection :title "Relative positioning using the translate operator")
+      (:p "It is usually preferable to position child objects in a "
+	  (:emph "relative")
+	  " rather than "
+	  (:emph "absolute") 
+	  " manner with respect to the parent. For example, in our positioned-by-index example in Figure "
+	  (:ref "fig:positioned-by-index-source")
+	  ", each child box object is being positioned using an absolute coordinate produced by "
+	  (:texttt "make-point")
+	  ". This will work as long as the center of the current parent is "
+	  (:texttt "#(0.0 0.0 0.0)")
+	  " (which it is, by default). But imagine if this parent
      itself is a child of a larger assembly. Imagine further that the
      larger assembly specifies a non-default center for this instance
      of "
-	 (:texttt "positioned-by-index")
-	 ". At this point, the strategy fails.")
-     (:p "The solution is to adhere to a consistent Best Practice of positioning child objects according to the "
-	 (:texttt "center") 
-	 " (or some other known datum point) of the parent
+	  (:texttt "positioned-by-index")
+	  ". At this point, the strategy fails.")
+      (:p "The solution is to adhere to a consistent Best Practice of positioning child objects according to the "
+	  (:texttt "center") 
+	  " (or some other known datum point) of the parent
 	 object. This can easily be accomplished through the use of
 	 the "
-	 (:emph "translate")
-	 " operator. The "
-	 (:texttt "translate")
-	 " operator works within the context of a GDL object, and
+	  (:emph "translate")
+	  " operator. The "
+	  (:texttt "translate")
+	  " operator works within the context of a GDL object, and
 	 allows a 3D point to be translated in up to three directions, selected from: "
-	 (:texttt ":up")
-	 ", "
-	 (:texttt ":down")
-	 ", "
-	 (:texttt ":left")
-	 ", "
-	 (:texttt ":right")
-	 ", "
-	 (:texttt ":front")
-	 ", "
-	 (:texttt ":rear")
-	 ". Figures "
-	 (:ref "fig:translate-by-index-source")
-	 " and "
-	 (:ref "fig:translate-by-index")
-	 " show the equivalent of our positioned-by-index example, but
+	  (:texttt ":up")
+	  ", "
+	  (:texttt ":down")
+	  ", "
+	  (:texttt ":left")
+	  ", "
+	  (:texttt ":right")
+	  ", "
+	  (:texttt ":front")
+	  ", "
+	  (:texttt ":rear")
+	  ". Figures "
+	  (:ref "fig:translate-by-index-source")
+	  " and "
+	  (:ref "fig:translate-by-index")
+	  " show the equivalent of our positioned-by-index example, but
 with all the positioning done relative to the parent's center."
-	 ((:rendered-figure :caption "Translated by Index" 
-			:object "translate-by-index"))))
+	  ((:rendered-figure :caption "Translated by Index" 
+			     :object "translate-by-index"))))
 
 
-    ((:subsection :title "Display Controls")
-     (:p "It is possible to specify particular default display
+     ((:subsection :title "Display Controls")
+      (:p "It is possible to specify particular default display
 	 characteristics"
-	 (:footnote "In addition to display-controls attached to a geometric entity 
+	  (:footnote "In addition to display-controls attached to a geometric entity 
 itself, GDL also supports the concept of "
-		    (:emph "lenses")
-		    ", which capture the program code used to output a
+		     (:emph "lenses")
+		     ", which capture the program code used to output a
 		    particular class of  entities (e.g. "
-		    (:texttt "box")
-		    " in a particular output format (e.g. "
-		    (:texttt "pdf")
-		    ". Lenses will be covered in more detail in Chapter "
-		    (:ref "chap:input-output")
-		    ".")
-	 " for objects in GDL, such as: "
-	 (:ul (:li "color")
-	      (:li "line-thickness (for line-based output formats like PDF)")
-	      (:li "transparency (for shaded graphics outputs like X3D)"))
-	 )
-     (:p "The most common display-control is probably "
-	 (:texttt ":color")
-	 ". Color in GDL can be specified in one of three formats:"
+		     (:texttt "box")
+		     " in a particular output format (e.g. "
+		     (:texttt "pdf")
+		     ". for objects in GDL, such as: "
+		     (:ul (:li "color")
+			  (:li "line-thickness (for line-based output formats like PDF)")
+			  (:li "transparency (for shaded graphics outputs like X3D)"))
+		     )
+	  (:p "The most common display-control is probably "
+	      (:texttt ":color")
+	      ". Color in GDL can be specified in one of three formats:"
 
-	 ((:image-figure :image-file "color-map.png"
-			 :caption "Color Map (assembled by Andrew
+	      ((:image-figure :image-file "color-map.png"
+			      :caption "Color Map (assembled by Andrew
 			 Wolven from standard X Window colors)"
-			 :width "4in" :label "fig:color-map"))
+			      :width "4in" :label "fig:color-map"))
 
 
-	 ((:list :style :enumerate)
-	  (:item "By name. The names can be seen at the URL "
-	    (:texttt "http://localhost:9000/color-map")
-	    " as seen in Figure "
-	    (:ref "fig:color-map"))
-	  (:item "By hexadecimal Red-Green-Blue values, in the form of
+	      ((:list :style :enumerate)
+	       (:item "By name. The names can be seen at the URL "
+		      (:texttt "http://localhost:9000/color-map")
+		      " as seen in Figure "
+		      (:ref "fig:color-map"))
+	       (:item "By hexadecimal Red-Green-Blue values, in the form of
 	  a string beginning with the ``#'' character. Each two-digit
 	  hex number represents a component of Red, Green, or Blue (to
 	  make this easy to remember, use the mnemonic ``Roy G. Biv''
 	  from the rainbow colors). For example, "
-	    (:texttt "#000000") 
-	    " represents pure Black, and "
-	    (:texttt "#FFFFFF") 
-	    " represents pure White. "
-	    (:texttt "#FF0000")
-	    " would be pure Red, "
-	    (:texttt "#00FF00")
-	    " would be pure Green, and "
-	    (:texttt "#FF00FF")
-	    " would be Purple (a mix of Red and Blue). Note that this
+		      (:texttt "#000000") 
+		      " represents pure Black, and "
+		      (:texttt "#FFFFFF") 
+		      " represents pure White. "
+		      (:texttt "#FF0000")
+		      " would be pure Red, "
+		      (:texttt "#00FF00")
+		      " would be pure Green, and "
+		      (:texttt "#FF00FF")
+		      " would be Purple (a mix of Red and Blue). Note that this
 	    is also a standard for HTML and the World Wide Web.")
 
-	  (:item "By a list of three decimal numbers between 0.0 and
+	       (:item "By a list of three decimal numbers between 0.0 and
 	  1.0, again representing values for Red, Green, and Blue. For example, "
-	    (:texttt "(1.0 1.0 1.0)")
-	    " would be pure White, and "
-	    (:texttt "(0.0 0.0 0.0)")
-	    " would be pure Black."))
+		      (:texttt "(1.0 1.0 1.0)")
+		      " would be pure White, and "
+		      (:texttt "(0.0 0.0 0.0)")
+		      " would be pure Black."))
 
-	 " The "
-	 (:texttt "display-controls")
-	 " is an optional input-slot for any geometric entity in GDL,
+	      " The "
+	      (:texttt "display-controls")
+	      " is an optional input-slot for any geometric entity in GDL,
 and is expected to be a "
-	 (:emph "Property List")
-	 " containing alternating keywords and values. Common keywords for the "
-	 (:texttt "display-controls")
-	 ", corresponding to the display characteristics listed above, are: "
-	 (:ul (:li (:texttt ":color"))
-	      (:li (:texttt ":line-thickness"))
-	      (:li (:texttt ":transparency")))
-	 " Figures "
-	 (:ref "fig:display-color")
-	 " and "
-	 (:ref "fig:display-color-source")
-	 " demonstrate the use of the "
-	 (:texttt ":color")
-	 " keyword in the "
-	 (:texttt "display-controls")
-	 " for our positioned boxes example.")
+	      (:emph "Property List")
+	      " containing alternating keywords and values. Common keywords for the "
+	      (:texttt "display-controls")
+	      ", corresponding to the display characteristics listed above, are: "
+	      (:ul (:li (:texttt ":color"))
+		   (:li (:texttt ":line-thickness"))
+		   (:li (:texttt ":transparency")))
+	      " Figures "
+	      (:ref "fig:display-color")
+	      " and "
+	      (:ref "fig:display-color-source")
+	      " demonstrate the use of the "
+	      (:texttt ":color")
+	      " keyword in the "
+	      (:texttt "display-controls")
+	      " for our positioned boxes example.")
      
-     ((:rendered-figure :caption "Color controlled by display-controls"
-			:object "display-color"))
+	  ((:rendered-figure :caption "Color controlled by display-controls"
+			     :object "display-color"))
 
-     )
+	  )
 
 
-    ((:subsection :title "Orientation and the Alignment function")
-     (:p "Orientations in GDL are specified using a 3x3 orientation
+      ((:subsection :title "Orientation and the Alignment function")
+       (:p "Orientations in GDL are specified using a 3x3 orientation
 matrix. The simplest way to compute an orientation matrix is to use
 the use the "
-     (:texttt "alignment")
-     " function. The "
-     (:texttt "alignment")
-     " function accepts up to three direction keywords, and
+	   (:texttt "alignment")
+	   " function. The "
+	   (:texttt "alignment")
+	   " function accepts up to three direction keywords, and
 corresponding vectors to which these directions should be aligned. For
 example, to obtain an orientation matrix specifying that the Rear of a
 reference box should be aligned with the vector "
-     (:texttt "#(1.0 0.0 0.0)")
-     ", you could call "
-     (:verbatim 
-      "(alignment :rear (make-vector 1 0 0))"))
+	   (:texttt "#(1.0 0.0 0.0)")
+	   ", you could call "
+	   (:verbatim 
+	    "(alignment :rear (make-vector 1 0 0))"))
 
-     ((:rendered-figure :caption "Cylinder aligned vertically"
-			:object "vertical-cylinder"))
+       ((:rendered-figure :caption "Cylinder aligned vertically"
+			  :object "vertical-cylinder"))
 
-     (:p "Generally, you will want the orientation of a child object to be 
+       (:p "Generally, you will want the orientation of a child object to be 
 specified in a "
-	 (:emph "relative")
-	 " manner to that of the current (parent) object. The concept here is 
+	   (:emph "relative")
+	   " manner to that of the current (parent) object. The concept here is 
 similar to that for positioning with respect to "
-	 (:texttt "(the center)")
-	 ". For relative orientation, you can utilize the various "
-	 (:texttt "face-normal-vector")
-	 "s of the parent object. For example, by default, cylinders are aligned with 
+	   (:texttt "(the center)")
+	   ". For relative orientation, you can utilize the various "
+	   (:texttt "face-normal-vector")
+	   "s of the parent object. For example, by default, cylinders are aligned with 
 their flat ends along the longitudinal (Y) axis. Figures "
-	 (:ref "fig:vertical-cylinder-source")
-	 " and "
-	 (:ref "fig:vertical-cylinder")
-	 " show the red cylinder which is turned to be
+	   (:ref "fig:vertical-cylinder-source")
+	   " and "
+	   (:ref "fig:vertical-cylinder")
+	   " show the red cylinder which is turned to be
 	 vertical (aligned to the Z axis), by aligning its "
-	 (:texttt ":rear")
-	 " face with "
-	 (:texttt "(the (face-normal-vector :top))")
-	 " of the parent base-object."))
+	   (:texttt ":rear")
+	   " face with "
+	   (:texttt "(the (face-normal-vector :top))")
+	   " of the parent base-object."))
 
-    ((:rendered-figure :caption "Twisty Tower "
-			:object "tower"))
+      ((:rendered-figure :caption "Twisty Tower "
+			 :object "tower"))
 
-    ((:subsection :title "Rotating vectors with the rotate-vector-d function")
-     "In order to specify a vector which is not aligned exactly with
+      ((:subsection :title "Rotating vectors with the rotate-vector-d function")
+       "In order to specify a vector which is not aligned exactly with
 one of the major axes, you can use the "
-     (:texttt "rotate-vector-d")
-     " function to yield a new vector which is the result of
+       (:texttt "rotate-vector-d")
+       " function to yield a new vector which is the result of
      ``rotating'' one vector about another vector. Figures "
-     (:ref "fig:tower-source")
-     " and "
-     (:ref "fig:tower")
-     " show a stack of boxes, where the rear face of each box is
+       (:ref "fig:tower-source")
+       " and "
+       (:ref "fig:tower")
+       " show a stack of boxes, where the rear face of each box is
      rotated 2 degrees with respect to the box under it.")
 
-    ((:subsection :title "Assemblies")
-     "Objects which you define with "
-     (:texttt "define-object")
-     " can be used no differently from the built-in primitives. This
+      ((:subsection :title "Assemblies")
+       "Objects which you define with "
+       (:texttt "define-object")
+       " can be used no differently from the built-in primitives. This
 underscores why it is important for the positioning and orientation
 passed into a child object be "
-     (:emph "relative")
-     " to that present in the parent. Figures "
-     (:ref "fig:tower-assembly")
-     " and "
-     (:ref "fig:tower-assembly-source")
-     " show how several towers can be positioned side-by-side, while
+       (:emph "relative")
+       " to that present in the parent. Figures "
+       (:ref "fig:tower-assembly")
+       " and "
+       (:ref "fig:tower-assembly-source")
+       " show how several towers can be positioned side-by-side, while
 maintaining consistent internal positioning and orientation. Figure "
-     (:ref "fig:tower-assembly-tasty")
-     " shows how the child towers form an "
-     (:emph "assembly hierarchy")
-     " of objects."
+       (:ref "fig:tower-assembly-tasty")
+       " shows how the child towers form an "
+       (:emph "assembly hierarchy")
+       " of objects."
 
-     ((:rendered-figure :caption "Tower Assembly"
-			:object "tower-assembly"))
+       ((:rendered-figure :caption "Tower Assembly"
+			  :object "tower-assembly"))
     
-     ((:image-figure :image-file "tower-assembly-tasty.png" 
-		     :caption "Tower Assembly as displayed in Tasty"
-		     :width "4in" :height "3in"
-		     :label "fig:tasty-assembly-tasty")))
+       ((:image-figure :image-file "tower-assembly-tasty.png" 
+		       :caption "Tower Assembly as displayed in Tasty"
+		       :width "4in" :height "3in"
+		       :label "fig:tower-assembly-tasty")))
     
     
 
-    ((:subsection :title "Mechanisms")
+      ((:subsection :title "Mechanisms")
 
-     ((:image-figure :image-file "4-bar-image.png" 
-		     :caption "Four-bar Link Mechanism"
-		     :width "5in" :height "3in"
-		     :label "fig:4bar-image"))
+       ((:image-figure :image-file "4-bar-image.png" 
+		       :caption "Four-bar Link Mechanism"
+		       :width "5in" :height "3in"
+		       :label "fig:4bar-image"))
 
-     "GDL supports mechanisms without need for any special
+       "GDL supports mechanisms without need for any special
 features. By defining position and orientation of some objects to be
 dependent on others, you can set up a mechanism. Figure "
-     (:ref "fig:4bar-image")
-     " shows a standard four-bar link mechanism which is defined in the code in 
+       (:ref "fig:4bar-image")
+       " shows a standard four-bar link mechanism which is defined in the code in 
 the file "
-     (:href "run:../examples/4-bar-assembly.gdl" "4-bar-assembly.gdl")
-     " (this is in the examples directory"
-     (:footnote "http://github.com/genworks/gendl/tree/master/documentation/tutorial/examples/")
-     " --- due to its length, the
+       (:href "run:../examples/4-bar-assembly.gdl" "4-bar-assembly.gdl")
+       " (this is in the examples directory"
+       (:footnote "http://github.com/genworks/gendl/tree/master/documentation/tutorial/examples/")
+       " --- due to its length, the
      source is not printed in the manual.")
 
-    ((:subsection :title "Other Geometric Primitives")
-     "This chapter has focused primarily on the "
-     (:texttt "box")
-     " primitive, because every type of geometric primitive is based upon a "
-     (:emph "reference box")
-     ". Other primitives have their own sets of input-slots, and their
+      ((:subsection :title "Other Geometric Primitives")
+       "This chapter has focused primarily on the "
+       (:texttt "box")
+       " primitive, because every type of geometric primitive is based upon a "
+       (:emph "reference box")
+       ". Other primitives have their own sets of input-slots, and their
      own ways of being rendered in the various output formats. Basic
      2D primitives include:"
-     (:ul (:li (:texttt "circle")
-	       " described on page "
-	       (:pageref "prim:circle"))
-	  (:li (:texttt "line")
-	       " described on page "
-	       (:pageref "prim:line"))
-	  (:li (:texttt "arc")
-	       " described on page "
-	       (:pageref "prim:arc"))
-	  (:li (:texttt "ellipse")
-	       " described on page "
-	       (:pageref "prim:ellipse"))
-	  (:li (:texttt "bezier-curve")
-	       (:footnote "The simple cubic bezier curve is supported
+       (:ul (:li (:texttt "circle")
+		 " described on page "
+		 (:pageref "prim:circle"))
+	    (:li (:texttt "line")
+		 " described on page "
+		 (:pageref "prim:line"))
+	    (:li (:texttt "arc")
+		 " described on page "
+		 (:pageref "prim:arc"))
+	    (:li (:texttt "ellipse")
+		 " described on page "
+		 (:pageref "prim:ellipse"))
+	    (:li (:texttt "bezier-curve")
+		 " described on page "
+		 (:pageref "prim:bezier-curve")
+		 (:footnote "The simple cubic bezier curve is supported
 	       in the basic GDL and open-source Gendl. More
 	       sophisticated NURBS-based curves and surfaces are
 	       supported in the commercial GDL product when
-	       accompanied with the SMLib geometry kernel. These are
-	       covered in chapter "
-			  (:ref "chap:advanced-geometry"))
-	       " described on page "
-	       (:pageref "prim:bezier-curve")))
-     "Basic 3D primitives include:"
-     (:ul (:li (:texttt "sphere")
-	       " described on page "
-	       (:pageref "prim:sphere"))
+	       accompanied with the SMLib geometry kernel.")))
+       "Basic 3D primitives include:"
+       (:ul (:li (:texttt "sphere")
+		 " described on page "
+		 (:pageref "prim:sphere"))
 
-	  (:li (:texttt "cylinder")
-	       " described on page "
-	       (:pageref "prim:cylinder"))
+	    (:li (:texttt "cylinder")
+		 " described on page "
+		 (:pageref "prim:cylinder"))
 
-	  (:li (:texttt "cone")
-	       " described on page "
-	       (:pageref "prim:cone"))
+	    (:li (:texttt "cone")
+		 " described on page "
+		 (:pageref "prim:cone"))
 
-	  (:li (:texttt "global-polyline")
-	       " described on page "
-	       (:pageref "prim:global-polyline"))
+	    (:li (:texttt "global-polyline")
+		 " described on page "
+		 (:pageref "prim:global-polyline"))
 
-	  (:li (:texttt "global-polygon-projection")
-	       " described on page "
-	       (:pageref "prim:global-polygon-projection"))
-	  (:li (:texttt "global-filleted-polyline")
-	       " described on page "
-	       (:pageref "prim:global-polyline"))
+	    (:li (:texttt "global-polygon-projection")
+		 " described on page "
+		 (:pageref "prim:global-polygon-projection"))
+	    (:li (:texttt "global-filleted-polyline")
+		 " described on page "
+		 (:pageref "prim:global-polyline"))
 
-	  (:li (:texttt "torus")
-	       " described on page "
-	       (:pageref "prim:torus"))
+	    (:li (:texttt "torus")
+		 " described on page "
+		 (:pageref "prim:torus"))
 
-	  (:li (:texttt "route-pipe")
-	       " described on page "
-	       (:pageref "prim:route-pipe"))
+	    (:li (:texttt "route-pipe")
+		 " described on page "
+		 (:pageref "prim:route-pipe"))))))))
 	  
 	  
 
-
-     
-	  
-	  
-
-
-
-	  ))))
 
 
 

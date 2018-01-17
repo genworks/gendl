@@ -236,9 +236,8 @@ substituted into the format-string at the point where it occurs.")
 
 	(:p "We will cover more details on "
 	    (:texttt "format")
-	    " in Section "
-	    (:ref "sec:input-output")
-	    " on Input/Output, but for now, a familiarity with the simple use of "
+	    " in a section on "
+	    " Input/Output, but for now, a familiarity with the simple use of "
 	    (:texttt "(format nil ...)")
 	    " will be helpful for Chapter "
 	    (:ref "chap:understandinggdl---coregdlsyntax")

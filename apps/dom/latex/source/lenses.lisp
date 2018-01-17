@@ -304,7 +304,9 @@
 					     (read-from-string (the object))))))
 	       out))
 	(load (compile-file drawing-file)))
-      
+
+
+      (when (probe-file image-file) (delete-file image-file))
       (uiop:copy-file (merge-pathnames "example.pdf" (glisp:temporary-folder))
 		      image-file)
       
