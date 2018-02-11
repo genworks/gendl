@@ -403,7 +403,7 @@ from a saved snapshot file."
 		       ))))
       
       ((:script :type "text/javascript"
-                :src "/static/gwl/js/gdlajax1590.js"))
+                :src "/static/gwl/js/gdlajax1593.js"))
       
       ((:script :type "text/javascript")
        (fmt "~%var gdliid = '~a';" (the instance-id)))

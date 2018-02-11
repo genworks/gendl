@@ -338,8 +338,8 @@ required in the sheet to call the :raphael-canvas method."))
         (htm ((:div :id (the raphael-canvas-id)
                     :style 
                     (format nil "cursor: ~a; 
-height: ~apx;
-width: ~apx;
+/* height: ~apx;
+width: ~apx; */
 overflow:hidden; 
 clip: rect(0px ~apx ~apx 0px); 
 position: relative;
