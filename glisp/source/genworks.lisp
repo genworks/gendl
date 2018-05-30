@@ -278,8 +278,8 @@ The command line was: ~%~%~s~%" command result error command-line)))))
 (defun run-program (command &rest keys
 		    &key ignore-error-status force-shell
 		      (input nil inputp) (if-input-does-not-exist :error)
-		      output (if-output-exists :overwrite)
-		      (error-output nil error-output-p) (if-error-output-exists :overwrite)
+		      output (if-output-exists :supersede)
+		      (error-output nil error-output-p) (if-error-output-exists :supersede)
 		      (element-type #-clozure uiop:*default-stream-element-type* #+clozure 'character)
 		      (external-format uiop:*utf-8-external-format*)
                       &allow-other-keys)
