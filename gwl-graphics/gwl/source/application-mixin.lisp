@@ -174,17 +174,23 @@ or <tt>application-mixin</tt>"))
                                           (:closed "/images/gwl/plus.gif"))
                                    :name (format nil ":tree-toggle+~a" 
                                                  (the :url-encoded-root-path))))))
-                  (htm ((:td :width 5 :align :center)
-                        ((:img :src "/images/gwl/red-dot.gif" 
-                               :width 8 )))))
+                    (htm ((:td :width 5 :align :center)
+                          ((:img :src "/images/gwl/red-dot.gif" 
+				 :width 8 )))))
                 ((:td :nowrap :nowrap 
-                      :colspan  (1+ (- (the :total-depth) (the :depth))))
+		      :colspan  (1+ (- (the :total-depth) (the :depth))))
                  (if (eql self current-node)
                      (htm (:b (str (the :strings-for-display))))
-                   (the (:write-self-link)))))
+                     ;;(the (:write-self-link))
+		     ;;(str (the self-link))
+		     (htm (:b (str (the :strings-for-display))))
+		     #+nil
+		     (htm ((:a :href (the url))
+			   (str (the strings-for-display))))
+		     )))
            (when (and (typep self 'node-mixin) (eql (the :tree-state) :open))
              (mapc #'(lambda(node)
-                       (write-the-object node (:tree-row :current-node current-node)))
+		       (write-the-object node (:tree-row :current-node current-node)))
                    (the :child-nodes))))))
 
    (violated-rules
@@ -311,7 +317,10 @@ or <tt>application-mixin</tt>"))
                      :colspan  (1+ (- (the :total-depth) (the :depth))))
                 (if (eql self current-node)
                     (html (:b (:princ (the :strings-for-display))))
-                  (the (:write-self-link)))))
+		    (html (:princ (the self-link)))
+                    ;;(the (:write-self-link))
+
+		    )))
           (when (and (typep self 'node-mixin) (eql (the :tree-state) :open))
             (mapc #'(lambda(node)
                       (write-the-object node (:tree-row :current-node current-node)))
