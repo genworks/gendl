@@ -133,11 +133,11 @@
 ;; 4.1. Some synonyms
 
 (defun gendl (&optional exe) (interactive) 
-  (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
-  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-  (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
-  (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
-  (with-temp-buffer (cd *gendl-home*) (slime exe)))
+       ;;(add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+       ;;(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
+       ;;(add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
+       ;;(add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+       (with-temp-buffer (cd *gendl-home*) (slime exe)))
 
 (defun gdl () (interactive) (gendl 'gdl))
 (defun agdl8 () (interactive) (gendl 'agdl8))
@@ -188,11 +188,17 @@
 
 (eval-after-load "slime"
   '(progn
-    (slime-setup '(slime-fancy slime-banner slime-tramp))
-    (add-hook 'slime-connected-hook 'set-slime-shortcuts)
-    (add-hook 'slime-connected-hook 'customise-slime)
-    (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
-    (add-hook 'slime-connected-hook 'load-user-emacs-glime)))
+     
+     (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+     (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
+     (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
+     (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+     
+     (slime-setup '(slime-fancy slime-banner slime-tramp))
+     (add-hook 'slime-connected-hook 'set-slime-shortcuts)
+     (add-hook 'slime-connected-hook 'customise-slime)
+     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
+     (add-hook 'slime-connected-hook 'load-user-emacs-glime)))
 
 
 
