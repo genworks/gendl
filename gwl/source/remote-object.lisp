@@ -27,38 +27,55 @@
 (defparameter *make-object-plist* nil)
 (defparameter *fetch-plist* nil)
 
+(defvar *preferred-remote-syntax* :lisp)
 
-(defun encode64-downcase (item)
+(defmethod encode-plist-for-url ((syntax (eql :lisp)) encoded-plist)
   (let ((*print-case* :downcase))
-    (base64-encode-list item)))
-    
+    (base64-encode-list encoded-plist)))
+
+(defun register-remote-object (obj)
+  (declare (ignore obj))
+  #+ccl (ccl:terminate-when-unreachable obj)
+  nil)
+
+(defun do-remote-execute (request host port remote-syntax plist &key (decode t))
+  (let* ((encoded-plist (encode-plist-args plist))
+         (argstring (encode-plist-for-url remote-syntax encoded-plist))
+         (result (net.aserve.client:do-http-request 
+                     (let ((*print-case* :downcase))
+                       (format nil "http://~a:~a/~a?args=~a&syntax=~s"
+                               host port
+                               request argstring remote-syntax)))))
+    ;; Note that for now, return values do not obey remote-syntax, they are always in lisp....
+    (if decode
+        (decode-from-http (read-safe-string (base64-decode-safe result)))
+        (read-safe-string result))))
+
 
 (define-object remote-object (vanilla-remote)
   :no-vanilla-mixin? t
   
-  :input-slots (remote-type (input-parameters nil) host port
+  :input-slots (remote-type (input-parameters nil)
+                host port (remote-syntax *preferred-remote-syntax*)
                 
                 (remote-root-path nil)
                 
                 (remote-id (read-safe-string
                             (let* ((current-id (the previous-id))
-				   (plist (append (list :current-id current-id) (the remote-object-args)))
-                                   (encoded-args (encode64-downcase (encode-plist-args plist))))
+				   (plist (append (list :current-id current-id) (the remote-object-args))))
 
 			      
 			      (when *agile-debug?* (setq *make-object-plist* (append (remove-plist-keys plist (list :parent-form :name))
 										     (list :name (string (getf plist :name)))
-										     (list :parent-form (let ((parent-plist (rest (getf plist :parent-form))))
-													  (mapcan #'(lambda(key value)
-														      (list key (if (and value (symbolp value)) (format nil "~s" value) value)))
-														  (plist-keys parent-plist)
-														  (plist-values parent-plist)))))))
-                 
-                              (let ((new-id
-                                     (read-safe-string (net.aserve.client:do-http-request 
-                                                           (format nil "http://~a:~a/make-remote-object?args=~a"
-                                                                   (the host) (the port) encoded-args)))))
+										     (list :parent-form
+                                                                                           (multiple-value-bind (type parent-plist)
+                                                                                               (destructure-object-from-http (getf plist :parent-form))
+                                                                                             (declare (ignore type))
+                                                                                             (stringify-plist parent-plist))))))
+
+                              (let ((new-id (the (remote-execute "make-remote-object" plist :decode nil))))
                                 (the (set-slot! :previous-id new-id :remember? nil :warn-on-non-toplevel? nil))
+                                (register-remote-object self)
                                 new-id))) :settable))
 
   
@@ -87,138 +104,123 @@
   
   
   :functions
-  ((fetch-input
+  ((remote-execute
+    (request plist &key (decode t))
+    (do-remote-execute request (the host) (the port) (the remote-syntax) plist :decode decode))
+   
+   (fetch-input
     (message part-name child &rest args)
     
     ;;
     ;; FLAG -- *notify-cons* is going to be broken now... have to unmarshal/marshal from hash table. 
     ;;         hold off on doing this until we switch to an Abstract Associative Map. 
     ;;
-    (let* ((plist (encode-plist-args (list :message (make-keyword message)
-					   :part-name (make-keyword part-name)
-					   :child (encode-for-http child)
-					   :notify-cons (encode-for-http gdl::*notify-cons*)
-					   :args args
-					   :remote-id (the remote-id)
-					   :remote-root-path (the remote-root-path)
-					   :package *package*)))
-	   (encoded-args (encode64-downcase plist)))
-
-      (when *agile-debug?* (setq *fetch-plist* plist))
+    (let ((plist (list :message (make-keyword message)
+                       :part-name (make-keyword part-name)
+                       :index (the-object child index)
+                       :notify-cons (encode-for-http gdl::*notify-cons*)
+                       :args args
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path)
+                       :package *package*)))
       
-
-      (multiple-value-bind 
-          (result length)
-	  
-	  (base64-decode-list
-	   (net.aserve.client:do-http-request (format nil "http://~a:~a/fetch-remote-input?args=~a"
-						      (the host) (the port) encoded-args)))
-
-        (declare (ignore length)) 
-
-		
-	;;(print-variables result)
-	
-	
-        (if (consp result)
-	    (evaluate-object (first result) (rest result))
-	    result))))
+      (when *agile-debug?* (setq *fetch-plist* (encode-plist-args plist)))
+      
+      (the (remote-execute "fetch-remote-input" plist))))
    
    
    (unbind-remote-slot 
     (slot)
-    (let ((encoded-args (encode64-downcase 
-                         (encode-plist-args (list :slot slot 
-                                                  :remote-id (the remote-id)
-                                                  :remote-root-path (the remote-root-path))))))
-      (multiple-value-bind 
-          (result length)
-          (read-safe-string 
-           (base64-decode-safe 
-            (net.aserve.client:do-http-request (format nil "http://~a:~a/unbind-slots?args=~a"
-                                                       (the host) (the port) encoded-args))))
-        (declare (ignore length))
-        (decode-from-http result))))
+    (let ((plist (list :slot slot 
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path))))
+      (the (remote-execute "unbind-slots" plist))))
 
    
    (send
     (message &rest args)
-    (let* ((encoded-plist (encode-plist-args (list :message (make-keyword message)
-						   :notify-cons (encode-for-http gdl::*notify-cons*)
-						   :args args
-						   :remote-id (the remote-id)
-						   :remote-root-path (the remote-root-path)
-						   :package *package*)))
+    (let ((plist (list :message (make-keyword message)
+                       :notify-cons (encode-for-http gdl::*notify-cons*)
+                       :args args
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path)
+                       :package *package*)))
 
-	   (encoded-args (encode64-downcase encoded-plist)))
-
-      ;;
-      ;; FLAG -- make the stringification of symbols be recursive.
-      ;;
-      (when *agile-debug?* (setq *send-plist* (mapcan #'(lambda(key val) (list key (if (and val (symbolp val)) (format nil "~s" val) val)))
-						      (plist-keys encoded-plist)
-						      (plist-values encoded-plist))))
+      (when *agile-debug?* (setq *send-plist* (stringify-plist (encode-plist-args plist))))
       
-      (multiple-value-bind
-	    (result length)
-	  (let ((string (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-message?args=~a"
-                                                       (the host) (the port) encoded-args))))
-	    
+      (let ((result (the (remote-execute "send-remote-message" plist))))
 
-          (read-safe-string (base64-decode-safe string)))
-
-        (declare (ignore length))
-
-        ;;
-        ;; FLAG -- pass result through generic function to sanitize
-        ;;
-        
-        (let ((result (decode-from-http result)))
-
-	  
-	  
-          (cond ((and (consp result) (eql (first result) :error)
-                      (eql (second result) :no-such-object))
-                 (progn
-                   (warn "~&Remote object returned error, creating a new one...~%")
-                   (the (set-slot! :remote-id nil :warn-on-non-toplevel? nil))
-                   (the (restore-slot-default! :remote-id))
-                   (the (send (:apply (cons message args))))))
-                ((and (consp result) (eql (first result) :error))
-                 (format *error-output* "~&~%Remote object threw error:~%~%")
-                 (error (format nil (second result))))
-                (t result))))))
+        (cond ((and (consp result) (eql (first result) :error)
+                    (eql (second result) :no-such-object))
+               (progn
+                 (warn "~&Remote object returned error, creating a new one...~%")
+                 (the (set-slot! :remote-id nil :warn-on-non-toplevel? nil))
+                 (the (restore-slot-default! :remote-id))
+                 (the (send (:apply (cons message args))))))
+              ((and (consp result) (eql (first result) :error))
+               (format *error-output* "~&~%Remote object threw error:~%~%")
+               (error (format nil (second result))))
+              (t result)))))
 
    
    
    (send-output 
     (message format &rest args)
-    (let ((encoded-args (encode64-downcase (encode-plist-args (list :message (make-keyword message)
-                                                                         :format format
-                                                                         :args args
-                                                                         :remote-id (the remote-id)
-                                                                         :remote-root-path (the remote-root-path)
-                                                                         :package *package*)))))
-      (multiple-value-bind
-          (result length)
-          (read-safe-string
-           (base64-decode-safe
-            (net.aserve.client:do-http-request (format nil "http://~a:~a/send-remote-output?args=~a"
-                                                       (the host) (the port) encoded-args))))
-        (declare (ignore length))
-        
-        (write-string result *stream*))))))
+    (let ((plist (list :message (make-keyword message)
+                       :format format
+                       :args args
+                       :remote-id (the remote-id)
+                       :remote-root-path (the remote-root-path)
+                       :package *package*)))
+      (let ((result (the (remote-execute "send-remote-output" plist))))
+            (write-string result *stream*))))))
 
-    
+;;
+;; FLAG -- promote this to a generic glisp finalizer scheme
+;;
+(defparameter *remotes-to-purge* nil)
+(defparameter *remotes-to-purge-lock* (bt:make-lock))
 
 
+#+ccl
+(defmethod ccl:terminate ((object remote-object))
+  (let ((data (list (the-object object host)
+                    (the-object object port)
+                    (the-object object remote-syntax)
+                    (the-object object remote-id))))
+    (bt:with-lock-held (*remotes-to-purge-lock*)
+      (push data *remotes-to-purge*))))
 
-(defmethod decode-from-http ((item t)) item)
+(defun terminate-remotes ()
+  (loop
+     (let ((remote (bt:with-lock-held (*remotes-to-purge-lock*)
+                     (pop *remotes-to-purge*))))
+       (unless remote (return))
+       (destructuring-bind
+             (host port syntax id) remote
+         (let ((result
+                (do-remote-execute "delete-remote-object" host port syntax
+                                   (list :current-id (make-keyword id))
+                                   :decode nil)))
+           (unless (string-equal result "ok")
+             (warn "Terminate of ~a returned ~a.~%" id result)))))))
 
-(defmethod decode-from-http ((list list))
-  (when list
-    (cond ((keywordp (first list)) (evaluate-object (first list) (rest list)))
-          (t (cons (decode-from-http (first list)) (decode-from-http (rest list)))))))
+
+(defun launch-terminator ()
+  (bt:make-thread #'(lambda()
+		      (do () ()
+			(sleep 5)
+			(terminate-remotes)))
+		  :name "remote terminator, wakes every 5 seconds and cleans up stale remotes."))
+
+
+
+(defun decode-from-http (item)
+  (if (consp item)
+      (multiple-value-bind (object-type initargs) (destructure-object-from-http item)
+        (or (and object-type (evaluate-object object-type initargs))
+            (mapcar #'decode-from-http item)))
+      item))
 
 (defun encode-plist-args (plist)
   ;;
@@ -230,6 +232,21 @@
       (cons (first plist)
 	    (cons (encode-for-http (second plist)) (encode-plist-args (rest (rest plist))))))))
 
+(defun stringify-plist (plist)
+  (loop for (key val) on plist by #'cddr
+    collect key
+    collect (cond ((or (null val) (eql val t) (numberp val)) val)
+                  ((atom val) (format nil "~s" val))
+                  ((keywordp (car val)) (stringify-plist val))
+                  (t (mapcar #'stringify-plist val)))))
+
+(defun unstringify-plist (plist)
+  (loop for (key val) on plist by #'cddr
+    collect key
+    collect (cond ((or (null val) (eql val t)) val)
+                  ((atom val) (read-safe-string val))
+                  ((keywordp (car val)) (unstringify-plist val))
+                  (t (mapcar #'unstringify-plist val)))))
 
 (defmethod encode-for-http ((item t)) item)
 
@@ -266,7 +283,7 @@
 						   :remember? nil 
 						   :warn-on-non-toplevel? nil))
                   new-id))))
-    (encode-object-for-http item id)))
+    (encode-remote-gdl-instance item id)))
 
 (defmethod encode-for-http ((item gdl::gdl-basis))
   (let ((id (or (the-object item root remote-id)
@@ -276,7 +293,7 @@
 						   :remember? nil 
 						   :warn-on-non-toplevel? nil))
                   new-id))))
-    (encode-object-for-http item id)))
+    (encode-remote-gdl-instance item id)))
 
 (defun gwl-host ()
   ;; FIXME: better way to get this ?
@@ -284,16 +301,25 @@
     (let ((sock (wserver-socket *wserver*)))
       (when sock (glisp:local-host sock)))))
 
-(defun encode-object-for-http (item id)
-  (list :remote-gdl-instance
-        :id id
-        :index (the-object item index)
-        :type (format nil "~s" (the-object item type))
-        :root-path (the-object item root-path) 
-        :host (or *request-server-ipaddr* :unknown)
-        :port (glisp:local-port 
-	       (slot-value (symbol-value (read-from-string "net.aserve:*wserver*"))
-			   (read-from-string "net.aserve::socket")))))
+(defun encode-remote-gdl-instance (item id)
+  (construct-object-for-http :remote-gdl-instance
+                             (list :id id
+                                   :index (the-object item index)
+                                   :type (format nil "~s" (the-object item type))
+                                   :root-path (the-object item root-path) 
+                                   :host (or *request-server-ipaddr* :unknown)
+                                   :port (server-port))))
+
+(defun construct-object-for-http (type plist)
+  (list* :object-type type plist))
+
+(defun destructure-object-from-http (list)
+  (if (evenp (length list))
+    (alexandria:when-let (object-type (getf list :object-type))
+      (values object-type (remove-plist-key list :object-type)))
+    ;; Support old object format for backward compatibility.
+    (when (keywordp (first list))
+      (values (first list) (rest list)))))
 
 
 (defmethod print-object ((object remote-object) stream)

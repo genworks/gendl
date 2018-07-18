@@ -37,8 +37,8 @@
           ;; any new requests while all this is happening...
           ;;
           (glisp:w-o-interrupts
-           (let ((port (slot-value (wserver-socket *wserver*) 'socket::local-port)))
-             (when (>= port 1000)
+           (let ((port (server-port)))
+             (when (and port (>= port 1000))
                (net.aserve:shutdown) (net.aserve:start :port port :listeners listeners)))
           
            (mapc #'funcall (ensure-list extra-functions))
