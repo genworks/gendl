@@ -94,7 +94,8 @@ in emacs when setSelf link is pressed and <tt>*break-on-set-self?*</t> is nil.
 Defaults to t.")
 
 
-(defparameter *remote-objects-hash* (make-hash-table))
+(defparameter *remote-objects-hash* (glisp:make-weak-hash-table :weakness :value))
+				
 (defparameter *remote-proxies-hash* (make-hash-table :test #'equalp))
 (defparameter *ipaddr* nil)
 

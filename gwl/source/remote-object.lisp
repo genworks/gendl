@@ -208,7 +208,7 @@
 
 (defun launch-terminator ()
   (bt:make-thread #'(lambda()
-		      (do () ()
+		      (do () (nil)
 			(sleep 5)
 			(terminate-remotes)))
 		  :name "remote terminator, wakes every 5 seconds and cleans up stale remotes."))

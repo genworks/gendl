@@ -260,18 +260,44 @@
 
 		    
 
+;;
+;; FLAG -- add missing options e.g. :key-or-value for LW.
+;;
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 #+ecl (warn "Need weak-hash-tables for ECL, or we will be running out of memory in web apps.~%")
-(defun make-weak-hash-table (&rest args)
-  (apply #'make-hash-table 
-	 #+allegro :weak-keys #+allegro t
-         #+allegro :values #+allegro :weak
-         #+lispworks :weak-kind #+lispworks t
-	 #+(or sbcl abcl) :weakness #+(or sbcl abcl) :key-and-value
-	 #+clisp :weak #+clisp :key-and-value
-	 #+ccl :weak #+ccl :key #+ccl :test #+ccl #'eq
-         args))
+(defun make-weak-hash-table (&rest args &key (weakness :key-and-value) &allow-other-keys)
+  (flet ((remove-plist-key (plist key)
+	   (let (result on-remark?)
+	     (dolist (element plist (nreverse result))
+	       (cond ((eql element key)
+		      (setq on-remark? t))
+		     (on-remark?
+		      (setq on-remark? nil))
+		     (t (push element result)))))))
+    (apply #'make-hash-table 
+	   #+allegro :weak-keys #+allegro (case weakness ((:key-and-value :key)  t) (otherwise nil))
+           #+allegro :values #+allegro (case weakness
+					 ((:key-and-value :value) :weak)
+					 (otherwise (let ((values (getf args :values :missing)))
+						      (ecase values
+							(:missing t)
+							(:weak :weak)
+							('nil nil)))))
+	 
+           #+lispworks :weak-kind #+lispworks (ecase weakness
+						(:key-and-value :both)
+						(:key :key) (:value :value))
+	   #+(or sbcl abcl) :weakness #+(or sbcl abcl) (ecase weakness
+							 (:key-and-value :key-and-value)
+							 (:key :key) (:value :value))
+	   #+clisp :weak #+clisp (ecase weakness
+				   (:key-and-value :key-and-value)
+				   (:key :key) (:value :value))
+	 
+	   #+ccl :weak #+ccl (ecase weakness (:key-and-value :key) (:key :key) (:value :value)) #+ccl :test #+ccl (case weakness ((:key-and-value :key) #'eq) (otherwise #'eql))
+
+           (remove-plist-key args :weakness))))
 
 
 #-(or allegro lispworks sbcl ccl clisp) 
