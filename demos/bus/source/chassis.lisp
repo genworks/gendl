@@ -224,7 +224,11 @@
 		 :radius 19
 		 :inner-radius 7
 		 :display-controls (list :color "#333333"  :shininess 0.6 :specular-color "#999999"
-					 :drag-controls :drag-and-drop
+					 ;;
+					 ;; FLAG put back in when we have drag-and-drop in Raphael again -
+					 ;;  drag-and-drop is commented out in modern-site now. 
+					 ;;
+					 ;;:drag-controls :drag-and-drop
 					 )
 		 )
    

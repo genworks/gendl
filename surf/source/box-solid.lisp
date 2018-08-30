@@ -38,7 +38,27 @@ from brep and box."
 </pre>")
 
 
-  :computed-slots ((%native-brep% (let ((brep (make-brep  *geometry-kernel* 
+  :computed-slots (
+		   ;;
+		   ;; FLAG -- should be able to call to base-object's version of this instead of repeating code here. 
+		   ;;
+		   (local-box (let ((vertices (let (vertices) (dolist (lateral '(:left :right) vertices)
+								(dolist (longitudinal '(:front :rear))
+								  (dolist (vertical '(:bottom :top))
+								    (push (the (vertex lateral longitudinal vertical)) vertices)))))))
+				(let (xmin ymin zmin xmax ymax zmax)
+				  (mapc #'(lambda(vertex)
+					    (let ((x (get-x vertex)) (y (get-y vertex)) (z (get-z vertex)))
+					      (when (or (null xmin) (< x xmin)) (setq xmin x))
+					      (when (or (null xmax) (> x xmax)) (setq xmax x))
+					      (when (or (null ymin) (< y ymin)) (setq ymin y))
+					      (when (or (null ymax) (> y ymax)) (setq ymax y))
+					      (when (or (null zmin) (< z zmin)) (setq zmin z))
+					      (when (or (null zmax) (> z zmax)) (setq zmax z)))) vertices)
+				  (list (make-point xmin ymin zmin) (make-point xmax ymax zmax)))))
+
+		    
+		   (%native-brep% (let ((brep (make-brep  *geometry-kernel* 
 							 :tolerance (the brep-tolerance))))
                                     (let ((x-vector (the (face-normal-vector :right)))
                                           (y-vector (the (face-normal-vector :rear)))

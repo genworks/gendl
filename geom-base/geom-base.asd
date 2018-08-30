@@ -3,9 +3,9 @@
 (asdf:defsystem #:geom-base :description
  "The Gendl® Wireframe Geometry" :author "Genworks International"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20170524" :depends-on (:glisp)
+ :serial t :version "20180823" :depends-on (:glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
- #+asdf-unicode :defsystem-depends-on #+asdf-unicode nil
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "prereqs/source/presets")
@@ -57,6 +57,6 @@
   (:file "text/source/general-note")
   (:file "text/source/typeset-block") (:file "graphs/source/graph")
   (:file "graphs/source/legend") (:file "graphs/source/pie-chart")
-  (:file "lenses/source/scad") (:file "lenses/source/vrml")
-  (:file "lenses/source/x3d") (:file "math/source/polynomial")
-  (:file "zzinit/source/initialize") (:file "zzinit/source/zzinit")))
+  (:file "lenses/source/scad") (:file "lenses/source/x3d")
+  (:file "math/source/polynomial") (:file "zzinit/source/initialize")
+  (:file "zzinit/source/zzinit")))

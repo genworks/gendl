@@ -25,6 +25,10 @@
 
 (defmacro w-c-w-s ((&rest args) &rest body) `(with-cl-who-string ,args ,@body))
 
+(defun prepend-url-depth (string depth)
+  (string-append (format nil "~v@{~A~:*~}" depth "../") string))
+
+
 (define-object base-ajax-sheet (base-html-sheet)
   :documentation (:description "(Note: this documentation will be moved
 to the specific docs for the html-format/base-ajax-sheet lens, when 
@@ -152,7 +156,10 @@ but which you can fill in your own specific lens to do something useful for the 
 
 </pre>")
 
-  :input-slots (("String of HTML. The main body of the page. 
+  :input-slots ((url-depth 0)
+
+
+		("String of HTML. The main body of the page. 
 This can be specified as input or overridden in subclass, otherwise it defaults
 to the content produced by the :output-function of the same name 
 in the applicable lens for  html-format."
@@ -229,7 +236,11 @@ interface. Defaults to nil."
 		    development-links
                     (with-cl-who-string () (write-the development-links))))
 
-  :functions ((back-link 
+  :functions ((prepend-url-depth
+	       (string)
+	       (prepend-url-depth string (the url-depth)))
+
+	      (back-link 
                (&key (display-string "&lt;-Back"))
                (w-c-w-s 
                 () 
@@ -377,36 +388,27 @@ from a saved snapshot file."
     (with-cl-who (:indent t)
       (when (the use-jquery?)
         (htm 
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery.min.js"))
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
-         ((:script :type "text/javascript"
-                   :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/superfish.min.js"))
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
+         ((:script :src "/static/3rdpty/jquery/js/jquery.min.js"))
+         ((:script :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
+         ((:script :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
+         ((:script :src "/static/3rdpty/jquery/js/superfish.min.js"))
+         ((:script :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
       
       
       (when (the use-x3dom?)
-        (htm ((:script :type "text/javascript" 
-                       :src 
+        (htm ((:script :src 
 		       (if *x3dom-dev?*
 			   "/static/3rdpty/x3dom/x3dom-dev.js"
 			   "/static/3rdpty/x3dom/x3dom.js")
 		       :id "x3dom_script"))))
 
       (when (the use-raphael?)
-        (htm ((:script :type "text/javascript" 
-                       :src "/static/3rdpty/raphael/js/raphael-min.js"
+        (htm ((:script :src "/static/3rdpty/raphael/js/raphael-min.js"
 		       ))))
       
-      ((:script :type "text/javascript"
-                :src "/static/gwl/js/gdlajax1593.js"))
+      ((:script :src "/static/gwl/js/gdlajax1593.js"))
       
-      ((:script :type "text/javascript")
-       (fmt "~%var gdliid = '~a';" (the instance-id)))
+      ((:script (fmt "~%var gdliid = '~a';" (the instance-id))))
       
       (when (the ui-specific-layout-js)
         (htm

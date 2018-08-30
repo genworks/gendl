@@ -136,8 +136,8 @@
                          (when string (ignore-errors (parse-integer string)))))
 
 	  (js-to-eval-previi (mapcar #'(lambda(section)
-					   (the-object section js-to-eval))
-				       (the-object respondent html-sections))))
+					 (the-object section js-to-eval))
+				     (the-object respondent html-sections))))
       
       (let ((f-e-p (make-object 'form-element-processor 
                                 :bashee bashee 

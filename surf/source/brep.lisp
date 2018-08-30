@@ -343,7 +343,11 @@ of this brep. Exact supported format will be documented here when ready."
                           (list (apply-make-point (svref 3d-points (third triplet)))
                                 (apply-make-point (svref 3d-points (first triplet)))))) 
                        index-triplets)))) faces)))
-   
+
+
+   ;;
+   ;; FLAG -- review this!
+   ;;
    (local-box (the bounding-box))
    
    (%native-faces% (get-faces-from-brep *geometry-kernel* (the %native-brep%)))
@@ -583,7 +587,9 @@ and barycenter (center of mass) for the brep. These are computed with tessellati
 which may be less precise than the analytic techniques used in precise-properties, but should
 be faster to compute and exhibit more stability.
     
-:&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"
+:&key ((edge-tess-tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed with respect to edge tessellation\")
+      ((face-tess-tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed with respect to face tessellation\")"
+
     properties 
     (&key (edge-tess-tolerance (the adaptive-tolerance))
           (face-tess-tolerance (the adaptive-tolerance)))

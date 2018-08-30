@@ -22,7 +22,9 @@
 (in-package :geom-base)
 
 
-(define-format x3d (vrml))
+;;(define-format x3d (vrml))
+
+(define-format x3d (base-format))
 
 (defparameter *onclick* nil)
 

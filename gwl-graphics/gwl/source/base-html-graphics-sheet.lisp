@@ -257,7 +257,7 @@ in a <tt>main-sheet</tt> output-function in an html-format view of the object.
 Indicates the views to show in the graphics controls."
     standard-views *standard-views*)
    
-   (available-image-formats (list :png :jpeg :vrml))
+   (available-image-formats (list :png :jpeg))
    
    ("Keyword symbol. Determines the default image format. Defaults to :png"
     image-format :png :settable)

@@ -290,13 +290,15 @@ publishing in tasty Help menu.~%"))))
                         (the blue-arrow)
                       (the selected-character-spaces)))))
 
+	 #+nil
          (:li ((:a :href "#" :onclick (the (gdl-ajax-call :function-key :set-image-format!
                                                           :arguments (list :vrml))));;:web3d))))
                (fmt "~a&nbsp;VRML" 
                     (if (eql (the viewport image-format-selector value) :vrml)
                         (the blue-arrow)
                       (the selected-character-spaces)))))
-         
+
+	 #+nil
          (:li ((:a :href "#" :onclick (the (gdl-ajax-call :function-key :set-image-format!
                                                           :arguments (list :x3d))))
                (fmt "~a&nbsp;X3D" 

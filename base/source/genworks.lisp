@@ -300,11 +300,13 @@
            (remove-plist-key args :weakness))))
 
 
-#-(or allegro lispworks sbcl ccl clisp) 
+#-(or allegro lispworks sbcl ccl clisp abcl) 
 (error "Need implementation for package-documentation for the currently running Lisp.~%")
 (defun package-documentation (package)
   #+(or allegro lispworks ccl clisp) (documentation (find-package package) t)
-  #+sbcl (sb-kernel:package-doc-string (find-package package)))
+  #+sbcl (sb-kernel:package-doc-string (find-package package))
+  #+abcl (format nil "Please find how to get documentation for ~a" (find-package package))
+  )
 
 
 (defun set-default-character-width ()

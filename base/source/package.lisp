@@ -935,7 +935,9 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:clear-instance
    
      #:with-html-form
-   
+
+     #:prepend-url-depth
+     
      #:publish-shared
      #:*publishers*
      #:publish-uris

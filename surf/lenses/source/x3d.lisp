@@ -95,3 +95,16 @@
 						       3d-points))))))))))))
 
 
+
+
+(defun make-triplet-strings (list)
+  (let ((count 0) triplet strings-list)
+    (setq strings-list 
+      (dolist (item list (nreverse strings-list))
+        (if (< count 3)
+            (progn (push item triplet) (incf count))
+          (progn (push (format nil "~{~a ~}" (nreverse triplet)) strings-list)
+                 (setq count 1) (setq triplet (list item))))))
+    (setq strings-list (append strings-list (list (format nil "~{~a ~}" 
+                                                          (nreverse triplet)))))))
+

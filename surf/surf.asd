@@ -4,9 +4,9 @@
  "The Gendl® NURBS Surface and Solids Geometry Primitives" :author
  "Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20170524" :depends-on (:geom-base)
+ :version "20180823" :depends-on (:geom-base)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
- #+asdf-unicode :defsystem-depends-on #+asdf-unicode nil
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "source/parameters") (:file "source/classes")
@@ -70,5 +70,5 @@
   (:file "source/transformed-surface") (:file "source/trimmed-curve")
   (:file "source/trimmed-surface") (:file "source/utilities")
   (:file "source/validated-solid") (:file "source/vertex")
-  (:file "source/views") (:file "lenses/source/vrml")
-  (:file "lenses/source/x3d") (:file "zzinit/source/zzinit")))
+  (:file "source/views") (:file "lenses/source/x3d")
+  (:file "zzinit/source/zzinit")))

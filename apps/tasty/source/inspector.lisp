@@ -53,7 +53,7 @@
         :check-sanity? :color-decimal :color-hex :color-palette :cookies-received
         :cookies-to-send :dash-pattern :dom-id :fill-color-decimal
         :fixed-url-prefix :header-plist :home-page :instance-id 
-        :last-visited-root-path :left-handed? :local-bbox :local-box
+        :last-visited-root-path :left-handed? ;;:local-bbox :local-box
         :local-center :local-left-handed? :local-orientation :inner-html
         :obliqueness :parent-tree :plain-url? :possible-nils 
         :quantify-box :query-toplevel :refresh-toggle :remote-id :respondent 
