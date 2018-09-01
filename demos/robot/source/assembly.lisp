@@ -48,6 +48,9 @@ to the src/ directory distributed with GDL.
    (torso-type 'box :settable)
    (height 10 :settable)
    (head-angle 0 :settable)
+
+   (body-angle 20 :settable)
+   #+nil
    (body-angle (let ((angle (or (parse-integer (progn ;;(format t "~&Enter a number for body angle: ~%")
 						      (let ((data (read-line)))
 							(print-variables data)
