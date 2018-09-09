@@ -39,6 +39,45 @@
     (:raphael `(let ((*raphael-translation* (add-vectors (subseq ,center 0 2)  *raphael-translation*))) ,@body))))
              
 
+
+(define-lens (pdf base-drawing)()
+  :output-functions
+  ((cad-output
+    ()
+    (with-format-slots (view)
+      (let ((view-center (if (the user-center) 
+                             (scalar*vector (the user-scale) (the user-center)) 
+                           (make-point 0 0 0))))
+
+        (pdf:with-saved-state
+            (when view (unless *fixed-scale?* (pdf:scale (the-object view view-scale-total) 
+                                                         (the-object view view-scale-total))))
+
+          (mapc #'(lambda(child-view) 
+                    (let ((width (the-object child-view width))
+                          (length (the-object child-view length))
+                          (center (the-object child-view center)))
+                      
+                      (pdf:with-saved-state
+		       (with-translated-state (:pdf  (make-point (- (get-x view-center)) (- (get-y view-center))))
+		       
+                         (let ((rotation (angle-between-vectors-d 
+                                          +rear-vector+ 
+                                          (the-object child-view (face-normal-vector :rear)) 
+                                          +top-vector+)))
+                           ;;(pdf:rotate rotation)
+                          
+                           (pdf:basic-rect (+ (get-x center) (- (half width)))
+                                           (+ (get-y center) (- (half length)))
+                                           width length)
+                           (pdf:clip-path) 
+
+			   (if (the-object child-view border-box?) (pdf:stroke) 
+                               (pdf:end-path-no-op))
+                           
+                           (write-the-object child-view (cad-output rotation))))))) (the views))))))))
+
+#+nil
 (define-lens (pdf base-drawing)()
   :output-functions
   ((cad-output
@@ -83,7 +122,7 @@
 (define-lens (pdf base-view)()
   :output-functions
   ((cad-output
-    ()
+    (&optional rotation)
     
     (set-format-slot view self)
     
@@ -92,16 +131,22 @@
           (view-center (scalar*vector (the view-scale-total)
                                       (keyed-transform*vector (the view-transform)
                                                               (the view-center)))))
+
+
+
+      
       (with-translated-state (:pdf center)
         
-        
+	(pdf:rotate rotation)
         ;;
         ;; FLAG - look into capturing this translate in the
         ;; vertex-array-2d-scaled in view-object-cache.  so it will
         ;; become unecessary here.
         ;;
         (with-translated-state (:pdf (make-vector (- (get-x view-center)) (- (get-y view-center))))
-          
+
+	  
+	  
           (dolist (cache (list-elements (the object-caches))) (write-the-object cache lines-and-curves)))
 
         (dolist (cache (list-elements (the object-caches))) (write-the-object cache object cad-output))
