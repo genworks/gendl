@@ -464,3 +464,6 @@ or <tt>~/genworks/gendl/emacs/glime.lisp</tt>.
 		    (if (atom val) val (keywordize-plist val))))
 	  (plist-keys plist) (plist-values plist)))
 
+
+(defun one-line (string)
+  (glisp:replace-regexp (glisp:replace-regexp string (format nil "~%") " ") "'" "\\'" ))

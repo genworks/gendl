@@ -63,13 +63,9 @@
           (view-center (scalar*vector (the view-scale-total)
                                       (keyed-transform*vector (the view-transform)
                                                               (the view-center)))))
-      
       (with-translated-state (:svg 
                               (make-point (+ (get-x center) (half (the width)))
                                           (+ (get-y center) (half (the length)))))
-        
-        
-        
         ;;
         ;; FLAG - look into capturing this translate in the
         ;; vertex-array-2d-scaled in view-object-cache.  so it will
@@ -95,14 +91,84 @@
             (write-the-object cache lines-and-curves))
           (set-format-slot view view))
         
-        
         ))
-    
-    
-    
     
     (set-format-slot view nil))))
 
+
+
+(define-lens (vector-graphics geom-base::view-object-cache) ()
+  :output-functions
+  ((line-path-string
+    (line-index-pairs 2d-vertices)
+    (when line-index-pairs
+      (let (prev-end (move? t))
+	(format nil "~{~a~^ ~}"
+		(mapcar 
+		 #'(lambda(line-index-pair)
+		     (destructuring-bind (start-index end-index) line-index-pair
+		       (let ((start (svref 2d-vertices start-index)) 
+			     (end (svref 2d-vertices end-index)))
+
+			 (setq move? (not (and prev-end (coincident-point? start prev-end))))
+			 (setq prev-end end)
+
+			 (format nil "~a ~a ~a"
+				 (if move?
+				     (format nil "M ~a ~a "
+					     (number-round (get-x start) 4)
+					     (number-round (get-y start) 4))
+				     " ")
+				 (number-round (get-x end) 4)
+				 (number-round (get-y end) 4)))))
+		 line-index-pairs)))))
+
+
+   (curve-path-string
+    (curve-index-quadruples 2d-vertices)
+    (when curve-index-quadruples
+      (let (coords)
+	(mapc #'(lambda(curve-index-quadruple)
+		  (destructuring-bind (start-index c1-index c2-index end-index) 
+		      curve-index-quadruple
+		    (let ((start (svref 2d-vertices start-index))
+			  (end (svref 2d-vertices end-index))
+			  (c1 (svref 2d-vertices c1-index))
+			  (c2 (svref 2d-vertices c2-index)))
+		      (push (list start c1 c2 end) coords)))) curve-index-quadruples)
+	(setq coords (nreverse coords))
+	(let (prev-end (move? t))
+	  (format nil "~{~a~}"
+		  (mapcar 
+		   #'(lambda(curve)
+		       (setq move? t)
+		       (destructuring-bind (start c1 c2 end) curve
+			 (when (and prev-end (coincident-point? start prev-end))
+			   (setq move? nil))
+			 (setq prev-end end)
+			 (format nil "~aC  ~a ~a ~a ~a ~a ~a "
+				 (if move? (format nil "M ~a ~a "
+						   (number-round (get-x start) 4)
+						   (number-round (get-y start) 4)) "")
+				 (number-round (get-x c1) 4)
+				 (number-round (get-y c1) 4)
+				 (number-round (get-x c2) 4)
+				 (number-round (get-y c2) 4)
+				 (number-round (get-x end) 4)
+				 (number-round (get-y end) 4)
+                                                     
+				 ))) coords))))))
+
+
+   (other-path-string
+    (path-info)
+    (format nil "~{~a~^ ~}" (mapcar #'(lambda(component)
+					(if (keywordp component)
+					    (ecase component (:move "M") (:line "L") (:curve "C"))
+					    (format nil "~a ~a"
+						    (number-round (get-x component) 4)
+						    (number-round (get-y component) 4)))) path-info)))))
+    
 
 
 (define-lens (svg geom-base::view-object-cache)()
@@ -136,41 +202,46 @@
               (curve-index-quadruples (when 2d-vertices (the-object object %curve-vertex-indices%)))
               (display-controls (or (geom-base::find-in-hash object *display-controls*)
                                     (the object display-controls)))
+	      #+nil ;; FLAG -- do we need some kind of unique ID? If so, this name is too long, find something else. 
 	      (name (base64-encode-safe 
 		     (format nil "~s~s" 
 			     (the-object object  root-path)
 			     (the  root-path)))))
 
-	  (let ((line-path-string 
-		 (when line-index-pairs
-		   (let (prev-end (move? t))
-		     (format nil "~{~a~^ ~}"
-			     (mapcar 
-			      #'(lambda(line-index-pair)
-				  (destructuring-bind (start-index end-index) line-index-pair
-				    (let ((start (svref 2d-vertices start-index)) 
-					  (end (svref 2d-vertices end-index)))
+	  (let ((line-path-string (write-the (line-path-string line-index-pairs 2d-vertices)))
+		(curve-path-string (write-the (curve-path-string curve-index-quadruples 2d-vertices)))
+		(other-path-string (write-the (other-path-string path-info)))
+		(stroke-linejoin (getf display-controls :stroke-linejoin "round"))
+		(stroke (or (when (getf display-controls :color)
+			      (lookup-color (getf display-controls :color) :format :hex))
+			    (the-object object color-hex)))
+		(fill (or (when (getf display-controls :fill-color)
+			    (lookup-color (getf display-controls :fill-color) :format :hex))
+			  (the-object object fill-color-hex) "transparent"))
+		(stroke-width (let ((value (getf display-controls :line-thickness)))
+				(when value (setq value (number-round value 4))) (or value 1.0)))
+		(onclick (cond ((the object onclick-function)
+				(the parent parent parent  ;; FLAG -- pass this in!
+				     (gdl-ajax-call :function-key :call-onclick-function!
+						    :arguments (list object))))
+			       ((and (defaulting (the viewport)) (eql (the viewport digitation-mode) :select-object))
+				(the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
+							     :arguments (list object))))
+			       (t nil))))
 
-				      (setq move? (not (and prev-end (coincident-point? start prev-end))))
-				      (setq prev-end end)
-
-				      (format nil "~a ~a ~a"
-					      (if move?
-						  (format nil "M ~a ~a "
-							  (number-round (get-x start) 4)
-							  (number-round (get-y start) 4))
-						  " ")
-					      (number-round (get-x end) 4)
-					      (number-round (get-y end) 4)))))
-			      line-index-pairs))))))
-
-
-	    (with-html-output (*stream*) ((:path :d line-path-string :fill "transparent" :stroke-linejoin "round"
-						 :stroke (or (when (getf display-controls :color)
-							       (lookup-color (getf display-controls :color) :format :hex))
-							     (the-object object color-hex)))))
-	    
-	    )))))))
+	    (when (or line-path-string curve-path-string other-path-string)
+	      (with-html-output (*stream*)
+		((:path :d (string-append line-path-string curve-path-string other-path-string)
+			
+			:stroke-linejoin stroke-linejoin
+			:stroke stroke :fill fill :stroke-width stroke-width
+			:onclick onclick
+			:onmouseover (format nil "style.strokeWidth = ~a;" (* stroke-width 3))
+			:onmouseout (format nil "style.strokeWidth = ~a;" stroke-width))
+		 (:title (str (one-line
+			       (format nil "~s" (cons 'the (let ((root-path (reverse (the object root-path))))
+							     (if (eql (first root-path) :root-object-object)
+								 (rest root-path) root-path)))))))))))))))))
 	
 
 

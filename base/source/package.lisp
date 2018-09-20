@@ -224,6 +224,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:null-part
            #:number-format
            #:number-round
+	   #:one-line
            #:peruse-file
            #:pi/2
            #:plist-keys

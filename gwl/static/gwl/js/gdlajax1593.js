@@ -295,7 +295,11 @@ function decode64(input) {
 }
 
 
-
+//
+// debouncing technique from https://css-tricks.com/snippets/jquery/done-resizing-event/.
+//
+// More general debouncing function here: https://davidwalsh.name/javascript-debounce-function
+//
 var resizeTimer;
 
 function gdlResize()

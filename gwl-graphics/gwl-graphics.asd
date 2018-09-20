@@ -4,9 +4,9 @@
  "The Gendl® GWL embedded graphics support" :author
  "Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20170524" :depends-on (:geom-base :gwl)
+ :version "20180920" :depends-on (:geom-base :gwl)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
- #+asdf-unicode :defsystem-depends-on #+asdf-unicode nil
+ #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
  ((:file "gwl/source/application-mixin")
@@ -17,4 +17,5 @@
   (:file "gwl/source/web-drawing") (:file "gwl/source/x3d-try")
   (:file "raphael/source/package") (:file "raphael/source/formats")
   (:file "raphael/source/lenses") (:file "source/parameters")
+  (:file "svg/source/package") (:file "svg/source/lenses")
   (:file "zzinit/source/initialize") (:file "zzinit/source/zzinit")))
