@@ -442,7 +442,9 @@ If you are interested in this effort we would love to hear from you at open-sour
   (:export #:keyed-transform*vector
 	   #:with-translated-state
 	   #:raphael
+	   #:svg
 	   #:*raphael-translation*
+	   #:*svg-translation*
 	   #:make-vector
 	   #:make-point
 	   #:apply-make-point

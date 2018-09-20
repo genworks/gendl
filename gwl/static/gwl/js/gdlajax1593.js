@@ -296,10 +296,17 @@ function decode64(input) {
 
 
 
+var resizeTimer;
+
 function gdlResize()
 {
- gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (InnerLayout.state.center.innerWidth  ) +  ' :length ' + (InnerLayout.state.center.innerHeight - 40) + ')))'));
-}
+
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+    
+	gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (document.getElementById('viewport').getBoundingClientRect().width) +  ' :length ' + (document.getElementById('viewport').getBoundingClientRect().height) + ')))'));}, 250);
+
+};
 
 
 

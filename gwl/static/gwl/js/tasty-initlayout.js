@@ -108,8 +108,8 @@ function initPageLayout () {
                 name:                                   "PageLayout"
         ,       north__paneSelector:    "#TabButtons"
         ,       center__paneSelector:   "#TabPanelsContainer"
-        //,     center__onresize:               "ApplicationLayout.resizeAll"
-        ,   center__onresize:           "resizeTabLayout"
+        ,     center__onresize:               "ApplicationLayout.resizeAll"
+            // ,   center__onresize:           "resizeTabLayout"  // DJC 2018-09-09
         ,       spacing_open:                   0
         });
 };
@@ -127,7 +127,7 @@ function initApplicationLayout () {
         ,       north__paneSelector:    ".outer-north"
         ,       south__paneSelector:    ".outer-south"
         ,       contentSelector:                ".ui-widget-content"
-        ,       center__onresize:               "InnerLayout.resizeAll"
+            ,       center__onresize:               "InnerLayout.resizeAll"
         ,       spacing_open:                   4
         ,       spacing_closed:                 4
         ,       north__spacing_open:    1
@@ -185,7 +185,7 @@ function initMenus () {
 
 $(document).ready(function () { 
         // Initiate all the elements on the page
-        initTabs();
+    // initTabs(); // DJC 2018-09-09
         // Initiate Layouts
 
         initPageLayout();
@@ -206,3 +206,4 @@ $(document).ready(function () {
         // Hide the loader when the page is correctly initiated.
         $("#loader-message").hide();
 });
+

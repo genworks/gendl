@@ -177,6 +177,10 @@ Default is nil."
 		("String of Javascript or nil. This Javascript will go into the :onpageshow event of the body.
 Default is nil."
 		 body-onpageshow nil)
+
+		("String of Javascript or nil. This Javascript will go into the :onresize event of the body.
+Default is nil."
+		 body-onresize nil)
                 
                 ("String or nil. Contains the string for the doctype at the top of the document. 
 Default is the standard doctype for HTML5 and later."
@@ -315,7 +319,8 @@ from a saved snapshot file."
        
        ((:body :class (the body-class)
 	       :onpageshow (the body-onpageshow)
-               :onload (the body-onload))
+               :onload (the body-onload)
+	       :onresize (the body-onresize))
         (the reset-html-sections!)
 
         (str (the main-sheet-body))
@@ -370,7 +375,7 @@ from a saved snapshot file."
     ()
     (with-cl-who ()
       ((:span :style "color: blue; cursor: pointer;"
-              :onclick (string-append (the (gdl-sjax-call :function-key :update-root!))
+              :onclick (string-append (the (gdl-ajax-call :function-key :update-root!))
                                       " location.reload(true);"
                                       ))
        "Update!")))
@@ -408,7 +413,7 @@ from a saved snapshot file."
       
       ((:script :src "/static/gwl/js/gdlajax1593.js"))
       
-      ((:script (fmt "~%var gdliid = '~a';" (the instance-id))))
+      ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
       
       (when (the ui-specific-layout-js)
         (htm

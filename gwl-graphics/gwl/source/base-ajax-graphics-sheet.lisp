@@ -151,6 +151,15 @@ value of the image-format-selector, which itself defaults to :raphael."
 						:background-color (the background-color)
 						:foreground-color (the foreground-color))
 			    (write-the view-object cad-output))))))
+
+
+   (svg-string (unless (the no-graphics?)
+		 (with-error-handling ()
+		   (with-output-to-string (ss)
+		     (with-format (svg ss 
+				       :background-color (the background-color)
+				       :foreground-color (the foreground-color))
+		       (write-the view-object cad-output))))))
    
    
    ("String of valid HTML. This can be used to 
@@ -325,6 +334,18 @@ The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>.
     (with-cl-who ()
       ((:table :border (the viewport-border-default))
        (:tr (:td (str (the graphics)))))))
+
+
+
+   (svg-vector-graphics
+    ()
+    (with-cl-who ()
+      (when (typep (the :view-object) 'null-part)
+        (error "A valid :view-object of type web-drawing is 
+required in the sheet to call the :raphael-canvas method."))
+     
+      (str (the svg-string))))
+
    
    (vector-graphics
     ()
@@ -342,7 +363,8 @@ required in the sheet to call the :raphael-canvas method."))
 width: ~apx; */
 overflow:hidden; 
 clip: rect(0px ~apx ~apx 0px); 
-position: relative;
+z-index: 1;
+/* position: relative; */
 "
                             (if (the vector-graphics-onclick?)
                                 "crosshair" "arrow")
@@ -361,9 +383,10 @@ position: relative;
                          ((:td :width (the :view-object :width) :height (the :view-object :length) 
                                :align :center :valign :center)
                           (:big (:b "No Graphics Object Specified"))))))
-                (let ((raphael-string (the raphael-string)))
-                  (htm ((:script :type "text/javascript")
-                        (str raphael-string))))))))))
+
+                  (let ((raphael-string (the raphael-string)))
+                    (htm ((:script :type "text/javascript")
+                          (str raphael-string))))))))))
    
    
    ("Void. Writes an embedded X3D tag and included content for the <tt>view-object</tt> child of this object. 

@@ -320,6 +320,7 @@
     (with-cl-who ()
       (let ((*display-controls* (the display-controls-hash)))
         (let ((image-format (if (the 2d-boxes?) (the image-format) :png)))
+
           (ecase image-format
             (:links (the (write-geometry-links)))
             (:raphael (write-the vector-graphics))
@@ -327,6 +328,7 @@
             (:vrml (the (write-embedded-vrml-world :include-view-controls? nil)))
             (:x3d (the (write-embedded-x3d-world :include-view-controls? nil)))
             (:x3dom (the (write-embedded-x3dom-world :include-view-controls? nil))))))))))
+
 
 
 

@@ -36,7 +36,10 @@
     (:pdf `(pdf:with-saved-state (pdf:translate (get-x ,center) (get-y ,center)) ,@body))
     (:dxf `(let ((*dxf-translation* (add-vectors (subseq ,center 0 2)  *dxf-translation*)))
 	     ,@body))
-    (:raphael `(let ((*raphael-translation* (add-vectors (subseq ,center 0 2)  *raphael-translation*))) ,@body))))
+    (:raphael `(let ((*raphael-translation* (add-vectors (subseq ,center 0 2)  *raphael-translation*))) ,@body))
+    (:svg `(let ((*svg-translation* (add-vectors (subseq ,center 0 2)  *svg-translation*))) ,@body))
+
+    ))
              
 
 
