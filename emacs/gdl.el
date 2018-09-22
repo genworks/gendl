@@ -56,15 +56,16 @@
 ;;(setq calendar-latitude 42.58 calendar-longitude -83.3 calendar-location-name "Detroit")
 ;;(setq sunrise-sunset (sunrise-sunset))
 ;; FLAG -- figure out how to use this information with (current-time) to pick a light or dark color-theme. 
-(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
-(require 'color-theme)
-(color-theme-initialize)
+;;(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
+;;(require 'color-theme)
+;;(color-theme-initialize)
 ;;(color-theme-subtle-hacker)
 ;;(color-theme-high-contrast)
 ;;(color-theme-taming-mr-arneson)
-(color-theme-sitaramv-solaris)
+;;(color-theme-sitaramv-solaris)
 ;;(color-theme-feng-shui)
 
+(load-theme 'tango-dark)
 
 ;; 3.3. Indents
 
