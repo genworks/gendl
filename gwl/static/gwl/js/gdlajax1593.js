@@ -108,11 +108,6 @@ function gdlAjax (evt, params, asynch)
 
   request.open('POST', url, asynch);
   request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-    //request.setRequestHeader('content-length', params.length);
-    //request.setRequestHeader('user-agent', 'Firefox3-ajax');
-    //request.setRequestHeader('connection', 'close');
-
-
 
   request.send(params);
 
@@ -156,7 +151,8 @@ function gdlUpdate (request) {
 	    
 	    if (child.getElementsByTagName('newHTML')[0].firstChild != null)
             {newHTML = child.getElementsByTagName('newHTML')[0].firstChild.nodeValue}
-	    
+
+	    //alert(newHTML);
 
 	    var jsToEval = null;
 
@@ -171,10 +167,13 @@ function gdlUpdate (request) {
 		if (jsToEval && (jsToEval == 'parseme'))
 		    {
 			codes = myelem.getElementsByTagName("script");
+			
+			for (var j=0;j<codes.length;j++)
+			{
+			    var text = codes[j].text;
+			    if (text) eval(codes[j].text);
+			}}
 
-			for(var j=0;j<codes.length;j++)  
-			{   //alert(codes[j].text);
-			    eval(codes[j].text); }}
             }
 	    
 	    if (jsToEval && (jsToEval != 'parseme') && (jsToEval != ''))

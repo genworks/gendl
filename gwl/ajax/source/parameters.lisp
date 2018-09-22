@@ -26,4 +26,3 @@
 (defparameter *ajax-timeout* 60)
 
 
-(defparameter *x3dom-dev?* nil)

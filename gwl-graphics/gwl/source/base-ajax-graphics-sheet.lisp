@@ -385,7 +385,7 @@ z-index: 1;
                           (:big (:b "No Graphics Object Specified"))))))
 
                   (let ((raphael-string (the raphael-string)))
-                    (htm ((:script :type "text/javascript")
+                    (htm ((:script  :type "text/javascript")
                           (str raphael-string))))))))))
    
    

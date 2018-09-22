@@ -156,7 +156,9 @@ but which you can fill in your own specific lens to do something useful for the 
 
 </pre>")
 
-  :input-slots ((url-depth 0)
+  :input-slots ((local-assets? t)
+
+		(url-depth 0)
 
 
 		("String of HTML. The main body of the page. 
@@ -192,9 +194,10 @@ Default nil."
                  use-jquery? nil :settable)
                 
                 (use-raphael? nil)
-
 		(use-x3dom? nil)
-
+		(use-fontawesome? nil)
+		(use-anyresize? nil)
+		
 		(include-default-favicon? t)
 
                 
@@ -239,6 +242,59 @@ interface. Defaults to nil."
                    ("String of HTML. Provides the developer control links for current sheet."
 		    development-links
                     (with-cl-who-string () (write-the development-links))))
+
+  :objects ((standard-javascript-section
+	     :type 'sheet-section
+	     :js-to-eval :parse
+	     :inner-html (with-cl-who-string (:indent t)
+			   (when (the use-jquery?)
+			     (htm 
+			      ((:script :src "/static/3rdpty/jquery/js/jquery.min.js"))
+			      ((:script :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
+			      ((:script :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
+			      ((:script :src "/static/3rdpty/jquery/js/superfish.min.js"))
+			      ((:script :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
+      
+      
+			   (when (the use-x3dom?)
+			     (htm ((:script :src (if (the local-assets?)
+						     "/static/3rdpty/x3dom/x3dom.js"
+						     "https://www.x3dom.org/download/1.7.2/x3dom.js")
+					    :id "x3dom_script"))))
+
+			   (when (the use-raphael?)
+			     (htm ((:script :id "raphael-script"
+					    :src (if (the local-assets?)
+						     "/static/3rdpty/raphael/js/raphael-min.js"
+						     "https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js")))))
+
+			   (when (the use-fontawesome?)
+			     (htm ((:link :id "fontawesome-css"
+					  :rel "stylesheet"
+					  :href (if (the local-assets?)
+						    "/static/3rdpty/fa/css/all.min.css"
+						    "https://use.fontawesome.com/releases/v5.3.1/css/all.css")
+					  :integrity (unless (the local-assets?)
+						       "sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU")
+					  :crossorigin "anonymous"))))
+
+			   (when (the use-anyresize?)
+			     (htm ((:script :id "anyresize-script"
+					    :src (if (the local-assets?)
+						     "/static/3rdpty/resize/any-resize-event.js"
+						     "https://is.gd/sAeEPt")))))
+
+			   ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
+      
+			   ((:script :src (if (the local-assets?)
+					      "/static/gwl/js/gdlajax1593.js"
+					      "https://genworks.com/static/gwl/js/gdlajax1593.js")))
+      
+			   (when (the ui-specific-layout-js)
+			     (htm
+			      ((:script :type "text/javascript"
+					:src (the ui-specific-layout-js))))))))
+  
 
   :functions ((prepend-url-depth
 	       (string)
@@ -313,7 +369,7 @@ from a saved snapshot file."
 	      (when (the include-default-favicon?)
 		(htm (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")))
               (when (the additional-header-content) (str (the additional-header-content)))
-              (write-the standard-javascript)
+              (str (the standard-javascript-section main-div))
               (when (the additional-header-js-content)
                 (str (the additional-header-js-content))))
        
@@ -385,40 +441,7 @@ from a saved snapshot file."
    (main-sheet-body
     ()
     (with-html-output (*stream*)
-      "No Body has been defined."))
-   
-   
-   (standard-javascript 
-    ()
-    (with-cl-who (:indent t)
-      (when (the use-jquery?)
-        (htm 
-         ((:script :src "/static/3rdpty/jquery/js/jquery.min.js"))
-         ((:script :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
-         ((:script :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
-         ((:script :src "/static/3rdpty/jquery/js/superfish.min.js"))
-         ((:script :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
-      
-      
-      (when (the use-x3dom?)
-        (htm ((:script :src 
-		       (if *x3dom-dev?*
-			   "/static/3rdpty/x3dom/x3dom-dev.js"
-			   "/static/3rdpty/x3dom/x3dom.js")
-		       :id "x3dom_script"))))
-
-      (when (the use-raphael?)
-        (htm ((:script :src "/static/3rdpty/raphael/js/raphael-min.js"
-		       ))))
-      
-      ((:script :src "/static/gwl/js/gdlajax1593.js"))
-      
-      ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
-      
-      (when (the ui-specific-layout-js)
-        (htm
-         ((:script :type "text/javascript"
-                   :src (the ui-specific-layout-js)))))))))
+      "No Body has been defined."))))
 
 
 
