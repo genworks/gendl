@@ -38,6 +38,7 @@
 (defun publish-statics (server)
   (let ((destination (ensure-static-relative-pathname "")))
     (when destination (publish-directory
+		       :headers (list (cons :cache-control "public, max-age=3600, must-revalidate"))
 		       :prefix "/static/"
 		       :server server
 		       :destination (namestring destination)))))
