@@ -34,6 +34,8 @@ a rendered perspective view, as in VRML.")
   
   :input-slots
   (
+   (camera-distance-discount 0.8)
+   
    "List of GDL Objects. Roots of the leaf objects to be displayed in this renderer view."
    object-roots
    
@@ -73,9 +75,11 @@ Defaults to 0.1 (which results in a near parallel projection with virtually no p
                                                             (matrix:transpose-matrix transform)))
                                     (max-extent (max (- (get-x (second 2d-box)) (get-x (first 2d-box)))
                                                      (- (get-y (second 2d-box)) (get-y (first 2d-box)))))
-                                    (camera-distance 
-                                     (* (+ (/ max-extent (tan (degree (the field-of-view-default))))
-                                           (getf (the bounding-sphere) :radius)) (/ (the zoom-factor-renderer)))))
+                                    (camera-distance
+				     (* (the camera-distance-discount)
+                                      (* (+ (/ max-extent (tan (degree (the field-of-view-default))))
+                                            (getf (the bounding-sphere) :radius)) (/ (the zoom-factor-renderer)))))
+				    )
                                
                                (list key (list :point (translate-along-vector 
                                                        (the 3d-box-center) vector camera-distance)

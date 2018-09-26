@@ -194,9 +194,11 @@ Default nil."
                  use-jquery? nil :settable)
                 
                 (use-raphael? nil)
+		(use-svgpanzoom? nil)
 		(use-x3dom? nil)
 		(use-fontawesome? nil)
 		(use-anyresize? nil)
+
 		
 		(include-default-favicon? t)
 
@@ -243,117 +245,135 @@ interface. Defaults to nil."
 		    development-links
                     (with-cl-who-string () (write-the development-links))))
 
-  :objects ((standard-javascript-section
-	     :type 'sheet-section
-	     :js-to-eval :parse
-	     :inner-html (with-cl-who-string (:indent t)
-			   (when (the use-jquery?)
-			     (htm 
-			      ((:script :src "/static/3rdpty/jquery/js/jquery.min.js"))
-			      ((:script :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
-			      ((:script :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
-			      ((:script :src "/static/3rdpty/jquery/js/superfish.min.js"))
-			      ((:script :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
+  :objects
+  ((standard-javascript-section
+    :type 'sheet-section
+    :js-to-eval :parse
+    :inner-html
+    (with-cl-who-string (:indent t)
+      (when (the use-jquery?)
+	(htm 
+	 ((:script :src "/static/3rdpty/jquery/js/jquery.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/superfish.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
       
       
-			   (when (the use-x3dom?)
-			     (htm ((:script :src (if (the local-assets?)
-						     "/static/3rdpty/x3dom/x3dom.js"
-						     "https://www.x3dom.org/download/1.7.2/x3dom.js")
-					    :id "x3dom_script"))))
+      (when (the use-x3dom?)
+	(htm ((:script :src (if (the local-assets?)
+				"/static/3rdpty/x3dom/x3dom.js"
+				"https://www.x3dom.org/download/1.7.2/x3dom.js")
+		       :id "x3dom_script"))
+	     #+nil
+	     ((:link :href (if (the local-assets?)
+			       "/static/3rdpty/x3dom/x3dom.css"
+			       "https://www.x3dom.org/download/1.7.2/x3dom.css")
+		     :rel "stylesheet"))))
 
-			   (when (the use-raphael?)
-			     (htm ((:script :id "raphael-script"
-					    :src (if (the local-assets?)
-						     "/static/3rdpty/raphael/js/raphael-min.js"
-						     "https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js")))))
 
-			   (when (the use-fontawesome?)
-			     (htm ((:link :id "fontawesome-css"
-					  :rel "stylesheet"
-					  :href (if (the local-assets?)
-						    "/static/3rdpty/fa/css/all.min.css"
-						    "https://use.fontawesome.com/releases/v5.3.1/css/all.css")
-					  :integrity (unless (the local-assets?)
-						       "sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU")
-					  :crossorigin "anonymous"))))
+      (when (the use-raphael?)
+	(htm ((:script
+	       :id "raphael-script"
+	       :src (if (the local-assets?)
+			"/static/3rdpty/raphael/js/raphael-min.js"
+			"https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js")))))
 
-			   (when (the use-anyresize?)
-			     (htm ((:script :id "anyresize-script"
-					    :src (if (the local-assets?)
-						     "/static/3rdpty/resize/any-resize-event.js"
-						     "https://is.gd/sAeEPt")))))
 
-			   ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
+      (when (the use-svgpanzoom?)
+	(htm ((:script
+	       :id "svg-panzoom"
+	       :src (if (the local-assets?)
+			"/static/3rdpty/svgpanzoom/svg-pan-zoom.min.js"
+			"https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js")))))
+			   
+
+      (when (the use-fontawesome?)
+	(htm ((:link :id "fontawesome-css"
+		     :rel "stylesheet"
+		     :href (if (the local-assets?)
+			       "/static/3rdpty/fa/css/all.min.css"
+			       "https://use.fontawesome.com/releases/v5.3.1/css/all.css")
+		     :integrity (unless (the local-assets?)
+				  "sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU")
+		     :crossorigin "anonymous"))))
+
+      (when (the use-anyresize?)
+	(htm ((:script :id "anyresize-script"
+		       :src (if (the local-assets?)
+				"/static/3rdpty/resize/any-resize-event.js"
+				"https://is.gd/sAeEPt")))))
+
+      ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
       
-			   ((:script :src (if (the local-assets?)
-					      "/static/gwl/js/gdlajax1593.js"
-					      "https://genworks.com/static/gwl/js/gdlajax1593.js")))
+      ((:script :src (if (the local-assets?)
+			 "/static/gwl/js/gdlajax1593.js"
+			 "https://genworks.com/static/gwl/js/gdlajax1593.js")))
       
-			   (when (the ui-specific-layout-js)
-			     (htm
-			      ((:script :type "text/javascript"
-					:src (the ui-specific-layout-js))))))))
+      (when (the ui-specific-layout-js)
+	(htm
+	 ((:script :type "text/javascript"
+		   :src (the ui-specific-layout-js))))))))
   
 
-  :functions ((prepend-url-depth
-	       (string)
-	       (prepend-url-depth string (the url-depth)))
+   :functions ((prepend-url-depth
+		(string)
+		(prepend-url-depth string (the url-depth)))
 
-	      (back-link 
-               (&key (display-string "&lt;-Back"))
-               (w-c-w-s 
-                () 
-                ((:a :href (the return-object url)) (str display-string))))
+	       (back-link 
+		(&key (display-string "&lt;-Back"))
+		(w-c-w-s 
+                 () 
+                 ((:a :href (the return-object url)) (str display-string))))
               
-              (update-root! () 
-                            (unpublish-instance-urls (the instance-id) (the url))
-                            (the root update!)
-                            (the url)
-                            )
+               (update-root! () 
+                             (unpublish-instance-urls (the instance-id) (the url))
+                             (the root update!)
+                             (the url)
+                             )
 
-              (reset-html-sections! 
-               ()
-               ;;(the (restore-slot-default! :%html-sections%))
-               )
+               (reset-html-sections! 
+		()
+		;;(the (restore-slot-default! :%html-sections%))
+		)
               
-              (self-link 
-               (&key (display-string (the strings-for-display))
-                     (display-color nil)
-                     (target nil)
-                     (title nil)
-                     class id
-                     on-click
-                     on-mouse-over on-mouse-out
-                     local-anchor)
-               (with-cl-who-string () 
-                 (write-the (self-link 
-                             :display-string display-string
-                             :display-color display-color
-                             :target target 
-                             :title title
-                             :class class
-                             :id id
-                             :on-click on-click
-                             :on-mouse-over on-mouse-over
-                             :on-mouse-out on-mouse-out
-                             :local-anchor local-anchor))))
+               (self-link 
+		(&key (display-string (the strings-for-display))
+                      (display-color nil)
+                      (target nil)
+                      (title nil)
+                      class id
+                      on-click
+                      on-mouse-over on-mouse-out
+                      local-anchor)
+		(with-cl-who-string () 
+                  (write-the (self-link 
+                              :display-string display-string
+                              :display-color display-color
+                              :target target 
+                              :title title
+                              :class class
+                              :id id
+                              :on-click on-click
+                              :on-mouse-over on-mouse-over
+                              :on-mouse-out on-mouse-out
+                              :local-anchor local-anchor))))
               
-              (set-self () 
-                        (if *break-on-set-self?*
-                            (progn (set-self self)
-                                   (let ((*package* (symbol-package (the type)))) (break)))
-                          (progn
-                            (set-self self))))
+               (set-self () 
+                         (if *break-on-set-self?*
+                             (progn (set-self self)
+                                    (let ((*package* (symbol-package (the type)))) (break)))
+                             (progn
+                               (set-self self))))
 
-	      ("Void. This is a hook function which applications can use to restore automatically 
+	       ("Void. This is a hook function which applications can use to restore automatically 
 from a saved snapshot file."
-	       custom-snap-restore!
-	       ()
+		custom-snap-restore!
+		()
 
-	       )
+		)
 
-	      ))
+	       ))
 
 
 (define-lens (html-format base-ajax-sheet)()

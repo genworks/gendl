@@ -56,7 +56,8 @@
 			   (field-of-view (degree (getf viewpoint :field-of-view))))
                       
 		       (cl-who:htm 
-			((:|Viewpoint| 
+			((:|Viewpoint|
+			   :|id| (format nil "view-~a" (string key))
 			   :|position| (format nil "~a ~a ~a" (get-x position) (get-y position) (get-z position))
 			   :|orientation| (format nil "~a ~a ~a ~a"
 						(get-x orientation)
@@ -74,7 +75,7 @@
 		 (plist-values (the viewpoints)))
 	   
 	   (let ((background (lookup-color (the background-color))))
-	     (cl-who:htm (:|Background| :|skyColor| (format nil "~a ~a ~a" 
+	     (cl-who:htm (:|background| :|skycolor| (format nil "~a ~a ~a" 
 							    (to-double-float (get-x background))
 							    (to-double-float (get-y background))
 							    (to-double-float (get-z background))))))

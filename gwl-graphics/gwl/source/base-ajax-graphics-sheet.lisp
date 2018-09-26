@@ -174,12 +174,6 @@ include the SVG or VML vector-graphics of the geometry."
     (with-cl-who-string () (write-the vector-graphics)))
    
    ("String of valid HTML. This can be used to 
-include the VRML or X3D graphics of the geometry."
-    web3d-graphics 
-    (with-cl-who-string () (write-the web3d-graphics)))
-   
-
-   ("String of valid HTML. This can be used to 
 include the x3dom tag content for the geometry."
     x3dom-graphics 
     (with-cl-who-string () 
@@ -204,14 +198,13 @@ bottom of the graphics inside a table."
     (with-cl-who-string ()
       (:table (:tr ((:td :align :center)
                     (str (ecase (the image-format-selector value)
-			   ;;((:web3d :vrml) (the web3d-graphics))
 			   (:x3dom (the x3dom-graphics))
 			   ((:png :jpeg :jpg) (the raster-graphics))
 			   (:raphael (the vector-graphics))))))
 	(when (and (member (the image-format) (list :jpeg :jpg :png :raphael ))
 		   (the include-view-controls?))
 	  (htm (:tr (:td (str (the view-controls))))))
-	(when (and (member (the image-format) (list :vrml :web3d :x3dom))
+	(when (and (member (the image-format) (list :x3dom))
 		   (the include-view-controls?))
 	  (htm (:tr (:td (str (the image-format-selector html-string))))))
 
@@ -226,7 +219,34 @@ bottom of the graphics inside a table."
 
    ("List representing GDL root-path. This is the root path of the dragged and/or dropped object. 
 This is not tested to see if it is part of the same object tree as current self."
-    dropped-object nil :settable))
+    dropped-object nil :settable)
+
+
+   (viewport-script
+    (progn 
+      (the inner-html)
+      (cond ((eql (the image-format-selector value) :x3dom)
+	     (with-cl-who-string ()
+	       (:div
+		((:script :type "text/javascript")
+	       
+		 (fmt
+		  "
+function x3draw ()
+{
+ x3dom.reload(); 
+ var elem = document.getElementById('view-~(~a~)');
+ if (elem) elem.setAttribute('set_bind', 'true');
+ //xruntime = document.getElementById('x3dom-1').runtime;
+ //xruntime.resetView(); 
+ }
+
+if (x3dom.type != 'undefined') x3draw();
+
+"
+		  (the view-selector value)
+		  )))))
+	    (t "")))))
 
 
   
@@ -416,81 +436,39 @@ to call the :write-embedded-x3d-world function."))
 				  (the :view-object :height) :align :center :valign :center)
 			     (:big (:b "No Graphics Object Specified")))))))
 	    (t
-
+	     
 	     (let ((*display-controls* (the display-controls-hash)))
 	       (with-cl-who ()
-		 (:p
-		  ((:span :style "cursor: pointer;")
-		   ((:|X3D| :id "the_element"
-		      :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		      ;;:width  "100%"
-		      ;;:height  "100%"
-		      :width (format nil "~apx" (the view-object page-width))
-		      :height (format nil "~apx" (the view-object page-length))
-		      )
-		    (:|Scene|
-		      (with-format (x3d *stream*) 
-			(let ((*onclick-function* (the onclick-function)))
-			  (write-the view-object cad-output)))))))
-	
-		 ((:script :type "text/javascript")
-		  ;;"x3dom.reload(); document.getElementById('the_element').runtime.debug(true); document.getElementById('the_element').runtime.statistics(true); "
-		  "x3dom.reload(); "
-		  
-		  )
-	
-
-		 #+nil
-		 (when (the x3dom-view-controls?)
-		   (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-					  :onclick "document.getElementById('the_element').runtime.showAll();")
-				   "Show All"))))))))
-
-
-
-	    #+nil
-	    (with-cl-who ()
-	      ((:table :cellspacing 0 :cellpadding 0)
-	       (:tr
-		(:td
-		 (:p
-		  ((:|X3D| :id "the_element"
-		     :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		     :width (the view-object page-width)
-		     :height (the view-object page-length))
-		  
+		 (:span
+		  ((:|X3D| :id "x3dom-1" :style "background: #d3d3d3"
+		     :width (format nil "~apx" (the view-object page-width))
+		     :height (format nil "~apx" (the view-object page-length))
+		     )
 		   (:|Scene|
-		     (with-format (x3d *stream*) (write-the view-object cad-output)))))
-		
-		 ((:script :type "text/javascript" 
-			   :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))))
+		     
+		     ((:|navigationinfo| :|id| "navi" :|transitionTime| "0.1"))
+		     
+		     
+		     (with-format (x3d *stream*) 
+		       (let ((*onclick-function* (the onclick-function)))
+			 (write-the view-object cad-output))))))
+		 ((:script :type "text/javascript")
 
-	       (when (the x3dom-view-controls?)
-		 (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-					:onclick "document.getElementById('the_element').runtime.showAll();")
-				 "Show All")))))))
+		  ;;"x3draw();"
 
-	    )))
+		  #+nil
+		  (fmt
+		  "
+x3dom.reload(); 
+// document.getElementById('view-~(~a~)').setAttribute('set_bind', 'true');
+// xruntime = document.getElementById('x3dom-1').runtime;
+//xruntime.resetView(); 
+"
+		  (the view-selector value)
+		  )
 
-   (web3d-graphics
-    ()
-    
-    (with-cl-who ()
-      (cond ((and (null (the :view-object :object-roots)) (null (the :view-object :objects)))
-             (htm ((:table :border 1 :cellspacing 0 :cellpadding 0 :bgcolor :white)
-                   (:tr
-                    ((:td :width (the :view-object :width) :height (the :view-object :length) 
-                          :align :center :valign :center)
-                     (:big (:b "No Graphics Object Specified")))))))
-            
-            (t (let ((vrml-url (the vrml-url)))
-                 (htm ((:table :border 0 :cellspacing 0 :cellpadding 0)
-                       (:tr
-                        ((:td) ;;:bgcolor :yellow) --FLAG! -- SvdE @ 13-08-09 -- removed bgcolor to blend in with viewport
-                         ((:embed :src vrml-url :width (the view-object page-width) 
-                                  :vrml_dashboard "false"
-                                  :height (the view-object page-length))))))))))))
-   
+		  )))))))
+
    
    (raster-graphics
     ()
