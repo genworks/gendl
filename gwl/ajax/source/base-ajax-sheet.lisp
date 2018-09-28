@@ -304,11 +304,13 @@ interface. Defaults to nil."
 				"/static/3rdpty/resize/any-resize-event.js"
 				"https://is.gd/sAeEPt")))))
 
-      ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
-      
-      ((:script :src (if (the local-assets?)
-			 "/static/gwl/js/gdlajax1593.js"
-			 "https://genworks.com/static/gwl/js/gdlajax1593.js")))
+      (when (the use-ajax?)
+	(htm
+	 ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
+	 
+	 ((:script :src (if (the local-assets?)
+			    "/static/gwl/js/gdlajax1593g.js"
+			    "https://genworks.com/static/gwl/js/gdlajax1593g.js")))))
       
       (when (the ui-specific-layout-js)
 	(htm

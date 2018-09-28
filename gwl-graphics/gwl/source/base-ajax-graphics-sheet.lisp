@@ -234,14 +234,16 @@ This is not tested to see if it is part of the same object tree as current self.
 		  "
 function x3draw ()
 {
- x3dom.reload(); 
+ if (x3dom.type != 'undefined') x3dom.reload(); 
  var elem = document.getElementById('view-~(~a~)');
  if (elem) elem.setAttribute('set_bind', 'true');
- //xruntime = document.getElementById('x3dom-1').runtime;
+ var x3dom1 = document.getElementById('x3dom-1');
+ if (x3dom1) xruntime= x3dom1.runtime;
  //xruntime.resetView(); 
  }
 
-if (x3dom.type != 'undefined') x3draw();
+x3draw();
+
 
 "
 		  (the view-selector value)
