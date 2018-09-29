@@ -53,6 +53,7 @@
  var panZoomSVG1 = svgPanZoom('#svg-1', {
  zoomEnabled: true,
  controlIconsEnabled: true,
+ preventMouseEventsDefault: false,
  fit: true,
  minZoom: 0.01,
  maxZoom: 100,
@@ -243,12 +244,12 @@
 	    (when (or line-path-string curve-path-string other-path-string)
 	      (with-html-output (*stream*)
 		((:path :d (string-append line-path-string curve-path-string other-path-string)
-			
+			:vector-effect "non-scaling-stroke"
 			:stroke-linejoin stroke-linejoin
 			:stroke stroke :fill fill :stroke-width stroke-width
 			:onclick onclick
-			:onmouseover (format nil "style.strokeWidth = ~a;" (* stroke-width 3))
-			:onmouseout (format nil "style.strokeWidth = ~a;" stroke-width))
+			:onmouseover (format nil "this.style.strokeWidth = ~a;" (* stroke-width 3))
+			:onmouseout (format nil "this.style.strokeWidth = ~a;" stroke-width))
 		 (:title (str (one-line
 			       (format nil "~s" (cons 'the (let ((root-path (reverse (the object root-path))))
 							     (if (eql (first root-path) :root-object-object)

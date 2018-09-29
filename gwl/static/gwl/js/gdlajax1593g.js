@@ -85,6 +85,7 @@ function gdlAjax1 (params, asynch)
 
 function gdlAjax (evt, params, asynch)
 {
+
  if (evt)
  {
   var target;
