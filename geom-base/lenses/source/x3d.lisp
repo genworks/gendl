@@ -108,7 +108,10 @@
     (declare (ignore header?)))
    (cad-output-tree
     (&key (header? nil))
-    (declare (ignore header?)))))
+    (declare (ignore header?)))
+   (shape (&rest args)
+	  (declare (ignore args)))
+   ))
 
 
 

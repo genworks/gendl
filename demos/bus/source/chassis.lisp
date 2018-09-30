@@ -251,15 +251,18 @@
 		:radius 19
 		:inner-radius 7)
    
-
    (rule-ackermann :type 'rule-ackermann
 		   :ackermann-data (list :left (getf (the ackermann-data) :left)
 					 :right (getf (the ackermann-data) :right))
 		   :ackermann-data-ideal (list :left (getf (the ackermann-data) :left)
-					       :right (getf (the ackermann-data) :ideal-right))))
+					       :right (getf (the ackermann-data) :ideal-right)))
+   
+   )
 
   :hidden-objects
-  ((knuckles-straight 
+  (
+
+   (knuckles-straight 
     :type 'knuckle
     :sequence (:size 2)
     :center (the (:axles 0) (:kingpins (the-child :index)) :center)

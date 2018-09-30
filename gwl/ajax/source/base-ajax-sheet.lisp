@@ -188,7 +188,9 @@ Default is nil."
 Default is the standard doctype for HTML5 and later."
 
                  doctype-string "<!DOCTYPE HTML>")
-                
+
+		(use-ajax? t ) ;; of course because this is base-ajax-sheet. But we can override if needed. 
+		
                 ("Boolean. Include jquery javascript libraries in the page header? 
 Default nil."  
                  use-jquery? nil :settable)
@@ -245,7 +247,7 @@ interface. Defaults to nil."
 		    development-links
                     (with-cl-who-string () (write-the development-links))))
 
-  :objects
+  :hidden-objects
   ((standard-javascript-section
     :type 'sheet-section
     :js-to-eval :parse
