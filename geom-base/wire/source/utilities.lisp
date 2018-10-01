@@ -27,6 +27,7 @@
         (local-object-boxes (remove nil (mapcar #'(lambda(object) (when (typep object 'base-object)
                                                                     (the-object object local-box))) 
                                                 local-objects))))
+
     (let (xmin ymin zmin xmax ymax zmax)
       (mapcar #'(lambda(box)
                   (let ((min (first box)) (max (second box)))

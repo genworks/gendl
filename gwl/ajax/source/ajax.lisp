@@ -155,10 +155,13 @@
       (when (and respondent (the-object respondent root) 
                  (typep (the-object respondent root) 'session-control-mixin))
         (the-object respondent root (set-expires-at)))
+
       
-      (when (and respondent (the-object respondent root) 
-                 (the-object respondent root (set-time-last-touched!))))
-      
+      (when (and respondent (the-object respondent root)
+		 (typep (the-object respondent root) 'session-control-mixin))
+        (the-object respondent root (set-time-last-touched!)))
+
+      #+nil ;; FLAG -- add this back when cleaning up remote-objects.
       (when (and respondent (the-object respondent root) 
                  (the-object respondent root (set-remote-host! req))))
       
@@ -248,11 +251,9 @@
 	  (:document
 	   (mapc #'(lambda(replace-pair js-to-eval-status)
 
-
-		     
 		     (declare (ignore js-to-eval-status)) ;; this can play into the flag
 
-		     (print-variables (base64-decode-safe (getf replace-pair :dom-id)))
+		     (when *debug?* (print-variables (base64-decode-safe (getf replace-pair :dom-id))))
 		     (destructuring-bind (&key dom-id inner-html js-to-eval) replace-pair
 		       (let ((js-to-eval? (and js-to-eval (not (string-equal js-to-eval "")))))
 			 (when (or inner-html js-to-eval?)
@@ -305,6 +306,7 @@ You can reload to get previous state" *ajax-timeout*))
 		    (progn
 
 		      (when *debug?* (print-variables (the stale?) (the section root-path)))
+		      ;;(print-variables (the section root-path))
 		      
 		      (when t ;; (the stale?) ;; already filtering for stale? before calling now.
 			(list :dom-id (the dom-id)

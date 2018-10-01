@@ -67,7 +67,7 @@ makes sense for viewing it."
   
   :input-slots
   (
-   
+   (empty-display-list-message nil)
    ;;(touched-geometry nil)
    
    (width (the page-width))

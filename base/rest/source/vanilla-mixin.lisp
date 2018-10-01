@@ -36,7 +36,7 @@ toplevel of the define-object form.")
   
   :input-slots
   (
-   
+
    (remote-id nil :settable)
    
    (quantify-box (or (the parent) self))
@@ -99,7 +99,7 @@ nil "~a~a~a" (the :name-for-display)
 
 
   :computed-slots
-  (
+  ((remember-children? nil)
    (%corners% nil)
    (%vertex-array% nil)
    
@@ -388,41 +388,41 @@ or all mixins from the entire inheritance hierarchy.\")"
  :arguments (slot \"Keyword Symbol\")
  :key (force? \"Boolean. Specify as t if you want to force non-settable slots to recompute (e.g. 
 reading from databases or external files). Defaults to nil.\")"
-     restore-slot-default!
-     (attribute &key (force? *force-restore-slot-default?*))
-     (when (or force? (eql (the (slot-status attribute)) :set))
-       (let (*leaf-resets*)
-	 (let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
-	   (unless (eq (first (ensure-list (slot-value self slot))) 'gdl-rule::%unbound%)
-	     (unbind-dependent-slots self slot) 
-	     (setf (slot-value self slot) 
-		   (if *remember-previous-slot-values?*
-		       (list 'gdl-rule::%unbound% nil nil (first (slot-value self slot)))
-		       'gdl-rule::%unbound%))))
-	 (let ((root (let ((maybe-root (the :root)))
-		       (if (the-object maybe-root root?)
-			   maybe-root
-			   (the-object maybe-root parent))))
+    restore-slot-default!
+    (attribute &key (force? *force-restore-slot-default?*))
+    (when (or force? (eql (the (slot-status attribute)) :set))
+      (let (*leaf-resets*)
+	(let ((slot (glisp:intern (symbol-name attribute) :gdl-acc)))
+	  (unless (eq (first (ensure-list (slot-value self slot))) 'gdl-rule::%unbound%)
+	    (unbind-dependent-slots self slot) 
+	    (setf (slot-value self slot) 
+		  (if (or *remember-previous-slot-values?* (the remember-children?))
+		      (list 'gdl-rule::%unbound% nil nil (first (slot-value self slot)))
+		      'gdl-rule::%unbound%))))
+	(let ((root (let ((maybe-root (the :root)))
+		      (if (the-object maybe-root root?)
+			  maybe-root
+			  (the-object maybe-root parent))))
               
-	       ;;(root-path (remove :root-object-object (the root-path)))
-	       (root-path (the root-path))
+	      ;;(root-path (remove :root-object-object (the root-path)))
+	      (root-path (the root-path))
               
-	       )
-	   ;;
-	   ;; FLAG -- this pushnew should never be necessary...
-	   ;;
-	   (pushnew (list root-path)
-		    (gdl-acc::%version-tree% root) :test #'equalp :key #'(lambda(item) (list (first item))))
-	   (setf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) 
-		 (remove-plist-key  (rest (assoc root-path
-						 (gdl-acc::%version-tree% root) :test #'equalp)) attribute))
+	      )
+	  ;;
+	  ;; FLAG -- this pushnew should never be necessary...
+	  ;;
+	  (pushnew (list root-path)
+		   (gdl-acc::%version-tree% root) :test #'equalp :key #'(lambda(item) (list (first item))))
+	  (setf (rest (assoc root-path (gdl-acc::%version-tree% root) :test #'equalp)) 
+		(remove-plist-key  (rest (assoc root-path
+						(gdl-acc::%version-tree% root) :test #'equalp)) attribute))
 
-	   (setf (gdl-acc::%version-tree% root)
-		 (double-length-sort (gdl-acc::%version-tree% root))))
+	  (setf (gdl-acc::%version-tree% root)
+		(double-length-sort (gdl-acc::%version-tree% root))))
 
-	 (when *eager-setting-enabled?*
-	   (dolist (reset *leaf-resets*)
-	     (the-object (first reset) (evaluate (second reset))))))))
+	(when *eager-setting-enabled?*
+	  (dolist (reset *leaf-resets*)
+	    (the-object (first reset) (evaluate (second reset))))))))
    
    ;;
    ;; FLAG -- remove this defunct version. 
@@ -1267,7 +1267,8 @@ a separate object hierarchy." object self)))
               (if (third slot-value)
 		  (setf (second (slot-value object slot)) nil)
 		  (setf (slot-value object slot) 
-			(if (or updating? (not *remember-previous-slot-values?*))
+			(if (and (not (the-object object remember-children?))
+				 (or updating? (not *remember-previous-slot-values?*)))
 			    'gdl-rule::%unbound%
 			    (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
 	  (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))

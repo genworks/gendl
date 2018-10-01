@@ -213,7 +213,7 @@ to the src/ directory distributed with GDL.
 
   :objects
   ((base :type 'robot-base
-         :display-controls (merge-display-controls (list :color :blue-sky))
+         :display-controls (merge-display-controls (list :color :orange))
          :height (* (the height) 0.4)
          :width (* (the width) 0.2)
          :length (* (the length) 0.2)

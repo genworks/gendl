@@ -74,16 +74,20 @@ The argument ~s, and its value ~s, have been ignored
 
 :arguments (object-name \"Symbol. Should name a GDL object type.\"
             arguments \"spliced-in plist. A plist of keyword symbols and values for initial <tt>input-slots</tt>.\")"
+
+  
   (let (*notify-cons*
         (keys (plist-keys args))
         (vals (plist-values args)))
     (let ((object (apply #'make-instance 
                          object-type 
-                         :allow-other-keys t
+                         :allow-other-keys t ;; FLAG -- tell me again why we should allow other keys? 
                          (append (list :%name% (list (format nil "~a" object-type) nil t)
-                                       :%parent% (list nil nil t))
+                                       :%parent% (list nil nil t)
+				       :%god-parents% (getf args :god-parents))
                                  (mapcan #'(lambda(key val)
-                                             (list key (list val nil t)))
+					     (unless (eql key :god-parents)
+                                               (list key (list val nil t))))
                                          keys vals)))))
       
       (setf (gdl-acc::%root% object) object

@@ -36,18 +36,18 @@
                       (when parent-scale (the-object child-view (set-slot! :user-scale parent-scale)))
                       (let ((width (the-object child-view width))
                             (length (the-object child-view length)))
-
+			
 			(with-html-output (*stream*)
 			  ((:div
 			    :onmousedown (when (the parent vector-graphics-onclick?)
 					   (the parent (gdl-ajax-call :function-key :dig-point :bashee (the parent)
 								      :respondent (the parent :respondent)))))
-			   ((:svg :id "svg-1" :viewBox (format nil "0 0 ~a ~a" width length) :width width :height length
-				  )
-
-                            (with-translated-state (:svg (make-point (- (get-x view-center)) 
-                                                                     (- (get-y view-center))))
-                              (write-the-object child-view cad-output)))
+			  
+			   ((:svg :id "svg-1" :viewBox (format nil "0 0 ~a ~a" width length) :width width :height length)
+				 
+			    (with-translated-state (:svg (make-point (- (get-x view-center)) 
+								     (- (get-y view-center))))
+			      (write-the-object child-view cad-output)))
 			   ((:script :type "text/javascript")
 			    "
  var panZoomSVG1 = svgPanZoom('#svg-1', {
@@ -58,6 +58,7 @@
  minZoom: 0.01,
  maxZoom: 100,
  center: true});"))))
+		      
 		      (when parent-scale (the-object child-view (set-slot! :user-scale old-scale)))))
                 (the views))))))))
 

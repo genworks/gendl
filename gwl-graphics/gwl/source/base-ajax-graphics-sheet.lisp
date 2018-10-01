@@ -36,6 +36,8 @@ Raphael vector graphics."
   :input-slots 
   ((respondent (the bashee) :defaulting)
 
+   (empty-display-list-message nil)
+   
    ("Number. Thickness of default border around graphics viewport. 
 Default is 1." viewport-border-default 1)
    
@@ -153,13 +155,16 @@ value of the image-format-selector, which itself defaults to :raphael."
 			    (write-the view-object cad-output))))))
 
 
-   (svg-string (unless (the no-graphics?)
-		 (with-error-handling ()
-		   (with-output-to-string (ss)
-		     (with-format (svg ss 
-				       :background-color (the background-color)
-				       :foreground-color (the foreground-color))
-		       (write-the view-object cad-output))))))
+   (svg-string (if (the no-graphics?)
+		   (with-cl-who-string ()
+		     ((:div :id "empty-viewport" :class "empty-viewport")
+		      (:p (:h2 (str (the empty-display-list-message))))))
+		   (with-error-handling ()
+		     (with-output-to-string (ss)
+		       (with-format (svg ss 
+					 :background-color (the background-color)
+					 :foreground-color (the foreground-color))
+			 (write-the view-object cad-output))))))
    
    
    ("String of valid HTML. This can be used to 
@@ -259,6 +264,7 @@ x3draw();
 					      zoom-factor-renderer)
                 :page-length (the length)
                 :page-width (the width)
+		:empty-display-list-message (the empty-display-list-message)
                 :objects (the display-list-objects)
                 :object-roots (the display-list-object-roots))
 
@@ -448,28 +454,13 @@ to call the :write-embedded-x3d-world function."))
 		     )
 		   (:|Scene|
 		     
-		     ((:|navigationinfo| :|id| "navi" :|transitionTime| "0.1"))
+		     ((:|navigationinfo| :|id| "navi" :|transitionTime| "0.0"
+			))
 		     
 		     
 		     (with-format (x3d *stream*) 
 		       (let ((*onclick-function* (the onclick-function)))
-			 (write-the view-object cad-output))))))
-		 ((:script :type "text/javascript")
-
-		  ;;"x3draw();"
-
-		  #+nil
-		  (fmt
-		  "
-x3dom.reload(); 
-// document.getElementById('view-~(~a~)').setAttribute('set_bind', 'true');
-// xruntime = document.getElementById('x3dom-1').runtime;
-//xruntime.resetView(); 
-"
-		  (the view-selector value)
-		  )
-
-		  )))))))
+			 (write-the view-object cad-output))))))))))))
 
    
    (raster-graphics
