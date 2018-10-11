@@ -28,7 +28,7 @@
     ()
     (let ((view-center (if (the user-center) 
                            (scalar*vector (the user-scale) (the user-center)) 
-                         (make-point 0 0 0))))
+                           (make-point 0 0 0))))
       (with-format-slots (view)
         (let ((parent-scale (when view (the-object view view-scale-total))))
           (mapc #'(lambda(child-view)
@@ -36,21 +36,26 @@
                       (when parent-scale (the-object child-view (set-slot! :user-scale parent-scale)))
                       (let ((width (the-object child-view width))
                             (length (the-object child-view length)))
-			
-			(with-html-output (*stream*)
-			  ((:div
-			    :onmousedown (when (the parent vector-graphics-onclick?)
-					   (the parent (gdl-ajax-call :function-key :dig-point :bashee (the parent)
-								      :respondent (the parent :respondent)))))
-			  
-			   ((:svg :id "svg-1" :viewBox (format nil "0 0 ~a ~a" width length) :width width :height length)
-				 
-			    (with-translated-state (:svg (make-point (- (get-x view-center)) 
-								     (- (get-y view-center))))
-			      (write-the-object child-view cad-output)))
-			   ((:script :type "text/javascript")
-			    "
- var panZoomSVG1 = svgPanZoom('#svg-1', {
+
+
+                        (with-html-output (*stream*)
+                          ((:div
+                            :width "100%" :height "100%"
+                            :onmousedown (when (the parent vector-graphics-onclick?)
+                                           (the parent (gdl-ajax-call :function-key :dig-point :bashee (the parent)
+                                                                      :respondent (the parent :respondent)))))
+                          
+                           ((:svg :id "svg-1" :viewBox (format nil "0 0 ~a ~a" width length)
+                                  :width width
+                                  :height length
+                                  )
+                                 
+                            (with-translated-state (:svg (make-point (- (get-x view-center)) 
+                                                                     (- (get-y view-center))))
+                              (write-the-object child-view cad-output)))
+                           ((:script :type "text/javascript")
+                            "
+ panZoomSVG1 = svgPanZoom('#svg-1', {
  zoomEnabled: true,
  controlIconsEnabled: true,
  preventMouseEventsDefault: false,
@@ -58,8 +63,8 @@
  minZoom: 0.01,
  maxZoom: 100,
  center: true});"))))
-		      
-		      (when parent-scale (the-object child-view (set-slot! :user-scale old-scale)))))
+                      
+                      (when parent-scale (the-object child-view (set-slot! :user-scale old-scale)))))
                 (the views))))))))
 
 

@@ -121,6 +121,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:+kappa+
            #:+phi+
            #:2pi
+	   #:add-godparent
            #:alist2plist
            #:always
            #:append-elements

@@ -43,7 +43,8 @@
 (warn "~&Please implement concatenate-fasls for the currently running lisp.~%")
 
 ;;
-;; FLAG -- OBSOLETED by asdf/bundle:fasl-op and asdf/bundle:monolithic-fasl-op
+;; FLAG -- OBSOLETED by asdf/bundle:compile-bundle-op and asdf/bundle:monolithic-compile-bundle-op
+;;     (except for current apparent bug where it leaves out a depended-upon uiop). 
 ;;
 (defun concatenate-fasls (files dest)
   #-(or allegro lispworks sbcl ccl) (declare (ignore files dest))

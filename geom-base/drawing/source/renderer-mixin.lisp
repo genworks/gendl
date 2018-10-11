@@ -31,10 +31,15 @@
 
   :documentation (:description "Object mixed into the base-view to compute required values to provide
 a rendered perspective view, as in VRML.")
+
+  :computed-slots
+  ((camera-distance-discount 0.8))
+  
   
   :input-slots
   (
-   (camera-distance-discount 0.8)
+   ;;(camera-distance-discount 0.8)
+
    
    "List of GDL Objects. Roots of the leaf objects to be displayed in this renderer view."
    object-roots
