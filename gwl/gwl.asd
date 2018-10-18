@@ -5,7 +5,7 @@
  "Dave Cooper, Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
  :version "20170802" :depends-on
- (:bordeaux-threads :glisp #-allegro :zacl-aserve #+allegro :aserve :yason)
+ (#+(or ccl sbcl allegro) :zaserve  #-(or ccl sbcl allegro) :paserve :cl-who :yason :glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8

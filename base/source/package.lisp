@@ -369,6 +369,8 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:with-definition-unit
    #:without-package-variance-warnings
    #:w-o-interrupts
+   #:with-lock-held
+   #:make-lock
    #:xref-off
    #:xref-on
 	     

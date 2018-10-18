@@ -159,7 +159,7 @@ with <tt>:sequence (:size ...))</tt>), elements can be surgically inserted and d
    :child-types)
 
   :computed-slots
-  ((lock (bt:make-lock))
+  ((lock (glisp:make-lock))
 
    (ht (progn (the :child-types)
               ;;
@@ -204,7 +204,7 @@ with <tt>:sequence (:size ...))</tt>), elements can be surgically inserted and d
 re-evaluates the expression to compute the original list of indices)"
     reset!
     ()
-    (progn ;;bt:with-lock-held ((the lock))
+    (glisp:with-lock-held ((the lock))
       (the (restore-slot-default! :element-index-list))
       (the (restore-slot-default! :ht))))
    
@@ -237,7 +237,7 @@ re-evaluates the expression to compute the original list of indices)"
 :arguments (index \"Integer, Symbol, or other object matching with <tt>eql</tt>. The identifier used when the element was initialized or inserted.\")"
     delete!
     (index)
-    (bt:with-lock-held ((the lock))
+    (glisp:with-lock-held ((the lock))
       (the (:set-slot! :ht (the :ht) :remember? nil))
       (remhash index (the ht))
       (the (:modify-attribute! :element-index-list
@@ -256,7 +256,7 @@ re-evaluates the expression to compute the original list of indices)"
 	(gethash index (the ht))
       (declare (ignore value))
       (if (not found?)
-	  (bt:with-lock-held ((the lock))
+	  (glisp:with-lock-held ((the lock))
 	    (setf (gethash index (the ht)) nil)
 	    (the (set-slot! :ht (the ht) :remember? nil))
 	    (the (set-slot! :element-index-list

@@ -429,3 +429,18 @@ This must be replaced with e.g. appropriate process-locks.~%")
        ,@body)))
 
 
+;;
+;; FLAG -- fill these next two in with simple equivalent on each
+;; lisp. Don't want to depend on libraries yet.
+;;
+(defmacro with-lock-held ((lock) &body body)
+  (declare (ignore lock))
+  `(progn ,@body))
+
+(defun make-lock (name)
+  name)
+
+
+
+
+

@@ -3,7 +3,7 @@
 (asdf:defsystem #:geom-base :description
  "The Gendl® Wireframe Geometry" :author "Genworks International"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20180823" :depends-on (:glisp)
+ :serial t :version "20180823" :depends-on (:cl-pdf :cl-typesetting :cl-who :base)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8

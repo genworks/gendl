@@ -430,16 +430,6 @@ the \"current\" error."
 
 
 
-
-
-#+nil
-(defun local-port (socket)
-  (#+allegro 
-   socket:local-port 
-   #-allegro acl-compat.socket:local-port socket))
-
-
-
 (defun match-regexp (string-or-regexp string-to-match
                      &key newlines-special case-fold return
 		       (start 0) end shortest)
@@ -454,20 +444,6 @@ are no longer supported by glisp:match-regexp.~%"))
 	      (cl-ppcre:scan string-or-regexp string-to-match :start start :end end-default)))
 
 
-
-#+nil
-(defun match-regexp (string-or-regexp string-to-match
-                     &key newlines-special case-fold return
-                          (start 0) end shortest)
-  (#+allegro excl:match-regexp 
-   #-allegro acl-compat.excl:match-regexp string-or-regexp string-to-match 
-   :newlines-special newlines-special 
-   :case-fold case-fold
-   :return return 
-   :start start 
-   :end end 
-   :shortest shortest))
-
 (defun patches-dir ()
   nil)
 
@@ -475,28 +451,10 @@ are no longer supported by glisp:match-regexp.~%"))
 (defun process-run-function (name-or-options preset-function &rest initial-bindings)
   (bt:make-thread preset-function :name name-or-options :initial-bindings initial-bindings))
 
-#+nil
-(defun process-run-function (name-or-options preset-function &rest args)
-  #-allegro (when args (error "args not supported for glisp:process-run-function on ~a.~%" (lisp-implementation-type)))
-  (apply #+allegro #'mp:process-run-function
-	 #-allegro #'bt:make-thread preset-function name-or-options))
-
-#+nil
-(defun process-run-function (name-or-options preset-function &rest args)
-  (apply #+allegro #'mp:process-run-function
-         #-allegro #'acl-compat.mp:process-run-function 
-         name-or-options preset-function args))
-
 (defun sexpr-from-file (pathname &optional if-does-not-exist-error?)
   (if (probe-file pathname)
       (with-open-file (in pathname) (read in))
       (when if-does-not-exist-error? (error "~&The File `~a' does not exist.~%" pathname))))
-
-
-
-
-
-
 
 
 (defun replace-regexp (string regexp to-string)

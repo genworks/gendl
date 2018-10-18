@@ -4,10 +4,8 @@
  "The Gendl®  Common Lisp Portability" :author
  "Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20170828" :depends-on
- ;;(:base :uiop :cl-typesetting :cl-ppcre :cl-who #-allegro :cl-base64 #-allegro :babel #-allegro :zacl)
- (:base :uiop :cl-typesetting :cl-ppcre :cl-who #-allegro :cl-base64 #-allegro :babel)
+ :version "20170828"
+ :depends-on (:uiop :bordeaux-threads :cl-ppcre #-allegro :cl-base64  #-allegro :babel :base)
  :components
- ((:file "source/presets") (:file "source/parameters")
-  (:file "source/genworks") (:file "source/initialize")
+ ((:file "source/parameters") (:file "source/genworks") (:file "source/initialize")
   (:file "source/zzinit")))
