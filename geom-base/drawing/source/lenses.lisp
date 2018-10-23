@@ -23,7 +23,6 @@
 
 (defparameter *fixed-scale?* nil)
 
-(defparameter *dxf-entity-id* nil)
 
 (eval-when (compile load eval) (export '*fixed-scale?*))
 

@@ -3,7 +3,8 @@
 (asdf:defsystem #:geom-base :description
  "The Gendl® Wireframe Geometry" :author "Genworks International"
  :license "Affero Gnu Public License (http://www.gnu.org/licenses/)"
- :serial t :version "20180823" :depends-on (:cl-pdf :cl-typesetting :cl-who :base)
+ :serial t :version "20181023" :depends-on
+ (:cl-pdf :cl-typesetting :cl-who :base)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
@@ -52,7 +53,8 @@
   (:file "annotations/source/sample-drawing")
   (:file "annotations/source/vertical-dimension")
   (:file "drawing/source/base-view")
-  (:file "drawing/source/document") (:file "drawing/source/lenses")
+  (:file "drawing/source/document")
+  (:file "drawing/source/lenses-exp") (:file "drawing/source/lenses")
   (:file "drawing/source/renderer-mixin")
   (:file "text/source/general-note")
   (:file "text/source/typeset-block") (:file "graphs/source/graph")

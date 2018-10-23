@@ -26,7 +26,7 @@
 (defun publish-tutorial (server)
   (let ((tutorial-file 
 	 (or (probe-file (merge-pathnames "../doc/tutorial.pdf" (glisp:executable-homedir-pathname)))
-	     (probe-file (merge-pathnames "gendl/documenation/tutorial/pdf/tutorial.pdf" glisp:*genworks-source-home*))
+	     (probe-file (merge-pathnames "gendl/documentation/tutorial/pdf/tutorial.pdf" glisp:*genworks-source-home*))
 	     (warn "tutorial.pdf not found in distribution doc/ directory or source documentation directory for
 publishing in tasty Help menu.~%"))))
     (when tutorial-file (publish-file :path "/tutorial.pdf"

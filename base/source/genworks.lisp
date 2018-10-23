@@ -26,6 +26,15 @@
 (defparameter *external-text-format* :default)
 
 
+(defparameter *fasl-extension*
+    #+allegro excl:*fasl-default-type*
+    #+lispworks compiler:*fasl-extension-string*
+    #+sbcl sb-fasl:*fasl-file-type*
+    #+ccl (pathname-type ccl:*.fasl-pathname*)
+    #+abcl "abcl"
+    #+clisp "fas"
+    #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))
+
 #+nil
 (defparameter *external-text-format*
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
@@ -416,10 +425,13 @@
               (:case-insensitive-upper (string-upcase string))
               (:case-sensitive-lower string)))
 
+
+;;
+;; FLAG w-o-interrupts is deprecated and ineffective in an SMP Lisp. 
+;; glisp:w-o-interrupts becomes a simple progn currently.
+;; This must be replaced with e.g. appropriate process-locks.~%
+;;
 (defmacro w-o-interrupts (&body body)
-  (format t  "~&NOTE: w-o-interrupts is deprecated and ineffective in an SMP Lisp. 
-glisp:w-o-interrupts becomes a simple progn currently.
-This must be replaced with e.g. appropriate process-locks.~%")
   `(progn ,@body))
 
 

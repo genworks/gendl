@@ -4,7 +4,7 @@
  "The Gendl® NURBS Surface and Solids Geometry Primitives" :author
  "Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20180823" :depends-on (:geom-base)
+ :version "20181023" :depends-on (:geom-base)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8

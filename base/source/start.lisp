@@ -67,24 +67,24 @@
 
 
 (defun quicklisp-copyright-string ()
-  (when *already-loaded-systems*
-    (let ((ql-libs 
-	   (safe-sort 
-	    (set-difference *already-loaded-systems*
-			    (append (list "asdf" "crypt" "quicklisp" "base" "ent" "validate" "glisp" 
-					  "monofasl" "pro" "enterprise")
-				    *packages-to-lock*)
-			    :key #'string :test #'string-equal) #'string-lessp))
-	  (ql-version (with-open-file (in (or (probe-file (merge-pathnames "dists/quicklisp/distinfo.txt" *quicklisp-home*))
-					      (error "Quicklisp directory not found in gendl:*quicklisp-home*, 
+  (if *already-loaded-systems*
+      (let ((ql-libs 
+	     (safe-sort 
+	      (set-difference *already-loaded-systems*
+			      (append (list "asdf" "crypt" "quicklisp" "base" "ent" "validate" "glisp" 
+					    "monofasl" "pro" "enterprise")
+				      *packages-to-lock*)
+			      :key #'string :test #'string-equal) #'string-lessp))
+	    (ql-version (with-open-file (in (or (probe-file (merge-pathnames "dists/quicklisp/distinfo.txt" *quicklisp-home*))
+						(error "Quicklisp directory not found in gendl:*quicklisp-home*, 
 which is set to: ~a.~%" *quicklisp-home*)))
-			(read-line in) (string-trim (list #\space) (second (glisp:split-regexp ":" (read-line in)))))))
-      (format nil "Also contains the following Common Lisp libraries
+			  (read-line in) (string-trim (list #\space) (second (glisp:split-regexp ":" (read-line in)))))))
+	(format nil "Also contains the following Common Lisp libraries
 from Quicklisp version ~a, whose source files are available in the
 Quicklisp repository at http://quicklisp.org, Copyright© their
 respective authors:
 
-~{~a~^, ~}.~%" ql-version ql-libs))))
+~%~%~{~a~^, ~}.~%" ql-version ql-libs)) ""))
 
 
 (defun startup-banner ()
@@ -94,11 +94,7 @@ respective authors:
 
 Gendl® Free Edition, version ~a
 Within ~a ~a 
-Copyright© 2017, Genworks International, Birmingham MI, USA. 
-All Rights Reserved.
-
 ~a
-
 
 Welcome to Gendl®
 Copyright© 2017, Genworks® International, Birmingham MI, USA.
