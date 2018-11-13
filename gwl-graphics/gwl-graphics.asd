@@ -4,7 +4,7 @@
  "The Gendl® GWL embedded graphics support" :author
  "Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20180920" :depends-on (:geom-base :gwl)
+ :version "20181023" :depends-on (:geom-base :gwl)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8

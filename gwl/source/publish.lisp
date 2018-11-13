@@ -208,7 +208,7 @@
 	   :function
            (remote-function-handler
             #'(lambda (args-list)
-                (let* ((current-id (getf :current-id args-list))
+                (let* ((current-id (getf args-list :current-id))
                        (object (gethash current-id *remote-objects-hash*)))
                   (cond (object
                          (remhash current-id *remote-objects-hash*)

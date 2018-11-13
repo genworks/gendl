@@ -171,3 +171,4 @@ the value of this parameter at your own risk.")
 
 (defparameter +lh-identity-matrix+ #2A((1.0 0.0 0.0)(0.0 -1.0 0.0)(0.0 0.0 1.0)))
 
+(defparameter *dxf-entity-id* nil)

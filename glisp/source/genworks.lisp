@@ -21,14 +21,6 @@
 
 (in-package :com.genworks.lisp)
 
-(defparameter *fasl-extension*
-    #+allegro excl:*fasl-default-type*
-    #+lispworks compiler:*fasl-extension-string*
-    #+sbcl sb-fasl:*fasl-file-type*
-    #+ccl (pathname-type ccl:*.fasl-pathname*)
-    #+abcl "abcl"
-    #+clisp "fas"
-    #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))
 
 (defparameter *temporary-folder-function* #'(lambda() (merge-pathnames "tmp/" (user-homedir-pathname))))
 
