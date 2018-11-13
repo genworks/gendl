@@ -51,8 +51,17 @@ from brep and cylinder"
                     :pass-down (radius radius-1 radius-2 arc brep-tolerance))
    
    
-    (inner-cylinder :type (cond ((and (the :inner-radius-1) (the :inner-radius-2)) 'simple-cone-solid)
-                                ((the inner-radius) 'simple-cylinder-solid)
+    (inner-cylinder :type (cond ((and (the :inner-radius-1) (the :inner-radius-2))
+				 (if (not (and (< (the inner-radius-1) (the radius-1))
+					       (< (the inner-radius-2) (the radius-2))))
+				     (error "inner radius not less than radius for ~a.~%"
+					    (cons 'the (reverse (the root-path))))
+				     'simple-cone-solid))
+                                ((the inner-radius)
+				 (if (not (< (the inner-radius) (the radius)))
+				     (error "inner radius not less than radius for ~a.~%"
+					    (cons 'the (reverse (the root-path))))
+				     'simple-cylinder-solid))
                                 (t 'null-part))
                     :radius (the :inner-radius)
                     :radius-1 (the :inner-radius-1)

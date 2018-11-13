@@ -235,8 +235,17 @@ Partial cylinders and hollow cylinders are supported."
 
    
   :hidden-objects
-  ((inner-cylinder :type (cond ((and (the :inner-radius-1) (the :inner-radius-2)) 'cone)
-                               ((the inner-radius) 'cylinder)
+  ((inner-cylinder :type (cond ((and (the :inner-radius-1) (the :inner-radius-2))
+				(if (not (and (< (the inner-radius-1) (the radius-1))
+					      (< (the inner-radius-2) (the radius-2))))
+				    (error "inner radius not less than radius for ~a.~%"
+					   (cons 'the (reverse (the root-path))))
+				    'cone))
+                               ((the inner-radius)
+				(if (not (< (the inner-radius) (the radius)))
+				     (error "inner radius not less than radius for ~a.~%"
+					    (cons 'the (reverse (the root-path))))
+				     'cylinder))
                                (t 'null-part))
                    :radius (the :inner-radius)
                    :radius-1 (the :inner-radius-1)

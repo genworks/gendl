@@ -689,8 +689,11 @@ be faster to compute and exhibit more stability.
 :&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"
     center-of-gravity
     (&key (tolerance (the adaptive-tolerance)))
-    (scalar*vector (/ (the (volume :tolerance tolerance)))
-                   (getf (the (moments :tolerance tolerance)) :volume-static-moments)))))
+    (let ((volume (the volume :tolerance tolerance)))
+      (when (zerop volume) (error "~a is a zero-volume brep. Center-of-gravity cannot be computed.~%"
+				  (cons 'the (reverse (the root-path)))))
+      (scalar*vector (/ volume)
+                     (getf (the (moments :tolerance tolerance)) :volume-static-moments))))))
 
 
 
