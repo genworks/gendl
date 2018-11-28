@@ -24,7 +24,7 @@
 
 
 (defparameter *features-to-initialize* (list :base :glisp :geom-base :gwl
-					     :gwl-graphics :tasty :yadd :robot :cl-lite))
+					     :gwl-graphics :tasty :yadd :robot :cl-lite :geysr))
 
 (defun start-gendl! (&key (features *features-to-initialize*)
 		     (banner? t) (init-files? t))
