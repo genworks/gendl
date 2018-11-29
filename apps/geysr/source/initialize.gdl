@@ -23,35 +23,6 @@
 (define-object geysr-robot (assembly)
   :computed-slots ((root-object-type (read-from-string "robot:assembly"))))
 
-(define-object geysr-dragster (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::dragster-assembly"))))
-
-(define-object geysr-glider (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::glider-assembly"))))
-
-(define-object geysr-green-car (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::green-car-assembly"))))
-
-(define-object geysr-mousetrap-car (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::mousetrap-car-assembly"))))
-
-(define-object geysr-structures (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::structures-assembly"))))
-
-(define-object geysr-shelter (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::shelter-assembly"))))
-
-(define-object geysr-rover (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::rover-assembly"))))
-
-(define-object geysr-water-rocket (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::water-rocket-assembly"))))
-
-(define-object geysr-parm (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::parm-assembly"))))
-
-(define-object geysr-wind-turbine (assembly)
-  :computed-slots ((root-object-type (read-from-string "wbl::wind-turbine-assembly"))))
 
 (define-object geysr-cpacs (assembly)
   :computed-slots ((root-object-type (read-from-string "xml-tree"))))
@@ -69,11 +40,9 @@
 			 (error "~&Geysr System Home not found, needed for its static/.~%"))))
 	 (static (namestring (merge-pathnames "static/" directory))))
 
-    (print-variables directory static)
     
     (with-all-servers (server)
       (mapc #'(lambda(prefix file)
-		(print-variables prefix file)
 		(publish-directory :prefix prefix :server server :destination file))
 	    `("/geysr-static")
 	    `(,static))
@@ -86,20 +55,13 @@
       (publish-gwl-app "/geysr-missile" 'geysr-missile)
       (publish-gwl-app "/geysr-robot" 'geysr-robot)
       
-      (publish-gwl-app "/geysr-dragster" 'geysr-dragster)
-      (publish-gwl-app "/geysr-glider" 'geysr-glider)
-      (publish-gwl-app "/geysr-green-car" 'geysr-green-car)
-      (publish-gwl-app "/geysr-mousetrap-car" 'geysr-mousetrap-car)
-      (publish-gwl-app "/geysr-parm" 'geysr-parm)
-      (publish-gwl-app "/geysr-rover" 'geysr-rover)
-      (publish-gwl-app "/geysr-shelter" 'geysr-structures)
-      (publish-gwl-app "/geysr-structures" 'geysr-structures)
-      (publish-gwl-app "/geysr-water-rocket" 'geysr-water-rocket)
-      (publish-gwl-app "/geysr-wind-turbine" 'geysr-wind-turbine)
+      
       (publish-gwl-app "/geysr-cpacs" 'geysr-cpacs)
-      (publish-gwl-app "/geysr-pp" 'geysr-primi-plane))))
+      (publish-gwl-app "/geysr-pp" 'geysr-primi-plane)
 
 
-;;(initialize!)
+
+      )))
+
 
 

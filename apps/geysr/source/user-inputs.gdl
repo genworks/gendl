@@ -1,9 +1,0 @@
-(in-package :geysr)
-
-(define-object user-inputs (sheet-section)
-
-  :input-slots (root-object)
-
-  :computed-slots
-  ((inner-html (defaulting (the root-object pui inner-html) nil))))
-
