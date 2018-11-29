@@ -31,10 +31,10 @@
 					:defaults glisp:*gdl-program-home*))
   (setq glisp:*gendl-home* glisp:*gdl-home*)
 
-  (when (find-package :asdf) (funcall (asdf:initialize-output-translations)))
+  (when (find-package :asdf) (funcall (read-from-string "asdf:initialize-output-translations")))
   
   (setq *quicklisp-home* (or (when (and (find-package :ql) (boundp (read-from-string "ql:*quicklisp-home*"))
-					(probe-file (read-from-string "ql:*quicklisp-home*")))
+					(probe-file (symbol-value (read-from-string "ql:*quicklisp-home*"))))
 			       (symbol-value (read-from-string "ql:*quicklisp-home*")))
 			     (probe-file (merge-pathnames "quicklisp/" glisp:*gendl-home*))
 			     (probe-file (merge-pathnames "genworks/quicklisp/" glisp:*gendl-home*))
@@ -44,7 +44,7 @@
 			     ))
 
   (when (and (find-package :ql) (boundp (read-from-string "ql:*quicklisp-home*"))
-	     (not (probe-file (read-from-string "ql:*quicklisp-home*"))))
+	     (not (probe-file (symbol-value (read-from-string "ql:*quicklisp-home*")))))
     (setq ql:*quicklisp-home* *quicklisp-home*))
   
   (pushnew (make-keyword (format nil "gendl-~a" *gendl-version*)) *features*)
