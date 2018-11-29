@@ -45,7 +45,7 @@
 
   (when (and (find-package :ql) (boundp (read-from-string "ql:*quicklisp-home*"))
 	     (not (probe-file (symbol-value (read-from-string "ql:*quicklisp-home*")))))
-    (setq ql:*quicklisp-home* *quicklisp-home*))
+    (setf (symbol-value (read-from-string "ql:*quicklisp-home*")) *quicklisp-home*))
   
   (pushnew (make-keyword (format nil "gendl-~a" *gendl-version*)) *features*)
   (glisp:set-genworks-source-home-if-known)
