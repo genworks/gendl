@@ -1,0 +1,156 @@
+#menu {z-index: 9;
+       font-family: "Lucida Grande", Helvetica, Arial, sans-serif;}
+
+
+#menu >  ul{
+    
+    padding: 0px 10px;
+    margin: 0;
+}
+
+
+#menu ul {
+
+    list-style: none;    
+}
+
+#menu li {
+    float: left;
+    position: relative;
+    padding-left: 3px; 
+    padding-right: 3px;
+    width: auto;
+    color: rgb(68, 68, 68);
+    margin-left: 0px; 
+}
+
+#menu ul ul li {
+    width: 150px;
+    padding-left: 15px;
+}
+
+
+
+#menu a {
+    display: block;
+    text-decoration: none;
+    padding: 5px 5px;
+    color: rgb(68, 68, 68);
+}
+
+
+#menu >  ul ul {
+    position: absolute;
+    background: rgb(240, 240, 240);
+    left: 0;
+    top: 100%;
+    visibility: hidden;
+    opacity: 0.95;
+    font-size: 15px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.24); 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-left: 0px;
+}
+
+#menu > ul ul ul {
+    left: 100%;
+    top: -3px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+
+#menu > ul  ul > li:last-child {
+    margin-bottom: 3px;
+}
+
+#menu > ul  ul > li:first-child {
+    margin-top: 3px;
+}
+
+
+#menu ul ul hr
+{
+    border: 1px solid rgb(201, 201, 201); 
+    margin: 0px -15px;
+    width: 165px;
+}
+
+
+#menu .li-selected
+{
+    color: #407af2;
+}
+
+
+
+#menu li > ul {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+
+#menu > ul ul ul li, ul ul  ul li a {
+    background: rgb(240, 240, 240) !important;
+}
+
+
+#menu.hoverable li:hover
+{
+    background: rgb(0, 144, 248);
+}
+
+
+#menu.hoverable ul li:hover > a
+{
+    color: rgb(240, 240, 240);
+}
+
+
+/* 
+#menu.hoverable ul li:hover > ul, #menu.hoverable ul li > ul.visible,
+#menu.hoverable ul li > ul > li > ul.visible
+{
+    visibility: visible;
+}
+*/ 
+
+
+#menu.hoverable ul li > ul.visible,
+#menu.hoverable ul li:hover > ul,
+ul.visible
+{
+    visibility: visible;
+}
+
+
+
+#menu.hoverable ul ul  ul li:hover, #menu.hoverable ul ul ul li:hover a {
+    background: rgb(0, 144, 248) !important;
+}
+
+.li-heading, #menu.hoverable .li-heading:hover {
+    background: rgb(240, 240, 240);
+    color: rgb(68, 68, 68);
+    padding: 5px 5px;
+    padding-right: 10px;
+    font-weight: bohttp://localhost:9000/sessions/102df527a94/index.html#ld;
+}
+
+
+.menu-right-icon
+{
+    position: absolute;
+    right: 10px;
+    transform: scale(1.8,1.0);
+}
+
+
+.nav-caret
+{
+    transform: scaleX(1.8);
+}
+
+
+.parent * {pointer-events: none;}

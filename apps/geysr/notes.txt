@@ -1,0 +1,4 @@
+
+- Add ability to visit definition in source code for a node from geysr and from emacs. 
+
+- Add inspector inserted dirctly in tree under a node.

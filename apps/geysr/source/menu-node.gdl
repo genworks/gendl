@@ -1,0 +1,63 @@
+(in-package :geysr)
+
+(define-object menu-node ()
+  :input-slots (label (title (unless (the child-nodes) "This operation is not implemented yet..."))
+		      (id (glisp:replace-regexp
+			   (glisp:replace-regexp
+			    (glisp:replace-regexp
+			     (glisp:replace-regexp
+			      (format nil "~s" (cons 'the (reverse (butlast (butlast (the root-path))))))
+			      " " "__") "\\:" "") "\\(" "") "\\)" ""))
+		      (onfocus nil)
+		      (depth (if (or (not (the parent)) (not (typep (the parent) 'menu-node)))
+				 0
+				 (1+ (the parent depth)))))
+				 
+
+  :computed-slots ((child-nodes
+		    (remove-if-not
+		     #'(lambda(child)
+			 (typep child 'menu-node)) (the children)))
+
+
+		   
+		   (html (with-cl-who-string (:indent t)
+			   (cond ((and (the child-nodes) (zerop (the depth)))
+				  (htm ((:nav :id (the id))
+					(str (the ul)))))
+				 
+				 ((the child-nodes)
+				  (htm (str (the ul))))
+
+				 (t (htm ((:li :onmouseover "hideMenus(event);")
+					  ((:a :href "#"
+					       :class "inactive" 
+					       :title (the title)) (str (the label)))))))))
+
+		   (ul (with-cl-who-string (:indent t)
+			 ((:ul
+			   :id (the id)
+			   :onmouseover
+			   (unless (zerop (the depth))
+			     (format nil "addVisible(event, ~a);" (the depth))))
+			  
+			  (dolist (child (the child-nodes))
+			    (if (the-object child child-nodes)
+				(htm ((:li :id (the-object child id)
+					   :tabindex "0"
+					   :onmouseover "hideMenus(event);"
+					   :onclick (when (zerop (the depth))
+						      "makeMenuBarHoverable(event);"))
+				       
+				      ((:a :href "#" :id (format nil "a ~a" (the-object child id))
+					   :title (the-object child title))
+
+				       (str (the-object child label))
+				       
+				       (when (>= (the-object child depth) 2)
+					 (htm ((:span :class "menu-right-icon")
+					       ((:i :class "fas fa-caret-right"))))))
+				      (str (the-object child html))))
+				(str (the-object child html)))))))))
+
+

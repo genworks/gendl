@@ -1,0 +1,521 @@
+;;
+;; Copyright (c) 2003, 2010 Genworks International, Bloomfield Hills,
+;; MI, USA. The software, data and information contained herein are
+;; proprietary to, and comprise valuable trade secrets of, Genworks
+;; International and Genworks BV.  They are given in confidence
+;; pursuant to a written nondisclosure/noncompete license agreement,
+;; and may be stored and used only in accordance with the terms of
+;; such license.
+;;
+;;
+
+(in-package :geysr)
+
+(defvar *developing?* nil)
+
+(defvar *user-mode?* nil)
+
+#+nil ;; remove after successful fresh build. 
+(excl:without-package-locks
+  (excl:without-redefinition-warnings
+   (defun gdl::same-tree? (obj1 obj2)
+     (or (eql (gdl-acc::%root% obj1) (gdl-acc::%root% obj2))
+	 (let ((root-1 (gdl-acc::%root% obj1)) (root-2 (gdl-acc::%root% obj2)))
+	   (let ((god-parents-1 (gdl-acc::%god-parents% root-1))
+		 (god-parents-2 (gdl-acc::%god-parents% root-2)))
+	     (member root-1 god-parents-2) (member root-2 god-parents-1)))))
+
+   (defun add-godparent (target new)
+     (pushnew new (gdl-acc::%god-parents% target)))))
+
+
+(define-object assembly (base-ajax-sheet)
+
+  :input-slots
+  ((viewport-dimensions (list :width 800 :length 550) :settable)
+
+   (design-mode? nil :settable))
+
+  
+  :computed-slots
+  (
+   (click-mode :add-leaves :settable)
+   (expand-mode :remember :settable)
+   
+   (onclick-function
+    #'(lambda(object)
+	(the (gdl-ajax-call :function-key :perform-action!
+			    :arguments (list :root-path (the-object object root-path))))))
+
+
+
+   (local-assets? (not (the design-mode?)) :settable)
+   (use-ajax? (not (the design-mode?)))
+   ;;
+   ;; FLAG -- try toggling this in a sheet-section depending on
+   ;;         viewport image-format.  Seems impossible to evaluate
+   ;;         newly injected <script src=...> with Ajax, though.
+   ;;
+   (use-raphael? (not (the design-mode?)))
+   (use-svgpanzoom? t) ;;(not (the design-mode?))
+   (use-x3dom? (not (the design-mode?)))
+   (use-fontawesome? t)
+   (use-anyresize? (not (the design-mode?)))
+
+
+   (root-object-type (read-from-string "robot:assembly") :settable)
+
+   (root-object (the root-object-object) :settable)
+
+   (root-object-object (make-object (the root-object-type)
+				    :god-parents (list self)
+				    :strings-for-display (format nil "~s" (the root-object-type))))
+
+   (additional-header-content
+    (with-cl-who-string ()
+      (unless (the design-mode?)
+	(htm
+	 ((:meta :name "viewport" :content "width=device-width, initial-scale=1, shrink-to-fit=no"))
+	 ((:meta :name "description" :content "Geysr Object Browser"))
+	 ((:meta :name "author" :content "Genworks"))
+	 ((:meta :name "keywords" :content "KBE, CL"))
+	 ((:meta :name "mobile-web-app-capable" :content "yes"))
+	 ((:meta :name "viewport" :content "width=device-width, initial-scale=1.0"))
+	 (unless *developing?*
+	   (htm ((:script :type "text/javascript")
+		 "window.onerror = function(){location.reload()};")))))
+      (str (the local-css-link))))
+
+
+   (body-onpageshow (when (the use-ajax?) "gdlResize();"))
+   (body-onresize (when (the use-ajax?) "gdlResize();"))
+   (body-onpageload "gdlResize();")
+   
+   (local-css-link (with-cl-who-string ()
+		     ((:link :href "/geysr-static/styles.css" :rel "stylesheet"))
+		     ((:link :href "/geysr-static/menu.css" :rel "stylesheet"))))
+
+   (main-sheet-body
+    (with-cl-who-string (:indent t)
+      ((:div :class "grid")
+       ((:div :id "menu-cell" :class "cell menu menuToggle")
+	((:input :type "checkbox" :class "dp-none"))
+	((:span :class "dp-none"))((:span :class "dp-none"))((:span :class "dp-none"))
+	(str (the menu main-div)))
+       ((:div :id "tree" :class "cell tree") (str (the tree main-div)))
+       ((:div :id "inspector" :class "cell inspector")
+	(str (if *user-mode?* (the user-inputs main-div) (the inspector main-div))))
+       ((:div :id "viewport" :class "cell viewport") (str (the viewport main-div)))
+       ((:div :id "viewport-script") (str (the viewport-script main-div)))
+       ((:div :id "menu-script") (str (the menu-script main-div))))
+      (unless (the design-mode?)
+	(htm
+	 (:script "
+ tree = document.getElementById('tree'); 
+ tree.addEventListener('onresize', function(){gdlResize();});
+
+"))))))
+
+  
+  :hidden-objects
+  
+  ((menu :type 'menu
+	 :pass-down (design-mode? local-assets? click-mode expand-mode)
+	 :set-click-mode-func #'(lambda(mode) (the (set-slot! :click-mode mode)))
+	 :set-expand-mode-func #'(lambda(mode) (the (set-slot! :expand-mode mode)))
+	 :reset-zoom-func #'(lambda() (the viewport reset-zoom!))
+	 :set-image-format-func #'(lambda(format) (the viewport image-format-selector (set-slot! :value format)))
+	 :set-view-func #'(lambda(view) (the viewport view-selector (set-slot! :value view)))
+	 :clear-func #'(lambda() (the viewport clear!))
+	 :update-root-func #'(lambda() (the update-root!))
+	 :set-self-func #'(lambda() (set-self self))
+	 :up-root-func #'(lambda() (let ((parent (the root-object parent)))
+				     (when parent (the (set-slot! :root-object parent)))))
+	 :reset-root-func #'(lambda() (the (set-slot! :root-object (the root-object-object))))
+	 :image-format (the viewport image-format-selector value)
+	 :view (the viewport view-selector value) 
+	 :geysr self
+	 :viewport-js-text (the viewport viewport-js-text))
+
+
+   (tree :type 'tree 
+	 :pass-down (onclick-function click-mode expand-mode design-mode?)
+	 :display-controls-hash (make-hash-table)
+	 :target-object (the root-object))
+
+
+   (user-inputs :type 'user-inputs
+		:pass-down (root-object))
+   
+   (inspector :type 'inspector
+	      :pass-down (root-object onclick-function click-mode design-mode?)
+	      :geysr self
+              :display-controls-hash (the tree display-controls-hash))
+   
+   
+   (viewport :type 'viewport
+	     :div-class "viewport-wrapper"
+	     :pass-down (root-object root-object-type)
+	     :empty-display-list-message
+	     (with-cl-who-string ()
+
+	       (:p (:h2 (fmt "Welcome to Geysr." (the
+	       root-object-type))))
+
+	       (:p (fmt
+		    "Geysr is for inspecting Genworks GDL models
+		   while you're developing them. You can see your
+		   model structure in the tree at the upper left."))
+
+	       (:p "The Display List is currently empty. You may click a node (in the tree at the upper-left) to apply the "
+		   (:i ((:a :class "menu-show" :href "#" :onclick (the (menu-control-js "the__mode")))
+			(fmt "~a" (the click-mode)))) " operation.")
+	       
+	       (:p "The rendering mode is currently "
+		   (:i ((:a :class "menu-show" :href "#"
+			    :onclick (the (menu-control-js
+					   (list "the__view" "the__view__graphics-format-menu"))))
+			(fmt "~a" (the menu image-format))))
+
+		   (let ((graphics-format-show (the (menu-control-js
+						     (list "the__view" "the__view__graphics-format-menu")))))
+		     (ecase (the menu image-format)
+		       (:svg
+			(htm ". You can try "
+			     
+			     (:i ((:a :class "menu-show" :href "#"
+				      :onclick graphics-format-show)
+				  "x3dom"))
+			     " for a shaded, navigable view, or one of the "
+			     (:i ((:a :class "menu-show" :href "#"
+				      :onclick graphics-format-show)
+				  "raster formats")) " (png or jpeg)."))
+		       (:x3dom
+			(htm ". You can try "
+			     
+			     (:i ((:a :class "menu-show" :href "#"
+				      :onclick graphics-format-show)
+				  "svg"))
+			     " for a wireframe, pannable and zoomable view, or one of the "
+			     (:i ((:a :class "menu-show" :href "#"
+				      :onclick graphics-format-show)
+				  "raster formats")) " (png or jpeg)."))
+
+		       ((:png :jpeg)
+			(htm ". You can try "
+			     
+			     (:i ((:a :class "menu-show" :href "#"
+				      :onclick graphics-format-show)
+				  "svg"))
+			     " for a wireframe, pannable and zoomable view, or "
+			     (:i ((:a :class "menu-show" :href "#"
+				      :onclick graphics-format-show)
+				  "x3dom")) " for a shaded, navigable view.")))))
+
+	       
+
+	       )
+
+
+	     :length (getf (the viewport-dimensions) :length)
+	     :width (getf (the viewport-dimensions) :width)
+	     :onclick-function nil
+	     :background-color "#d3d3d3"
+	     :geysr self)
+
+   (viewport-script :type 'sheet-section
+		    :js-to-eval :parse
+		    :inner-html (the viewport viewport-script))
+				  
+   (menu-script :type 'sheet-section
+		:js-to-eval :parse
+		:inner-html (the menu menu-script)))
+
+
+   :functions
+   (
+    ;;
+    ;; FLAG -- change this to accept the actual single menu object in
+    ;; question, then compute a list of it and its parents' ids up
+    ;; through (the menu).
+    ;;
+    (menu-control-js
+     (ids)
+     (format nil "
+  hideMenus(event, true);
+  document.querySelector('#menu').classList.add('hoverable');
+  ~{~a~^~%  ~}"
+	     (mapcar #'(lambda(id)
+			 (format nil "document.querySelector('#~a').classList.add('visible');" id))
+		     (ensure-list ids))))
+
+    (set-root! (object)
+	       (the (set-slot! :root-object object))
+	       (add-godparent (the root-object) self))
+	       
+    
+    (:perform-action!
+     (&key root-path)
+     (let ((object (the root-object (follow-root-path root-path))))
+       (ecase (the click-mode)
+	 (:inspect (the inspector (set-object! object)))
+	 (:set-root (the (set-root! object)))
+	 (:update-node (the-object object update!))
+	 (:draw-leaves (the viewport (draw-leaves! object)))
+	 (:draw-node (the viewport (draw-node! object)))
+	 (:add-leaves (the viewport (add-leaves! object)))
+	 (:add-leaves* (the viewport (add-leaves*! object)))
+	 (:delete-leaves (the viewport (delete-leaves! object)))
+	 (:add-node (the viewport (add-node! object)))
+      
+	 (:set-self 
+	  (set-self object)
+	  (let ((*package* (symbol-package (the-object object root type))))
+                
+	    (format t "~&
+~&~%Self is now set to to ~s, you may use command-line interaction....~%~%" 
+		    object))))))))
+
+  
+
+
+;;
+;; FLAG -- get rid of patches below on next rebuild!
+;;
+;;  Following is confirmed merged. 
+
+(in-package :svg)
+
+#+nil
+(excl:without-redefinition-warnings
+  (excl:without-package-locks
+   (define-lens (svg base-drawing)()
+      :output-functions
+      ((cad-output
+	()
+	(let ((view-center (if (the user-center) 
+                               (scalar*vector (the user-scale) (the user-center)) 
+                               (make-point 0 0 0))))
+	  (with-format-slots (view)
+            (let ((parent-scale (when view (the-object view view-scale-total))))
+              (mapc #'(lambda(child-view)
+			(let ((old-scale (the-object child-view user-scale)))
+			  (when parent-scale (the-object child-view (set-slot! :user-scale parent-scale)))
+			  (let ((width (the-object child-view width))
+				(length (the-object child-view length)))
+
+
+			    (with-html-output (*stream*)
+			      ((:div
+				:width "100%" :height "100%"
+				:onmousedown (when (the parent vector-graphics-onclick?)
+					       (the parent (gdl-ajax-call :function-key :dig-point :bashee (the parent)
+									  :respondent (the parent :respondent)))))
+			  
+			       ((:svg :id "svg-1" :viewBox (format nil "0 0 ~a ~a" width length)
+				      :width width
+				      :height length
+				      )
+				 
+				(with-translated-state (:svg (make-point (- (get-x view-center)) 
+									 (- (get-y view-center))))
+				  (write-the-object child-view cad-output)))
+			       ((:script :type "text/javascript")
+				"
+ panZoomSVG1 = svgPanZoom('#svg-1', {
+ zoomEnabled: true,
+ controlIconsEnabled: true,
+ preventMouseEventsDefault: false,
+ fit: true,
+ minZoom: 0.01,
+ maxZoom: 100,
+ center: true});"))))
+		      
+			  (when parent-scale (the-object child-view (set-slot! :user-scale old-scale)))))
+                    (the views))))))))
+
+
+
+    (define-lens (svg geom-base::view-object-cache)()
+      :output-functions
+      ((lines-and-curves
+	()
+	(unless (zerop (length (the vertex-array-2d-scaled)))
+	  (let ((object (the object)) 
+		(2d-vertices 
+		 (unless (the path-info-2d-scaled)
+		   (map 'vector #'(lambda(vertex) 
+				    (let ((point 
+					   (add-vectors (subseq vertex 0 2) 
+							geom-base:*svg-translation*)))
+				      (make-point (get-x point) 
+						  (- (the length) (get-y point)))))
+			(the vertex-array-2d-scaled))))
+	    
+
+		(path-info (when (the path-info-2d-scaled)
+			     (mapcar #'(lambda(component)
+					 (if (keywordp component) component
+					     (let ((point 
+						    (add-vectors component geom-base:*svg-translation*)))
+					       (make-point (get-x point) 
+							   (- (the length) (get-y point))))))
+				     (the path-info-2d-scaled)))))
+
+
+	    (let ((line-index-pairs (when 2d-vertices (the-object object %line-vertex-indices%)))
+		  (curve-index-quadruples (when 2d-vertices (the-object object %curve-vertex-indices%)))
+		  (display-controls (or (geom-base::find-in-hash object *display-controls*)
+					(the object display-controls)))
+		  #+nil ;; FLAG -- do we need some kind of unique ID? If so, this name is too long, find something else. 
+		  (name (base64-encode-safe 
+			 (format nil "~s~s" 
+				 (the-object object  root-path)
+				 (the  root-path)))))
+
+	      (let ((line-path-string (write-the (line-path-string line-index-pairs 2d-vertices)))
+		    (curve-path-string (write-the (curve-path-string curve-index-quadruples 2d-vertices)))
+		    (other-path-string (write-the (other-path-string path-info)))
+		    (stroke-linejoin (getf display-controls :stroke-linejoin "round"))
+		    (stroke (or (when (getf display-controls :color)
+				  (lookup-color (getf display-controls :color) :format :hex))
+				(the-object object color-hex)))
+		    (fill (or (when (getf display-controls :fill-color)
+				(lookup-color (getf display-controls :fill-color) :format :hex))
+			      (the-object object fill-color-hex) "transparent"))
+		    (stroke-width (let ((value (getf display-controls :line-thickness)))
+				    (when value (setq value (number-round value 4))) (or value 1.0)))
+		    (onclick (cond ((the object onclick-function)
+				    (the parent parent parent ;; FLAG -- pass this in!
+					 (gdl-ajax-call :function-key :call-onclick-function!
+							:arguments (list object))))
+				   ((and (defaulting (the viewport)) (eql (the viewport digitation-mode) :select-object))
+				    (the viewport (gdl-ajax-call :function-key :set-object-to-inspect!
+								 :arguments (list object))))
+				   (t nil))))
+
+		(when (or line-path-string curve-path-string other-path-string)
+		  (with-html-output (*stream*)
+		    ((:path :d (string-append line-path-string curve-path-string other-path-string)
+			    ;;:vector-effect "non-scaling-stroke"
+			    :stroke-linejoin stroke-linejoin
+			    :stroke stroke :fill fill :stroke-width stroke-width
+			    :onclick onclick
+			    :onmouseover (format nil "this.style.strokeWidth = ~a;" (* stroke-width 3))
+			    :onmouseout (format nil "this.style.strokeWidth = ~a;" stroke-width))
+		     (:title (str (one-line
+				   (format nil "~s" (cons 'the (let ((root-path (reverse (the object root-path))))
+								 (if (eql (first root-path) :root-object-object)
+								     (rest root-path) root-path)))))))))))))))))
+
+    ))
+
+
+
+;;
+;; FLAG -- below is merged into main codebase now!
+;;
+
+(in-package :gwl)
+
+#+nil
+(excl:without-package-locks
+  (excl:without-redefinition-warnings
+
+   ;;
+   ;; merged. 
+   ;;
+    (define-object-amendment base-ajax-graphics-sheet ()
+      :computed-slots
+      ((svg-string (if (the no-graphics?)
+		   (with-cl-who-string ()
+		     ((:div :id "empty-viewport" :class "empty-viewport")
+		      (str (the empty-display-list-message))))
+		   (with-error-handling ()
+		     (with-output-to-string (ss)
+		       (with-format (svg ss 
+					 :background-color (the background-color)
+					 :foreground-color (the foreground-color))
+			 (write-the view-object cad-output))))))))
+
+
+    ;;
+    ;; merged. 
+    ;;
+    
+    (define-lens (html-format base-ajax-graphics-sheet)()
+      
+      :amend? t
+      :output-functions
+      (
+       
+       ;;
+       ;; merged. 
+       ;;
+       
+       ("Void. Writes an embedded X3D tag and included content for the <tt>view-object</tt> child of this object. 
+The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
+
+	embedded-x3dom-world
+	(&key (include-view-controls? nil))
+    
+	(declare (ignore include-view-controls?))
+    
+	;; (the (restore-slot-default! :js-to-eval))
+    
+	(with-cl-who ()
+      
+	  (when (typep (the :view-object) 'null-part)
+	    (error "A valid :view-object of type web-drawing is required in the sheet 
+to call the :write-embedded-x3d-world function."))
+	  
+	  (cond ((the no-graphics?)
+		 (htm
+		  ((:div :id "empty-viewport" :class "empty-viewport")
+		   (str (the empty-display-list-message)))))
+		(t
+		 (let ((*display-controls* (the display-controls-hash)))
+		   (htm
+		    (:span
+		     ((:|X3D| :id "x3dom-1" :style "background: #d3d3d3"
+			:width (format nil "~apx" (the view-object page-width))
+			:height (format nil "~apx" (the view-object page-length))
+			)
+		      (:|Scene|
+		     
+			((:|navigationinfo| :|id| "navi" :|transitionTime| "0.0"
+			   ))
+		     
+		     
+			(with-format (x3d *stream*) 
+			  (let ((*onclick-function* (the onclick-function)))
+			    (write-the view-object cad-output))))))))))))
+
+       ;;
+       ;; merged. 
+       ;;
+       
+       (raster-graphics
+	()
+	(when (typep (the :view-object) 'null-part)
+	  (error "A valid :view-object of type web-drawing is 
+required in the sheet to call the :write-geometry method."))
+	(with-cl-who ()
+	  (cond ((the no-graphics?)
+		 (htm ((:div :id "empty-viewport" :class "empty-viewport")
+		       (str (the empty-display-list-message)))))
+          
+		((typep (the image-url) 'error)
+		 (the (set-slot! :view-toggle nil))
+		 (write-the geometry-error))
+          
+		(t
+		 (let ((image-url (the image-url)))
+		   (htm ((:img :id "myimage"
+			       :style "cursor: crosshair;"
+			       :src image-url 
+			       :onclick (the (gdl-ajax-call :function-key :dig-point))
+			       :border 0 :width (the :view-object :page-width) 
+			       :height (the :view-object :page-length)))))))))))))
+
+

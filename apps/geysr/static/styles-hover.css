@@ -1,0 +1,185 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-gap: 1px;
+    height: 100%;
+    background-color: #aaa;
+    font-family: "helvetica Neue", Helvetica, Arial, sans-serif;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(15px, auto) 1fr 1fr;
+    grid-template-areas: "menu" "tree" "inspector" "viewport";
+}
+
+@media (min-width: 700px) {
+    .grid {
+        /* grid-template-columns: minmax(auto, min-content)  minmax(auto, min-content)  minmax(auto, 100%); */
+        /* grid-template-columns: minmax(auto, min-content) minmax(10px, 20px) minmax(auto, 100%); */
+	/* grid-template-columns: minmax(auto, min-content) minmax(auto, 100%);  */
+	grid-template-columns: minmax(auto, 20%)  minmax(auto, 100%);  
+        grid-template-rows: auto minmax(auto, min-content) minmax(auto, 100%);
+        grid-template-areas:     "menu menu "
+				     "tree viewport"
+	                             "inspector viewport";
+    }
+}
+
+.menu {
+    grid-area: menu;
+    background: rgb(219, 230, 250);
+    z-index: 9;
+    font-size: 15px;
+}
+
+.menu-image {
+    width: 16px;
+    height: 15px;
+}
+
+.tree {
+    grid-area: tree;
+    background: rgb(209, 209, 209);
+    resize: both;
+    overflow: auto;
+}
+
+#tree-root {
+    padding: 0 15px
+}
+
+.inspector {
+    grid-area: inspector;
+    font-size: 11px;
+    background: #f8f8f8;
+/*    resize: horizontal; */
+    overflow: auto;
+    z-index: 5;
+}
+
+.viewport {
+    grid-area: viewport;
+    background: #e8e8e8;
+    /* resize: both; */ 
+    overflow: auto;
+    z-index: 1;
+}
+
+.viewport div:first-child {
+    text-align: center;
+}
+
+.growlr-tree ul {
+    list-style: none;
+    margin-left: 1em;
+    padding-left: 0px;
+}
+
+.growlr-tree li {
+    white-space: nowrap;
+    list-style: none;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+
+
+
+.expanded,
+.directory,
+.leaf {
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.expanded {
+    color: rgb(119, 119, 119);
+}
+
+.directory {
+    color: rgb(212, 113, 113);
+}
+
+.leaf {
+    color: rgb(100, 190, 104);
+}
+
+.inspector .heading {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(82, 82, 82);
+}
+
+
+.inspector-table, .inspector-table tr, .inspector-table tr td
+{ 
+    overflow: auto;
+    cellpadding: 0;
+    cellspacing: 0;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.inspector-table td
+{
+    border: 1px solid rgb(168, 168, 168);
+    padding: 3px 2px;
+    text-align: left;
+}
+
+
+.inspector-table td:first-child
+{
+   color: rgb(78, 78, 78);
+   text-align: center;
+}
+
+.inspector-table tr:nth-child(odd)
+{
+    background-color: rgb(233, 242, 255);
+}
+
+
+
+.i-t-m
+{
+    padding: 0px;
+    text-align: left;
+}
+
+.i-t-v
+{
+    padding: 0px;
+    text-align: left;
+
+}
+
+.i-t-v-click
+{
+    color: blue;
+    font-style: italic;
+    font-family: monospace;
+    cursor: pointer;
+    white-space: pre;
+}
+
+.i-t-v-unclick
+{
+    color: black;
+    font-family: monospace;
+    width: 10px;
+    white-space: pre;
+}
+
+
+
+#svg-1 path {vector-effect: non-scaling-stroke};
+
+
+#x3dom-1 {background: #d3d3d3;}
