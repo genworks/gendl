@@ -48,12 +48,12 @@
    (messages (safe-sort
               (remove-if
                #'(lambda (keyword)
-                   (or (member keyword tasty::*internal-keywords*)
-		       (and tasty::*suppress-$$-messages?*
+                   (or (member keyword *internal-keywords*)
+		       (and *suppress-$$-messages?*
 			    (let ((string (string keyword)))
                               (and
                                (> (length string) 2) (string-equal (subseq string 0 2) "$$"))))
-                       (and tasty::*suppress-%%-messages?*
+                       (and *suppress-%%-messages?*
                             (let ((string (string keyword)))
                               (and
                                (> (length string) 2)
@@ -344,8 +344,8 @@
       (nconc settables (the node (message-list :category :required-input-slots)))               
       (sort (remove-if
              #'(lambda (keyword)
-                 (or (member keyword tasty::*internal-keywords*)
-                     (and tasty::*suppress-%%-messages?*
+                 (or (member keyword *internal-keywords*)
+                     (and *suppress-%%-messages?*
                           (let ((string (string keyword)))
                             (or (and (> (length string) 2) 
                                      (string-equal (subseq string 0 2) "$$"))
@@ -450,7 +450,7 @@
                                          (if (null remarks) 
                                              (htm (:b (str message)))
                                            (htm ((:span :style "cursor: arrow;" 
-                                                        :title (tasty::one-line (second remarks)))
+                                                        :title (one-line (second remarks)))
                                                  (:b (str message))))))
                                         (:td (str (the-object form-control form-control-string)))
                                         ))))))

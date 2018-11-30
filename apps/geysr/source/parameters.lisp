@@ -23,3 +23,26 @@
 
 (defparameter *these-features* (list :geysr))
 (defparameter *settings* nil)
+
+
+(defparameter *internal-keywords*
+  (list :query-plist :aggregate :all-mixins :background-color 
+        :base64-encoded-root-path :bashee :beziers :bounding-bbox
+        :check-sanity? :color-decimal :color-hex :color-palette :cookies-received
+        :cookies-to-send :dash-pattern :dom-id :fill-color-decimal
+        :fixed-url-prefix :header-plist :home-page :instance-id 
+        :last-visited-root-path :left-handed? ;;:local-bbox :local-box
+        :local-center :local-left-handed? :local-orientation :inner-html
+        :obliqueness :parent-tree :plain-url? :possible-nils 
+        :quantify-box :query-toplevel :refresh-toggle :remote-id :respondent 
+        :return-object :root-path-string :target :time-instantiated 
+        :time-last-touched :transitory-slots :tree-root 
+        :url-encoded-root-path :use-local-box? :viewable-slots 
+        :viewpoints :visible-children :vrml-center))
+
+(defparameter *suppress-%%-messages?* t "Boolean. Set to nil if you want to see messages starting and ending with %% in tasty inspector. Defaults to t.")
+
+(defparameter *suppress-$$-messages?* t "Boolean. Set to nil if you want to see messages starting with $$ in tasty inspector. Defaults to t.")
+
+(defun one-line (string)
+  (glisp:replace-regexp (glisp:replace-regexp string (format nil "~%") " ") "'" "\\'" ))
