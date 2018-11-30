@@ -247,6 +247,7 @@ to the src/ directory distributed with GDL.
           :height (* (the :height) 0.85)
           :width (* (the :width) 0.7)
           :radius (half (the-child width))
+	  :display-controls (merge-display-controls (list :transparency 0 :color :blue))
           :center (translate (the :center) 
                              :down (- (half (the :height)) 
                                       (half (the-child :height)))))

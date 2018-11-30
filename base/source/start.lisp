@@ -27,7 +27,10 @@
 					     :gwl-graphics :tasty :yadd :robot :cl-lite :geysr))
 
 (defun start-gendl! (&key (features *features-to-initialize*)
-		     (banner? t) (init-files? t))
+		       (banner? t) (init-files? t))
+  (glisp::set-gendl-source-home-if-known)
+  (glisp::set-genworks-source-home-if-known)
+  
   (dolist (feature features)
     ;;
     ;; This assumes feature name = package name of its initialize!
