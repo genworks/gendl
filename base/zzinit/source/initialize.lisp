@@ -49,6 +49,7 @@
   
   (pushnew (make-keyword (format nil "gendl-~a" *gendl-version*)) *features*)
   (glisp:set-genworks-source-home-if-known)
+  (glisp:set-gendl-source-home-if-known)
   (glisp:set-default-float-format)
   (glisp:set-defpackage-behavior)
   (glisp:set-default-package)

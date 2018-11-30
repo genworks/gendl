@@ -55,8 +55,8 @@
 				   :type nil
 				   :directory (butlast (butlast (pathname-directory base-home)))
 				   :defaults base-home)))))))
-  
-  (set-genworks-source-home-if-known))
+  ;;(set-genworks-source-home-if-known)
+  )
 
 
 (defparameter *gendl-source-home* nil)
@@ -69,8 +69,8 @@
 	  (if (typep error 'error)
 	      (warn "~&ASDF is loaded, but :base is not registered. glisp:*genworks-source-home* remains unknown and set to nil.~%")
 	      (setq *gendl-source-home* gendl-home)))))
-
-  (set-gendl-source-home-if-known))
+  ;;(set-gendl-source-home-if-known)
+  )
 
 
 
