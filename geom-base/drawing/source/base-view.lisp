@@ -29,6 +29,12 @@
 ;; FLAG -- this will move back to internal codebase on the next build.
 ;;
 
+(define-object surf:arc-curve ())
+(define-object surf:curve () :computed-slots ((knot-vector nil)))
+(define-object surf:linear-curve ())
+
+
+
 (define-object base-drawing (base-object)
   
   :documentation (:description "Generic container object for displaying one or more scaled

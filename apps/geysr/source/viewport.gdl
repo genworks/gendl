@@ -171,7 +171,6 @@ x3draw();
                     (append (the operations-list)
                             (list (list :operation :add-leaves* :object object))))))
 
-   #+nil
    (leaves-displayed? 
     (object)
     (gethash (the-object (first (the-object object leaves)) root-path)
@@ -302,7 +301,6 @@ x3draw();
             (:links (the (write-geometry-links)))
 	    (:svg (write-the svg-vector-graphics))
             (:raphael (write-the vector-graphics))
-	    (:raphael )
             ((:png :jpeg) (write-the raster-graphics))
             (:x3dom (the (write-embedded-x3dom-world :include-view-controls? nil)))))))
     

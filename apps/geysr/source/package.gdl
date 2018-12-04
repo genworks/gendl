@@ -15,5 +15,5 @@
 
 (gwl:define-package :geysr
     (:export #:assembly #:viewport #:inspector #:status-object #:menu-section 
-	     #:*suppress-%%-messages?* #:*suppress-$$-messages?*))
+	     #:*internal-keywords* #:*suppress-%%-messages?* #:*suppress-$$-messages?*))
 
