@@ -8,8 +8,8 @@
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode (:gendl-asdf)
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
  :components
- ((:gdl "source/package") (:gdl "source/assembly")
-  (:gdl "source/initialize") (:gdl "source/inspector")
-  (:gdl "source/menu-node") (:gdl "source/menu")
-  (:gdl "source/parameters") (:gdl "source/tree")
-  (:gdl "source/viewport") (:gdl "source/zzinit")))
+ ((:gdl "source/package") (:gdl "source/parameters")
+  (:gdl "source/assembly") (:gdl "source/initialize")
+  (:gdl "source/inspector") (:gdl "source/menu-node")
+  (:gdl "source/menu") (:gdl "source/tree") (:gdl "source/viewport")
+  (:gdl "source/zzinit")))
