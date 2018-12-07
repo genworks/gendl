@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-("parameters" "classes" "methods" "curve" "surface" "brep")
+("parameters" "classes" "methods" "geometry-kernel-object-mixin" "curve" "arc-curve" "linear-curve" "surface" "brep")

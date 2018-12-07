@@ -22,12 +22,28 @@
 (in-package :surf)
 
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (define-object linear-curve ()
+    :input-slots (start end)))
+
+
+(define-object %linear-curve% (line curve) 
+  
+  :computed-slots
+  ((native-curve (make-linear-curve *geometry-kernel* (the start) (the end))))
+
+  
+  :hidden-objects
+  ((reverse :type 'linear-curve 
+            :start (the end)
+            :end (the start))))
+
 (define-object linear-curve (%linear-curve%)
 
   :documentation (:description "A GDL NURBS Curve representing a straight line segment. The inputs are the same as
 for l-line, namely <tt>start</tt> and <tt>end</tt> (3d points)."
                   
-                  :examples "<pre>
+			       :examples "<pre>
 
  (in-package :surf)
 
@@ -43,16 +59,16 @@ for l-line, namely <tt>start</tt> and <tt>end</tt> (3d points)."
   (line-constraints
    
    (start (if (the trim-start)
-              (proj-point-on-line (the trim-start)
+	      (proj-point-on-line (the trim-start)
                                   (the constraint-object start)
                                   (the constraint-object direction-vector))
-            (the constraint-object start)))
+	      (the constraint-object start)))
    
    (end (if (the trim-end)
             (proj-point-on-line (the trim-end)
                                 (the constraint-object start)
                                 (the constraint-object direction-vector))
-          (the constraint-object end))))
+            (the constraint-object end))))
 
   
   :computed-slots
@@ -69,7 +85,7 @@ for l-line, namely <tt>start</tt> and <tt>end</tt> (3d points)."
    (exprs (plist-values (the constraints)))
    
    (constraint-type (cond ((every #'(lambda (key)
-                                      (eql :through-point key)) 
+				      (eql :through-point key)) 
                                   (the keys))
                            :2-points)
                           ((and (getf (the constraints) :through-point)
@@ -87,31 +103,23 @@ for l-line, namely <tt>start</tt> and <tt>end</tt> (3d points)."
   
   :hidden-objects
   ((constraint-object :type (case (the constraint-type)
-                              (:2-points 'line-constraints-2-points)
-                              (:point-angle 'line-constraints-point-angle)
-                              (:tangent-angle 'line-constraints-tangent-angle)
-                              (:tangent-tangent 'line-constraints-tangent-tangent)
-                              (:through-point-tangent-to 'line-contraints-through-point-tangent-to))
-                      :constraints (the constraints)))
+			      (:2-points 'line-constraints-2-points)
+			      (:point-angle 'line-constraints-point-angle)
+			      (:tangent-angle 'line-constraints-tangent-angle)
+			      (:tangent-tangent 'line-constraints-tangent-tangent)
+			      (:through-point-tangent-to 'line-contraints-through-point-tangent-to))
+		      :constraints (the constraints)))
   
   :functions
   ((tangent-point (constraint-index)
-               (when (member (the constraint-type) (list :tangent-angle :tangent-tangent))
-                 (case constraint-index
-                   (0 (the constraint-object start))
-                   (1 (the constraint-object end)))))))
+		  (when (member (the constraint-type) (list :tangent-angle :tangent-tangent))
+                    (case constraint-index
+		      (0 (the constraint-object start))
+		      (1 (the constraint-object end)))))))
 
 
-(define-object %linear-curve% (line curve) 
-  
-  :computed-slots
-  ((native-curve (make-linear-curve *geometry-kernel* (the start) (the end))))
 
-  
-  :hidden-objects
-  ((reverse :type 'linear-curve 
-            :start (the end)
-            :end (the start))))
+
 
 
 (define-object test-linear-curve (linear-curve)
