@@ -35,6 +35,12 @@
 (defmethod decode-plist-from-url ((syntax (eql :lisp)) argstring)
   (base64-decode-list argstring))
 
+(defmethod decode-plist-from-url ((syntax (eql :json)) string)
+  (let* ((argstring (base64-decode-safe string))
+         (yason-string (read-safe-string argstring))
+         (plist (yason:parse yason-string :object-key-fn #'make-keyword :object-as :plist)))
+    (unstringify-plist plist)))
+
 (defparameter *remote-syntax* nil)
 
 (defun remote-function-handler (handler &key (encode t)) ;;&optional lock
@@ -57,6 +63,17 @@
                         (html (format *html-stream* "~a" encoded-value)))
                       (html (format *html-stream* "~s" value)))))))))))
 
+
+(defun igetf (plist key)
+    (or (getf plist key)
+	(getf plist (make-keyword (string-upcase key)))))
+
+(defun normalize-case (string)
+  (print-variables string)
+  #-allegro string
+  #+allegro (if (eql excl:*current-case-mode* :case-sensitive-lower)
+		(string-downcase string) string))
+
 (defun publish-dgdl-funcs (server)
   
   (publish-file :path "/favicon.ico"
@@ -66,8 +83,65 @@
 				  (merge-pathnames "gwl/static/gwl/images/favicon.ico" glisp:*gendl-source-home*)
 				  (merge-pathnames "static/gwl/images/favicon.ico" glisp:*gdl-home*))))
 
+  
 
 
+
+  (publish :path "/fetch-remote-input"
+	   :server server
+	   :function
+           (remote-function-handler
+            #'(lambda (args-list)
+                ;;
+                ;; FLAG -- consider a warning if package not found
+                ;;
+                (let ((*package* (or (find-package (igetf args-list :package)) *package*)))
+                  (let* ((object (the-object (gethash (let ((id (igetf args-list :remote-id)))
+							#+allegro (when (eql excl:*current-case-mode* :case-sensitive-lower)
+								    (setq id (make-keyword (string-downcase id))))
+							(print-variables id)
+							id)
+						      *remote-objects-hash*)
+                                             (follow-root-path (igetf args-list :remote-root-path))))
+
+                         (part-name (make-keyword (normalize-case (igetf args-list :part-name))))
+
+                         (index (igetf args-list :index))
+
+                         (child (if index
+                                    (the-object object ((evaluate part-name) index))
+                                    (the-object object (evaluate part-name))))
+
+                         (message (igetf args-list :message))
+                         (gdl::*notify-cons* (decode-from-http (igetf args-list :notify-cons)))
+
+                         (args (igetf args-list :args)))
+                    (if object (multiple-value-bind (value error)
+                                   (ignore-errors
+                                     (apply (symbol-function (glisp:intern (normalize-case message) :gdl-inputs))
+                                            object (glisp:intern (normalize-case part-name) :gdl-acc) child args))
+                                 (if (typep error 'error)
+                                     (let ((error-string
+                                            (glisp:replace-regexp
+                                             (format nil "~a" error) "\\n" " ")))
+                                       (cond ((or (search "could not handle"
+                                                          error-string)
+                                                  #+nil
+                                                  (search "which is the root"
+                                                          error-string)
+                                                  (search "instances could handle"
+                                                          error-string))
+                                              'gdl-rule:%not-handled%)
+                                             (t (when *debug?*
+                                                  (format t "Throwing error on fetch-input server because gwl::*debug?* is set to non-nil~%")
+                                                  (error error))
+                                                (list :error (format nil "~a" error)))))
+                                     value))
+                        (list :error :no-such-object (igetf args-list :remote-id))))))))
+
+  
+
+  #+nil
   (publish :path "/fetch-remote-input"
 	   :server server
 	   :function

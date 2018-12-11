@@ -27,11 +27,61 @@
 (defparameter *make-object-plist* nil)
 (defparameter *fetch-plist* nil)
 
-(defvar *preferred-remote-syntax* :lisp)
+(defvar *preferred-remote-syntax* :lisp) ;; or :json
 
 (defmethod encode-plist-for-url ((syntax (eql :lisp)) encoded-plist)
   (let ((*print-case* :downcase))
     (base64-encode-list encoded-plist)))
+
+
+(defun upcase-plist (plist)
+  (mapcan #'(lambda(key value)
+	      (list (make-keyword (string-upcase key))
+		    (cond ((keywordp value) (make-keyword (string-upcase value)))
+			  ((symbolp value)
+			   (cond ((null value) nil)
+				 (t (string-upcase
+				     (string
+				      (intern (string value)
+					      (symbol-package value)))))))
+			  ((consp value) (upcase-plist value))
+			  ((stringp value) value)
+			  (t value))))
+	  (plist-keys plist) (plist-values plist)))
+
+
+(defmethod encode-plist-for-url ((syntax (eql :json)) plist)
+  (let ((yason-string (with-output-to-string (s)
+                        (yason:encode (yasonify plist) s))))
+    
+    (base64-encode-safe (format nil "~s" yason-string))))
+
+
+
+(defun yasonify (value)
+  (cond ((or (null value) (eql value t) (numberp value) (stringp value)) value)
+        ((vectorp value) (map 'vector #'yasonify value))
+        ((atom value) (let ((*print-readably* t)) (format nil "~s" value)))
+        ((and (keywordp (car value)) (evenp (length value)))
+         (loop with hash = (make-hash-table :test 'equal)
+           for (key val) on value by #'cddr
+           do (setf (gethash (symbol-name key) hash) (yasonify val))
+           finally (print-hash hash) (return hash)))
+        (t (mapcar #'yasonify value))))
+
+#+nil
+(defun yasonify (value)
+  (cond ((or (null value) (eql value t) (numberp value) (stringp value)) value)
+        ((vectorp value) (map 'vector #'yasonify value))
+        ((atom value) (let ((*print-readably* t)) (format nil "~s" value)))
+        ((and (keywordp (car value)) (evenp (length value)))
+         (loop with hash = (make-hash-table :test 'equal)
+           for (key val) on value by #'cddr
+           do (setf (gethash (symbol-name key) hash) (yasonify val))
+           finally (return hash)))
+        (t (mapcar #'yasonify value))))
+
+
 
 (defun register-remote-object (obj)
   (declare (ignore obj))
@@ -228,6 +278,9 @@
   ;; with mlisp slave. 
   ;;
   (let ((*print-case* :downcase))
+    #+allegro
+    (when (eql excl:*current-case-mode* :case-sensitive-lower)
+      (setq plist (upcase-plist plist)))
     (when plist
       (cons (first plist)
 	    (cons (encode-for-http (second plist)) (encode-plist-args (rest (rest plist))))))))
