@@ -1,1 +1,1 @@
-(:gwl-graphics :tasty :geysr :robot :yadd :cl-lite)
+(:gwl-graphics :tasty #+nil :geysr :robot :yadd :cl-lite)
