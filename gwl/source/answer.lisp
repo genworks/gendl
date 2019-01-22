@@ -387,7 +387,7 @@ package-qualified object name\")
 
 
 (defun publish-shared (&key path object-type host (server *wserver*)
-                       (key (make-keyword-sensitive path)))
+                       (key (make-keyword-sensitive (format nil "~a_~a" host path))))
     "Void. Used to publish a site which is to have a shared toplevel instance tree,  
 and no URI rewriting (i.e. no \"/sessions/XXX/\" at the beginning of the path). So,
 this site will appear to be a normal non-dynamic site even though the pages are

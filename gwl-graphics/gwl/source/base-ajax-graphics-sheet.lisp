@@ -456,7 +456,13 @@ to call the :write-embedded-x3d-world function."))
 		     
 			(with-format (x3d *stream*) 
 			  (let ((*onclick-function* (the onclick-function)))
-			    (write-the view-object cad-output))))))))))))
+			    (write-the view-object cad-output))))))
+		    ;;
+		    ;; FLAG -- conditionalize this in for tasty compatibility.
+		    ;;
+		    ;;((:script) "x3dom.reload();")
+
+		    ))))))
 
 
    (raster-graphics

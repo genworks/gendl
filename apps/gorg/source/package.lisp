@@ -19,4 +19,4 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-(gwl:define-package :glsite (:export #:landing #:clear-static))
+(gwl:define-package :glsite (:export #:landing #:clear-static #:initialize))

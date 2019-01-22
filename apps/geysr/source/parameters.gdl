@@ -44,5 +44,3 @@
 
 (defparameter *suppress-$$-messages?* t "Boolean. Set to nil if you want to see messages starting with $$ in tasty inspector. Defaults to t.")
 
-(defun one-line (string)
-  (glisp:replace-regexp (glisp:replace-regexp string (format nil "~%") " ") "'" "\\'" ))
