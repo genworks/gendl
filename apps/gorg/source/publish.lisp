@@ -69,6 +69,8 @@
   ;;
 
   (publish-shared :host "gendl.org" :path "/" :object-type 'landing)
+
+  (publish-shared :path "/gorg" :object-type 'landing)
   
   #+nil
   (dolist (host *gorg-hosts*)
