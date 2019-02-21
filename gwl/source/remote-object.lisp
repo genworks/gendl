@@ -35,19 +35,27 @@
 
 
 (defun upcase-plist (plist)
-  (mapcan #'(lambda(key value)
-	      (list (make-keyword (string-upcase key))
-		    (cond ((keywordp value) (make-keyword (string-upcase value)))
-			  ((symbolp value)
-			   (cond ((null value) nil)
-				 (t (string-upcase
-				     (string
-				      (intern (string value)
-					      (symbol-package value)))))))
-			  ((consp value) (upcase-plist value))
-			  ((stringp value) value)
-			  (t value))))
-	  (plist-keys plist) (plist-values plist)))
+  (change-plist-case plist :up))
+
+(defun downcase-plist (plist)
+  (change-plist-case plist :down))
+
+(defun change-plist-case (plist up-or-down)
+  (let ((function (ecase up-or-down (:up #'string-upcase) (:down #'string-downcase))))
+    (mapcan #'(lambda(key value)
+		(list (make-keyword (funcall function key))
+		      (cond ((keywordp value) (make-keyword
+					       (funcall function value)))
+			    ((symbolp value)
+			     (cond ((null value) nil)
+				   (t (funcall function
+				       (string
+					(intern (string value)
+						(symbol-package value)))))))
+			    ((consp value) (change-plist-case value up-or-down))
+			    ((stringp value) value)
+			    (t value))))
+	    (plist-keys plist) (plist-values plist))))
 
 
 (defmethod encode-plist-for-url ((syntax (eql :json)) plist)

@@ -43,6 +43,7 @@
 
 (defparameter *remote-syntax* nil)
 
+
 (defun remote-function-handler (handler &key (encode t)) ;;&optional lock
   #'(lambda (req ent)
       (progn ;; bt:with-lock-held (lock)
@@ -54,6 +55,8 @@
                (syntax-string (rest (assoc "syntax" query :test #'string-equal)))
                (*remote-syntax* (if syntax-string (read-safe-string syntax-string) :json))
                (args-list (decode-plist-from-url *remote-syntax* args)))
+	  (when (eql excl:*current-case-mode* :case-sensitive-lower)
+		(setq args-list (downcase-plist args-list)))
           (glisp:with-heuristic-case-mode ()
             (with-http-response (req ent)
               (with-http-body (req ent)
@@ -299,6 +302,7 @@
     (format t "~%In send-remote-message-object response func:~%")
     (print-variables args-list *ipaddr* *request-server-ipaddr*))
 
+  
   (let ((*package* (or (find-package (getf args-list :package)) *package*)))
     (let ((object (when (gethash (getf args-list :remote-id) *remote-objects-hash*)
                     (the-object (gethash (getf args-list :remote-id) *remote-objects-hash*)
@@ -307,6 +311,8 @@
           (gdl::*notify-cons* (decode-from-http (getf args-list :notify-cons)))
           (args (getf args-list :args)))
 
+      (when *debug?* (print-variables args))
+      
       (if object (multiple-value-bind (value error)
                      (progn ;; bt:with-lock-held (*remote-evaluate-lock*)
                        (ignore-errors (if args
