@@ -11,6 +11,9 @@
 
 (in-package :geysr)
 
+(define-object geysr-try (assembly)
+  :computed-slots ((root-object-type (read-from-string "gdl-user::try"))))
+
 (define-object geysr-bus (assembly)
   :computed-slots ((root-object-type (read-from-string "bus::assembly"))))
 
@@ -31,6 +34,8 @@
 (define-object geysr-primi-plane (assembly)
   :computed-slots ((root-object-type (read-from-string "primi-plane"))))
 
+(define-object geysr-tool-search (assembly)
+  :computed-slots ((root-object-type (read-from-string "gdl-user::tool-search"))))
 
 (defun initialize ()
   
@@ -52,12 +57,16 @@
 
       (publish-gwl-app "/geysr-house" 'geysr-house)
       (publish-gwl-app "/geysr-bus" 'geysr-bus)
+      (publish-gwl-app "/geysr-try" 'geysr-try)
+      
       (publish-gwl-app "/geysr-missile" 'geysr-missile)
       (publish-gwl-app "/geysr-robot" 'geysr-robot)
       
       
       (publish-gwl-app "/geysr-cpacs" 'geysr-cpacs)
       (publish-gwl-app "/geysr-pp" 'geysr-primi-plane)
+
+      (publish-gwl-app "/geysr-ts" 'geysr-tool-search)
 
 
 
