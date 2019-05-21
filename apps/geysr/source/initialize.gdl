@@ -34,8 +34,15 @@
 (define-object geysr-primi-plane (assembly)
   :computed-slots ((root-object-type (read-from-string "primi-plane"))))
 
+#+nil
 (define-object geysr-tool-search (assembly)
   :computed-slots ((root-object-type (read-from-string "gdl-user::tool-search"))))
+
+(define-object geysr-spiral (assembly)
+  :computed-slots ((root-object-type (read-from-string "surf::spiral-curve-test"))))
+
+(define-object geysr-bolt (assembly)
+  :computed-slots ((root-object-type (read-from-string "gdl-user::bolt-test"))))
 
 (defun initialize ()
   
@@ -66,8 +73,11 @@
       (publish-gwl-app "/geysr-cpacs" 'geysr-cpacs)
       (publish-gwl-app "/geysr-pp" 'geysr-primi-plane)
 
-      (publish-gwl-app "/geysr-ts" 'geysr-tool-search)
+      ;;(publish-gwl-app "/geysr-ts" 'geysr-tool-search)
+      
+      (publish-gwl-app "/geysr-spiral" 'geysr-spiral)
 
+            (publish-gwl-app "/geysr-bolt" 'geysr-bolt)
 
 
       )))
