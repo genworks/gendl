@@ -553,6 +553,11 @@ Defaults to nil. Use number-form-control to get a default of t."
   :computed-slots ((number? t)))
 
 
+(define-object email-form-control (text-form-control)
+
+  :computed-slots ((email? t)))
+
+
 (define-lens (html-format text-form-control)()
   :output-functions
   ((form-control
@@ -568,6 +573,7 @@ Defaults to nil. Use number-form-control to get a default of t."
       (with-expanded-html-output (*stream* nil)
         ((:input :type (cond ((the password?) :password)
 			     ((the number?) :number)
+			     ((the email?) :email)
 			     (t :text) )
                  :value (when (the str-ready-string)
                           (the str-ready-string))
