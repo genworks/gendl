@@ -166,7 +166,45 @@ function addVisible(event, level)
   :objects ((color :type 'edit-color-menu) (line-thickness :type 'edit-line-thickness-menu)))
 
 (define-object edit-color-menu (menu-node)
-  :input-slots ((label "Color")))
+  :input-slots ((label "Color"))
+  :objects ((color-palette :type 'color-palette)))
+
+(define-object color-palette (menu-node base-ajax-sheet)
+
+  :input-slots ((label (the color-chooser full-grid)))
+
+  :objects ((color-chooser :type 'color-chooser)))
+
+
+(define-object color-chooser ()
+  :input-slots
+  ((components (list "FF" "CC" "99" "66" "33" "00"))
+   (cell-size 7))
+  
+  :computed-slots
+  ((full-grid
+    (let ((colors (the components)))
+      (with-cl-who-string ()
+        ((:table :border "0" :cellspacing "0" :cellpadding "0")
+         (:tr (dolist (red colors)
+                (htm
+                 (:td 
+                  ((:table :border "0" :cellspacing "0" :cellpadding "0")
+                   (dolist (green colors)
+                     (htm 
+                      (:tr (dolist (blue colors)
+                             (htm ((:td :style (format nil "cursor: pointer; background: #~a~a~a; height: ~apx; width: ~apx;" 
+                                                       red green blue
+                                                       (the cell-size) (the cell-size))
+                                        :title (format nil "Set Color for Next Matched Object(s) to Hex RGB: ~a~a~a"
+                                                       red green blue)
+                                        :onclick (the parent
+                                                   (gdl-ajax-call :function-key :set-slot!
+                                                                  :arguments (list :color (format nil "~a~a~a" red green blue))))
+                                        
+                                        ))))))))))))))))))
+
+
 
 (define-object edit-line-thickness-menu (menu-node)
   :input-slots ((label "Line Thickness")))

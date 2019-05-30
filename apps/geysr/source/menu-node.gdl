@@ -1,7 +1,8 @@
 (in-package :geysr)
 
 (define-object menu-node ()
-  :input-slots (label (title (unless (the child-nodes) "This operation is not implemented yet..."))
+  :input-slots ((label "TBD")
+		(title (unless (the child-nodes) "This operation is not implemented yet..."))
 		      (id (glisp:replace-regexp
 			   (glisp:replace-regexp
 			    (glisp:replace-regexp

@@ -982,6 +982,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:hidden-form-control
      #:object-form-control
      #:grid-form-control
+     #:email-form-control
    
      #:encode-for-ajax
      #:decode-from-ajax

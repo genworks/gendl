@@ -44,6 +44,9 @@
 (define-object geysr-bolt (assembly)
   :computed-slots ((root-object-type (read-from-string "gdl-user::bolt-test"))))
 
+(define-object geysr-glider (assembly)
+  :computed-slots ((root-object-type (read-from-string "wbl::glider"))))
+
 (defun initialize ()
   
   (let* ((directory (namestring
@@ -77,7 +80,9 @@
       
       (publish-gwl-app "/geysr-spiral" 'geysr-spiral)
 
-            (publish-gwl-app "/geysr-bolt" 'geysr-bolt)
+      (publish-gwl-app "/geysr-bolt" 'geysr-bolt)
+
+      (publish-gwl-app "/geysr-glider" 'geysr-glider)
 
 
       )))
