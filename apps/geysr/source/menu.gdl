@@ -167,8 +167,10 @@ function addVisible(event, level)
 
 (define-object edit-color-menu (menu-node)
   :input-slots ((label "Color"))
-  :objects ((color-palette :type 'color-palette)))
+  :objects (;;(color-palette :type 'color-palette)
+	    ))
 
+#+nil
 (define-object color-palette (menu-node base-ajax-sheet)
 
   :input-slots ((label (the color-chooser full-grid)))
@@ -176,6 +178,7 @@ function addVisible(event, level)
   :objects ((color-chooser :type 'color-chooser)))
 
 
+#+nil
 (define-object color-chooser ()
   :input-slots
   ((components (list "FF" "CC" "99" "66" "33" "00"))
