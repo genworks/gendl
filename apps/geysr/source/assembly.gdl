@@ -9,6 +9,18 @@
 ;;
 ;;
 
+
+#|
+
+ToDO:
+
+1. Update welcome message to reflect empty object and refer to File->New.
+
+2. Adjust spacing of tree for empty object to give enough room not to
+   obstruct File->New menu.
+
+|#
+
 (in-package :geysr)
 
 (defvar *developing?* nil)
@@ -63,13 +75,22 @@
    (use-anyresize? (not (the design-mode?)))
 
 
-   (root-object-type (read-from-string "robot:assembly") :settable)
+   (root-object-type nil :settable)
+
+   (root-object-type-valid? (and (the root-object-type)
+				 (typep (ignore-errors
+					  (find-class
+					   (ignore-errors
+					     (read-safe-string (the root-object-type)))))
+					'gdl-class)))
 
    (root-object (the root-object-object) :settable)
 
-   (root-object-object (make-object (the root-object-type)
-				    :god-parents (list self)
-				    :strings-for-display (format nil "~s" (the root-object-type))))
+   (root-object-object
+    (when (the root-object-type-valid?)
+      (make-object (the root-object-type)
+		   :god-parents (list self)
+		   :strings-for-display (format nil "~s" (the root-object-type)))))
 
    (additional-header-content
     (with-cl-who-string ()
@@ -234,6 +255,17 @@
 
    :functions
    (
+    (set-new-geysr-object!
+     (object-type)
+     (let ((type (ignore-errors (read-safe-string object-type))))
+       ;;
+       ;; FLAG -- throw an error (which gets displayed) if an invalid
+       ;; object type is entered.
+       ;;
+       (when (and type (typep (find-class type) 'gdl-class))
+	 (the viewport clear!)
+	 (the (set-slot! :root-object-type type)))))
+     
     ;;
     ;; FLAG -- change this to accept the actual single menu object in
     ;; question, then compute a list of it and its parents' ids up

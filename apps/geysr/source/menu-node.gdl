@@ -3,16 +3,16 @@
 (define-object menu-node ()
   :input-slots ((label "TBD")
 		(title (unless (the child-nodes) "This operation is not implemented yet..."))
-		      (id (glisp:replace-regexp
-			   (glisp:replace-regexp
-			    (glisp:replace-regexp
-			     (glisp:replace-regexp
-			      (format nil "~s" (cons 'the (reverse (butlast (butlast (the root-path))))))
-			      " " "__") "\\:" "") "\\(" "") "\\)" ""))
-		      (onfocus nil)
-		      (depth (if (or (not (the parent)) (not (typep (the parent) 'menu-node)))
-				 0
-				 (1+ (the parent depth)))))
+		(id (glisp:replace-regexp
+		     (glisp:replace-regexp
+		      (glisp:replace-regexp
+		       (glisp:replace-regexp
+			(format nil "~s" (cons 'the (reverse (butlast (butlast (the root-path))))))
+			" " "__") "\\:" "") "\\(" "") "\\)" ""))
+		(onfocus nil)
+		(depth (if (or (not (the parent)) (not (typep (the parent) 'menu-node)))
+			   0
+			   (1+ (the parent depth)))))
 				 
 
   :computed-slots ((child-nodes
@@ -59,6 +59,12 @@
 					 (htm ((:span :class "menu-right-icon")
 					       ((:i :class "fas fa-caret-right"))))))
 				      (str (the-object child html))))
-				(str (the-object child html)))))))))
+				(str (the-object child html))))))))
+
+  :functions
+  ((set-new-geysr-object!
+    (object-type)
+    (the menu-object geysr (set-new-geysr-object! object-type)))))
+
 
 

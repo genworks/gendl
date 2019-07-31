@@ -269,7 +269,8 @@ x3draw();
                              hash)))))
    
    (clear! () 
-           (the (clear-display-controls!)) (the (clear-view-object-roots!)) (the (clear-view-objects!)))
+           (the (clear-display-controls!)) (the (clear-view-object-roots!))
+	   (the (clear-view-objects!)))
    
    (clear-display-controls!
     () (let ((hash (the display-controls-root-path-hash)))

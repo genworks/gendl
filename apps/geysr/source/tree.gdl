@@ -122,8 +122,11 @@ Converting to a string to avoid error."
    
    (inner-html
     (with-cl-who-string ()
-      ((:ul :id "tree-root" :class "geysr-tree") 
-       (str (the tree-node-view)))))
+      (if (the target-object)
+	  (htm ((:ul :id "tree-root" :class "geysr-tree") 
+		(str (the tree-node-view))))
+	  (htm ((:span :class "geysr-tree")
+		"No Object Instantiated")))))
    
    
    (tree-node-view
