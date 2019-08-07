@@ -3,7 +3,7 @@
 
 
              ================================================
-                               GDL1592
+                               GDL1594
              ================================================
 
 
@@ -33,9 +33,10 @@ See "Troubleshooting" below if you experience trouble starting up.
 Updating
 =========
 
-The function (update-gdl) will pull down a bootstrap file which knows
-how to fetch and install the currently available patches for this
-version of GDL. (Note: this is not yet functional in this release).
+The function (update-gdl) will load a bootstrap file which knows how
+to fetch and install the currently available patches for this version
+of GDL. (Note: You may need to request this file from
+support@genworks.com).
 
 
 Documentation
