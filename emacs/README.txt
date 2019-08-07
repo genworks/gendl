@@ -3,7 +3,7 @@
 
 
              ================================================
-                               GDL1593
+                           GDL1595 devo builds
              ================================================
 
 
@@ -14,17 +14,16 @@
 Startup
 =========
 
-After some time, you should see a "GDL-USER>" command prompt.
+After some time, you should see a "GDL-USER>" (or "gdl-user>") command
+prompt, as well as a message telling you which port is serving GDL's
+interface.
 
-A web server also starts by default on port 9000 (or the next
-available port above 9000) of the local host, which allows you to
-visit, for example:
+This will typically be port 9000, or the next available port
+above 9000. For example:
 
-  http://localhost:9000/tasty
+  http://localhost:9000/color-map
 
-If you accept the default robot:assembly, then click the hover-over
-"pencil" icon next to the robot in the tree, you should see a
-wireframe rendering of a simplified android robot.
+should display a simple color map page. 
 
 See "Troubleshooting" below if you experience trouble starting up.
 
@@ -33,9 +32,10 @@ See "Troubleshooting" below if you experience trouble starting up.
 Updating
 =========
 
-The function (update-gdl) will pull down a bootstrap file which knows
-how to fetch and install the currently available patches for this
-version of GDL. (Note: this is not yet functional in this release).
+The function (update-gdl) will load a bootstrap file which knows how
+to fetch and install the currently available patches for this version
+of GDL. (Note: you may need to request this bootstrap file from
+support@genworks.com)
 
 
 Documentation
@@ -66,7 +66,7 @@ Gnu Emacs
 ==========
 
 All things considered, Gnu Emacs is the most powerful, portable, and
-risk-free IDE (Integrated Development Environment) available for
+future-proof IDE (Integrated Development Environment) available for
 working with Lisp-based systems like GDL. Spending some time getting
 familiar with Gnu Emacs is perhaps the best small investment you can
 make.
@@ -171,23 +171,21 @@ type:
 Color Themes
 ============
 
-GDL ships with the color-theme package for Gnu emacs:
+Emacs contains the ability to load different color themes with 
+ 
+  M-x load-theme
 
-  http://emacswiki.org/emacs/ColorTheme
-
-
-You can select any of the themes from color-theme with 
-
-  M-x color-theme-select
-
-(Click on the color theme you want to select then press <Enter>).
+Press Enter, then hit [space] in response to the "Load custom theme: "
+prompt, to see a list of available themes. Click on or type (with TAB
+for completion) the color theme you want to select then press
+<Enter>).
 
 
 To set a color theme automatically, put something like the following
 at the end of your ~/.emacs-gendl :
 
 
-  (color-theme-bharadwaj)
+  (load-theme 'tango-dark)
 
 
 =========================
