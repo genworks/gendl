@@ -165,8 +165,10 @@ the value of this parameter at your own risk.")
 
 (defparameter *dxf-translation* (make-vector 0 0))
 (defparameter *raphael-translation* (make-vector 0 0))
+(defparameter *svg-translation* (make-vector 0 0))
 (glisp:define-constant +rear-vector+ (make-vector 0 1 0))
 (glisp:define-constant +top-vector+ (make-vector 0 0 1))
 
 (defparameter +lh-identity-matrix+ #2A((1.0 0.0 0.0)(0.0 -1.0 0.0)(0.0 0.0 1.0)))
 
+(defparameter *dxf-entity-id* nil)

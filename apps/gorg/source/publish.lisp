@@ -21,8 +21,13 @@
 
 (in-package :glsite)
 
-(defparameter *gorg-hosts* 
-  (list "localhost" "trusty" 
+(defparameter *gorg-hosts*
+  
+  (list "gendl.org" "www.gendl.org"
+	"gendl.com" "www.gendl.com")
+
+  #+nil
+  (list "localhost" "xenie" 
 	"gendlformacosx.com" "www.gendlformacosx.com"
 	"gendlformacos.com" "www.gendlformacos.com"
 	"gendlformacosx.org" "www.gendlformacosx.org"
@@ -36,6 +41,7 @@
 
 
 (defun initialize ()
+
 
   (let ((static (or 
 		 (when (glisp:source-pathname)
@@ -62,8 +68,15 @@
   ;;(publish-gwl-app "/" "glsite:landing")
   ;;
 
+  (publish-shared :host "gendl.org" :path "/" :object-type 'landing)
+
+  (publish-shared :path "/gorg" :object-type 'landing)
+  
+  #+nil
   (dolist (host *gorg-hosts*)
-    (publish-shared  :host host :path "/" :object-type 'landing)))
+    (publish-shared :host host :path "/" :object-type 'landing)))
+
+
   
 ;;
 ;; FLAG -- arrange to call this on production startup. 

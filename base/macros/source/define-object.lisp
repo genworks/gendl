@@ -750,7 +750,8 @@ overview of <tt>define-object</tt> syntax."
 (defun make-standard-slots ()
   `((gdl-acc::%version-tree% :accessor gdl-acc::%version-tree% :initform nil)
     (gdl-acc::%toplevel-inputs% :accessor gdl-acc::%toplevel-inputs% :initform nil :initarg :%toplevel-inputs%)
-    (gdl-acc::%root% :accessor gdl-acc::%root% :initform nil :initarg :%root%)))
+    (gdl-acc::%root% :accessor gdl-acc::%root% :initform nil :initarg :%root%)
+    (gdl-acc::%god-parents% :accessor gdl-acc::%god-parents% :initform nil :initarg :%god-parents%)))
 
 
 (defun first-symbol (list)

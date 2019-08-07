@@ -38,6 +38,7 @@
 (defun publish-statics (server)
   (let ((destination (ensure-static-relative-pathname "")))
     (when destination (publish-directory
+		       :headers (list (cons :cache-control "public, max-age=3600, must-revalidate"))
 		       :prefix "/static/"
 		       :server server
 		       :destination (namestring destination)))))
@@ -237,9 +238,15 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 #+(and ccl windows-target)
 (let (*warn-if-redefine-kernel*)
   (defun %windows-sleep (millis)
-    (dotimes (n 3)
-      (unless (typep millis '(unsigned-byte 32))
-	(setq millis (/ millis 100))))
+
+    #+nil
+    (unless (typep millis 'unsigned-byte 32)
+      (setq millis (coerce 1000000000 '(unsigned-byte 32))))
+
+    (do ((new-value (round (/ millis 10)) (round (/ millis 10))))
+	((typep millis '(unsigned-byte 32)))
+      (setq millis new-value))
+
     
     (do* ((start (floor (get-internal-real-time)
 			(floor internal-time-units-per-second 1000))

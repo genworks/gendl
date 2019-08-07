@@ -26,7 +26,7 @@
 (defun publish-tutorial (server)
   (let ((tutorial-file 
 	 (or (probe-file (merge-pathnames "../doc/tutorial.pdf" (glisp:executable-homedir-pathname)))
-	     (probe-file (merge-pathnames "gendl/documenation/tutorial/pdf/tutorial.pdf" glisp:*genworks-source-home*))
+	     (probe-file (merge-pathnames "gendl/documentation/tutorial/pdf/tutorial.pdf" glisp:*genworks-source-home*))
 	     (warn "tutorial.pdf not found in distribution doc/ directory or source documentation directory for
 publishing in tasty Help menu.~%"))))
     (when tutorial-file (publish-file :path "/tutorial.pdf"
@@ -290,13 +290,15 @@ publishing in tasty Help menu.~%"))))
                         (the blue-arrow)
                       (the selected-character-spaces)))))
 
+	 #+nil
          (:li ((:a :href "#" :onclick (the (gdl-ajax-call :function-key :set-image-format!
                                                           :arguments (list :vrml))));;:web3d))))
                (fmt "~a&nbsp;VRML" 
                     (if (eql (the viewport image-format-selector value) :vrml)
                         (the blue-arrow)
                       (the selected-character-spaces)))))
-         
+
+	 #+nil
          (:li ((:a :href "#" :onclick (the (gdl-ajax-call :function-key :set-image-format!
                                                           :arguments (list :x3d))))
                (fmt "~a&nbsp;X3D" 

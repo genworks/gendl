@@ -343,7 +343,11 @@ of this brep. Exact supported format will be documented here when ready."
                           (list (apply-make-point (svref 3d-points (third triplet)))
                                 (apply-make-point (svref 3d-points (first triplet)))))) 
                        index-triplets)))) faces)))
-   
+
+
+   ;;
+   ;; FLAG -- review this!
+   ;;
    (local-box (the bounding-box))
    
    (%native-faces% (get-faces-from-brep *geometry-kernel* (the %native-brep%)))
@@ -468,10 +472,9 @@ The function returns a NIL value if no intersection is found and T if a intersec
     (other-brep &key 
 		(tolerance (the adaptive-tolerance))
 		(angle-tolerance (radians-to-degrees *angle-tolerance-radians-default*)))
-    (or (box-intersection (the bounding-box) (the-object other-brep bounding-box))
-	(and (the (bbox-intersect? other-brep))
-	     (brep-intersect? *geometry-kernel* (the %native-brep%) (the-object other-brep %native-brep%)
-			      :tolerance tolerance :angle-tolerance angle-tolerance))))
+    (when (the (bbox-intersect? other-brep))
+      (brep-intersect? *geometry-kernel* (the %native-brep%) (the-object other-brep %native-brep%)
+		       :tolerance tolerance :angle-tolerance angle-tolerance)))
    
    (bbox-intersect? 
     (brep)
@@ -583,7 +586,9 @@ and barycenter (center of mass) for the brep. These are computed with tessellati
 which may be less precise than the analytic techniques used in precise-properties, but should
 be faster to compute and exhibit more stability.
     
-:&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"
+:&key ((edge-tess-tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed with respect to edge tessellation\")
+      ((face-tess-tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed with respect to face tessellation\")"
+
     properties 
     (&key (edge-tess-tolerance (the adaptive-tolerance))
           (face-tess-tolerance (the adaptive-tolerance)))
@@ -683,8 +688,11 @@ be faster to compute and exhibit more stability.
 :&key ((tolerance (the adaptive-tolerance)) \"Controls how precisely the properties are computed\")"
     center-of-gravity
     (&key (tolerance (the adaptive-tolerance)))
-    (scalar*vector (/ (the (volume :tolerance tolerance)))
-                   (getf (the (moments :tolerance tolerance)) :volume-static-moments)))))
+    (let ((volume (the volume :tolerance tolerance)))
+      (when (zerop volume) (error "~a is a zero-volume brep. Center-of-gravity cannot be computed.~%"
+				  (cons 'the (reverse (the root-path)))))
+      (scalar*vector (/ volume)
+                     (getf (the (moments :tolerance tolerance)) :volume-static-moments))))))
 
 
 

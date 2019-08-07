@@ -121,6 +121,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:+kappa+
            #:+phi+
            #:2pi
+	   #:add-godparent
            #:alist2plist
            #:always
            #:append-elements
@@ -139,7 +140,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:cyclic-nth
            #:decode-for-http
            #:defaulting
-           #:defcompanion
+           ;;#:defcompanion
            #:define-color-set
            #:define-colored-icon
            #:define-format
@@ -153,8 +154,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:define-skin
            #:define-view
            #:definition-tree
-           #:defpart
-           #:defwriter
+           ;;#:defpart
+           ;;#:defwriter
            #:distribute
            #:distribute-dir
            #:div
@@ -189,7 +190,7 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:keywordize-plist
            #:lastcar
            #:least
-           #:let-streams
+           ;;#:let-streams
            #:list-elements
            #:list-hash
            #:list-of-numbers
@@ -224,6 +225,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:null-part
            #:number-format
            #:number-round
+	   #:one-line
            #:peruse-file
            #:pi/2
            #:plist-keys
@@ -282,6 +284,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:version-sequence
            #:with-error-handling
            #:with-format
+	   #:with-writer
            #:with-format-slots
            #:with-oracle
            #:with-version
@@ -367,6 +370,8 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:with-definition-unit
    #:without-package-variance-warnings
    #:w-o-interrupts
+   #:with-lock-held
+   #:make-lock
    #:xref-off
    #:xref-on
 	     
@@ -442,7 +447,9 @@ If you are interested in this effort we would love to hear from you at open-sour
   (:export #:keyed-transform*vector
 	   #:with-translated-state
 	   #:raphael
+	   #:svg
 	   #:*raphael-translation*
+	   #:*svg-translation*
 	   #:make-vector
 	   #:make-point
 	   #:apply-make-point
@@ -935,7 +942,9 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:clear-instance
    
      #:with-html-form
-   
+
+     #:prepend-url-depth
+     
      #:publish-shared
      #:*publishers*
      #:publish-uris
@@ -973,6 +982,7 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:hidden-form-control
      #:object-form-control
      #:grid-form-control
+     #:email-form-control
    
      #:encode-for-ajax
      #:decode-from-ajax

@@ -383,8 +383,20 @@ You have a dependency on caffeine. Your children are your dependants.
 
 
 
+#+nil
 (defun same-tree? (obj1 obj2) (eql (gdl-acc::%root% obj1) (gdl-acc::%root% obj2)))
-    
+
+(defun same-tree? (obj1 obj2)
+     (or (eql (gdl-acc::%root% obj1) (gdl-acc::%root% obj2))
+	 (let ((root-1 (gdl-acc::%root% obj1)) (root-2 (gdl-acc::%root% obj2)))
+	   (let ((god-parents-1 (gdl-acc::%god-parents% root-1))
+		 (god-parents-2 (gdl-acc::%god-parents% root-2)))
+	     (member root-1 god-parents-2) (member root-2 god-parents-1)))))
+
+(defun add-godparent (target new)
+     (pushnew new (gdl-acc::%god-parents% target)))
+
+
 (defun merge-common-keys (plist)
 
   ;; FLAG - call recursively until no more non-standard keywords remain.
@@ -464,3 +476,6 @@ or <tt>~/genworks/gendl/emacs/glime.lisp</tt>.
 		    (if (atom val) val (keywordize-plist val))))
 	  (plist-keys plist) (plist-values plist)))
 
+
+(defun one-line (string)
+  (glisp:replace-regexp (glisp:replace-regexp string (format nil "~%") " ") "'" "\\'" ))

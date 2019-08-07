@@ -26,6 +26,15 @@
 (defparameter *external-text-format* :default)
 
 
+(defparameter *fasl-extension*
+    #+allegro excl:*fasl-default-type*
+    #+lispworks compiler:*fasl-extension-string*
+    #+sbcl sb-fasl:*fasl-file-type*
+    #+ccl (pathname-type ccl:*.fasl-pathname*)
+    #+abcl "abcl"
+    #+clisp "fas"
+    #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))
+
 #+nil
 (defparameter *external-text-format*
     #+(and mswindows allegro) (excl:crlf-base-ef :1252)
@@ -45,9 +54,10 @@
 		    (make-pathname :name nil
 				   :type nil
 				   :directory (butlast (butlast (pathname-directory base-home)))
-				   :defaults base-home))))))))
+				   :defaults base-home)))))))
+  ;;(set-genworks-source-home-if-known)
+  )
 
-(set-genworks-source-home-if-known)
 
 (defparameter *gendl-source-home* nil)
 
@@ -58,9 +68,10 @@
 	    (ignore-errors (funcall (read-from-string "asdf:system-source-directory") "gendl"))
 	  (if (typep error 'error)
 	      (warn "~&ASDF is loaded, but :base is not registered. glisp:*genworks-source-home* remains unknown and set to nil.~%")
-	      (setq *gendl-source-home* gendl-home))))))
+	      (setq *gendl-source-home* gendl-home)))))
+  ;;(set-gendl-source-home-if-known)
+  )
 
-(set-gendl-source-home-if-known)
 
 
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
@@ -260,25 +271,53 @@
 
 		    
 
+;;
+;; FLAG -- add missing options e.g. :key-or-value for LW.
+;;
 #-(or allegro lispworks sbcl ccl abcl ecl clisp) 
 (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 #+ecl (warn "Need weak-hash-tables for ECL, or we will be running out of memory in web apps.~%")
-(defun make-weak-hash-table (&rest args)
-  (apply #'make-hash-table 
-	 #+allegro :weak-keys #+allegro t
-         #+allegro :values #+allegro :weak
-         #+lispworks :weak-kind #+lispworks t
-	 #+(or sbcl abcl) :weakness #+(or sbcl abcl) :key-and-value
-	 #+clisp :weak #+clisp :key-and-value
-	 #+ccl :weak #+ccl :key #+ccl :test #+ccl #'eq
-         args))
+(defun make-weak-hash-table (&rest args &key (weakness :key-and-value) &allow-other-keys)
+  (flet ((remove-plist-key (plist key)
+	   (let (result on-remark?)
+	     (dolist (element plist (nreverse result))
+	       (cond ((eql element key)
+		      (setq on-remark? t))
+		     (on-remark?
+		      (setq on-remark? nil))
+		     (t (push element result)))))))
+    (apply #'make-hash-table 
+	   #+allegro :weak-keys #+allegro (case weakness ((:key-and-value :key)  t) (otherwise nil))
+           #+allegro :values #+allegro (case weakness
+					 ((:key-and-value :value) :weak)
+					 (otherwise (let ((values (getf args :values :missing)))
+						      (ecase values
+							(:missing t)
+							(:weak :weak)
+							('nil nil)))))
+	 
+           #+lispworks :weak-kind #+lispworks (ecase weakness
+						(:key-and-value :both)
+						(:key :key) (:value :value))
+	   #+(or sbcl abcl) :weakness #+(or sbcl abcl) (ecase weakness
+							 (:key-and-value :key-and-value)
+							 (:key :key) (:value :value))
+	   #+clisp :weak #+clisp (ecase weakness
+				   (:key-and-value :key-and-value)
+				   (:key :key) (:value :value))
+	 
+	   #+ccl :weak #+ccl (ecase weakness (:key-and-value :key) (:key :key) (:value :value)) #+ccl :test #+ccl (case weakness ((:key-and-value :key) #'eq) (otherwise #'eql))
+
+           (remove-plist-key args :weakness))))
 
 
-#-(or allegro lispworks sbcl ccl clisp) 
+#-(or allegro lispworks sbcl ccl clisp abcl) 
 (error "Need implementation for package-documentation for the currently running Lisp.~%")
 (defun package-documentation (package)
   #+(or allegro lispworks ccl clisp) (documentation (find-package package) t)
-  #+sbcl (sb-kernel:package-doc-string (find-package package)))
+  #+sbcl (sb-kernel:package-doc-string (find-package package))
+  #+abcl (format nil "Please find how to get documentation for ~a" (find-package package))
+  )
 
 
 (defun set-default-character-width ()
@@ -388,10 +427,13 @@
               (:case-insensitive-upper (string-upcase string))
               (:case-sensitive-lower string)))
 
+
+;;
+;; FLAG w-o-interrupts is deprecated and ineffective in an SMP Lisp. 
+;; glisp:w-o-interrupts becomes a simple progn currently.
+;; This must be replaced with e.g. appropriate process-locks.~%
+;;
 (defmacro w-o-interrupts (&body body)
-  (format t  "~&NOTE: w-o-interrupts is deprecated and ineffective in an SMP Lisp. 
-glisp:w-o-interrupts becomes a simple progn currently.
-This must be replaced with e.g. appropriate process-locks.~%")
   `(progn ,@body))
 
 
@@ -399,5 +441,20 @@ This must be replaced with e.g. appropriate process-locks.~%")
   `(eval-when (:compile-toplevel :load-toplevel :execute)
      (handler-bind (#+sbcl(sb-int:package-at-variance #'muffle-warning))
        ,@body)))
+
+
+;;
+;; FLAG -- fill these next two in with simple equivalent on each
+;; lisp. Don't want to depend on libraries yet.
+;;
+(defmacro with-lock-held ((lock) &body body)
+  (declare (ignore lock))
+  `(progn ,@body))
+
+(defun make-lock (name)
+  name)
+
+
+
 
 

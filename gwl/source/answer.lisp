@@ -386,8 +386,8 @@ package-qualified object name\")
           (with-http-body (req ent)))))))
 
 
-(defun publish-shared (&key path object-type host (server *wserver*)
-                       (key (make-keyword-sensitive path)))
+(defun publish-shared (&key path object-type object host (server *wserver*)
+                       (key (make-keyword-sensitive (format nil "~a_~a" host path))))
     "Void. Used to publish a site which is to have a shared toplevel instance tree,  
 and no URI rewriting (i.e. no \"/sessions/XXX/\" at the beginning of the path). So,
 this site will appear to be a normal non-dynamic site even though the pages are
@@ -405,12 +405,12 @@ being generated dynamically.
                   :host (list \"www.genworks.com\" \"ww2.genworks.com\" \"mccarthy.genworks.com\"))
   </pre>"
 
-  (let ((object (make-object (if (stringp object-type)
-                                 (read-safe-string object-type)
-                                 object-type)
-                             :instance-id key
-                             :plain-url? t
-                             :host host)))
+  (let ((object (or object (make-object (if (stringp object-type)
+					    (read-safe-string object-type)
+					    object-type)
+					:instance-id key
+					:plain-url? t
+					:host host))))
     (setf (gethash key *instance-hash-table*) (list object))
     
     (publish :path path
@@ -425,8 +425,6 @@ being generated dynamically.
                              (setf (reply-header-slot-value req :pragma) "no-cache")
                              (with-http-body (req ent)
                                (the-object object write-html-sheet))))))))
-
-
 
 
 

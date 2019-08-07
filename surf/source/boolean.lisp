@@ -347,7 +347,38 @@ and this is defaulted to t, except for merged-solid where we default this to nil
                    (operation :merge)))
   
 
+(define-object separated-solid (base-object surf::boolean-tolerance-mixin)
 
+  :documentation (:description "Given two brep solids or a brep solid and an open face represented as a brep,
+performs a split operation")
+  
+  :input-slots (brep other-brep)
+
+  :computed-slots ((any-manifold-breps? (plusp (the regioned breps number-of-elements)))
+
+		   (new-faces (remove-if #'(lambda(face) (equalp (the-object face bounding-box)
+								 (the other-brep bounding-box)))
+					 (list-elements (the merged face-breps)))))
+
+  :objects ((breps :type 'brep
+		   :sequence (:size (if (the any-manifold-breps?)
+					(the regioned breps number-of-elements)
+					(length (the new-faces))))
+		   :display-controls (append (the display-controls)
+					     (the-child built-from display-controls))
+		   :built-from (if (the any-manifold-breps?)
+				   (the regioned (breps (the-child index)))
+				   (nth (the-child index) (the new-faces)))))
+
+  :hidden-objects ((merged :type 'merged-solid
+			   :pass-down (brep other-brep approximation-tolerance))
+
+		   
+		   (regioned :type 'regioned-solid
+			     :brep (the merged))))
+
+
+#+nil
 (define-object separated-solid-2 (base-object boolean-tolerance-mixin)
 
   :input-slots (brep other-brep)
@@ -365,6 +396,7 @@ and this is defaulted to t, except for merged-solid where we default this to nil
 
 
 
+#+nil
 (define-object separated-solid (boolean-merge)
   :documentation (:description "Given two brep solids or a brep solid and an open face represented as a brep,
 performs a split operation")

@@ -448,7 +448,7 @@ The error was: ~a
           
 	  ((:div :class "inner-center ui-widget pane")
 	   ((:div :class "header ui-widget-header")"Viewport")
-	   ((:div :class "ui-widget-content")(str (the viewport main-div)))
+	   ((:div :class "ui-widget-content" :id "viewport")(str (the viewport main-div)))
 	   ((:div :class "footer ui-widget-header")
                     
 	    (str (the footer-ui-widget-header main-div))))

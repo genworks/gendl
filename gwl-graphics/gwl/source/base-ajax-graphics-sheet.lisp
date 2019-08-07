@@ -36,6 +36,8 @@ Raphael vector graphics."
   :input-slots 
   ((respondent (the bashee) :defaulting)
 
+   (empty-display-list-message nil)
+   
    ("Number. Thickness of default border around graphics viewport. 
 Default is 1." viewport-border-default 1)
    
@@ -131,10 +133,30 @@ value of the image-format-selector, which itself defaults to :raphael."
 
    (on-drop-function nil)
 
-   (on-touchmove-function nil))
+   (on-touchmove-function nil)
+
+   (viewport-js-text
+    (format nil "
+function x3draw ()
+{
+ if (x3dom.type != 'undefined') x3dom.reload(); 
+ var elem = document.getElementById('view-~(~a~)');
+ if (elem) elem.setAttribute('set_bind', 'true');
+ var x3dom1 = document.getElementById('x3dom-1');
+ if (x3dom1) xruntime= x3dom1.runtime;
+ xruntime.resetView(); 
+ }
+
+x3draw();
+
+
+"  (the view-selector value)))
+
+   )
 
   
   :computed-slots
+  
   ((js-to-eval :parse :settable)
    
    (js-always-to-eval nil)
@@ -151,7 +173,19 @@ value of the image-format-selector, which itself defaults to :raphael."
 						:background-color (the background-color)
 						:foreground-color (the foreground-color))
 			    (write-the view-object cad-output))))))
-   
+
+
+   (svg-string (if (the no-graphics?)
+		   (with-cl-who-string ()
+		     ((:div :id "empty-viewport" :class "empty-viewport")
+		      (str (the empty-display-list-message))))
+		   (with-error-handling ()
+		     (with-output-to-string (ss)
+		       (with-format (svg ss 
+					 :background-color (the background-color)
+					 :foreground-color (the foreground-color))
+			 (write-the view-object cad-output))))))
+      
    
    ("String of valid HTML. This can be used to 
 include the PNG or JPG raster-graphics of the geometry."
@@ -164,12 +198,6 @@ include the SVG or VML vector-graphics of the geometry."
     vector-graphics 
     (with-cl-who-string () (write-the vector-graphics)))
    
-   ("String of valid HTML. This can be used to 
-include the VRML or X3D graphics of the geometry."
-    web3d-graphics 
-    (with-cl-who-string () (write-the web3d-graphics)))
-   
-
    ("String of valid HTML. This can be used to 
 include the x3dom tag content for the geometry."
     x3dom-graphics 
@@ -195,14 +223,13 @@ bottom of the graphics inside a table."
     (with-cl-who-string ()
       (:table (:tr ((:td :align :center)
                     (str (ecase (the image-format-selector value)
-			   ;;((:web3d :vrml) (the web3d-graphics))
 			   (:x3dom (the x3dom-graphics))
 			   ((:png :jpeg :jpg) (the raster-graphics))
 			   (:raphael (the vector-graphics))))))
 	(when (and (member (the image-format) (list :jpeg :jpg :png :raphael ))
 		   (the include-view-controls?))
 	  (htm (:tr (:td (str (the view-controls))))))
-	(when (and (member (the image-format) (list :vrml :web3d :x3dom))
+	(when (and (member (the image-format) (list :x3dom))
 		   (the include-view-controls?))
 	  (htm (:tr (:td (str (the image-format-selector html-string))))))
 
@@ -217,7 +244,19 @@ bottom of the graphics inside a table."
 
    ("List representing GDL root-path. This is the root path of the dragged and/or dropped object. 
 This is not tested to see if it is part of the same object tree as current self."
-    dropped-object nil :settable))
+    dropped-object nil :settable)
+
+   
+
+   (viewport-script
+    (progn 
+      (the inner-html)
+      (cond ((eql (the image-format-selector value) :x3dom)
+	     (with-cl-who-string ()
+	       (:div
+		((:script :type "text/javascript")
+		 (str (the viewport-js-text))))))
+	    (t "")))))
 
 
   
@@ -228,6 +267,7 @@ This is not tested to see if it is part of the same object tree as current self.
 					      zoom-factor-renderer)
                 :page-length (the length)
                 :page-width (the width)
+		:empty-display-list-message (the empty-display-list-message)
                 :objects (the display-list-objects)
                 :object-roots (the display-list-object-roots))
 
@@ -325,6 +365,18 @@ The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>.
     (with-cl-who ()
       ((:table :border (the viewport-border-default))
        (:tr (:td (str (the graphics)))))))
+
+
+
+   (svg-vector-graphics
+    ()
+    (with-cl-who ()
+      (when (typep (the :view-object) 'null-part)
+        (error "A valid :view-object of type web-drawing is 
+required in the sheet to call the :raphael-canvas method."))
+     
+      (str (the svg-string))))
+
    
    (vector-graphics
     ()
@@ -338,11 +390,12 @@ required in the sheet to call the :raphael-canvas method."))
         (htm ((:div :id (the raphael-canvas-id)
                     :style 
                     (format nil "cursor: ~a; 
-height: ~apx;
-width: ~apx;
+/* height: ~apx;
+width: ~apx; */
 overflow:hidden; 
 clip: rect(0px ~apx ~apx 0px); 
-position: relative;
+z-index: 1;
+/* position: relative; */
 "
                             (if (the vector-graphics-onclick?)
                                 "crosshair" "arrow")
@@ -361,139 +414,76 @@ position: relative;
                          ((:td :width (the :view-object :width) :height (the :view-object :length) 
                                :align :center :valign :center)
                           (:big (:b "No Graphics Object Specified"))))))
-                (let ((raphael-string (the raphael-string)))
-                  (htm ((:script :type "text/javascript")
-                        (str raphael-string))))))))))
+
+                  (let ((raphael-string (the raphael-string)))
+                    (htm ((:script  :type "text/javascript")
+                          (str raphael-string))))))))))
    
    
    ("Void. Writes an embedded X3D tag and included content for the <tt>view-object</tt> child of this object. 
 The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>."
 
-    embedded-x3dom-world
-    (&key (include-view-controls? nil))
+	embedded-x3dom-world
+	(&key (include-view-controls? nil))
     
-    (declare (ignore include-view-controls?))
+	(declare (ignore include-view-controls?))
     
-    ;; (the (restore-slot-default! :js-to-eval))
+	;; (the (restore-slot-default! :js-to-eval))
     
-    (cl-who:with-html-output (*stream*)
+	(with-cl-who ()
       
-      (when (typep (the :view-object) 'null-part)
-	(error "A valid :view-object of type web-drawing is required in the sheet 
+	  (when (typep (the :view-object) 'null-part)
+	    (error "A valid :view-object of type web-drawing is required in the sheet 
 to call the :write-embedded-x3d-world function."))
-    
-      (cond ((the no-graphics?)
-	     #+nil
-	     (and (null (the :view-object :object-roots))
-		  (null (the :view-object :objects)))
-	     (html-stream *stream* 
-			  ((:table :cellspacing 0 :cellpadding 0 :bgcolor :white)
-			   (:tr
-			    ((:td :width (the :view-object :width) :height
-				  (the :view-object :height) :align :center :valign :center)
-			     (:big (:b "No Graphics Object Specified")))))))
-	    (t
+	  
+	  (cond ((the no-graphics?)
+		 (htm
+		  ((:div :id "empty-viewport" :class "empty-viewport")
+		   (str (the empty-display-list-message)))))
+		(t
+		 (let ((*display-controls* (the display-controls-hash)))
+		   (htm
+		    (:span
+		     ((:|X3D| :id "x3dom-1" :style "background: #d3d3d3"
+			:width (format nil "~apx" (the view-object page-width))
+			:height (format nil "~apx" (the view-object page-length))
+			)
+		      (:|Scene|
+		     
+			((:|navigationinfo| :|id| "navi" :|transitionTime| "0.0"
+			   ))
+		     
+		     
+			(with-format (x3d *stream*) 
+			  (let ((*onclick-function* (the onclick-function)))
+			    (write-the view-object cad-output))))))
+		    ;;
+		    ;; FLAG -- conditionalize this in for tasty compatibility.
+		    ;;
+		    ;;((:script) "x3dom.reload();")
 
-	     (let ((*display-controls* (the display-controls-hash)))
-	       (with-cl-who ()
-		 (:p
-		  ((:span :style "cursor: pointer;")
-		   ((:|X3D| :id "the_element"
-		      :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		      ;;:width  "100%"
-		      ;;:height  "100%"
-		      :width (format nil "~apx" (the view-object page-width))
-		      :height (format nil "~apx" (the view-object page-length))
-		      )
-		    (:|Scene|
-		      (with-format (x3d *stream*) 
-			(let ((*onclick-function* (the onclick-function)))
-			  (write-the view-object cad-output)))))))
-	
-		 ((:script :type "text/javascript")
-		  ;;"x3dom.reload(); document.getElementById('the_element').runtime.debug(true); document.getElementById('the_element').runtime.statistics(true); "
-		  "x3dom.reload(); "
-		  
-		  )
-	
-
-		 #+nil
-		 (when (the x3dom-view-controls?)
-		   (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-					  :onclick "document.getElementById('the_element').runtime.showAll();")
-				   "Show All"))))))))
+		    ))))))
 
 
-
-	    #+nil
-	    (with-cl-who ()
-	      ((:table :cellspacing 0 :cellpadding 0)
-	       (:tr
-		(:td
-		 (:p
-		  ((:|X3D| :id "the_element"
-		     :swfpath "/static/3rdpty/x3dom/x3dom.swf"
-		     :width (the view-object page-width)
-		     :height (the view-object page-length))
-		  
-		   (:|Scene|
-		     (with-format (x3d *stream*) (write-the view-object cad-output)))))
-		
-		 ((:script :type "text/javascript" 
-			   :src "/static/3rdpty/x3dom/x3dom.js" :id "xdom_script"))))
-
-	       (when (the x3dom-view-controls?)
-		 (htm (:tr (:td ((:span :style "color: blue; cursor: pointer;" 
-					:onclick "document.getElementById('the_element').runtime.showAll();")
-				 "Show All")))))))
-
-	    )))
-
-   (web3d-graphics
-    ()
-    
-    (with-cl-who ()
-      (cond ((and (null (the :view-object :object-roots)) (null (the :view-object :objects)))
-             (htm ((:table :border 1 :cellspacing 0 :cellpadding 0 :bgcolor :white)
-                   (:tr
-                    ((:td :width (the :view-object :width) :height (the :view-object :length) 
-                          :align :center :valign :center)
-                     (:big (:b "No Graphics Object Specified")))))))
-            
-            (t (let ((vrml-url (the vrml-url)))
-                 (htm ((:table :border 0 :cellspacing 0 :cellpadding 0)
-                       (:tr
-                        ((:td) ;;:bgcolor :yellow) --FLAG! -- SvdE @ 13-08-09 -- removed bgcolor to blend in with viewport
-                         ((:embed :src vrml-url :width (the view-object page-width) 
-                                  :vrml_dashboard "false"
-                                  :height (the view-object page-length))))))))))))
-   
-   
    (raster-graphics
-    ()
-    (when (typep (the :view-object) 'null-part)
-      (error "A valid :view-object of type web-drawing is 
+	()
+	(when (typep (the :view-object) 'null-part)
+	  (error "A valid :view-object of type web-drawing is 
 required in the sheet to call the :write-geometry method."))
-    (with-cl-who ()
-      (cond ((and (null (the :view-object :object-roots)) (null (the :view-object :objects)))
-             (htm ((:table :border 1 :cellspacing 0 :cellpadding 0 :bgcolor :white)
-                   (:tr
-                    ((:td :width (the :view-object :width) :height (the :view-object :length) 
-                          :align :center :valign :center)
-                     (:big (:b "No Graphics Object Specified")))))))
+	(with-cl-who ()
+	  (cond ((the no-graphics?)
+		 (htm ((:div :id "empty-viewport" :class "empty-viewport")
+		       (str (the empty-display-list-message)))))
           
-            ((typep (the image-url) 'error)
-             (the (set-slot! :view-toggle nil))
-             (write-the geometry-error))
+		((typep (the image-url) 'error)
+		 (the (set-slot! :view-toggle nil))
+		 (write-the geometry-error))
           
-            (t
-             (let ((image-url (the image-url)))
-               (htm ((:table :border 0 :cellspacing 0 :cellpadding 0)
-                     (:tr
-                      ((:td) ;;:bgcolor :yellow) --FLAG! -- SvdE @ 13-08-09 -- removed bgcolor to blend in with viewport
-                       ((:img :id "myimage"
-                              :style "cursor: crosshair;"
-                              :src image-url 
-                              :onclick (the (gdl-ajax-call :function-key :dig-point))
-                              :border 0 :width (the :view-object :page-width) 
-                              :height (the :view-object :page-length))))))))))))))
+		(t
+		 (let ((image-url (the image-url)))
+		   (htm ((:img :id "myimage"
+			       :style "cursor: crosshair;"
+			       :src image-url 
+			       :onclick (the (gdl-ajax-call :function-key :dig-point))
+			       :border 0 :width (the :view-object :page-width) 
+			       :height (the :view-object :page-length)))))))))))

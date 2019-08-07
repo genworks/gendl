@@ -1,0 +1,163 @@
+#menu
+{
+    z-index: 9;
+    font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+
+
+
+#menu >  ul
+{
+    padding: 0px 10px;
+    margin: 0;
+}
+
+
+#menu ul
+{
+    list-style: none;    
+}
+
+#menu > ul > li
+{
+    float: left;
+    position: relative;
+    padding-left: 3px; 
+    padding-right: 3px;
+    width: auto;
+    color: rgb(68, 68, 68);
+    margin-left: 0px; 
+}
+
+#menu ul ul li
+{
+    padding-left: 15px;
+    padding-right: 15px;
+    white-space: nowrap;
+}
+
+#menu ul ul li a
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#menu  ul li
+{
+    outline: none;
+}
+
+#menu a
+{
+    display: block;
+    text-decoration: none;
+    padding: 5px 5px;
+    color: rgb(68, 68, 68);
+}
+
+
+#menu >  ul ul
+{
+    position: absolute;
+    background: rgb(240, 240, 240);
+    left: 0;
+    top: 100%;
+    visibility: hidden;
+    opacity: 0.95;
+    font-size: 15px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.24); 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-left: 0px;
+}
+
+#menu > ul ul ul
+{
+    left: 100%;
+    top: -3px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#menu > ul  ul > li:last-child
+{
+    margin-bottom: 3px;
+}
+
+#menu > ul  ul > li:first-child
+{
+    margin-top: 3px;
+}
+
+
+#menu ul ul hr
+{
+    border: 1px solid rgb(201, 201, 201); 
+    margin: 0px -15px;
+    /* width: 165px; */ 
+}
+
+#menu li > ul
+{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+#menu > ul ul li
+{
+    position: relative;
+}
+
+
+#menu ul li ul li > a,
+#menu ul li ul li
+{
+    background: rgb(240, 240, 240);
+    color: rgb(68, 68, 68);
+}
+
+#menu  ul li.visible > a,
+#menu  ul li.visible,
+#menu.hoverable  ul li:hover > a,
+#menu.hoverable  ul li:hover
+{
+    color: rgb(240, 240, 240)  !important;
+    background: rgb(0, 144, 248)  !important;
+}
+
+#menu ul li ul .li-selected
+{
+    color: #407af2;
+}
+
+
+#menu ul li.visible > ul,
+#menu.hoverable ul li:hover > ul
+{
+    visibility: visible;
+}
+
+.li-heading, #menu.hoverable .li-heading:hover
+{
+    background: rgb(240, 240, 240);
+    color: rgb(68, 68, 68);
+    padding: 5px 5px;
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+.fa-check
+{
+    padding-right: 5px;
+}
+
+.menu-right-icon
+{
+    margin-left: auto;
+    padding-left: 12px;
+    transform: scale(1.8,1.0);
+}
+
+

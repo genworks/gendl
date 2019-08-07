@@ -58,7 +58,7 @@
   ((body-frame-overhang :type 'body-frame-overhang-rule
                         :chassis-front-overhang (the chassis front-overhang)
                         :body-front-overhang (the body front-overhang))
-   
+
    (chassis :type 'chassis
             :pass-down (wheelbase track turn-angle)
             :datum (the center)

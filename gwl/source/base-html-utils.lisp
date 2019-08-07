@@ -84,6 +84,15 @@ by user application code.")
                     (rest cons)))
           assoc-list))
 
+(defun assoc-list-to-plist* (assoc-list &key case-sensitive?)
+  (if (and (consp assoc-list) (consp (first assoc-list)))
+      (mapcan #'(lambda(cons)
+		  (list (if case-sensitive? (make-keyword-sensitive (first cons))
+			    (make-keyword-sensitive (first cons)))
+			(assoc-list-to-plist* (rest cons))))
+              assoc-list)
+      assoc-list))
+
 
 (defun merge-plist-duplicates (plist)
   (let ((keys (remove-duplicates (plist-keys plist))))

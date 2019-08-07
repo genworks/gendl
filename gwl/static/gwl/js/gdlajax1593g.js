@@ -108,11 +108,6 @@ function gdlAjax (evt, params, asynch)
 
   request.open('POST', url, asynch);
   request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-    //request.setRequestHeader('content-length', params.length);
-    //request.setRequestHeader('user-agent', 'Firefox3-ajax');
-    //request.setRequestHeader('connection', 'close');
-
-
 
   request.send(params);
 
@@ -156,7 +151,6 @@ function gdlUpdate (request) {
 	    
 	    if (child.getElementsByTagName('newHTML')[0].firstChild != null)
             {newHTML = child.getElementsByTagName('newHTML')[0].firstChild.nodeValue}
-	    
 
 	    var jsToEval = null;
 
@@ -165,16 +159,21 @@ function gdlUpdate (request) {
 
 	    if (myid && (newHTML != null))
             {
-		myelem = document.getElementById(myid);
+		var myelem = document.getElementById(myid);
+
 		myelem.innerHTML = newHTML;
+
 		
 		if (jsToEval && (jsToEval == 'parseme'))
 		    {
 			codes = myelem.getElementsByTagName("script");
+			
+			for (var j=0;j<codes.length;j++)
+			{
+			    var text = codes[j].text;
+			    if (text) eval(codes[j].text);
+			}}
 
-			for(var j=0;j<codes.length;j++)  
-			{   //alert(codes[j].text);
-			    eval(codes[j].text); }}
             }
 	    
 	    if (jsToEval && (jsToEval != 'parseme') && (jsToEval != ''))
@@ -295,10 +294,28 @@ function decode64(input) {
 }
 
 
+//
+// debouncing technique from https://css-tricks.com/snippets/jquery/done-resizing-event/.
+//
+// More general debouncing function here: https://davidwalsh.name/javascript-debounce-function
+//
+var resizeTimer;
 
 function gdlResize()
 {
- gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (InnerLayout.state.center.innerWidth  ) +  ' :length ' + (InnerLayout.state.center.innerHeight - 40) + ')))'));
+
+    // if  (document.getElementById('x3dom-1'))
+    // {}
+    //else
+    //{
+	      
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+    
+	gdlAjax(null, 'args=' + encode64('(:|iid| '+ doublequote + gdliid + doublequote + ' :|bashee| (:%rp% nil) :|function| :set-slot! :|arguments| (:viewport-dimensions (:width ' + (document.getElementById('viewport').getBoundingClientRect().width) +  ' :length ' + (document.getElementById('viewport').getBoundingClientRect().height) + ')))'), true );}, 250);
+
+// }
+
 }
 
 

@@ -1,2 +1,2 @@
 (".git" "apps" "base" "cl-lite" "demos" "documentation" "emacs" "geom-base" "glisp" "gwl"
- "gwl-graphics" "licenses" "patches" "program" "regression" "release-notes" "surf")
+ "gwl-graphics" "licenses" "patches" "program" "regression" "release-notes" "surf" "setup-cffi")

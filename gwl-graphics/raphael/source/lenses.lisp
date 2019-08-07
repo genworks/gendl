@@ -30,7 +30,10 @@
   :output-functions
   ((raphael-paper-def
       (&key width length)
-      (format *stream* "var paper = Raphael('~a', ~a, ~a);
+      (format *stream* "
+
+
+var paper = Raphael('~a', ~a, ~a);
 
                paper.canvas.style.backgroundColor = '~a';
 

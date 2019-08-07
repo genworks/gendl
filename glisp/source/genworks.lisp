@@ -21,14 +21,6 @@
 
 (in-package :com.genworks.lisp)
 
-(defparameter *fasl-extension*
-    #+allegro excl:*fasl-default-type*
-    #+lispworks compiler:*fasl-extension-string*
-    #+sbcl sb-fasl:*fasl-file-type*
-    #+ccl (pathname-type ccl:*.fasl-pathname*)
-    #+abcl "abcl"
-    #+clisp "fas"
-    #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))
 
 (defparameter *temporary-folder-function* #'(lambda() (merge-pathnames "tmp/" (user-homedir-pathname))))
 
@@ -36,14 +28,15 @@
 (defparameter *utf-16-ef*
   #+allegro :unicode
   #+sbcl :utf-16le
-  #+ccl :utf-16)
+  #+(or ccl abcl) :utf-16)
 
 
 #-(or allegro lispworks sbcl ccl) 
 (warn "~&Please implement concatenate-fasls for the currently running lisp.~%")
 
 ;;
-;; FLAG -- OBSOLETED by asdf/bundle:fasl-op and asdf/bundle:monolithic-fasl-op
+;; FLAG -- OBSOLETED by asdf/bundle:compile-bundle-op and asdf/bundle:monolithic-compile-bundle-op
+;;     (except for current apparent bug where it leaves out a depended-upon uiop). 
 ;;
 (defun concatenate-fasls (files dest)
   #-(or allegro lispworks sbcl ccl) (declare (ignore files dest))
@@ -278,8 +271,8 @@ The command line was: ~%~%~s~%" command result error command-line)))))
 (defun run-program (command &rest keys
 		    &key ignore-error-status force-shell
 		      (input nil inputp) (if-input-does-not-exist :error)
-		      output (if-output-exists :overwrite)
-		      (error-output nil error-output-p) (if-error-output-exists :overwrite)
+		      output (if-output-exists :supersede)
+		      (error-output nil error-output-p) (if-error-output-exists :supersede)
 		      (element-type #-clozure uiop:*default-stream-element-type* #+clozure 'character)
 		      (external-format uiop:*utf-8-external-format*)
                       &allow-other-keys)
@@ -428,17 +421,6 @@ the \"current\" error."
   )
 
 
-(defun local-port (socket)
-  (#+(or allegro zacl) socket:local-port #-(or allegro zacl) acl-compat.socket:local-port socket))
-
-
-#+nil
-(defun local-port (socket)
-  (#+allegro 
-   socket:local-port 
-   #-allegro acl-compat.socket:local-port socket))
-
-
 
 (defun match-regexp (string-or-regexp string-to-match
                      &key newlines-special case-fold return
@@ -454,20 +436,6 @@ are no longer supported by glisp:match-regexp.~%"))
 	      (cl-ppcre:scan string-or-regexp string-to-match :start start :end end-default)))
 
 
-
-#+nil
-(defun match-regexp (string-or-regexp string-to-match
-                     &key newlines-special case-fold return
-                          (start 0) end shortest)
-  (#+allegro excl:match-regexp 
-   #-allegro acl-compat.excl:match-regexp string-or-regexp string-to-match 
-   :newlines-special newlines-special 
-   :case-fold case-fold
-   :return return 
-   :start start 
-   :end end 
-   :shortest shortest))
-
 (defun patches-dir ()
   nil)
 
@@ -475,31 +443,10 @@ are no longer supported by glisp:match-regexp.~%"))
 (defun process-run-function (name-or-options preset-function &rest initial-bindings)
   (bt:make-thread preset-function :name name-or-options :initial-bindings initial-bindings))
 
-#+nil
-(defun process-run-function (name-or-options preset-function &rest args)
-  #-allegro (when args (error "args not supported for glisp:process-run-function on ~a.~%" (lisp-implementation-type)))
-  (apply #+allegro #'mp:process-run-function
-	 #-allegro #'bt:make-thread preset-function name-or-options))
-
-#+nil
-(defun process-run-function (name-or-options preset-function &rest args)
-  (apply #+allegro #'mp:process-run-function
-         #-allegro #'acl-compat.mp:process-run-function 
-         name-or-options preset-function args))
-
 (defun sexpr-from-file (pathname &optional if-does-not-exist-error?)
   (if (probe-file pathname)
       (with-open-file (in pathname) (read in))
       (when if-does-not-exist-error? (error "~&The File `~a' does not exist.~%" pathname))))
-
-
-(defun remote-host (socket)
-  #+(or allegro zacl) (socket:remote-host socket)
-  #-(or allegro zacl) (acl-compat.socket:remote-host socket))
-
-(defun local-host (socket)
-  #+(or allegro zacl) (socket:local-host socket)
-  #-(or allegro zacl) (acl-compat.socket:local-host socket))
 
 
 (defun replace-regexp (string regexp to-string)
@@ -680,15 +627,10 @@ please find implementation for the currently running lisp.~%")
   #+allegro `(progn ,@body))
 
 
-(defun with-timeout-sym ()
-  "Returns the appropriate symbol for with-timeout, for substitution within macros."
-  #+(or allegro zacl) 'sys:with-timeout
-  #-(or allegro zacl) 'acl-compat.mp:with-timeout)
 
 
-(defmacro with-timeout ((seconds &body timeout-body) &body body)
-  #+(or allegro zacl) `(sys:with-timeout (,seconds ,@timeout-body) ,@body)
-  #-(or allegro zacl) `(acl-compat.mp:with-timeout (,seconds ,@timeout-body) ,@body))
+
+
 
 
 (defmacro without-redefinition-warnings (&rest body)

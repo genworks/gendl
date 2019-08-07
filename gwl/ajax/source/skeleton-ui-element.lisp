@@ -276,10 +276,8 @@ form-controls (default of these is also nil) will be respected. Default is nil."
       (print-variables self)
       (print-messages %html-section-root-paths%))
     
-    (let ((html-sections (copy-list (the %html-section-root-paths%))))
-      (the (set-slot! :%html-section-root-paths% (pushnew (the-object section root-path)
-                                                html-sections 
-                                                :test #'equalp)
+    (let ((html-sections (reverse (copy-list (the %html-section-root-paths%)))))
+      (the (set-slot! :%html-section-root-paths% (reverse (pushnew (the-object section root-path) html-sections :test #'equalp))
                       ;;:remember? nil
 		      :warn-on-non-toplevel? nil)))
 
@@ -456,7 +454,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
    (main-div 
     ()
     (with-cl-who ()
-      ((:div :id (the dom-id) :class (the div-class))
+      ((:div  :id (the dom-id) :class (the div-class))
        (str (the  inner-html)))))))
 
 

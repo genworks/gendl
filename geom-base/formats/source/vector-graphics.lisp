@@ -26,3 +26,8 @@
 (define-format raphael (vector-graphics)
   :documentation (:author "David J Cooper Jr [Genworks]"
                   :description "Raphael is a small JavaScript library for vector graphics"))
+
+
+(define-format svg (vector-graphics)
+  :documentation (:author "David J Cooper Jr [Genworks]"
+                  :description "Direct SVG for inline inclusion in a web page or application"))

@@ -1,1 +1,1 @@
-"(:base :uiop :cl-typesetting :cl-ppcre :cl-who #-allegro :cl-base64  #-allegro :babel #-allegro :zacl)"
+"(:uiop :bordeaux-threads :cl-ppcre #+sbcl :sb-posix #-allegro :cl-base64  #-allegro :babel :base)"

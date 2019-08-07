@@ -30,7 +30,11 @@
 					:directory (butlast (pathname-directory glisp:*gdl-program-home*))
 					:defaults glisp:*gdl-program-home*))
   (setq glisp:*gendl-home* glisp:*gdl-home*)
-  (setq *quicklisp-home* (or (when (and (find-package :ql) (boundp (read-from-string "ql:*quicklisp-home*")))
+
+  (when (find-package :asdf) (funcall (read-from-string "asdf:initialize-output-translations")))
+  
+  (setq *quicklisp-home* (or (when (and (find-package :ql) (boundp (read-from-string "ql:*quicklisp-home*"))
+					(probe-file (symbol-value (read-from-string "ql:*quicklisp-home*"))))
 			       (symbol-value (read-from-string "ql:*quicklisp-home*")))
 			     (probe-file (merge-pathnames "quicklisp/" glisp:*gendl-home*))
 			     (probe-file (merge-pathnames "genworks/quicklisp/" glisp:*gendl-home*))
@@ -38,8 +42,14 @@
 			     (probe-file (merge-pathnames "genworks/quicklisp/dists/quicklisp/distinfo.txt"
 							  glisp:*gdl-home*))
 			     ))
+
+  (when (and (find-package :ql) (boundp (read-from-string "ql:*quicklisp-home*"))
+	     (not (probe-file (symbol-value (read-from-string "ql:*quicklisp-home*")))))
+    (setf (symbol-value (read-from-string "ql:*quicklisp-home*")) *quicklisp-home*))
+  
   (pushnew (make-keyword (format nil "gendl-~a" *gendl-version*)) *features*)
-  (glisp:set-genworks-source-home-if-known)
+  (glisp::set-genworks-source-home-if-known)
+  (glisp::set-gendl-source-home-if-known)
   (glisp:set-default-float-format)
   (glisp:set-defpackage-behavior)
   (glisp:set-default-package)

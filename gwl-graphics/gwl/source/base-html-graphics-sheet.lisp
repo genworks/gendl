@@ -257,7 +257,7 @@ in a <tt>main-sheet</tt> output-function in an html-format view of the object.
 Indicates the views to show in the graphics controls."
     standard-views *standard-views*)
    
-   (available-image-formats (list :png :jpeg :vrml))
+   (available-image-formats (list :png :jpeg))
    
    ("Keyword symbol. Determines the default image format. Defaults to :png"
     image-format :png :settable)
@@ -379,21 +379,28 @@ Default is <tt>:zoom-and-center</tt>"
           
             (:zoom-and-center
 
-               (when *debug?* (format t "we are on zoom-and-center...~%"))
-               
-               (when (member (the zoom-mode) (list :in :out))
+             (when *debug?* (format t "we are on zoom-and-center...~%"))
 
-                 (when *debug?* (format t "Zooming in the graphics...~%"))
+	     (when *debug?* (print-variables (the view-object width)
+					     (the view-object length)))
+
+	     (let ((out-of-bounds? (and (> x (- (the view-object width) 30))
+					(> y (- (the view-object length) 30)))))
+	       (print-variables out-of-bounds?)
+
+	       (when (and (not out-of-bounds?) (member (the zoom-mode) (list :in :out)))
+
+		 (when *debug?* (format t "Zooming in the graphics...~%"))
                
-                 (let ((zoom-factor (if (eql (the zoom-mode) :in)
-                                        (the zoom-factor)
-                                        (/ (the zoom-factor)))))
+		 (let ((zoom-factor (if (eql (the zoom-mode) :in)
+					(the zoom-factor)
+					(/ (the zoom-factor)))))
                    (the view-object 
-                     (set-slot! :user-center (make-point (get-x digitized-point)
-                                                         (get-y digitized-point))))
+			(set-slot! :user-center (make-point (get-x digitized-point)
+                                                            (get-y digitized-point))))
                    (the view-object 
-                     (set-slot! :user-scale 
-                                (* (the view-object user-scale) zoom-factor)))))))))))
+			(set-slot! :user-scale 
+                                   (* (the view-object user-scale) zoom-factor))))))))))))
    
    
    ("Void. Process the points selected by digitizing in the graphics. You can override this 

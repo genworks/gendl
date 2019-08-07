@@ -28,7 +28,9 @@
 extra parentheses around the message in the reference chain and using the index number. But the aggregate itself also supports certain
 messages, documented here. One message, <tt>number-of-elements</tt>, is not listed in the normal messages section because it is 
 internal. It can be used, and returns an integer representing the cardinality of the aggregate.")
-
+    :input-slots
+    ((remember-children? nil))
+    
     :computed-slots
     ((index nil)
 

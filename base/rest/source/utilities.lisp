@@ -641,13 +641,7 @@ CL \"fround\" function.
                 
                 
 (defmethod evaluate-object ((category t) args)
-  (cons (if (consp category)
-	    (evaluate-object (first category) (rest category))
-	    category)
-	(mapcar #'(lambda(arg)
-		    (if (consp arg)
-			(evaluate-object (first arg) (rest arg))
-			arg)) args)))
+  nil)
 
 
 (defun iso-8601-date (universal-time &key include-time?)
@@ -959,12 +953,15 @@ toplevel inputs as specified in the snapshot file.
         (min-max-search function comparison mid high tolerance verbose?)))))
 
 
-(defun binary-search (function value low high &optional (tolerance *zero-epsilon*) verbose?)
+(defun binary-search (function value low high &key
+						(tolerance *zero-epsilon*)
+						(search-granularity *zero-epsilon*)
+						verbose?)
 
   
   (when verbose? (print-variables high low))
   
-  (if (near-to?  high low tolerance)
+  (if (near-to?  high low search-granularity)
       (progn (warn "binary search did not converge, returning best guess")
              high)
     (let* ((mid (half (+ low high)))
@@ -973,8 +970,16 @@ toplevel inputs as specified in the snapshot file.
       (print-variables mid mid-value)
       
       (cond ((near-to? mid-value value tolerance) mid)
-            ((> mid-value value) (binary-search function value low mid tolerance verbose?))
-            ((< mid-value value) (binary-search function value mid high tolerance verbose?))))))
+            ((> mid-value value) (binary-search function value low mid
+						:tolerance tolerance
+						:search-granularity search-granularity
+						:verbose? verbose?))
+            ((< mid-value value) (binary-search function value mid high
+						:tolerance tolerance
+						:search-granularity search-granularity
+						:verbose? verbose?))))))
+
+						
 
 
 

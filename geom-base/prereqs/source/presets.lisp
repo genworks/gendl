@@ -1,5 +1,5 @@
 (in-package :geom-base)
-
+ 
 ;;
 ;; FLAG --- need to use asdf around-compile method (or something like
 ;; it) to set these only temporarily.

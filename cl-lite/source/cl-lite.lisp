@@ -136,7 +136,12 @@ given as keyword args to this function)."
                          (string< (file-namestring x) (file-namestring y)))))
      (local-name (lastcar (pathname-directory (or (the ppathname) (the pathname)))))
      (subdir-pathnames (mapcar #'pathname-directory
-                               (remove-if-not #'glisp:file-directory-p (the contents)))))
+                               (remove-if-not #'glisp:file-directory-p (the contents))))
+
+
+
+
+     )
 
     :trickle-down-slots
     (device)
@@ -150,6 +155,37 @@ given as keyword args to this function)."
                          :directory (nth (the-child :index) (the :subdir-pathnames)))
 	      :pass-down (dry-run?)
               :parameters (the :additional-parameters)))))
+
+
+(defun asd-generator (pathname)
+  (the-object (make-object 'asd-generator :pathname pathname) generate-all!))
+    
+(define-object asd-generator (directory-node)
+
+  :computed-slots
+  ((local-asd-files
+    (remove-if-not #'(lambda(item) (string-equal (pathname-type item) "asd"))
+		   (the contents)))
+     
+   (all-asd-files (apply #'append (the local-asd-files)
+			 (mapsend (the subdirs) :all-asd-files)))
+
+
+   (directories-in-need (mapcar #'(lambda(asd-file)
+				    (make-pathname :defaults asd-file
+						   :name nil :type nil))
+				(the all-asd-files)))
+
+   (subdir-type 'asd-generator))
+
+
+  :functions
+  ((generate-all!
+    ()
+    (dolist (directory (the directories-in-need))
+      (cl-lite directory :create-asd-file? t)))))
+
+
 
 
 (define-object codebase-directory-node (directory-node)
@@ -237,6 +273,9 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 
   :computed-slots
   (
+   
+
+   
    (strings-for-display (let ((string (enough-namestring (the pathname) (the pathname-root))))
 			  (if (string-equal string "")
 			      (string-append (lastcar (pathname-directory (the pathname))) "/")

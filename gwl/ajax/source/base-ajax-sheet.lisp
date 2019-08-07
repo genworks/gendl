@@ -25,6 +25,10 @@
 
 (defmacro w-c-w-s ((&rest args) &rest body) `(with-cl-who-string ,args ,@body))
 
+(defun prepend-url-depth (string depth)
+  (string-append (format nil "~v@{~A~:*~}" depth "../") string))
+
+
 (define-object base-ajax-sheet (base-html-sheet)
   :documentation (:description "(Note: this documentation will be moved
 to the specific docs for the html-format/base-ajax-sheet lens, when 
@@ -152,7 +156,12 @@ but which you can fill in your own specific lens to do something useful for the 
 
 </pre>")
 
-  :input-slots (("String of HTML. The main body of the page. 
+  :input-slots ((local-assets? t)
+
+		(url-depth 0)
+
+
+		("String of HTML. The main body of the page. 
 This can be specified as input or overridden in subclass, otherwise it defaults
 to the content produced by the :output-function of the same name 
 in the applicable lens for  html-format."
@@ -170,20 +179,29 @@ Default is nil."
 		("String of Javascript or nil. This Javascript will go into the :onpageshow event of the body.
 Default is nil."
 		 body-onpageshow nil)
+
+		("String of Javascript or nil. This Javascript will go into the :onresize event of the body.
+Default is nil."
+		 body-onresize nil)
                 
                 ("String or nil. Contains the string for the doctype at the top of the document. 
 Default is the standard doctype for HTML5 and later."
 
                  doctype-string "<!DOCTYPE HTML>")
-                
+
+		(use-ajax? t ) ;; of course because this is base-ajax-sheet. But we can override if needed. 
+		
                 ("Boolean. Include jquery javascript libraries in the page header? 
 Default nil."  
                  use-jquery? nil :settable)
                 
                 (use-raphael? nil)
-
+		(use-svgpanzoom? nil)
 		(use-x3dom? nil)
+		(use-fontawesome? nil)
+		(use-anyresize? nil)
 
+		
 		(include-default-favicon? t)
 
                 
@@ -229,60 +247,137 @@ interface. Defaults to nil."
 		    development-links
                     (with-cl-who-string () (write-the development-links))))
 
-  :functions ((back-link 
-               (&key (display-string "&lt;-Back"))
-               (w-c-w-s 
-                () 
-                ((:a :href (the return-object url)) (str display-string))))
-              
-              (update-root! () 
-                            (unpublish-instance-urls (the instance-id) (the url))
-                            (the root update!)
-                            (the url)
-                            )
+  :hidden-objects
+  ((standard-javascript-section
+    :type 'sheet-section
+    :js-to-eval :parse
+    :inner-html
+    (with-cl-who-string (:indent t)
+      (when (the use-jquery?)
+	(htm 
+	 ((:script :src "/static/3rdpty/jquery/js/jquery.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/superfish.min.js"))
+	 ((:script :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
+      
+      
+      (when (the use-x3dom?)
+	(htm ((:script :src (if (the local-assets?)
+				"/static/3rdpty/x3dom/x3dom.js"
+				"https://www.x3dom.org/download/1.7.2/x3dom.js")
+		       :id "x3dom_script"))
+	     #+nil
+	     ((:link :href (if (the local-assets?)
+			       "/static/3rdpty/x3dom/x3dom.css"
+			       "https://www.x3dom.org/download/1.7.2/x3dom.css")
+		     :rel "stylesheet"))))
 
-              (reset-html-sections! 
-               ()
-               ;;(the (restore-slot-default! :%html-sections%))
-               )
-              
-              (self-link 
-               (&key (display-string (the strings-for-display))
-                     (display-color nil)
-                     (target nil)
-                     (title nil)
-                     class id
-                     on-click
-                     on-mouse-over on-mouse-out
-                     local-anchor)
-               (with-cl-who-string () 
-                 (write-the (self-link 
-                             :display-string display-string
-                             :display-color display-color
-                             :target target 
-                             :title title
-                             :class class
-                             :id id
-                             :on-click on-click
-                             :on-mouse-over on-mouse-over
-                             :on-mouse-out on-mouse-out
-                             :local-anchor local-anchor))))
-              
-              (set-self () 
-                        (if *break-on-set-self?*
-                            (progn (set-self self)
-                                   (let ((*package* (symbol-package (the type)))) (break)))
-                          (progn
-                            (set-self self))))
 
-	      ("Void. This is a hook function which applications can use to restore automatically 
+      (when (the use-raphael?)
+	(htm ((:script
+	       :id "raphael-script"
+	       :src (if (the local-assets?)
+			"/static/3rdpty/raphael/js/raphael-min.js"
+			"https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js")))))
+
+
+      (when (the use-svgpanzoom?)
+	(htm ((:script
+	       :id "svg-panzoom"
+	       :src (if (the local-assets?)
+			"/static/3rdpty/svgpanzoom/svg-pan-zoom.min.js"
+			"https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js")))))
+			   
+
+      (when (the use-fontawesome?)
+	(htm ((:link :id "fontawesome-css"
+		     :rel "stylesheet"
+		     :href (if (the local-assets?)
+			       "/static/3rdpty/fa/css/all.min.css"
+			       "https://use.fontawesome.com/releases/v5.3.1/css/all.css")
+		     :integrity (unless (the local-assets?)
+				  "sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU")
+		     :crossorigin "anonymous"))))
+
+      (when (the use-anyresize?)
+	(htm ((:script :id "anyresize-script"
+		       :src (if (the local-assets?)
+				"/static/3rdpty/resize/any-resize-event.js"
+				"https://is.gd/sAeEPt")))))
+
+      (when (the use-ajax?)
+	(htm
+	 ((:script) (fmt "~%var gdliid = '~a';" (the instance-id)))
+	 
+	 ((:script :src (if (the local-assets?)
+			    "/static/gwl/js/gdlajax1593g.js"
+			    "https://genworks.com/static/gwl/js/gdlajax1593g.js")))))
+      
+      (when (the ui-specific-layout-js)
+	(htm
+	 ((:script :type "text/javascript"
+		   :src (the ui-specific-layout-js))))))))
+  
+
+   :functions ((prepend-url-depth
+		(string)
+		(prepend-url-depth string (the url-depth)))
+
+	       (back-link 
+		(&key (display-string "&lt;-Back"))
+		(w-c-w-s 
+                 () 
+                 ((:a :href (the return-object url)) (str display-string))))
+              
+               (update-root! () 
+                             (unpublish-instance-urls (the instance-id) (the url))
+                             (the root update!)
+                             (the url)
+                             )
+
+               (reset-html-sections! 
+		()
+		;;(the (restore-slot-default! :%html-sections%))
+		)
+              
+               (self-link 
+		(&key (display-string (the strings-for-display))
+                      (display-color nil)
+                      (target nil)
+                      (title nil)
+                      class id
+                      on-click
+                      on-mouse-over on-mouse-out
+                      local-anchor)
+		(with-cl-who-string () 
+                  (write-the (self-link 
+                              :display-string display-string
+                              :display-color display-color
+                              :target target 
+                              :title title
+                              :class class
+                              :id id
+                              :on-click on-click
+                              :on-mouse-over on-mouse-over
+                              :on-mouse-out on-mouse-out
+                              :local-anchor local-anchor))))
+              
+               (set-self () 
+                         (if *break-on-set-self?*
+                             (progn (set-self self)
+                                    (let ((*package* (symbol-package (the type)))) (break)))
+                             (progn
+                               (set-self self))))
+
+	       ("Void. This is a hook function which applications can use to restore automatically 
 from a saved snapshot file."
-	       custom-snap-restore!
-	       ()
+		custom-snap-restore!
+		()
 
-	       )
+		)
 
-	      ))
+	       ))
 
 
 (define-lens (html-format base-ajax-sheet)()
@@ -298,13 +393,14 @@ from a saved snapshot file."
 	      (when (the include-default-favicon?)
 		(htm (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")))
               (when (the additional-header-content) (str (the additional-header-content)))
-              (write-the standard-javascript)
+              (str (the standard-javascript-section main-div))
               (when (the additional-header-js-content)
                 (str (the additional-header-js-content))))
        
        ((:body :class (the body-class)
 	       :onpageshow (the body-onpageshow)
-               :onload (the body-onload))
+               :onload (the body-onload)
+	       :onresize (the body-onresize))
         (the reset-html-sections!)
 
         (str (the main-sheet-body))
@@ -359,7 +455,7 @@ from a saved snapshot file."
     ()
     (with-cl-who ()
       ((:span :style "color: blue; cursor: pointer;"
-              :onclick (string-append (the (gdl-sjax-call :function-key :update-root!))
+              :onclick (string-append (the (gdl-ajax-call :function-key :update-root!))
                                       " location.reload(true);"
                                       ))
        "Update!")))
@@ -369,49 +465,7 @@ from a saved snapshot file."
    (main-sheet-body
     ()
     (with-html-output (*stream*)
-      "No Body has been defined."))
-   
-   
-   (standard-javascript 
-    ()
-    (with-cl-who (:indent t)
-      (when (the use-jquery?)
-        (htm 
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery.min.js"))
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery-ui.min.js"))
-         ((:script :type "text/javascript"
-                   :src "/static/3rdpty/jquery/js/jquery.layout.min.js"))
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/superfish.min.js"))
-         ((:script :type "text/javascript" 
-                   :src "/static/3rdpty/jquery/js/jquery.bgiframe.js"))))
-      
-      
-      (when (the use-x3dom?)
-        (htm ((:script :type "text/javascript" 
-                       :src 
-		       (if *x3dom-dev?*
-			   "/static/3rdpty/x3dom/x3dom-dev.js"
-			   "/static/3rdpty/x3dom/x3dom.js")
-		       :id "x3dom_script"))))
-
-      (when (the use-raphael?)
-        (htm ((:script :type "text/javascript" 
-                       :src "/static/3rdpty/raphael/js/raphael-min.js"
-		       ))))
-      
-      ((:script :type "text/javascript"
-                :src "/static/gwl/js/gdlajax1590.js"))
-      
-      ((:script :type "text/javascript")
-       (fmt "~%var gdliid = '~a';" (the instance-id)))
-      
-      (when (the ui-specific-layout-js)
-        (htm
-         ((:script :type "text/javascript"
-                   :src (the ui-specific-layout-js)))))))))
+      "No Body has been defined."))))
 
 
 

@@ -23,7 +23,6 @@
 
 (defparameter *fixed-scale?* nil)
 
-(defparameter *dxf-entity-id* nil)
 
 (eval-when (compile load eval) (export '*fixed-scale?*))
 
@@ -36,7 +35,10 @@
     (:pdf `(pdf:with-saved-state (pdf:translate (get-x ,center) (get-y ,center)) ,@body))
     (:dxf `(let ((*dxf-translation* (add-vectors (subseq ,center 0 2)  *dxf-translation*)))
 	     ,@body))
-    (:raphael `(let ((*raphael-translation* (add-vectors (subseq ,center 0 2)  *raphael-translation*))) ,@body))))
+    (:raphael `(let ((*raphael-translation* (add-vectors (subseq ,center 0 2)  *raphael-translation*))) ,@body))
+    (:svg `(let ((*svg-translation* (add-vectors (subseq ,center 0 2)  *svg-translation*))) ,@body))
+
+    ))
              
 
 (define-lens (pdf base-drawing)()
@@ -72,12 +74,6 @@
                               (pdf:end-path-no-op))
                             (with-translated-state (:pdf  (make-point (- (get-x view-center)) (- (get-y view-center))))
                               (write-the-object child-view cad-output)))))) (the views))))))))
-
-(define-lens (dxf base-drawing)()
-  :output-functions
-  ((cad-output ()
-	       (let ((*dxf-entity-id* 107))
-		 (mapc #'(lambda(view) (write-the-object view cad-output)) (the views))))))
 
 
 (define-lens (pdf base-view)()
@@ -116,6 +112,17 @@
     
     (set-format-slot view nil))))
     
+
+
+
+
+
+(define-lens (dxf base-drawing)()
+  :output-functions
+  ((cad-output ()
+	       (let ((*dxf-entity-id* 107))
+		 (mapc #'(lambda(view) (write-the-object view cad-output)) (the views))))))
+
 
 
 (define-lens (dxf base-view)()

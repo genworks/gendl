@@ -57,4 +57,4 @@
 		)))
 
 
-;;(register-test-definition 'separated-solid-test)
+(register-test-definition 'separated-solid-test)

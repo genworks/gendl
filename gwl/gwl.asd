@@ -4,8 +4,8 @@
  "The Gendl® Generative Web Language (GWL)" :author
  "Dave Cooper, Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20170802" :depends-on
- (:bordeaux-threads :drakma :glisp #+zacl :aserve #-zacl :paserve :yason)
+ :version "20181023" :depends-on
+ ( #+(or ccl sbcl allegro) :zaserve  #-(or ccl sbcl allegro) :paserve :cl-who :yason :glisp)
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8
@@ -19,15 +19,15 @@
   (:file "source/accessories") (:file "source/gdl-remote")
   (:file "source/vanilla-remote") (:file "source/base64-utils")
   (:file "source/color-palette") (:file "source/crawler")
-  (:file "source/log-utils") (:file "source/new-urls")
+  (:file "source/genworks") (:file "source/new-urls")
   (:file "source/publish") (:file "source/remote-object")
   (:file "source/security-check-failed")
   (:file "form-elements/source/grid-form-element")
   (:file "form-elements/source/macros")
   (:file "form-elements/source/primitives")
-  (:file "ajax/source/parameters") (:file "ajax/source/ajax")
-  (:file "ajax/source/base-ajax-sheet")
+  (:file "ajax/source/parameters")
   (:file "ajax/source/skeleton-ui-element")
+  (:file "ajax/source/ajax") (:file "ajax/source/base-ajax-sheet")
   (:file "gwl-session/source/parameters")
   (:file "gwl-session/source/cleanup")
   (:file "gwl-session/source/functions")

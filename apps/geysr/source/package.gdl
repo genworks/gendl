@@ -1,0 +1,20 @@
+;;
+;; Copyright (c) 2003, 2010 Genworks International, Bloomfield Hills,
+;; MI, USA and Genworks BV, Delft, The Netherlands. The software, data
+;; and information contained herein are proprietary to, and comprise
+;; valuable trade secrets of, Genworks International and Genworks BV.
+;; They are given in confidence pursuant to a written
+;; nondisclosure/noncompete license agreement, and may be stored and
+;; used only in accordance with the terms of such license.
+;;
+;;
+
+
+(in-package :gdl-user)
+
+
+(gwl:define-package :geysr
+    (:export #:assembly #:viewport #:inspector #:status-object #:menu-section 
+	     #:*internal-keywords* #:*suppress-%%-messages?* #:*suppress-$$-messages?*
+	     #:initialize))
+

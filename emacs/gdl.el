@@ -53,18 +53,8 @@
 
 
 ;; 3.2. Set up color-theme and solarized color-themes
-;;(setq calendar-latitude 42.58 calendar-longitude -83.3 calendar-location-name "Detroit")
-;;(setq sunrise-sunset (sunrise-sunset))
-;; FLAG -- figure out how to use this information with (current-time) to pick a light or dark color-theme. 
-(add-to-list 'load-path (concat *gendl-home* "emacs/emacs-color-theme")) 
-(require 'color-theme)
-(color-theme-initialize)
-;;(color-theme-subtle-hacker)
-;;(color-theme-high-contrast)
-;;(color-theme-taming-mr-arneson)
-(color-theme-sitaramv-solaris)
-;;(color-theme-feng-shui)
 
+(load-theme 'tango-dark)
 
 ;; 3.3. Indents
 
@@ -133,11 +123,11 @@
 ;; 4.1. Some synonyms
 
 (defun gendl (&optional exe) (interactive) 
-  (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
-  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-  (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
-  (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
-  (with-temp-buffer (cd *gendl-home*) (slime exe)))
+       ;;(add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+       ;;(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
+       ;;(add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
+       ;;(add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+       (with-temp-buffer (cd *gendl-home*) (slime exe)))
 
 (defun gdl () (interactive) (gendl 'gdl))
 (defun agdl8 () (interactive) (gendl 'agdl8))
@@ -188,11 +178,17 @@
 
 (eval-after-load "slime"
   '(progn
-    (slime-setup '(slime-fancy slime-banner slime-tramp))
-    (add-hook 'slime-connected-hook 'set-slime-shortcuts)
-    (add-hook 'slime-connected-hook 'customise-slime)
-    (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
-    (add-hook 'slime-connected-hook 'load-user-emacs-glime)))
+     
+     (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
+     (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
+     (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
+     (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+     
+     (slime-setup '(slime-fancy slime-banner slime-tramp))
+     (add-hook 'slime-connected-hook 'set-slime-shortcuts)
+     (add-hook 'slime-connected-hook 'customise-slime)
+     (add-hook 'slime-repl-mode-hook 'remove-dos-eol)
+     (add-hook 'slime-connected-hook 'load-user-emacs-glime)))
 
 
 

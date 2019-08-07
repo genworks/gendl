@@ -48,7 +48,15 @@ to the src/ directory distributed with GDL.
    (torso-type 'box :settable)
    (height 10 :settable)
    (head-angle 0 :settable)
+
    (body-angle 20 :settable)
+   #+nil
+   (body-angle (let ((angle (or (parse-integer (progn ;;(format t "~&Enter a number for body angle: ~%")
+						      (let ((data (read-line)))
+							(print-variables data)
+							data)) :junk-allowed t) 20)))
+		 (print-variables angle)
+		 angle) :settable)
    (arm-angle-right 0 :settable)
    (arm-angle-left 0 :settable)
    (pincer-distance-right (number-round (* .15 3/5 (the width)) 3) :settable)
@@ -205,7 +213,7 @@ to the src/ directory distributed with GDL.
 
   :objects
   ((base :type 'robot-base
-         :display-controls (merge-display-controls (list :color :blue-sky))
+         :display-controls (merge-display-controls (list :color :orange))
          :height (* (the height) 0.4)
          :width (* (the width) 0.2)
          :length (* (the length) 0.2)
@@ -239,6 +247,7 @@ to the src/ directory distributed with GDL.
           :height (* (the :height) 0.85)
           :width (* (the :width) 0.7)
           :radius (half (the-child width))
+	  :display-controls (merge-display-controls (list :transparency 0 :color :blue))
           :center (translate (the :center) 
                              :down (- (half (the :height)) 
                                       (half (the-child :height)))))

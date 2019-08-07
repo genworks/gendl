@@ -224,7 +224,11 @@
 		 :radius 19
 		 :inner-radius 7
 		 :display-controls (list :color "#333333"  :shininess 0.6 :specular-color "#999999"
-					 :drag-controls :drag-and-drop
+					 ;;
+					 ;; FLAG put back in when we have drag-and-drop in Raphael again -
+					 ;;  drag-and-drop is commented out in modern-site now. 
+					 ;;
+					 ;;:drag-controls :drag-and-drop
 					 )
 		 )
    
@@ -247,15 +251,18 @@
 		:radius 19
 		:inner-radius 7)
    
-
    (rule-ackermann :type 'rule-ackermann
 		   :ackermann-data (list :left (getf (the ackermann-data) :left)
 					 :right (getf (the ackermann-data) :right))
 		   :ackermann-data-ideal (list :left (getf (the ackermann-data) :left)
-					       :right (getf (the ackermann-data) :ideal-right))))
+					       :right (getf (the ackermann-data) :ideal-right)))
+   
+   )
 
   :hidden-objects
-  ((knuckles-straight 
+  (
+
+   (knuckles-straight 
     :type 'knuckle
     :sequence (:size 2)
     :center (the (:axles 0) (:kingpins (the-child :index)) :center)

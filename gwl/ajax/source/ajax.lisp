@@ -136,8 +136,8 @@
                          (when string (ignore-errors (parse-integer string)))))
 
 	  (js-to-eval-previi (mapcar #'(lambda(section)
-					   (the-object section js-to-eval))
-				       (the-object respondent html-sections))))
+					 (the-object section js-to-eval))
+				     (the-object respondent html-sections))))
       
       (let ((f-e-p (make-object 'form-element-processor 
                                 :bashee bashee 
@@ -155,10 +155,13 @@
       (when (and respondent (the-object respondent root) 
                  (typep (the-object respondent root) 'session-control-mixin))
         (the-object respondent root (set-expires-at)))
+
       
-      (when (and respondent (the-object respondent root) 
-                 (the-object respondent root (set-time-last-touched!))))
-      
+      (when (and respondent (the-object respondent root)
+		 (typep (the-object respondent root) 'session-control-mixin))
+        (the-object respondent root (set-time-last-touched!)))
+
+      #+nil ;; FLAG -- add this back when cleaning up remote-objects.
       (when (and respondent (the-object respondent root) 
                  (the-object respondent root (set-remote-host! req))))
       
@@ -215,7 +218,12 @@
 
   :computed-slots 
   ((security-ok? (the respondent root do-security-check))
-   (replace-lists (mapsend (the html-sections) :replace-list))
+
+   (html-sections-stale (remove-if-not #'(lambda(object) (the-object object stale?))
+				       (list-elements (the html-sections))))
+   
+   (replace-lists (mapsend (the html-sections-stale) :replace-list))
+   
    (html-section-objects (the respondent html-sections))
    (mismatch? (< (length (the js-to-eval-previi)) (length (the replace-lists)))))
 
@@ -241,26 +249,30 @@
 	  (when *debug?* (print-variables (socket:remote-host (net.aserve:request-socket (the req)))))
 	  
 	  (:document
-	     (mapc #'(lambda(replace-pair js-to-eval-status)
-		       (declare (ignore js-to-eval-status)) ;; this can play into the flag
-		       (destructuring-bind (&key dom-id inner-html js-to-eval) replace-pair
-			 (let ((js-to-eval? (and js-to-eval (not (string-equal js-to-eval "")))))
-			   (when (or inner-html js-to-eval?)
-			     (htm
-			      (:html-section (:|replaceId| (str dom-id))
-					     (:|newHTML| (str (if inner-html
-								  (wrap-cdata (if (the security-ok?) inner-html
-										  (with-cl-who-string ()
-										    (:i "Security Error")))) "")))
-					     (:|jsToEval| (str (if (and js-to-eval? (the security-ok?))
-								   (wrap-cdata js-to-eval) "")))))))))
-		   (the replace-lists) (the js-to-eval-previi)))))))))
+	   (mapc #'(lambda(replace-pair js-to-eval-status)
+
+		     (declare (ignore js-to-eval-status)) ;; this can play into the flag
+
+		     (when *debug?* (print-variables (base64-decode-safe (getf replace-pair :dom-id))))
+		     (destructuring-bind (&key dom-id inner-html js-to-eval) replace-pair
+		       (let ((js-to-eval? (and js-to-eval (not (string-equal js-to-eval "")))))
+			 (when (or inner-html js-to-eval?)
+			   (htm
+			    (:html-section (:|replaceId| (str dom-id))
+					   (:|newHTML| (str (if inner-html
+								(wrap-cdata (if (the security-ok?) inner-html
+										(with-cl-who-string ()
+										  (:i "Security Error")))) "")))
+					   (:|jsToEval| (str (if (and js-to-eval? (the security-ok?))
+								 (wrap-cdata js-to-eval) "")))))))))
+		 (the replace-lists) (the js-to-eval-previi)))))))))
 
 
 (define-object html-replacement-section ()
   :input-slots (section js-to-eval-previous)
   :computed-slots ((status (the section (slot-status :inner-html)))
 		   (js-status (the section (slot-status :js-to-eval)))
+		   
 		   (stale? (or (eql (the status) :unbound)
 			       (eql (the js-status) :unbound)))
 
@@ -294,8 +306,9 @@ You can reload to get previous state" *ajax-timeout*))
 		    (progn
 
 		      (when *debug?* (print-variables (the stale?) (the section root-path)))
+		      ;;(print-variables (the section root-path))
 		      
-		      (when (the stale?)
+		      (when t ;; (the stale?) ;; already filtering for stale? before calling now.
 			(list :dom-id (the dom-id)
 			      :inner-html (the inner-html)
 			      :js-to-eval (the js-to-eval)))))))

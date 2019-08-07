@@ -131,7 +131,7 @@ application-mixin, you can include one object of this type in the ui-display-lis
 from the base-ajax-graphics-sheet and based on its root-path, but can be specified manually
 if you are making a web-drawing on your own. Defaults (in the standalone case) to \"RaphaelCanvas\"" 
     raphael-canvas-id "RaphaelCanvas")
-   
+
    ("3D vector. This is the normal vector of the view plane onto which to project the 3D objects. Defaults to (getf *standard-views* :top)."
     projection-vector (getf *standard-views* :top)) 
    

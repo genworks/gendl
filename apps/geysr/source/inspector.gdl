@@ -1,0 +1,511 @@
+;;
+;; Copyright (c) 2003, 2010 Genworks International, Bloomfield Hills,
+;; MI, USA. The software, data and information contained herein are
+;; proprietary to, and comprise valuable trade secrets of, Genworks
+;; International and Genworks BV.  They are given in confidence
+;; pursuant to a written nondisclosure/noncompete license agreement,
+;; and may be stored and used only in accordance with the terms of
+;; such license.
+;;
+;;
+
+(in-package :geysr)
+
+
+(define-object inspector (sheet-section)
+
+
+  :input-slots
+  ((node-root-path nil :settable)
+   onclick-function
+   (design-mode? nil)
+   root-object
+   tree-toplevel
+   geysr colors-default tree-type tree-node  
+   display-controls-hash
+   click-mode
+   (relative-font-size "-1")
+   
+   
+   (node (when (the root-object) (the root-object (follow-root-path (the node-root-path)))))
+
+   (expand? (< (the depth) 1) :settable)
+   (depth 0)
+   
+   )
+
+  :computed-slots
+  (   
+   
+   (show-settables? nil :settable)
+   
+
+   (messages-local (set-difference (the node (message-list :message-type :local))
+                                   (append (the node (message-list :message-type :local 
+                                                                   :category :methods))
+                                           (the node (message-list :message-type :local
+                                                                   :category :uncached-attributes)))))
+   (messages (safe-sort
+              (remove-if
+               #'(lambda (keyword)
+                   (or (member keyword *internal-keywords*)
+		       (and *suppress-$$-messages?*
+			    (let ((string (string keyword)))
+                              (and
+                               (> (length string) 2) (string-equal (subseq string 0 2) "$$"))))
+                       (and *suppress-%%-messages?*
+                            (let ((string (string keyword)))
+                              (and
+                               (> (length string) 2)
+			       (and (eql (aref string 0) #\%)
+				    (or (eql (aref string 1) #\%)
+					(eql
+					 (aref string (1- (length string)))
+					 #\%))))))))
+               (set-difference (the :node (:message-list))
+                               (append (the
+                                           :node
+                                           (:message-list :category :methods))
+                                       (the :node (:message-list
+                                                   :category
+                                                   :uncached-attributes)))))
+              #'string<))
+   
+   
+   (check-links nil :settable))
+
+  
+  :hidden-objects
+  ((values :type 'value-inspector 
+           :depth (1+ (the depth))
+           :sequence (:size (length (the messages)))
+           :respondent (the respondent)
+           :message (nth (the-child index) (the messages))
+           :parent-node (the node)
+           :pass-down (design-mode?
+                       geysr root-object
+                       tree-toplevel colors-default 
+                       tree-type tree-node display-controls-hash
+		       onclick-function
+                       click-mode  relative-font-size))
+
+   
+   (settables-form :type 'settables-form
+                   :pass-down (show-settables? node geysr design-mode?)))
+
+  
+  :functions
+  (   
+   (visit-definition-in-emacs
+    (definition)
+    (declare (ignore definition))
+    (error "Sorry! This is supposed to do 'lisp-find-definition' in emacs, but not working yet... Please send email to support@genworks.com"))
+
+   
+   #+nil
+   (visit-definition-in-emacs
+    (definition)
+    (let ((emacs-lisp-command (format nil "(fi:lisp-find-definition ~s)" definition)))
+      (print-variables emacs-lisp-command)
+      #+allegro (lep::eval-in-emacs emacs-lisp-command)))
+    
+
+   #+nil
+   (perform-action!
+    (object)
+    (the geysr (perform-action! object)))
+   
+   (message-evaluate 
+    (message) 
+    ;;
+    ;; FLAG -- note we have to bash the view-toggle because no bashing
+    ;; is actually happening when we evaluate the message, so the view
+    ;; does not update by itself.
+    ;;
+    ;;(the toggle-view-toggle!) 
+    
+    (the (set-slot! :expand? t))
+    
+    
+    (with-error-handling () (the node (evaluate message)))
+    
+    #+nil
+    (multiple-value-bind (value error) (ignore-errors (the node (evaluate message)))
+      (let* ((error? (and error (typep error 'error))) 
+             (value (if  error? (format nil "ERROR: ~a" error) value)))
+                         
+        (when error? (the node (set-slot! message value))))))
+   
+   (set-object! (object) (the (set-slot! :node-root-path (the-object object root-path))))))
+
+
+(define-lens (html-format inspector)()
+  
+  :output-functions
+  ((inner-html
+    ()
+    (with-cl-who ()
+      (if (the node) 
+          (write-the inspector-body)
+        (htm "No Object Instantiated"))))
+   
+   
+   (inspector-body
+    ()
+    (with-cl-who ()
+      
+      (:center
+       ((:span :style "font-style: italic; font-weight: bold;")
+        (:p "Inspecting: " 
+	    (fmt "\"~a\"" (the node strings-for-display))
+	    :br 
+	    "root-path: "
+            (esc (format nil "~s" 
+                         (cons 'the (reverse (butlast (the node-root-path))))))
+            (unless (butlast (the node-root-path))
+              (htm " [the root object]"))
+	    :br
+	    " type:  " ((:span :style "color: blue; cursor: pointer;" 
+			       :onclick (unless (the design-mode?)
+					  (the (gdl-ajax-call :function-key :visit-definition-in-emacs
+							      :arguments (list (format nil "~s" (the node type)))))))
+			(esc (format nil "~s" (the node type)))))))
+      
+      ((:table :class "inspector-table" :border 1)
+       (:tr (:td "Settables") (:td (str (the settables-form control-view))))
+       
+       
+       (when (the settables-form show-settables?)
+         (htm (:tr ((:td :colspan 2)
+                    (str (the settables-form inner-html))))))
+
+
+       (let ((count -1))
+         (dolist (value-inspector (list-elements (the values)))
+           (let ((message (the-object value-inspector message)))
+             (incf count)
+             (htm (:tr
+                    ((:td :class "i-t-m") (str (the-object value-inspector message)))
+                    ((:td :class "i-t-v")
+                     ;;
+                     ;; FLAG -- push everything to do with node into value-inspector
+                     ;;
+                     (let ((slot-status (if (the expand?) 
+                                            (the node (slot-status message)) :unbound)))
+                       (case slot-status
+                         (:unbound
+                          (htm ((:span :class "i-t-v-click"
+                                       :onclick (unless (the design-mode?)
+						  (the (gdl-ajax-call 
+							:function-key :message-evaluate
+							:arguments (list message)))))
+                                "Unbound")))
+			 
+                         (otherwise
+			  (str (the-object value-inspector value-display))))))))))))))))
+
+(define-object value-inspector (inspector)
+  
+  :input-slots ((message nil)
+                parent-node
+                root-object
+                geysr
+                click-mode
+		onclick-function
+		design-mode?
+		(value (with-error-handling ()
+			 (the parent-node (evaluate (the message))))))
+  
+  :computed-slots 
+  (
+
+   (value-root-path (cons (the message) (the parent-node root-path)))
+
+
+   (value-type (if (the 3d-vector?)
+                   :gdl-3d-point
+		   (typecase  (the value)
+			 (list (when (consp (the value)) :list))
+			 (gdl::quantification :gdl-sequence)
+			 (gdl::gdl-basis (when (eql (the value root) (the node root)) :gdl-atom)))))
+
+
+   (value-cardinality (case (the value-type)
+                        (:list (length (the value)))
+                        (:gdl-sequence (the value number-of-elements))
+                        (otherwise 0)))
+
+   (truncated-sequence (unless (zerop (the value-cardinality))
+                         (with-output-to-string (ss)
+                           (let ((*print-length* 3))
+                             (pprint (the value) ss)))))
+                   
+   (expanded? nil :settable)
+
+   (clickable? (and (not (the expanded?))
+                    (or (member (the value-type)
+                                (list :list :gdl-sequence :gdl-atom))
+                        (and (eql (the value-type)
+				  :gdl-3d-point)
+                             (member (the click-mode)
+                                     (list :add-leaves
+                                           :add-leaves*
+                                           :add-node
+                                           :draw-leaves
+                                           :draw-node
+                                           :delete-leaves))))))
+
+   (3d-vector? (and (typep (the value) 'vector)
+                    (= (length (the value)) 3)
+                    (every #'floatp (the value))))
+                   
+   (value-display 
+
+    (with-error-handling ()
+      (let* ((value  (the value))
+             (gdl-object?
+	      (or (eql (class-of (class-of value))
+		       (find-class 'gdl-class))
+		  (let ((printed (with-output-to-string (ss)
+				   (print-object value ss))))
+		    (and (>= (length printed) 2)
+			 (eql (aref printed 0) #\#)
+			 (eql (aref printed 1) #\<))))))
+
+	(with-cl-who-string ()
+          ((:span
+
+	    :class (if (the clickable?)
+		       "i-t-v-click" "i-t-v-unclick")
+
+            :onclick
+	    (unless (the design-mode?)
+	      (case (the value-type)
+		(:gdl-atom (the onclick-function))
+
+		((:list :gdl-sequence)
+		 (unless (the expanded?)
+                   (the (gdl-ajax-call
+			 :function-key :set-slot!
+			 :arguments (list :expanded? t))))))))
+           (cond ((or (eql (the value-type) :list)
+                      (eql (the value-type) :gdl-sequence))
+                  (if (the expanded?)
+                      (htm ((:table :border 1)
+                            (:tr 
+                             (:td ((:span :style "color: blue; cursor: pointer;"
+                                          :onclick (unless (the design-mode?)
+						     (the (gdl-ajax-call
+                                                           :function-key :set-slot!
+                                                           :arguments (list :expanded? nil)))))
+                                   "X"))
+                             (:td (str
+                                   (ecase (the value-type)
+                                     (:list "A List")
+                                     (:gdl-sequence "A GDL Sequence")))))
+                            (let ((index -1))
+                              (dolist (row (list-elements (the sequence-elements)))
+				(htm (:tr (:td (str (incf index)))
+                                          (:td (str (the-object row value-display)))))))))
+                      (htm (:pre (esc (the truncated-sequence))))))
+                 (gdl-object? (htm (esc (format nil "~s" value))))
+
+		 ((eql (the value-type) :gdl-3d-point)
+                  (htm (esc (format nil "~s" value))))
+		 
+                 (t (htm (esc (format nil "~s" value)))))))))))
+    
+
+  :objects (
+            (sequence-elements :type 'value-inspector
+                               :sequence (:size (the value-cardinality))
+                               :pass-down (root-object geysr click-mode onclick-function design-mode?) 
+                               :value  (the (get-value-element (the-child index)))))
+
+  :functions
+  ((get-value-element
+    (index)
+    (case (the value-type)
+      (:list (nth index (the value)))
+      (:gdl-sequence (the value (get-member index)))))))
+
+(define-object settables-form (base-html-sheet)
+  
+  :input-slots
+  (show-settables? node geysr design-mode?)
+  
+  
+  :computed-slots
+  ((settables 
+    (let (settables) 
+      (maphash #'(lambda(key val)(declare (ignore val)) 
+                        (push key settables)) 
+               (the node %settable-slots%))
+      (nconc settables (the node (message-list :category :required-input-slots)))               
+      (sort (remove-if
+             #'(lambda (keyword)
+                 (or (member keyword *internal-keywords*)
+                     (and *suppress-%%-messages?*
+                          (let ((string (string keyword)))
+                            (or (and (> (length string) 2) 
+                                     (string-equal (subseq string 0 2) "$$"))
+                                (and (eql (aref string 0) #\%)
+                                     (or (eql (aref string 1) #\%)
+                                         (eql
+                                          (aref string (1- (length string)))
+                                          #\%))))))
+                               
+                     (let ((value (with-error-handling ()
+                                    (the node (evaluate keyword)))))
+                       (or (eql (class-of (class-of value)) (find-class 'gdl-class))
+                           (and (consp value) 
+                                (some #'(lambda(item) (eql (class-of (class-of item)) 
+                                                           (find-class 'gdl-class)))
+                                      value))))))
+             settables) #'string<)))
+   
+   (respondent (the geysr))
+   
+   
+   (control-view (with-cl-who-string ()
+                   ((:span :style "cursor: pointer; color: blue; font-style: oblique;"
+                           :onclick (unless (the design-mode?)
+				      (the (gdl-ajax-call
+					    ;;:respondent (the geysr)
+                                            :bashee self
+                                            :function-key :set-slot!
+                                            :arguments (list :show-settables? (not (the show-settables?)))))))
+                    (if (the show-settables?) (htm "X") (htm "Show Settables!")))))
+   
+   (form-fields-hash (let ((ht (make-hash-table)))
+                       (dolist (form-field (list-elements (the form-fields)) ht)
+                         (setf (gethash  (the-object form-field field-name) ht) form-field)))))
+
+  
+  :hidden-objects ((reset-buttons :type 'button-form-control
+                                  :sequence (:size (length (the settables)))
+                                  :label "R"
+                                  :onclick (unless (the design-mode?)
+					     (the (gdl-ajax-call 
+                                                   :function-key :restore-default-values! 
+                                                   :arguments (list (the (form-fields (the-child index)) 
+									 keyword))))))
+                   
+                   (submit-fields-button :type 'button-form-control
+                                         :label " OK "
+                                         :onclick nil)
+                   
+                   (form-fields :type 'text-form-control
+				:pseudo-inputs (keyword)
+                                :sequence (:size (length (the settables)))
+                                ;;
+                                ;; FLAG -- precompute this in a slot, and allow for unbound until clicked.                         ;;
+                                :size (length (format nil "~s" (the-child default)))
+                                
+                                :validation-function
+                                #'(lambda(value)
+                                    (progn
+                                      (the node (set-slot-if-needed! 
+                                                 (the-child keyword) value :infer-types? nil))
+
+				      ;;(the geysr refresh-tasty-panes!)
+				      
+                                      t))
+
+                                ;;
+                                ;; FLAG -- Comment this out to disable ajax submittal
+                                ;;
+                                :ajax-submit-on-change? t
+				;;:ajax-submit-on-enter? t
+
+                                :domain :pass-thru
+                                :keyword (nth (the-child index)(the settables))
+                                :default (with-error-handling () 
+                                           (the node (evaluate (the-child keyword))))
+                                :prompt (the-child keyword)))
+  
+  :functions ((restore-default-values!
+               (message-keyword)
+               (the node (restore-slot-default! message-keyword))
+               ;;
+               ;; FLAG -- this seems to be unecessary -- why?
+               ;;
+               (the-object (gethash message-keyword (the form-fields-hash)) 
+                           (restore-slot-default! :value)))))
+
+
+(define-lens (html-format settables-form)()
+  :output-functions
+  ((inner-html
+    ()
+    (with-cl-who ()
+      (when (the show-settables?) 
+	(htm
+          ((:table :class "inspector-table")
+           (mapc #'(lambda(form-control reset-button)
+                     (let ((message (the-object form-control keyword)))
+                       (let ((remarks (the node (message-remarks message))))
+                         (htm (:tr (:td (str (the-object reset-button form-control-string))
+                                        ((:td :bgcolor :yellow) 
+                                         (if (null remarks) 
+                                             (htm (:b (str message)))
+                                           (htm ((:span :style "cursor: arrow;" 
+                                                        :title (one-line (second remarks)))
+                                                 (:b (str message))))))
+                                        (:td (str (the-object form-control form-control-string)))
+                                        ))))))
+                 (list-elements (the form-fields)) (list-elements (the reset-buttons))))
+          
+          (:p (str (the submit-fields-button form-control-string)))))))))
+
+
+(define-object viewable-link (base-html-sheet)
+  :input-slots (node message)
+  
+  :computed-slots ((strings-for-display (format nil "~a" (the message))))
+  
+  :functions
+  ((before-present!
+    ()
+    (with-error-handling () (the node (evaluate (the message)))))))
+
+(define-lens (html-format viewable-link)()
+  :output-functions
+  ((main-sheet () (write-the return-object main-sheet))))
+
+
+
+(define-object switch-viewables (base-html-sheet)
+
+  :input-slots
+  (return-object)
+  
+  :computed-slots
+  ((show-viewables? nil :settable)
+   (strings-for-display (if (the show-viewables?) "X" "Uncached Slots")))
+  
+  :functions
+  ((before-present! () (the (set-slot! :show-viewables? (not (the show-viewables?)))))))
+
+
+(define-lens (html-format switch-viewables)()
+  :output-functions
+  ((main-sheet () (write-the return-object main-sheet))))
+
+
+;;
+;; Test object to get form-controls working for readable Lisp objects
+;;
+
+#+nil
+(define-object sample-form (base-ajax-sheet)
+
+  :computed-slots
+  ((main-sheet-body (with-cl-who-string ()
+                      (str (the item-1 html-string)))))
+  
+  :objects
+  ((item-1 :type 'text-form-control
+           :ajax-submit-on-change? t
+           :domain :symbol
+           :default "hey now")))

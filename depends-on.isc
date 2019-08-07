@@ -1,1 +1,1 @@
-"(:bordeaux-threads :uiop :babel #-allegro :quri #-allegro :zacl :cl-lite :gwl-graphics :tasty :robot :yadd)"
+(:gwl-graphics :tasty #+nil :geysr :robot :yadd :cl-lite)
