@@ -236,11 +236,13 @@ This must be specified by user code, or an error will result."
                                                       (string 
                                                        (if (null (the index)) 
                                                            (make-keyword (the %name%))
-                                                         (make-keyword (format nil "~a#~a" (the %name%) (the index))))) "-" " ")))
+                                                           (make-keyword (format nil "~a#~a" (the %name%) (the index))))) "-" " ")))
    
    ("Boolean. Regardless of :domain, if this is non-nil, nil values will be accepted. Defaults to t if (the default) is nil, 
 otherwise defaults to nil."
     allow-nil? (null (the default)))
+
+   (email? nil)
    
    ("Boolean. If non-nil, then values which fail the type or validation test will still be allowed to be the value. Default is t."
     allow-invalid? t)
