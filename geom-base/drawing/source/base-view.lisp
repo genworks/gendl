@@ -645,7 +645,3 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
              snap-to *nominal-z-vector*)))
 
 
-
-
-
-
