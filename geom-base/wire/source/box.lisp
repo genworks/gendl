@@ -95,7 +95,20 @@ messages as base-object, which knows how to output itself in various formats."
           (z (get-z point)))
       (and (> (get-x (the (face-center :left))) x (get-x (the (face-center :right))))
            (> (get-y (the (face-center :front))) y (get-y (the (face-center :rear))))
-           (> (get-z (the (face-center :bottom))) z (get-z (the (face-center :top)))))))))
+           (> (get-z (the (face-center :bottom))) z (get-z (the (face-center :top)))))))
+
+   ("3d-point."
+    closest-vertex (point)
+		   (least #'(lambda(vertex)
+			      (3d-distance vertex point))
+			  (list (the (:vertex :top :right :rear))
+				(the (:vertex :top :left :rear))
+				(the (:vertex :top :right :front))
+				(the (:vertex :top :left :front))
+				(the (:vertex :bottom :right :rear))
+				(the (:vertex :bottom :left :rear))
+				(the (:vertex :bottom :right :front))
+				(the (:vertex :bottom :left :front)))))))
 
 
 

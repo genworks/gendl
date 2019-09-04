@@ -21,7 +21,7 @@
 
 (in-package :geom-base)
 
-(define-object global-polygon-projection (base-object ifs-output-mixin)
+(define-object global-polygon-projection (ifs-output-mixin base-object)
   
   :documentation (:description "A polygon ``extruded'' for a given distance along a single vector.
 For planar polygons, the projection vector must not be orthogonal to the normal of the plane of
@@ -79,6 +79,8 @@ each direction.</li>
   ((polygon-type 'global-polyline)
    
    (%renderer-info% (list :vrml? t :view-default :trimetric))
+
+   (crease-angle 0)
    
    (%lines-to-draw% (append 
                      (the :polygon-original :%lines-to-draw%)
@@ -102,17 +104,37 @@ each direction.</li>
    
    (polygon-2-effective (if (typep (the polygon-2) (the polygon-type))
                             (the polygon-2) (the polygon-original)))
-   
-   (polygons-for-ifs (cons (the polygon-1 vertex-list)
-                           (append
-                            (mapcar #'(lambda(p1-v1 p1-v2 p2-v1 p2-v2)
-                                        (list  p1-v1 p1-v2 p2-v2 p2-v1))
-                                    (the polygon-1 vertex-list)
-                                    (rest (the polygon-1 vertex-list))
-                                    (the polygon-2-effective vertex-list)
-                                    (rest (the polygon-2-effective vertex-list)))
-                           
-                            (list (the polygon-2-effective vertex-list))))))
+
+   (%vertex-array% (make-array (twice (length (the polygon-original vertex-list)))
+			       :initial-contents
+			       (append (the polygon-1 vertex-list)
+				       (the polygon-2-effective vertex-list))))
+
+   (%line-vertex-indices%
+    (let* ((num-of-vertices (length (the polygon-original vertex-list)))
+	   (poly-1-indices (list-of-numbers 0 (1- num-of-vertices)))
+	   (poly-2-indices (list-of-numbers num-of-vertices
+					    (1- (twice num-of-vertices)))))
+      (append (mapcar #'list
+		      poly-1-indices (append (rest poly-1-indices) (list (first poly-1-indices))))
+	      (mapcar #'list
+		      poly-2-indices
+		      (append (rest poly-2-indices) (list (first poly-2-indices))))
+	      (mapcar #'list
+		      poly-1-indices poly-2-indices))))
+
+   ;;
+   ;; FLAG -- figure out proper normals for these.
+   ;;
+   (polygons-for-ifs
+    (let ((p1-list (the polygon-1 vertex-list))
+	  (p2-list (the polygon-2-effective vertex-list)))
+      (cons (butlast p1-list)
+	    (append
+	     (mapcar #'(lambda(p1-v1 p1-v2 p2-v1 p2-v2)
+			 (list  p1-v1 p1-v2 p2-v2 p2-v1))
+		     p1-list (rest p1-list) p2-list (rest p2-list))
+	     (list (butlast p2-list)))))))
   
   :hidden-objects
   ((polygon-original :type (the :polygon-type)
@@ -142,11 +164,12 @@ each direction.</li>
                                    (the :polygon-original :vertex-list)))))
 
 
-
 (define-object ifs-output-mixin ()
   
   :input-slots
-  (polygons-for-ifs)
+  (polygons-for-ifs
+
+   (crease-angle (half pi)))
   
   :computed-slots
   ((ifs-vertex-ht (when (the polygons-for-ifs)
