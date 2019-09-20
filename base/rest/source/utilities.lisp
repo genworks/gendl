@@ -641,6 +641,7 @@ CL \"fround\" function.
                 
                 
 (defmethod evaluate-object ((category t) args)
+  (declare (ignore args))
   nil)
 
 
@@ -1008,7 +1009,7 @@ toplevel inputs as specified in the snapshot file.
   ;;
   (when (and self message)
     (let ((aggregate  (gdl-acc::%aggregate% (first notify-cons))))
-      (when (and (consp aggregate)
+      (when (and (consp aggregate) (first aggregate)
 		 (not (consp (gdl-acc::%aggregate% self))))
 	(let ((agg (first aggregate)))
 	  (if agg

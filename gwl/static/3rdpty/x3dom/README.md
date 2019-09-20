@@ -1,7 +1,7 @@
 Welcome to X3DOM 
 ================
 X3DOM is a framework for integrating and manipulating (X)3D scenes as HTML5
-DOM elements, which are rendered via an X3D plugin, Flash/Stage3D or WebGL.
+DOM elements, which are rendered via WebGL without additional plugins.
 The open-source system allows defining 3D scene description and runtime
 behavior declaratively, without any low-level JavaScript or GLSL coding.
 
@@ -10,13 +10,16 @@ Getting started
 ---------------
 Please have a look at the official documentation in order to get started:
 
-http://doc.x3dom.org
+https://doc.x3dom.org (or https://x3dom-dev.surge.sh/latest/doc for doc. development)
 
+https://doc.x3dom.org/tutorials/basics/hello/index.html (https://x3dom-dev.surge.sh/latest/doc/tutorials/basics/hello/index.html) describes a minimal starter scene.
+
+https://www.x3dom.org/download (or https://x3dom-dev.surge.sh/latest/ for latest development) serves various versions of the x3dom framework. 
 
 Need help?
 ----------
-If you want to use X3DOM and seek help and exchange of knowledge, please use
-the x3dom-users mailing list or the forums. Beginner questions usually have
+If you want to use X3DOM and seek help or sharing of knowledge, please use
+the [x3dom-users][] mailing list or the forums. Beginner questions usually have
 been asked already and in many cases the mailinglist or forum archives provide
 quick answers to many questions.
 
@@ -27,10 +30,13 @@ succinctly.
 
 Mailing List
 -------------
-Please use the mailinglists as much as you can. The 
+Please use the mailing lists as much as you can. The 
 [x3dom-users][] list is the one you are most likely interested in 
 and the first address for help or questions.
 
+Chat [![](https://badges.gitter.im/x3dom/LOBBY.svg)](https://gitter.im/x3dom/LOBBY?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+---
+There is a [gitter chat room](https://gitter.im/x3dom/LOBBY) for realtime, ephemeral interaction if preferred.
 
 Issue Tracker
 -------------

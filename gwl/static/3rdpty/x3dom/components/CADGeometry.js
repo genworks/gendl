@@ -1,4 +1,4 @@
-/** X3DOM Runtime, http://www.x3dom.org/ 1.7.2 - 61a235203deb34329fe615cbbf21314db6ebf49f - Mon Dec 19 19:17:05 2016 +0100 */
+/** X3DOM Runtime, http://www.x3dom.org/ 1.8.0 - 4c48cbddc8c7e1cbaa5d09fdd152934ec60fc7b8 - Wed Jul 24 14:56:37 2019 +0200 */
 x3dom.registerNodeType("IndexedQuadSet","CADGeometry",defineClass(x3dom.nodeTypes.X3DComposedGeometryNode,function(ctx){x3dom.nodeTypes.IndexedQuadSet.superClass.call(this,ctx);this.addField_MFInt32(ctx,'index',[]);},{nodeChanged:function()
 {var time0=new Date().getTime();this.handleAttribs();var colPerVert=this._vf.colorPerVertex;var normPerVert=this._vf.normalPerVertex;var indexes=this._vf.index;var hasNormal=false,hasTexCoord=false,hasColor=false;var positions,normals,texCoords,colors;var coordNode=this._cf.coord.node;x3dom.debug.assert(coordNode);positions=coordNode._vf.point;var normalNode=this._cf.normal.node;if(normalNode){hasNormal=true;normals=normalNode._vf.vector;}
 else{hasNormal=false;}
@@ -28,7 +28,7 @@ if(fieldName=="coord")
 {this._mesh._positions[0]=pnts.toGL();this.invalidateVolume();Array.forEach(this._parentNodes,function(node){node._dirty.positions=true;node.invalidateVolume();});}
 else if(fieldName=="color")
 {pnts=this._cf.color.node._vf.color;if(this._vf.colorPerVertex){this._mesh._colors[0]=pnts.toGL();}else if(!this._vf.colorPerVertex){var faceCnt=0;var numColComponents=3;if(x3dom.isa(this._cf.color.node,x3dom.nodeTypes.ColorRGBA)){numColComponents=4;}
-this._mesh._colors[0]=[];var indexes=this._vf.index;for(i=0;i<indexes.length;++i)
+this._mesh._colors[0]=[];var i,indexes=this._vf.index;for(i=0;i<indexes.length;++i)
 {if((i>0)&&(i%3===0)){faceCnt++;}
 this._mesh._colors[0].push(pnts[faceCnt].r);this._mesh._colors[0].push(pnts[faceCnt].g);this._mesh._colors[0].push(pnts[faceCnt].b);if(numColComponents===4){this._mesh._colors[0].push(pnts[faceCnt].a);}}}
 Array.forEach(this._parentNodes,function(node){node._dirty.colors=true;});}
@@ -70,7 +70,7 @@ if(fieldName=="coord")
 {this._mesh._positions[0]=pnts.toGL();this.invalidateVolume();Array.forEach(this._parentNodes,function(node){node._dirty.positions=true;node.invalidateVolume();});}
 else if(fieldName=="color")
 {pnts=this._cf.color.node._vf.color;if(this._vf.colorPerVertex){this._mesh._colors[0]=pnts.toGL();}else if(!this._vf.colorPerVertex){var faceCnt=0;var numColComponents=3;if(x3dom.isa(this._cf.color.node,x3dom.nodeTypes.ColorRGBA)){numColComponents=4;}
-this._mesh._colors[0]=[];var indexes=this._vf.index;for(i=0;i<indexes.length;++i)
+this._mesh._colors[0]=[];var i,indexes=this._vf.index;for(i=0;i<indexes.length;++i)
 {if((i>0)&&(i%3===0)){faceCnt++;}
 this._mesh._colors[0].push(pnts[faceCnt].r);this._mesh._colors[0].push(pnts[faceCnt].g);this._mesh._colors[0].push(pnts[faceCnt].b);if(numColComponents===4){this._mesh._colors[0].push(pnts[faceCnt].a);}}}
 Array.forEach(this._parentNodes,function(node){node._dirty.colors=true;});}
