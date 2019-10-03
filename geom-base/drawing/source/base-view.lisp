@@ -403,7 +403,7 @@ the box should be facing. Defaults to <tt>*nominal-y-vector*</tt>."
                        (the projection-vector) (the view-transform)
                        :snap-to (the snap-to))))))
 
-
+ 
 
 (define-object view-object-cache ()
   :input-slots

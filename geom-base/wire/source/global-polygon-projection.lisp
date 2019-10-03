@@ -105,10 +105,14 @@ each direction.</li>
    (polygon-2-effective (if (typep (the polygon-2) (the polygon-type))
                             (the polygon-2) (the polygon-original)))
 
-   (%vertex-array% (make-array (twice (length (the polygon-original vertex-list)))
-			       :initial-contents
-			       (append (the polygon-1 vertex-list)
-				       (the polygon-2-effective vertex-list))))
+   
+   (%vertex-array% (let ((curve-pts (flatten-curves (the %curves-to-draw%))))
+		     (make-array (+ (twice (length (the polygon-original vertex-list)))
+				    (length curve-pts))
+				 :initial-contents
+				 (append (the polygon-1 vertex-list)
+					 (the polygon-2-effective vertex-list)
+					 curve-pts))))
 
    (%line-vertex-indices%
     (let* ((num-of-vertices (length (the polygon-original vertex-list)))
@@ -122,7 +126,7 @@ each direction.</li>
 		      (append (rest poly-2-indices) (list (first poly-2-indices))))
 	      (mapcar #'list
 		      poly-1-indices poly-2-indices))))
-
+   
    ;;
    ;; FLAG -- figure out proper normals for these.
    ;;

@@ -33,3 +33,5 @@ system-index.txt
 # Ignore objects and archives.
 # *.[oa]
 
+documentation/tutorial/images/example*
+documentation/tutorial/pdf

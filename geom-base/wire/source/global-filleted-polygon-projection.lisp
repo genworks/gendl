@@ -66,7 +66,7 @@ as with global-filleted-polygon."
   ((polygon-type 'global-filleted-polyline)
 
    (crease-angle (half pi))
-   
+
    (%curves-to-draw% (append (the :polygon-original :%curves-to-draw%)
                              (the :polygon-1 :%curves-to-draw%)
                              (when (typep (the :polygon-2) (the :polygon-type))
