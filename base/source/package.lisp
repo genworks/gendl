@@ -270,6 +270,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:the-child
            #:the-element
            #:the-object
+	   #:theo
            #:to-double-float
            #:to-single-float
            #:traverse-tree

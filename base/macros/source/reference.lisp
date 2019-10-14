@@ -103,6 +103,8 @@ set of arms contained in the body which is contained in the robot which is conta
                        ,@(rest reference-chain))))
       object))
 
+(defmacro theo (object &rest reference-chain)
+  `(the-object ,object ,@reference-chain))
 
 
 (defmacro the-child (&rest reference-chain)
