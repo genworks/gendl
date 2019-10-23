@@ -1,8 +1,8 @@
                                                                         S      1
-1H,,1H;,28H/Users/dcooper8/tmp/g2151686,28H/Users/dcooper8/tmp/g2151686,G      1
-23HHarmonyWare Translators,23HHarmonyWare IGES v2.0.5,32,38,6,308,15,,  G      2
-1.,1,2HIN,1,1.,15H20181010.133000,1.D-6,20.7712135760006,,,11,0,15H20181G      3
-010.133000;                                                             G      4
+1H,,1H;,24H/home/dcooper8/tmp/g2264,24H/home/dcooper8/tmp/g2264,23HHarmoG      1
+nyWare Translators,23HHarmonyWare IGES v2.1.4,32,38,6,308,15,,1.,1,2HIN,G      2
+1,1.,15H20191021.202735,1.D-6,20.7712135760006,,,11,0,15H20191021.202735G      3
+;                                                                       G      4
      502       1       0       0       0       0       0       000010000D      1
      502       0       0     442       1                               0D      2
      110     443       0       0       0       0       0       000010000D      3

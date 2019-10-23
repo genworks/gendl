@@ -217,6 +217,8 @@
          (when (find-package :gwl) (funcall (read-from-string \"gwl:announce-server-port\"))))" *gendl-home*))
 
 
+;;(setq gdl-startup-string "")
+
 ;;
 ;; DAP -- user can also setq this in ~/.emacs-gdl
 ;;
