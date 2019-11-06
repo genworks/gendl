@@ -1,2 +1,2 @@
-"( #+(or ccl sbcl allegro) :zaserve  #-(or ccl sbcl allegro) :paserve :cl-who :yason :glisp)"
+"(#-allegro :cl-html-parse #+(or ccl sbcl allegro) :zaserve  #-(or ccl sbcl allegro) :paserve :cl-who :yason :glisp )"
 

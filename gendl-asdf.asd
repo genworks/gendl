@@ -4,5 +4,5 @@
   :description "asdf gendl artifacts loading"
   :serial t 
   :version "20161111" 
-  :depends-on (#:gwl) ;; TODO reduce this one to a minimal dependency
+  :depends-on ()
   :components ((:file "gendl-asdf")))

@@ -420,12 +420,12 @@ being generated dynamically.
              :function #'(lambda(req ent)
                          (let ((*req* req) (*ent* ent)
                                (object (first (gethash key *instance-hash-table*))))
-                           (with-http-response (req ent)
+                           (with-http-response (req ent :response *response-found*)
+			     (setf (reply-header-slot-value req :location) (format nil "~a" (the-object object url)))
                              (setf (reply-header-slot-value req :cache-control) "no-cache")
                              (setf (reply-header-slot-value req :pragma) "no-cache")
-                             (with-http-body (req ent)
-                               (the-object object write-html-sheet))))))))
-
+                             (with-http-body (req ent))
+			     ))))))
 
 
 

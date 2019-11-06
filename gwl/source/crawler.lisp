@@ -19,25 +19,26 @@
 ;; <http://www.gnu.org/licenses/>.
 ;; 
 
-;;
-;; FLAG -- put this back for SBCL and others when we make it work with cl-html-parse from Quicklisp. 
-;;
-
-#+allegro
 (in-package :gwl)
 
-#+allegro
-(setf (net.html.parser::tag-no-end :button) nil)
+;;#+allegro
+;;(setf (net.html.parser::tag-no-end :button) nil)
 
-#+allegro
-(defun crawl (part 
-              &key (host "localhost") 
-                   (port 9000) 
-                   (output-root (make-pathname 
-                                 :directory (list :absolute "tmp" "sites"
-                                                  (format nil "~(~a~)" (read-from-string part)))))
-                   (visited-urls (make-hash-table :test #'equalp))
-                   make-part-args)
+(defun crawl (&key
+		part
+		url-path ;; to give explicit url instead of part type. 
+		(host "localhost") 
+                (port 9000) 
+                (output-root (make-pathname 
+                              :directory (list :absolute "tmp" "sites"
+					       (cond (part (format nil "~(~a~)" (read-from-string part)))
+						     (url-path (format nil "~(~a~)"
+								       (first
+									(remove "" (glisp:split-regexp "/" url-path )
+										:test #'string-equal))))
+						     (t (error "Neither :part nor :url was specified to the crawl function.~%"))))))
+                (visited-urls (make-hash-table :test #'equalp))
+                make-part-args)
   
   "Void. Instantiates and ``Crawls'' a given object instance and creates static HTML pages reflecting 
 the instance tree. This means it will recursively follow all the links for the object. By default 
@@ -57,128 +58,157 @@ the files are written into \"/tmp/sites/\".
   (let ((developing? *developing?*))
     (setq *developing?* nil)
   
-    (let ((url (format nil "/make?part=~a~{~a~}" 
-                       part
-                       (mapcar #'(lambda(key val)
-                                   (format nil "&~a=~a" key val))
-                               (plist-keys make-part-args) (plist-values make-part-args)))))
+    (let ((url (or url-path
+		   (format nil "/make?part=~a~{~a~}" 
+			   part
+			   (mapcar #'(lambda(key val)
+                                       (format nil "&~a=~a" key val))
+				   (plist-keys make-part-args) (plist-values make-part-args))))))
       (crawl-url url host port output-root visited-urls))
   
     (setq *developing?* developing?)))
 
 
-
-#+allegro
 (defun crawl-anchor (anchor host port output-root visited-urls)
-  (let ((new-url (getf (rest (first anchor)) :href)))
-    ;;
-    ;; FLAG -- check here to ensure this is an internal URL - if not, don't crawl it.
-    ;;
-    (when (not (or (gethash new-url visited-urls)
-                   ;;
-                   ;; FLAG -- do other tests to make sure new-url is internal to our site.
-                   ;;
-                   (< (length new-url) (1+ (length "sessions")))
-                   (not (string-equal (subseq new-url 1 (1+ (length "sessions"))) "sessions"))
-                   (search "mailto:" new-url)
-                   (not (search ".htm" new-url))
-                   ))
-      (crawl-url new-url host port output-root visited-urls))))
-  
-#+allegro
+  (let ((uri (net.uri:parse-uri (getf (rest (first anchor)) :href))))
+    (let ((scheme (net.uri:uri-scheme uri))
+	  (uri-host (net.uri:uri-host uri))
+	  (uri-port (net.uri:uri-port uri))
+	  (path (net.uri:uri-path uri)))
+      (unless (or scheme uri-host uri-port ;; this is external - don't crawl.
+		  (gethash path visited-urls)) ;; already crawled - don't crawl
+	(crawl-url path host port output-root visited-urls)))))
+
+    
 (defun crawl-url (url host port output-root visited-urls)
-  (when (not (gethash url visited-urls))
-    (setf (gethash url visited-urls) t)
-    (multiple-value-bind (html code headers uri)
-        (net.aserve.client:do-http-request (format nil "http://~a:~a~a" host port url))
+  (setf (gethash url visited-urls) t)
+  (multiple-value-bind (html code headers uri)
+      (net.aserve.client:do-http-request (format nil "http://~a:~a~a" host port url))
       (declare (ignore code headers))
-
-      ;;(print-variables url)
-      
-      (let* ((lhtmls (net.html.parser:parse-html 
-                      html
-                      :callbacks 
-                      (list (cons :a
-                                  #'(lambda(anchor)
-                                      (crawl-anchor anchor host port output-root visited-urls))))))
-
+      (let* ((lhtmls (net.html.parser:parse-html
+		      html
+		      :callbacks (list (cons :a #'(lambda(anchor)
+						    (crawl-anchor anchor host port
+								  output-root visited-urls))))))
 	     (lhtml1 (first lhtmls))
 	     (lhtml2 (second lhtmls))
-	     
-	     (lhtml (if (eql (first lhtml1) :!doctype)
-			lhtml2 lhtml1))
-
-             (url-string (net.uri:uri-path uri))
+	     (lhtml (if (eql (first lhtml1) :!doctype) lhtml2 lhtml1))
+             (uri-path (net.uri:uri-path uri))
              (output-path 
-              (let* ((components (rest (rest (split url-string #\/))))
-                     (directory (butlast components))
-                     (file  (lastcar components))
-                     (name-type (split file #\.))
-                     (name (first name-type))
-                     (type (second name-type)))
-                
-                (make-pathname :directory (append (pathname-directory output-root) directory)
-                               :name name
-                               :type type))))
+              (let* ((components (let ((components (remove "" (glisp:split-regexp "/" uri-path) :test #'string-equal)))
+				   (if (find "sessions" components :test #'string-equal) (rest (rest components)) components)))
+                     (directory (butlast components)))
+		(destructuring-bind (name &optional type) (glisp:split-regexp "\\." (lastcar components))
+                  (make-pathname :directory (append (pathname-directory output-root) directory) :name name :type type)))))
 
-	;;(print-variables lhtml url-string output-path)
-        
-        (let ((lhtml (relativize-lhtml lhtml url-string output-path host port)))
-          
-          (cl:ensure-directories-exist (directory-namestring output-path))
-	  ;;(print-variables output-path)
+        (let ((lhtml (relativize-lhtml lhtml uri-path output-path host port visited-urls)))
+          (ensure-directories-exist (directory-namestring output-path))
           (with-open-file (out output-path :direction :output :if-exists :supersede :if-does-not-exist :create)
-            (html-print lhtml out)))))))
+            (html-print lhtml out))))))
 
-#+allegro
-(defun relativize-lhtml (lhtml url output-path host port)
+(defun relativize-lhtml (lhtml url output-path host port visited-urls)
   (when lhtml
     (mapcar #'(lambda(element)
-                (cond ((atom element) element)
-                      ((and (eql (first element) :a)
-                            (not (let ((url (getf (rest element) :href)))
-                                   (or (string-equal (subseq url (- (length url) 3)) "pdf")
-                                       (string-equal (subseq url (- (length url) 3)) "igs")
-                                       (string-equal (subseq url (- (length url) 4)) "iges")
-                                       (string-equal (subseq url (- (length url) 4)) "step")))))
-                       (when (null (getf (rest element) :href))
-                         (error ":a tag without :href found in ~s" lhtml))
-                       (let ((element (copy-list element)))
-                         (setf (getf (rest element) :href)
-                           (relativize-url (getf (rest element) :href) url))
-                         element))
-                      ((or (eql (first element) :img)
-                           (eql (first element) :link)
-                           (eql (first element) :embed)
-                           (eql (first element) :a)
-                           (and (eql (first element) :input)
-                                (string-equal (format nil "~(~a~)" (getf (rest element) :type)) "image")))
-                       
-                       (let ((link-tag (cond ((getf (rest element) :src) :src)
-                                             ((getf (rest element) :href) :href)
-                                             (t (error ":img or :link or :embed or image type :input tag without :src or :href found in ~s" lhtml)))))
-                         (let ((link-url 
-                                (format nil "http://~a:~a~a" host port (getf (rest element) link-tag))
-                                ))
-                           (let ((element (copy-list element)))
-                             (setf (getf (rest element) link-tag)
-                               (relativize-image-source (getf (rest element) link-tag) url))
-                             (let ((image-output (merge-pathnames 
-                                                  (getf (rest element) link-tag)
-                                                  (make-pathname :directory (pathname-directory output-path)))))
-                               (ensure-directories-exist (make-pathname :directory (pathname-directory image-output)))
-                               (with-open-file (out image-output :direction :output
-                                                :if-exists :supersede :if-does-not-exist :create)
+		(let ((link-tag (when (and (consp element)(oddp (length element)))
+				  (cond ((getf (rest element) :src) :src)
+					((getf (rest element) :href) :href)))))
+				      
+                  (cond ((atom element) element)
+			((and (eql (first element) :a)
+			      (let* ((uri (let ((url-string (getf (rest element) :href)))
+					    (unless url-string (error ":a tag without :href found in ~s" lhtml))
+					    (net.uri:parse-uri url-string)))
+				     (uri-host (net.uri:uri-host uri))
+				     (uri-scheme (net.uri:uri-scheme uri))
+				     (uri-port (net.uri:uri-port uri))
+				     (uri-path (net.uri:uri-path uri))
+				     (components (remove "" (glisp:split-regexp "/" uri-path) :test #'string-equal))
+				     (components (if (find "sessions" components :test #'string-equal)
+						     (rest (rest components)) components)))
+				(and (null uri-host) (null uri-scheme) (null uri-port)
+				     (destructuring-bind (name &optional type) (glisp:split-regexp "\\." (lastcar components))
+				       (declare (ignore name))
+				       (member type '("htm" "html") :test #'string-equal)))))
 
-				 (print-variables image-output link-url)
-				 
-                                 (write-sequence
-                                  (net.aserve.client:do-http-request link-url :format :binary) out)))
-                             element))))
-                      (t (relativize-lhtml element url output-path host port)))) 
+			 
+			 (let ((element (copy-list element)))
+                           (setf (getf (rest element) :href) (relativize-url (getf (rest element) :href) url))
+
+                           element))
+
+			((eql (first element) :a) element)
+
+			((and (or (and link-tag (member (first element) '(:img :link)))
+				  (and (eql (first element) :input)
+				       (string-equal (format nil "~(~a~)"
+							     (getf (rest element) :type)) "image")))
+                       
+			      (let* ((uri (let ((url-string (getf (rest element) link-tag))) ;; "(\\.\\./)+" "/\\&"
+					    (unless url-string (error "~a tag without :href found in ~s" link-tag lhtml))
+					    (net.uri:parse-uri url-string)))
+				     (uri-host (net.uri:uri-host uri))
+				     (uri-scheme (net.uri:uri-scheme uri))
+				     (uri-port (net.uri:uri-port uri)))
+				(and (null uri-host) (null uri-scheme) (null uri-port))))
+
+			 (let* ((element (copy-list element))
+				(link-path (setf (getf (rest element) link-tag)
+						 (relativize-url (getf (rest element) link-tag) url))))
+
+			   (let ((link-output (merge-pathnames link-path output-path))
+				 (link-url (format nil "http://~a:~a/~a" host port
+						   (glisp:replace-regexp  link-path "\\.\\./" ""))))
+
+
+			     (unless (gethash link-url visited-urls)
+			       (ensure-directories-exist link-output)
+			       (with-open-file (out link-output :direction :output
+						    :element-type '(unsigned-byte 8)
+						    :if-exists :supersede :if-does-not-exist :create)
+				 (write-sequence (net.aserve.client:do-http-request link-url :format :binary) out))
+			       (setf (gethash link-url visited-urls) t)))
+			 
+			   element))
+			
+			((or (member (first element) '(:img :link))
+			     (and (eql (first element) :input)
+				  (string-equal (format nil "~(~a~)"
+							(getf (rest element) :type)) "image"))) element)
+		      
+			(t (relativize-lhtml element url output-path host port visited-urls)))))
             lhtml)))
 
-#+allegro
+
+(defun relativize-url (url base)
+
+  (if (string-equal (subseq url 0 2) "..") url
+      (let ((url-list (split url #\/))
+            (base-list (split base #\/)))
+	(let ((index 0) done?)
+	  (mapc #'(lambda(url-component base-component)
+                    (if (and (not done?)
+                             (string-equal url-component base-component))
+			(incf index) 
+			(setq done? t)))
+		url-list base-list)
+        
+	  (when (and (eql index (length url-list))
+                     (eql (length url-list) (length base-list))
+                     (string-equal (lastcar url-list) (lastcar base-list)))
+            (decf index))
+        
+	  (setq url-list (subseq url-list index)
+		base-list (subseq base-list index))
+        
+	  (let ((parent-levels (if (null base-list) 0
+				   (- (length base-list)
+                                      (if (search "." (lastcar base-list)) 1 0)))))
+            (format nil "~{~a~}~{~a~^/~}" 
+                    (make-list parent-levels :initial-element "../")
+                    url-list))))))
+
+
+#+nil
 (defun relativize-image-source (url base)
   (let ((length (- (length (split base #\/)) 3)))
     (cond ((> length 0)
@@ -189,39 +219,9 @@ the files are written into \"/tmp/sites/\".
            (subseq url 1))
           (t url))))
 
-#+allegro                                    
-(defun relativize-url (url base)
-  (if (or (not (eql (aref url 0) #\/))
-          (< (length url) 8)
-          (string-equal (subseq url 0 8) "http://"))
-      url
-    (let ((url-list (split url #\/))
-          (base-list (split base #\/)))
-      (let ((index 0) done?)
-        (mapc #'(lambda(url-component base-component)
-                  (if (and (not done?)
-                           (string-equal url-component base-component))
-                      (incf index) 
-                    (setq done? t)))
-              url-list base-list)
-        
-        (when (and (eql index (length url-list))
-                   (eql (length url-list) (length base-list))
-                   (string-equal (lastcar url-list) (lastcar base-list)))
-          (decf index))
-        
-        (setq url-list (subseq url-list index)
-              base-list (subseq base-list index))
-        
-        (let ((parent-levels (if (null base-list)
-                                 0
-                               (- (length base-list)
-                                  (if (search "." (lastcar base-list)) 1 0)))))
-          (format nil "~{~a~}~{~a~^/~}" 
-                  (make-list parent-levels :initial-element "../")
-                  url-list))))))
+
     
-#+allegro
+
 (defun copy-url (url dest)
   (with-open-file (out dest :direction :output :if-exists :supersede :element-type '(unsigned-byte 8))
     (write-sequence (net.aserve.client:do-http-request url :format :binary) out)))
