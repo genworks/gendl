@@ -455,7 +455,7 @@ from a saved snapshot file."
     ()
     (with-cl-who ()
       ((:span :style "color: blue; cursor: pointer;"
-              :onclick (string-append (the (gdl-ajax-call :function-key :update-root!))
+              :onclick (string-append (the (gdl-sjax-call :function-key :update-root!))
                                       " location.reload(true);"
                                       ))
        "Update!")))
