@@ -65,7 +65,7 @@
     (base64-encode-safe (format nil "~s" yason-string))))
 
 
-
+#+nil
 (defun yasonify (value)
   (cond ((or (null value) (eql value t) (numberp value) (stringp value)) value)
         ((vectorp value) (map 'vector #'yasonify value))
@@ -77,7 +77,7 @@
            finally (print-hash hash) (return hash)))
         (t (mapcar #'yasonify value))))
 
-#+nil
+
 (defun yasonify (value)
   (cond ((or (null value) (eql value t) (numberp value) (stringp value)) value)
         ((vectorp value) (map 'vector #'yasonify value))

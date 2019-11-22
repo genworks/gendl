@@ -80,9 +80,9 @@ supports a full range of output options such as page dimensions, view transforms
 			     (dxf `(progn (write-string *dxf-header* *stream*)
 					  ,@body
 					  (write-string *dxf-footer* *stream*)))
-			     (otherwise `(progn (write-env (initialize-output) )
+			     (otherwise `(progn (write-env (:initialize-output) )
 						,@body
-						(write-env (finalize-output)))))
+						(write-env (:finalize-output)))))
 			(setq ,flag nil)))
 	     (when (and (or (stringp ,stream-or-file) (pathnamep ,stream-or-file)) (streamp *stream*))
 	       (close *stream* :abort ,flag))) nil)))))
@@ -183,9 +183,9 @@ supports a full range of output options such as page dimensions, view transforms
                              (dxf `(progn (write-string *dxf-header* *stream*)
                                           ,@body
                                           (write-string *dxf-footer* *stream*)))
-                             (otherwise `(progn (write-env (initialize-output) )
+                             (otherwise `(progn (write-env (:initialize-output) )
                                                 ,@body
-                                                (write-env (finalize-output)))))
+                                                (write-env (:finalize-output)))))
                         (setq ,flag nil)))
              (when (and (or (stringp ,stream-or-file) (pathnamep ,stream-or-file)) (streamp *stream*))
                (close *stream* :abort ,flag))) nil)))))

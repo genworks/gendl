@@ -664,7 +664,11 @@ please find implementation for the currently running lisp.~%")
 		       (cons (when options (format nil "-~{~a~}" options))
 			     (append 
 			      (mapcar #'(lambda(option) (concatenate 'string "--" option)) long-form-options)
-			      (list (expanded-pathname-string (namestring source)))
+			      (progn
+				(gdl:print-variables source)
+				(gdl:print-variables (namestring source))
+				(gdl:print-variables (expanded-pathname-string (namestring source)))
+				(list (expanded-pathname-string (namestring source))))
 			      (list (if (search ":" (namestring dest)) dest
 					(expanded-pathname-string (namestring dest))))))))))
     (when (or print-command? dry-run?) (format t "~s~%" command-list))

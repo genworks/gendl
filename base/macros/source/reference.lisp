@@ -182,6 +182,33 @@ the format object, optionally with arguments. Typically these functions will out
      ,@(mapcar #'(lambda(method-call)
                    (typecase method-call
                      (string `(write-string ,method-call *stream*))
+                     (otherwise (if (atom (first method-call))
+				    `(,(glisp:intern (symbol-name (first method-call)) :gdl-format)
+                                       *%format%* ,@(rest method-call))
+				    `(funcall (glisp:intern (symbol-name (apply (function ,(first (first method-call)))
+										',(rest (first method-call))))
+							    :gdl-format)
+				       *%format%* ,@(rest method-call))))))
+               method-calls)))
+
+#+nil
+(defmacro write-env (&rest method-calls)
+  "Void [Macro] (usually used just for outputting). Within the context of a <tt>with-format</tt>, calls functions of
+the format object, optionally with arguments. Typically these functions will output data to the 
+<tt>stream</tt> established by the <tt>with-format</tt>.
+
+:arguments (function-calls \"(&rest). Functions on the named output-format to be called.\")
+
+:example
+<pre>
+ (with-format (base-format my-object) (write-env (:a \"Hello World, my object's length is: \")
+                                                 (:a (the length))))
+</pre>"
+
+  `(progn
+     ,@(mapcar #'(lambda(method-call)
+                   (typecase method-call
+                     (string `(write-string ,method-call *stream*))
                      (otherwise `(,(glisp:intern (symbol-name (first method-call)) :gdl-format)
                                   *%format%* ,@(rest method-call)))))
                method-calls)))

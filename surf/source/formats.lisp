@@ -226,9 +226,9 @@
       (if assembly?
 	  (write-env (assembly-output))
 	  (progn
-	    (write-env (objects-output))
+	    (write-env (:objects-output))
 	    ;;(write-env (a "%Finalized Output"))
-	    (write-env (newline-out))))))))
+	    (write-env (:newline-out))))))))
 
 
 
@@ -238,9 +238,9 @@
   
   :functions ((finalize-output
                ()
-               (write-env (objects-output))
-               (write-env (a "// Finalized Output"))
-               (write-env (newline-out)))
+               (write-env (:objects-output))
+               (write-env (:a "// Finalized Output"))
+               (write-env (:newline-out)))
               
               (objects-output
                ()

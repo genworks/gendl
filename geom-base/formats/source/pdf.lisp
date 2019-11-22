@@ -36,7 +36,7 @@ output is coming later.")
         (pdf:line-to 0 high-bar) (pdf:stroke)
         (pdf:translate spacing 0) (pdf:move-to 0 0)
         (dolist (digit digits)
-          (write-env (postnet-digit digit high-bar low-bar spacing)))
+          (write-env (:postnet-digit digit high-bar low-bar spacing)))
         (pdf:line-to 0 high-bar) (pdf:stroke))))
    
 
