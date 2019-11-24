@@ -479,3 +479,8 @@ or <tt>~/genworks/gendl/emacs/glime.lisp</tt>.
 
 (defun one-line (string)
   (glisp:replace-regexp (glisp:replace-regexp string (format nil "~%") " ") "'" "\\'" ))
+
+(defun inverted-readtable ()
+  (let ((readtable (copy-readtable)))
+    (setf (readtable-case readtable) :invert)
+    readtable))

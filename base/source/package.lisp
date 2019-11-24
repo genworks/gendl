@@ -184,6 +184,7 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:half
            #:ignore-errors-with-backtrace
            #:index-filter
+	   #:inverted-readtable
            #:iso-8601-date
 	   #:universal-time-from-iso-8601
 	   #:universal-time-to-plist
