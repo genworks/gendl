@@ -75,7 +75,8 @@ the files are written into \"/tmp/sites/\".
 	  (uri-host (net.uri:uri-host uri))
 	  (uri-port (net.uri:uri-port uri))
 	  (path (net.uri:uri-path uri)))
-      (unless (or scheme uri-host uri-port ;; this is external - don't crawl.
+      (unless (or (null path) ;; empty path - likely hash mark anchor. 
+		  scheme uri-host uri-port ;; this is external - don't crawl.
 		  (gethash path visited-urls)) ;; already crawled - don't crawl
 	(crawl-url path host port output-root visited-urls)))))
 
@@ -107,7 +108,8 @@ the files are written into \"/tmp/sites/\".
             (html-print lhtml out))))))
 
 (defun relativize-lhtml (lhtml url output-path host port visited-urls)
-  (when lhtml
+  (when (and lhtml url (not (string-equal url "#"))
+	     (not (eql lhtml :unknown)) (not (eql url :unknown)))
     (mapcar #'(lambda(element)
 		(let ((link-tag (when (and (consp element)(oddp (length element)))
 				  (cond ((getf (rest element) :src) :src)
@@ -125,7 +127,8 @@ the files are written into \"/tmp/sites/\".
 				     (components (remove "" (glisp:split-regexp "/" uri-path) :test #'string-equal))
 				     (components (if (find "sessions" components :test #'string-equal)
 						     (rest (rest components)) components)))
-				(and (null uri-host) (null uri-scheme) (null uri-port)
+
+				(and (consp components) (null uri-host) (null uri-scheme) (null uri-port)
 				     (destructuring-bind (name &optional type) (glisp:split-regexp "\\." (lastcar components))
 				       (declare (ignore name))
 				       (member type '("htm" "html") :test #'string-equal)))))
