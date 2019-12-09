@@ -172,6 +172,12 @@ in the applicable lens for  html-format."
                 ("String or nil. Names the value of class attribute for the body tag. Default is nil."
                  body-class nil)
 
+		("String or nil. Names the value of class attribute for the head tag. Default is nil."
+                 head-class nil)
+
+		("String or nil. Names the value of class attribute for the html tag. Default is nil."
+                 html-class nil)
+
                 ("String of Javascript or nil. This Javascript will go into the :onload event of the body.
 Default is nil."
 		 body-onload nil)
@@ -387,8 +393,9 @@ from a saved snapshot file."
     ()
     (with-cl-who ()
       (str (the doctype-string))
-      ((:html :lang "en")
-       (:head (:title (str (the title)))
+      ((:html :lang "en" :class (the html-class))
+       ((:head :class (the head-class))
+	(:title (str (the title)))
               (:meta :charset "UTF-8")
 	      (when (the include-default-favicon?)
 		(htm (:link :rel "icon" :type "image/x-icon" :href "/static/gwl/images/favicon.ico")))
