@@ -130,8 +130,8 @@
        (with-temp-buffer (cd *gendl-home*) (slime exe)))
 
 (defun gdl () (interactive) (gendl 'gdl))
-(defun agdl8 () (interactive) (gendl 'agdl8))
 (defun agdl () (interactive) (gendl 'agdl))
+(defun igdl () (interactive) (gendl 'igdl))
 (defun glime () (interactive) (gendl))
 
 (defun gdl-quit () (interactive) (slime-quit-lisp))
