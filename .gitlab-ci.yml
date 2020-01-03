@@ -12,7 +12,7 @@ update:
   stage: update
   script:
     - bash -x ./.ci-script.sh linux git-pull
-    - bash -x ./.ci-script.sh windows rsync-from-manager
+#    - bash -x ./.ci-script.sh windows rsync-from-manager
 
     
 linux-build:
@@ -23,12 +23,12 @@ linux-build:
     - bash -x ./.ci-script.sh linux build-gendl
 
 
-windows-build:
-  stage: build
+#windows-build:
+#  stage: build
 #  only:
 #    - master
-  script:
-    - bash -x ./.ci-script.sh windows build-gendl
+#  script:
+#    - bash -x ./.ci-script.sh windows build-gendl
 
 
 
