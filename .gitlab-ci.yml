@@ -30,45 +30,5 @@ windows-build:
   script:
     - bash -x ./tools/build/ci-script.sh windows build-gendl
 
-windows-inno:
-  stage: inno
-  only:
-    - master
-  script:
-    - bash -x ./tools/build/ci-script.sh windows create-inno
-    - bash -x ./tools/build/ci-script.sh windows fetch-inno
-
-windows-inno-manual:
-  stage: inno
-  when: manual
-  script:
-    - bash -x ./tools/build/ci-script.sh windows create-inno
-    - bash -x ./tools/build/ci-script.sh windows fetch-inno
-
-linux-deploy:
-  stage: deploy
-  only:
-    - master
-  script:
-    - bash -x ./tools/build/ci-script.sh linux upload-to-s3
-
-linux-deploy-manual:
-  stage: deploy
-  when: manual
-  script:
-    - bash -x ./tools/build/ci-script.sh linux upload-to-s3
-
-windows-deploy:
-  stage: deploy
-  only:
-    - master
-  script:
-    - bash -x ./tools/build/ci-script.sh windows upload-to-s3
-
-windows-deploy-manual:
-  stage: deploy
-  when: manual
-  script:
-    - bash -x ./tools/build/ci-script.sh windows upload-to-s3
 
 
