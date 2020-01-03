@@ -11,8 +11,8 @@ stages:
 update:
   stage: update
   script:
-    - bash -x ./tools/build/ci-script.sh linux git-pull
-    - bash -x ./tools/build/ci-script.sh windows rsync-from-manager
+    - bash -x ./.ci-script.sh linux git-pull
+    - bash -x ./.ci-script.sh windows rsync-from-manager
 
     
 linux-build:
@@ -20,7 +20,7 @@ linux-build:
 #  only:
 #    - master
   script:
-    - bash -x ./tools/build/ci-script.sh linux build-gendl
+    - bash -x ./.ci-script.sh linux build-gendl
 
 
 windows-build:
@@ -28,7 +28,7 @@ windows-build:
 #  only:
 #    - master
   script:
-    - bash -x ./tools/build/ci-script.sh windows build-gendl
+    - bash -x ./.ci-script.sh windows build-gendl
 
 
 
