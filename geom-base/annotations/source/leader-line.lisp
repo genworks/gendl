@@ -112,62 +112,6 @@ Currently only :wedge is supported. Default is :none."
                                          :rear (the arrowhead-vector)))))
 
 
-(define-object arrowhead (base-object)
-  
-  :input-slots
-  ((style :wedge)
-   (length (* .2 72))
-   (width (* .1 72))
-   (wedge-ratio 1/3))
-   
-  
-  :computed-slots
-  ((height 0)
-   (arrow-center (translate (the center)
-                            :front (* (the length) (- 1 (the wedge-ratio)))))
-   ;;
-   ;; FLAG -- remove this when we have more general 2d bounding box machinery
-   ;;
-   (%lines-to-draw% (append
-                     (destructuring-bind (p0 p1 p2 p3)
-                         (the outline-points)
-                       (list (list p0 p1)
-                             (list p1 p2)
-                             (list p2 p3)
-                             (list p3 p0)))
-                     (when (the second-outline-points)
-                       (destructuring-bind (p0 p1 p2 p3)
-                         (the second-outline-points)
-                       (list (list p0 p1)
-                             (list p1 p2)
-                             (list p2 p3)
-                             (list p3 p0))))))
-
-   (path-info (append (list :move (first (the outline-points)))
-		      (mapcan #'(lambda(point) (list :line point))
-			      (rest (the outline-points)))
-		      (list :line (first (the outline-points)))))
-    
-   (outline-points (ecase (the style)
-                     ((:wedge :double-wedge :triangle)
-                      (when (eql (the style) :triangle)
-                        (warn "*** ~%~%Triangle not yet supported~%~%"))
-                      (list (the center)
-                            (translate (the (vertex :front :right :top))
-                                       :front (half (the length)))
-                            (translate (the center) :front
-                                       (* (the length) (- 1 (the wedge-ratio))))
-                            (translate (the (vertex :front :left :top))
-                                       :front (half (the length)))))))
-   
-   
-   (second-outline-points (when (member (the style) (list :double-wedge))
-                            (mapcar #'(lambda(point)
-                                        (translate point :front (* (the length) 
-								   (- 1 (the wedge-ratio)))))
-                                    (the outline-points))))))
-
-
 ;;
 ;; FLAG -- update for auto-scaling outside base-view
 ;;

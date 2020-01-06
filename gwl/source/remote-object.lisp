@@ -92,7 +92,7 @@
 
 
 (defun register-remote-object (obj)
-  (declare (ignore obj))
+  #-ccl (declare (ignore obj))
   #+ccl (ccl:terminate-when-unreachable obj)
   nil)
 

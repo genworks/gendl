@@ -22,5 +22,7 @@
 (in-package :gwl)
 
 
+(eval-when (:compile-toplevel :load-toplevel :execute) (undefine-object 'remote-object))
+
 (define-object vanilla-remote (vanilla-mixin* gdl-remote gdl::gdl-basis)
                :no-vanilla-mixin? t)
