@@ -318,7 +318,7 @@ future GenDL release."
            (setf (trickle-down-slots ,class) ',new-trickle-down-slots)
            (setf (settable-slots ,class) ',new-settable-slots)
          
-           (eval-when (compile load) (glisp:begin-redefinitions-ok))
+           (eval-when (:compile-toplevel :load-toplevel :execute) (glisp:begin-redefinitions-ok))
            (defclass ,name ,supers
              (,@(remove-duplicates 
                  (append (make-standard-slots)
@@ -341,7 +341,7 @@ future GenDL release."
              
              
              )
-           (eval-when (compile load) (glisp:end-redefinitions-ok))
+           (eval-when (:compile-toplevel  :load-toplevel :execute) (glisp:end-redefinitions-ok))
        
 
            
