@@ -1208,30 +1208,32 @@ a separate object hierarchy." object self)))
               (when (and *eager-setting-enabled?* (null (second slot-value)))
                 (push (list object slot) *leaf-resets*))
 
-	      (let ((list-or-hash (second slot-value)))
-		(if (listp list-or-hash)
-		    (mapc #'(lambda(notify-cons)
-			      (destructuring-bind (node . messages) notify-cons
-				(mapc #'(lambda(message) 
-					  (%unbind-dependent-slots% node message 
-								    :updating? updating?)) 
-				      messages))) list-or-hash)
-		    (maphash #'(lambda(node messages)
-				 (mapc #'(lambda(message) 
-					   (%unbind-dependent-slots%  node message 
-								      :updating? updating?)) 
-				       messages)) list-or-hash)))
-	      
+              (let ((list-or-hash (second slot-value)))
+                (if (listp list-or-hash)
+                    (mapc #'(lambda(notify-cons)
+                              (destructuring-bind (node . messages) notify-cons
+                                (mapc #'(lambda(message) 
+                                          (%unbind-dependent-slots% node message 
+                                                                    :updating? updating?)) 
+                                      messages))) list-or-hash)
+                    (maphash #'(lambda(node messages)
+                                 (mapc #'(lambda(message) 
+                                           (%unbind-dependent-slots%  node message 
+                                                                      :updating? updating?)) 
+                                       messages)) list-or-hash)))
+              
               (if (third slot-value)
-		  (setf (second (slot-value object slot)) nil)
-		  (setf (slot-value object slot) 
-			(if (and (and (not (typep object 'quantification))
+                  (setf (second (slot-value object slot)) nil)
+                  (setf (slot-value object slot) 
+                        (if (and (not (the-object object remember-children?))
+				 #+nil
+				 (and (not (typep object 'quantification))
 				      (not (the-object object remember-children?)))
-				 (or updating? (not *remember-previous-slot-values?*)))
-			    'gdl-rule::%unbound%
-			    (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
-	  (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
-	    (the-object object (unbind-remote-slot slot)))))))
+                                 (or updating? (not *remember-previous-slot-values?*)))
+                            'gdl-rule::%unbound%
+                            (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
+          (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
+            (the-object object (unbind-remote-slot slot)))))))
 
 
 #+nil

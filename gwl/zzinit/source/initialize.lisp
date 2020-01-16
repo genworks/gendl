@@ -136,7 +136,6 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		 (if (ignore-errors
 		       (apply #'net.aserve:start
 			      :port port :listeners listeners
-			      ;;#-mswindows :external-format #-mswindows external-format ;; FLAG -- why no external-format for Windows?
 			      :external-format external-format
 			      aserve-start-args))
 		     (return-from :outer port)
@@ -145,32 +144,6 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 	(incf wait-time 0.1))))
   (publish-uris))
 
-
-#+nil
-(defun start-gwl (&key (port *aserve-port*) (listeners *aserve-listeners*) 
-		    (external-format #+allegro :utf8-base #+ccl :utf-8 #-(or allegro ccl) (error "find utf-8 external-format for ~a.~%" (lisp-implementation-version)))
-		    (aserve-start-args *aserve-start-args*))
-  (net.aserve:shutdown :server net.aserve:*wserver*)
-  (let ((wait-time 1))
-      (block :outer
-	(do () (nil)
-	  (let ((port port))
-	    (block :inner
-	      (do ((port-free? (client-test port) (client-test port)))
-		  (port-free?
-		   (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
-				 "~&Trying to start AllegroServe on ~a...~%") port)
-		   (if (ignore-errors
-			 (setq net.aserve:*wserver*
-			       (apply #'net.aserve:start :port port :listeners listeners :server :new
-				      #-mswindows :external-format #-mswindows external-format
-				      aserve-start-args)))
-		    (return-from :outer port)
-		    (progn (sleep (random wait-time)) (return-from :inner))))
-		(incf port))))
-	  (incf wait-time 0.1))))
-
-  (publish-uris))
 
 
 (defvar *settings* 
