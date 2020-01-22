@@ -646,41 +646,48 @@ please find implementation for the currently running lisp.~%")
     (warn "Need an implementation for without-redefinition-warnings for ~a~%." (lisp-implementation-type))
     `(progn ,@body)))
 
-
 (defun rsync (source dest &key directory 
-			    print-command?
-			    dry-run?
-			    (options (list "a"))
-			    long-form-options)
-  #+os-windows (declare (ignore source dest directory  print-command? dry-run? options long-form-options))
+                            print-command?
+                            dry-run?
+                            (options (list "a"))
+                            long-form-options)
+  #+os-windows (declare (ignore source dest directory  print-command? dry-run?
+                                options long-form-options))
   #+os-windows (error "~&Sorry, glisp:rsync is not yet implemented for MS Windows.~%")
   #-mswindows
   (labels ((expanded-pathname-string (pathname)
-	     (replace-regexp (namestring (translate-logical-pathname pathname)) "~/"
-			     (namestring (user-homedir-pathname)))))
-  (let ((command-list 
-	 (remove nil
-		 (cons "rsync" 
-		       (cons (when options (format nil "-~{~a~}" options))
-			     (append 
-			      (mapcar #'(lambda(option) (concatenate 'string "--" option)) long-form-options)
-			      (progn
-				(gdl:print-variables source)
-				(gdl:print-variables (namestring source))
-				(gdl:print-variables (expanded-pathname-string (namestring source)))
-				(list (expanded-pathname-string (namestring source))))
-			      (list (if (search ":" (namestring dest)) dest
-					(expanded-pathname-string (namestring dest))))))))))
-    (when (or print-command? dry-run?) (format t "~s~%" command-list))
-    (unless dry-run?
-      (uiop:with-current-directory (directory) 
-	;;
-	;; FLAG capture this pattern as a standard form of run-program:
-	;;
-	(multiple-value-bind (output error-output return-code)
-	    (run-program command-list :output :string :error-output :string :ignore-error-status t)
-	  (unless (zerop return-code)
-	    (error "The following command returned an error:
+             (replace-regexp (namestring (translate-logical-pathname pathname)) "~/"
+                             (namestring (user-homedir-pathname))))
+           (dotted-relative-pathname (source-list)
+             (destructuring-bind (head tail) source-list
+               (format nil "/~{~a/~}./~{~a/~}" head tail))))
+
+    (let ((command-list 
+           (remove nil
+                   (cons "rsync" 
+                         (cons (when options (format nil "-~{~a~}" options))
+                               (append 
+                                (mapcar #'(lambda(option) (concatenate 'string "--" option))
+                                        long-form-options)
+                                (let ((source
+                                       (list
+                                        (etypecase source
+                                          (list (dotted-relative-pathname source))
+                                          ((or string pathname)
+                                           (expanded-pathname-string (namestring source)))))))
+                                  (gdl:print-variables source) source)
+                                (list (if (search ":" (namestring dest)) dest
+                                          (expanded-pathname-string (namestring dest))))))))))
+      (when (or print-command? dry-run?) (format t "~s~%" command-list))
+      (unless dry-run?
+        (uiop:with-current-directory (directory) 
+          ;;
+          ;; FLAG capture this pattern as a standard form of run-program:
+          ;;
+          (multiple-value-bind (output error-output return-code)
+              (run-program command-list :output :string :error-output :string :ignore-error-status t)
+            (unless (zerop return-code)
+              (error "The following command returned an error:
 
 ~s
 
@@ -697,4 +704,4 @@ and the return-code was:
 ~a
 
 "
-		   command-list output error-output return-code))))))))
+                     command-list output error-output return-code))))))))
