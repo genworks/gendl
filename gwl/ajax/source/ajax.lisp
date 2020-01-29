@@ -83,12 +83,11 @@
 (defun gdlAjax (req ent)
 
   (let* ((query-plist (gwl::assoc-list-to-plist (request-query req)))
-         (plist (progn ;;(when *debug?* (print-variables query-plist))
-		  (when *new-debug?* (print-variables query-plist))
-		  (read-safe-string 
-		   (base64-decode-safe (coerce (getf query-plist :|args|) 'string)))))
+         (plist (progn (when *debug?* (print-variables query-plist))
+		       (read-safe-string 
+			(base64-decode-safe (coerce (getf query-plist :|args|) 'string)))))
          (fields 
-          (progn (when *new-debug?* (print-variables plist))
+          (progn (when *debug?* (print-variables plist))
                  (let ((encoded-fields
                         (read-safe-string 
                          (base64-decode-safe (coerce (getf query-plist :|fields|) 

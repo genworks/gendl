@@ -57,7 +57,7 @@
                       
 		       (cl-who:htm 
 			((:|Viewpoint|
-			   :|id| (format nil "view-~a" (string key))
+			   :|id| (format nil "view-~(~a~)" key)
 			   :|position| (format nil "~a ~a ~a" (get-x position) (get-y position) (get-z position))
 			   :|orientation| (format nil "~a ~a ~a ~a"
 						(get-x orientation)
