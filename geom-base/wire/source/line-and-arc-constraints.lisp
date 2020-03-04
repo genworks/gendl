@@ -296,25 +296,34 @@
    (first-tangent-index (position :tangent-to (plist-keys (the arc-constraints))))
    (second-tangent-index (position :tangent-to (plist-keys (the arc-constraints)) :from-end t))
 
-   (constraint-type 
-    (cond ((let ((first-tangent (getf (the arc-constraints) :tangent-to))
-		 (second-tangent (getf (reverse-plist (the arc-constraints)) :tangent-to))
-		 (radius (getf (the arc-constraints) :radius)))
-	     (or 
-	      (and (eql (first first-tangent) :arc-geometry)
-		   (eql (first second-tangent) :line-geometry) radius)
-	      (and (eql (first first-tangent) :line-geometry)
-		   (eql (first second-tangent) :arc-geometry) radius)))
-	   :tangent-arc-tangent-line-radius)
+   (constraint-type
+    (let ((constraints (the arc-constraints)))
+      (cond ((let ((first-tangent (getf (the arc-constraints) :tangent-to))
+		   (second-tangent (getf (reverse-plist (the arc-constraints)) :tangent-to))
+		   (radius (getf (the arc-constraints) :radius)))
+	       (or 
+		(and (eql (first first-tangent) :arc-geometry)
+		     (eql (first second-tangent) :line-geometry) radius)
+		(and (eql (first first-tangent) :line-geometry)
+		     (eql (first second-tangent) :arc-geometry) radius)))
+	     :tangent-arc-tangent-line-radius)
 
-	  ((let ((keys (plist-keys (the arc-constraints))))
-	     (and (= (length keys) 3) (= (count :through-point keys) 2) (= (count :tangent-to keys) 1)))
-	   :tangent-to-through-two-points)
+
+	    ((and (getf plist :tangent-to)(getf plist :center-on)(getf plist :through-point) (getf plist :select-side))
+	     :tangent-to--center-on--through-point--select-side)
+	    
+
+	    ((let ((keys (plist-keys (the arc-constraints))))
+	       (and (= (length keys) 3) (= (count :through-point keys) 2) (= (count :tangent-to keys) 1)))
+	     :tangent-to-through-two-points)
 	  
-	  ((equalp (plist-keys (the arc-constraints)) '(:through-point :through-point :through-point))
-	   :through-three-points)
+	    ((equalp (plist-keys (the arc-constraints)) '(:through-point :through-point :through-point))
+	     :through-three-points)
 
-	  (t (error "Constrained-arc --- constraint configuration is not yet supported")))))
+	    ((and (getf constraints :center) (getf constraints :radius) (getf constraints :plane-normal))
+	     :center-radius-plane-normal)
+
+	    (t (error "Constrained-arc --- constraint configuration is not yet supported"))))))
   
   :hidden-objects
   ((constraint-object :type (ecase (the constraint-type)
@@ -323,7 +332,11 @@
 			      (:through-three-points
 			       'arc-constraints-through-three-points)
 			      (:tangent-to-through-two-points
-			       'arc-constraint-tangent-to-through-two-points))
+			       'arc-constraint-tangent-to-through-two-points)
+			      (:center-radius-plane-normal
+			       'arc-constraint-center-radius-plane-normal)
+			      (:tangent-to--center-on--through-point--select-side
+			       'arc-constraint-tangent-to--center-on--through-point--select-side))
 		      :pass-down (first-tangent-index)
                       :constraints (the arc-constraints)))
   
@@ -349,6 +362,28 @@ and it automatically trims the result to each point of tangency")
 				     :-ve t))
    (start-angle (min (the angle-0) (the angle-1)))
    (end-angle (max (the angle-0) (the angle-1)))))
+
+
+(define-object constrained-arc-base-mixin (base-object)
+  :input-slots (constraints center radius))
+
+
+
+(define-object arc-constraint-tangent-to--center-on--through-point--select-side (constrained-arc-base-mixin)
+
+  
+  
+  )
+
+
+
+(define-object arc-constraint-center-radius-plane-normal (constrained-arc-base-mixin)
+
+  :computed-slots ((center (getf (the constraints) :center))
+		   (radius (getf (the constraints) :radius))
+		   (orientation (alignment :top (getf (the constraints) :plane-normal)))))
+  
+  
 
 
 (define-object arc-constraint-tangent-to-through-two-points (base-object)

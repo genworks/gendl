@@ -85,6 +85,8 @@
   ;; http://emacswiki.org/emacs/AutoIndentation).
   ;;
   ;;(global-set-key (kbd "C-m") 'newline-and-indent)
+
+  
   )
 
 (gdl:global-keys)
@@ -422,8 +424,8 @@
   "make option key behave as meta"
   (setq mac-option-modifier 'meta))
 
-(when (eql system-type 'darwin)
-  (mac-switch-meta))
+;;(when (eql system-type 'darwin)
+;;   (mac-switch-meta))
 
 
 
