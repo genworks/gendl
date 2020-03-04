@@ -865,7 +865,7 @@ If you are interested in this effort we would love to hear from you at open-sour
     (:export
      #:define-package
      #:remote-object
-     #:*aserver-port*
+     #:*aserve-port*
      #:*aserve-listeners*
      #:*aserve-start-args*
      #:*req*
