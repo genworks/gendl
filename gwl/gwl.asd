@@ -4,8 +4,8 @@
  "The Gendl® Generative Web Language (GWL)" :author
  "Dave Cooper, Genworks International" :license
  "Affero Gnu Public License (http://www.gnu.org/licenses/)" :serial t
- :version "20181023" :depends-on
- (#-allegro :cl-html-parse  #+(or ccl sbcl allegro) :zaserve  #-(or ccl sbcl allegro) :paserve :cl-who :yason :glisp)
+ :version "20200327" :depends-on
+ (#-allegro :cl-html-parse #+(or ccl sbcl allegro) :zaserve  #-(or ccl sbcl allegro) :aserve :cl-who :yason :glisp )
  #-asdf-unicode :defsystem-depends-on #-asdf-unicode (:asdf-encodings)
  #+asdf-unicode :defsystem-depends-on #+asdf-unicode ()
  #+asdf-encodings :encoding #+asdf-encodings :utf-8

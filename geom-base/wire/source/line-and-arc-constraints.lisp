@@ -272,8 +272,6 @@
 
 
 
-
-
 (define-object constrained-arc (arc)
 
   :documentation
