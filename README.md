@@ -1,5 +1,5 @@
 
-##Gendl®
+## Gendl
 
 Pre-built Distributions available here: 
 
