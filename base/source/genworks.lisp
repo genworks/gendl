@@ -33,7 +33,8 @@
     #+ccl (pathname-type ccl:*.fasl-pathname*)
     #+abcl "abcl"
     #+clisp "fas"
-    #-(or allegro lispworks sbcl ccl abcl clisp) (error "Need fasl extension string for the currently running lisp.~%"))
+    #+clasp (pathname-type (compile-file-pathname "test.lisp"))
+    #-(or allegro lispworks sbcl ccl abcl clasp clisp) (error "Need fasl extension string for the currently running lisp.~%"))
 
 #+nil
 (defparameter *external-text-format*
@@ -74,7 +75,7 @@
 
 
 
-#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for command-line-arguments in currently running lisp.~%")
 (defun basic-command-line-arguments ()
   #+allegro (sys:command-line-arguments :application nil)
@@ -83,11 +84,12 @@
   #+ccl (ccl::command-line-arguments)
   #+abcl extensions:*command-line-argument-list*
   #+ecl (loop for n from 0 below (si:argc) collect (si:argv n))
+  #+clasp (uiop:command-line-arguments)
   #+clisp (coerce (ext:argv) 'list)
   )
 
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for executable-homedir-pathname for currently running lisp.~%")
 (defun executable-homedir-pathname ()
   #+allegro (translate-logical-pathname "sys:")
@@ -97,6 +99,7 @@
 	 (exe-dir (pathname-directory exe)))
     (if (eql (first exe-dir) :relative) (uiop/os:getcwd)
 	(make-pathname :name nil :type nil :defaults exe)))
+  #+clasp (core:argv 0)
   #+abcl
   (warn "Don't know how to get executable-homedir-pathname on ~a! Please find out.~%"
 	(lisp-implementation-type)))
@@ -152,12 +155,13 @@
 	  original-redefinition-warnings)))
 
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for current-directory for currently running lisp.~%")
 (defun current-directory ()
   #+allegro (excl:current-directory)
   #+lispworks (sys:current-directory)
   #+(or sbcl abcl ecl clisp)  *default-pathname-defaults*
+  #+clasp (ext:getcwd)
   #+cmu (second (multiple-value-list (unix:unix-current-directory)))
   #+ccl (ccl:current-directory)
   
@@ -171,7 +175,7 @@
      ,@(when doc (list doc))))
 
 
-#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for class-direct-superclasses for currently running lisp.~%")
 (defun direct-superclasses (class)
   "Return a list of the direct superclasses."
@@ -179,7 +183,8 @@
    #+lispworks hcl:class-direct-superclasses 
    #+sbcl sb-mop:class-direct-superclasses 
    #+ccl ccl:class-direct-superclasses 
-   #+(or ecl clisp) clos:class-direct-superclasses class))
+   #+(or ecl clasp clisp) clos:class-direct-superclasses
+   class))
 
 
 (defun direct-superclass-names (class)
@@ -188,14 +193,14 @@
           (direct-superclasses class)))
 
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for eql-specializer for currently running lisp.~%")
 (defun eql-specializer (attr-sym)
   #+(or allegro abcl) (mop:intern-eql-specializer attr-sym)
   #+(or lispworks cmu) (list 'eql attr-sym)
   #+sbcl (sb-mop:intern-eql-specializer attr-sym)
   #+ccl (ccl:intern-eql-specializer attr-sym)
-  #+(or ecl clisp) (clos:intern-eql-specializer attr-sym)
+  #+(or ecl clasp clisp) (clos:intern-eql-specializer attr-sym)
   )
 
 (defun ensure-string (string-designator)
@@ -203,7 +208,7 @@
 
 (defun find-feature (feature) (find feature *features*))
 
-#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation of featurep for currently running lisp.~%")
 ;;
 ;; FLAG -- for full-featured featurep, use uiop:featurep
@@ -222,7 +227,7 @@
   (#-cmu class-name #+cmu mop:class-name class))
 
 
-#-(or allegro lispworks cmu sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks cmu sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for method-specializers for currently running lisp.~%")
 (defun gl-method-specializers (method)
   "Return a list of method specializers for the given method."
@@ -231,7 +236,7 @@
    #+cmu pcl:method-specializers 
    #+sbcl sb-mop:method-specializers 
    #+ccl ccl:method-specializers 
-   #+(or ecl clisp) clos:method-specializers
+   #+(or ecl clasp clisp) clos:method-specializers
    method))
 
 
@@ -278,7 +283,7 @@
 ;;
 ;; FLAG -- add missing options e.g. :key-or-value for LW.
 ;;
-#-(or allegro lispworks sbcl ccl abcl ecl clisp) 
+#-(or allegro lispworks sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for make-weak-hash-table for currently running lisp.~%")
 #+ecl (warn "Need weak-hash-tables for ECL, or we will be running out of memory in web apps.~%")
 (defun make-weak-hash-table (&rest args &key (weakness :key-and-value) &allow-other-keys)
@@ -299,6 +304,7 @@
 							(:missing t)
 							(:weak :weak)
 							('nil nil)))))
+           #+clasp :weakness #+clasp :key #+clasp :test #+clasp #'eq
 	 
            #+lispworks :weak-kind #+lispworks (ecase weakness
 						(:key-and-value :both)
@@ -315,10 +321,10 @@
            (remove-plist-key args :weakness))))
 
 
-#-(or allegro lispworks sbcl ccl clisp abcl) 
+#-(or allegro lispworks sbcl ccl clasp clisp abcl) 
 (error "Need implementation for package-documentation for the currently running Lisp.~%")
 (defun package-documentation (package)
-  #+(or allegro lispworks ccl clisp) (documentation (find-package package) t)
+  #+(or allegro lispworks ccl clasp clisp) (documentation (find-package package) t)
   #+sbcl (sb-kernel:package-doc-string (find-package package))
   #+abcl (format nil "Please find how to get documentation for ~a" (find-package package))
   )
@@ -384,11 +390,11 @@
 #-(and allegro mswindows)
 (defun set-window-titles ())
 
-#-(or allegro lispworks abcl clozure sbcl) (warn "Find out how to get the source-pathname  in current lisp.")
+#-(or allegro lispworks abcl clozure sbcl clasp) (warn "Find out how to get the source-pathname  in current lisp.")
 (defun source-pathname ()
   #+allegro excl:*source-pathname*
   #+lispworks dspec:*source-pathname*
-  #+sbcl (or *compile-file-truename* *load-truename*)
+  #+(or clasp sbcl) (or *compile-file-truename* *load-truename*)
   #+ccl (translate-logical-pathname ccl:*loading-file-source-file*)
   #+clisp (error "need source-pathname in clisp~%")
   #+abcl (extensions:source-pathname)

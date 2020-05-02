@@ -28,10 +28,11 @@
 (defparameter *utf-16-ef*
   #+allegro :unicode
   #+sbcl :utf-16le
+  #+clasp :UTF-8
   #+(or ccl abcl) :utf-16)
 
 
-#-(or allegro lispworks sbcl ccl) 
+#-(or allegro lispworks sbcl ccl clasp) 
 (warn "~&Please implement concatenate-fasls for the currently running lisp.~%")
 
 ;;
@@ -142,7 +143,9 @@ and \"..\" entries."
             (nconc (directory (merge-pathnames *wild-entry* directory)
                                :full  t)
                    (directory (merge-pathnames *wild-relative* directory)
-                               :full  t))))
+                              :full  t)))
+
+  #+clasp (uiop:subdirectories directory))
 
 
 (defun file-directory-p (file)
@@ -185,7 +188,7 @@ The command line was: ~%~%~s~%" command result error command-line)))))
 
 
 
-#-(or allegro lispworks sbcl ccl abcl clisp) (error "Need implementation for get-pid for currently running lisp~%")
+#-(or allegro lispworks sbcl ccl abcl clasp clisp) (error "Need implementation for get-pid for currently running lisp~%")
 (defun get-pid ()
   #+allegro (excl.osi:getpid) 
   #+lispworks (multiple-value-bind (status pid) 
@@ -195,6 +198,7 @@ The command line was: ~%~%~s~%" command result error command-line)))))
                 (read-from-string pid))
   #+sbcl (sb-posix:getpid)
   #+ccl (ccl::getpid)
+  #+clasp (core:getpid)
 
   
   ;;
@@ -385,11 +389,13 @@ You can set it manually with (glisp:set-gs-path <path-to-gs-executable>).~%"))
 
 
 (defun class-slots (class)
-  #-(or allegro lispworks sbcl ccl) (error "Need implementation for class-slots for currently running lisp.~%")
+  #-(or allegro lispworks sbcl ccl clasp) (error "Need implementation for class-slots for currently running lisp.~%")
   (#+allegro mop:class-slots
    #+lispworks hcl:class-slots 
    #+sbcl sb-mop:class-slots 
-   #+ccl ccl:class-slots class))
+   #+ccl ccl:class-slots
+   #+clasp clos:class-slots
+   class))
 
 ;;
 ;; from Hunchentoot:
@@ -600,11 +606,13 @@ are no longer supported by glisp:match-regexp.~%"))
 
 
 (defun slot-definition-name (slot-definition)
-  #-(or allegro lispworks sbcl ccl) (error "Need implementation for slot-definition-name for currently running lisp.~%")
+  #-(or allegro lispworks sbcl ccl clasp) (error "Need implementation for slot-definition-name for currently running lisp.~%")
   (#+allegro mop:slot-definition-name
    #+lispworks hcl:slot-definition-name 
    #+sbcl sb-mop:slot-definition-name 
-   #+ccl ccl:slot-definition-name slot-definition))
+   #+ccl ccl:slot-definition-name
+   #+clasp clos:slot-definition-name
+   slot-definition))
 
 (defun snap-folder ()
   (or #+allegro (probe-file (merge-pathnames "snaps/" "sys:"))
