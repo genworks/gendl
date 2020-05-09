@@ -100,7 +100,7 @@ Within ~a ~a
 ~a
 
 Welcome to Gendl®
-Copyright© 2017, Genworks® International, Birmingham MI, USA.
+Copyright© 2020, Genworks® International, Birmingham MI, USA.
 All Rights Reserved.
 
 This program contains free software: you can redistribute it and/or

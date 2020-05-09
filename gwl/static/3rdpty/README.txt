@@ -1,12 +1,9 @@
-/*
-*	GDL TATU 
+
+*
+*	Third-party Static Files
 *   
-*   THIS DIRECTORY CONTAINS CONTRIBUTED FILES FOR THE TATU INTERFACE FROM 
-*   3rd PARTY CONTRIBUTERS
+*   This directory contains open-source third-party files. 
+*   
+*   For redistribution terms, please consult individual directories and files. 
 *
-*   ALL ELEMENTS MIGHT BY SUBJECT TO THEIR OWN LICENSING SCHEME'S PLEASE
-*   CONSULT ORIGINAL AUTHORS FOR THAT. WHERE NEEDED LICENSE FILES ARE 
-*   INCLUDED.
 *
-*	COPYRIGHT 2008-2009 - GENWORKS - ALL RIGHTS RESERVED
-*/ 

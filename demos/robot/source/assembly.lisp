@@ -74,7 +74,6 @@ to the src/ directory distributed with GDL.
   :computed-slots
   (
    
-   (image-file "~/tmp/slack_in.gif")
 
    (strings-for-display "Robot Assembly")
    (ui-display-list-objects (list ;;(the bounding-bbox) 

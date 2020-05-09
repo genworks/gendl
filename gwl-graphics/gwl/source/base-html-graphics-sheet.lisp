@@ -226,7 +226,8 @@
 
                       (if (typep error 'error) error url)))
                 
-                "/static/gwl/images/slack_in.gif"
+		  "https://i.ibb.co/30hnxW6/slack-in.gif"
+		  ;;"https://i.ibb.co/56CfLtM/slack-out.gif"
                 
                 )))
 
