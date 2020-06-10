@@ -106,7 +106,14 @@
                                request argstring remote-syntax)))))
     ;; Note that for now, return values do not obey remote-syntax, they are always in lisp....
     (if decode
-        (decode-from-http (read-safe-string (base64-decode-safe result)))
+	(multiple-value-bind (decoded error)
+	    (ignore-errors (decode-from-http (read-safe-string (base64-decode-safe result))))
+	  (if error
+	      (progn
+		(format t "***** ~%~% Error on decoding in do-remote-execute. It was: ~a ~%~% *****" error)
+		(format t "raw result was: ~s~%" result))
+	      decoded))
+			   
         (read-safe-string result))))
 
 
