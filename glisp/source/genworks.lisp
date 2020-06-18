@@ -649,6 +649,80 @@ please find implementation for the currently running lisp.~%")
 (defun rsync (source dest &key directory 
                             print-command?
                             dry-run?
+			    options-plist
+                            (options (list "a"))
+                            long-form-options)
+  #+os-windows (declare (ignore source dest directory  print-command? dry-run?
+                                options long-form-options))
+  #+os-windows (error "~&Sorry, glisp:rsync is not yet implemented for MS Windows.~%")
+
+  #-mswindows
+  (flet ((expanded-pathname-string (pathname)
+	   (let ((namestring (namestring pathname)))
+	     (if (or (search "@" namestring) (search ":" namestring)) pathname
+		 (replace-regexp (namestring (translate-logical-pathname pathname)) "~/"
+				 (namestring (user-homedir-pathname))))))
+         (dotted-relative-pathname (source-list)
+           (destructuring-bind (head tail) source-list
+             (format nil "/~{~a/~}./~{~a/~}" head tail))))
+
+    (labels ((plist-keys (plist) (when plist
+				   (cons (first plist) (plist-keys (rest (rest plist))))))
+	     (plist-values (plist) (when (consp (rest plist))
+				     (cons (second plist) (plist-values (rest (rest plist)))))))
+
+      (let ((command-list 
+             (remove nil
+                     (cons "rsync" 
+                           (cons (when options (format nil "-~{~a~}" options))
+				 (append 
+                                  (mapcar #'(lambda(option) (concatenate 'string "--" option))
+                                          long-form-options)
+
+				  (mapcan #'(lambda(key value)
+					      (list (format nil "--~(~a~)" key)
+						    value)) (plist-keys options-plist) (plist-values options-plist))
+				
+				  (list
+                                   (etypecase source
+                                     (list (dotted-relative-pathname source))
+                                     ((or string pathname)
+                                      (expanded-pathname-string source))))
+
+                                  (list (if (search ":" (namestring dest)) dest
+                                            (expanded-pathname-string (namestring dest))))))))))
+	(when (or print-command? dry-run?) (format t "~s~%" command-list))
+	(unless dry-run?
+          (uiop:with-current-directory (directory) 
+	    ;;
+	    ;; FLAG capture this pattern as a standard form of run-program:
+	    ;;
+            (multiple-value-bind (output error-output return-code)
+		(run-program command-list :output :string :error-output :string :ignore-error-status t)
+              (unless (zerop return-code)
+		(error "The following command returned an error:
+
+~s
+
+The output was:
+
+~a
+
+The error-output was:
+
+~a
+
+and the return-code was:
+
+~a
+
+"
+                       command-list output error-output return-code)))))))))
+
+#+nil
+(defun rsync (source dest &key directory 
+                            print-command?
+                            dry-run?
                             (options (list "a"))
                             long-form-options)
   #+os-windows (declare (ignore source dest directory  print-command? dry-run?
