@@ -25,7 +25,7 @@
 (defpackage :gendl-boot (:export #:system-description #:system-home))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  #-(or allegro lispworks sbcl ccl abcl clisp)   (error "
+  #-(or allegro lispworks sbcl ccl abcl clisp clasp)   (error "
 
 D'oh! GenDL is not yet supported on ~a. If you would like to try porting it, start with this file,
 gdl/base/common/genworks.lisp. 
@@ -310,13 +310,13 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   ))
 
 
-#-(or allegro lispworks sbcl ccl abcl ecl clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
+#-(or allegro lispworks sbcl ccl abcl ecl clasp clisp) (error "Need package for mop:validate-superclass for currently running lisp.~%")
 (defpackage :com.genworks.lisp
   (:documentation #.(gendl-boot:system-description :glisp))
   (:use :common-lisp)
   (:shadow #:intern)
   (:nicknames :glisp)
-  (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+(or ecl clisp) :clos
+  (:import-from #+(or allegro abcl) :mop #+lispworks :hcl #+sbcl :sb-mop  #+ccl :ccl #+(or ecl clasp clisp) :clos
 		#:validate-superclass)
   (:export 
    ;;

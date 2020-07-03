@@ -134,7 +134,8 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		 (format t (if (> wait-time 1) "~&Retrying AllegroServe on ~a...~%"
 			       "~&Trying to start AllegroServe on ~a...~%") port)
 		 (if (ignore-errors
-		       (apply #'net.aserve:start
+                      (apply #'net.aserve:start
+                             #+clasp :host #+clasp "localhost"
 			      :port port :listeners listeners
 			      :external-format external-format
 			      aserve-start-args))
