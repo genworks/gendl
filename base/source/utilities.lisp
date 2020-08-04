@@ -275,57 +275,6 @@ You have a dependency on caffeine. Your children are your dependants.
 
 
 ;;
-;; FLAG - this is current
-;;
-#+nil
-(let ((value (gensym)) (need? (gensym)))
-  (defmacro with-dependency-tracking ((message-symbol &optional (self-sym 'self)) &rest body)
-    `(let ((,value (,message-symbol ,self-sym))
-	   (,need? (and *run-with-dependency-tracking?* *notify-cons* *root-checking-enabled?*
-			;;
-			;; FLAG -- check that remotes are effectively from same tree as well
-			;;
-			(or (and (find-class 'gdl-remote nil) (typep (first *notify-cons*) 'gdl-remote))
-			    (same-tree? ,self-sym (first *notify-cons*))))))
-       
-       
-       ,(when *compile-circular-reference-detection?*
-	  `(when (and *run-with-circular-reference-detection?*
-		  (member (list ,self-sym ',message-symbol) *till-now* :test #'equalp))
-	     (error "Circular reference detected")))
-       
-       (if (eq (first (ensure-list ,value)) 'gdl-rule::%unbound%)
-	   (progn (setq ,value (list (let* ,(remove nil
-					     (list (when *compile-dependency-tracking?*
-						     `(*notify-cons* (when *run-with-dependency-tracking?* 
-								       (list ,self-sym ',message-symbol))))
-						   (when *compile-circular-reference-detection?*
-						     `(*till-now* (when *run-with-circular-reference-detection?*
-								    (cons (list ,self-sym ',message-symbol) 
-									  *till-now*))))))
-				       ,@body)
-				     (when ,need? (list (copy-list *notify-cons*)))))
-		  (if (not (eql (first ,value) 'gdl-rule:%not-handled%)) 
-		      (setf (,message-symbol ,self-sym) ,value)
-		      ;;(without-interrupts (setf (,message-symbol ,self-sym) ,value))
-		    
-		    (progn (setq ,need? nil)
-			   (not-handled ,self-sym ',message-symbol))))
-	 (when ,need? (add-notify-cons *notify-cons* ,value)))
-       
-       (first ,value))))
-
-
-
-
-#+nil
-(defun add-notify-cons (notify-cons value)
-  (let ((matching-sublist (assoc (first notify-cons) (second value))))
-    (if matching-sublist (pushnew (second notify-cons) (rest matching-sublist))
-      (push (copy-list notify-cons) (second value)))))
-
-
-;;
 ;; FLAG -- merge the following two back in when we have adaptive Abstract Associative Map. 
 ;;
 #+nil
@@ -372,19 +321,8 @@ You have a dependency on caffeine. Your children are your dependants.
        
        (first ,value))))
 
-#+nil
-(defun add-notify-key (notify-cons value)
-  (if (second value)
-      (pushnew (second notify-cons) (gethash (first notify-cons) (second value)))
-    (setf (second value)
-      (let ((ht (make-hash-table)))
-        (setf (gethash (first notify-cons) ht) (list (second notify-cons)))
-        ht))))
 
 
-
-#+nil
-(defun same-tree? (obj1 obj2) (eql (gdl-acc::%root% obj1) (gdl-acc::%root% obj2)))
 
 (defun same-tree? (obj1 obj2)
      (or (eql (gdl-acc::%root% obj1) (gdl-acc::%root% obj2))

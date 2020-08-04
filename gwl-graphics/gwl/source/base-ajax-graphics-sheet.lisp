@@ -22,8 +22,7 @@
 
 (in-package :gwl)
 
-(define-object base-ajax-graphics-sheet 
-    (base-ajax-sheet base-html-graphics-sheet)
+(define-object base-ajax-graphics-sheet (base-ajax-sheet base-html-graphics-sheet)
   
   
   :documentation (:description "This mixes together base-ajax-sheet 
@@ -31,7 +30,7 @@ with base-html-graphics-sheet, and adds html-format output-functions
 for several of the new formats such as ajax-enabled png/jpeg and 
 Raphael vector graphics."
                   
-			       :examples "FLAG -- Fill in!!!")
+                               :examples "FLAG -- Fill in!!!")
   
   :input-slots 
   ((respondent (the bashee) :defaulting)
@@ -53,7 +52,7 @@ Default is 1." viewport-border-default 1)
     image-format-plist (list :png "PNG image"
                              :jpeg "jpeg image"
                              :x3dom "X3DOM"
-			     ;;:web3d "VRML/X3D"
+                             ;;:web3d "VRML/X3D"
                              :raphael "SVG/VML"))
 
    
@@ -165,26 +164,26 @@ x3draw();
    (raphael-canvas-id (format nil "raphael-~a" (the base64-encoded-root-path)))
    
    (raphael-string  (unless (the no-graphics?)
-		      (with-error-handling ()
-			(with-output-to-string (ss)
-			  (with-format (raphael ss 
-						:page-width (the view-object page-width)
-						:page-length (the view-object page-length)
-						:background-color (the background-color)
-						:foreground-color (the foreground-color))
-			    (write-the view-object cad-output))))))
+                      (with-error-handling ()
+                        (with-output-to-string (ss)
+                          (with-format (raphael ss 
+                                                :page-width (the view-object page-width)
+                                                :page-length (the view-object page-length)
+                                                :background-color (the background-color)
+                                                :foreground-color (the foreground-color))
+                            (write-the view-object cad-output))))))
 
 
    (svg-string (if (the no-graphics?)
-		   (with-cl-who-string ()
-		     ((:div :id "empty-viewport" :class "empty-viewport")
-		      (str (the empty-display-list-message))))
-		   (with-error-handling ()
-		     (with-output-to-string (ss)
-		       (with-format (svg ss 
-					 :background-color (the background-color)
-					 :foreground-color (the foreground-color))
-			 (write-the view-object cad-output))))))
+                   (with-cl-who-string ()
+                     ((:div :id "empty-viewport" :class "empty-viewport")
+                      (str (the empty-display-list-message))))
+                   (with-error-handling ()
+                     (with-output-to-string (ss)
+                       (with-format (svg ss 
+                                         :background-color (the background-color)
+                                         :foreground-color (the foreground-color))
+                         (write-the view-object cad-output))))))
       
    
    ("String of valid HTML. This can be used to 
@@ -223,18 +222,18 @@ bottom of the graphics inside a table."
     (with-cl-who-string ()
       (:table (:tr ((:td :align :center)
                     (str (ecase (the image-format-selector value)
-			   (:x3dom (the x3dom-graphics))
-			   ((:png :jpeg :jpg) (the raster-graphics))
-			   (:raphael (the vector-graphics))))))
-	(when (and (member (the image-format) (list :jpeg :jpg :png :raphael ))
-		   (the include-view-controls?))
-	  (htm (:tr (:td (str (the view-controls))))))
-	(when (and (member (the image-format) (list :x3dom))
-		   (the include-view-controls?))
-	  (htm (:tr (:td (str (the image-format-selector html-string))))))
+                           (:x3dom (the x3dom-graphics))
+                           ((:png :jpeg :jpg) (the raster-graphics))
+                           (:raphael (the vector-graphics))))))
+              (when (and (member (the image-format) (list :jpeg :jpg :png :raphael ))
+			 (the include-view-controls?))
+		(htm (:tr (:td (str (the view-controls))))))
+              (when (and (member (the image-format) (list :x3dom))
+			 (the include-view-controls?))
+		(htm (:tr (:td (str (the image-format-selector html-string))))))
 
 
-	)))
+              )))
 
    ("3D point. This is the upper-right corner of the bounding box of the dragged and/or dropped element."
     dropped-x-y nil :settable)
@@ -252,22 +251,22 @@ This is not tested to see if it is part of the same object tree as current self.
     (progn 
       (the inner-html)
       (cond ((eql (the image-format-selector value) :x3dom)
-	     (with-cl-who-string ()
-	       (:div
-		((:script :type "text/javascript")
-		 (str (the viewport-js-text))))))
-	    (t "")))))
+             (with-cl-who-string ()
+               (:div
+                ((:script :type "text/javascript")
+                 (str (the viewport-js-text))))))
+            (t "")))))
 
 
   
   :hidden-objects
   ((view-object :type 'web-drawing
                 :pass-down (projection-vector immune-objects background-color 
-					      field-of-view-default raphael-canvas-id
-					      zoom-factor-renderer)
+                                              field-of-view-default raphael-canvas-id
+                                              zoom-factor-renderer)
                 :page-length (the length)
                 :page-width (the width)
-		:empty-display-list-message (the empty-display-list-message)
+                :empty-display-list-message (the empty-display-list-message)
                 :objects (the display-list-objects)
                 :object-roots (the display-list-object-roots))
 
@@ -305,20 +304,20 @@ This is not tested to see if it is part of the same object tree as current self.
    ;; FLAG -- standardize on length instead of height for Y coord.
    ;;
    (model-x-y (local-x-y)
-	      (when local-x-y
-		(destructuring-bind (&key x y) local-x-y
-		  (let ((x (- x (half (the view-object width))))
-			(y (let ((y (- (the view-object length) y)))
-			     (- y (half (the view-object length))))))
-		    (let ((adjusted 
-			   (scalar*vector 
-			    (the view-object user-scale)
-			    (add-vectors (make-point (get-x (the view-object user-center) )
-						     (get-y (the view-object user-center)) 0)
-					 (scalar*vector (/ (the view-object user-scale))
-							(make-point x y 0))))))
-		      (let ((model-point (the view-object main-view (model-point adjusted))))
-			model-point))))))
+              (when local-x-y
+                (destructuring-bind (&key x y) local-x-y
+                  (let ((x (- x (half (the view-object width))))
+                        (y (let ((y (- (the view-object length) y)))
+                             (- y (half (the view-object length))))))
+                    (let ((adjusted 
+                           (scalar*vector 
+                            (the view-object user-scale)
+                            (add-vectors (make-point (get-x (the view-object user-center) )
+                                                     (get-y (the view-object user-center)) 0)
+                                         (scalar*vector (/ (the view-object user-scale))
+                                                        (make-point x y 0))))))
+                      (let ((model-point (the view-object main-view (model-point adjusted))))
+                        model-point))))))
 
 
 
@@ -337,24 +336,24 @@ The <tt>view-object</tt> child should exist and be of type <tt>web-drawing</tt>.
    (set-js-vals! 
     (js-vals)
     (let ((dropped-x-y (the (model-x-y (destructuring-bind (&key x y &allow-other-keys) js-vals
-					 (list :x x :y y)))))
-	  (dropped-height-width (destructuring-bind (&key width height &allow-other-keys) js-vals
-				  (list :width (/ width (the view-object view-scale))
-					:height (/ height (the view-object view-scale)))))
-	  (dropped-object (with-error-handling () (base64-decode-list (getf js-vals :name)))))
+                                         (list :x x :y y)))))
+          (dropped-height-width (destructuring-bind (&key width height &allow-other-keys) js-vals
+                                  (list :width (/ width (the view-object view-scale))
+                                        :height (/ height (the view-object view-scale)))))
+          (dropped-object (with-error-handling () (base64-decode-list (getf js-vals :name)))))
 
       (the (set-slots! (list :dropped-x-y dropped-x-y
-			     :dropped-height-width dropped-height-width
-			     :dropped-object dropped-object)))))
+                             :dropped-height-width dropped-height-width
+                             :dropped-object dropped-object)))))
 
    (on-drag () (when (the on-drag-function)
-		 (funcall (the on-drag-function))))
+                 (funcall (the on-drag-function))))
 
    (on-drop () (when (the on-drop-function)
-		 (funcall (the on-drop-function))))
+                 (funcall (the on-drop-function))))
 
    (on-touchmove () (when (the on-touchmove-function)
-		      (funcall (the on-touchmove-function))))))
+                      (funcall (the on-touchmove-function))))))
 
 
 

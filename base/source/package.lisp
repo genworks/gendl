@@ -654,7 +654,10 @@ If you are interested in this effort we would love to hear from you at open-sour
 	   #:3d-vector
 	   #:3d-point-p
 	   #:3d-vector-p
-           
+
+	   #:flush-center
+	   #:distance-to-plane
+	   
 	   ))
 
 

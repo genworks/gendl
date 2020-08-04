@@ -175,10 +175,10 @@ Including the base, there are eight modules supported with Gendl:
 
 ### Alternative Geometry Kernels
 
-If you have a different favorite solid modeling kernel
-(e.g. OpenCascade, Parasolid, Geometros sgCore), then an interesting
-project would be to interface the existing Surface package to that
-kernel, by implementing the methods in surf/source/methods.lisp.
+If you have a different favorite solid modeling kernel, then an
+interesting project would be to interface the existing Surface package
+to that kernel, by implementing the methods in
+surf/source/methods.lisp.
 
 The Surface (`:surf`) package (in the `surf/` folder) contains all the
 high-level Surface and Solid modeling primitives currently implemented

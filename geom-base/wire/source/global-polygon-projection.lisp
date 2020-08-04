@@ -29,7 +29,7 @@ the polygon. The vertices and projection-vector are given in the global coordina
 the local center and orientation do not affect the positioning or orientation of this part."
                   
                   
-                                  :examples "<pre>
+                               :examples "<pre>
 
   (in-package :gdl-user)
 
@@ -94,7 +94,7 @@ each direction.</li>
                               (the-object
                                (if (typep (the :polygon-2) (the :polygon-type))
                                    (the :polygon-2) 
-                                 (the :polygon-original)) :vertex-list))
+                                   (the :polygon-original)) :vertex-list))
                              (butlast (the :polygon-1 :vertex-list))))
    
    
@@ -105,40 +105,38 @@ each direction.</li>
    (polygon-2-effective (if (typep (the polygon-2) (the polygon-type))
                             (the polygon-2) (the polygon-original)))
 
-   
    (%vertex-array% (let ((curve-pts (flatten-curves (the %curves-to-draw%))))
-		     (make-array (+ (twice (length (the polygon-original vertex-list)))
-				    (length curve-pts))
-				 :initial-contents
-				 (append (the polygon-1 vertex-list)
-					 (the polygon-2-effective vertex-list)
-					 curve-pts))))
+                     (make-array (+ (twice (length (the polygon-original vertex-list)))
+                                    (length curve-pts))
+                                 :initial-contents
+                                 (append (the polygon-1 vertex-list)
+                                         (the polygon-2-effective vertex-list)
+                                         curve-pts))))
 
    (%line-vertex-indices%
     (let* ((num-of-vertices (length (the polygon-original vertex-list)))
-	   (poly-1-indices (list-of-numbers 0 (1- num-of-vertices)))
-	   (poly-2-indices (list-of-numbers num-of-vertices
-					    (1- (twice num-of-vertices)))))
+           (poly-1-indices (list-of-numbers 0 (1- num-of-vertices)))
+           (poly-2-indices (list-of-numbers num-of-vertices
+                                            (1- (twice num-of-vertices)))))
       (append (mapcar #'list
-		      poly-1-indices (append (rest poly-1-indices) (list (first poly-1-indices))))
-	      (mapcar #'list
-		      poly-2-indices
-		      (append (rest poly-2-indices) (list (first poly-2-indices))))
-	      (mapcar #'list
-		      poly-1-indices poly-2-indices))))
-   
+                      poly-1-indices (append (rest poly-1-indices) (list (first poly-1-indices))))
+              (mapcar #'list
+                      poly-2-indices
+                      (append (rest poly-2-indices) (list (first poly-2-indices))))
+              (mapcar #'list
+                      poly-1-indices poly-2-indices))))
    ;;
    ;; FLAG -- figure out proper normals for these.
    ;;
    (polygons-for-ifs
     (let ((p1-list (the polygon-1 vertex-list))
-	  (p2-list (the polygon-2-effective vertex-list)))
+          (p2-list (the polygon-2-effective vertex-list)))
       (cons (butlast p1-list)
-	    (append
-	     (mapcar #'(lambda(p1-v1 p1-v2 p2-v1 p2-v2)
-			 (list  p1-v1 p1-v2 p2-v2 p2-v1))
-		     p1-list (rest p1-list) p2-list (rest p2-list))
-	     (list (butlast p2-list)))))))
+            (append
+             (mapcar #'(lambda(p1-v1 p1-v2 p2-v1 p2-v2)
+                         (list  p1-v1 p1-v2 p2-v2 p2-v1))
+                     p1-list (rest p1-list) p2-list (rest p2-list))
+             (list (butlast p2-list)))))))
   
   :hidden-objects
   ((polygon-original :type (the :polygon-type)
@@ -177,25 +175,25 @@ each direction.</li>
   
   :computed-slots
   ((ifs-vertex-ht (when (the polygons-for-ifs)
-		    (let ((ht (make-hash-table :test #'equalp))
-			  (count -1))
-		      (dolist (polygon (the polygons-for-ifs) ht)
-			(dolist (vertex polygon)
-			  (let ((current (gethash vertex ht)))
-			    (unless current 
-			      (setf (gethash vertex ht) (incf count)))))))))
+                    (let ((ht (make-hash-table :test #'equalp))
+                          (count -1))
+                      (dolist (polygon (the polygons-for-ifs) ht)
+                        (dolist (vertex polygon)
+                          (let ((current (gethash vertex ht)))
+                            (unless current 
+                              (setf (gethash vertex ht) (incf count)))))))))
    
    (ifs-array (when (the polygons-for-ifs)
-		(let ((array (make-array (list (hash-table-count (the ifs-vertex-ht))))))
-		  (maphash #'(lambda(vertex index)
-			       (setf (aref array index) vertex))
-			   (the ifs-vertex-ht)) array)))
+                (let ((array (make-array (list (hash-table-count (the ifs-vertex-ht))))))
+                  (maphash #'(lambda(vertex index)
+                               (setf (aref array index) vertex))
+                           (the ifs-vertex-ht)) array)))
    
    (ifs-indices (when (the polygons-for-ifs)
-		  (mapcar #'(lambda(polygon)
-			      (mapcar #'(lambda(vertex)
-					  (gethash vertex (the ifs-vertex-ht)))
-				      polygon))
-			  (the polygons-for-ifs))))))
+                  (mapcar #'(lambda(polygon)
+                              (mapcar #'(lambda(vertex)
+                                          (gethash vertex (the ifs-vertex-ht)))
+                                      polygon))
+                          (the polygons-for-ifs))))))
   
 

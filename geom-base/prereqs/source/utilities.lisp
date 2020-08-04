@@ -1666,3 +1666,11 @@ pointing from <tt>first-point</tt> to <tt>second-point</tt>, within <tt>toleranc
   (let ((known-vector (subtract-vectors second-point first-point))
         (unknown-vector (subtract-vectors unknown-point first-point)))
     (same-direction-vectors? known-vector unknown-vector :tolerance tolerance)))
+
+(defun flush-center (ref-center datum p-plane u-plane &optional (u-datum u-plane))
+  (translate-along-vector ref-center u-datum
+			  (distance-to-plane datum p-plane u-plane u-datum)))
+
+(defun distance-to-plane (datum p-plane u-plane &optional (u-datum u-plane))
+  (3d-distance datum (inter-line-plane datum u-datum p-plane u-plane)))
+
