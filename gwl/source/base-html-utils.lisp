@@ -126,8 +126,7 @@ by user application code.")
 
 
 
-
-(defun publish-gwl-app (path string-or-symbol &key make-object-args (server *wserver*))
+(defun publish-gwl-app (path string-or-symbol &key publish-args make-object-args (server *wserver*))
   "Void. Publishes an application, optionally with some initial arguments to be passed in as input-slots.
 
 :arguments (path \"String. The URL pathname component to be published.\"
@@ -136,13 +135,15 @@ by user application code.")
 :&key (make-object-args \"Plist. Extra arguments to pass to make-object.\")
 "
 
-  (publish :path path
-	   :server server
-           :function #'(lambda(req ent)
-                         (gwl-make-object req ent 
-                                          (format nil (if (stringp string-or-symbol) "~a" "~s")
-                                                  string-or-symbol)
-                                          :make-object-args make-object-args))))
+  (apply #'publish
+	 :path path
+	 :server server
+	 :function #'(lambda(req ent)
+		       (gwl-make-object req ent 
+					(format nil (if (stringp string-or-symbol) "~a" "~s")
+						string-or-symbol)
+					:make-object-args make-object-args))
+	 publish-args))
 
 
 (defun publish-string-content (url string &rest publish-args &key (server *wserver*) &allow-other-keys)

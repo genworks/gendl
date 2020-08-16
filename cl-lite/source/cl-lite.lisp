@@ -395,15 +395,21 @@ to go inside the actual list form in the asdf file. It came in as ~s instead.~%"
 		:license ,(the license)
 		:serial t
 		:version ,(the version)
+
+		:depends-on ,(the asdf-depends-on)
+		:defsystem-depends-on ,(read-from-string (format nil "(~a)" (or (the asdf-defsystem-depends-on) "")))
+		
+		#|
 		:depends-on ,(the asdf-depends-on)
 		,(format nil "%%remove%%#-asdf-unicode :defsystem-depends-on #-asdf-unicode ~a%%remove%%"
 			 (format nil "(:asdf-encodings~a~a)"
 				 (if (the asdf-defsystem-depends-on) " " "")
 				 (or (the asdf-defsystem-depends-on) "")))
 		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%"
-			 (format nil "(~a)" (or (the asdf-defsystem-depends-on) "")))
+		(format nil "(~a)" (or (the asdf-defsystem-depends-on) "")))
 		"%%remove%%#+asdf-encodings :encoding #+asdf-encodings :utf-8%%remove%%"
-		
+		|#
+
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
 		;;
