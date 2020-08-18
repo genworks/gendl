@@ -272,6 +272,8 @@ If you are interested in this effort we would love to hear from you at open-sour
            #:the-element
            #:the-object
 	   #:theo
+	   #:thec
+	   #:le
            #:to-double-float
            #:to-single-float
            #:traverse-tree
@@ -440,6 +442,11 @@ If you are interested in this effort we would love to hear from you at open-sour
    #:parse-xml
 
    #:rsync
+
+   #:setuid
+   #:getuid
+   #:setgid
+   
    ))
 
 (defpackage :geom-base
@@ -1012,6 +1019,8 @@ If you are interested in this effort we would love to hear from you at open-sour
      #:with-htm
      #:publish-gwl-app
      #:publish-string-content
+
+     #:wmd
      )))
 
 

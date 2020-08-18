@@ -91,18 +91,23 @@
 
 #-(or allegro lispworks cmu sbcl ccl abcl ecl clasp clisp) 
 (error "Need implementation for executable-homedir-pathname for currently running lisp.~%")
-(defun executable-homedir-pathname ()
-  #+allegro (translate-logical-pathname "sys:")
-  #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
-  #+(or lispworks ccl ecl clisp)
-  (let* ((exe (first (glisp:basic-command-line-arguments)))
-	 (exe-dir (pathname-directory exe)))
-    (if (eql (first exe-dir) :relative) (uiop/os:getcwd)
-	(make-pathname :name nil :type nil :defaults exe)))
-  #+clasp (core:argv 0)
-  #+abcl
-  (warn "Don't know how to get executable-homedir-pathname on ~a! Please find out.~%"
-	(lisp-implementation-type)))
+(#+allegro
+ excl:without-package-locks #-allegro progn
+ (defun executable-homedir-pathname ()
+   #+allegro (translate-logical-pathname "sys:")
+   #+sbcl (make-pathname :name nil :type nil :defaults sb-ext:*core-pathname*)
+   #+(or lispworks ccl ecl clisp)
+   (let* ((exe (first (glisp:basic-command-line-arguments)))
+	  (exe-dir (pathname-directory exe)))
+     (if (eql (first exe-dir) :relative)
+	 (probe-file
+	  (merge-pathnames (make-pathname :directory exe-dir :defaults nil)
+			   (uiop/os:getcwd)))
+	 (make-pathname :name nil :type nil :defaults exe)))
+   #+clasp (core:argv 0)
+   #+abcl
+   (warn "Don't know how to get executable-homedir-pathname on ~a! Please find out.~%"
+	 (lisp-implementation-type))))
 
 
 (defparameter *gdl-program-home* #-abcl (glisp:executable-homedir-pathname)

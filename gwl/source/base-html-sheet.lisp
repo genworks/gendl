@@ -112,7 +112,7 @@ object.")
    ("String. Name of a browser frame or window to display this page. Default of NIL indicates to use the same window."
     target nil)
    
-   (instance-id nil :defaulting)
+   (instance-id nil :defaulting :settable)
    
    (cookies-to-send nil)
    

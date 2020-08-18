@@ -463,7 +463,10 @@ from a saved snapshot file."
     (with-cl-who ()
       ((:span :style "color: blue; cursor: pointer;"
               :onclick (string-append (the (gdl-sjax-call :function-key :update-root!))
-                                      " location.reload(true);"
+				      ;;
+				      ;; FLAG -- is below really not needed? 
+				      ;;
+                                      ;;" location.reload(true);"
                                       ))
        "Update!")))
 

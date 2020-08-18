@@ -116,7 +116,8 @@ instance at what time should the recovery instance expire?"
            (iid (make-keyword 
                  (rest (assoc "iid" query :test #'string-equal))))
            (hash-entry (gethash iid *instance-hash-table*))
-           (root-object (first hash-entry)) (skin (third hash-entry))
+	   (root-object (or (first hash-entry) (restore-from-snap iid)))
+	   (skin (third hash-entry))
            (recovery-object? (typep root-object 'session-recovery))
            (requestor (when (and root-object (not recovery-object?)) 
                         (the-object root-object 
@@ -180,7 +181,7 @@ instance at what time should the recovery instance expire?"
         
         (cond (recovery-object? (with-http-response (req ent :response *response-moved-permanently*)
                                   (setf (reply-header-slot-value req :location)
-                                    (defaulting (the-object root-object recovery-url) *failed-request-url*))
+                                        (defaulting (the-object root-object recovery-url) *failed-request-url*))
                                   (setf (reply-header-slot-value req :cache-control) "no-cache")
                                   (setf (reply-header-slot-value req :pragma) "no-cache")
                                   (with-http-body (req ent))))
@@ -217,7 +218,7 @@ instance at what time should the recovery instance expire?"
                                      (*query* query)) (the-object requestor (after-set!)))))
                    
                    (let ((respondent (if (and (consp result) (eql (first result) :go-to)) (second result)
-                                       (the-object requestor respondent))))
+                                         (the-object requestor respondent))))
                      ;;
                      ;; Dashboard stuff
                      ;;
@@ -362,7 +363,7 @@ package-qualified object name\")
              (root-part-and-version 
               (if (or (not share?) (not current))
                   (list (apply #'make-object (read-safe-string part) 
-                               :instance-id instance-id ;;:query-toplevel query 
+                               :instance-id instance-id :query-toplevel query 
 			       make-object-args)
                         *dummy-version*)
                 current)))
