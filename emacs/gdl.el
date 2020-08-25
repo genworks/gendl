@@ -180,11 +180,13 @@
 
 (eval-after-load "slime"
   '(progn
-     
      (add-hook 'slime-connected-hook 'load-and-or-start-gendl t)
-     (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-     (add-to-list 'auto-mode-alist '("\\.gdl\\'" . lisp-mode))
-     (add-to-list 'auto-mode-alist '("\\.gendl\\'" . lisp-mode))
+     (dolist (extension (list "\\.cl\\'"  "\\.gdl\\'" "\\.gendl\\'"
+			      "\\.lhtm\\'"  "\\.lhtml\\'" "\\.sexp\\'"
+			      "\\.sexpr\\'" "\\.sexps\\'"))
+       
+       (add-to-list 'auto-mode-alist (cons extension 'lisp-mode)))
+     
      
      (slime-setup '(slime-fancy slime-banner slime-tramp))
      (add-hook 'slime-connected-hook 'set-slime-shortcuts)

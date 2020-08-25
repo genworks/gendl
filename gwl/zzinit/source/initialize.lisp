@@ -178,8 +178,7 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 
   (when (find-package :zacl)
     (setq excl:*initial-terminal-io* *terminal-io*)
-    (setf (slot-value net.aserve:*wserver* 'net.aserve::log-stream) excl:*initial-terminal-io*
-	  (slot-value (slot-value net.aserve:*wserver* 'net.aserve::default-vhost) 'net.aserve::log-stream) excl:*initial-terminal-io*))
+    (setq net.aserve:*wserver* (make-instance 'net.aserve:wserver)))
   
   (setq *iid-random-state* (make-random-state t))
   

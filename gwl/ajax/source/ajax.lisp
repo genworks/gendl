@@ -38,37 +38,37 @@
 (defun restore-from-snap (iid)
   (when *ajax-snap-restore?*
     (let ((new-self
-	   (let ((snap-file 
-		  (merge-pathnames 
-		   (make-pathname :name (format nil "~a" iid) 
-				  :type "snap") (glisp:snap-folder))))
-	     (when (probe-file snap-file)
-	       (with-error-handling ()
-		 (read-snapshot :filename snap-file
-				:keys-to-ignore (list :time-last-touched 
-						      :time-instantiated 
-						      :expires-at)))))))
+           (let ((snap-file 
+                  (merge-pathnames 
+                   (make-pathname :name (format nil "~a" iid) 
+                                  :type "snap") (glisp:snap-folder))))
+             (when (probe-file snap-file)
+               (with-error-handling ()
+                 (read-snapshot :filename snap-file
+                                :keys-to-ignore (list :time-last-touched 
+                                                      :time-instantiated 
+                                                      :expires-at)))))))
         
       (when new-self
-	(setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
-	      (list new-self nil))
-	(when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
-	(the-object new-self set-instantiation-time!)
-	(the-object new-self set-time-last-touched!)
+        (setf (gethash (make-keyword (the-object new-self instance-id)) *instance-hash-table*)
+              (list new-self nil))
+        (when (typep new-self 'session-control-mixin) (the-object new-self set-expires-at))
+        (the-object new-self set-instantiation-time!)
+        (the-object new-self set-time-last-touched!)
           
-	(format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
-		(the-object new-self instance-id))
+        (format t "~%~%*************** Session ~a Restarted! ***************~%~%" 
+                (the-object new-self instance-id))
 
-	;;
-	;; Force it to set html-sections.
-	;;
-	;; But, have to do the one at root-path as well if root-path is not nil. 
-	;;
-	(the-object new-self main-sheet-body)
-	
-	(the-object new-self custom-snap-restore!)
-	  
-	)
+        ;;
+        ;; Force it to set html-sections.
+        ;;
+        ;; But, have to do the one at root-path as well if root-path is not nil. 
+        ;;
+        (the-object new-self main-sheet-body)
+        
+        (the-object new-self custom-snap-restore!)
+          
+        )
     
       ;;
       ;; FLAG for testing only. 

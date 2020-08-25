@@ -115,6 +115,9 @@ This is often used for sending the <tt>index</tt> message to an element of a qua
   `(the-object child ,@reference-chain))
 
 
+(defmacro thech (&rest reference-chain)
+  `(the-child ,@reference-chain))
+
 (defun not-handled-error (object message &optional args)
   (if (the-object object root?)
       (error "~s, which is the root object, could not handle the ~s message~a." 

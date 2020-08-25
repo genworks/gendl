@@ -1198,7 +1198,6 @@ a separate object hierarchy." object self)))
 
 
 (defun %unbind-dependent-slots% (object slot &key updating?)
-  
   (let ((current (gethash (list object slot) *unbound-slots*)))
     (unless current
       (setf (gethash (list object slot) *unbound-slots*) t)
@@ -1207,7 +1206,6 @@ a separate object hierarchy." object self)))
             (when (not (eq (first (ensure-list slot-value)) 'gdl-rule:%unbound%))
               (when (and *eager-setting-enabled?* (null (second slot-value)))
                 (push (list object slot) *leaf-resets*))
-
               (let ((list-or-hash (second slot-value)))
                 (if (listp list-or-hash)
                     (mapc #'(lambda(notify-cons)
@@ -1221,36 +1219,14 @@ a separate object hierarchy." object self)))
                                            (%unbind-dependent-slots%  node message 
                                                                       :updating? updating?)) 
                                        messages)) list-or-hash)))
-              
               (if (third slot-value)
                   (setf (second (slot-value object slot)) nil)
                   (setf (slot-value object slot)
 
-
-			(if (or
-			     updating?
-			     (not (the-object object remember-children?))
-			     (not *remember-previous-slot-values?*))
-			     
-			     #+nil
-			     (and (not (typep object 'quantification))
-				  (not (the-object object remember-children?)))
-			     
-			     'gdl-rule::%unbound%
-			     
-                            (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))
-			
-
-			#+nil
-                        (if (and
-
-			     ;;(not (the-object object remember-children?))
-			     ;;#+nil
-			     (and (not (typep object 'quantification))
-				  (not (the-object object remember-children?)))
-			     (or updating? (not *remember-previous-slot-values?*)))
-                            'gdl-rule::%unbound%
-                            (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
+			(if (or updating? (not (the-object object remember-children?))
+				(not *remember-previous-slot-values?*))
+			    'gdl-rule::%unbound%
+			    (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
           (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
             (the-object object (unbind-remote-slot slot)))))))
 

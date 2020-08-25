@@ -787,3 +787,20 @@ and the return-code was:
 
 "
                      command-list output error-output return-code))))))))
+
+
+
+
+
+(defun getuid ()
+  #-(or allegro ccl) (error "need getuid impl.")
+  #+(or allegro ccl)
+  (#+allegro excl.osi:getuid #+ccl ccl::getuid))
+
+(defun setuid (num)
+    #-(or allegro ccl) (error "need setuid impl.")
+    (#+allegro excl.osi:setuid #+ccl ccl::setuid num))
+
+(defun setgid (num)
+    #-(or allegro ccl) (error "need setgid impl.")
+    (#+allegro excl.osi:setgid #+ccl ccl::setgid num))

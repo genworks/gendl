@@ -21,29 +21,26 @@
 
 (in-package :gwl)
 
-(defun start-session-reaper (&key (minutes 20) (debug? t) (listeners 20) extra-functions)
-  (format t "~2%Lauching Expired Session Reaper to awaken and run every ~a minute~:p~2%" minutes)
-  (glisp:process-run-function "GWL Session Reaper" 
-    #'(lambda() 
-        (do ()(nil) (sleep (* minutes 60))
-          (when debug? (format t "~&Reaper waking up...~%"))
-          (when *reap-expired-sessions?* 
-            (maphash #'(lambda(key val) (declare (ignore key))
-                              (when (typep (first val) 'session-control-mixin)
-                                (the-object (first val) (clear-expired-session :debug? debug?))))
-                     *instance-hash-table*))
-          ;;
-          ;; FLAG -- we need to finish any open requests first, then  lock out 
-          ;; any new requests while all this is happening...
-          ;;
-          (glisp:w-o-interrupts
-           (let ((port (server-port)))
-             (when (and port (>= port 1000))
-               (net.aserve:shutdown) (net.aserve:start :port port :listeners listeners)))
-          
-           (mapc #'funcall (ensure-list extra-functions))
-          
-           (glisp:gc-full))))))
+(defun start-session-reaper (&key (minutes 20) (debug? t) (listeners 20) extra-functions restart-server?)
+    (declare (ignore listeners))
+    (format t "~2%Lauching Expired Session Reaper to awaken and run every ~a minute~:p~2%" minutes)
+    (glisp:process-run-function
+     "GWL Session Reaper" 
+     #'(lambda() 
+	 (do ()(nil) (sleep (* minutes 60))
+	   (when debug? (format t "~&Reaper waking up...~%"))
+	   (when *reap-expired-sessions?* 
+	     (maphash #'(lambda(key val) (declare (ignore key))
+			       (when (typep (first val) 'session-control-mixin)
+				 (the-object (first val) (clear-expired-session :debug? debug?))))
+		      *instance-hash-table*))
+	   (when restart-server?
+	     (glisp:w-o-interrupts
+	       (let ((port (server-port)))
+		 (when (and port (>= port 1000))
+		   (net.aserve:shutdown) (net.aserve:start :port port :listeners listeners)))))
+	   (glisp:w-o-interrupts
+	     (mapc #'funcall (ensure-list extra-functions)) (glisp:gc-full))))))
 
 
 (defun publish-make-and-answer (server)

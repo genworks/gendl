@@ -52,6 +52,8 @@ of the objects themselves is returned.
         (t `(if (typep ,aggregate 'quantification) (the-object ,aggregate :list-elements)
               (the-object ,aggregate :children)))))
 
+(defmacro le (&rest arguments) `(list-elements ,@arguments))
+
 ;;
 ;; FLAG -- rewrite the following without using apply so we don't risk
 ;;         hitting function argument limit.

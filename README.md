@@ -47,18 +47,17 @@ use of standard CAD data exchange formats such as Iges, STEP, and STL
 
 ### Basic Requirements:
 
- 1. Common Lisp: Allegro CL 9.0, LispWorks 6.x, SBCL, or CCL (Clozure
-    CL). Without web interface, initial ports to ECL, ABCL, and CLISP
-    have also been completed. 
+ 1. Common Lisp: Allegro CL, LispWorks, CCL (Clozure CL), or
+    SBCL. Without web interface, initial ports to ECL, ABCL, and CLISP
+    have also been completed.
 
  2. Quicklisp (available from http://www.quicklisp.org)
 
  3. Gnu Emacs (recommended Editor/IDE -- native CL Editor/IDEs can
     also be used)
 
- 4. Standard Web Browser (Chrome, Firefox, Safari, IE, Opera). Pick
-    one with WebGL support if possible (check
-    [here](http://www.x3dom.org/?page_id=9) and
+ 4. Standard Web Browser. Pick one with WebGL support if possible
+    (check [here](http://www.x3dom.org/?page_id=9) and
     [here](http://www.x3dom.org/check/) to check for WebGL browser
     support)
 
@@ -175,10 +174,10 @@ Including the base, there are eight modules supported with Gendl:
 
 ### Alternative Geometry Kernels
 
-If you have a different favorite solid modeling kernel
-(e.g. OpenCascade, Parasolid, Geometros sgCore), then an interesting
-project would be to interface the existing Surface package to that
-kernel, by implementing the methods in surf/source/methods.lisp.
+If you have a different favorite solid modeling kernel, then an
+interesting project would be to interface the existing Surface package
+to that kernel, by implementing the methods in
+surf/source/methods.lisp.
 
 The Surface (`:surf`) package (in the `surf/` folder) contains all the
 high-level Surface and Solid modeling primitives currently implemented
