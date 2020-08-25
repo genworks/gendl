@@ -351,10 +351,11 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
     (let ((sexpr (glisp:sexpr-from-file (merge-pathnames (make-pathname :name "defsystem-depends-on"
 									:type "isc")
 							 (the ppathname)))))
-      (if (and sexpr (not (stringp sexpr)))
+      (if (and sexpr (not (or (stringp sexpr) (consp sexpr))))
 	  (error "defsystem-depends-on.isc should be either nil or a string containing the expression 
-to go inside the actual list form in the asdf file. It came in as ~s instead.~%" sexpr)
-	  sexpr)))
+to go inside the actual list form in the asdf file, or the list form for the asdf file. 
+It came in as ~s instead.~%"
+		 sexpr) sexpr)))
    
    
    (additional-asd-code (let ((asd-code-file 
@@ -397,7 +398,10 @@ to go inside the actual list form in the asdf file. It came in as ~s instead.~%"
 		:version ,(the version)
 
 		:depends-on ,(the asdf-depends-on)
-		:defsystem-depends-on ,(read-from-string (format nil "(~a)" (or (the asdf-defsystem-depends-on) "")))
+		:defsystem-depends-on ,(cond ((stringp (the asdf-defsystem-depends-on))
+					      (read-from-string (format nil "(~a)" (the asdf-defsystem-depends-on))))
+					     ((null (the asdf-defsystem-depends-on)) nil)
+					     (t (the asdf-defsystem-depends-on)))
 		
 		#|
 		:depends-on ,(the asdf-depends-on)
