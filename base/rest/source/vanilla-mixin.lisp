@@ -1224,12 +1224,31 @@ a separate object hierarchy." object self)))
               
               (if (third slot-value)
                   (setf (second (slot-value object slot)) nil)
-                  (setf (slot-value object slot) 
-                        (if (and (not (the-object object remember-children?))
-				 #+nil
-				 (and (not (typep object 'quantification))
-				      (not (the-object object remember-children?)))
-                                 (or updating? (not *remember-previous-slot-values?*)))
+                  (setf (slot-value object slot)
+
+
+			(if (or
+			     updating?
+			     (not (the-object object remember-children?))
+			     (not *remember-previous-slot-values?*))
+			     
+			     #+nil
+			     (and (not (typep object 'quantification))
+				  (not (the-object object remember-children?)))
+			     
+			     'gdl-rule::%unbound%
+			     
+                            (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))
+			
+
+			#+nil
+                        (if (and
+
+			     ;;(not (the-object object remember-children?))
+			     ;;#+nil
+			     (and (not (typep object 'quantification))
+				  (not (the-object object remember-children?)))
+			     (or updating? (not *remember-previous-slot-values?*)))
                             'gdl-rule::%unbound%
                             (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
           (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
