@@ -12,7 +12,7 @@
 ;; This document is not confidential. See end for copyright
 ;; information.
 
-(require 'cl)
+(require 'cl-lib)
 
 
 (defvar *default-font-size* 15)
@@ -98,7 +98,7 @@
   (let ((font-size *default-font-size*)) ;; (/ (display-mm-height) 16)
     (set-frame-font
      (format 
-      (case system-type
+      (cl-case system-type
 	(darwin  "-*-Courier New-normal-normal-normal-*-%s-*-*-*-m-0-iso10646-1" ;; -apple-Courier_New-medium-normal-normal-*-%s-*-*-*-m-0-iso10646-1"
 		 )
 	;;(windows-nt "-outline-Courier New-normal-normal-normal-mono-%s-*-*-*-c-*-iso8859-1")
@@ -320,7 +320,7 @@
       (let* ((info (assoc exe-name slime-lisp-implementations )))
 	(replace-regexp-in-string 
 	 "/program/program/" "/program/"
-	 (case system-type 
+	 (cl-case system-type 
 	   (windows-nt
 	    (concat (file-name-directory (first (second info)))
 		    (replace-regexp-in-string "\\\\" "/" (second (second info)))))
@@ -426,8 +426,8 @@
   "make option key behave as meta"
   (setq mac-option-modifier 'meta))
 
-;;(when (eql system-type 'darwin)
-;;   (mac-switch-meta))
+(when (eql system-type 'darwin)
+   (mac-switch-meta))
 
 
 
