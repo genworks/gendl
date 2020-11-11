@@ -179,6 +179,14 @@ those dependent objects first. Default is nil.
 "
     ordered-form-controls nil)
 
+   ("Boolean. This switch determines whether all form-controls should be preset 
+before the final setting, in order to allow any interdependencies to be detected 
+for validation or detecting changed values. If this is specified as a non-nil 
+value, then any nil values of (the preset?) on individual form controls will be 
+ignored. If this is specified as nil, then (the preset?) of individual 
+form-controls (default of these is also nil) will be respected. Default is nil."
+    preset-all? nil)
+
    )
   
   
@@ -250,13 +258,7 @@ of type base-form-control."
    
    
    
-   ("Boolean. This switch determines whether all form-controls should be preset 
-before the final setting, in order to allow any interdependencies to be detected 
-for validation or detecting changed values. If this is specified as a non-nil 
-value, then any nil values of (the preset?) on individual form controls will be 
-ignored. If this is specified as nil, then (the preset?) of individual 
-form-controls (default of these is also nil) will be respected. Default is nil."
-    preset-all? nil)
+   
    
    )
    

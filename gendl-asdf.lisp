@@ -20,7 +20,8 @@
   (declare (ignore o))
   
   (let ((input-file (slot-value c 'asdf/component:absolute-pathname)))
-
-    (gendl::peruse-file input-file
-			:load t)))
+    #+genworks-gdl
+    (gendl::peruse-file input-file :load t)
+    #-genworks-gdl
+    (error "Catalog table peruser is not available in this image.")))
   
