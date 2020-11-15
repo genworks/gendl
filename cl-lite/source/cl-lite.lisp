@@ -357,7 +357,6 @@ to go inside the actual list form in the asdf file, or the list form for the asd
 It came in as ~s instead.~%"
 		 sexpr) sexpr)))
    
-   
    (additional-asd-code (let ((asd-code-file 
 			       (merge-pathnames (make-pathname :name "additional-asd-code"
 							       :type "isc")
@@ -403,17 +402,6 @@ It came in as ~s instead.~%"
 					     ((null (the asdf-defsystem-depends-on)) nil)
 					     (t (the asdf-defsystem-depends-on)))
 		
-		#|
-		:depends-on ,(the asdf-depends-on)
-		,(format nil "%%remove%%#-asdf-unicode :defsystem-depends-on #-asdf-unicode ~a%%remove%%"
-			 (format nil "(:asdf-encodings~a~a)"
-				 (if (the asdf-defsystem-depends-on) " " "")
-				 (or (the asdf-defsystem-depends-on) "")))
-		,(format nil "%%remove%%#+asdf-unicode :defsystem-depends-on #+asdf-unicode ~a%%remove%%"
-		(format nil "(~a)" (or (the asdf-defsystem-depends-on) "")))
-		"%%remove%%#+asdf-encodings :encoding #+asdf-encodings :utf-8%%remove%%"
-		|#
-
 		;;
 		;; FLAG -- maybe can get rid of binaries and need to call (the compile-and-load)
 		;;
@@ -454,8 +442,11 @@ It came in as ~s instead.~%"
 
   :objects
   ((source-files :type 'file
-		 :sequence (:size (length (getf (the file-computation relevant-files) :source)))
-		 :pathname (nth (the-child index) (getf (the file-computation relevant-files) :source))))
+		 :files (append (getf (the file-computation relevant-files) :source)
+				(getf (the file-computation relevant-files) :tables))
+		 :pseudo-inputs (files)
+		 :sequence (:size (length (the-child files)))
+		 :pathname (nth (the-child index) (the-child files))))
 
   :hidden-objects
   ((subdir-computation :type 'subdir-computation

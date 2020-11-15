@@ -12,8 +12,8 @@
 ;; This document is not confidential. See end for copyright
 ;; information.
 
-(require 'cl-lib)
-
+;;(require 'cl-lib)
+(require 'cl)
 
 (defvar *default-font-size* 15)
 
@@ -201,6 +201,9 @@
   (slime-repl-return))
 
 (defvar gdl-startup-string nil)
+
+
+
 
 
 (setq gdl-startup-string 
