@@ -71,6 +71,8 @@ server."
 
    (div-class nil)
 
+   (div-style nil)
+
 
    ("List of GDL objects of type form-control. The validation-function will be forced 
 on these objects when a form is submitted, even if the object's html form-control does 
@@ -454,7 +456,7 @@ running the Javascript interpreter to evaluate (the js-to-eval), if any.
    (main-div 
     ()
     (with-cl-who ()
-      ((:div  :id (the dom-id) :class (the div-class))
+      ((:div  :id (the dom-id) :class (the div-class) :style (the div-style))
        (str (the  inner-html)))))))
 
 

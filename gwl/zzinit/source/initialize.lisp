@@ -124,6 +124,9 @@ Perhaps a zombie process is holding port ~a?~%" port port))
 		    ;;
 		    (external-format #+allegro :utf8-base #-allegro :utf8) aserve-start-args)
   (net.aserve:shutdown)
+  (when (find-package :zacl)
+    (setq excl:*initial-terminal-io* *terminal-io*)
+    (setq net.aserve:*wserver* (make-instance 'net.aserve:wserver)))
   (let ((wait-time 1))
     (block :outer
       (do () (nil)
