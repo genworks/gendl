@@ -132,26 +132,7 @@ value of the image-format-selector, which itself defaults to :raphael."
 
    (on-drop-function nil)
 
-   (on-touchmove-function nil)
-
-   (viewport-js-text
-    (format nil "
-function x3draw ()
-{
- if (x3dom.type != 'undefined') x3dom.reload(); 
- var elem = document.getElementById('view-~(~a~)');
- if (elem) elem.setAttribute('set_bind', 'true');
- var x3dom1 = document.getElementById('x3dom-1');
- if (x3dom1) xruntime= x3dom1.runtime;
- xruntime.resetView(); 
- }
-
-x3draw();
-
-
-"  (the view-selector value)))
-
-   )
+   (on-touchmove-function nil))
 
   
   :computed-slots
@@ -245,13 +226,42 @@ bottom of the graphics inside a table."
 This is not tested to see if it is part of the same object tree as current self."
     dropped-object nil :settable)
 
-   
+   (heynow (the image-format-selector value))
+
+   (viewport-js-text
+     (case (the image-format-selector value)
+       (:x3dom
+	(format nil "
+function x3draw ()
+{
+ if (x3dom.type != 'undefined') x3dom.reload(); 
+ var elem = document.getElementById('view-~(~a~)');
+ if (elem) elem.setAttribute('set_bind', 'true');
+ var x3dom1 = document.getElementById('x3dom-1');
+ if (x3dom1) xruntime= x3dom1.runtime;
+ xruntime.resetView(); 
+ }
+
+x3draw();
+
+
+"  (the view-selector value)))
+       (:svg
+	"
+ panZoomSVG1 = svgPanZoom('#svg-1', {
+ zoomEnabled: true,
+ controlIconsEnabled: true,
+ preventMouseEventsDefault: false,
+ fit: true,
+ minZoom: 0.01,
+ maxZoom: 100,
+ center: true});")))
 
    (viewport-script
     (progn 
       (the inner-html)
-      (cond ((eql (the image-format-selector value) :x3dom)
-             (with-cl-who-string ()
+      (cond ((member (the image-format-selector value) (list :x3dom :svg))
+	     (with-cl-who-string ()
                (:div
                 ((:script :type "text/javascript")
                  (str (the viewport-js-text))))))

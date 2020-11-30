@@ -136,8 +136,11 @@ representation. The messages for face will operate on the trimmed representation
 <p>
 NOTE: the interface for this object is still under development so please stay apprised of any changes."
                   
-                  
-                  :examples "<pre>
+
+			       #+nil
+			       :examples
+			       #+nil
+			       "<pre>
 
  (in-package :surf)
                   

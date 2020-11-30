@@ -466,7 +466,7 @@ from a saved snapshot file."
 				      ;;
 				      ;; FLAG -- is below really not needed? 
 				      ;;
-                                      ;;" location.reload(true);"
+                                      " location.reload(true);"
                                       ))
        "Update!")))
 

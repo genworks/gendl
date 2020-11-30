@@ -33,10 +33,12 @@ was the actual projected-curve.
 
 "
 
-
-                  :examples "<pre>
+			       #+nil
+			       :examples
+			       #+nil "<pre>
 
  (in-package :surf)
+
 
  (define-object test-trimmed-from-projected-2 (trimmed-surface)
   :computed-slots
@@ -82,7 +84,7 @@ was the actual projected-curve.
          :surface (the basis-surface)
          :projection-vector (make-vector 0 0 -1))))
 
-
+#+nil
  (generate-sample-drawing 
   :objects (let ((self (make-object 'test-trimmed-from-projected-2)))
              (list (the basis-surface) self (the raised-island) 

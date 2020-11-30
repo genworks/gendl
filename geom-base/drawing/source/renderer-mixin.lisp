@@ -55,7 +55,8 @@ a rendered perspective view, as in VRML.")
    
    ("Number in angular degrees. The maximum angle of the view frustrum for perspective views. 
 Defaults to 0.1 (which results in a near parallel projection with virtually no perspective effect)."
-    field-of-view-default 45)
+    field-of-view-default 45
+    )
    
    
 
@@ -82,8 +83,8 @@ Defaults to 0.1 (which results in a near parallel projection with virtually no p
                                                      (- (get-y (second 2d-box)) (get-y (first 2d-box)))))
                                     (camera-distance
 				     (* (the camera-distance-discount)
-                                      (* (+ (/ max-extent (tan (degree (the field-of-view-default))))
-                                            (getf (the bounding-sphere) :radius)) (/ (the zoom-factor-renderer)))))
+					(* (+ (/ max-extent (tan (degree (the field-of-view-default))))
+					      (getf (the bounding-sphere) :radius)) (/ (the zoom-factor-renderer)))))
 				    )
                                
                                (list key (list :point (translate-along-vector 

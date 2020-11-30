@@ -48,21 +48,12 @@
                            ((:svg :id "svg-1" :viewBox (format nil "0 0 ~a ~a" width length)
                                   :width width
                                   :height length
-                                  )
+				  :style (format nil "background-color: ~a" (lookup-color (format-slot background-color)
+											  :format :hex)))
                                  
                             (with-translated-state (:svg (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))
-                              (write-the-object child-view cad-output)))
-                           ((:script :type "text/javascript")
-                            "
- panZoomSVG1 = svgPanZoom('#svg-1', {
- zoomEnabled: true,
- controlIconsEnabled: true,
- preventMouseEventsDefault: false,
- fit: true,
- minZoom: 0.01,
- maxZoom: 100,
- center: true});"))))
+                              (write-the-object child-view cad-output))))))
                       
                       (when parent-scale (the-object child-view (set-slot! :user-scale old-scale)))))
                 (the views))))))))
