@@ -132,6 +132,8 @@ function gdlUpdate (request) {
  if ((request.readyState == 4) && (request.status == 200))
     {
 
+	message ('hey now');
+	alert ('hey now');
 	var root = request.responseXML.documentElement;
 
 	var children = root.childNodes;
@@ -139,6 +141,8 @@ function gdlUpdate (request) {
 	var myelem;
 	var codes;
 
+	debugger;
+	
 	for (i=0; i< children.length; i++)
 	{
 	    var child=children[i];
@@ -164,6 +168,7 @@ function gdlUpdate (request) {
 
 		myelem.innerHTML = newHTML;
 
+		debugger;
 		
 		if (jsToEval && (jsToEval == 'parseme'))
 		{
