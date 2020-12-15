@@ -52,9 +52,9 @@ this type will be printed in most places.  This defaults to the
 name-for-display (generally the part's name as specified in its
 parent), followed by an index number if the part is an element of a
 sequence."  strings-for-display (format
-nil "~a~a~a" (the :name-for-display)
-                                (if (the :index) " " "")
-                                (or (the :index) "")))
+				 nil "~a~a~a" (the :name-for-display)
+				 (if (the :index) " " "")
+				 (or (the :index) "")))
    (parent-tree nil)
    
    ("List of GDL Instances. Additional objects to display in Tatu
