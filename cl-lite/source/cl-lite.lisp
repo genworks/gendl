@@ -339,14 +339,6 @@ Defaults to nil (i.e. we assume we are loading into a clean system and need all 
 			  (format nil "%%remove%%~a%%remove%%" sexpr) sexpr)))
 
 
-   #+nil
-   (asdf-defsystem-depends-on (let ((sexpr (glisp:sexpr-from-file 
-					    (merge-pathnames (make-pathname :name "defsystem-depends-on"
-									    :type "isc")
-							     (the ppathname)))))
-				(if (stringp sexpr)
-				    (format nil "%%remove%%~a%%remove%%" sexpr) sexpr)))
-   
    (asdf-defsystem-depends-on
     (let ((sexpr (glisp:sexpr-from-file (merge-pathnames (make-pathname :name "defsystem-depends-on"
 									:type "isc")
@@ -422,12 +414,7 @@ It came in as ~s instead.~%"
 					     (list (if (string-equal (pathname-type source) "lisp")
 						       :file 
 						       (make-keyword (pathname-type source)))
-						   namestring)
-
-					     #+nil
-					     (list :file namestring
-						   :pathname
-						   (merge-pathnames namestring "")))))
+						   namestring))))
 
 				     binaries (the source-file-list)))))
     :uncached)

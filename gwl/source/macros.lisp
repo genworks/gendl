@@ -107,4 +107,7 @@ FLAG -- fill in.
   
   
 
-
+(defmacro wmd (string)
+  `(str
+    (with-output-to-string (ss)
+      (markdown:markdown ,string :stream ss))))

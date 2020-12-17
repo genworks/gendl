@@ -48,8 +48,8 @@
                            ((:svg :id "svg-1" :viewBox (format nil "0 0 ~a ~a" width length)
                                   :width width
                                   :height length
-				  :style (format nil "background-color: ~a" (lookup-color (format-slot background-color)
-											  :format :hex)))
+                                  :style (format nil "background-color: ~a" (lookup-color (format-slot background-color)
+                                                                                          :format :hex)))
                                  
                             (with-translated-state (:svg (make-point (- (get-x view-center)) 
                                                                      (- (get-y view-center))))

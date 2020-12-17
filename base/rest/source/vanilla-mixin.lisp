@@ -293,7 +293,11 @@ the <tt>follow-root-path</tt> GDL function to return the actual instance."
    )
 
   :functions
-  ((initialize-instance! ())
+  (("Void. Sets giving slot to its boolean opposite.
+&args (slot \"Keyword symbol. Name of the slot as a keyword symbol.\")"
+    toggle-slot! (slot) (the (set-slot! slot (not (the (evaluate slot))))))
+
+   (initialize-instance! ())
       
    (ignore-messages-from ())
    
@@ -1222,11 +1226,10 @@ a separate object hierarchy." object self)))
               (if (third slot-value)
                   (setf (second (slot-value object slot)) nil)
                   (setf (slot-value object slot)
-
-			(if (or updating? (not (the-object object remember-children?))
-				(not *remember-previous-slot-values?*))
-			    'gdl-rule::%unbound%
-			    (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
+                        (if (or updating? (not (the-object object remember-children?))
+                                (not *remember-previous-slot-values?*))
+                            'gdl-rule::%unbound%
+                            (list 'gdl-rule::%unbound% nil nil (first (slot-value object slot))))))))
           (when (and (find-class 'gdl-remote nil) (typep object 'gdl-remote))
             (the-object object (unbind-remote-slot slot)))))))
 

@@ -229,9 +229,9 @@ This is not tested to see if it is part of the same object tree as current self.
    (heynow (the image-format-selector value))
 
    (viewport-js-text
-     (case (the image-format-selector value)
-       (:x3dom
-	(format nil "
+    (case (the image-format-selector value)
+      (:x3dom
+       (format nil "
 function x3draw ()
 {
  if (x3dom.type != 'undefined') x3dom.reload(); 
@@ -246,8 +246,10 @@ x3draw();
 
 
 "  (the view-selector value)))
-       (:svg
-	"
+      (:svg
+       "
+ if (document.getElementById('svg-1'))
+{
  panZoomSVG1 = svgPanZoom('#svg-1', {
  zoomEnabled: true,
  controlIconsEnabled: true,
@@ -255,7 +257,8 @@ x3draw();
  fit: true,
  minZoom: 0.01,
  maxZoom: 100,
- center: true});")))
+ center: true});
+};")))
 
    (viewport-script
     (progn 
