@@ -1,4 +1,4 @@
-/** X3DOM Runtime, http://www.x3dom.org/ 1.8.0 - 4c48cbddc8c7e1cbaa5d09fdd152934ec60fc7b8 - Wed Jul 24 14:56:37 2019 +0200 */
+/** X3DOM Runtime, http://www.x3dom.org/ 1.8.1 - 0c742a1a981f8c0a9cbb7059f36c3a6c4cb9fec6 - Fri Sep 27 18:22:15 2019 +0200 */
 x3dom.registerNodeType("ScreenGroup","Layout",defineClass(x3dom.nodeTypes.X3DGroupingNode,function(ctx){x3dom.nodeTypes.ScreenGroup.superClass.call(this,ctx);},{collectDrawableObjects:function(transform,drawableCollection,singlePath,invalidateCache,planeMask,clipPlanes)
 {if(singlePath&&(this._parentNodes.length>1))
 singlePath=false;if(singlePath&&(invalidateCache=invalidateCache||this.cacheInvalid()))

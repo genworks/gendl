@@ -52,7 +52,7 @@ primitive.
 This is a mixin into base-html-sheet, and some of the previous base-html-sheet 
 functionality has been factored out into this mixin. 
 
-Of special note in this object is thefunction <tt>gdl-ajax-call</tt> which generates 
+Of special note in this object is the function <tt>gdl-ajax-call</tt> which generates 
 Javascript appropriate for attaching with a UI event, e.g. onclick, onchange, 
 onblur, etc. In this Javascript you can specify a GDL function (on this object, self) 
 to be run, and/or specify a list of form-control objects which are rendered on 
