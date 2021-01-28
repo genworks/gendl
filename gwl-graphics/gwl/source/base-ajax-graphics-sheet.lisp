@@ -33,14 +33,17 @@ Raphael vector graphics."
                                :examples "FLAG -- Fill in!!!")
   
   :input-slots 
-  ((viewport-script
+  ((popup-menu-text nil)
+
+   (viewport-script
     (progn 
       (the inner-html)
       (cond ((member (the image-format-selector value) (list :x3dom :svg))
 	     (with-cl-who-string ()
                (:div
                 ((:script :type "text/javascript")
-                 (str (the viewport-js-text))))))
+                 (str (the viewport-js-text))
+		 (str (the popup-menu-text))))))
             (t ""))))
 
    (respondent (the bashee) :defaulting)
