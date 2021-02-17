@@ -63,10 +63,10 @@ Default is 1." viewport-border-default 1)
        :raphael \"SVG/VML\")
 </pre>"
     image-format-plist (list :png "PNG image"
-                             :jpeg "jpeg image"
-                             :x3dom "X3DOM"
-                             ;;:web3d "VRML/X3D"
-                             :raphael "SVG/VML"))
+				   :jpeg "jpeg image"
+				   :x3dom "Shaded"
+				   ;;:web3d "VRML/X3D"
+				   :svg "Wireframe"))
 
    
    ("Keyword symbol, one of the keys from (the image-format-plist). 

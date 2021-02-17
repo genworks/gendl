@@ -168,11 +168,7 @@ function gdlUpdate (request) {
 		    
 		    for (var j=0;j<codes.length;j++)
 		    {
-			console.log(j);
-
 			var text = codes[j].text;
-			console.log(text);
-			//if (text) eval(codes[j].text);
 			if (text) eval(text);
 		    }}
 		

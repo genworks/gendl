@@ -290,7 +290,7 @@ to the src/ directory distributed with GDL.
                             (- (half (the :height)) (half (the-child :height))))
          
          
-         :display-controls (merge-display-controls (list :color :black :transparency 0))
+         :display-controls (merge-display-controls (list :color :cyan :transparency 0))
          :orientation (alignment :right
                                  (rotate-vector-d 
                                   (the (:face-normal-vector :right))
@@ -324,7 +324,7 @@ to the src/ directory distributed with GDL.
           :center (translate (the :hand :center) 
                              (the :side) (the :pincer-distance)))
    (hand :type 'box
-         :display-controls (merge-display-controls (list :color :black :transparency 0))
+         :display-controls (merge-display-controls (list :color :pink :transparency 0))
          :center (translate (the :center) :down
                             (+ (half (the :height)) 
                                (half (the-child :height)))

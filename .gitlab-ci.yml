@@ -13,7 +13,7 @@ update:
   script:
     - bash -x ./.ci-script.sh linux git-pull
     - bash -x ./.ci-script.sh windows rsync-from-manager
-    - bash -x ./.ci-script.sh macos rsync-from-manager
+#    - bash -x ./.ci-script.sh macos rsync-from-manager
 
     
 linux-build:
@@ -30,12 +30,12 @@ windows-build:
   script:
     - bash -x ./.ci-script.sh windows build-gendl
 
-macos-build:
-  stage: build
-#  only:
-#    - master
-  script:
-    - bash -x ./.ci-script.sh macos build-gendl
+# macos-build:
+# stage: build
+# only:
+#   - master
+#  script:
+#    - bash -x ./.ci-script.sh macos build-gendl
 
 
 
