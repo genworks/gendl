@@ -160,7 +160,7 @@ This function will be run in the initiating image after the build is finished."
 			      ;; FLAG -- supposed to come from gwl:initialize but need to customize for now
 			      ;;
 			      (glisp:initialize-multiprocessing)
-			      (when (find-package :zacl)
+			      (when (and (find-package :zacl) (find-package :net.aserve))
 				(setq excl:*initial-terminal-io* *terminal-io*)
 				(setf (symbol-value (read-from-string "net.aserve:*wserver*"))
 				      (make-instance (read-from-string "net.aserve:wserver"))))
