@@ -1,0 +1,24 @@
+* Layout
+
+For each package FOO to be simulated, there is a file
+"package-foo.lisp". Its package definition is in "package.lisp".
+
+The package definition should look like this:
+
+  (defpackage #:foo
+    (:use)
+    (:export #:with-frobnicating
+             ...))
+
+Code in "package-foo.lisp" is not (in-package foo); instead, it's
+(in-package zacl). Any functions, macros, or variables to be defined
+in FOO should be written like so:
+
+  (defun foo:with-frobnicating (&body body) ...)
+
+That is, the name should use the package prefix. Double-colons is fine
+if that's how it's used in practice.
+
+
+
+

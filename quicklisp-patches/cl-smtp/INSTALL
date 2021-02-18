@@ -1,0 +1,13 @@
+
+CL-SMTP works in all implementations supported by its dependencies.
+
+For all implementations you'll need usocket
+and cl-base64 (the latter isn't a requirement on ACL).
+
+CL-SMTP has a asdf system definition file.
+
+To load this file:
+
+(asdf:operate 'asdf:load-op 'cl-smtp)
+
+thats all.

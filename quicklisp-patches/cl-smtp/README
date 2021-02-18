@@ -1,0 +1,135 @@
+
+CL-SMTP is a simple lisp smtp client. 
+It works in ACL, SBCL, CMUCL, OPENMCL, LISPWORKS, CLISP and ECL.
+
+new with support for send attachments, thanks Brian Sorg for the implementation
+
+with authentication support for PLAIN and LOGIN authentication method
+
+and ssl support with cl+ssl package
+
+used cl-base64 and usocket packages (cl-base64 isn't a requirement on ACL)
+
+See INSTALL for prerequisites and build details.
+
+To use cl-smtp:
+
+(asdf:operate 'asdf:load-op 'cl-smtp)
+
+------------------------------------------------
+
+(cl-smtp:send-email host from to subject message
+                    &key (port 25) cc bcc reply-to extra-headers html-message 
+                    authentication attachments (buffer-size 256) ssl)
+Send email.
+
+Returns nil or error with message
+
+ arguments:
+  - host (String)                  : hostname or ip-address of the smtpserver
+  - from (String)                  : email address 
+  - to (String or List of Strings) : email address 
+  - subject (String)               : subject text
+  - message (String)               : message body
+ keywords:
+  - cc (String or List of Strings) : email adress carbon copy
+  - bcc (String or List of Strings): email adress blind carbon copy
+  - reply-to (String)              : email adress
+  - display-name (String)          : displayname of the sender
+  - extra-headers (List)           : extra headers as alist
+  - html-message (String)          : message body formatted with HTML tags
+  - authentication (List)          : list with 2 or elements
+                                     ([:method] "username" "password")
+                                     method is a keyword :plain or :login
+                                     If the method is not specified, the
+                                     proper method is determined automatically.
+  - attachments (Attachment Instance or String or Pathname: attachments to send
+                List of Attachment/String/Pathnames)
+  - buffer-size (Number default 256): is no longer used, will remove in the future
+  - ssl (or t :starttls :tls)       : if t or :STARTTLS: use the STARTTLS functionality
+                                      if :TLS: use TLS directly
+  - external-format                 : symbol, default :utf-8
+  - envelope-sender                 : email adress, 
+                                      if not set then envelope-sender = from
+
+------------------------------------------------
+
+(cl-smtp:rfc2045-q-encode-string str &key (external-format :utf8))
+
+Decodes a string to an quoted-printable string.
+
+Returns quoted-printable string
+
+ arguments:
+  - str                             : the string to encode
+ keywords:
+  - external-format                 : symbol, default :utf-8
+
+------------------------------------------------
+
+(cl-smtp:rfc2231-encode-string str &key (external-format :utf8))
+
+Decodes a string to an rfc2231 encode string.
+
+Returns  rfc2231 encode string
+
+ arguments:
+  - str                             : the string to encode
+ keywords:
+  - external-format                 : symbol, default :utf-8
+
+------------------------------------------------
+
+(cl-smtp:write-rfc8822-message stream from to subject message 
+                               :cc cc :reply-to reply-to 
+                               :extra-headers extra-headers 
+                               :html-message html-message
+                               :display-name display-name
+                               :attachments attachments 
+                               :buffer-size buffer-size
+                               :external-format external-format)
+
+Writes a rfc8822 compatible email to the stream.
+
+For arguments see the cl-smtp:send-email documentation.
+
+------------------------------------------------
+CLASS
+cl-smtp:attachment 
+
+ - accessor: attachment-name          : string 
+ - accessor: attachment-data-pathname : pathname
+ - accessor: attachment-mime-type     : string (mime-type)
+
+It is now possible to send a file under a different name.
+See cl-smtp:make-attachment.
+------------------------------------------------
+
+(cl-smtp:make-attachment data-pathname
+			 &key (name (file-namestring data-pathname))
+			      (mime-type (lookup-mime-type name)))
+
+Create a instance of cl-smtp:attachment.
+
+Returns cl-smtp:attachment
+
+ arguments:
+  - data-pathname                     : pathname
+ keywords:
+  - name                              : string, 
+                                        default (file-namestring data-pathname)
+  - mime-type                         : string,
+                                        default (lookup-mime-type name)
+------------------------------------------------
+
+For debug output set the parameter *debug* to t (default nil)
+(setf cl-smtp::*debug* t)
+
+CL-SMTP set automatically the Date header and the X-Mailer header.
+X-Mailer: cl-smtp ((lisp-implementation-type) (lisp-implementation-version))
+
+You can change this with setting the parameter *x-mailer*
+(setf cl-smtp::*x-mailer* "my x-mailer string)
+
+If you find bugs or want to send patches for enhancements, by email to
+Jan Idzikowski <jidzikowski@common-lisp.net>

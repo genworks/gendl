@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head>
+ <title>CL-SMTP</title>
+ <link rel="stylesheet" type="text/css" href="style.css"/>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+</head>
+
+<body>
+ <div class="header">
+  <h1>CL-SMTP at common-lisp.net</h1>
+ </div>
+
+ <h3>Introduction</h3>
+
+ <p>CL-SMTP is a simple lisp Networking Library that provides SMTP client protocol, supported LOGIN and PLAIN authentication methods, send attachments and ssl support with cl+ssl package.</p>
+
+ <p><b>New Version</b> [20150521.1] Add LICENSE file and :description and :license to cl-smtp.asd</p>
+
+ <p><b>Version</b> [20140128.1] Check message/html-message for non ascii characters and send message/html-message encoded quoted-printable when found non ascii characters.</p>
+
+ <p><b>Documentation</b> see the README file.</p>
+
+ <h3>GIT</h3>
+
+   <p>You can <a
+ href="https://gitlab.common-lisp.net/cl-smtp/cl-smtp">
+browse or download  our GIT repository</a>
+</p>
+
+ <h3>Portability</h3>
+
+ <p>CL-SMTP requires USOCKET, FLEXI-STREAMS, TRIVIAL-GRAY-STREAMS, CL+SSL and CL-BASE64 (CL+SSL and CL-BASE64 isn't a requirement on ACL)</p>
+ <p>It works in all implementations supported by its dependencies (Allegro, SBCL, CMU CL, OpenMCL, Lispworks, CLISP and ECL).</p>
+ <p>Test results for Linux/x86/amd64:</p>
+ <table cellspacing="0" cellpadding="2" border="1">
+   <thead>
+     <tr>
+       <th>Lisp Implementation</th>
+       <th>Status</th>
+       <th>Comments</th>
+     </tr>
+   </thead>
+   <tr>
+     <td>Allegro</td>
+     <td class="working">working</td>
+   </tr>
+   <tr>
+     <td>CLISP</td>
+     <td class="working">working</td>
+   </tr>
+   <tr>
+     <td>CMU CL</td>
+     <td class="broken">working</td>
+     <td>ssl not working </td>
+   </tr>
+   <tr>
+     <td>Lispworks</td>
+     <td class="working">working</td>
+   </tr>
+   <tr>
+     <td>SBCL</td>
+     <td class="working">working</td>
+   </tr>
+   <tr>
+     <td>OpenMCL</td>
+     <td class="working">working</td>
+   </tr>
+ </table>
+
+<br/>
+<!--
+ <h3>Mailing Lists</h3>
+ <ul>
+  <li>
+   <a
+    href="http://www.common-lisp.net/mailman/listinfo/cl-smtp-devel">
+    CL-SMTP-devel</a><br/>for developers</li>
+  <li>
+   <a
+    href="http://www.common-lisp.net/mailman/listinfo/cl-smtp-cvs">
+    CL-SMTP-cvs</a><br/>CVS log feed.</li>
+ </ul>
+-->
+
+   <div class="footer">
+     <a href="mailto:jidzikowski (at) common-lisp (dot) net">Jan Idzikowski</a>, 19. Feb 2014.
+   </div>
+
+   <div class="check">
+     <a href="http://validator.w3.org/check/referer">
+        Valid XHTML 1.0 Strict</a>
+  </div>
+ </body>
+</html>

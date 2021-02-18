@@ -1,0 +1,10 @@
+CL-SMTP is a simple lisp smtp client. 
+It works in ACL, SBCL, CMUCL, OPENMCL, LISPWORKS, CLISP and ECL.
+Support for authentication (PLAIN|LOGIN), send attachments, 
+and ssl support with cl+ssl.
+
+CL-SMTP is licensed under the terms of the Lisp Lesser GNU
+Public License (http://opensource.franz.com/preamble.html), known as
+the LLGPL.  The LLGPL consists of a preamble (see above URL) and the
+LGPL.  Where these conflict, the preamble takes precedence. 
+CL-SMTP is referenced in the preamble as the "LIBRARY."

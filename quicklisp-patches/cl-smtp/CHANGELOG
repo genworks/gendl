@@ -1,0 +1,262 @@
+Version 20191031.1
+Fix rfc2045-q-encode-string for ascii character strings
+ and longer than 74 characters, make newline on next space in string
+add new test
+Change cl-smtp.asd, cl-smtp.lisp. tests.lisp CHANGELOG
+
+Version 20190523.1
+2019.05.23
+Fix error rfc2045-q-encode-string, when string contains non ascii character,
+  and has more than 74 charactesr, set correct encoding string after newline
+add new test
+Change cl-smtp.asd, cl-smtp.lisp. tests.lisp CHANGELOG
+
+Version 20190424.1
+2019.04.24
+Fix error rfc2045-q-encode-string, when string contains non ascii character,
+  encode whole string
+add new tests
+Thanks Saman H. Pasha for the bug report and test
+Change cl-smtp.asd, cl-smtp.lisp. tests.lisp CHANGELOG
+
+Version 20180105.1
+2018.01.05
+Fix error dot masking in rfc2045-q-encode-string-to-stream
+add new test
+Thanks Borbély Tamás for the bug report and test
+Change cl-smtp.asd, cl-smtp.lisp. tests.lisp CHANGELOG
+
+Version 20170922.1
+2017.09.22
+Further error in rfc2045-q-encode-string-to-stream fixed
+add 2 new tests for correct dot masking
+Change cl-smtp.asd, cl-smtp.lisp, tests.lisp CHANGELOG
+
+Version 20170920.1
+2017.09.20
+Fix error in rfc2045-q-encode-string-to-stream
+correct dot masking (rfc5321 4.5.2), add new test rfc2045-q-encode-string-to-stream-6
+Thanks Jocelyn Fréchot for the bug report
+Change cl-smtp.asd, cl-smtp.lisp, tests.lisp CHANGELOG
+
+Version 20151023.2
+2015.10.23
+Fix error with newlines in header strings.
+Add tests for rfc2045-q-encode-string.
+Change cl-smtp.asd, cl-smtp.lisp, tests.lisp CHANGELOG
+
+Version 20151023.1
+2015.10.23
+Fix error with single line with 1 dot
+Thanks Francesco Bracchi for the bug report and patch
+Add more tests for handle single line dot in mask-dot and
+in rfc2045-q-encode-string-to-stream
+Add optional argument CATCH-ERRORS to run-tests, default is T
+Change cl-smtp.asd, cl-smtp.lisp, tests.lisp CHANGELOG
+
+Version 20150521.1
+2015.05.21
+Add :license and :description in cl-smtp.asd and LICENSE file.
+Change cl-smtp.asd, CHANGELOG
+Add LICENSE
+
+Version 20140227.1
+2014.02.27
+Add patch for handle base64 string without newline after n columns.
+Thanks William P. Proffitt for the bug report
+Change cl-smtp.asd, cl-smtp.lisp, CHANGELOG
+
+Version 20140128.1
+2014.01.28
+Add patch for converted username and password to  base64 string,
+ignore default wrap columns 80, so that no newline is inserted.
+Thanks Helmut G. Enders for the bug report and patch
+Change cl-smtp.asd, cl-smtp.lisp, CHANGELOG
+
+Version 20131218.1
+2013.12.18
+Add patch convert bare LF into CRLF in rfc2045-q-encode-string-to-stream
+Thanks Justin Megawarne  for the bug report and patch
+Change cl-smtp.asd, cl-smtp.lisp, CHANGELOG
+
+Version 20130822.1
+2013.08.22
+Add patch to use given external-format for ssl stream
+Thanks Anton Vodonosov for the bug report and patch
+Change cl-smtp.asd, cl-smtp.lisp, CHANGELOG
+
+Version 20130306.1
+2013.03.06
+Fix smtp-command to return all lines from smtp server
+Thanks Jeff Cunningham for the bug report and test
+Change cl-smtp.asd, cl-smtp.lisp, CHANGELOG
+
+Version 20130121.1
+2013.01.21
+New version in cl-smtp.asd
+Add patch to improve the spelling a bit in README for cl-smtp.
+Thanks Michael Stevens <mstevens@etla.org>
+Change cl-smtp.asd, CHANGELOG, README
+
+Version 20130118.1
+2013.01.18
+Add string-has-non-ascii, rfc2045-q-encode-string-to-stream,
+to send quoted-printable messages
+Change write-rfc8822-message
+Change cl-smtp.lisp, tests.lisp, CHANGELOG
+
+Version 20100908.2
+2010.09.08
+Add write-rfc8822-message, to write a rfc8822 compatible mail.
+Change x-mailer header setting.
+Change cl-smtp.lisp, cl-smtp.asd, package.lisp, CHANGELOG, README
+
+Version 20100908.1
+2010.09.08
+Add keyword envelope-sender to send-email, if envelope-sender not set then
+envelope-sender = from argument.
+Change x-mailer header setting.
+Change cl-smtp.lisp, cl-smtp.asd, CHANGELOG, README
+
+Version 20100621.1
+2010.06.21
+Rewrite base64-encode-file in attachments.lisp, fixed wrap at column 
+and add #\Return#\Newline after each column, ignore keyword buffer-size.
+Fixed string-to-base64-string allegro part in cl-smtp.lisp (wrap-at-column nil).
+Fixed finish-smtp-mail in cl-smtp, not use fresh-line on stream, send #\Return#\Newline.
+Add test for base64-encode-file.
+Change cl-smtp.lisp, attachment.lisp, cl-smtp.asd, CHANGELOG, README
+
+Version 20100505.1
+2010.05.05
+Rewrite encoding functions, now it is possible to use non ascii characters in
+header values and in attachment filenames.
+New keyword argument external-format (default :utf-8).
+New class attachment, with slots attachment-name and 
+attachment-mime-type, and a constructor function make-attachment.
+Rename q-encode-str to rfc2045-q-encode-string.
+Add rfc2231-encode-string to encode non ascii characters 
+in attachment filenames.
+Add tests for encoding functions, see tests.lisp.
+Change cl-smtp.lisp, attachment.lisp, package.lisp, 
+       cl-smtp.asd, CHANGELOG, README
+Add tests.lisp
+Remove smtp-output-stream.lisp
+
+Version 20100422.1
+2010.04.22
+Fixed encoding errors in header strings,
+new function q-encode-str to encode strings in header.
+Change cl-smtp.lisp, CHANGELOG
+
+Version 20100420.1
+2010.04.20
+Fixed error when send more than 1 attachment, 
+added a blank line between attachments.
+Change base64-encode-file, attachments.lisp, CHANGELOG
+
+Version 20080417.1
+2008.04.17
+Fixed stream-element-type. Thanks Attila Lendvai for the bug report.
+Change smtp-output-stream, cl-smtp.asd, CHANGELOG
+
+Version 20080412.1
+2008.04.12
+Fixed TLS directly functionality, switch to ssl stream bevor read from stream.
+Change cl-smtp.lisp, cl-smtp.asd, CHANGELOG
+
+Version 20080402.1
+2008.04.02
+Added support for sending raw messages. (Hans Huebner)
+Fixed STARTTLS so that an EHLO command is sent after STARTTLS. (Hans Huebner)
+Changed Authentication functionality, the actual authentication method used is determined by looking at the advertised features of the SMTP server. (Hans Huebner)
+Added non-ASCII character quoting in email headers (according to RFC2047). (Hans Huebner)
+Added condition classes for error reporting. (Hans Huebner)
+Change cl-smtp.lisp, cl-smtp.asd, CHANGELOG
+Add smtp-output-stream.lisp
+
+Version 20071113.1
+2007.11.13
+Add SSL support, thank Timothy Ritchey for the suggestions.
+New boolean keyword argument ssl added to send-email.
+Change cl-smtp.lisp, cl-smtp.asd, README, CHANGELOG
+
+Version 20071104.1
+2007.11.04 
+Fixed bug with the file attachments to solve corrupted files when
+processed with chunking turned on. (Brian Sorg)
+Added automatically including mime types for attachesments 
+of common known extensions. (Brian Sorg)
+Added Html-messages option to send-mail function. (Brian Sorg)
+Change attachments.lisp, cl-smtp.asd, cl-smtp.lisp, README, CHANGELOG
+Add mime-type.lisp
+
+Version 20071018.1
+2007.10.18
+Reverted the non allegro base64 functionality in attachment.lisp,
+now it is used cl-base64 again. Thanks Attila Lendvai for the bug report.
+Change attachments.lisp, cl-smtp.asd, CHANGELOG
+
+Version 20070904.1
+2007-09-04
+Remove implementation dependent sockets code by adding usocket dependency.
+Change cl-smtp.asd cl-smtp.lisp README INSTALL
+ (remove acl.lisp clisp.lisp cmucl.lisp sbcl.lisp lispworks.lisp openmcl.lisp)
+
+Version 20060404.1
+2006-04-04
+"ADD" support for attachment, thanks Brian Sorg for the implementation
+Added attachments.lisp
+Change cl-smtp.asd cl-smtp.lisp README
+
+Version 20051220.1
+2005-12-20
+"ADD" win32 support for clisp
+"REMOVE" :cl-smtp-authentication
+"CHANGE" always use CL-BASE64 package 
+Change cl-smtp.asd, cl-smtp.lisp, clisp.lisp, README, CHANGELOG
+
+Version 20051211.1
+2005-12-11
+"ADD" :cl-smtp-authentication for reader macro, that you can use cl-smtp with and
+without authentication support
+Change cl-smtp.asd, cl-smtp.lisp, README, CHANGELOG
+
+Version 20051210.1
+2005-12-10
+"ADD" key authentication for smtp authentication: '(:plain "username" "password")
+or '(:login "username" "password")
+add dependency to CL-BASE64 except allegro
+Change cl-smtp.asd, cl-smtp.lisp, CHANGELOG
+
+Version 20050729.1
+2005-07-29
+"CHANGE" license from LGPL to LLGPL
+"ADD" key display-name for optional display name of the from email adress
+(RFC 2822 3.4. Address Specification)
+Added LLGPL-LICENSE
+Change all files
+
+Version 20050127.1
+2005-01-27
+"FIXED" add correct multiline replies in read-from-smtp (RFC 822 APPENDIX E)
+"ADD" key extra-headers to send-email, send-smtp
+thanks Dave Bakkash to inform me about the wrong implemantation 
+of read-from-smtp and the tip with the extra-headers
+Change cl-smtp.asd, cl-smtp.lisp, README, CHANGELOG
+
+Version 20050119.1
+2005-01-19
+Add portability file "lispworks.lisp" to work with Lispworks,
+thanks Sean Ross for this file
+Added lispworks.lisp
+Change cl-smtp.asd, README, INSTALL, CHANGELOG
+
+Version 20050104.1
+2005-01-04
+"Fixed" month "Sep" missed in get-email-date-string
+Added this CHANGELOG
+
+Version 20040812.1
+2004-08-12
+Initial release
