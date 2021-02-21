@@ -8,20 +8,21 @@
 
 (defclass asdf::table (asdf::cl-source-file) ((type :initform "table")))
 
+#+genworks-gdl
 (defmethod perform ((o compile-op) (c asdf::table))
   (perform-peruse-file o c))
 
+#+genworks-gdl
 (defmethod perform ((o load-op) (c asdf::table))
     (perform-peruse-file o c))
 
+#+genworks-gdl
 (defun perform-peruse-file (o c)
   "Perform the perusal of icad-style catalog table."
 
   (declare (ignore o))
   
   (let ((input-file (slot-value c 'asdf/component:absolute-pathname)))
-    #+genworks-gdl
     (gendl::peruse-file input-file :load t)
-    #-genworks-gdl
     (error "Catalog table peruser is not available in this image.")))
   
