@@ -166,37 +166,39 @@ This function will be run in the initiating image after the build is finished."
 				(setf (symbol-value (read-from-string "net.aserve:*wserver*"))
 				      (make-instance (read-from-string "net.aserve:wserver"))))
 			      (setq *iid-random-state* (make-random-state t))
-			      (glisp:set-settings gwl::*settings*)
+			      (glisp:set-settings (symbol-value (read-from-string "gwl::*settings*")))
 			      ;;
 			      ;; end of stuff from gwl:initialize
 			      ;;
 			      ;;
 			      ;; FLAG -- make all this boilerplate into a funciton
 			      ;;
-
+			      
 			      ,(when (member (the build-level)
 					     (list :runtime :pro :geom-base :gwl-graphics)) 
-				 `(setq pdf::*cl-pdf-base-directory* glisp:*gdl-program-home*))
+				 `(setf (symbol-value (read-from-string "pdf::*cl-pdf-base-directory*")) glisp:*gdl-program-home*))
 			      ,(when (member (the build-level)
 					     (list :runtime :pro :geom-base :gwl-graphics))
-				 `(setq pdf::*afm-files-directories*
-					(list (merge-pathnames "afm/" pdf::*cl-pdf-base-directory*))))
+				 `(setf (symbol-value (read-from-string "pdf::*afm-files-directories*"))
+					(list (merge-pathnames "afm/"
+							       (symbol-value
+								(read-from-string "pdf::*cl-pdf-base-directory*"))))))
 			      ,(when (member (the build-level)
 					     (list :runtime :pro :geom-base :gwl-graphics))
-				 `(setq cl-typesetting-hyphen::*cl-typesetting-base-directory*
+				 `(setf (symbol-value (read-from-string "cl-typesetting-hyphen::*cl-typesetting-base-directory*"))
 					glisp:*gdl-program-home*))
 			      ,(when (member (the build-level)
 					     (list :runtime :pro :geom-base :gwl-graphics))
-				 `(setq cl-typesetting-hyphen::*hyphen-patterns-directory* 
+				 `(setf (symbol-value (read-from-string "cl-typesetting-hyphen::*hyphen-patterns-directory*")) 
 					(merge-pathnames
 					 "hyphen-patterns/"
-					 cl-typesetting-hyphen::*cl-typesetting-base-directory*)))
+					 (symbol-value (read-from-string "cl-typesetting-hyphen::*cl-typesetting-base-directory*")))))
 			      ,(when (member (the build-level)
 					     (list :runtime :pro :geom-base :gwl-graphics))
-				 `(cl-typesetting::initialize!
-				   :afm-files-directories pdf::*afm-files-directories*
-				   :hyphen-patterns-directory 
-				   cl-typesetting-hyphen::*hyphen-patterns-directory*))
+				 `(funcall (read-from-string "cl-typesetting::initialize!")
+					   :afm-files-directories (symbol-value (read-from-string "pdf::*afm-files-directories*"))
+					   :hyphen-patterns-directory 
+					   (symbol-value (read-from-string "cl-typesetting-hyphen::*hyphen-patterns-directory*"))))
 
 			      ,(when (the restart-init-function) `(funcall #',(the restart-init-function)))
 				
