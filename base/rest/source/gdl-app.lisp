@@ -161,7 +161,8 @@ This function will be run in the initiating image after the build is finished."
 			      ;;
 			      (glisp:initialize-multiprocessing)
 			      (when (and (find-package :zacl) (find-package :net.aserve))
-				(setq excl:*initial-terminal-io* *terminal-io*)
+				(setf (symbol-value (read-from-string "excl:*initial-terminal-io*"))
+				      *terminal-io*)
 				(setf (symbol-value (read-from-string "net.aserve:*wserver*"))
 				      (make-instance (read-from-string "net.aserve:wserver"))))
 			      (setq *iid-random-state* (make-random-state t))
