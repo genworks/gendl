@@ -33,7 +33,9 @@ publishing in tasty Help menu.~%"))))
 				      :server server
 				      :file (namestring (truename tutorial-file))))))
 
-(pushnew 'publish-tutorial *publishers*)
+;;
+;;(pushnew 'publish-tutorial *publishers*)
+;;
 
 (define-object menu-section (sheet-section)
 
