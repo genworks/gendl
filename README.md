@@ -106,6 +106,8 @@ in CL, and
   
 ```
 
+on the emacs side. 
+
 Although not strictly necessary, the file `.../gendl/emacs/gdl.el` is
 also provided and can be used as a starting point or reference for
 loading Glime and Gendl into an emacs environment.
