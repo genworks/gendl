@@ -23,7 +23,8 @@ objects, which then gives the ability to generate a "tree" of objects,
 useful for decomposing complexity.
 
 A graphical web-based interface, *tasty*, is available for interacting
-with your system as it is developed.
+with your system as it is developed. (Update: a replacement for
+*tasty* called *geysr* is coming Real Soon Now).
 
 The web-based GUI framework used to make tasty (GWL) is also available
 for creating your own custom web-based user interfaces. 
@@ -90,12 +91,20 @@ Slime is available with:
    (ql:quickload :quicklisp-slime-helper)
 
 `Glime' is our Gendl-specific customizations to Slime. This is
-implemented entirely on the swank (Common Lisp) side of things, and
-can be loaded with
+implemented both on the swank (Common Lisp) side of things, and on the
+slime (emacs) side of things, and can be loaded with
 
  ```common-lisp
   (load (compile-file ".../gendl/emacs/glime.lisp"))
  ```
+
+in CL, and
+
+```
+
+  M-x load-file [Ret]  .../gendl/emacs/glime.el
+  
+```
 
 Although not strictly necessary, the file `.../gendl/emacs/gdl.el` is
 also provided and can be used as a starting point or reference for
